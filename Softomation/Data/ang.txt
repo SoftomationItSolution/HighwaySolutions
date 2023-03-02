@@ -1,0 +1,14 @@
+npm install primeng --save
+npm install primeicons --save
+npm install primeflex --save
+npm install --save bootstrap jquery
+npm install popper.js --save
+npm i ngx-spinner
+npm install @angular/animations --save
+npm install @angular/cdk --save
+ng add @angular/material
+npm add moment
+npm install --save @angular/material @angular/animations
+npm install --save @angular/material @angular/cdk
+npm i @angular/material-moment-adapter
+npm install font-awesome --save

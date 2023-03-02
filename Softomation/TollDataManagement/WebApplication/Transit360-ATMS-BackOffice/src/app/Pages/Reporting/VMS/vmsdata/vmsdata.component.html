@@ -1,0 +1,69 @@
+<div class="top-bar">
+    <div class="row d-flex align-items-center">
+        <div class="col-md-6 d-md-block d-none">
+            <p><i class="arrow right"></i><i class="arrow right"></i> VMS Configuration</p>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-md-end justify-content-between pheader">
+                <i *ngIf="DataAdd==1" class="pi pi-plus-circle layout-menuitem-icon" matTooltip="Create new entry" (click)="NewEntry()"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-height-master">
+    <div class="table-responsive table-height-master">
+        <p-table #dt [value]="DevicesData" [rowHover]="true" sortField="EntryId" [sortOrder]="-1" 
+        [globalFilterFields]="['EntryId','MessageFormat','MessageLanguage','MessageBody']" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>S. No.</th>
+                    <th [pSortableColumn]="'EntryId'" pResizableColumn>Message Id
+                        <p-sortIcon [field]="'EntryId'"></p-sortIcon>
+                    </th>
+                    <th>VMS Details</th>
+                    <th [pSortableColumn]="'MessageFormat'" pResizableColumn>Format
+                        <p-sortIcon [field]="'MessageFormat'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'MessageLanguage'" pResizableColumn>Language
+                        <p-sortIcon [field]="'MessageLanguage'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'MessageDuration'" pResizableColumn>Duration
+                        <p-sortIcon [field]="'MessageDuration'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'MessageBody'" pResizableColumn>Message
+                        <p-sortIcon [field]="'MessageBody'"></p-sortIcon>
+                    </th>
+                    <th>Status</th>
+                    <th style="text-align: center;" *ngIf="DataUpdate==1">Update</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                <tr style="font-size: 10px;">
+                    <td>{{i+1}}</td>
+                    <td>{{rowData.EntryId}}</td>
+                    <td><i class="icon-holder c-blue-500 fa fa-list-ol" (click)="ViewVMSList(rowData)" *ngIf="rowData.VmsList.length!=0"></i></td>
+                    <td>{{rowData.MessageFormat}}</td>
+                    <td>{{rowData.MessageLanguage}}</td>
+                    <td>{{rowData.MessageDuration}}</td>
+                    <td matTooltip="{{rowData.MessageBody}}" *ngIf="rowData.MessageFormatId==1">{{rowData.MessageBody}}</td>
+                    <td *ngIf="rowData.MessageFormatId==2" style="text-align: center;">
+                        <i class="icon-holder c-blue-500 fa fa-file-image-o" (click)="ViewImage(rowData.MessageBody)"></i>
+                    </td>
+                    <td>
+                        <div *ngIf="rowData.DataStatus == 1">Active</div>
+                        <div *ngIf="rowData.DataStatus != 1">Inactive</div>
+                    </td>
+                    <td style="text-align: center;" *ngIf="DataUpdate==1">
+                        <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+{
+    "Prefx": "http",
+    "BaseURL": "localhost",
+    "ApiPort": 59860,
+    "ApiAdminPath": "Softomation/Transit360-ATMS",
+    "RefreshTimer": 1500,
+    "Latitude": "28.457267",
+    "Longitude": "77.306759"
+}

@@ -1,0 +1,29 @@
+<div class="loginLeft">
+    <div class="login-main-text">
+        <h1>Transit 360&deg; ATMS Solution</h1>
+        <p>Login from here to access Control Room.</p>
+    </div>
+</div>
+<div class="loginMain">
+    <div class="col-md-12">
+        <div class="login-form">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" style="width: 100%;">
+                <mat-form-field>
+                    <input class="form-control" placeholder="User Name" matInput type="text" formControlName="UserName" required autocomplete="off">
+                    <mat-error>
+                        User Name must be entered.
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field>
+                    <input class="form-control" placeholder="Password" matInput type="password" [type]="hide ? 'password' : 'text'" formControlName="Password" required>
+                    <mat-icon matSuffix (click)="hide = !hide" [ngStyle]="{'color':'#2196F3'}">{{hide ? 'visibility' : 'visibility_off'}}
+                    </mat-icon>
+                    <mat-error>
+                        {{'Password is required'}}
+                    </mat-error>
+                </mat-form-field>
+                <button pButton type="submit" icon="pi pi-sign-in" iconPos="right" label="Login"></button>
+            </form>
+        </div>
+    </div>
+</div>

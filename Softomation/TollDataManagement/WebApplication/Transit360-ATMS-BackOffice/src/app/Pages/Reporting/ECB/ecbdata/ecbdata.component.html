@@ -1,0 +1,68 @@
+<div class="top-bar">
+    <div class="row d-flex align-items-center">
+        <div class="col-md-6 d-md-block d-none">
+            <p><i class="arrow right"></i><i class="arrow right"></i> ECB Call Events</p>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-md-end justify-content-between pheader">
+               
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-height-master">
+    <div class="table-responsive table-height-master">
+        <p-table #dt [value]="DevicesData" [rowHover]="true" sortField="EntryId" [sortOrder]="-1" 
+        [globalFilterFields]="['EntryId','MetId','CallerControlRoomName','Caller','Callee','CallTypeName','StartDateTime','CallDuration',
+        'CallStatusName']" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>S. No.</th>
+                    <th [pSortableColumn]="'EntryId'" pResizableColumn>Event Id
+                        <p-sortIcon [field]="'EntryId'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'CallerControlRoomName'" pResizableColumn>Control Room
+                        <p-sortIcon [field]="'CallerControlRoomName'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'Caller'" pResizableColumn>Caller
+                        <p-sortIcon [field]="'Caller'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'Callee'" pResizableColumn>Callee
+                        <p-sortIcon [field]="'Callee'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'CallTypeName'" pResizableColumn>Call Type
+                        <p-sortIcon [field]="'CallTypeName'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'StartDateTime'" pResizableColumn>Event Date Time
+                        <p-sortIcon [field]="'StartDateTime'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'CallDuration'" pResizableColumn>Call Duration(Seconds)
+                        <p-sortIcon [field]="'CallDuration'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'CallStatusName'" pResizableColumn>Call Status
+                        <p-sortIcon [field]="'CallStatusName'"></p-sortIcon>
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                <tr style="font-size: 10px;">
+                    <td>{{i+1}}</td>
+                    <td>{{rowData.EntryId}}</td>
+                    <td>{{rowData.CallerControlRoomName}}</td>
+                    <td>{{rowData.Caller}}</td>
+                    <td>{{rowData.Callee}}</td>
+                    <td>{{rowData.CallTypeName}}</td>
+                    <td>{{rowData.StartDateTime}}</td>
+                    <td>{{rowData.CallDuration}}</td>
+                    <td>{{rowData.CallStatusName}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

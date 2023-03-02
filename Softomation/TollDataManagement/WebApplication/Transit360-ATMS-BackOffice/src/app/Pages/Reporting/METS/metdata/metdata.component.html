@@ -1,0 +1,83 @@
+<div class="top-bar">
+    <div class="row d-flex align-items-center">
+        <div class="col-md-6 d-md-block d-none">
+            <p><i class="arrow right"></i><i class="arrow right"></i> MET Events</p>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-md-end justify-content-between pheader">
+                <i *ngIf="DataUpdate==1" class="pi pi-cog layout-menuitem-icon" matTooltip="Configuration" (click)="NewEntry()"></i>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="table-responsive table-height-master">
+    <div class="table-responsive table-height-master">
+        <p-table #dt [value]="DevicesData" [rowHover]="true" sortField="EntryId" [sortOrder]="-1" 
+        [globalFilterFields]="['EntryId','MetId','ControlRoomName','DeviceName','EventDateTime','HumidityRH','HumidityAH','Visibility','RoadTemperature',
+        'WindDirectionValue','WindDirection','WindSpeedValue','WindSpeedMeasurement','RainValue','RainMeasurement','AlertRequired']" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>S. No.</th>
+                    <th [pSortableColumn]="'EntryId'" pResizableColumn>Event Id
+                        <p-sortIcon [field]="'EntryId'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'ControlRoomName'" pResizableColumn>Control Room
+                        <p-sortIcon [field]="'ControlRoomName'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'DeviceName'" pResizableColumn>Met
+                        <p-sortIcon [field]="'DeviceName'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'EventDateTime'" pResizableColumn>Event Date Time
+                        <p-sortIcon [field]="'EventDateTime'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'HumidityRH'" pResizableColumn>Humidity(RH)
+                        <p-sortIcon [field]="'HumidityRH'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'HumidityAH'" pResizableColumn>Humidity(AH)
+                        <p-sortIcon [field]="'HumidityAH'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'Visibility'" pResizableColumn>Visibility
+                        <p-sortIcon [field]="'Visibility'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'RoadTemperature'" pResizableColumn>Road Temperature
+                        <p-sortIcon [field]="'RoadTemperature'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'WindDirectionValue'" pResizableColumn>Wind Direction
+                        <p-sortIcon [field]="'WindDirectionValue'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'WindSpeedValue'" pResizableColumn>Wind Speed
+                        <p-sortIcon [field]="'WindSpeedValue'"></p-sortIcon>
+                    </th>
+                    <th [pSortableColumn]="'RainValue'" pResizableColumn>Rain
+                        <p-sortIcon [field]="'RainValue'"></p-sortIcon>
+                    </th>
+                    <th>Alert Status</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                <tr style="font-size: 10px;">
+                    <td>{{i+1}}</td>
+                    <td>{{rowData.EntryId}}</td>
+                    <td>{{rowData.ControlRoomName}}</td>
+                    <td>{{rowData.DeviceName}}</td>
+                    <td>{{rowData.EventDateTime}}</td>
+                    <td>{{rowData.AirTemperature}}</td>
+                    <td>{{rowData.HumidityRH}}</td>
+                    <td>{{rowData.HumidityAH}}</td>
+                    <td>{{rowData.Visibility}}</td>
+                    <td>{{rowData.RoadTemperature}}</td>
+                    <td>{{rowData.WindDirectionValue}} {{rowData.WindDirection}}</td>
+                    <td>{{rowData.WindSpeedValue}} {{rowData.WindSpeedMeasurement}}</td>
+                    <td>{{rowData.RainValue}} {{rowData.RainMeasurement}}</td>
+                    <td>{{rowData.AlertRequired}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

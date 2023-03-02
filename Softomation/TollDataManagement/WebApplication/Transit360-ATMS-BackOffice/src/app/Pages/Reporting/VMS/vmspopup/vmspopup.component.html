@@ -1,0 +1,198 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="DeviceDetailsForm">
+    <h2 mat-dialog-title>Message Details</h2>
+    <div class="popupBox">
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="VMS" formControlName="DeviceId" multiple [(ngModel)]="selectedVMS"
+                        [disabled]="disableVMS">
+                        <mat-option #VMSallSelected (click)="toggleAllSelection('VMS')" [value]="0" selected>{{VMSAll}}
+                        </mat-option>
+                        <mat-option *ngFor="let ht of VMSDevice" [value]="ht.EntryId">{{ht.DeviceName}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('DeviceId').hasError('required')">
+                        VMS must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Message Format" formControlName="MessageFormatId" required
+                        (selectionChange)="onFormatChange($event.value)">
+                        <mat-option *ngFor=" let ht of MessageFormatList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessageFormatId').hasError('required')">
+                        Message format must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row" *ngIf="selectedMessageFormat==1">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Font Format" formControlName="FontFormat" required>
+                        <mat-option *ngFor=" let ht of FontList;" [value]="ht.Name">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('FontFormat').hasError('required')">
+                        Font format must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Font Size" formControlName="FontSize" required>
+                        <mat-option *ngFor=" let ht of FontSizeList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('FontSize').hasError('required')">
+                        Font Size must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row" *ngIf="selectedMessageFormat==1">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Alignment" formControlName="AlignmentId" required>
+                        <mat-option *ngFor=" let ht of MessageAlignmentList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('AlignmentId').hasError('required')">
+                        Alignment must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Message Pattern" formControlName="MessagePattern" required>
+                        <mat-option *ngFor=" let ht of MessagePattern;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessagePattern').hasError('required')">
+                        Message Pattern must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row" *ngIf="selectedMessageFormat==1">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Brightness" formControlName="Brightness" required>
+                        <mat-option *ngFor=" let ht of BrightnessList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('Brightness').hasError('required')">
+                        Brightness be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Language" formControlName="MessageLanguageId" required>
+                        <mat-option *ngFor=" let ht of MessageLanguageList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessageLanguageId').hasError('required')">
+                        Language must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Effets" formControlName="MessageOrientationId" required>
+                        <mat-option *ngFor=" let ht of MessageTypeList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessageOrientationId').hasError('required')">
+                        Orientation must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Duration" formControlName="MessageDuration" required>
+                        <mat-option *ngFor=" let ht of MessageDurationList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessageDuration').hasError('required')">
+                        Duration must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-10" *ngIf="selectedMessageFormat==1">
+                <mat-form-field>
+                    <input matInput placeholder="Message Body" formControlName="MessageBody" required
+                        autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('MessageBody').hasError('required')">
+                        Message must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-10" *ngIf="selectedMessageFormat==2">
+                <div class="form-row">
+                    <div class="col-md-6">
+                        <mat-form-field>
+                            <mat-toolbar>
+                                <!-- Display files names -->
+                                <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+                                <!-- Browse Button -->
+                                <button mat-flat-button color="primary">
+                                    Browse File
+                                </button>
+                            </mat-toolbar>
+                            <!-- Fetch selected filed on change -->
+                            <input type="file" #fileInput id="uploadFile" (change)="uploadFileEvt($event)"
+                                name="uploadFile" multiple="multiple" accept="image/*" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                        <div><img src="{{dataimage}}" width="300px"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <mat-checkbox [checked]="DataStatus" (change)="onChange($event)" style="margin-top: 18px;">Status
+                </mat-checkbox>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div align="end">
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="warn" aria-label="Broadcast" (click)="SaveDeviceDetails(1)" matTooltip="Broadcast">
+                <mat-icon>schedule_send</mat-icon>
+            </button>
+        </div>
+        <div class="mat-fab-btn" style="float: right;margin-right: 10px;">
+            <button mat-fab color="primary" aria-label="Filter" (click)="SaveDeviceDetails(0)">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

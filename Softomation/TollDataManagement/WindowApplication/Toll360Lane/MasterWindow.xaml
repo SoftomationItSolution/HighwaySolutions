@@ -1,0 +1,474 @@
+﻿<Window x:Class="Toll360Lane.MasterWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Toll360Lane" xmlns:View="clr-namespace:Toll360Lane.View"
+        mc:Ignorable="d"
+        Title="Toll 360 Lane" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1.5*" />
+            <ColumnDefinition Width="1" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="55" />
+            <RowDefinition Height="40" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="217*" />
+            <RowDefinition Height="328*" />
+            <RowDefinition Height="60" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"  Background="#9bcdce">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="1.5*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Left" >
+                    <Label Content="Lane -"  FontSize="22" FontFamily="Sitka heading"></Label>
+                    <Label Content="{Binding LaneName,Mode=TwoWay}"  FontSize="22" FontFamily="Sitka heading"></Label>
+                    <Label Content="{Binding LaneType,Mode=TwoWay}"  FontSize="22" FontFamily="Sitka heading"></Label>
+                </StackPanel>
+                <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <Label Content="Version - "  FontSize="12" FontFamily="Sitka heading"></Label>
+                    <Label Content="{Binding Version,Mode=TwoWay}"  FontSize="12" FontFamily="Sitka heading"></Label>
+                </StackPanel>
+
+            </Grid>
+            <StackPanel Orientation="Horizontal"  Grid.Column="4" Grid.Row="1" FlowDirection="RightToLeft" >
+                <Border BorderBrush="#346399" BorderThickness="1" Width="60" Height="60" Margin="0,0,20,0">
+
+                    <Image Source="Image/Scaipl Logo1.jpg" Height="60"  VerticalAlignment="Top" />
+
+                </Border>
+                <!--<Button Content="Login" Command="{Binding LoginCommand}" IsEnabled="{Binding LoginEnable,Mode=TwoWay}" VerticalAlignment="Stretch">
+
+                </Button>
+                <Button Content="LogOut" Margin="10 0 0 0" Command="{Binding LogOutCommand}" IsEnabled="{Binding LogOutEnable,Mode=TwoWay}" VerticalAlignment="Stretch"></Button>-->
+            </StackPanel>
+            <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Label Content="{Binding PlazaName,Mode=TwoWay}" FontSize="30" FontFamily="Sitka heading"></Label>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"  Background="#346399">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal"  Grid.Column="0">
+                    <Label Content="Current Time"  FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                    <Label  Name="datelbl" Margin="5 0 0 0" Content="{Binding CuurentTime}" FontSize="12" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  Grid.Column="2">
+                    <Label Content="User ID" FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                    <Label Content="{Binding UserID,Mode=TwoWay}" Margin="5 0 0 0" FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  Grid.Column="4">
+                    <Label Content="ShiftNumber" FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                    <Label Content="{Binding ShiftNumber,Mode=TwoWay}" Margin="5 0 0 0" FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal"  Grid.Column="6">
+                    <Label Content="Login Time" FontSize="14" Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                    <Label Content="{Binding LoginTime,Mode=TwoWay}" FontSize="14" Margin="5 0 0 0"  Foreground="#9bcdce" HorizontalAlignment="Left" FontWeight="Bold" FontFamily="Sitka Text"></Label>
+                </StackPanel>
+                <!--<Button Content="Login" Grid.Column="9" Style="{StaticResource MyTestButton}" Background="#9bcdce" Foreground="#346399" Command="{Binding LoginCommand}" Visibility="{Binding LoginVisibility}" IsEnabled="{Binding LoginEnable,Mode=TwoWay}" VerticalAlignment="Stretch"></Button>
+                <Button Content="LogOut" Grid.Column="9" Style="{StaticResource MyTestButton}"  Background="#9bcdce" Foreground="#346399" Margin="10 0 0 0" Command="{Binding LogOutCommand}" Visibility="{Binding LogOutVisibility}" IsEnabled="{Binding LogOutEnable,Mode=TwoWay}" VerticalAlignment="Stretch"></Button>-->
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.RowSpan="5"  Background="#346399">
+            <Grid  Name="stkpnlDynamicControls"  IsEnabled="{Binding ClassEnable,Mode=TwoWay}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
+
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1" Grid.Row="2" Grid.RowSpan="3"  Background="#D0E6EA">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="330"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+
+                </Grid.RowDefinitions>
+                <GroupBox Header="Transaction Process" Background="#D0E6EA" Grid.Row="0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3.5*"></ColumnDefinition>
+                            <ColumnDefinition Width=".5*"></ColumnDefinition>
+                            <ColumnDefinition Width="6*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="75"></RowDefinition>
+
+                        </Grid.RowDefinitions>
+
+                        <Label Content=":"   Grid.Column="1" Grid.Row="1" FontSize="24" ></Label>
+                        <Label Content=":"   Grid.Column="1" Grid.Row="2" FontSize="24" ></Label>
+                        <Label Content=":"   Grid.Column="1" Grid.Row="3" FontSize="24" ></Label>
+                        <Label Content=":"   Grid.Column="1" Grid.Row="4" FontSize="24" ></Label>
+                        <Label Content=":" Visibility="{Binding ExemptionDropdownVisibility,Mode=TwoWay}"  Grid.Column="1" Grid.Row="5" FontSize="24" ></Label>
+                        <Label Content=":"   Grid.Column="1" Grid.Row="6" FontSize="24" ></Label>
+                        <Label Content="Vehicle Class "  HorizontalAlignment="Stretch"  Margin="0,0,0,0" Grid.Row="1" FontSize="18" FontFamily="Sitka Text" ></Label>
+                        <TextBlock  Grid.Row="1"  Grid.Column="2" Margin="0 0 0 0" HorizontalAlignment="Left" FontSize="20" Text="{Binding VehicleClass,Mode=TwoWay}"></TextBlock>
+                        <Label Content="Vehicle Number" HorizontalAlignment="Left" Grid.Row="2" FontSize="18" FontFamily="Sitka Text"  Margin="0 2 0 0"></Label>
+                        <TextBox Name="txtVehicleNumber" Width="260" Foreground="#346399" Grid.Row="2" CharacterCasing="Upper"  MaxLength="12"  FontSize="20" Grid.Column="2" Margin="5,2,0,0" 
+                                     HorizontalAlignment="Left" 
+                                     Text="{Binding VehicleNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Bottom"
+                                     ></TextBox>
+                        <Label Content="Exempt Type" FontSize="18" HorizontalAlignment="Stretch" Grid.Row="5" FontFamily="Sitka Text"  Margin="0,2.2,31.8,0.2" Visibility="{Binding ExemptionDropdownVisibility,Mode=TwoWay}"></Label>
+                        <ComboBox Name="cbxExempt" Grid.Row="5" Grid.Column="2" Margin="5 2 0 0"
+                                      Visibility="{Binding ExemptionDropdownVisibility,Mode=TwoWay}" 
+                                      ItemsSource="{Binding ExemptionList,Mode=TwoWay}" 
+                                      SelectedItem="{Binding SelectedExemption,Mode=TwoWay}" 
+                                      HorizontalAlignment="Left" DisplayMemberPath="Description" Height="30"></ComboBox>
+                        <Label Content="Return Journy Pass" HorizontalAlignment="Left" Visibility="{Binding lblReturnJournyVisibilty,Mode=TwoWay}" Margin="0 2 0 0" Grid.Row="5" Grid.Column="2"></Label>
+                        <Label Content="Pass Number" FontSize="18" HorizontalAlignment="Left" FontFamily="Sitka Text" Grid.Row="4"  Margin="0 2 0 0"></Label>
+                        <TextBox Name="txtPassNumber" Grid.Row="4" Width="260" FontSize="20" Grid.Column="2" Margin="5 2 0 0" VerticalAlignment="Center" MaxLength="21" HorizontalAlignment="Left" 
+                                  Text="{Binding PassNumber,Mode=TwoWay ,UpdateSourceTrigger=PropertyChanged}"  IsEnabled="{Binding ManualPassEnable, FallbackValue=false,Mode=TwoWay}"></TextBox>
+                        <Label Content="Amount Rs. " FontSize="18" HorizontalAlignment="Left" Grid.Row="3" FontFamily="Sitka Text"  Margin="0 2 0 0"></Label>
+                        <TextBlock  Grid.Row="3" FontSize="20" Grid.Column="2" Margin="5 2 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Amount,Mode=TwoWay}"></TextBlock>
+                        <!--<StackPanel Grid.Row="8" Grid.ColumnSpan="3" Orientation="Horizontal"  Margin="0 5 0 0">-->
+                        <Label Content="Remark" FontSize="18" Grid.Row="6" HorizontalAlignment="Left" ></Label>
+                        <TextBox Width="260" Grid.Row="6" Grid.Column="2" Margin="5 2 0 0" HorizontalAlignment="Left" 
+                                 IsEnabled="{Binding RemarkEnable,Mode=TwoWay}" Text="{Binding Remark,Mode=TwoWay}"></TextBox>
+                        <!--</StackPanel>-->
+                        <StackPanel Grid.Row="9" HorizontalAlignment="Right" Orientation="Horizontal"  Margin="0 0 0 0" Grid.ColumnSpan="3">
+                            <Button Width="190" Height="50" FontSize="24" Command="{Binding RechargeCommand}" IsEnabled="{Binding IsExit,Mode=TwoWay}">
+                                <AccessText>_Fast Tag Penalty</AccessText>
+                            </Button>
+                            <Button Width="90" Height="50" FontSize="24" Margin="10 0 0 0" Command="{Binding ProcessCommand}" IsEnabled="{Binding ProcessEnable,Mode=TwoWay}">
+                                <AccessText>_Process</AccessText>
+                            </Button>
+                            <Button Margin="10 0 0 0" Width="145" Height="50" FontSize="24" Command="{Binding EWalletCommand}" IsEnabled="{Binding EwalletButtonEnable,Mode=TwoWay}">
+                                <AccessText>E Walle_t TXN</AccessText>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </GroupBox>
+                <Grid Grid.Row="1">
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.8*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <GroupBox Grid.Column="0" Header="Transaction Type">
+                            <WrapPanel Orientation="Horizontal" Margin="0,1,2,1">
+                                <!--<Button  Style="{StaticResource MyTestButton1}" Margin="2 0 0 0" Height="20" Width="136" Command="{Binding IssuePassCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding IssuePassButtonEnable,Mode=TwoWay}">
+                                    <AccessText>Issue _Return Pass</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 0 0 0"  Command="{Binding DiscountCommand}" IsEnabled="{Binding DiscountButtonEnable,Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <AccessText>_Discount</AccessText>
+
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding ExemptionCommand}" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding ExemptionButtonEnable,Mode=TwoWay}">
+                                    <AccessText>_Exemption</AccessText>
+                                </Button>
+                                <Button  Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Command="{Binding ManualPassCommand}" IsEnabled="{Binding DiscountButtonEnable,Mode=TwoWay}">
+                                    <AccessText>_Manual Pass</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding ProcessSimulationCommand}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding SimulationButtonEnable,Mode=TwoWay}">
+                                    <AccessText>_Simulation</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding TowStartCommand}" Visibility="{Binding TowStartVisibility}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding TowVehicleButtonEnable,Mode=TwoWay}">
+                                    <AccessText>T_ow Vehicle</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding TowEndCommand}" Visibility="{Binding TowEndVisibility}"  HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding TowVehicleButtonEnable,Mode=TwoWay}">
+                                    <AccessText>T_ow Vehicle End</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding DuplicateRecieptCommand}"  IsEnabled="{Binding DuplicateButtonEnable,Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <AccessText>D_uplicate Receipt</AccessText>
+                                </Button>
+                                <Button Style="{StaticResource MyTestButton1}" Width="136" Height="20" Margin="2 3 0 0" Command="{Binding BleedOffCommand}"  IsEnabled="{Binding BleedOffButtonEnable,Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                                    <AccessText>_Bleed Off</AccessText>
+                                </Button>-->
+                                <!--<Button Style="{StaticResource MyTestButton1}" Width="136"  Margin="2 3 0 0" Command="{Binding ManualRFIDCommand }"  HorizontalAlignment="Stretch" IsEnabled="{Binding ManualRfidEnable,Mode=TwoWay}" VerticalAlignment="Center">
+                                    <AccessText>M_anual RFID Tag</AccessText>
+                                </Button>-->
+                                <!--<Button Name="btnConvoy" Style="{StaticResource MyTestButton1}"  Height="20" Margin="2 3 0 0" Width="136" Command="{Binding ConvoyStartCommand}" Visibility="{Binding ConvoyStartVisibility,Mode=TwoWay}" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Center" IsEnabled="{Binding ConvoyButtonEnable,Mode=TwoWay}">
+                                    <AccessText>Convo_y Start</AccessText>
+                                </Button>
+                                <Button Name="btnConvoyEnd" Style="{StaticResource MyTestButton1}"  Height="20" Margin="2 3 0 0" Width="136" Command="{Binding ConvoyEndCommand}" Visibility="{Binding ConvoyEndVisibility,Mode=TwoWay}" Grid.Column="9" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+                                    <AccessText>Convo_y End</AccessText>
+                                </Button>-->
+
+                            </WrapPanel>
+
+                        </GroupBox>
+                        <GroupBox Grid.Column="1" Header="Wim Queue">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="19"></RowDefinition>
+                                    <RowDefinition Height="19"></RowDefinition>
+                                    <RowDefinition Height="19"></RowDefinition>
+                                    <RowDefinition Height="19"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                    <RowDefinition Height="20"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="7*"></ColumnDefinition>
+                                    <ColumnDefinition Width="3*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Label Content="First" HorizontalAlignment="Left" Margin="0 0 0 0"></Label>
+                                <Label Grid.Row="0" Grid.Column="1" Margin="0 0 0 0" Content="{Binding First,Mode=TwoWay}"></Label>
+                                <Label Content="Second" HorizontalAlignment="Left" Grid.Row="1" Margin="0 0 0 0"></Label>
+                                <Label Grid.Row="1" Grid.Column="1" Margin="0 0 0 0" Content="{Binding SecondVehicle,Mode=TwoWay}"></Label>
+                                <Label Content="Third" HorizontalAlignment="Left" Grid.Row="2" Margin="0 0 0 0"></Label>
+                                <Label Grid.Row="2" Grid.Column="1" Margin="0 0 0 0" Content="{Binding ThirdVehicle,Mode=TwoWay}"></Label>
+                                <Label Content="Fourth" HorizontalAlignment="Left" Grid.Row="3" Margin="0 0 0 0"></Label>
+                                <Label Grid.Row="3" Grid.Column="1" Margin="0 0 0 0" Content="{Binding FourthVehicle,Mode=TwoWay}"></Label>
+                                <Label Content="Charged Amount" Grid.Row="4" Margin="0 0 0 0"></Label>
+                                <Label Grid.Row="4" Grid.Column="1" Margin="0 0 0 0" Content="{Binding ChargedAmount,Mode=TwoWay}"></Label>
+                                <Button Grid.Row="5" Grid.Column="0" Command="{Binding WimOperationCommand}" IsEnabled="{Binding  IsExit}" HorizontalAlignment="Stretch" Margin="0 0 0 0" Width="130" Grid.ColumnSpan="2">
+                                    <AccessText>_Wim Operations</AccessText>
+                                </Button>
+                            </Grid>
+                        </GroupBox>
+
+                    </Grid>
+
+                </Grid>
+                <StackPanel Orientation="Vertical" Grid.Row="2">
+                    <GroupBox Header="LSDU and Loop Info" Background="#D0E6EA" Grid.ColumnSpan="3">
+                        <StackPanel Orientation="Horizontal">
+
+                            <Label Name="lblLSDURequest" Content="{Binding lbllsdurequest,Mode=TwoWay}" Margin="2 2 0 0" HorizontalAlignment="Left"></Label>
+                            <Label Name="lblPass" Content="{Binding lblPassDetail,Mode=TwoWay}" Margin="2 2 0 0" HorizontalAlignment="Left"></Label>
+                            <Label Name="lblLogoutRequest" Content="{Binding lblLogout,Mode=TwoWay}" HorizontalAlignment="Left" Margin="2 2 0 0"></Label>
+                            <Label Name="lblExitLoop" Content="{Binding lblLoop2,Mode=TwoWay}"  Margin="0 2 0 0"></Label>
+                            <Label Name="lblPresenceLoop" Content="{Binding lblLoop1,Mode=TwoWay}" Margin="0 2 0 0"></Label>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Last Two Transaction" Grid.Row="1" HorizontalAlignment="Stretch" Grid.ColumnSpan="3">
+                        <DataGrid AutoGenerateColumns="False"
+                                      ItemsSource="{Binding TransactionDetailList,Mode=TwoWay}"
+                                      Name="dgTransactionDetail" 
+                                       HorizontalAlignment="Stretch"
+                                       VerticalAlignment="Stretch"   
+                                       HorizontalGridLinesBrush="Black"
+                                       IsReadOnly="True" >
+                            <DataGrid.Columns>
+
+                                <DataGridTextColumn Header="MOP" Binding="{Binding MOP,Mode=TwoWay}"/>
+                                <DataGridTextColumn Header="Vehicle" Binding="{Binding Vehicle,Mode=TwoWay}" />
+                                <DataGridTextColumn Header="TransactionNumber" Binding="{Binding TransacionNumber,Mode=TwoWay}"/>
+                                <DataGridTextColumn Header="DateTime" Binding="{Binding TransactionDatetime,Mode=TwoWay}" />
+                                <DataGridTextColumn Header="Vehicle Number" Binding="{Binding VehicleNumber,Mode=TwoWay}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </GroupBox>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" Background="#D0E6EA">
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="*"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Camera View" Grid.Row="0"  >
+                    <StackPanel Orientation="Horizontal"  Margin="10 2 10 2">
+                        <StackPanel>
+                            <Label Content="Incident Camera" HorizontalAlignment="Center"  FontSize="16" FontFamily="Sitka Text"  Margin="0 2 0 0"></Label>
+                            <WindowsFormsHost Name="IncidentCamera" Width="120" Height="100">
+
+                            </WindowsFormsHost>
+                        </StackPanel>
+
+                        <StackPanel Margin="10 2 0 0">
+                            <Label Content="LPIC Camera" HorizontalAlignment="Center" Visibility="Hidden"  FontSize="16" FontFamily="Sitka Text"  Margin="0 2 0 0"></Label>
+                            <WindowsFormsHost Name="LpicCamera" Width="120" Height="100" >
+
+                            </WindowsFormsHost>
+                        </StackPanel>
+                        <StackPanel  Margin="20 2 0 0">
+                            <Label Content="Wim Camera" HorizontalAlignment="Center" Visibility="Collapsed"  FontSize="16" FontFamily="Sitka Text"  Margin="0 2 0 0"></Label>
+                            <WindowsFormsHost Name="WimCamera" Visibility="Collapsed" Width="120" Height="100" >
+
+                            </WindowsFormsHost>
+                        </StackPanel>
+                        <StackPanel Margin="10 2 0 0">
+                            <Label Name="info" FontSize="19" Foreground="Red" ></Label>
+                        </StackPanel>
+                        <Grid Margin="20 2 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"></RowDefinition>
+                                <RowDefinition Height="107*"/>
+                                <RowDefinition Height="24*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Height="Auto" Grid.Row="1"  Visibility="{Binding ErrorMessageVisibility,Mode=TwoWay}" Grid.ColumnSpan="1" Margin="0,-20,0,80.813"  >
+                                <StackPanel Grid.Row="0"   Height="Auto" Background="Red">
+                                    <TextBlock TextWrapping="Wrap" Text="Error"  HorizontalAlignment="Left" FontSize="12" FontWeight="Bold" Foreground="White"></TextBlock>
+                                </StackPanel>
+                                <StackPanel  Grid.Row="1" Background="White">
+                                    <ItemsControl  ItemsSource="{Binding ValidationErrors,Mode=TwoWay}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text=" - "></TextBlock>
+                                                    <TextBlock Text="{Binding ErrorMessage,Mode=TwoWay}" Height="Auto" Foreground="Red" ></TextBlock>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </StackPanel>
+                            <!--<local:Toll360Lane.View.SuccessMessageBoxUI Visibility="{Binding SucessMessageBoxVisibility,Mode=TwoWay}"  x:Name="SuccessNotifyMessage" Width="Auto" Grid.RowSpan="2" VerticalAlignment="Top" />-->
+                            <View:SuccessMessageBoxUI Visibility="{Binding SucessMessageBoxVisibility,Mode=TwoWay}"  x:Name="SuccessNotifyMessage" Width="Auto" Grid.RowSpan="2" VerticalAlignment="Top" />
+                        </Grid>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Camera Large View" Grid.Row="1"  >
+                    <WindowsFormsHost Name="BoothCamera" Margin="0 0 0 0">
+
+                    </WindowsFormsHost>
+                </GroupBox>
+
+            </Grid>
+        </Grid>
+        <Grid  Grid.Row="5" Grid.ColumnSpan="4"  Background="#D0E6EA">
+            <GroupBox Header="Hardware Status" >
+                <Grid ShowGridLines="True">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <StackPanel>
+                            <Label Content="Printer" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding PrinterStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding PrinterImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="1">
+                        <StackPanel>
+                            <Label Content="Barrier" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding BarrierStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding BarrierImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="2">
+                        <StackPanel>
+                            <Label Content="Traffic Light" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding TrafficLightStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding TrafficLightImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="3">
+                        <StackPanel>
+                            <Label Content="OHLS" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding OHLSStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding OHLSImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="4">
+                        <StackPanel>
+                            <Label Content="Smart Card" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding SmartCardStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding SmartCardImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="5">
+                        <StackPanel>
+                            <Label Content="RFID" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding RFIDStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding RFIDImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="6">
+                        <StackPanel>
+                            <Label Content="Wim" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding WimStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding WimImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="7">
+                        <StackPanel>
+                            <Label Content="IR" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding IRStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding IRImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Grid.Column="8">
+                        <StackPanel>
+                            <Label Content="AVC" HorizontalAlignment="Left"></Label>
+                            <Label Content="{Binding AVCStatus,Mode=TwoWay}" Foreground="Red"></Label>
+                        </StackPanel>
+                        <Image Source="{Binding AVCImage,Mode=TwoWay}" Height="40" Width="40"></Image>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

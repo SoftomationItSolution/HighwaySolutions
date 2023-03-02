@@ -1,0 +1,141 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="DeviceDetailsForm">
+    <h2 mat-dialog-title>MET Configuration</h2>
+    <div class="popupBox">
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Air Temperature &deg;C(Minimum)" formControlName="AirTemperatureMin" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('AirTemperatureMin').hasError('required')">
+                        Air Temperature(Minimum) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('AirTemperatureMin').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Air Temperature &deg;C(Maximum)" formControlName="AirTemperatureMax" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('AirTemperatureMax').hasError('required')">
+                        Air Temperature(Maximum) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('AirTemperatureMax').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Humidity (RH)" formControlName="HumidityRH" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('HumidityRH').hasError('required')">
+                        Humidity (RH) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('HumidityRH').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Humidity (AH)" formControlName="HumidityAH" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('HumidityAH').hasError('required')">
+                        Humidity (AH) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('HumidityAH').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Visibility (Meter)" formControlName="Visibility" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('Visibility').hasError('required')">
+                        Visibility (Meter) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('Visibility').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Road Temperature &deg;C" formControlName="RoadTemperature" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('RoadTemperature').hasError('required')">
+                        Road Temperature &deg;C must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('RoadTemperature').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Wind Direction (&deg;)" formControlName="WindDirectionValue" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('WindDirectionValue').hasError('required')">
+                        Wind Direction (&deg;) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('WindDirectionValue').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Wind Speed (Meter/Second)" formControlName="WindSpeedValue" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('WindSpeedValue').hasError('required')">
+                        Wind Speed (Meter/Second) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('WindSpeedValue').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Rain (Millimeter)" formControlName="RainValue" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('RainValue').hasError('required')">
+                        Rain (Millimeter) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('RainValue').hasError('pattern')">
+                        {{error.DecimalTwoDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Synchronize time  (Minites)" formControlName="SynchronizeTime" required autocomplete="off">
+                    <mat-error *ngIf="DeviceDetailsForm.get('SynchronizeTime').hasError('required')">
+                        Synchronize time (Minites) must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DeviceDetailsForm.get('SynchronizeTime').hasError('pattern')">
+                        {{error.OnlyDigit}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div align="end">
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="primary" aria-label="Filter" (click)="SaveDeviceDetails()">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,191 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="IncidentDetailsForm">
+    <h2 mat-dialog-title>Incident Details</h2>
+    <div class="popupBox-L">
+        <div class="form-row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Incident Name" autocomplete="off" maxlength="100" formControlName="IncidentName" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentName').hasError('required')">
+                        Incident Name must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentName').hasError('pattern')">
+                        {{error.AllowSingleSpaceWithCharOnly}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input [min]="minFromDate" [max]="maxToDate" matInput [matDatepicker]="pickerreportdate" placeholder="Choose Incident Report Date" formControlName="ReportDate" required readonly="true">
+                    <mat-datepicker-toggle matSuffix [for]="pickerreportdate">
+                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickerreportdate></mat-datepicker>
+                    <mat-error *ngIf="IncidentDetailsForm.get('ReportDate').hasError('required')">
+                        Incident Report Date must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                        <input [min]="minFromDate" [max]="maxToDate" matInput [matDatepicker]="pickerincidentdate" placeholder="Choose Incident Date" formControlName="IncidentDate" required readonly="true">
+                        <mat-datepicker-toggle matSuffix [for]="pickerincidentdate">
+                            <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #pickerincidentdate></mat-datepicker>
+                        <mat-error *ngIf="IncidentDetailsForm.get('IncidentDate').hasError('required')">
+                            Incident Date must be selected.
+                        </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-select placeholder="Incident Category" formControlName="IncidentCategory" required>
+                        <mat-option value=""></mat-option>
+                        <mat-option *ngFor="let category of IncidentCategoryList; let i = index" [value]="category.Id">
+                            {{category.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentCategory').hasError('required')">
+                        Incident Category must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Incident Ref No" autocomplete="off" maxlength="30" formControlName="IncidentRefNo" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentRefNo').hasError('required')">
+                        Incident Ref No must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentRefNo').hasError('pattern')">
+                        {{error.NotAllowSplChar}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Incident Source Type" autocomplete="off" maxlength="30" formControlName="IncidentSourceType" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentSourceType').hasError('required')">
+                        Incident Source Type must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentSourceType').hasError('pattern')">
+                        {{error.AllowOnlyCharacter}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Incident Source Device" autocomplete="off" maxlength="50" formControlName="IncidentSourceDevice" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentSourceDevice').hasError('required')">
+                        Incident Source Device must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentSourceDevice').hasError('pattern')">
+                        {{error.AllowOnlyCharacter}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Vehicle Reg No" autocomplete="off" maxlength="30" formControlName="VehicleRegNo" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('VehicleRegNo').hasError('required')">
+                        Vehicle Reg No must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('VehicleRegNo').hasError('pattern')">
+                        {{error.NotAllowSplChar}}
+                    </mat-error>
+                </mat-form-field>
+            </div> 
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Person Name" autocomplete="off" maxlength="100" formControlName="PersonName" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('PersonName').hasError('required')">
+                        Person Name must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('PersonName').hasError('pattern')">
+                        {{error.AllowOnlyCharacter}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Phone No" autocomplete="off" formControlName="PhoneNo" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('PhoneNo').hasError('required')">
+                        Phone No must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('PhoneNo').hasError('pattern')">
+                        {{error.MobileNumber}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Incident Location" autocomplete="off" maxlength="50" formControlName="IncidentLocation" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentLocation').hasError('required')">
+                        Incident Location must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('IncidentLocation').hasError('pattern')">
+                        {{error.AllowOnlyCharacter}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Remark" formControlName="Remark" required autocomplete="off">
+                    <mat-error *ngIf="IncidentDetailsForm.get('Remark').hasError('required')">
+                        Remark must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row" >
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Latitude" formControlName="Latitude" autocomplete="off" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('Latitude').hasError('required')">
+                        Latitude must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('Latitude').hasError('pattern')">
+                        {{error.Latitude}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput placeholder="Longitude" formControlName="Longitude" autocomplete="off" required>
+                    <mat-error *ngIf="IncidentDetailsForm.get('Longitude').hasError('required')">
+                        Longitude must be entered
+                    </mat-error>
+                    <mat-error *ngIf="IncidentDetailsForm.get('Longitude').hasError('pattern')">
+                        {{error.Longitude}}
+                    </mat-error>
+                </mat-form-field>
+            </div> 
+            <div class="col-md-4">
+                <mat-checkbox [checked]="DataStatus" (change)="onChange($event)">Status</mat-checkbox>
+            </div>
+        </div>
+    </div>
+    <div align="end">
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="primary" aria-label="Add" (click)="SaveDeviceDetails()">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

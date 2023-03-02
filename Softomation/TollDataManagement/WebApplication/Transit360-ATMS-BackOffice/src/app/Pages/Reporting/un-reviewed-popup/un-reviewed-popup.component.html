@@ -1,0 +1,155 @@
+<div class="popup-hedaer">
+    <div class="mat-fab-btn" style="float: right;">
+        <button mat-fab color="warn" aria-label="Close" (click)="close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <h2 mat-dialog-title>Un-Reviewed Data</h2>
+</div>
+<div class="popupBox-xl">
+    <p-splitter [style]="{'height': '529px'}" [panelSizes]="[25,75]">
+        <ng-template pTemplate>
+            <div class="table-responsive table-height-min">
+                <p-table #dt [value]="UnReviewedList" selectionMode="single" [(selection)]="selectedEntry" dataKey="EntryId" [scrollable]="true" styleClass="p-datatable-gridlines" (onRowSelect)="onRowSelect($event)">
+                    <ng-template pTemplate="header">
+                        <tr style="font-size: 10px;">
+                            <th>Transaction Id</th>
+                            <th>Transaction Time</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr [pSelectableRow]="rowData" style="font-size: 10px;">
+                            <td>{{rowData.EntryId}}</td>
+                            <td>{{rowData.TransactionTimeStamp | date:'dd-MMM-yyyy HH:mm:ss'}}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </ng-template>
+        <ng-template pTemplate>
+            <form [formGroup]="DeviceAuditForm" style="width: 100%;" class="PopUpForm">
+                <p-fieldset legend="Lane Transaction Details">
+                    <!-- -Transaction Number({{CurrentEntryId}}) -->
+                    <div class="form-row">
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput placeholder="Class" formControlName="Class" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput placeholder="AVC Class" formControlName="AVCClass" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput placeholder="Plate Number" formControlName="PlateNumber" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field>
+                                <input matInput placeholder="Amount" formControlName="Amount" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field>
+                                <input matInput placeholder="Lane" formControlName="LaneNumber" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field>
+                                <input matInput placeholder="Shift" formControlName="ShiftId" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput placeholder="Operator" formControlName="TCLoginId" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1">
+                            <mat-form-field>
+                                <input matInput placeholder="Exempt Type" formControlName="ExemptType" class="input-headline" readonly>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </p-fieldset>
+                <p-fieldset legend="Review Proof">
+                    <p-splitter [style]="{'height': '232px'}" [panelSizes]="[50,50]">
+                        <ng-template pTemplate>
+                            <img [src]="SelectedPlateImage" width="400" height="232" (click)="CheckImage()" />
+                        </ng-template>
+                        <ng-template pTemplate>
+                            <video width="400" height="232" controls>
+                                <source [src]="SelectedPlateVideo" type="video/mp4">
+                                <!-- <source src="movie.ogg" type="video/ogg"> -->
+                                Your browser does not support the video tag.
+                              </video>
+                        </ng-template>
+                    </p-splitter>
+                </p-fieldset>
+                <p-fieldset legend="Review details">
+                    <div class="form-row">
+                        <div class="col-md-4">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="selectedType" formControlName="Type" (change)="TypeChnage($event.value)">
+                                <mat-radio-button class="example-radio-button" *ngFor="let t of TypeList" [value]="t.Id">
+                                    {{t.Name}}
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <mat-select placeholder="Reviewer Class" formControlName="ReviewerClass" required class="input-headline">
+                                    <mat-option *ngFor=" let ht of ClassListData" [value]="ht.ClassId">
+                                        {{ht.ClassName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceAuditForm.get('ReviewerClass').hasError('required')">
+                                    Reviewer Class must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <mat-select placeholder="Transaction Type" formControlName="TransactionType" class="input-headline" required>
+                                    <mat-option *ngFor=" let ht of TransTypeList;" [value]="ht.Id">
+                                        {{ht.Name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceAuditForm.get('TransactionType').hasError('required')">
+                                    Transaction Type must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field>
+                                <input matInput placeholder="Remark" formControlName="Remark" class="input-headline" autocomplete="off">
+                                <mat-error *ngIf="DeviceAuditForm.get('Remark').hasError('required')">
+                                    Remark must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </p-fieldset>
+
+            </form>
+        </ng-template>
+    </p-splitter>
+</div>
+<div align="end">
+    <div class="mat-fab-btn" style="float: right;" *ngIf="DataUpdate==1">
+        <button mat-fab color="warn" aria-label="Scrap" (click)="ScrapData()" matTooltip="Scrap">
+            <mat-icon>restore_from_trash</mat-icon>
+        </button>
+    </div>
+    <div class="mat-fab-btn" style="float: right; margin-right: 10px;" *ngIf="DataUpdate==1" matTooltip="Cancel">
+        <button mat-fab color="warn" aria-label="Cancel" (click)="CancelData()">
+            <mat-icon>cancel</mat-icon>
+        </button>
+    </div>
+    <div class="mat-fab-btn" style="float: right; margin-right: 10px;" *ngIf="DataUpdate==1" matTooltip="Review">
+        <button mat-fab color="primary" aria-label="Submit" (click)="SaveAuditedDetails()">
+            <mat-icon>save</mat-icon>
+        </button>
+    </div>
+</div>

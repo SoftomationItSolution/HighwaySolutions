@@ -1,0 +1,17 @@
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\bin\Debug\Toll360Lane.exe.config
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\bin\Debug\Toll360Lane.exe
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\bin\Debug\Toll360Lane.pdb
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\MasterWindow.g.cs
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\App.g.cs
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane_MarkupCompile.cache
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane_MarkupCompile.lref
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\MasterWindow.baml
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.g.resources
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.Properties.Resources.resources
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.csproj.GenerateResource.cache
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.csproj.CoreCompileInputs.cache
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.exe
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\Toll360Lane.pdb
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\View\SuccessMessageBoxUI.g.cs
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\GeneratedInternalTypeHelper.g.cs
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowApplication\Toll360Lane\obj\Debug\View\SuccessMessageBoxUI.baml

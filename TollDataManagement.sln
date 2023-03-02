@@ -1,0 +1,130 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B88B4B17-BE84-43C7-933A-5E8EB50D408D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLibrary", "Softomation\TollDataManagement\Libraries\CommonLibrary\CommonLibrary.csproj", "{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{D9019CE9-8BB1-4803-A673-70D18CB96E72}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowsService", "WindowsService", "{521151E3-38FB-44FF-8B5A-F186F4CEDBEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowApplication", "WindowApplication", "{C91553A1-7BF4-4B67-85FC-2B847446B6B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApplication", "WebApplication", "{A7EF6D21-D8C1-48A6-A3EC-346503F08767}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApplication", "Softomation\TollDataManagement\WebApplication\", "{CA318C30-BB12-4395-A805-D707702BE0B2}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_52261"
+		Debug.AspNetCompiler.PhysicalPath = "Softomation\TollDataManagement\WebApplication\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52261\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_52261"
+		Release.AspNetCompiler.PhysicalPath = "Softomation\TollDataManagement\WebApplication\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52261\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "52261"
+		SlnRelativePath = "Softomation\TollDataManagement\WebApplication\"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TollSolutionsAPI", "Softomation\TollDataManagement\WebApi\TollSolutionsAPI\TollSolutionsAPI.csproj", "{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlazaDataSynchronization", "Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\PlazaDataSynchronization.csproj", "{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SetUp", "SetUp", "{30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PlazaServerSetUp", "Softomation\TollDataManagement\SetUp\PlazaServerSetUp\PlazaServerSetUp.vdproj", "{8C832FB5-24D0-4ABD-A6F5-E7ED92AF4AA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRDataAggregationService", "Softomation\TollDataManagement\WindowsService\CRDataAggregationService\CRDataAggregationService.csproj", "{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "CRServerSetUp", "Softomation\TollDataManagement\SetUp\CRServerSetUp\CRServerSetUp.vdproj", "{24CA358A-53AD-4711-8991-A3F61196DD40}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneDataSynchronization", "Softomation\TollDataManagement\WindowsService\LaneDataSynchronization\LaneDataSynchronization.csproj", "{C2879988-EA28-43FB-B3BB-16429EC06D19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Toll360Lane", "Softomation\TollDataManagement\WindowApplication\Toll360Lane\Toll360Lane.csproj", "{9E5DD201-8608-4E07-A0DF-9555165F1C90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceMonitor", "Softomation\TollDataManagement\WindowsService\ServiceMonitor\ServiceMonitor.csproj", "{57275C09-8AB1-4E8B-812E-D89417F6FB78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneApplication", "Softomation\TollDataManagement\WindowApplication\Toll360LaneApplication\LaneApplication.csproj", "{6D9A7703-0694-4498-B85E-16E831233C0F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SMSetUp", "Softomation\TollDataManagement\SetUp\SMSetUp\SMSetUp.vdproj", "{A5A38472-67CF-42A1-968E-B7EC48E95142}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA318C30-BB12-4395-A805-D707702BE0B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA318C30-BB12-4395-A805-D707702BE0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA318C30-BB12-4395-A805-D707702BE0B2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA318C30-BB12-4395-A805-D707702BE0B2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C832FB5-24D0-4ABD-A6F5-E7ED92AF4AA5}.Debug|Any CPU.ActiveCfg = Debug
+		{8C832FB5-24D0-4ABD-A6F5-E7ED92AF4AA5}.Release|Any CPU.ActiveCfg = Release
+		{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24CA358A-53AD-4711-8991-A3F61196DD40}.Debug|Any CPU.ActiveCfg = Debug
+		{24CA358A-53AD-4711-8991-A3F61196DD40}.Release|Any CPU.ActiveCfg = Release
+		{C2879988-EA28-43FB-B3BB-16429EC06D19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2879988-EA28-43FB-B3BB-16429EC06D19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2879988-EA28-43FB-B3BB-16429EC06D19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2879988-EA28-43FB-B3BB-16429EC06D19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E5DD201-8608-4E07-A0DF-9555165F1C90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E5DD201-8608-4E07-A0DF-9555165F1C90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E5DD201-8608-4E07-A0DF-9555165F1C90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E5DD201-8608-4E07-A0DF-9555165F1C90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57275C09-8AB1-4E8B-812E-D89417F6FB78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57275C09-8AB1-4E8B-812E-D89417F6FB78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57275C09-8AB1-4E8B-812E-D89417F6FB78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57275C09-8AB1-4E8B-812E-D89417F6FB78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D9A7703-0694-4498-B85E-16E831233C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D9A7703-0694-4498-B85E-16E831233C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D9A7703-0694-4498-B85E-16E831233C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D9A7703-0694-4498-B85E-16E831233C0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5A38472-67CF-42A1-968E-B7EC48E95142}.Debug|Any CPU.ActiveCfg = Debug
+		{A5A38472-67CF-42A1-968E-B7EC48E95142}.Release|Any CPU.ActiveCfg = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
+		{CA318C30-BB12-4395-A805-D707702BE0B2} = {A7EF6D21-D8C1-48A6-A3EC-346503F08767}
+		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
+		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{8C832FB5-24D0-4ABD-A6F5-E7ED92AF4AA5} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
+		{3AA2F96C-31A3-4839-AC32-FDB5456BF2BD} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{24CA358A-53AD-4711-8991-A3F61196DD40} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
+		{C2879988-EA28-43FB-B3BB-16429EC06D19} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{9E5DD201-8608-4E07-A0DF-9555165F1C90} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
+		{57275C09-8AB1-4E8B-812E-D89417F6FB78} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{6D9A7703-0694-4498-B85E-16E831233C0F} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
+		{A5A38472-67CF-42A1-968E-B7EC48E95142} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}
+	EndGlobalSection
+EndGlobal

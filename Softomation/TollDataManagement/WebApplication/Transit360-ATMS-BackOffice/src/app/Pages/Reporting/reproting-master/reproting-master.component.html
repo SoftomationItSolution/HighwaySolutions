@@ -1,0 +1,168 @@
+<div class="top-bar">
+    <div class="row d-flex align-items-center">
+        <div class="col-md-6 d-md-block d-none">
+            <p><i class="arrow right"></i><i class="arrow right"></i> Report Management</p>
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-md-end justify-content-between pheader">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<form [formGroup]="DetailsForm">
+    <p-fieldset legend="Report Category">
+        <div class="form-row">
+            <div class="col-md-6 reportControll">
+                <mat-form-field>
+                    <mat-select placeholder="Category" formControlName="CategoryId" required (selectionChange)="CategoryChange($event.value)">
+                        <mat-option *ngFor=" let ht of CategoryData;" [value]="ht.EntryId">
+                            {{ht.CategoryName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('CategoryId').hasError('required')">
+                        Category must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 reportControll">
+                <mat-form-field>
+                    <mat-select placeholder="Sub Category" formControlName="SubCategoryId" required (selectionChange)="SubCategoryChange($event.value)">
+                        <mat-option *ngFor=" let ht of SubCategoryData;" [value]="ht.EntryId">
+                            {{ht.CategoryName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('SubCategoryId').hasError('required')">
+                        Sub Category must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </p-fieldset>
+    <p-fieldset legend="Report Filter">
+        <div class="form-row">
+            <div class="col-md-3 reportControll">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker1" placeholder="Start Date" formControlName="StartDate" required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="DetailsForm.get('StartDate').hasError('required')">
+                        Start Date must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 reportControll">
+                <mat-form-field class="test">
+                    <input class="form-control" placeholder="Start Time" matInput type="time" formControlName="StartTime" required autocomplete="off">
+                    <mat-error *ngIf="DetailsForm.get('StartTime').hasError('required')">
+                        Start Time must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 reportControll">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker2" placeholder="End Date" formControlName="EndDate" required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-error *ngIf="DetailsForm.get('EndDate').hasError('required')">
+                        End Date must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3 reportControll">
+                <mat-form-field class="test">
+                    <input class="form-control" placeholder="End Time" matInput type="time" formControlName="EndTime" required autocomplete="off">
+                    <mat-error *ngIf="DetailsForm.get('EndTime').hasError('required')">
+                        End Time must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==9||SubCategoryId==11||SubCategoryId==15||SubCategoryId==18||SubCategoryId==22||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select placeholder="Shift" formControlName="ShiftId" multiple [(ngModel)]="selectedShiftType" [disabled]="disableShift">
+                        <mat-option #shiftallSelected (click)="toggleAllSelection('Shift')" [value]="0" selected>{{ShiftAll}}</mat-option>
+                        <mat-option *ngFor="let ht of ShiftData" [value]="ht.EntryId">Shift {{ht.EntryId}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('ShiftId').hasError('required')">
+                        Shift must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==11||SubCategoryId==15||SubCategoryId==22||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select placeholder="Lane" formControlName="LaneId" multiple [(ngModel)]="selectedLaneType" [disabled]="disableLane">
+                        <mat-option #laneallSelected (click)="toggleAllSelection('Lane')" [value]="0" selected>{{LaneAll}}</mat-option>
+                        <mat-option *ngFor="let ht of LaneData" [value]="ht.LaneNumber">Lane {{ht.LaneNumber}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('LaneId').hasError('required')">
+                        Lane must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==11||SubCategoryId==15||SubCategoryId==22||SubCategoryId==28">
+                <mat-form-field >
+                    <mat-select placeholder="Vehicle Class" formControlName="ClassId" multiple [(ngModel)]="selectedClassType" [disabled]="disableClass">
+                        <mat-option #classallSelected (click)="toggleAllSelection('Class')" [value]="0" selected>{{ClassAll}}</mat-option>
+                        <mat-option *ngFor="let ht of ClassData" [value]="ht.ClassId">{{ht.ClassName}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('ClassId').hasError('required')">
+                        Vehicle Class must be entered.
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-12 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==9||SubCategoryId==11||SubCategoryId==15||SubCategoryId==18||SubCategoryId==22||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select placeholder="Operator" formControlName="LaneUserId" multiple [(ngModel)]="selectedLaneUser" [disabled]="disableLaneUser">
+                        <mat-option #laneUserallSelected (click)="toggleAllSelection('User')" [value]="0" selected>{{LaneUserAll}}</mat-option>
+                        <mat-option *ngFor="let ht of LaneUserData" [value]="ht.EntryId">{{ht.LoginId}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==11||SubCategoryId==15||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select placeholder="Transactions Type" formControlName="TranTypeId" multiple [(ngModel)]="selectedTranType" (selectionChange)="TranTypeChange($event.value)" [disabled]="disableTranType">
+                        <mat-option #TranTypeallSelected (click)="toggleAllSelection('TranType')" [value]="0" selected>{{TranTypeAll}}</mat-option>
+                        <mat-option *ngFor="let ht of TranTypeData" [value]="ht.EntryId">{{ht.TransactionTypeName}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('TranTypeId').hasError('required')">
+                        Transactions Type must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==22||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select placeholder="Exempt Type" formControlName="ExemptTypeId" multiple [(ngModel)]="selectedExemptType" [disabled]="disableExemptType">
+                        <mat-option #ExemptTypeallSelected (click)="toggleAllSelection('ExemptType')" [value]="0" selected>{{ExemptTypeAll}}</mat-option>
+                        <mat-option *ngFor="let ht of ExemptTypeData" [value]="ht.EntryId">{{ht.ExemptTypeName}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('ExemptTypeId').hasError('required')">
+                        Exempt Type must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4 reportControll" *ngIf="SubCategoryId==0||SubCategoryId==8||SubCategoryId==28">
+                <mat-form-field>
+                    <mat-select  placeholder="Payment Type" formControlName="PaymentTypeId" multiple [(ngModel)]="selectedPaymentType" [disabled]="disablePaymentType">
+                        <mat-option #PaymentTypeallSelected (click)="toggleAllSelection('PaymentType')" [value]="0" selected>{{PaymentTypeAll}}</mat-option>
+                        <mat-option *ngFor="let ht of PaymentTypeData" [value]="ht.EntryId">{{ht.PaymentTypeName}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DetailsForm.get('PaymentTypeId').hasError('required')">
+                        Payment Type must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="warn" aria-label="reset" (click)="ResetFilter()" matTooltip="Reset">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </div>
+        <div class="mat-fab-btn" style="float: right;margin-right: 10px;">
+            <button mat-fab color="primary" aria-label="Filter" (click)="FilterData()" matTooltip="Generate PDF">
+                <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+        </div>
+    </p-fieldset>
+</form>

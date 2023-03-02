@@ -1,0 +1,111 @@
+<p-sidebar class="sideMainbar" *ngIf="LoginStatus" [(visible)]="NavBarCollaspedStatus" (mouseleave)="NavBarCollaspedStatus = false" [baseZIndex]="10000">
+    <div class="sidebar-logo">
+        <div class="peers ai-c fxw-nw bottom-border">
+            <div class="peer peer-greed logo-name" *ngIf="NavBarCollaspedStatus">
+                <img src="../assets/static/images/Comapny/logoText.png" alt="Toll 360&deg;">
+            </div>
+        </div>
+    </div>
+
+    <!-- <ul class="sidebar-menu scrollable" (mouseover)="NavBarCollaspedStatus = true">
+        <li class="nav-item dropdown" *ngFor="let menu of MenuList">
+            <a [class]="currentRoute == menu.MenuUrl ? 'selected' : (currentRoute != menu.MenuUrl ? 'selected1' : 'selected')" class="sidebar-link" [routerLink]="['/'+menu.MenuUrl]" matTooltip="menu.MenuName">
+                <i class="icon-holder c-blue-500" [class]="menu.MenuIcon"></i>
+            </a>
+            <span class="title" [routerLink]="['/'+menu.MenuUrl]">{{menu.MenuName}}</span>
+        </li>
+    </ul> -->
+
+    <ul class="sidebar-menu scrollable" (mouseover)="NavBarCollaspedStatus = true">
+        <li class="nav-item dropdown" *ngFor="let menu of MenuList">
+            <a *ngIf="menu.ParentId == 0 && menu.MenuUrl!='#'" [class]="currentRoute == menu.MenuUrl ? 'selected' : (currentRoute != menu.MenuUrl ? 'selected1' : 'selected')" class="sidebar-link" [routerLink]="['/'+menu.MenuUrl]" matTooltip="{{menu.MenuName}}">
+                <i class="icon-holder c-blue-500" [class]="menu.MenuIcon"></i>
+            </a>
+            <span *ngIf="menu.ParentId == 0 && menu.MenuUrl!='#'" class="title" [routerLink]="['/'+menu.MenuUrl]">{{menu.MenuName}}</span>
+            <a href="#{{menu.MenuName |serchFilter:menu.MenuName:'whitespace'}}" *ngIf="menu.ParentId == 0 && menu.MenuUrl=='#' &&  menu.ChildCount>0" [class]="ParentRoute == menu.MenuName ? 'parentSelected' : (ParentRoute != menu.MenuName ? 'selected1' : 'parentSelected')" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" matTooltip="{{menu.MenuName}}">
+                <i class="icon-holder c-blue-500" [class]="menu.MenuIcon"></i>
+            </a>
+            <span *ngIf="menu.ParentId == 0 && menu.MenuUrl=='#'" class="title">{{menu.MenuName}}</span>
+            <ul class="collapse list-unstyled sidebar-menu scrollable" id="{{menu.MenuName |serchFilter:menu.MenuName:'whitespace'}}" *ngIf="menu.ParentId == 0 && menu.MenuUrl=='#' &&  menu.ChildCount>0">
+                <li class="nav-item dropdown" *ngFor="let submenu of MenuList | serchFilter :menu.EntryId: 'filtermenu'">
+                    <a [class]="currentRoute == submenu.MenuUrl ? 'selected' : (currentRoute != submenu.MenuUrl ? 'selected1' : 'selected')" class="sidebar-link" [routerLink]="['/'+submenu.MenuUrl]" matTooltip="{{submenu.MenuName}}">
+                        <i class="icon-holder c-blue-500" [class]="submenu.MenuIcon"></i>
+                    </a>
+                    <span class="title" [routerLink]="['/'+submenu.MenuUrl]">{{submenu.MenuName}}</span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</p-sidebar>
+<div class="sidebar side-content" *ngIf="LoginStatus">
+    <div class="sidebar-logo">
+        <div class="peers ai-c fxw-nw bottom-border">
+            <div class="peer">
+                <div class="logo">
+                    <img src="../assets/static/images/Comapny/logo.png" alt="Softomation Toll 360&deg;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <ul class="sidebar-menu scrollable" (mouseover)="NavBarCollaspedStatus = true">
+        <li class="nav-item dropdown" *ngFor="let menu of MenuList">
+            <a *ngIf="menu.ParentId == 0 && menu.MenuUrl!='#'" [class]="currentRoute == menu.MenuUrl ? 'selected' : (currentRoute != menu.MenuUrl ? 'selected1' : 'selected')" class="sidebar-link" [routerLink]="['/'+menu.MenuUrl]" matTooltip="{{menu.MenuName}}">
+                <i class="icon-holder c-blue-500" [class]="menu.MenuIcon"></i>
+            </a>
+            <a href="#{{menu.MenuName |serchFilter:menu.MenuName:'whitespace'}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" *ngIf="menu.ParentId == 0 && menu.MenuUrl=='#' &&  menu.ChildCount>0" [class]="ParentRoute == menu.MenuName ? 'parentSelected' : (ParentRoute != menu.MenuName ? 'selected1' : 'parentSelected')" matTooltip="{{menu.MenuName}}">
+                <i class="icon-holder c-blue-500" [class]="menu.MenuIcon"></i>
+            </a>
+            <ul class="collapse list-unstyled sidebar-menu scrollable" id="{{menu.MenuName |serchFilter:menu.MenuName:'whitespace'}}" *ngIf="menu.ParentId == 0 && menu.MenuUrl=='#' &&  menu.ChildCount>0">
+                <li class="nav-item dropdown" *ngFor="let submenu of MenuList | serchFilter :menu.EntryId: 'filtermenu'">
+                    <a [class]="currentRoute == submenu.MenuUrl ? 'selected' : (currentRoute != submenu.MenuUrl ? 'selected1' : 'selected')" class="sidebar-link" [routerLink]="['/'+submenu.MenuUrl]" matTooltip="{{submenu.MenuName}}">
+                        <i class="icon-holder c-blue-500" [class]="submenu.MenuIcon"></i>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div class="header-container" *ngIf="LoginStatus">
+    <span class="fsz-sm c-blue-500">{{now | date:'dd-MMM-yyy hh:mm:ss a'}}</span>
+    <span class="fsz-sm loginId">{{CurrentLoginId}}</span>
+    <div class="expand" (click)="openFullscreen()" *ngIf="max==1">
+        <i class="icon-holder c-blue-500 pi pi-window-maximize"></i>
+    </div>
+    <div class="expand" (click)="closeFullscreen()" *ngIf="max==0">
+        <i class="icon-holder c-blue-500 pi pi-window-minimize"></i>
+    </div>
+    <!-- (click)="logout()" -->
+    <div class="logout" mat-icon-button [matMenuTriggerFor]="menu">
+        <i class="icon-holder c-blue-500 pi pi-cog" aria-hidden="true"></i>
+    </div>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="ResetPassword();" *ngIf="LogedUserId != 0">
+            <mat-icon>security</mat-icon><span>Reset Password</span>
+        </button>
+        <button mat-menu-item (click)="SystemSetting();" *ngIf="ss != 0">
+            <mat-icon>settings</mat-icon><span>System Setting</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout();">
+            <mat-icon>power_settings_new</mat-icon><span>Logout</span>
+        </button>
+
+    </mat-menu>
+</div>
+<div [ngClass]="{'main-content':LoginStatus == true, 'main-content-login': LoginStatus != true}">
+    <div [ngClass]="{'app-container':LoginStatus == true, 'app-container-login': LoginStatus != true}">
+        <div class="map child-container" id="child_container">
+            <p-toast></p-toast>
+            <p-confirmDialog [baseZIndex]="10000" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>
+<footer class="bdT ta-c p-30 lh-0 fsz-sm c-grey-600 footer-cell"><span>Copyright © {{CurrentYear}} Developed by
+            <a title="Superwave Toll 360" rel="noopener noreferrer">Softomation Transit 360&deg;</a>
+            All rights reserved.</span></footer>
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.8)" size="medium" color="#fff" type="square-jelly-box" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>

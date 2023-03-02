@@ -1,0 +1,5 @@
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end,
+ ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    border-width: 0px !important;
+    color: transparent !important;
+}

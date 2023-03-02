@@ -1,0 +1,47 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<h2 mat-dialog-title>VMS List</h2>
+<div class="table-responsive table-height-popup">
+    <div class="table-responsive table-height-master">
+        <p-table #dt [value]="VmsList" [rowHover]="true" [scrollable]="true" 
+         [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines" 
+        [globalFilterFields]="['DeviceName','DirectionName','IpAddress','PortNumber','Latitude','Longitude']">
+            <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                    <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+            <tr>
+                <th>S. No.</th>
+                <th pSortableColumn="DeviceName">Name <p-sortIcon field="DeviceName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="DirectionName">Direction <p-sortIcon field="DirectionName"></p-sortIcon>
+                </th>
+                <th pSortableColumn="IpAddress">Ip Address <p-sortIcon field="IpAddress"></p-sortIcon>
+                </th>
+                <th pSortableColumn="PortNumber">Port Number <p-sortIcon field="PortNumber"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Latitude">Latitude <p-sortIcon field="Latitude"></p-sortIcon>
+                </th>
+                <th pSortableColumn="Longitude">Longitude <p-sortIcon field="Longitude"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+            <tr style="font-size: 10px;">
+                <td>{{i+1}}</td>
+                <td>{{rowData.DeviceName}}</td>
+                <td>{{rowData.DirectionName}}</td>
+                <td>{{rowData.IpAddress}}</td>
+                <td>{{rowData.PortNumber}}</td>
+                <td>{{rowData.Latitude}}</td>
+                <td>{{rowData.Longitude}}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

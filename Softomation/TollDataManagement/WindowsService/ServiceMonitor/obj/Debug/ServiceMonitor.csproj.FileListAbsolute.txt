@@ -1,0 +1,14 @@
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.exe.config
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.exe
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.pdb
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Softomation.DMS.CommonLibrary.dll
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Softomation.DMS.CommonLibrary.pdb
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.AssemblyReference.cache
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.CoreCompileInputs.cache
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.CopyComplete
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.exe
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.pdb
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.ProjectInstaller.resources
+E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.GenerateResource.cache
