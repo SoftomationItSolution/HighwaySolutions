@@ -26,4 +26,25 @@ export class DefaultLayoutComponent implements OnInit {
     
   }
 
+  menuTogel(){
+    let body = document.getElementsByTagName('body')[0];
+    if(body.classList.length==0){
+      body.classList.add("sidebar-enable");
+      body.classList.add("vertical-collpsed");
+    }
+    else{
+      body.classList.remove("sidebar-enable");
+      body.classList.remove("vertical-collpsed");
+    }
+  }
+
+  menuED(event:any){
+    console.log(event)
+    var target = event.target;
+    console.log(target)
+    var parent = target.parentElement;//parent of "target"
+    console.log(parent)
+    let mm = document.getElementById('sidebar-menu')
+  }
+
 }
