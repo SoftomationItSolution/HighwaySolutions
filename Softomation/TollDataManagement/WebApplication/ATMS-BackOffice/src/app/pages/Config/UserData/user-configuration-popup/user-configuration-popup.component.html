@@ -1,0 +1,151 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="DataDetailsForm">
+    <h2 mat-dialog-title>{{PageTitle}}</h2>
+    <div class="popupBox">
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Client" formControlName="ClientId" required (selectionChange)="ClientChnage($event.value)">
+                        <mat-option *ngFor=" let ht of ClientData;" [value]="ht.EntryId">
+                            {{ht.ClientName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('ClientId').hasError('required')">
+                        Client must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Role Name" formControlName="RoleId" required>
+                        <mat-option *ngFor=" let ht of RoleData;" [value]="ht.EntryId">
+                            {{ht.RoleName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('RoleId').hasError('required')">
+                        Role Name must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="First Name" formControlName="FirstName" autocomplete="off" required>
+                    <mat-error *ngIf="DataDetailsForm.get('FirstName').hasError('required')">
+                        First Name must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Last Name" formControlName="LastName" autocomplete="off" required>
+                    <mat-error *ngIf="DataDetailsForm.get('LastName').hasError('required')">
+                        Last Name must be entered.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Mobile Number" formControlName="MobileNumber" autocomplete="off" required>
+                    <mat-error *ngIf="DataDetailsForm.get('MobileNumber').hasError('required')">
+                        Mobile number must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DataDetailsForm.get('MobileNumber').hasError('pattern')">
+                        {{error.MobileNumber}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Email Id" formControlName="EmailId" autocomplete="off" required>
+                    <mat-error *ngIf="DataDetailsForm.get('EmailId').hasError('required')">
+                        Email id must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DataDetailsForm.get('EmailId').hasError('pattern')">
+                        {{error.EmailId}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput placeholder="Login Id" formControlName="LoginId" autocomplete="off" required>
+                    <mat-error *ngIf="DataDetailsForm.get('LoginId').hasError('required')">
+                        Login id must be entered.
+                    </mat-error>
+                    <mat-error *ngIf="DataDetailsForm.get('LoginId').hasError('pattern')">
+                        {{error.LoginId}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker1" placeholder="Account Expiry Date" formControlName="AccountExpiredDate" required readonly>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                    <mat-error *ngIf="DataDetailsForm.get('AccountExpiredDate').hasError('required')">
+                        Account Expiry Date must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="User Type" formControlName="UserType" required (selectionChange)="UserTypeChnage($event.value)">
+                        <mat-option *ngFor=" let ht of UserTypeList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('UserType').hasError('required')">
+                        User Type must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Plaza" formControlName="PlazaId" required (selectionChange)="PlazaChnage($event.value)">
+                        <mat-option [value]="0" *ngIf="this.selectedUserType==1">
+                            ALL
+                        </mat-option>
+                        <mat-option *ngFor=" let ht of PlazaData;" [value]="ht.EntryId">
+                            {{ht.PlazaName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('PlazaId').hasError('required')">
+                        Plaza must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-checkbox [checked]="DataStatus" (change)="onChange($event)">Status</mat-checkbox>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div align="end">
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="primary" aria-label="Add" (click)="ClearDetails()" matTooltip="Clear">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </div>
+        <div class="mat-fab-btn" style="float: right;">
+            <button mat-fab color="primary" aria-label="Add" (click)="SaveDetails()" matTooltip="Save">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

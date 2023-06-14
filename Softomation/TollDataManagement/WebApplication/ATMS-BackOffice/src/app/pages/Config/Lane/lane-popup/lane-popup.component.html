@@ -1,0 +1,64 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<form [formGroup]="DataDetailsForm">
+    <h2 mat-dialog-title>{{PageTitle}}</h2>
+    <div class="popupBox">
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Gantry" formControlName="GantryId" required>
+                        <mat-option *ngFor=" let ht of GantryData;" [value]="ht.EntryId">
+                            {{ht.GantryName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('GantryId').hasError('required')">
+                        Gantry must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Lane Number" formControlName="LaneNumber" required>
+                        <mat-option *ngFor=" let ht of LaneNmberList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('LaneNumber').hasError('required')">
+                        Lane Number must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-select placeholder="Direction" formControlName="LaneDirection" required>
+                        <mat-option *ngFor=" let ht of DirectionList;" [value]="ht.Id">
+                            {{ht.Name}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="DataDetailsForm.get('LaneDirection').hasError('required')">
+                        Direction must be selected.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-checkbox [checked]="DataStatus" (change)="onChange($event)">Status</mat-checkbox>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div align="end">
+        <div *ngIf="ButtonShow==true">
+            <div class="mat-fab-btn" style="float: right;">
+                <button mat-fab color="primary" aria-label="Add" (click)="SaveDetails()" matTooltip="Save">
+                <mat-icon>save</mat-icon>
+            </button>
+            </div>
+        </div>
+    </div>
+</form>

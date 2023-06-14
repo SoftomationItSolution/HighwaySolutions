@@ -1,0 +1,43 @@
+<div class="mat-fab-btn" style="float: right;">
+    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<h2 mat-dialog-title>System Setting</h2>
+<form [formGroup]="DataDetailsForm">
+    <div class="clearfix"></div>
+    <div class="form-row">
+        <div class="col-md-4">
+            <mat-form-field style="margin-top: -20px;">
+                <mat-select placeholder="Allotment Days" formControlName="AllotmentDays" required>
+                    <mat-option *ngFor=" let ht of DaysList;" [value]="ht.Id">
+                        {{ht.Name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="DataDetailsForm.get('AllotmentDays').hasError('required')">
+                    Allotment Days must be selected.
+                </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4 system-setting">
+            <span class="p-float-label">
+                <p-inputSwitch id="float-Login" formControlName="LoginAccess" [(ngModel)]="LoginChecked"></p-inputSwitch>
+                <label for="float-Login">Login Access</label>
+            </span>
+        </div>
+        <div class="col-md-4 system-setting">
+            <span class="p-float-label">
+                <p-inputSwitch id="float-Excempt"  formControlName="ExemptAccess" [(ngModel)]="ExemptChecked"></p-inputSwitch>
+                <label for="float-Excempt">Exempt Access</label>
+            </span>
+        </div>
+      
+    </div>
+    <div align="end">
+        <div class="mat-fab-btn" style="float: right;" *ngIf="DataUpdate != 0">
+            <button mat-fab color="primary" aria-label="Add" (click)="UpdateSetting()" matTooltip="Save">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

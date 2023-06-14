@@ -29,11 +29,11 @@
               "src/styles.css"
             ],
             "scripts": [
+              "src/assets/js/pages/mainapp.js",
               "src/assets/libs/jquery/jquery.min.js",
-              "assets/libs/jquery/jquery.min.js",
-              "assets/libs/apexcharts/apexcharts.min.js",
-              "assets/js/pages/dashboard.init.js",
-              "assets/js/pages/mainapp.js"
+              "src/assets/libs/jquery/jquery.min.js",
+              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "src/assets/js/pages/dashboard.init.js"
             ]
           },
           "configurations": {
@@ -99,12 +99,24 @@
               "src/assets"
             ],
             "styles": [
+              "src/assets/css/icons.min.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/app.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/pages/mainapp.js",
+              "src/assets/libs/jquery/jquery.min.js",
+              "src/assets/libs/jquery/jquery.min.js",
+              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "src/assets/js/pages/dashboard.init.js"
+            ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "a33d8e84-cba8-4cb2-8348-6fea95772545"
   }
 }

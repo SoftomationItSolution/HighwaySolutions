@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30611.23
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B88B4B17-BE84-43C7-933A-5E8EB50D408D}"
 EndProject
@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApplication", "WebApplic
 EndProject
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApplication", "Softomation\TollDataManagement\WebApplication\", "{CA318C30-BB12-4395-A805-D707702BE0B2}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_52261"
 		Debug.AspNetCompiler.PhysicalPath = "Softomation\TollDataManagement\WebApplication\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52261\"

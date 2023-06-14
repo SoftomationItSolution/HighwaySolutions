@@ -10,11 +10,13 @@ import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.
 const routes: Routes =[
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
+  
   {
     path: 'dashboard',
     redirectTo: 'dashboard',
     pathMatch: 'full',
-  }, {
+  },  
+  {
     path: '',
     component: DefaultLayoutComponent,
     children: [
