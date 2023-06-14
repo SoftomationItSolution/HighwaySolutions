@@ -13,9 +13,10 @@ export class DefaultLayoutComponent implements OnInit {
   public perfectScrollbarConfig = {
     suppressScrollX: true,
   };
-
+  docElement: HTMLElement;
+  isFullScreen: boolean = false;
   constructor() {
-    
+    this.docElement = document.documentElement;
   }
 
   ngOnInit() {
@@ -39,12 +40,82 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   menuED(event:any){
-    console.log(event)
     var target = event.target;
-    console.log(target)
-    var parent = target.parentElement;//parent of "target"
-    console.log(parent)
-    let mm = document.getElementById('sidebar-menu')
+    if(target.localName=="span"){
+      let atag=target.parentElement;
+      let p1=atag.parentElement
+      let childClass=p1.querySelector('ul')
+      if(childClass != null){
+        if(childClass.classList.contains("mm-show")){
+          p1.classList.remove("mm-active")
+          childClass.classList.remove("mm-show")
+          atag.setAttribute('aria-expanded', 'false');
+          return;
+        }
+      }
+    }
+    else{
+      let p1=target.parentElement
+      let childClass=p1.querySelector('ul')
+      if(childClass != null){
+        if(childClass.classList.contains("mm-show")){
+          p1.classList.remove("mm-active")
+          childClass.classList.remove("mm-show")
+          target.setAttribute('aria-expanded', 'false');
+          return;
+        }
+      }
+    }
+    const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
+    allChildElementsOfParentWithClass.forEach((element) => {
+      element.classList.remove('mm-show');
+    });
+   
+    if(target.localName=="span"){
+      let atag=target.parentElement;
+      let p1=atag.parentElement
+      let childClass=p1.querySelector('ul')
+      if(childClass != null){
+        if(childClass.classList.contains("mm-show")){
+          p1.classList.remove("mm-active")
+          childClass.classList.remove("mm-show")
+          atag.setAttribute('aria-expanded', 'false');
+        }
+        else{
+          p1.classList.add("mm-active")
+          childClass.classList.add("mm-show")
+          atag.setAttribute('aria-expanded', 'true');
+         
+        }
+      }
+    }
+    else{
+      let p1=target.parentElement
+      let childClass=p1.querySelector('ul')
+      if(childClass != null){
+        if(childClass.classList.contains("mm-show")){
+          p1.classList.remove("mm-active")
+          childClass.classList.remove("mm-show")
+          target.setAttribute('aria-expanded', 'false');
+        }
+        else{
+          p1.classList.add("mm-active")
+          childClass.classList.add("mm-show")
+          target.setAttribute('aria-expanded', 'true');
+        }
+      }
+    }
+    // let mm = document.getElementById('sidebar-menu')
   }
+
+  toggleFullScreen() {
+    if (!this.isFullScreen) {
+      this.docElement.requestFullscreen();
+    }
+    else {
+      document.exitFullscreen();
+    }
+    this.isFullScreen = !this.isFullScreen;
+}
 
 }

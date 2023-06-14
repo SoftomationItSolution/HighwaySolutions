@@ -33,7 +33,7 @@
 
             <div class="d-flex">
                 <div class="dropdown d-none d-lg-inline-block ms-1">
-                    <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                    <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen" (click)="toggleFullScreen()">
                         <i class="mdi mdi-fullscreen"></i>
                     </button>
                 </div>
@@ -69,7 +69,7 @@
             <div id="sidebar-menu" class="mm-active">
                 <ul class="metismenu list-unstyled mm-show" id="side-menu">
                     <li class="menu-title">Menu</li>
-                    <li class="" >
+                    <li class="" (click)="menuED($event)">
                         <a class="waves-effect active" aria-expanded="false">
                             <i class="dripicons-home"></i>
                             <span>Dashboard</span>
@@ -86,7 +86,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li class="">
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="fa fa-universal-access" aria-hidden="true"></i>
                             <span>Access Manage</span>
@@ -97,7 +97,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="fa fa-truck" aria-hidden="true"></i>
                             <span>ADAS</span>
@@ -108,7 +108,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="fa fa-bus" aria-hidden="true"></i>
                             <span>ATCC</span>
@@ -119,7 +119,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="ti-video-camera"></i>
                             <span>VIDS</span>
@@ -130,7 +130,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="fa fa-file-video" aria-hidden="true"></i>
                             <span>VSDS</span>
@@ -141,7 +141,7 @@
                             <li><a href="#">Link 3</a></li>
                         </ul>
                     </li>
-                    <li>
+                    <li class="" (click)="menuED($event)">
                         <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
                             <i class="fa fa-clock" aria-hidden="true"></i>
                             <span>TTMS</span>
