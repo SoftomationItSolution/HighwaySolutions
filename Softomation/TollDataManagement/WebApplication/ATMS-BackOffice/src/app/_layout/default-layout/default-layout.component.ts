@@ -15,6 +15,7 @@ export class DefaultLayoutComponent implements OnInit {
   };
   docElement: HTMLElement;
   isFullScreen: boolean = false;
+  isProfilepopUp: boolean = false;
   constructor() {
     this.docElement = document.documentElement;
   }

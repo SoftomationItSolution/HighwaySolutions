@@ -39,13 +39,13 @@
                 </div>
                 <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" (click)="isProfilepopUp=!isProfilepopUp">
                         <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-7.jpg"
                             alt="Header Avatar">
                         <span class="d-none d-xl-inline-block ms-1">User</span>
                         <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-end">
+                    <div class="dropdown-menu dropdown-menu-end" [ngClass]="isProfilepopUp ? 'show' : 'show1'">
                         <!-- item-->
                         <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle-outline font-size-16 align-middle me-1"></i> Profile</a>
                         <a class="dropdown-item" href="#"><i class="mdi mdi-wallet-outline font-size-16 align-middle me-1"></i> Change Password</a>
@@ -249,12 +249,7 @@
             <div class="form-check form-switch mb-3">
                 <input class="form-check-input theme-choice" type="checkbox" id="light-mode-switch" checked>
                 <label class="form-check-label" for="light-mode-switch">Light Mode</label>
-                <!-- <label for="light-mode-switch" data-on-label="Yes" data-off-label="No">Light Mode</label> -->
             </div>
-            <!-- <div class="form-check form-switch mb-3">
-                <input class="form-check-input theme-choice" type="checkbox" id="hide-menu" data-bsStyle="assets/css/bootstrap-dark.min.css" data-appStyle="assets/css/app-dark.min.css">
-                <label class="form-check-label" for="hide-menu">Full View</label>
-            </div> -->
         </div>
     </div>
 </div>
