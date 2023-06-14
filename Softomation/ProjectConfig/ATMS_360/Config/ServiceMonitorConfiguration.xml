@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ServiceMonitorConfiguration xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <DatabaseService>MSSQL$SQLEXPRESS2012</DatabaseService>
+   <OtherService>Softomation-CRDA-Service,Softomation-PDS-Service</OtherService>
+   <LogFolder>Toll360-P\log,Toll360-C\log</LogFolder>
+</ServiceMonitorConfiguration>

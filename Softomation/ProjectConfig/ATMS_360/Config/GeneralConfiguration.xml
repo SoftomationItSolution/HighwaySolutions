@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GeneralConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+   <DatabaseServer>HEMANTPUNDIR-R7\SQLEXPRESS</DatabaseServer>
+  <DatabaseUser>sa</DatabaseUser>
+  <DatabasePassword>kVxO0p6c7X6Fiyqz/dN7Nw==</DatabasePassword>
+  <DatabaseName>ATMS_F</DatabaseName>
+</GeneralConfiguration>
