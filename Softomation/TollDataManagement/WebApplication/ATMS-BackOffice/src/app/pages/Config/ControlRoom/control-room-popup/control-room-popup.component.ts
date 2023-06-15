@@ -12,8 +12,8 @@ import { EmittersService } from 'src/app/allservices/emitters.service';
   styleUrls: ['./control-room-popup.component.css']
 })
 export class ControlRoomPopupComponent implements OnInit {
-  PageTitle;
-  DataDetailsForm: FormGroup;
+  PageTitle:any;
+  DataDetailsForm!: FormGroup;
   error = errorMessages;
   EntryId: number;
   DataStatus = true;
@@ -30,8 +30,7 @@ export class ControlRoomPopupComponent implements OnInit {
   ngOnInit(): void {
     this.PageTitle = 'Create New Contol Room';
     this.DataDetailsForm = new FormGroup({
-      ControlRoomName: new FormControl('', [
-        Validators.required,
+      ControlRoomName: new FormControl('', [Validators.required,
         Validators.pattern(regExps.AlphaNumericSingleSpace)
       ])
     });
@@ -71,7 +70,7 @@ export class ControlRoomPopupComponent implements OnInit {
     );
   }
 
-  onChange(event) {
+  onChange(event:any) {
     if (event.checked) {
       this.DataStatus = true;
       this.DataStatusDs = 1;

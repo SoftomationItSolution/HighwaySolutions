@@ -15,11 +15,8 @@ export class DeviceDataComponent implements OnInit {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
-  TMSId;
-  UserId;
   DevicesData: any;
   ErrorData: any;
-  currentRoute;
   PermissionData: any;
   LogedRoleId;
   ConrtolRoomId = 0;
@@ -105,7 +102,7 @@ export class DeviceDataComponent implements OnInit {
   this.dialog.open(DevicePopupComponent, dialogConfig);
   }
 
-  onRowEditInit(TransactionRowData) {
+  onRowEditInit(TransactionRowData:any) {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

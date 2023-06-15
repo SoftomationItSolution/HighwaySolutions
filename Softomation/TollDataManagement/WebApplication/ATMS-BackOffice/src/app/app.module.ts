@@ -34,7 +34,7 @@ import { SplitterModule } from 'primeng/splitter';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MessageModule} from 'primeng/message';
 import { PanelModule} from 'primeng/panel';
-import { TableModule } from 'primeng/table';
+import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,8 +84,7 @@ import { TableModule } from 'primeng/table';
     FieldsetModule,
     MessageModule,
     PanelModule,
-    TableModule,
- 
+    MatDialogModule,
   ],
   providers: [DataModel],
   bootstrap: [AppComponent]
