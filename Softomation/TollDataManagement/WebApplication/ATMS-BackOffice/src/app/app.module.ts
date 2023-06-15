@@ -35,12 +35,14 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { MessageModule} from 'primeng/message';
 import { PanelModule} from 'primeng/panel';
 import { TableModule } from 'primeng/table';
+import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
     LoginComponent,
     PageNotFoundComponent,
+    SerchFilterPipe
   ],
   imports: [
     BrowserAnimationsModule,

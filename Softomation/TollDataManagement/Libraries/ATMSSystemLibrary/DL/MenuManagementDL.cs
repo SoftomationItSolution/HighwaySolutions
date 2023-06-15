@@ -91,8 +91,8 @@ namespace Softomation.ATMSSystemLibrary.DL
         {
             MenuManagementIL menu = new MenuManagementIL();
 
-            if (dr["EntryId"] != DBNull.Value)
-                menu.MenuId = Convert.ToInt64(dr["EntryId"]);
+            if (dr["MenuId"] != DBNull.Value)
+                menu.MenuId = Convert.ToInt64(dr["MenuId"]);
 
             if (dr["MenuName"] != DBNull.Value)
                 menu.MenuName = Convert.ToString(dr["MenuName"]);
@@ -114,9 +114,6 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["OderBy"] != DBNull.Value)
                 menu.OderBy = Convert.ToInt16(dr["OderBy"]);
-
-            if (dr["EventId"] != DBNull.Value)
-                menu.EventId = Convert.ToInt16(dr["EventId"]);
 
             if (dr["CreatedDate"] != DBNull.Value)
                 menu.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);

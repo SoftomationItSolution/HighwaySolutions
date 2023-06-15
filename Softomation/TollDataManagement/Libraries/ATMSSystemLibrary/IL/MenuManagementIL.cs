@@ -11,7 +11,6 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 parentId;
         Int16 mennuAccess;
         Int16 oderBy;
-        Int16 eventId;
         Int16 childCount;
         public MenuManagementIL()
         {
@@ -22,7 +21,6 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.parentId = 0;
             this.mennuAccess = 0;
             this.oderBy = 0;
-            this.eventId = 0;
             this.childCount = 0;
         }
         public Int64 MenuId
@@ -115,18 +113,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Int16 EventId
-        {
-            get
-            {
-                return eventId;
-            }
-
-            set
-            {
-                eventId = value;
-            }
-        }
+       
 
         public Int16 ChildCount
         {

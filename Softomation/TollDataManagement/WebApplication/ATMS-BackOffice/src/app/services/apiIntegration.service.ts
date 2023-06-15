@@ -88,5 +88,11 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix+'/LogoutUser', data, { headers: headers_object });
   }
 
+  GetMenuMasterByRole(RoleId:any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix+ '/GetMenu?RoleId=' + RoleId, { headers: headers_object });
+  }
+
   
 }

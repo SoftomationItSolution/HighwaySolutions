@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit {
     this.api.Login(obj).subscribe(
       data => {
         this.spinner.hide();
-        console.log(data)
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.loginReposnse = data.ResponseData;

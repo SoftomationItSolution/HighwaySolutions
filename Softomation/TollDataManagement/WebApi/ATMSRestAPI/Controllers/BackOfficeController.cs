@@ -211,7 +211,7 @@ namespace ATMSRestAPI.Controllers
                     obj = MenuManagementBL.GetByRoleId(RoleId);
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = null;
+                response.ResponseData = obj;
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
