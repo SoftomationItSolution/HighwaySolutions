@@ -28,7 +28,7 @@ namespace Softomation.ATMSSystemLibrary
         public static int passwordIterations = 2;                  // can be any number
         public static string initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
         public static int keySize = 256;                // can be 192 or 128
-        public static string JWTkey = AppProvider + "TollingSolution";
+        public static string JWTkey = AppProvider + "TollingSolutionSystemProvider";
         #endregion
 
 

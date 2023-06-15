@@ -41,3 +41,17 @@ C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsSer
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.CopyComplete
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.exe
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\CRDataAggregationService.exe.config
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\CRDataAggregationService.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\CRDataAggregationService.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Softomation.DMS.CommonLibrary.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Softomation.DMS.CommonLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.AssemblyReference.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.ProjectInstaller.resources
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.GenerateResource.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.CoreCompileInputs.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.CopyComplete
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.pdb
