@@ -41,3 +41,17 @@ C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsSer
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.csproj.CopyComplete
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\Softomation.DMS.Plaza.DataSynchronization.exe
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\Softomation.DMS.Plaza.DataSynchronization.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Softomation.DMS.Plaza.DataSynchronization.exe.config
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Softomation.DMS.Plaza.DataSynchronization.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Softomation.DMS.Plaza.DataSynchronization.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Softomation.DMS.CommonLibrary.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\bin\Debug\Softomation.DMS.CommonLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.csproj.AssemblyReference.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.ProjectInstaller.resources
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.csproj.GenerateResource.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.csproj.CoreCompileInputs.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\PlazaDataSynchronization.csproj.CopyComplete
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\Softomation.DMS.Plaza.DataSynchronization.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\obj\Debug\Softomation.DMS.Plaza.DataSynchronization.pdb

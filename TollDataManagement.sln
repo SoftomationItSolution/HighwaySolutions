@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33529.622
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B88B4B17-BE84-43C7-933A-5E8EB50D408D}"
 EndProject
@@ -58,6 +58,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneApplication", "Softomat
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SMSetUp", "Softomation\TollDataManagement\SetUp\SMSetUp\SMSetUp.vdproj", "{A5A38472-67CF-42A1-968E-B7EC48E95142}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMSRestAPI", "Softomation\TollDataManagement\WebApi\ATMSRestAPI\ATMSRestAPI.csproj", "{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMSSystemLibrary", "Softomation\TollDataManagement\Libraries\ATMSSystemLibrary\ATMSSystemLibrary.csproj", "{686B8C11-7EA7-437E-8454-F8598EA29201}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -106,6 +110,14 @@ Global
 		{6D9A7703-0694-4498-B85E-16E831233C0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A5A38472-67CF-42A1-968E-B7EC48E95142}.Debug|Any CPU.ActiveCfg = Debug
 		{A5A38472-67CF-42A1-968E-B7EC48E95142}.Release|Any CPU.ActiveCfg = Release
+		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{686B8C11-7EA7-437E-8454-F8598EA29201}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{686B8C11-7EA7-437E-8454-F8598EA29201}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{686B8C11-7EA7-437E-8454-F8598EA29201}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{686B8C11-7EA7-437E-8454-F8598EA29201}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +135,8 @@ Global
 		{57275C09-8AB1-4E8B-812E-D89417F6FB78} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 		{6D9A7703-0694-4498-B85E-16E831233C0F} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
 		{A5A38472-67CF-42A1-968E-B7EC48E95142} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
+		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
+		{686B8C11-7EA7-437E-8454-F8598EA29201} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

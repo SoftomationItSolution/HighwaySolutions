@@ -6,8 +6,10 @@ import { LoginComponent } from './login/login.component';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
-import { MatDialogModule } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { DataModel } from './services/data-model.model';
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -20,7 +22,6 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumberModule} from 'primeng/inputnumber';
 import { RadioButtonModule} from 'primeng/radiobutton';
@@ -42,9 +43,11 @@ import { TableModule } from 'primeng/table';
     PageNotFoundComponent,
   ],
   imports: [
+    BrowserAnimationsModule,
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     AppRoutingModule,
-    MatDialogModule,
     NgxSpinnerModule,
     ReactiveFormsModule,
     ReactiveFormsModule,
@@ -52,11 +55,14 @@ import { TableModule } from 'primeng/table';
     MatIconModule,
     MatMenuModule,
     MatDividerModule,
+    HttpClientModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatFormFieldModule,
     MatInputModule,
     MatTooltipModule,
-    MatSnackBarModule,
     MatTooltipModule,
-    MatDialogModule,
     MatInputModule,
     MatIconModule,
     MatDividerModule,
@@ -79,8 +85,9 @@ import { TableModule } from 'primeng/table';
     MessageModule,
     PanelModule,
     TableModule,
+ 
   ],
-  providers: [],
+  providers: [DataModel],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

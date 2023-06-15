@@ -27,3 +27,17 @@ C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsSer
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.CopyComplete
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.exe
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.exe.config
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\ServiceMonitor.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Softomation.DMS.CommonLibrary.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\bin\Debug\Softomation.DMS.CommonLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.AssemblyReference.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.ProjectInstaller.resources
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.GenerateResource.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.CoreCompileInputs.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.csproj.CopyComplete
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.exe
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\ServiceMonitor\obj\Debug\ServiceMonitor.pdb
