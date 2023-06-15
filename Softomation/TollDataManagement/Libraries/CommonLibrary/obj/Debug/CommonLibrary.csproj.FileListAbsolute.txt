@@ -41,3 +41,12 @@ C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\Libraries\
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CopyComplete
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.dll
 C:\Users\Shiv\Documents\GitHub\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Debug\Softomation.DMS.CommonLibrary.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Debug\Softomation.DMS.CommonLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.AssemblyReference.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CoreCompileInputs.cache
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CopyComplete
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.dll
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.pdb
