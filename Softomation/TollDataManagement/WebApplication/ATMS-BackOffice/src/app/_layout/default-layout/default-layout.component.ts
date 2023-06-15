@@ -25,29 +25,38 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   GetSystemMenu() {
-    
+
   }
 
-  menuTogel(){
+  rightBar() {
     let body = document.getElementsByTagName('body')[0];
-    if(body.classList.length==0){
-      body.classList.add("sidebar-enable");
-      body.classList.add("vertical-collpsed");
-    }
-    else{
+    if(body.classList.contains("right-bar-enabled"))
+        body.classList.remove("right-bar-enabled");
+    else
+      body.classList.add("right-bar-enabled");
+  }
+
+  menuTogel() {
+    let body = document.getElementsByTagName('body')[0];
+    if(body.classList.contains("sidebar-enable")){
       body.classList.remove("sidebar-enable");
       body.classList.remove("vertical-collpsed");
     }
+    else{
+      body.classList.add("sidebar-enable");
+      body.classList.add("vertical-collpsed");
+    }
+    
   }
 
-  menuED(event:any){
+  menuED(event: any) {
     var target = event.target;
-    if(target.localName=="span"){
-      let atag=target.parentElement;
-      let p1=atag.parentElement
-      let childClass=p1.querySelector('ul')
-      if(childClass != null){
-        if(childClass.classList.contains("mm-show")){
+    if (target.localName == "span") {
+      let atag = target.parentElement;
+      let p1 = atag.parentElement
+      let childClass = p1.querySelector('ul')
+      if (childClass != null) {
+        if (childClass.classList.contains("mm-show")) {
           p1.classList.remove("mm-active")
           childClass.classList.remove("mm-show")
           atag.setAttribute('aria-expanded', 'false');
@@ -55,11 +64,11 @@ export class DefaultLayoutComponent implements OnInit {
         }
       }
     }
-    else{
-      let p1=target.parentElement
-      let childClass=p1.querySelector('ul')
-      if(childClass != null){
-        if(childClass.classList.contains("mm-show")){
+    else {
+      let p1 = target.parentElement
+      let childClass = p1.querySelector('ul')
+      if (childClass != null) {
+        if (childClass.classList.contains("mm-show")) {
           p1.classList.remove("mm-active")
           childClass.classList.remove("mm-show")
           target.setAttribute('aria-expanded', 'false');
@@ -70,36 +79,37 @@ export class DefaultLayoutComponent implements OnInit {
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
+      element.classList.remove('mm-active');
     });
-   
-    if(target.localName=="span"){
-      let atag=target.parentElement;
-      let p1=atag.parentElement
-      let childClass=p1.querySelector('ul')
-      if(childClass != null){
-        if(childClass.classList.contains("mm-show")){
+
+    if (target.localName == "span") {
+      let atag = target.parentElement;
+      let p1 = atag.parentElement
+      let childClass = p1.querySelector('ul')
+      if (childClass != null) {
+        if (childClass.classList.contains("mm-show")) {
           p1.classList.remove("mm-active")
           childClass.classList.remove("mm-show")
           atag.setAttribute('aria-expanded', 'false');
         }
-        else{
+        else {
           p1.classList.add("mm-active")
           childClass.classList.add("mm-show")
           atag.setAttribute('aria-expanded', 'true');
-         
+
         }
       }
     }
-    else{
-      let p1=target.parentElement
-      let childClass=p1.querySelector('ul')
-      if(childClass != null){
-        if(childClass.classList.contains("mm-show")){
+    else {
+      let p1 = target.parentElement
+      let childClass = p1.querySelector('ul')
+      if (childClass != null) {
+        if (childClass.classList.contains("mm-show")) {
           p1.classList.remove("mm-active")
           childClass.classList.remove("mm-show")
           target.setAttribute('aria-expanded', 'false');
         }
-        else{
+        else {
           p1.classList.add("mm-active")
           childClass.classList.add("mm-show")
           target.setAttribute('aria-expanded', 'true');
@@ -117,6 +127,6 @@ export class DefaultLayoutComponent implements OnInit {
       document.exitFullscreen();
     }
     this.isFullScreen = !this.isFullScreen;
-}
+  }
 
 }
