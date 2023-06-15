@@ -22,6 +22,7 @@ export class DefaultLayoutComponent implements OnInit {
   userData:any;
   MenuList:any;
   currentRoute: string="dashboard"
+  childRoute: string=""
   constructor(private router: Router,public dataModel: DataModel,
     public api: apiIntegrationService,) {
     this.docElement = document.documentElement;

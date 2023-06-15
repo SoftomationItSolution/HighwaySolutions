@@ -72,7 +72,11 @@
                 <ul class="metismenu list-unstyled mm-show" id="side-menu">
                     <li class="menu-title">Menu</li>
                     <li class="" *ngFor="let menu of MenuList | serchFilter :'0': 'filtermenu'" (click)="menuED($event)">
-                        <a [ngClass]="menu.ChildCount==0 ?'waves-effect':'has-arrow waves-effect'" aria-expanded="false" [routerLink]="['/'+menu.MenuUrl]">
+                        <a [ngClass]="menu.ChildCount==0 ?'waves-effect':'has-arrow waves-effect'" aria-expanded="false" [routerLink]="['/'+menu.MenuUrl]" *ngIf="menu.ParentId==0">
+                            <i [class]="menu.MenuIcon"></i>
+                            <span>{{menu.MenuName}}</span>
+                        </a>
+                        <a [ngClass]="menu.ChildCount==0 ?'waves-effect':'has-arrow waves-effect'" aria-expanded="false" href="javascript: void(0);" *ngIf="menu.ParentId!=0">
                             <i [class]="menu.MenuIcon"></i>
                             <span>{{menu.MenuName}}</span>
                         </a>
