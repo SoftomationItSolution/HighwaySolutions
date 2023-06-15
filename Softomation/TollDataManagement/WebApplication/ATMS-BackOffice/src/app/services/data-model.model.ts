@@ -43,6 +43,17 @@ export class DataModel {
   getTokenVale() {
     return localStorage.getItem('Transit360Token');
   }
+
+  setUserData(token: string) {
+    return localStorage.setItem('Transit360UserData', token);
+  }
+  getUserData() {
+    var result = localStorage.getItem('Transit360UserData');
+    if (result != undefined)
+      return JSON.parse(result);
+    else
+      return null;
+  }
 }
 
 export interface ConfigIntrface {

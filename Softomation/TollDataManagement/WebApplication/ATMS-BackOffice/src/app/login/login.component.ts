@@ -42,14 +42,16 @@ export class LoginComponent implements OnInit {
     this.api.Login(obj).subscribe(
       data => {
         this.spinner.hide();
+        console.log(data)
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
-          this.loginReposnse = data.ResponceData;
+          this.loginReposnse = data.ResponseData;
+          this.dataModel.setLoggedIn(true);
+          this.dataModel.setTokenVale(data.ResponseData.AccessToken);
+          this.dataModel.setUserData(JSON.stringify(data.ResponseData.UserData));
           this.router.navigate(['/dashboard']);
-          //this.Redirect();
         } else {
           this.ErrorData = data.Message;
-          //this.emitService.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {

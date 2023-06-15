@@ -129,4 +129,8 @@ export class DefaultLayoutComponent implements OnInit {
     this.isFullScreen = !this.isFullScreen;
   }
 
+  Logout(){
+    
+  }
+
 }

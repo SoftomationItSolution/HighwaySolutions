@@ -1,0 +1,9 @@
+{
+   "DataBaseProvider":2,
+   "DBServerName":"HEMANTPUNDIR-R7",
+   "DBLogin":"sa",
+   "DBPassword":"Etoll@123",
+   "DBName":"ATMSv1",
+   "PoolSize":"100",
+   "Timeout":"180"
+}
