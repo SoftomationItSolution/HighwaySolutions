@@ -1,13 +1,13 @@
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';
-import {  NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 import { SidebarModule } from 'primeng/sidebar';
-import {AccordionModule} from 'primeng/accordion';
-import {CardModule} from 'primeng/card';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { AccordionModule} from 'primeng/accordion';
+import { CardModule} from 'primeng/card';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import {CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { DropdownModule } from 'primeng/dropdown';
