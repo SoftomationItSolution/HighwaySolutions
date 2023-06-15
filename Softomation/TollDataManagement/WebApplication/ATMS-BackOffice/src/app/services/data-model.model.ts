@@ -6,6 +6,11 @@ export class DataModel {
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
+  clearStorage(){
+    localStorage.removeItem("Transit360loggedIn");
+    localStorage.removeItem("Transit360Token");
+    localStorage.removeItem("Transit360UserData");
+  }
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {

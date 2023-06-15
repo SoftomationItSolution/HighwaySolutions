@@ -71,13 +71,27 @@
             <div id="sidebar-menu" class="mm-active">
                 <ul class="metismenu list-unstyled mm-show" id="side-menu">
                     <li class="menu-title">Menu</li>
-                    <li class="" (click)="menuED($event)">
-                        <a class="waves-effect active" aria-expanded="false">
-                            <i class="dripicons-home"></i>
-                            <span>Dashboard</span>
+                    <li class="" *ngFor="let menu of MenuList | serchFilter :'0': 'filtermenu'" (click)="menuED($event)">
+                        <a [ngClass]="menu.ChildCount==0 ?'waves-effect':'has-arrow waves-effect'" aria-expanded="false" [routerLink]="['/'+menu.MenuUrl]" *ngIf="menu.ParentId==0">
+                            <i [class]="menu.MenuIcon"></i>
+                            <span>{{menu.MenuName}}</span>
                         </a>
+                        <a [ngClass]="menu.ChildCount==0 ?'waves-effect':'has-arrow waves-effect'" aria-expanded="false" href="javascript: void(0);" *ngIf="menu.ParentId!=0">
+                            <i [class]="menu.MenuIcon"></i>
+                            <span>{{menu.MenuName}}</span>
+                        </a>
+                        <ul class="sub-menu mm-collapse" aria-expanded="false" *ngIf="menu.ParentId == 0">
+                            <li *ngFor="let submenu of MenuList | serchFilter :menu.MenuId: 'filtermenu'">
+                               
+                                <a [routerLink]="['/'+submenu.MenuUrl]">
+                                    <i [class]="submenu.MenuIcon"></i>
+                                    <span>{{submenu.MenuName}}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
-                    <li class="" (click)="menuED($event)">
+
+                    <!-- <li class="" (click)="menuED($event)">
                         <a class="has-arrow waves-effect" aria-expanded="true">
                             <i class="fa fa-road" aria-hidden="true"></i>
                             <span>Highway Config</span>
@@ -87,117 +101,10 @@
                             <li><a href="form-wizard.html">Pill Form</a></li>
                             <li><a href="#">Link 3</a></li>
                         </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a class="has-arrow waves-effect" aria-expanded="true">
-                            <i class="fa fa-road" aria-hidden="true"></i>
-                            <span>Access Manage</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="list.html">List</a></li>
-                            <li><a href="form-wizard.html">Pill Form</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-truck" aria-hidden="true"></i>
-                            <span>ADAS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-bus" aria-hidden="true"></i>
-                            <span>ATCC</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="ti-video-camera"></i>
-                            <span>VIDS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-file-video" aria-hidden="true"></i>
-                            <span>VSDS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li class="" (click)="menuED($event)">
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-clock" aria-hidden="true"></i>
-                            <span>TTMS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-film" aria-hidden="true"></i>
-                            <span>TMCS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-desktop" aria-hidden="true"></i>
-                            <span>VMS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-blender-phone" aria-hidden="true"></i>
-                            <span>ECS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript: void(0);" class="has-arrow waves-effect" aria-expanded="false">
-                            <i class="fa fa-deaf" aria-hidden="true"></i>
-                            <span>IMS</span>
-                        </a>
-                        <ul class="sub-menu mm-collapse" aria-expanded="false">
-                            <li><a href="#">Link 1</a></li>
-                            <li><a href="#">Link 2</a></li>
-                            <li><a href="#">Link 3</a></li>
-                        </ul>
-                    </li>
+                    </li> -->
+
+
+                    
                 </ul>
             </div>
             <!-- Sidebar -->

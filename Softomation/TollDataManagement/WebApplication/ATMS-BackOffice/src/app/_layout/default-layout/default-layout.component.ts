@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from '@angular/router';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
+import { DOCUMENT, Location } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,16 +19,45 @@ export class DefaultLayoutComponent implements OnInit {
   docElement: HTMLElement;
   isFullScreen: boolean = false;
   isProfilepopUp: boolean = false;
-  constructor() {
+  userData:any;
+  MenuList:any;
+  currentRoute: string="dashboard"
+  childRoute: string=""
+  constructor(private router: Router,public dataModel: DataModel,
+    public api: apiIntegrationService,) {
     this.docElement = document.documentElement;
+
+    
   }
 
   ngOnInit() {
+    this.userData=this.dataModel.getUserData();
     this.GetSystemMenu()
   }
 
   GetSystemMenu() {
-
+    this.api.GetMenuMasterByRole(this.userData.RoleId).subscribe(
+      data => {
+        console.log(data)
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.MenuList = data.ResponseData;
+          console.log(this.MenuList)
+        }
+        else{
+          this.Logout();
+        } 
+        // else {
+        //   this.ErrorData = data.Message;
+        //   this.emitService.openSnackBar(this.ErrorData, false);
+        // }
+      },
+      (error) => {
+        this.Logout();
+        // this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        // this.emitService.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   rightBar() {
@@ -130,7 +162,26 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   Logout(){
-    
+    const obj = {
+      LoginId: this.userData.LoginId,
+      UserTypeId: this.userData.UserTypeId,
+      UserId:this.userData.UserId
+    };
+    this.api.LogoutUser(obj).subscribe(
+      data => {
+        this.dataModel.clearStorage();
+        this.router.navigate(['']);
+        
+      },
+      (error) => {
+        this.dataModel.clearStorage()
+        this.router.navigate(['']);
+      }
+    );
+
+
+
+    this.router.navigate(['']);
   }
 
 }

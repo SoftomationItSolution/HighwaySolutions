@@ -34,6 +34,8 @@ import { SplitterModule } from 'primeng/splitter';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MessageModule} from 'primeng/message';
 import { PanelModule} from 'primeng/panel';
+import { TableModule } from 'primeng/table';
+import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
 import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     DefaultLayoutComponent,
     LoginComponent,
     PageNotFoundComponent,
+    SerchFilterPipe
   ],
   imports: [
     BrowserAnimationsModule,
