@@ -98,7 +98,6 @@ D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAP
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.Threading.Tasks.Extensions.dll
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Softomation.ATMSSystemLibrary.pdb
-D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Softomation.ATMSSystemLibrary.dll.config
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.Web.Http.Cors.xml
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.IdentityModel.Tokens.Jwt.xml
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Microsoft.IdentityModel.Tokens.xml

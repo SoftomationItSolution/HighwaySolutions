@@ -15,8 +15,6 @@ namespace Softomation.ATMSSystemLibrary.SystemConfigurations
         string dbPassword;
         string poolSize;
         string timeout;
-        string serverBaseAPIUrl;
-        string apiKey;
         #endregion
 
         #region Constructor
@@ -29,8 +27,6 @@ namespace Softomation.ATMSSystemLibrary.SystemConfigurations
             this.dbPassword = String.Empty;
             this.poolSize = String.Empty;
             this.timeout = String.Empty;
-            this.serverBaseAPIUrl = String.Empty;
-            this.apiKey = String.Empty;
         }
         #endregion
 
@@ -62,14 +58,6 @@ namespace Softomation.ATMSSystemLibrary.SystemConfigurations
         public string Timeout
         {
             get => timeout; set => timeout = value;
-        }
-        public string ServerBaseAPIUrl
-        {
-            get => serverBaseAPIUrl; set => serverBaseAPIUrl = value;
-        }
-        public string ApiKey
-        {
-            get => apiKey; set => apiKey = value;
         }
 
         #endregion
