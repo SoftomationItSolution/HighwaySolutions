@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BL\LogingActivityBL.cs" />
+    <Compile Include="BL\MenuManagementBL.cs" />
     <Compile Include="BL\UserManagementBL.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
@@ -100,11 +101,13 @@
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
     <Compile Include="DL\LogingActivityDL.cs" />
+    <Compile Include="DL\MenuManagementDL.cs" />
     <Compile Include="DL\UserManagementDL.cs" />
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
+    <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />

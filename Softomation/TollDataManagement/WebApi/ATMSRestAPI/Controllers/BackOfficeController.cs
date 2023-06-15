@@ -39,7 +39,7 @@ namespace ATMSRestAPI.Controllers
                     {
                         AppLoginIL result = (AppLoginIL)Constants.GetToken(login);
                         UserManagementIL user = new UserManagementIL();
-                        user.EntryId = 0;
+                        user.UserId = 0;
                         user.RoleId = 0;
                         user.LoginId = login.LoginId;
                         result.UserData = user;
@@ -197,38 +197,33 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        //#region All Menu
-        //[Route(Provider + "/Transit360-ATMS/AllMenu")]
-        //[HttpGet]
-        //public HttpResponseMessage GetAllMenuList(int RoleId)
-        //{
-        //    try
-        //    {
-        //        List<MenuManagementIL> obj;
-        //        if (RoleId == 0)
-        //            obj = MenuManagementBL.GetByCCMenu();
-        //        else
-        //            obj = MenuManagementBL.GetByRoleId(RoleId);
+        #region All Menu
+        [Route(Provider + "/" + APIPath + "/GetMenu")]
+        [HttpGet]
+        public HttpResponseMessage GetMenu(int RoleId)
+        {
+            try
+            {
+                List<MenuManagementIL> obj;
+                if (RoleId == 0)
+                    obj = MenuManagementBL.GetAll();
+                else
+                    obj = MenuManagementBL.GetByRoleId(RoleId);
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = null;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetMenu : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = obj;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GetAllMenuList : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //#endregion
+        #endregion
 
         //#region Role Management
         //[Route(Provider + "/Transit360-ATMS/RoleConfigurationSetUp")]

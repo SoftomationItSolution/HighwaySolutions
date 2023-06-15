@@ -21,7 +21,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 user.LoginPassword = Constants.Encrypt(user.LoginPassword);
                 string spName = "USP_UserInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EntryId", DbType.Int32, user.EntryId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, user.UserId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, user.LoginId.Trim(), ParameterDirection.Input, 40));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, user.LoginPassword, ParameterDirection.Input, 200));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FirstName", DbType.String, user.FirstName.Trim(), ParameterDirection.Input, 40));
@@ -160,8 +160,8 @@ namespace Softomation.ATMSSystemLibrary.DL
         {
             UserManagementIL user = new UserManagementIL();
 
-            if (dr["EntryId"] != DBNull.Value)
-                user.EntryId = Convert.ToInt64(dr["EntryId"]);
+            if (dr["UserId"] != DBNull.Value)
+                user.UserId = Convert.ToInt64(dr["UserId"]);
 
             if (dr["LoginId"] != DBNull.Value)
                 user.LoginId = Convert.ToString(dr["LoginId"]);

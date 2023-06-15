@@ -8,6 +8,7 @@ namespace Softomation.ATMSSystemLibrary.IL
 {
     public class UserManagementIL : RoleManagementIL
     {
+        Int64 userId;
         String loginId;
         String loginPassword;
         String firstName;
@@ -21,6 +22,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         Nullable<DateTime> accountExpiredDate;
         public UserManagementIL()
         {
+            this.userId = 0;
             this.loginId = string.Empty;
             this.loginPassword = string.Empty;
             this.firstName = string.Empty;
@@ -33,6 +35,11 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.sessionId = string.Empty;
             this.accountExpiredDate = null;
         }
+        public Int64 UserId
+        {
+            get => userId; set => userId = value;
+        }
+
         public String LoginId
         {
             get => loginId; set => loginId = value;
