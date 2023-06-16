@@ -39,6 +39,8 @@ import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/de
 import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
 import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
 import { UserConfigurationComponent } from "../pages/Config/UserData/user-configuration/user-configuration.component";
+import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
+import { AtccdataComponent } from "../pages/ATCC/atccdata/atccdata.component";
 
 @NgModule({
     imports: [
@@ -80,7 +82,9 @@ import { UserConfigurationComponent } from "../pages/Config/UserData/user-config
         DeviceDataComponent,
         VehicleClassDataComponent,
         RoleConfigurationComponent,
-        UserConfigurationComponent
+        UserConfigurationComponent,
+        VidsdataComponent,
+        AtccdataComponent
     ],
     providers: [DataModel,ApiService,EmittersService],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
