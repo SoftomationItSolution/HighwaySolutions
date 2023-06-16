@@ -38,6 +38,7 @@ import { EmittersService } from "../allservices/emitters.service";
 import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/device-data.component";
 import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
 import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
+import { UserConfigurationComponent } from "../pages/Config/UserData/user-configuration/user-configuration.component";
 
 @NgModule({
     imports: [
@@ -78,7 +79,8 @@ import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-config
         ControlRoomConfigurationComponent,
         DeviceDataComponent,
         VehicleClassDataComponent,
-        RoleConfigurationComponent
+        RoleConfigurationComponent,
+        UserConfigurationComponent
     ],
     providers: [DataModel,ApiService,EmittersService],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

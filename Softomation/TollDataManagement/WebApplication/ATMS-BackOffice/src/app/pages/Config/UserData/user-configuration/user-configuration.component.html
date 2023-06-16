@@ -1,0 +1,91 @@
+
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="javascript:void(0);" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable"><i class="mdi mdi-plus me-2"></i> Add Module</a>
+                    <div class="dropdown d-inline-block float-right">
+                        <button type="button" class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
+                            <i class="mdi mdi-filter-menu-outline"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtableheight">
+                    <div class="table-responsive table-height-master">
+                        <div class="table-responsive table-height-master">
+                            <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                             [style]="{'min-width':'1100px'}" styleClass="p-datatable-striped p-datatable-gridlines"
+                             [globalFilterFields]="['ClientName','PlazaName','LoginId','FirstName','LastName','MobileNumber','EmailId','RoleName','UserTypeName','DataStatusName']">
+                                <ng-template pTemplate="caption">
+                                    <div style="text-align: right">
+                                        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                        <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>S. No.</th>
+                                        <th pSortableColumn="EntryId">User Id <p-sortIcon field="EntryId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ClientName">Client <p-sortIcon field="ClientName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="PlazaName">Plaza <p-sortIcon field="PlazaName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="LoginId">Login Id <p-sortIcon field="LoginId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="FirstName">First Name <p-sortIcon field="FirstName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="LastName">Last Name <p-sortIcon field="LastName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon field="MobileNumber"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="EmailId">Email Id <p-sortIcon field="EmailId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="UserTypeName">Type <p-sortIcon field="UserTypeName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="AccountExpiredDate">Account Expire <p-sortIcon field="AccountExpiredDate"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="RoleName">Role Name <p-sortIcon field="RoleName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
+                                        </th>
+                        
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr style="font-size: 10px;">
+                                        <td>{{i+1}}</td>
+                                        <td>{{rowData.EntryId}}</td>
+                                        <td>{{rowData.ClientName}}</td>
+                                        <td>{{rowData.PlazaName}}</td>
+                                        <td>{{rowData.LoginId}}</td>
+                                        <td>{{rowData.FirstName}}</td>
+                                        <td>{{rowData.LastName}}</td>
+                                        <td>{{rowData.MobileNumber}}</td>
+                                        <td>{{rowData.EmailId}}</td>
+                                        <td>{{rowData.UserTypeName}}</td>
+                                        <td>{{rowData.AccountExpiredDate}}</td>
+                                        <td>{{rowData.RoleName}}</td>
+                                        <td>{{rowData.DataStatusName}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        <nav aria-label="Page navigation example" class="float-right">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

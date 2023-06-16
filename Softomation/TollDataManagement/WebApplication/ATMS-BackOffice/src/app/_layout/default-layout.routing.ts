@@ -9,7 +9,7 @@ import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-
 // import { LaneDataComponent } from '../pages/Config/Lane/lane-data/lane-data.component';
 // import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
  import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
-// import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
+ import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -21,7 +21,7 @@ export const AdminLayoutRoutes: Routes = [
     // { path: 'lane', component: LaneDataComponent },
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
-    // { path: 'users', component: UserConfigurationComponent },
+    { path: 'users', component: UserConfigurationComponent },
     // { path: 'incidents', component: IncidentDataComponent },
     // { path: 'vms', component: VMSDataComponent },
     // { path: 'met', component: METDataComponent },
