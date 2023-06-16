@@ -71,3 +71,4 @@ D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\ATMSSys
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\ATMSSystemLibrary\obj\Debug\ATMSSystemLibrary.csproj.CopyComplete
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\ATMSSystemLibrary\obj\Debug\Softomation.ATMSSystemLibrary.dll
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\ATMSSystemLibrary\obj\Debug\Softomation.ATMSSystemLibrary.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\Libraries\ATMSSystemLibrary\obj\Debug\ATMSSystemLibrary.csproj.AssemblyReference.cache
