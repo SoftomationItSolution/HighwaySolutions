@@ -13,6 +13,7 @@ namespace Softomation.ATMSSystemLibrary.DL
         #region Global Varialble
         static string tableName = "tbl_MenuMaster";
         #endregion
+        
         #region Get Methods
         internal static List<MenuManagementIL> GetAll()
         {

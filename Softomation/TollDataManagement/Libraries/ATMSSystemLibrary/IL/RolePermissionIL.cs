@@ -4,8 +4,7 @@ namespace Softomation.ATMSSystemLibrary.IL
 {
     public class RolePermissionIL : CommonIL
     {
-        Int32 eventId;
-        String eventName;
+        Int32 menuId;
         Int32 roleId;
         Int16 dataView;
         Int16 dataAdd;
@@ -13,40 +12,25 @@ namespace Softomation.ATMSSystemLibrary.IL
 
         public RolePermissionIL()
         {
-            this.eventId = 0;
-            this.eventName = string.Empty;
+            this.menuId = 0;
             this.roleId = 0;
             this.dataView = 1;
             this.dataAdd = 2;
             this.dataUpdate = 2;
         }
 
-        public Int32 EventId
+        public Int32 MenuId
         {
             get
             {
-                return eventId;
+                return menuId;
             }
 
             set
             {
-                eventId = value;
+                menuId = value;
             }
         }
-
-        public String EventName
-        {
-            get
-            {
-                return eventName;
-            }
-
-            set
-            {
-                eventName = value;
-            }
-        }
-
         public Int32 RoleId
         {
             get
@@ -59,7 +43,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 roleId = value;
             }
         }
-
         public Int16 DataView
         {
             get
@@ -72,7 +55,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 dataView = value;
             }
         }
-
         public Int16 DataAdd
         {
             get
@@ -85,7 +67,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 dataAdd = value;
             }
         }
-
         public Int16 DataUpdate
         {
             get
