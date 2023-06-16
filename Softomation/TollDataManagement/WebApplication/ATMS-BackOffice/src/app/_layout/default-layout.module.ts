@@ -31,14 +31,13 @@ import { MessageModule } from "primeng/message";
 import { PanelModule } from "primeng/panel";
 import { MatDialogModule } from "@angular/material/dialog";
 import { ControlRoomConfigurationComponent } from "../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component";
-import { HttpClientModule } from "@angular/common/http";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatIconModule } from "@angular/material/icon";
 import { DataModel } from "../services/data-model.model";
 import { ApiService } from "../allservices/api.service";
 import { EmittersService } from "../allservices/emitters.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/device-data.component";
+import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
+import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
 
 @NgModule({
     imports: [
@@ -48,36 +47,38 @@ import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/de
         ReactiveFormsModule,
         TableModule,
         MatFormFieldModule,
-        // MatIconModule,
-        // MatMenuModule,
-        // MatDividerModule,
-        // MatInputModule,
-        // MatTooltipModule,
-        // MatButtonModule,
-        // MatCheckboxModule,
-        // MatSelectModule,
-        // MatDatepickerModule,
-        // MatRadioModule,
-        // OverlayModule,
-        // DropdownModule,
-        // InputNumberModule,
-        // RadioButtonModule,
-        // FileUploadModule,
-        // ConfirmDialogModule,
-        // CalendarModule,
-        // OverlayPanelModule,
-        // ToastModule,
-        // SplitterModule,
-        // FieldsetModule,
-        // MessageModule,
-        // PanelModule,
+        MatIconModule,
+        MatMenuModule,
+        MatDividerModule,
+        MatInputModule,
+        MatTooltipModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatRadioModule,
+        OverlayModule,
+        DropdownModule,
+        InputNumberModule,
+        RadioButtonModule,
+        FileUploadModule,
+        ConfirmDialogModule,
+        CalendarModule,
+        OverlayPanelModule,
+        ToastModule,
+        SplitterModule,
+        FieldsetModule,
+        MessageModule,
+        PanelModule,
          MatDialogModule,
-        // MatButtonModule
+        MatButtonModule
     ],
     declarations: [
         DashboardComponent,
         ControlRoomConfigurationComponent,
-        DeviceDataComponent
+        DeviceDataComponent,
+        VehicleClassDataComponent,
+        RoleConfigurationComponent
     ],
     providers: [DataModel,ApiService,EmittersService],
     schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
