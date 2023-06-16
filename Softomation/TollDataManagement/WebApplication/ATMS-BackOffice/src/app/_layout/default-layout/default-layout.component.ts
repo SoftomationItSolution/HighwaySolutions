@@ -37,11 +37,9 @@ export class DefaultLayoutComponent implements OnInit {
   GetSystemMenu() {
     this.api.GetMenuMasterByRole(this.userData.RoleId).subscribe(
       data => {
-        console.log(data)
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.MenuList = data.ResponseData;
-          console.log(this.MenuList)
         }
         else{
           this.Logout();
