@@ -120,7 +120,7 @@ export class EmittersService {
 
   openSnackBar(message: any, success: boolean) {
     this.snackBar.openFromComponent(SnakbarComponent, {
-      duration: 2000000,
+      duration: 2000,
       data: { success, message }
     });
   }
