@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Text;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
@@ -10,6 +11,51 @@ namespace Softomation.ATMSSystemLibrary.DL
     internal class RolePermissionDL
     {
         static string tableName = "tbl_RolePermission";
+
+        internal static List<ResponseIL> ImportData(RoleManagementIL role)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                DataTable ImportDataTable = new DataTable();
+                ImportDataTable.Clear();
+                ImportDataTable.Columns.Add("MenuId");
+                ImportDataTable.Columns.Add("DataView");
+                ImportDataTable.Columns.Add("DataAdd");
+                ImportDataTable.Columns.Add("DataUpdate");
+                ImportDataTable.Columns.Add("SessionId");
+                DataRow row;
+                string SessionId = Constants.RandomString(10);
+                StringBuilder xmlPermission = new StringBuilder();
+                for (int i = 0; i < role.RolePermission.Count; i++)
+                {
+                    row = ImportDataTable.NewRow();
+                    row["MenuId"] = role.RolePermission[i].MenuId;
+                    row["DataView"] = role.RolePermission[i].DataView;
+                    row["DataAdd"] = role.RolePermission[i].DataAdd;
+                    row["DataUpdate"] = role.RolePermission[i].DataUpdate;
+                    row["SessionId"] = SessionId;
+                    ImportDataTable.Rows.Add(row);
+                }
+                if (Constants.BulkCopy(ImportDataTable, "temp_ImportPermission"))
+                {
+                    string spName = "USP_SystemPermissionInsertUpdate";
+                    DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, role.RoleId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, role.DataStatus, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, role.CreatedBy, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                    responses = ResponseIL.ConvertResponseList(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
 
         #region Get Methods
         internal static RolePermissionIL GetByMenuId(RolePermissionIL rolePermission)
@@ -33,6 +79,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return role;
         }
+
+        
+
         internal static List<RolePermissionIL> GetByRoleId(Int64 roleId)
         {
             DataTable dt = new DataTable();

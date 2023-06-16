@@ -48,7 +48,6 @@ D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CR
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\bin\Debug\Softomation.DMS.CommonLibrary.pdb
-D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.AssemblyReference.cache
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.ProjectInstaller.resources
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.GenerateResource.cache
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowsService\CRDataAggregationService\obj\Debug\CRDataAggregationService.csproj.CoreCompileInputs.cache

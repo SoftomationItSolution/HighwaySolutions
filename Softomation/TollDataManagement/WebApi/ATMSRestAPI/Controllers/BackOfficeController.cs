@@ -225,188 +225,143 @@ namespace ATMSRestAPI.Controllers
 
         #endregion
 
-        //#region Role Management
-        //[Route(Provider + "/Transit360-ATMS/RoleConfigurationSetUp")]
-        //[HttpPost]
-        //public HttpResponseMessage RoleConfigurationSetUp(RoleManagementIL role)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = RoleManagementBL.InsertUpdate(role);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RoleConfigurationSetUp : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        #region Role Management
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationSetUp")]
+        [HttpPost]
+        public HttpResponseMessage RoleConfigurationSetUp(RoleManagementIL role)
+        {
+            try
+            {
+                response.Message = RoleManagementBL.InsertUpdate(role);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/RoleConfigurationGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage RoleConfigurationGetAll()
-        //{
-        //    try
-        //    {
-        //        List<RoleManagementIL> roles = RoleManagementBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = roles;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetAll")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/RoleConfigurationGetActive")]
-        //[HttpGet]
-        //public HttpResponseMessage RoleConfigurationGetActive()
-        //{
-        //    try
-        //    {
-        //        List<RoleManagementIL> roles = RoleManagementBL.GetActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = roles;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetActive")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/RoleConfigurationGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage RoleConfigurationGetById(int RoleId)
-        //{
-        //    try
-        //    {
-        //        RoleManagementIL role = RoleManagementBL.GetById(RoleId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = role;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RoleConfigurationGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetById")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetById(int RoleId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetById(RoleId);
+                return Request.CreateResponse(HttpStatusCode.OK, responce);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByRoleId")]
+        [HttpGet]
+        public HttpResponseMessage RolePermissionGetByRoleId(Int64 RoleId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RolePermissionBL.GetByRoleId(RoleId);
+                return Request.CreateResponse(HttpStatusCode.OK, responce);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionGetByRoleId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/RolePermissionGetByRoleId")]
-        //[HttpGet]
-        //public HttpResponseMessage RolePermissionGetByRoleId(Int64 RoleId)
-        //{
-        //    try
-        //    {
-        //        List<RolePermissionIL> role = RolePermissionBL.GetByRoleId(RoleId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = role;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RolePermissionGetByRoleId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByEventId")]
+        [HttpPost]
+        public HttpResponseMessage RolePermissionGetByEventId(RolePermissionIL role)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RolePermissionBL.GetByMenuId(role);
+                return Request.CreateResponse(HttpStatusCode.OK, responce);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionGetByEventId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/RolePermissionGetByEventId")]
-        //[HttpPost]
-        //public HttpResponseMessage RolePermissionGetByEventId(RolePermissionIL role)
-        //{
-        //    try
-        //    {
-        //        RolePermissionIL roles = RolePermissionBL.GetByEventId(role);
-
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = roles;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RolePermissionGetByEventId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/RolePermissionSetup")]
-        //[HttpPost]
-        //public HttpResponseMessage RolePermissionSetup(RoleManagementIL roles)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = RolePermissionBL.ImportData(roles);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in RolePermissionSetup : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
+        [Route(Provider + "/" + APIPath + "/RolePermissionSetup")]
+        [HttpPost]
+        public HttpResponseMessage RolePermissionSetup(RoleManagementIL roles)
+        {
+            try
+            {
+                response.Message = RolePermissionBL.ImportData(roles);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+            }
+        }
+        #endregion
 
         //#region User Management
         //[Route(Provider + "/Transit360-ATMS/UserValidatePassword")]

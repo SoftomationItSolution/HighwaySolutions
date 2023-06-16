@@ -10,6 +10,18 @@ namespace Softomation.ATMSSystemLibrary.BL
 {
     public class RolePermissionBL
     {
+
+        public static List<ResponseIL> ImportData(RoleManagementIL roles)
+        {
+            try
+            {
+                return RolePermissionDL.ImportData(roles);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static List<RolePermissionIL> GetByRoleId(Int64 roleId)
         {
             try
@@ -33,5 +45,7 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+
     }
 }
