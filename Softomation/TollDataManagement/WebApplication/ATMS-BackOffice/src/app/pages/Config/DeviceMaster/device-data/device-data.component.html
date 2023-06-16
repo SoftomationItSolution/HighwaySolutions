@@ -19,7 +19,7 @@
         <ng-template pTemplate="caption">
             <div style="text-align: right">
                 <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+                <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
             </div>
         </ng-template>
         <ng-template pTemplate="header">
@@ -96,9 +96,9 @@
                 <td>{{rowData.Manufacturer}}</td>
                 <td>{{rowData.Vendor}}</td>
                 <td>{{rowData.Remark}}</td>
-                <td>{{rowData.ManufacturerDate | date:'dd-MMM-yyyy'}}</td>
-                <td>{{rowData.PurchageDate | date:'dd-MMM-yyyy'}}</td>
-                <td>{{rowData.WarrantyExpireDate | date:'dd-MMM-yyyy'}}</td>
+                <td>{{rowData.ManufacturerDate }}</td>
+                <td>{{rowData.PurchageDate}}</td>
+                <td>{{rowData.WarrantyExpireDate}}</td>
                 <td>{{rowData.DataStatusName}}</td>
                 <td style="text-align: center;" *ngIf="DataUpdate==1">
                     <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>

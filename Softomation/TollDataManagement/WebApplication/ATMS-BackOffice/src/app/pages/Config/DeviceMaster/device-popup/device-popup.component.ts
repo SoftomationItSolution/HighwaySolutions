@@ -13,39 +13,39 @@ import { EmittersService } from 'src/app/allservices/emitters.service';
   styleUrls: ['./device-popup.component.css']
 })
 export class DevicePopupComponent implements OnInit {
-  DeviceDetailsForm: FormGroup;
+  DeviceDetailsForm!: FormGroup;
   error = errorMessages;
   EntryId: number;
   DataStatus = true;
   DataStatusDs = 1;
-  LoginUserId;
+  LoginUserId:any;
   ErrorData: any;
   HardwareTypeList: any;
-  DeviceCategoryList;
+  DeviceCategoryList:any;
   SiteList: any;
   DetailData: any;
-  DeviceTypeList;
+  DeviceTypeList:any;
   PermissionData;
   LogedUserId;
   LogedRoleId;
   ButtonShow = false;
   SelectedCategoryId = 0;
-  GantryData;
-  LaneData;
-  ConnectionTypeData;
+  GantryData:any;
+  LaneData:any;
+  ConnectionTypeData:any;
   SelectedConntionType = 0;
   DirectionList = [{ Id: 0, Name: 'NONE' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, ];
   BaudRatePort = [{ Id: 110, Name: 110 }, { Id: 300, Name: 300 }, { Id: 600, Name: 600 }, { Id: 1200, Name: 1200 },
   { Id: 2400, Name: 2400 }, { Id: 4800, Name: 4800 }, { Id: 9600, Name: 9600 }, { Id: 14400, Name: 14400 }, { Id: 19200, Name: 19200 },
   { Id: 38400, Name: 38400 }, { Id: 57600, Name: 57600 }, { Id: 115200, Name: 115200 }, { Id: 128000, Name: 128000 }, { Id: 256000, Name: 256000 }];
-  ComPortSetting = [];
+  ComPortSetting:any = [];
   DefaultTCPIP = '192.168.0.0';
   DefaultTCPPort = 0;
   DefaultBaudRate = 9600;
   DefaultComPort = 'COM 1';
   close() { this.Dialogref.close(); }
   constructor(private dbService: ApiService, private emitService: EmittersService,
-              private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData, public datepipe: DatePipe,
+              private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any, public datepipe: DatePipe,
               public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog) {
       this.LogedRoleId =  this.emitService.getRoleDetails();
       this.LogedUserId = this.emitService.getUserDetails();
@@ -85,11 +85,11 @@ export class DevicePopupComponent implements OnInit {
       ]),
       IpAddress: new FormControl('', [
         Validators.required,
-        Validators.pattern(regExps.IpAddress)
+        Validators.pattern(regExps['IpAddress'])
       ]),
       PortNumber: new FormControl('', [
         Validators.required,
-        Validators.pattern(regExps.PortNumber)
+        Validators.pattern(regExps['PortNumber'])
       ]),
       ComPort: new FormControl('', [
          Validators.required
@@ -99,11 +99,11 @@ export class DevicePopupComponent implements OnInit {
       ]),
       Latitude: new FormControl('', [
         Validators.required,
-        Validators.pattern(regExps.Latitude)
+        Validators.pattern(regExps['Latitude'])
       ]),
       Longitude: new FormControl('', [
         Validators.required,
-        Validators.pattern(regExps.Longitude)
+        Validators.pattern(regExps['Longitude'])
       ]),
       ConnectionTypeId: new FormControl('', [Validators.required]),
       DeviceLoginId: new FormControl(''),
@@ -132,11 +132,11 @@ export class DevicePopupComponent implements OnInit {
     });
     this.ControlRoomDetails();
 
-    this.DeviceDetailsForm.controls.GantryId.setValue(0);
-    this.DeviceDetailsForm.controls.LaneNumber.setValue(0);
-    this.DeviceDetailsForm.controls.Direction.setValue(0);
-    this.DeviceDetailsForm.controls.ComPort.setValue(this.DefaultComPort);
-    this.DeviceDetailsForm.controls.BaudRate.setValue(this.DefaultBaudRate);
+    this.DeviceDetailsForm.controls['GantryId'].setValue(0);
+    this.DeviceDetailsForm.controls['LaneNumber'].setValue(0);
+    this.DeviceDetailsForm.controls['Direction'].setValue(0);
+    this.DeviceDetailsForm.controls['ComPort'].setValue(this.DefaultComPort);
+    this.DeviceDetailsForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
 
   }
   ControlRoomDetails() {
@@ -154,7 +154,7 @@ export class DevicePopupComponent implements OnInit {
       data => {
         this.DeviceTypeList = data.ResponceData;
         if (this.EntryId != 0) {
-          this.DeviceDetailsForm.controls.DeviceTypeId.setValue(this.DetailData.DeviceTypeId);
+          this.DeviceDetailsForm.controls['DeviceTypeId'].setValue(this.DetailData.DeviceTypeId);
         }
       },
       (error) => {
@@ -188,53 +188,53 @@ export class DevicePopupComponent implements OnInit {
     );
   }
 
-  ConnectionTypeChnage(vaue) {
+  ConnectionTypeChnage(vaue:any) {
     this.SelectedConntionType = vaue;
     if (vaue == 1) {
-      this.DeviceDetailsForm.controls.IpAddress.reset();
-      this.DeviceDetailsForm.controls.PortNumber.reset();
+      this.DeviceDetailsForm.controls['IpAddress'].reset();
+      this.DeviceDetailsForm.controls['PortNumber'].reset();
 
-      this.DeviceDetailsForm.controls.ComPort.setValue(this.DefaultComPort);
-      this.DeviceDetailsForm.controls.BaudRate.setValue(this.DefaultBaudRate);
+      this.DeviceDetailsForm.controls['ComPort'].setValue(this.DefaultComPort);
+      this.DeviceDetailsForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
     } else if (vaue == 2) {
-      this.DeviceDetailsForm.controls.ComPort.reset();
-      this.DeviceDetailsForm.controls.BaudRate.reset();
+      this.DeviceDetailsForm.controls['ComPort'].reset();
+      this.DeviceDetailsForm.controls['BaudRate'].reset();
 
-      this.DeviceDetailsForm.controls.IpAddress.setValue(this.DefaultTCPIP);
-      this.DeviceDetailsForm.controls.PortNumber.setValue(this.DefaultTCPPort);
+      this.DeviceDetailsForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
+      this.DeviceDetailsForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
     } else {
-      this.DeviceDetailsForm.controls.IpAddress.setValue(this.DefaultTCPIP);
-      this.DeviceDetailsForm.controls.PortNumber.setValue(this.DefaultTCPPort);
-      this.DeviceDetailsForm.controls.ComPort.setValue(this.DefaultComPort);
-      this.DeviceDetailsForm.controls.BaudRate.setValue(this.DefaultBaudRate);
+      this.DeviceDetailsForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
+      this.DeviceDetailsForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
+      this.DeviceDetailsForm.controls['ComPort'].setValue(this.DefaultComPort);
+      this.DeviceDetailsForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
     }
   }
 
-  onCategoryChnage(value) {
+  onCategoryChnage(value:any) {
     this.SelectedCategoryId = value;
     this.DeviceTypeDetails();
     if (this.SelectedCategoryId == 5) {
-      this.DeviceDetailsForm.controls.IpAddress.setValue('127.0.0.1');
-      this.DeviceDetailsForm.controls.PortNumber.setValue('80');
-      this.DeviceDetailsForm.controls.ConnectionTypeId.setValue(0);
+      this.DeviceDetailsForm.controls['IpAddress'].setValue('127.0.0.1');
+      this.DeviceDetailsForm.controls['PortNumber'].setValue('80');
+      this.DeviceDetailsForm.controls['ConnectionTypeId'].setValue(0);
     } else {
       if (this.EntryId == 0) {
-        this.DeviceDetailsForm.controls.IpAddress.reset();
-        this.DeviceDetailsForm.controls.PortNumber.reset();
-        this.DeviceDetailsForm.controls.ConnectionTypeId.reset();
+        this.DeviceDetailsForm.controls['IpAddress'].reset();
+        this.DeviceDetailsForm.controls['PortNumber'].reset();
+        this.DeviceDetailsForm.controls['ConnectionTypeId'].reset();
 
       } else {
-        this.DeviceDetailsForm.controls.IpAddress.setValue(this.DetailData.IpAddress);
-        this.DeviceDetailsForm.controls.PortNumber.setValue(this.DetailData.PortNumber);
+        this.DeviceDetailsForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
+        this.DeviceDetailsForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
       }
     }
   }
 
-  onGantryChnage(value) {
+  onGantryChnage(value:any) {
     this.GetLaneData(value, 0);
   }
 
-  onChange(event) {
+  onChange(event:any) {
     if (event.checked) {
       this.DataStatus = true;
       this.DataStatusDs = 1;
@@ -252,7 +252,7 @@ export class DevicePopupComponent implements OnInit {
         const returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.GantryData = data.ResponceData;
-          this.DeviceDetailsForm.controls.GantryId.setValue(0);
+          this.DeviceDetailsForm.controls['GantryId'].setValue(0);
           if (this.EntryId != 0) {
             this.DevicesDataGetById();
           }
@@ -267,7 +267,7 @@ export class DevicePopupComponent implements OnInit {
     );
   }
 
-  GetLaneData(GantryId, LaneNumber) {
+  GetLaneData(GantryId:any, LaneNumber:any) {
     this.spinner.show();
     this.dbService.LaneConfigurationActiveGetByGantryId(GantryId).subscribe(
       data => {
@@ -275,7 +275,7 @@ export class DevicePopupComponent implements OnInit {
         const returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.LaneData = data.ResponceData;
-          this.DeviceDetailsForm.controls.LaneNumber.setValue(LaneNumber);
+          this.DeviceDetailsForm.controls['LaneNumber'].setValue(LaneNumber);
         }
 
       },
@@ -299,26 +299,26 @@ export class DevicePopupComponent implements OnInit {
         } else {
           this.DataStatus = false;
         }
-        this.DeviceDetailsForm.controls.ControlRoomId.setValue(this.DetailData.ControlRoomId);
-        this.DeviceDetailsForm.controls.CategoryId.setValue(this.DetailData.CategoryId);
-        this.DeviceDetailsForm.controls.DeviceTypeId.setValue(this.DetailData.DeviceTypeId);
-        this.DeviceDetailsForm.controls.DeviceName.setValue(this.DetailData.DeviceName);
-        this.DeviceDetailsForm.controls.Direction.setValue(this.DetailData.Direction);
-        this.DeviceDetailsForm.controls.ConnectionTypeId.setValue(this.DetailData.ConnectionTypeId);
-        this.DeviceDetailsForm.controls.IpAddress.setValue(this.DetailData.IpAddress);
-        this.DeviceDetailsForm.controls.PortNumber.setValue(this.DetailData.PortNumber);
-        this.DeviceDetailsForm.controls.DeviceLoginId.setValue(this.DetailData.DeviceLoginId);
-        this.DeviceDetailsForm.controls.DevicePassword.setValue(this.DetailData.DevicePassword);
-        this.DeviceDetailsForm.controls.Latitude.setValue(this.DetailData.Latitude);
-        this.DeviceDetailsForm.controls.Longitude.setValue(this.DetailData.Longitude);
-        this.DeviceDetailsForm.controls.ModelNumber.setValue(this.DetailData.ModelNumber);
-        this.DeviceDetailsForm.controls.Manufacturer.setValue(this.DetailData.Manufacturer);
-        this.DeviceDetailsForm.controls.Vendor.setValue(this.DetailData.Vendor);
-        this.DeviceDetailsForm.controls.PurchageDate.setValue(this.DetailData.PurchageDate);
-        this.DeviceDetailsForm.controls.ManufacturerDate.setValue(this.DetailData.ManufacturerDate);
-        this.DeviceDetailsForm.controls.WarrantyExpireDate.setValue(this.DetailData.WarrantyExpireDate);
-        this.DeviceDetailsForm.controls.Remark.setValue(this.DetailData.Remark);
-        this.DeviceDetailsForm.controls.GantryId.setValue(this.DetailData.GantryId);
+        this.DeviceDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
+        this.DeviceDetailsForm.controls['CategoryId'].setValue(this.DetailData.CategoryId);
+        this.DeviceDetailsForm.controls['DeviceTypeId'].setValue(this.DetailData.DeviceTypeId);
+        this.DeviceDetailsForm.controls['DeviceName'].setValue(this.DetailData.DeviceName);
+        this.DeviceDetailsForm.controls['Direction'].setValue(this.DetailData.Direction);
+        this.DeviceDetailsForm.controls['ConnectionTypeId'].setValue(this.DetailData.ConnectionTypeId);
+        this.DeviceDetailsForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
+        this.DeviceDetailsForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
+        this.DeviceDetailsForm.controls['DeviceLoginId'].setValue(this.DetailData.DeviceLoginId);
+        this.DeviceDetailsForm.controls['DevicePassword'].setValue(this.DetailData.DevicePassword);
+        this.DeviceDetailsForm.controls['Latitude'].setValue(this.DetailData.Latitude);
+        this.DeviceDetailsForm.controls['Longitude'].setValue(this.DetailData.Longitude);
+        this.DeviceDetailsForm.controls['ModelNumber'].setValue(this.DetailData.ModelNumber);
+        this.DeviceDetailsForm.controls['Manufacturer'].setValue(this.DetailData.Manufacturer);
+        this.DeviceDetailsForm.controls['Vendor'].setValue(this.DetailData.Vendor);
+        this.DeviceDetailsForm.controls['PurchageDate'].setValue(this.DetailData.PurchageDate);
+        this.DeviceDetailsForm.controls['ManufacturerDate'].setValue(this.DetailData.ManufacturerDate);
+        this.DeviceDetailsForm.controls['WarrantyExpireDate'].setValue(this.DetailData.WarrantyExpireDate);
+        this.DeviceDetailsForm.controls['Remark'].setValue(this.DetailData.Remark);
+        this.DeviceDetailsForm.controls['GantryId'].setValue(this.DetailData.GantryId);
         this.onCategoryChnage(this.DetailData.CategoryId);
         this.GetLaneData(this.DetailData.GantryId, this.DetailData.LaneNumber);
       },

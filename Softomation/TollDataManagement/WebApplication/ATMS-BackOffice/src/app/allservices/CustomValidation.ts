@@ -36,17 +36,17 @@ export const regExps: { [key: string]: RegExp } = {
     OnlyDigit: /^(0|[1-9][0-9]*)$/
  };
 
-export class ConfirmValidParentMatcher implements ErrorStateMatcher {
-    isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        return control.parent.invalid && control.touched;
-    }
-    // notSame:false;
-    checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-    const pass = group.get('Password').value;
-    const confirmPass = group.get('ConfirmPassword').value;
-    return pass === confirmPass ? null : { notSame: true };
-  }
-}
+// export class ConfirmValidParentMatcher implements ErrorStateMatcher {
+//     isErrorState(control: FormControl, form: FormGroupDirective): boolean {
+//         return control.parent.invalid && control.touched;
+//     }
+//     // notSame:false;
+//     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+//     const pass = group.get('Password').value;
+//     const confirmPass = group.get('ConfirmPassword').value;
+//     return pass === confirmPass ? null : { notSame: true };
+//   }
+// }
 
 export const errorMessages: { [key: string]: string } = {
     Amount: 'Enter a valid amount.',

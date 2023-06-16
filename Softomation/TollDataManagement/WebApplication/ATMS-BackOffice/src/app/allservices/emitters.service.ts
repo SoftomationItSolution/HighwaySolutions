@@ -25,7 +25,7 @@ export class EmittersService {
     return localStorage.getItem('InnerHeight');
   }
 
-  setInnerHeight(value) {
+  setInnerHeight(value:any) {
     localStorage.setItem('InnerHeight', value);
   }
 

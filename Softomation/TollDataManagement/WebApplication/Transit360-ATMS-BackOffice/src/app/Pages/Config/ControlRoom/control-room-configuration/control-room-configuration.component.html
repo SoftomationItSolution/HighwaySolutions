@@ -10,10 +10,10 @@
         </div>
     </div>
 </div>
+<!-- [globalFilterFields]="['EntryId','ControlRoomName','DataStatusName']" -->
 <div class="table-responsive table-height-master">
     <p-table #dt sortField="EntryId" [sortOrder]="-1" [value]="DevicesData" [rowHover]="true" [scrollable]="true" 
-    [resizableColumns]="true" [style]="{'min-width':'1100px'}" styleClass="p-datatable-striped p-datatable-gridlines"
-    [globalFilterFields]="['EntryId','ControlRoomName','DataStatusName']">
+    [resizableColumns]="true" [style]="{'min-width':'1100px'}" styleClass="p-datatable-striped p-datatable-gridlines" >
         <ng-template pTemplate="caption">
             <div style="text-align: right">
                 <i class="pi pi-search" style="margin:4px 4px 0 0"></i>

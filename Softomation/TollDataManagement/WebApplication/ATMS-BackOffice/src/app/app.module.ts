@@ -1,95 +1,54 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DataModel } from './services/data-model.model';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatInputModule } from '@angular/material/input';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatRadioModule} from '@angular/material/radio';
-import { OverlayModule } from '@angular/cdk/overlay';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputNumberModule} from 'primeng/inputnumber';
-import { RadioButtonModule} from 'primeng/radiobutton';
-import { FileUploadModule} from 'primeng/fileupload';
-import { ToastModule} from 'primeng/toast';
-import { ConfirmDialogModule} from 'primeng/confirmdialog';
-import { CalendarModule } from 'primeng/calendar';
-import { OverlayPanelModule} from 'primeng/overlaypanel';
-import { SplitterModule } from 'primeng/splitter';
-import { FieldsetModule } from 'primeng/fieldset';
-import { MessageModule} from 'primeng/message';
-import { PanelModule} from 'primeng/panel';
-import { TableModule } from 'primeng/table';
+
 import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { CommonModule } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRippleModule } from '@angular/material/core';
+import { DropdownModule } from 'primeng/dropdown';
+import { FieldsetModule } from 'primeng/fieldset';
+import {  MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [
     AppComponent,
     DefaultLayoutComponent,
     LoginComponent,
-    PageNotFoundComponent,
-    SerchFilterPipe
+    SerchFilterPipe,
   ],
   imports: [
     BrowserAnimationsModule,
     BrowserModule,
-    FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule,
-    NgxSpinnerModule,
-    ReactiveFormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
+    CommonModule,
     HttpClientModule,
-    MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
+    FormsModule,
+    AppRoutingModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatTooltipModule,
-    MatTooltipModule,
-    MatInputModule,
-    MatIconModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatRadioModule,
-    OverlayModule,
     DropdownModule,
-    InputNumberModule,
-    RadioButtonModule,
-    FileUploadModule,
-    ConfirmDialogModule,
-    CalendarModule,
-    OverlayPanelModule,
-    ToastModule,
-    SplitterModule,
+    NgxSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatRippleModule, 
     FieldsetModule,
-    MessageModule,
-    PanelModule,
-    MatDialogModule,
+    MatSnackBarModule      
   ],
-  providers: [DataModel],
-  bootstrap: [AppComponent]
+  providers: [],
+  bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class AppModule { }

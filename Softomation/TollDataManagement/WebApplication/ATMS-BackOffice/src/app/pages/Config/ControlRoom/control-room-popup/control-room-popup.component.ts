@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component,  Inject,  OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -21,7 +21,7 @@ export class ControlRoomPopupComponent implements OnInit {
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  constructor(private dbService: ApiService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData,
+  constructor(private dbService: ApiService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<ControlRoomPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
     this.EntryId = parentData.EntryId;
@@ -31,7 +31,7 @@ export class ControlRoomPopupComponent implements OnInit {
     this.PageTitle = 'Create New Contol Room';
     this.DataDetailsForm = new FormGroup({
       ControlRoomName: new FormControl('', [Validators.required,
-        Validators.pattern(regExps.AlphaNumericSingleSpace)
+        Validators.pattern(regExps['AlphaNumericSingleSpace'])
       ])
     });
     if (this.EntryId > 0) {
@@ -54,7 +54,7 @@ export class ControlRoomPopupComponent implements OnInit {
           } else {
             this.DataStatus = false;
           }
-          this.DataDetailsForm.controls.ControlRoomName.setValue(this.DetailData.ControlRoomName);
+          this.DataDetailsForm.controls['ControlRoomName'].setValue(this.DetailData.ControlRoomName);
         } else {
           this.ClosePoup();
           this.ErrorData = [{ AlertMessage: 'role details not found.' }];

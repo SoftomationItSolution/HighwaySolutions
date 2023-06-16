@@ -9,14 +9,14 @@ import { EmittersService } from './emitters.service';
 export class ApiService {
   ApiCallUrl = '';
   ApiCallBaseUrl = '';
-  ConfigData: ConfigIntrface;
+  ConfigData!: ConfigIntrface;
   header: any = new Headers({ 'Content-Type': 'pplication/json; charset = utf-8;' });
   constructor(private objHttp: HttpClient, public emitService: EmittersService) {
     this.GetUrl();
   }
 
   GetUrl() {
-    let returnURL = '';
+    let returnURL:any = '';
     if (this.ApiCallUrl == '' || this.ApiCallUrl == 'null') {
       returnURL = this.emitService.getAPI();
       if (returnURL == '' || returnURL == null || returnURL == 'null') {
@@ -35,7 +35,7 @@ export class ApiService {
               })
               .toPromise()
               .then(
-                res => {
+                (res:any) => {
                   this.ConfigData = JSON.parse(res);
                   if (currentIP != 'localhost') {
                     if (this.ConfigData.BaseURL == 'localhost') {
@@ -70,7 +70,7 @@ export class ApiService {
   }
 
   GetBasePath() {
-    let returnURL = '';
+    let returnURL:any = '';
     if (this.ApiCallBaseUrl == '' || this.ApiCallBaseUrl == 'null') {
       returnURL = this.emitService.getBaseAPI();
       if (returnURL == '' || returnURL == null || returnURL == 'null') {
@@ -89,7 +89,7 @@ export class ApiService {
               })
               .toPromise()
               .then(
-                res => {
+                (res:any) => {
                   this.ConfigData = JSON.parse(res);
                   if (currentIP != 'localhost') {
                     if (this.ConfigData.BaseURL == 'localhost') {
@@ -138,7 +138,7 @@ export class ApiService {
           })
           .toPromise()
           .then(
-            res => {
+            (res:any) => {
               this.ConfigData = JSON.parse(res);
               if (currentIP != 'localhost') {
                 if (this.ConfigData.BaseURL == 'localhost') {
@@ -156,7 +156,7 @@ export class ApiService {
       return promise;
   }
 
-  GetMenuMaster(RoleId) {
+  GetMenuMaster(RoleId:any) {
     const promise = new Promise((resolve, reject) => {
       this.ApiCallUrl = this.GetUrl();
       this.objHttp.get(this.ApiCallUrl + 'AllMenu?RoleId=' + RoleId, { headers: this.header })
@@ -172,7 +172,7 @@ export class ApiService {
     });
     return promise;
   }
-  GetMenuMasterByRole(RoleId): Observable<any> {
+  GetMenuMasterByRole(RoleId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'AllMenu?RoleId=' + RoleId, { headers: this.header });
   }
@@ -188,7 +188,7 @@ export class ApiService {
   }
 
   //#region  Client Configuration
-  ClientConfigurationGetById(ClientId): Observable<any> {
+  ClientConfigurationGetById(ClientId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'ClientConfigurationGetById?ClientId=' + ClientId, { headers: this.header });
   }
@@ -203,7 +203,7 @@ export class ApiService {
   //#endregion
 
   //#region  Role Configuration
-  RoleConfigurationGetById(RoleId): Observable<any> {
+  RoleConfigurationGetById(RoleId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'RoleConfigurationGetById?RoleId=' + RoleId, { headers: this.header });
   }
@@ -216,7 +216,7 @@ export class ApiService {
     return this.objHttp.post(this.ApiCallUrl + 'RoleConfigurationSetUp', data, { headers: this.header });
   }
 
-  RolePermissionGetByRoleId(RoleId): Observable<any> {
+  RolePermissionGetByRoleId(RoleId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'RolePermissionGetByRoleId?RoleId=' + RoleId, { headers: this.header });
   }
@@ -233,7 +233,7 @@ export class ApiService {
   //#endregion
 
   //#region  User Configuration
-  UserConfigurationGetById(UserId): Observable<any> {
+  UserConfigurationGetById(UserId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'UserConfigurationGetById?UserId=' + UserId, { headers: this.header });
   }
@@ -264,7 +264,7 @@ CategoryMasterGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'CategoryMasterGetActive', { headers: this.header });
 }
-CategoryMasterGetById(EntryId): Observable<any> {
+CategoryMasterGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'CategoryMasterGetById?EntryId=' + EntryId, { headers: this.header });
 }
@@ -279,18 +279,18 @@ DeviceTypeGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DeviceTypeGetActive', { headers: this.header });
 }
-DeviceTypeGetByCatId(CategoryId): Observable<any> {
+DeviceTypeGetByCatId(CategoryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DeviceTypeGetByCatId?CategoryId=' + CategoryId, { headers: this.header });
 }
-DeviceTypeGetById(EntryId): Observable<any> {
+DeviceTypeGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DeviceTypeGetById?EntryId=' + EntryId, { headers: this.header });
 }
 //#endregion
 
 //#region ControlRoom Data
-ControlRoomGetByUserId(UserId): Observable<any> {
+ControlRoomGetByUserId(UserId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetByUserId?UserId=' + UserId, { headers: this.header });
 }
@@ -298,7 +298,7 @@ ControlRoomGetAll(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetAll', { headers: this.header });
 }
-ControlRoomGetById(EntryId): Observable<any> {
+ControlRoomGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetById?EntryId=' + EntryId, { headers: this.header });
 }
@@ -318,7 +318,7 @@ GantryGetAllActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'GantryGetAllActive', { headers: this.header });
 }
-GantryGetById(EntryId): Observable<any> {
+GantryGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'GantryGetById?EntryId=' + EntryId, { headers: this.header });
 }
@@ -330,7 +330,7 @@ GantryInsertUpdate(data: {}): Observable<any> {
 
 
 //#region  Gantry Mapping
-GantryMappingGetByGantryId(GantryId): Observable<any> {
+GantryMappingGetByGantryId(GantryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'GantryMappingGetByGantryId?GantryId=' + GantryId, { headers: this.header });
 }
@@ -349,11 +349,11 @@ GantryMappingSetUp(data: {}): Observable<any> {
 //#endregion
 
  //#region  Lane Mapping
- LaneConfigurationGetByType(LaneType): Observable<any> {
+ LaneConfigurationGetByType(LaneType:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'LaneConfigurationGetByType?LaneType=' + LaneType, { headers: this.header });
 }
-LaneConfigurationGetById(LaneId): Observable<any> {
+LaneConfigurationGetById(LaneId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'LaneConfigurationGetById?LaneId=' + LaneId, { headers: this.header });
 }
@@ -365,18 +365,18 @@ LaneConfigurationSetUp(data: {}): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.post(this.ApiCallUrl + 'LaneConfigurationSetUp', data, { headers: this.header });
 }
-LaneConfigurationGetByPlazaId(PlazaId): Observable<any> {
+LaneConfigurationGetByPlazaId(PlazaId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'LaneConfigurationGetByPlazaId?PlazaId=' + PlazaId, { headers: this.header });
 }
-LaneConfigurationActiveGetByGantryId(GantryId): Observable<any> {
+LaneConfigurationActiveGetByGantryId(GantryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'LaneConfigurationActiveGetByGantryId?GantryId=' + GantryId, { headers: this.header });
 }
 //#endregion
 
  //#region  Vehicle Class
- VehicleClassGetById(EntryId): Observable<any> {
+ VehicleClassGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'VehicleClassGetById?EntryId=' + EntryId, { headers: this.header });
 }
@@ -392,7 +392,7 @@ VehicleClassInsertUpdate(data: {}): Observable<any> {
 //#endregion
 
 //#region Devices Data
-DefaultCoordinates(ControlRoomId): Observable<any> {
+DefaultCoordinates(ControlRoomId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DefaultCoordinates?ControlRoomId=' + ControlRoomId, { headers: this.header });
 }
@@ -404,19 +404,19 @@ DevicesMasterGetAllActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DevicesMasterGetAllActive', { headers: this.header });
 }
-DevicesMasterGetById(EntryId): Observable<any> {
+DevicesMasterGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DevicesMasterGetById?EntryId=' + EntryId, { headers: this.header });
 }
-DevicesMasterGetByType(DeviceTypeId): Observable<any> {
+DevicesMasterGetByType(DeviceTypeId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DevicesMasterGetByType?DeviceTypeId=' + DeviceTypeId, { headers: this.header });
 }
-DevicesMasterGetByControlRoom(ControlRoomId): Observable<any> {
+DevicesMasterGetByControlRoom(ControlRoomId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DevicesMasterGetByControlRoom?ControlRoomId=' + ControlRoomId, { headers: this.header });
 }
-DevicesMasterGetByControlRoomActive(ControlRoomId): Observable<any> {
+DevicesMasterGetByControlRoomActive(ControlRoomId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'DevicesMasterGetByControlRoomActive?ControlRoomId=' + ControlRoomId, { headers: this.header });
 }
@@ -436,7 +436,7 @@ VMSGetAll(): Observable<any> {
   return this.objHttp.get(this.ApiCallUrl + 'VMSGetAll', { headers: this.header });
 }
 
-VMSGetById(EntryId): Observable<any> {
+VMSGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'VMSGetById?EntryId=' + EntryId, { headers: this.header });
 }
@@ -484,11 +484,11 @@ ATCCGetLatest(): Observable<any> {
 
 
  //#region  Site Configuration
- ClientSiteGetById(EntryId): Observable<any> {
+ ClientSiteGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ClientSiteGetById?EntryId=' + EntryId, { headers: this.header });
 }
-ClientSiteGetByClientId(tmsId): Observable<any> {
+ClientSiteGetByClientId(tmsId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ClientSiteGetByClientId?EntryId=' + tmsId, { headers: this.header });
 }
@@ -506,7 +506,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
 //#endregion
 
   //#region  IHMCL Class
-  IHMCLClassGetByClassId(ClassId): Observable<any> {
+  IHMCLClassGetByClassId(ClassId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'IHMCLClassGetByClassId?ClassId=' + ClassId, { headers: this.header });
   }
@@ -518,11 +518,11 @@ IntegrationMethodologyGetAll(): Observable<any> {
   //#endregion
 
   //#region  Class Mapping
-  ClassMappingGetByClassId(ClassId): Observable<any> {
+  ClassMappingGetByClassId(ClassId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'ClassMappingGetByClassId?ClassId=' + ClassId, { headers: this.header });
   }
-  ClassMappingGetByClientId(ClientId): Observable<any> {
+  ClassMappingGetByClientId(ClientId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'ClassMappingGetByClientId?ClientId=' + ClientId, { headers: this.header });
   }
@@ -556,7 +556,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
   //#endregion
 
   //#region  Hardware Mapping
-  HardwareConfigurationGetById(HardwareId): Observable<any> {
+  HardwareConfigurationGetById(HardwareId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'HardwareConfigurationGetById?HardwareId=' + HardwareId, { headers: this.header });
   }
@@ -568,7 +568,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.post(this.ApiCallUrl + 'HardwareConfigurationSetUp', data, { headers: this.header });
   }
-  HardwareConfigurationGetByClientId(ClientId): Observable<any> {
+  HardwareConfigurationGetByClientId(ClientId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'HardwareConfigurationGetByClientId?ClientId=' + ClientId, { headers: this.header });
   }
@@ -591,7 +591,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetShiftDetails', { headers: this.header });
   }
-  GetShiftStatusDetails(ShiftStatus): Observable<any> {
+  GetShiftStatusDetails(ShiftStatus:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetShiftStatusDetails?ShiftStatus=' + ShiftStatus, { headers: this.header });
   }
@@ -614,15 +614,15 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'CashFlowConfigurationGetAll', { headers: this.header });
   }
-  CashFlowConfigurationGetAllPending(UserId): Observable<any> {
+  CashFlowConfigurationGetAllPending(UserId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'CashFlowConfigurationGetAllPending?UserId=' + UserId, { headers: this.header });
   }
-  CashFlowConfigurationGetById(CashFlowId): Observable<any> {
+  CashFlowConfigurationGetById(CashFlowId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'CashFlowConfigurationGetById?CashFlowId=' + CashFlowId, { headers: this.header });
   }
-  CashFlowConfigurationPrint(type, RNmber): Observable<any> {
+  CashFlowConfigurationPrint(type:any, RNmber:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'CashFlowConfigurationPrint?Type=' + type + '&Number=' + RNmber, { headers: this.header });
   }
@@ -638,7 +638,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.post(this.ApiCallUrl + 'CashFlowConfigurationFinish', data, { headers: this.header });
   }
-  CashFlowConfigurationGetByOpenShift(ShiftMasterId): Observable<any> {
+  CashFlowConfigurationGetByOpenShift(ShiftMasterId:number): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'CashFlowConfigurationGetByOpenShift?ShiftMasterId=' + ShiftMasterId, { headers: this.header });
   }
@@ -697,7 +697,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetReportCategory', { headers: this.header });
   }
-  GetSubReportCategory(CategoryId): Observable<any> {
+  GetSubReportCategory(CategoryId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetSubReportCategory?CategoryId=' + CategoryId, { headers: this.header });
   }
@@ -724,11 +724,11 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetLiveStatus', { headers: this.header });
   }
-  GetLiveStatusByLane(LaneNumber): Observable<any> {
+  GetLiveStatusByLane(LaneNumber:number): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetLiveStatusByLane?LaneNumber=' + LaneNumber, { headers: this.header });
   }
-  LiveOutputDeveiceByLane(LaneNumber): Observable<any> {
+  LiveOutputDeveiceByLane(LaneNumber:number): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'LiveOutputDeveiceByLane?LaneNumber=' + LaneNumber, { headers: this.header });
   }
@@ -736,7 +736,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetLiveSystemStatus', { headers: this.header });
   }
-  GetLiveSystemStatusByLane(LaneNumber): Observable<any> {
+  GetLiveSystemStatusByLane(LaneNumber:number): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     return this.objHttp.get(this.ApiCallUrl + 'GetLiveSystemStatusByLane?LaneNumber=' + LaneNumber, { headers: this.header });
   }
@@ -768,7 +768,7 @@ IntegrationMethodologyGetAll(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'IncidentMasterGetAll', { headers: this.header });
 }
-IncidentDataGetById(EntryId): Observable<any> {
+IncidentDataGetById(EntryId:number): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'IncidentMasterGetById?EntryId=' + EntryId, { headers: this.header });
 }
