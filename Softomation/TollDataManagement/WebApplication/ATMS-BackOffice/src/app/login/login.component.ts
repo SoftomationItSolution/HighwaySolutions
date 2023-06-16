@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { apiIntegrationService } from '../services/apiIntegration.service';
 import { DataModel } from '../services/data-model.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { EmittersService } from '../allservices/emitters.service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class LoginComponent implements OnInit {
   ErrorData: any;
   loginReposnse: any;
   constructor(public router: Router, public api: apiIntegrationService, public dataModel: DataModel,
-    private spinner: NgxSpinnerService) { }
+    private spinner: NgxSpinnerService, private emitService: EmittersService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -56,7 +57,7 @@ export class LoginComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        // this.emitService.openSnackBar(this.ErrorData, false);
+        this.emitService.openSnackBar(this.ErrorData, false);
 
       }
     );
