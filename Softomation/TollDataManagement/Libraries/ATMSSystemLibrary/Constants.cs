@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Data;
+using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
 namespace Softomation.ATMSSystemLibrary
@@ -331,7 +335,46 @@ namespace Softomation.ATMSSystemLibrary
             return input;
             //return tokenString;
         }
+        public static string RandomString(int length)
+        {
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
+        public static string RandomDigit(int length)
+        {
+            const string chars = "123456789";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+        }
 
+        public static bool BulkCopy(DataTable dt, string table)
+        {
+            try
+            {
+                bool error = true;
+                SqlConnection con = (SqlConnection)DBAccessor.CreateConnection();
+                con.Open();
+                using (SqlBulkCopy bulcopy = new SqlBulkCopy(con))
+                {
+                    bulcopy.DestinationTableName = table;
+                    try
+                    {
+                        bulcopy.WriteToServer(dt);
+                        con.Dispose();
+                    }
+                    catch (Exception ex)
+                    {
+                        con.Dispose();
+                        error = false;
+                        throw ex;
+                    }
+                    return error;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         //public static DevicesMasterIL GetCentralGeoCoordinate(List<DevicesMasterIL> geoCoordinates)
         //{
