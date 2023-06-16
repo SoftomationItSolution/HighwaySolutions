@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
-import { DataModel } from 'src/app/services/data-model.model';
-import { DOCUMENT, Location } from '@angular/common';
+import { apiIntegrationService } from '../../services/apiIntegration.service';
+import { DataModel } from '../../services/data-model.model';
 
 @Component({
   selector: 'app-dashboard',

@@ -15,27 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WindowApplication", "Window
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApplication", "WebApplication", "{A7EF6D21-D8C1-48A6-A3EC-346503F08767}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "WebApplication", "Softomation\TollDataManagement\WebApplication\", "{CA318C30-BB12-4395-A805-D707702BE0B2}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_52261"
-		Debug.AspNetCompiler.PhysicalPath = "Softomation\TollDataManagement\WebApplication\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52261\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_52261"
-		Release.AspNetCompiler.PhysicalPath = "Softomation\TollDataManagement\WebApplication\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_52261\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "52261"
-		SlnRelativePath = "Softomation\TollDataManagement\WebApplication\"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TollSolutionsAPI", "Softomation\TollDataManagement\WebApi\TollSolutionsAPI\TollSolutionsAPI.csproj", "{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlazaDataSynchronization", "Softomation\TollDataManagement\WindowsService\PlazaDataSynchronization\PlazaDataSynchronization.csproj", "{9B54F73A-81D1-4AF2-8DAB-396D28AB6474}"
@@ -72,10 +51,6 @@ Global
 		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA318C30-BB12-4395-A805-D707702BE0B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA318C30-BB12-4395-A805-D707702BE0B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA318C30-BB12-4395-A805-D707702BE0B2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA318C30-BB12-4395-A805-D707702BE0B2}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -124,7 +99,6 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
-		{CA318C30-BB12-4395-A805-D707702BE0B2} = {A7EF6D21-D8C1-48A6-A3EC-346503F08767}
 		{EA0E0D6E-577D-4EF8-B4EA-F23F75A29983} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
 		{9B54F73A-81D1-4AF2-8DAB-396D28AB6474} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 		{8C832FB5-24D0-4ABD-A6F5-E7ED92AF4AA5} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}

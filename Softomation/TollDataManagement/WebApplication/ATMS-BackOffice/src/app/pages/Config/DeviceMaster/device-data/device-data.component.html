@@ -1,4 +1,4 @@
-<div class="top-bar">
+<!-- <div class="top-bar">
     <div class="row d-flex align-items-center">
         <div class="col-md-6 d-md-block d-none">
             <p><i class="arrow right"></i><i class="arrow right"></i> Device Configuration</p>
@@ -9,101 +9,132 @@
             </div>
         </div>
     </div>
-</div>
-<div class="table-responsive table-height-master">
-    <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [style]="{'min-width':'3000px'}"
-     [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines" 
-    [globalFilterFields]="['ControlRoomName','CategoryName','DeviceTypeName','DeviceName','DirectionName',
-    'IpAddress','PortNumber','DeviceLoginId','DevicePassword','Latitude','Longitude','GantryName','LaneNumber',
-    'ModelNumber','Manufacturer','Vendor','Remark','ManufacturerDate','PurchageDate','WarrantyExpireDate','DataStatusName']">
-        <ng-template pTemplate="caption">
-            <div style="text-align: right">
-                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
+</div> -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="javascript:void(0);" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable"><i class="mdi mdi-plus me-2"></i> Add Module</a>
+                    <div class="dropdown d-inline-block float-right">
+                        <button type="button" class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
+                            <i class="mdi mdi-filter-menu-outline"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtableheight">
+                    <div class="table-responsive table-height-master">
+                        <div class="table-responsive table-height-master">
+                            <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [style]="{'min-width':'3000px'}"
+                             [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines" 
+                            [globalFilterFields]="['ControlRoomName','CategoryName','DeviceTypeName','DeviceName','DirectionName',
+                            'IpAddress','PortNumber','DeviceLoginId','DevicePassword','Latitude','Longitude','GantryName','LaneNumber',
+                            'ModelNumber','Manufacturer','Vendor','Remark','ManufacturerDate','PurchageDate','WarrantyExpireDate','DataStatusName']">
+                                <ng-template pTemplate="caption">
+                                    <div style="text-align: right">
+                                        <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                        <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
+                                    </div>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>S. No.</th>
+                                        <th pSortableColumn="EntryId">Device Id <p-sortIcon field="EntryId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ControlRoomName">Control Room <p-sortIcon field="ControlRoomName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="CategoryName">Category <p-sortIcon field="CategoryName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DeviceTypeName">Type <p-sortIcon field="DeviceTypeName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DeviceName">Name <p-sortIcon field="DeviceName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DirectionName">Direction <p-sortIcon field="DirectionName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="GantryName">Gantry <p-sortIcon field="GantryName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="LaneNumber">Lane <p-sortIcon field="LaneNumber"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ConnectionType">Connection <p-sortIcon field="ConnectionType"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="IpAddress">Ip Address <p-sortIcon field="IpAddress"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="PortNumber">Port Number <p-sortIcon field="PortNumber"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DeviceLoginId">LoginId <p-sortIcon field="DeviceLoginId"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DevicePassword">Password <p-sortIcon field="DevicePassword"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="Latitude">Latitude <p-sortIcon field="Latitude"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="Longitude">Longitude <p-sortIcon field="Longitude"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ModelNumber">Model <p-sortIcon field="ModelNumber"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="Manufacturer">Manufacturer <p-sortIcon field="Manufacturer"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="Vendor">Vendor <p-sortIcon field="Vendor"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="Remark">Remark <p-sortIcon field="Remark"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="ManufacturerDate">Manufacturer Date <p-sortIcon field="ManufacturerDate"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="PurchageDate">Purchage Date <p-sortIcon field="PurchageDate"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="WarrantyExpireDate">Warranty Expire Date <p-sortIcon field="WarrantyExpireDate"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
+                                        </th>
+                                        <th style="text-align: center;" *ngIf="DataUpdate==1">Update</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr style="font-size: 10px;">
+                                        <td>{{i+1}}</td>
+                                         <td>{{rowData.EntryId}}</td>
+                                        <td>{{rowData.ControlRoomName}}</td>
+                                        <td>{{rowData.CategoryName}}</td>
+                                        <td>{{rowData.DeviceTypeName}}</td>
+                                        <td>{{rowData.DeviceName}}</td>
+                                        <td>{{rowData.DirectionName}}</td>
+                                        <td>{{rowData.GantryName}}</td>
+                                        <td>{{rowData.LaneNumber}}</td>
+                                        <td>{{rowData.ConnectionType}}</td>
+                                        <td>{{rowData.IpAddress}}</td>
+                                        <td>{{rowData.PortNumber}}</td>
+                                        <td>{{rowData.DeviceLoginId}}</td>
+                                        <td>{{rowData.DevicePassword}}</td>
+                                        <td>{{rowData.Latitude}}</td>
+                                        <td>{{rowData.Longitude}}</td>
+                                        <td>{{rowData.ModelNumber}}</td>
+                                        <td>{{rowData.Manufacturer}}</td>
+                                        <td>{{rowData.Vendor}}</td>
+                                        <td>{{rowData.Remark}}</td>
+                                        <td>{{rowData.ManufacturerDate }}</td>
+                                        <td>{{rowData.PurchageDate}}</td>
+                                        <td>{{rowData.WarrantyExpireDate}}</td>
+                                        <td>{{rowData.DataStatusName}}</td>
+                                        <td style="text-align: center;" *ngIf="DataUpdate==1">
+                                            <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>S. No.</th>
-                <th pSortableColumn="EntryId">Device Id <p-sortIcon field="EntryId"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ControlRoomName">Control Room <p-sortIcon field="ControlRoomName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="CategoryName">Category <p-sortIcon field="CategoryName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DeviceTypeName">Type <p-sortIcon field="DeviceTypeName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DeviceName">Name <p-sortIcon field="DeviceName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DirectionName">Direction <p-sortIcon field="DirectionName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="GantryName">Gantry <p-sortIcon field="GantryName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="LaneNumber">Lane <p-sortIcon field="LaneNumber"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ConnectionType">Connection <p-sortIcon field="ConnectionType"></p-sortIcon>
-                </th>
-                <th pSortableColumn="IpAddress">Ip Address <p-sortIcon field="IpAddress"></p-sortIcon>
-                </th>
-                <th pSortableColumn="PortNumber">Port Number <p-sortIcon field="PortNumber"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DeviceLoginId">LoginId <p-sortIcon field="DeviceLoginId"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DevicePassword">Password <p-sortIcon field="DevicePassword"></p-sortIcon>
-                </th>
-                <th pSortableColumn="Latitude">Latitude <p-sortIcon field="Latitude"></p-sortIcon>
-                </th>
-                <th pSortableColumn="Longitude">Longitude <p-sortIcon field="Longitude"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ModelNumber">Model <p-sortIcon field="ModelNumber"></p-sortIcon>
-                </th>
-                <th pSortableColumn="Manufacturer">Manufacturer <p-sortIcon field="Manufacturer"></p-sortIcon>
-                </th>
-                <th pSortableColumn="Vendor">Vendor <p-sortIcon field="Vendor"></p-sortIcon>
-                </th>
-                <th pSortableColumn="Remark">Remark <p-sortIcon field="Remark"></p-sortIcon>
-                </th>
-                <th pSortableColumn="ManufacturerDate">Manufacturer Date <p-sortIcon field="ManufacturerDate"></p-sortIcon>
-                </th>
-                <th pSortableColumn="PurchageDate">Purchage Date <p-sortIcon field="PurchageDate"></p-sortIcon>
-                </th>
-                <th pSortableColumn="WarrantyExpireDate">Warranty Expire Date <p-sortIcon field="WarrantyExpireDate"></p-sortIcon>
-                </th>
-                <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
-                </th>
-                <th style="text-align: center;" *ngIf="DataUpdate==1">Update</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-            <tr style="font-size: 10px;">
-                <td>{{i+1}}</td>
-                 <td>{{rowData.EntryId}}</td>
-                <td>{{rowData.ControlRoomName}}</td>
-                <td>{{rowData.CategoryName}}</td>
-                <td>{{rowData.DeviceTypeName}}</td>
-                <td>{{rowData.DeviceName}}</td>
-                <td>{{rowData.DirectionName}}</td>
-                <td>{{rowData.GantryName}}</td>
-                <td>{{rowData.LaneNumber}}</td>
-                <td>{{rowData.ConnectionType}}</td>
-                <td>{{rowData.IpAddress}}</td>
-                <td>{{rowData.PortNumber}}</td>
-                <td>{{rowData.DeviceLoginId}}</td>
-                <td>{{rowData.DevicePassword}}</td>
-                <td>{{rowData.Latitude}}</td>
-                <td>{{rowData.Longitude}}</td>
-                <td>{{rowData.ModelNumber}}</td>
-                <td>{{rowData.Manufacturer}}</td>
-                <td>{{rowData.Vendor}}</td>
-                <td>{{rowData.Remark}}</td>
-                <td>{{rowData.ManufacturerDate }}</td>
-                <td>{{rowData.PurchageDate}}</td>
-                <td>{{rowData.WarrantyExpireDate}}</td>
-                <td>{{rowData.DataStatusName}}</td>
-                <td style="text-align: center;" *ngIf="DataUpdate==1">
-                    <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        </div>
+        <nav aria-label="Page navigation example" class="float-right">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
+    </div>
 </div>
+
