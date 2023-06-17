@@ -10,7 +10,8 @@ import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-
 // import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
  import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
  import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
-
+ import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
+import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -25,9 +26,9 @@ export const AdminLayoutRoutes: Routes = [
     // { path: 'incidents', component: IncidentDataComponent },
     // { path: 'vms', component: VMSDataComponent },
     // { path: 'met', component: METDataComponent },
-    // { path: 'vids', component: VidsDataComponent },
+     { path: 'vids', component: VidsdataComponent },
     // { path: 'ecb', component: ECBDataComponent },
-    // { path: 'atcc', component: ATCCDataComponent },
+    { path: 'atcc', component: AtccdataComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent }
 ];
