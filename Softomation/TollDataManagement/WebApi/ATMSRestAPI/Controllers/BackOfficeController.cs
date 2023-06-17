@@ -362,209 +362,119 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region User Management
-        //[Route(Provider + "/Transit360-ATMS/UserValidatePassword")]
-        //[HttpPost]
-        //public HttpResponseMessage UserValidatePassword(UserManagementIL user)
-        //{
-        //    try
-        //    {
-        //        UserManagementIL users = UserManagementBL.GetById((int)user.EntryId);
-        //        if (user.LoginPassword == Constants.Decrypt(users.LoginPassword))
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = "success";
-        //            responceMessae.Add(objMessage);
-        //            responce.Message = responceMessae;
-        //            return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //        }
-        //        else
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = "failed";
-        //            responceMessae.Add(objMessage);
-        //            responce.Message = responceMessae;
-        //            return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserValidatePassword : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/UserValidatePassword")]
+        [HttpPost]
+        public HttpResponseMessage UserValidatePassword(UserManagementIL user)
+        {
+            try
+            {
+                UserManagementIL users = UserManagementBL.GetById((int)user.UserId);
+                if (user.LoginPassword == Constants.Decrypt(users.LoginPassword))
+                {
+                    resp.AlertMessage = "success";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    resp.AlertMessage = "failed";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserValidatePassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/UserUpdatePassword")]
-        //[HttpPost]
-        //public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
-        //{
-        //    try
-        //    {
-        //        UserManagementBL.UpdatePassword(user);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserUpdatePassword : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
+        [HttpPost]
+        public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
+        {
+            try
+            {
+                response.Message = UserManagementBL.UpdatePassword(user);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserUpdatePassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/UserConfigurationSetUp")]
-        //[HttpPost]
-        //public HttpResponseMessage UserConfigurationSetUp(UserManagementIL user)
-        //{
-        //    try
-        //    {
-        //        if (user.AccountExpiredDate <= DateTime.Now)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = "Account expired date must be greater than current date!";
-        //            responceMessae.Add(objMessage);
-        //            responce.Message = responceMessae;
-        //            return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //        }
-        //        else
-        //        {
-        //            List<ResponceIL> resp = UserManagementBL.InsertUpdate(user);
-        //            foreach (var ResponceIL in resp)
-        //            {
-        //                ResponceMessage objMessage = new ResponceMessage();
-        //                objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //                responceMessae.Add(objMessage);
-        //            }
-        //            responce.Message = responceMessae;
-        //            return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserConfigurationSetUp : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/UserConfigurationSetUp")]
+        [HttpPost]
+        public HttpResponseMessage UserConfigurationSetUp(UserManagementIL user)
+        {
+            try
+            {
+                if (user.AccountExpiredDate <= DateTime.Now)
+                {
+                    resp.AlertMessage = "Account expired date must be greater than current date!";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    response.Message = UserManagementBL.InsertUpdate(user);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/UserConfigurationGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage UserConfigurationGetAll()
-        //{
-        //    try
-        //    {
-        //        List<UserManagementIL> users = UserManagementBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = users;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserConfigurationGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetAll")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/UserConfigurationGetByClientId")]
-        //[HttpGet]
-        //public HttpResponseMessage UserConfigurationGetByClientId(int ClientId)
-        //{
-        //    try
-        //    {
-
-        //        List<UserManagementIL> users;
-        //        if (ClientId == 0)
-        //            users = UserManagementBL.GetAll();
-        //        else
-        //            users = UserManagementBL.GetByClientId(ClientId);
-
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = users;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserConfigurationGetByClientId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/UserConfigurationGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage UserConfigurationGetById(int UserId)
-        //{
-        //    try
-        //    {
-        //        UserManagementIL user = UserManagementBL.GetById(UserId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = user;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserConfigurationGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/UserConfigurationGetByIdP")]
-        //[HttpGet]
-        //public HttpResponseMessage UserConfigurationGetByIdP(int UserId)
-        //{
-        //    try
-        //    {
-        //        UserManagementIL user = UserManagementBL.GetById(UserId);
-        //        user.LoginPassword = Constants.Decrypt(user.LoginPassword);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = user;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in UserConfigurationGetByIdP : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetById")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetById(int UserId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetById(UserId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Control Room

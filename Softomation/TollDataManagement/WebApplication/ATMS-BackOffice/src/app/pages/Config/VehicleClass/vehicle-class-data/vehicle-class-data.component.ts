@@ -94,6 +94,7 @@ NewEntry() {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
+  dialogConfig.height = '450px';
   dialogConfig.data = { action: 'Save', EntryId: 0, PermissionData: this.PermissionData};
   this.dialog.open(VehicleClassPopupComponent, dialogConfig);
 }
@@ -102,6 +103,7 @@ onRowEditInit(data:any) {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
+  dialogConfig.height = '450px';
   dialogConfig.data = { action: 'Update', EntryId: data.EntryId, PermissionData: this.PermissionData};
   this.dialog.open(VehicleClassPopupComponent, dialogConfig);
 }

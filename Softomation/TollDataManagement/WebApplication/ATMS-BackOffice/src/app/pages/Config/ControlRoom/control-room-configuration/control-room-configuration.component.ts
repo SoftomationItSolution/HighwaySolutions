@@ -93,6 +93,7 @@ NewEntry() {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
+  dialogConfig.height = '450px';
   dialogConfig.data = { action: 'Save', ControlRoomId: 0, PermissionData: this.PermissionData};
   this.dialog.open(ControlRoomPopupComponent, dialogConfig);
 }
@@ -101,6 +102,7 @@ onRowEditInit(data:any) {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
+  dialogConfig.height = '450px';
   dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId, PermissionData: this.PermissionData};
   this.dialog.open(ControlRoomPopupComponent, dialogConfig);
 }

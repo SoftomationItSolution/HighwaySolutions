@@ -100,6 +100,7 @@ export class RoleConfigurationComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
+    dialogConfig.height = '450px';
     dialogConfig.data = { action: 'Save', RoleId: 0 };
     this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
   }
@@ -109,6 +110,7 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
+      dialogConfig.height = '450px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId };
       this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
     }
@@ -124,6 +126,7 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
+      dialogConfig.height = '450px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
       this.dialog.open(RolePermissionPopupComponent, dialogConfig);
     }

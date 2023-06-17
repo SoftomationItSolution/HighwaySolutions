@@ -29,10 +29,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EmailId", DbType.String, user.EmailId.Trim(), ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MobileNumber", DbType.String, user.MobileNumber.Trim(), ParameterDirection.Input, 30));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AccountExpiredDate", DbType.Date, user.AccountExpiredDate, ParameterDirection.Input, 30));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, user.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserTypeId", DbType.Int32, user.UserTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, user.RoleId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, user.CreatedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, user.DataStatus, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, user.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
@@ -43,20 +43,23 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return responses;
         }
-        internal static void UpdatePassword(UserManagementIL user)
+        internal static List<ResponseIL> UpdatePassword(UserManagementIL user)
         {
+            List<ResponseIL> responses = null;
             try
             {
                 string spName = "USP_UserUpdatePassword";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EntryId", DbType.Int32, user.LoginId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, Constants.Encrypt(user.LoginPassword), ParameterDirection.Input, 200));
-                DBAccessor.ExecuteNonQuery(command);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                responses = ResponseIL.ConvertResponseList(dt);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return responses;
         }
 
         #region Get Methods
@@ -92,7 +95,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
 
         }
-        internal static UserManagementIL GetById(Int32 EntryId)
+        internal static UserManagementIL GetById(Int32 UserId)
         {
             DataTable dt = new DataTable();
             UserManagementIL user = new UserManagementIL();
@@ -100,7 +103,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_UserGetbyId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EntryId", DbType.Int32, EntryId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, UserId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     user = CreateObjectFromDataRow(dr);
@@ -129,29 +132,6 @@ namespace Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
             return account;
-        }
-        internal static List<UserManagementIL> GetBySystemId(Int32 SystemId)
-        {
-            DataTable dt = new DataTable();
-            List<UserManagementIL> UserList = new List<UserManagementIL>();
-            UserManagementIL user = new UserManagementIL();
-            try
-            {
-                string spName = "USP_UserGetBySystemId";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                {
-                    user = CreateObjectFromDataRow(dr);
-                    UserList.Add(user);
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return UserList;
         }
         #endregion
 

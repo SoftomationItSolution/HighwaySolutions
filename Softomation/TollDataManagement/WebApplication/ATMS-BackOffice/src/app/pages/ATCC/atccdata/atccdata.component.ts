@@ -85,6 +85,7 @@ export class AtccdataComponent {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
+    dialogConfig.height = '450px';
     dialogConfig.data = { "action": 'Update'}
     //this.dialog.open(METConfigPopupComponent, dialogConfig);
   }

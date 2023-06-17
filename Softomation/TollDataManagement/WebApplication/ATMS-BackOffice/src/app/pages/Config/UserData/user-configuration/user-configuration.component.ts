@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { UserConfigurationPopupComponent } from '../user-configuration-popup/user-configuration-popup.component';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 declare var $: any;
 @Component({
   selector: 'app-user-configuration',
@@ -19,7 +19,7 @@ export class UserConfigurationComponent implements OnInit {
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
               private spinner: NgxSpinnerService) {
       this.LogedRoleId =  this.emitService.getRoleDetails();
       this.emitService.PageRefresh.subscribe(
@@ -39,13 +39,13 @@ export class UserConfigurationComponent implements OnInit {
      GetPermissionData() {
       this.spinner.show();
       const Obj = {
-        EventId: 11,
+        MenuId: 10,
         RoleId: this.LogedRoleId
       };
       this.dbService.RolePermissionGetByEventId(Obj).subscribe(
         data => {
           this.spinner.hide();
-          this.PermissionData = data.ResponceData;
+          this.PermissionData = data.ResponseData;
           this.DataAdd = this.PermissionData.DataAdd;
           this.DataUpdate = this.PermissionData.DataUpdate;
           this.DataView = this.PermissionData.DataView;
@@ -77,7 +77,7 @@ export class UserConfigurationComponent implements OnInit {
     this.dbService.UserConfigurationGetAll().subscribe(
       data => {
         this.spinner.hide();
-        this.DevicesData = data.ResponceData;
+        this.DevicesData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();
@@ -91,7 +91,8 @@ export class UserConfigurationComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    dialogConfig.data = { action: 'Save', EntryId: 0};
+    dialogConfig.height = '450px';
+    dialogConfig.data = { action: 'Save', UserId: 0};
     this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
   }
   onRowEditInit(data:any) {
@@ -99,7 +100,8 @@ export class UserConfigurationComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    dialogConfig.data = { action: 'Update', EntryId: data.EntryId};
+    dialogConfig.height = '450px';
+    dialogConfig.data = { action: 'Update', UserId: data.UserId};
     this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
   }
 

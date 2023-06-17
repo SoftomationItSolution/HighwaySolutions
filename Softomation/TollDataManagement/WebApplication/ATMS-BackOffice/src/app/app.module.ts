@@ -14,7 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatRippleModule } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import {  MatSnackBarModule } from '@angular/material/snack-bar';
@@ -50,7 +50,29 @@ import { RolePermissionPopupComponent } from './pages/Config/RoleData/role-permi
 import { VidsdataComponent } from './pages/VIDS/vidsdata/vidsdata.component';
 import { AtccdataComponent } from './pages/ATCC/atccdata/atccdata.component';
 import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-room-popup/control-room-popup.component';
+import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+export const MY_NATIVE_DATE_FORMATS = {
+  parse: {
+    dateInput: 'DD-MMM-YYYY',
+  },
+  display: {
+    dateInput: 'DD-MMM-YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'DD-MMM-YYYY',
+    monthYearA11yLabel: 'MMM YYYY',
+  },
+};
 
+export const MY_CUSTOM_FORMATS = {
+  parseInput: 'l LT',
+  fullPickerInput: 'l LT',
+  datePickerInput: 'l',
+  timePickerInput: 'LT',
+  monthYearLabel: 'MMM YYYY',
+  dateA11yLabel: 'LL',
+  monthYearA11yLabel: 'MMMM YYYY',
+};
 
 @NgModule({
   declarations: [
@@ -68,6 +90,7 @@ import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-ro
     RoleConfigurationPopupComponent,
     RolePermissionPopupComponent,
     UserConfigurationComponent,
+    UserConfigurationPopupComponent,
     VidsdataComponent,
     AtccdataComponent
   ],
@@ -117,7 +140,11 @@ import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-ro
     MatDialogModule,
     MatButtonModule
   ],
-  providers: [],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'in' }, // you can change useValue
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+    { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },
+  ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ]
 })

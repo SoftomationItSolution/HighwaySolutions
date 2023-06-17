@@ -20,11 +20,11 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
-        public static void UpdatePassword(UserManagementIL user)
+        public static List<ResponseIL> UpdatePassword(UserManagementIL user)
         {
             try
             {
-                UserManagementDL.UpdatePassword(user);
+                return UserManagementDL.UpdatePassword(user);
             }
             catch (Exception ex)
             {
@@ -85,17 +85,6 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
-        public static List<UserManagementIL> GetBySystemId(int SystemId)
-        {
-            try
-            {
-                return UserManagementDL.GetBySystemId(SystemId);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
+       
     }
 }

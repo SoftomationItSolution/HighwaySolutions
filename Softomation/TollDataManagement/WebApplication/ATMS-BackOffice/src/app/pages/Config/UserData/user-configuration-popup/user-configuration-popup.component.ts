@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 
 @Component({
   selector: 'app-user-configuration-popup',
@@ -12,10 +12,10 @@ import { EmittersService } from 'src/app/allservices/emitters.service';
   styleUrls: ['./user-configuration-popup.component.css']
 })
 export class UserConfigurationPopupComponent implements OnInit {
-  PageTitle:any;
+  PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  EntryId: any;
+  UserId: any;
   DataStatus = true;
   DataStatusDs = 1;
   LogedUserId;
@@ -25,25 +25,19 @@ export class UserConfigurationPopupComponent implements OnInit {
   RoleData: any;
   PlazaData: any;
   selectedUserType = 0;
-  UserTypeList = [{Id: 1, Name: 'Central Server'}, {Id: 2, Name: 'Plaza Server'}, {Id: 3, Name: 'Lane Server'}];
-  // @Inject(MAT_DIALOG_DATA) parentData
-  constructor(private dbService: ApiService, private spinner: NgxSpinnerService,
-              private emitService: EmittersService, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
+  onsub = false
+  UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
+
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData,
+    private emitService: EmittersService, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
-    //this.EntryId = parentData.EntryId;
-    this.GetClientData();
+    this.UserId = parentData.UserId;
     this.GetRoleData();
   }
 
   ngOnInit(): void {
     this.PageTitle = 'Creae New User';
     this.DataDetailsForm = new FormGroup({
-      ClientId: new FormControl('', [
-        Validators.required
-      ]),
-      PlazaId: new FormControl('', [
-        Validators.required
-      ]),
       RoleId: new FormControl('', [
         Validators.required
       ]),
@@ -68,39 +62,26 @@ export class UserConfigurationPopupComponent implements OnInit {
         Validators.required,
         Validators.pattern(regExps['LoginId'])
       ]),
+      LoginPassword: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['Password'])
+      ]),
       UserType: new FormControl('', [
         Validators.required
       ]),
+      DataStatus: new FormControl(true),
     });
-    if (this.EntryId > 0) {
+    if (this.UserId > 0) {
       this.PageTitle = 'Update User Details';
       this.DetailsbyId();
     }
   }
 
-  GetClientData() {
-    this.dbService.ClientConfigurationGetAll().subscribe(
-      data => {
-        this.ClientData = data;
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
 
   GetRoleData() {
-    this.dbService.RoleConfigurationGetAll().subscribe(
+    this.dbService.RoleConfigurationGetActive().subscribe(
       data => {
-        this.RoleData = data;
+        this.RoleData = data.ResponseData;
         this.spinner.hide();
       },
       (error) => {
@@ -115,34 +96,15 @@ export class UserConfigurationPopupComponent implements OnInit {
       }
     );
   }
-  ClientChnage(value:any) {
-    this.GetPlazaDetails(value, 0);
-  }
-  UserTypeChnage(value:any) {
-    this.DataDetailsForm.controls['PlazaId'].enable();
-    this.selectedUserType = value;
-    if (this.selectedUserType == 1) {
-      this.DataDetailsForm.controls['PlazaId'].setValue(0);
-      this.DataDetailsForm.controls['PlazaId'].disable();
-    } else {
-    this.DataDetailsForm.controls['PlazaId'].reset();
-    }
-  }
-  GetPlazaDetails(ClientId:any, val:any) {
 
 
-  }
-
-  PlazaChnage(value:any) {
-    // this.GetLaneDetails(value,0);
-  }
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.UserConfigurationGetById(this.EntryId).subscribe(
+    this.dbService.UserConfigurationGetById(this.UserId).subscribe(
       data => {
         this.spinner.hide();
-        this.DetailData = data;
+        this.DetailData = data.ResponseData;
         this.DataStatusDs = this.DetailData.DataStatus;
         if (this.DetailData.DataStatus == 1) {
           this.DataStatus = true;
@@ -150,9 +112,8 @@ export class UserConfigurationPopupComponent implements OnInit {
           this.DataStatus = false;
         }
         this.selectedUserType = this.DetailData.UserType;
-        this.DataDetailsForm.controls['ClientId'].setValue(this.DetailData.ClientId);
-        this.GetPlazaDetails(this.DetailData.ClientId, this.DetailData.PlazaId);
         this.DataDetailsForm.controls['LoginId'].setValue(this.DetailData.LoginId);
+        this.DataDetailsForm.controls['LoginPassword'].setValue(this.DetailData.LoginPassword);
         this.DataDetailsForm.controls['MobileNumber'].setValue(this.DetailData.MobileNumber);
         this.DataDetailsForm.controls['RoleId'].setValue(this.DetailData.RoleId);
         this.DataDetailsForm.controls['EmailId'].setValue(this.DetailData.EmailId);
@@ -160,10 +121,6 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.DataDetailsForm.controls['LastName'].setValue(this.DetailData.LastName);
         this.DataDetailsForm.controls['AccountExpiredDate'].setValue(this.DetailData.AccountExpiredDate);
         this.DataDetailsForm.controls['UserType'].setValue(this.DetailData.UserType);
-        this.DataDetailsForm.controls['PlazaId'].enable();
-        if (this.selectedUserType == 1) {
-          this.DataDetailsForm.controls['PlazaId'].disable();
-        }
       },
       (error) => {
         this.spinner.hide();
@@ -178,7 +135,7 @@ export class UserConfigurationPopupComponent implements OnInit {
     );
   }
 
-  onChange(event:any) {
+  onChange(event: any) {
     if (event.checked) {
       this.DataStatus = true;
       this.DataStatusDs = 1;
@@ -195,52 +152,51 @@ export class UserConfigurationPopupComponent implements OnInit {
   }
 
   SaveDetails() {
-    if (this.DataDetailsForm.invalid) {
-      return;
+    this.onsub = true;
+    this.DataDetailsForm.errors;
+    if (this.DataDetailsForm.valid == true) {
+
+      const Obj = {
+        UserId: this.UserId,
+        LoginId: this.DataDetailsForm.value.LoginId,
+        LoginPassword: this.DataDetailsForm.value.LoginPassword,
+        FirstName: this.DataDetailsForm.value.FirstName,
+        LastName: this.DataDetailsForm.value.LastName,
+        MobileNumber: this.DataDetailsForm.value.MobileNumber,
+        EmailId: this.DataDetailsForm.value.EmailId,
+        UserTypeId: this.DataDetailsForm.value.UserType,
+        AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
+        RoleId: this.DataDetailsForm.value.RoleId,
+        DataStatus: this.DataStatusDs,
+        CreatedBy: this.LogedUserId
+      };
+      this.spinner.show();
+      this.dbService.UserConfigurationSetUp(Obj).subscribe(
+        data => {
+          this.spinner.hide();
+          let returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage.indexOf('success')>-1) {
+            this.ErrorData = [{ AlertMessage: 'Success' }];
+            this.emitService.setPageRefresh(true);
+            this.emitService.openSnackBar(this.ErrorData, true);
+            this.ClosePoup();
+          } else {
+            this.ErrorData = data;
+            this.emitService.openSnackBar(this.ErrorData, false);
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.emitService.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+            this.emitService.openSnackBar(this.ErrorData, false);
+          }
+        }
+      );
     }
-    const Obj = {
-      EntryId: this.EntryId,
-      ClientId: this.DataDetailsForm.value.ClientId,
-      PlazaId: this.DataDetailsForm.value.PlazaId,
-      LoginId: this.DataDetailsForm.value.LoginId,
-      LoginPassword: 'tolSol@789',
-      FirstName: this.DataDetailsForm.value.FirstName,
-      LastName: this.DataDetailsForm.value.LastName,
-      MobileNumber: this.DataDetailsForm.value.MobileNumber,
-      EmailId: this.DataDetailsForm.value.EmailId,
-      UserType: this.DataDetailsForm.value.UserType,
-      AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
-      RoleId: this.DataDetailsForm.value.RoleId,
-      DataStatus: this.DataStatusDs,
-      CreatedBy: this.LogedUserId
-    };
-    this.spinner.show();
-    this.dbService.UserConfigurationSetUp(Obj).subscribe(
-      data => {
-        this.spinner.hide();
-        let returnObject = data;
-        let returnMessage = (returnObject)[0].AlertMessage;
-        if (returnMessage == 'success') {
-          this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
-        } else {
-          this.ErrorData = data;
-          this.emitService.openSnackBar(this.ErrorData, false);
-        }
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
   }
 
 }
