@@ -47,6 +47,8 @@ import { MessageModule } from 'primeng/message';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PanelModule } from 'primeng/panel';
 import { RolePermissionPopupComponent } from './pages/Config/RoleData/role-permission-popup/role-permission-popup.component';
+import { VidsdataComponent } from './pages/VIDS/vidsdata/vidsdata.component';
+import { AtccdataComponent } from './pages/ATCC/atccdata/atccdata.component';
 
 
 @NgModule({
@@ -63,7 +65,9 @@ import { RolePermissionPopupComponent } from './pages/Config/RoleData/role-permi
     RoleConfigurationComponent,
     RoleConfigurationPopupComponent,
     RolePermissionPopupComponent,
-    UserConfigurationComponent
+    UserConfigurationComponent,
+    VidsdataComponent,
+    AtccdataComponent
   ],
   imports: [
     BrowserAnimationsModule,
