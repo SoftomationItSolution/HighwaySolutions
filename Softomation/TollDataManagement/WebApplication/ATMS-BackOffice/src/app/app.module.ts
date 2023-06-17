@@ -19,6 +19,36 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 import {  MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnakbarComponent } from './allservices/snakbar/snakbar.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ControlRoomConfigurationComponent } from './pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
+import { DeviceDataComponent } from './pages/Config/DeviceMaster/device-data/device-data.component';
+import { VehicleClassDataComponent } from './pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
+import { RoleConfigurationComponent } from './pages/Config/RoleData/role-configuration/role-configuration.component';
+import { RoleConfigurationPopupComponent } from './pages/Config/RoleData/role-configuration-popup/role-configuration-popup.component';
+import { UserConfigurationComponent } from './pages/Config/UserData/user-configuration/user-configuration.component';
+import { TableModule } from 'primeng/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { OverlayModule } from 'primeng/overlay';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { RadioButtonModule } from 'primeng/radiobutton';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CalendarModule } from 'primeng/calendar';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { ToastModule } from 'primeng/toast';
+import { SplitterModule } from 'primeng/splitter';
+import { MessageModule } from 'primeng/message';
+import { MatDialogModule } from '@angular/material/dialog';
+import { PanelModule } from 'primeng/panel';
+import { RolePermissionPopupComponent } from './pages/Config/RoleData/role-permission-popup/role-permission-popup.component';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,6 +56,14 @@ import { SnakbarComponent } from './allservices/snakbar/snakbar.component';
     SnakbarComponent,
     LoginComponent,
     SerchFilterPipe,
+    DashboardComponent,
+    ControlRoomConfigurationComponent,
+    DeviceDataComponent,
+    VehicleClassDataComponent,
+    RoleConfigurationComponent,
+    RoleConfigurationPopupComponent,
+    RolePermissionPopupComponent,
+    UserConfigurationComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -35,15 +73,43 @@ import { SnakbarComponent } from './allservices/snakbar/snakbar.component';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    MatFormFieldModule,
     DropdownModule,
     NgxSpinnerModule,
     MatButtonModule,
-    MatInputModule,
     MatCheckboxModule,
     MatRippleModule, 
     FieldsetModule,
     MatSnackBarModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ReactiveFormsModule,
+    TableModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatMenuModule,
+    MatDividerModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatRadioModule,
+    OverlayModule,
+    DropdownModule,
+    InputNumberModule,
+    RadioButtonModule,
+    FileUploadModule,
+    ConfirmDialogModule,
+    CalendarModule,
+    OverlayPanelModule,
+    ToastModule,
+    SplitterModule,
+    FieldsetModule,
+    MessageModule,
+    PanelModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent],

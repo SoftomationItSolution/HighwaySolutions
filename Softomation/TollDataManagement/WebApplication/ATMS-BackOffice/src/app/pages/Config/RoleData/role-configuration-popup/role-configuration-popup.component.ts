@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/allservices/api.service';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 
 @Component({
   selector: 'app-role-configuration-popup',
@@ -15,16 +16,16 @@ export class RoleConfigurationPopupComponent implements OnInit {
   PageTitle:any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  EntryId: number;
+  RoleId: number;
   DataStatus = true;
   DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  constructor(private dbService: ApiService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<RoleConfigurationPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
-    this.EntryId = parentData.EntryId;
+    this.RoleId = parentData.RoleId;
   }
 
   ngOnInit(): void {
@@ -32,9 +33,10 @@ export class RoleConfigurationPopupComponent implements OnInit {
     this.DataDetailsForm = new FormGroup({
       RoleName: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      DataStatus: new FormControl(true),
     });
-    if (this.EntryId > 0) {
+    if (this.RoleId > 0) {
       this.PageTitle = 'Update Role Details';
       this.DetailsbyId();
     }
@@ -42,17 +44,17 @@ export class RoleConfigurationPopupComponent implements OnInit {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.RoleConfigurationGetById(this.EntryId).subscribe(
+    this.dbService.RoleConfigurationGetById(this.RoleId).subscribe(
       data => {
         this.spinner.hide();
-        this.DetailData = data.ResponceData;
-        this.DataStatusDs = this.DetailData.DataStatus;
-        if (this.DetailData.DataStatus == 1) {
-          this.DataStatus = true;
-        } else {
-          this.DataStatus = false;
-        }
+        this.DetailData = data.ResponseData;
         this.DataDetailsForm.controls['RoleName'].setValue(this.DetailData.RoleName);
+        if (this.DetailData.DataStatus == 1) {
+          this.DataDetailsForm.controls['DataStatus'].setValue(true);
+        } else {
+          this.DataDetailsForm.controls['DataStatus'].setValue(false);
+        }
+       
       },
       (error) => {
         this.spinner.hide();
@@ -63,18 +65,9 @@ export class RoleConfigurationPopupComponent implements OnInit {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
           this.emitService.openSnackBar(this.ErrorData, false);
         }
+        this.Dialogref.close();
       }
     );
-  }
-
-  onChange(event:any) {
-    if (event.checked) {
-      this.DataStatus = true;
-      this.DataStatusDs = 1;
-    } else {
-      this.DataStatus = false;
-      this.DataStatusDs = 2;
-    }
   }
 
   ClosePoup() { this.Dialogref.close(); }
@@ -88,9 +81,9 @@ export class RoleConfigurationPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      EntryId: this.EntryId,
+      RoleId: this.RoleId,
       RoleName: this.DataDetailsForm.value.RoleName,
-      DataStatus: this.DataStatusDs,
+      DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();

@@ -2,9 +2,8 @@
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
-    public class RolePermissionIL : CommonIL
+    public class RolePermissionIL : MenuManagementIL
     {
-        Int32 menuId;
         Int32 roleId;
         Int16 dataView;
         Int16 dataAdd;
@@ -12,25 +11,12 @@ namespace Softomation.ATMSSystemLibrary.IL
 
         public RolePermissionIL()
         {
-            this.menuId = 0;
             this.roleId = 0;
             this.dataView = 1;
             this.dataAdd = 2;
             this.dataUpdate = 2;
         }
 
-        public Int32 MenuId
-        {
-            get
-            {
-                return menuId;
-            }
-
-            set
-            {
-                menuId = value;
-            }
-        }
         public Int32 RoleId
         {
             get

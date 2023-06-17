@@ -1,52 +1,47 @@
-<!-- <div class="mat-fab-btn" style="float: right;">
-    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<h2 mat-dialog-title>{{PageTitle}}</h2>
-<div class="popupBox-L">
-<div class="table-responsive">
-    <p-table #dt [value]="DetailData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>Event Name</th>
-                <th style="text-align: center;">View/Access</th>
-                <th style="text-align: center;">Add</th>
-                <th style="text-align: center;">Update</th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-rowData let-columns="columns">
-            <tr style="font-size: 10px;">
-                <td>{{rowData.EventName}}</td>
-                <td style="text-align: center;">
-                    <input (ngModelChange)="handleCheck($event,rowData,1)" *ngIf="rowData.DataView != 2" type="checkbox" [(ngModel)]="rowData.DataView" />
-                    <div *ngIf="rowData.DataView == 2">
-                        <i class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i>
-                    </div>
-                </td>
-                <td style="text-align: center;">
-                    <input (ngModelChange)="handleCheck($event,rowData,2)" *ngIf="rowData.DataAdd != 2" type="checkbox" [(ngModel)]="rowData.DataAdd" />
-                    <div *ngIf="rowData.DataAdd == 2">
-                        <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
-                    </div>
-                </td>
-                <td style="text-align: center;">
-                    <input (ngModelChange)="handleCheck($event,rowData,3)" *ngIf="rowData.DataUpdate != 2" type="checkbox" [(ngModel)]="rowData.DataUpdate" />
-                    <div *ngIf="rowData.DataUpdate == 2">
-                        <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
-                    </div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</div>
-</div>
-<div align="end">
-    <div *ngIf="UpdatePermission==1">
-        <div class="mat-fab-btn" style="float: right;">
-            <button mat-fab color="primary" aria-label="Add" (click)="SaveDetails()" matTooltip="Save">
-            <mat-icon>save</mat-icon>
-        </button>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <p-table #dt [value]="DetailData" [scrollHeight]="'55vh'" [rowHover]="true" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Menu</th>
+                        <th style="text-align: center;">View/Access</th>
+                        <th style="text-align: center;">Add</th>
+                        <th style="text-align: center;">Update</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns">
+                    <tr>
+                        <td>{{rowData.MenuName}}</td>
+                        <td style="text-align: center;">
+                            <input (ngModelChange)="handleCheck($event,rowData,1)" *ngIf="rowData.DataView != 2" type="checkbox" [(ngModel)]="rowData.DataView" />
+                            <div *ngIf="rowData.DataView == 2">
+                                <i class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <input (ngModelChange)="handleCheck($event,rowData,2)" *ngIf="rowData.DataAdd != 2" type="checkbox" [(ngModel)]="rowData.DataAdd" />
+                            <div *ngIf="rowData.DataAdd == 2">
+                                <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                        <td style="text-align: center;">
+                            <input (ngModelChange)="handleCheck($event,rowData,3)" *ngIf="rowData.DataUpdate != 2" type="checkbox" [(ngModel)]="rowData.DataUpdate" />
+                            <div *ngIf="rowData.DataUpdate == 2">
+                                <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
         </div>
     </div>
-</div> -->
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

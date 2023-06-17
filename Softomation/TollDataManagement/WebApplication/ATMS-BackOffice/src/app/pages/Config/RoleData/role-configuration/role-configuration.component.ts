@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { RoleConfigurationPopupComponent } from '../role-configuration-popup/role-configuration-popup.component';
 import { RolePermissionPopupComponent } from '../role-permission-popup/role-permission-popup.component';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 declare var $: any;
 @Component({
   selector: 'app-role-configuration',
@@ -15,40 +15,40 @@ export class RoleConfigurationComponent implements OnInit {
   DevicesData: any;
   ErrorData: any;
   LogedRoleId;
-  PermissionData:any;
+  PermissionData: any;
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
   UpdatePermission = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
-              private spinner: NgxSpinnerService) {
-      this.LogedRoleId =  this.emitService.getRoleDetails();
-      this.emitService.PageRefresh.subscribe(
-        (visibility: boolean) => {
-          if (visibility) {
-            this.GetAllData();
-          }
-        });
-      this.emitService.InnerHeight.subscribe(
-          (innerHeight: any) => {
-            this.innerHeight = innerHeight;
-            this.SetPageHeight();
-          });
-      this.GetPermissionData();
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
+    private spinner: NgxSpinnerService) {
+    this.LogedRoleId = this.emitService.getRoleDetails();
+    this.emitService.PageRefresh.subscribe(
+      (visibility: boolean) => {
+        if (visibility) {
+          this.GetAllData();
+        }
+      });
+    this.emitService.InnerHeight.subscribe(
+      (innerHeight: any) => {
+        this.innerHeight = innerHeight;
+        this.SetPageHeight();
+      });
+    this.GetPermissionData();
 
-     }
+  }
 
   GetPermissionData() {
     this.spinner.show();
     const Obj = {
-      EventId: 7,
+      MenuId: 9,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByEventId(Obj).subscribe(
       data => {
         this.spinner.hide();
-        this.PermissionData = data.ResponceData;
+        this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
@@ -86,7 +86,7 @@ export class RoleConfigurationComponent implements OnInit {
     this.dbService.RoleConfigurationGetAll().subscribe(
       data => {
         this.spinner.hide();
-        this.DevicesData = data.ResponceData;
+        this.DevicesData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();
@@ -100,25 +100,37 @@ export class RoleConfigurationComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    dialogConfig.data = { action: 'Save', EntryId: 0};
+    dialogConfig.data = { action: 'Save', RoleId: 0 };
     this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
   }
-  onRowEditInit(data:any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.data = { action: 'Update', EntryId: data.EntryId};
-    this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+  onRowEditInit(data: any) {
+    if (this.DataUpdate == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.data = { action: 'Update', RoleId: data.RoleId };
+      this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+    }
+    else{
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+      this.emitService.openSnackBar(this.ErrorData, false);
+    }
   }
 
-  onRowPermissionInit(data:any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.data = { action: 'Update', RoleId: data.EntryId, UpdatePermission: this.UpdatePermission};
-    this.dialog.open(RolePermissionPopupComponent, dialogConfig);
+  onRowPermissionInit(data: any) {
+    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
+      this.dialog.open(RolePermissionPopupComponent, dialogConfig);
+    }
+    else{
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+      this.emitService.openSnackBar(this.ErrorData, false);
+    }
   }
 
 }

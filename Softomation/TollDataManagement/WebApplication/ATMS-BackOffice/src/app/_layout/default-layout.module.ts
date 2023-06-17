@@ -35,54 +35,21 @@ import { MatIconModule } from "@angular/material/icon";
 import { DataModel } from "../services/data-model.model";
 import { ApiService } from "../allservices/api.service";
 import { EmittersService } from "../allservices/emitters.service";
-import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/device-data.component";
-import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
-import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
-import { UserConfigurationComponent } from "../pages/Config/UserData/user-configuration/user-configuration.component";
+// import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/device-data.component";
+// import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
+// import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
+// import { UserConfigurationComponent } from "../pages/Config/UserData/user-configuration/user-configuration.component";
+// import { RoleConfigurationPopupComponent } from "../pages/Config/RoleData/role-configuration-popup/role-configuration-popup.component";
 
 @NgModule({
     imports: [
         RouterModule.forChild(AdminLayoutRoutes),
-        FormsModule,
-        ReactiveFormsModule,
-        ReactiveFormsModule,
-        TableModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatMenuModule,
-        MatDividerModule,
-        MatInputModule,
-        MatTooltipModule,
-        MatButtonModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatRadioModule,
-        OverlayModule,
-        DropdownModule,
-        InputNumberModule,
-        RadioButtonModule,
-        FileUploadModule,
-        ConfirmDialogModule,
-        CalendarModule,
-        OverlayPanelModule,
-        ToastModule,
-        SplitterModule,
-        FieldsetModule,
-        MessageModule,
-        PanelModule,
-         MatDialogModule,
-        MatButtonModule
+       
     ],
     declarations: [
-        DashboardComponent,
-        ControlRoomConfigurationComponent,
-        DeviceDataComponent,
-        VehicleClassDataComponent,
-        RoleConfigurationComponent,
-        UserConfigurationComponent
+      
     ],
-    providers: [DataModel,ApiService,EmittersService],
-    schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+    providers: [DataModel, ApiService, EmittersService],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class DefaultLayoutModule{}
+export class DefaultLayoutModule { }

@@ -16,8 +16,6 @@ namespace ATMSRestAPI.Controllers
     public class BackOfficeController : ApiController
     {
         const string Provider = Constants.AppProvider;
-        Responce responce = new Responce();
-
         const string APIPath = "Transit360-ATMS";
         ApiResponseIL response = new ApiResponseIL();
         ResponseIL resp = new ResponseIL();
@@ -192,7 +190,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Error in ValidateUser : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
         #endregion
@@ -219,7 +217,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Exception in GetMenu : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -240,7 +238,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Exception in RoleConfigurationSetUp : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -260,7 +258,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -280,7 +278,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -293,14 +291,14 @@ namespace ATMSRestAPI.Controllers
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = RoleManagementBL.GetById(RoleId);
-                return Request.CreateResponse(HttpStatusCode.OK, responce);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in RoleConfigurationGetById : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -313,14 +311,14 @@ namespace ATMSRestAPI.Controllers
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = RolePermissionBL.GetByRoleId(RoleId);
-                return Request.CreateResponse(HttpStatusCode.OK, responce);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in RolePermissionGetByRoleId : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -333,14 +331,14 @@ namespace ATMSRestAPI.Controllers
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = RolePermissionBL.GetByMenuId(role);
-                return Request.CreateResponse(HttpStatusCode.OK, responce);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in RolePermissionGetByEventId : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
@@ -358,7 +356,7 @@ namespace ATMSRestAPI.Controllers
                 BackOfficeAPILog("Exception in RolePermissionSetup : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
         #endregion

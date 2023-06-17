@@ -39,7 +39,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 }
                 if (Constants.BulkCopy(ImportDataTable, "temp_ImportPermission"))
                 {
-                    string spName = "USP_SystemPermissionInsertUpdate";
+                    string spName = "USP_RolePermissionInsertUpdate";
                     DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, role.RoleId, ParameterDirection.Input));
@@ -111,6 +111,9 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["MenuId"] != DBNull.Value)
                 permission.MenuId = Convert.ToInt32(dr["MenuId"]);
+
+            if (dr["MenuName"] != DBNull.Value)
+                permission.MenuName = Convert.ToString(dr["MenuName"]);
 
             if (dr["RoleId"] != DBNull.Value)
                 permission.RoleId = Convert.ToInt32(dr["RoleId"]);

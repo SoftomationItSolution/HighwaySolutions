@@ -1,10 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
-import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 
 @Component({
   selector: 'app-role-permission-popup',
@@ -18,7 +16,7 @@ export class RolePermissionPopupComponent implements OnInit {
   ErrorData: any;
   DetailData: any;
   UpdatePermission = 0;
-  constructor(private dbService: ApiService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<RolePermissionPopupComponent>, public dialog: MatDialog) {
   this.LogedUserId = this.emitService.getUserDetails();
   this.RoleId = parentData.RoleId;
@@ -26,7 +24,7 @@ export class RolePermissionPopupComponent implements OnInit {
 }
 
   ngOnInit(): void {
-    this.PageTitle = 'Manage Role Permission';
+    this.PageTitle = 'Role & Rights Permission';
 
     this.PermissionbyRoleId();
   }
@@ -38,7 +36,8 @@ export class RolePermissionPopupComponent implements OnInit {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
-          this.DetailData = data.ResponceData;
+          this.DetailData = data.ResponseData;
+          console.log(this.DetailData)
         } else {
           this.ClosePoup();
           this.ErrorData = [{ AlertMessage: 'permission details not found.' }];
@@ -122,7 +121,7 @@ export class RolePermissionPopupComponent implements OnInit {
 
     }
     const Obj = {
-      EntryId: this.RoleId,
+      RoleId: this.RoleId,
       CreatedBy: this.LogedUserId,
       DataStatus: 1,
       RolePermission: this.DetailData

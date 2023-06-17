@@ -179,7 +179,6 @@ export class ApiService {
   ValidateUser(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     const FullPath = this.ApiCallUrl + 'ValidateUser';
-    console.log(FullPath);
     return this.objHttp.post(FullPath, data, { headers: this.header });
   }
   LogoutUser(data: {}): Observable<any> {
@@ -223,7 +222,8 @@ export class ApiService {
 
   RolePermissionGetByEventId(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
-    return this.objHttp.post(this.ApiCallUrl + 'RolePermissionGetByEventId', data, { headers: this.header });
+    const FullPath = this.ApiCallUrl + 'RolePermissionGetByEventId';
+    return this.objHttp.post(FullPath, data, { headers: this.header });
   }
 
   RolePermissionSetup(data: {}): Observable<any> {
