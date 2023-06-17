@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\ControlRoomBL.cs" />
     <Compile Include="BL\LogingActivityBL.cs" />
     <Compile Include="BL\MenuManagementBL.cs" />
     <Compile Include="BL\RoleManagementBL.cs" />
@@ -102,6 +103,7 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\ControlRoomDL.cs" />
     <Compile Include="DL\LogingActivityDL.cs" />
     <Compile Include="DL\MenuManagementDL.cs" />
     <Compile Include="DL\RoleManagementDL.cs" />
@@ -110,6 +112,7 @@
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
+    <Compile Include="IL\ControlRoomIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />

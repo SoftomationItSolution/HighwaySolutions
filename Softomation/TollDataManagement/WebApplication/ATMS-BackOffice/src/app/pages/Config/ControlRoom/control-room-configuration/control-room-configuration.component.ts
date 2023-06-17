@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AnyCatcher } from 'rxjs/internal/AnyCatcher';
-import { ApiService } from 'src/app/allservices/api.service';
 import { EmittersService } from 'src/app/allservices/emitters.service';
-import { ControlRoomDevicePopupComponent } from '../control-room-device-popup/control-room-device-popup.component';
 import { ControlRoomPopupComponent } from '../control-room-popup/control-room-popup.component';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 declare var $: any;
 @Component({
   selector: 'app-control-room-configuration',
@@ -22,7 +20,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
               private spinner: NgxSpinnerService) {
       this.LogedRoleId =  this.emitService.getRoleDetails();
       this.LogedUserId = this.emitService.getUserDetails();
@@ -53,13 +51,13 @@ export class ControlRoomConfigurationComponent implements OnInit {
 GetPermissionData() {
 this.spinner.show();
 const Obj = {
-  EventId: 1,
+  MenuId: 3,
   RoleId: this.LogedRoleId
 };
 this.dbService.RolePermissionGetByEventId(Obj).subscribe(
   data => {
     this.spinner.hide();
-    this.PermissionData = data.ResponceData;
+    this.PermissionData = data.ResponseData;
     this.DataAdd = this.PermissionData.DataAdd;
     this.DataUpdate = this.PermissionData.DataUpdate;
     this.DataView = this.PermissionData.DataView;
@@ -78,10 +76,10 @@ this.dbService.RolePermissionGetByEventId(Obj).subscribe(
 
 GetAllData() {
   this.spinner.show();
-  this.dbService.ControlRoomGetByUserId(this.LogedUserId).subscribe(
+  this.dbService.ControlRoomGetAll().subscribe(
     data => {
       this.spinner.hide();
-      this.DevicesData = data.ResponceData;
+      this.DevicesData = data.ResponseData;
     },
     (error) => {
       this.spinner.hide();
@@ -95,7 +93,7 @@ NewEntry() {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
-  dialogConfig.data = { action: 'Save', EntryId: 0, PermissionData: this.PermissionData};
+  dialogConfig.data = { action: 'Save', ControlRoomId: 0, PermissionData: this.PermissionData};
   this.dialog.open(ControlRoomPopupComponent, dialogConfig);
 }
 onRowEditInit(data:any) {
@@ -103,16 +101,9 @@ onRowEditInit(data:any) {
   dialogConfig.disableClose = true;
   dialogConfig.autoFocus = true;
   dialogConfig.width = '60%';
-  dialogConfig.data = { action: 'Update', EntryId: data.EntryId, PermissionData: this.PermissionData};
+  dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId, PermissionData: this.PermissionData};
   this.dialog.open(ControlRoomPopupComponent, dialogConfig);
 }
-onDeviceTypeList(data:any) {
-  const dialogConfig = new MatDialogConfig();
-  dialogConfig.disableClose = true;
-  dialogConfig.autoFocus = true;
-  dialogConfig.width = '60%';
-  dialogConfig.data = { action: 'Update', ControlRoomId: data.EntryId, UpdatePermission: this.DataUpdate, ControlRoomName: data.ControlRoomName };
-  this.dialog.open(ControlRoomDevicePopupComponent, dialogConfig);
-}
+
 
 }

@@ -1,42 +1,32 @@
-<!-- <div class="mat-fab-btn" style="float: right;">
-    <button mat-fab color="warn" aria-label="Close" mat-dialog-close matTooltip="Close">
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<form [formGroup]="DataDetailsForm">
-    <h2 mat-dialog-title>{{PageTitle}}</h2>
-    <div class="popupBox">
-        <div class="form-row">
-            <div class="col-md-6">
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="DataDetailsForm">
+            <div class="mb-3">
+                <!-- appearance="outline" -->
                 <mat-form-field>
-                    <input matInput placeholder="Name" formControlName="ControlRoomName" autocomplete="off">
+                    <label class="form-label" for="fullname">Control Room Name</label>
+                    <input matInput  type="text" class="form-control" placeholder="Enter control name" formControlName="ControlRoomName">
                     <mat-error *ngIf="DataDetailsForm.get('ControlRoomName').hasError('required')">
-                        Control Room Name must be entered.
-                    </mat-error>
-                    <mat-error *ngIf="DataDetailsForm.get('ControlRoomName').hasError('pattern')">
-                        {{error.AlphaNumericSingleSpace}}
+                        Name must be entered.
                     </mat-error>
                 </mat-form-field>
             </div>
-            <div class="col-md-6">
-                <div class="col-md-6">
-                    <mat-checkbox [checked]="DataStatus" (change)="onChange($event)">Status</mat-checkbox>
+            <div class="mb-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                    <label  class="form-check-label" for="formCheck2">
+                        Status
+                    </label>
                 </div>
             </div>
-        </div>
-        <div class="clearfix"></div>
-
+        </form>
     </div>
-    <div align="end">
-        <div class="mat-fab-btn" style="float: right;">
-            <button mat-fab color="primary" aria-label="Add" (click)="ClearDetails()" matTooltip="Clear">
-                <mat-icon>cancel</mat-icon>
-            </button>
-        </div>
-        <div class="mat-fab-btn" style="float: right;">
-            <button mat-fab color="primary" aria-label="Add" (click)="SaveDetails()" matTooltip="Save">
-                <mat-icon>save</mat-icon>
-            </button>
-        </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
     </div>
-</form> -->
+</div>

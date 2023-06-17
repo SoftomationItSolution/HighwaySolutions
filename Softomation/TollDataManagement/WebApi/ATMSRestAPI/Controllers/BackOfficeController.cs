@@ -361,7 +361,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        //#region User Management
+        #region User Management
         //[Route(Provider + "/Transit360-ATMS/UserValidatePassword")]
         //[HttpPost]
         //public HttpResponseMessage UserValidatePassword(UserManagementIL user)
@@ -565,111 +565,67 @@ namespace ATMSRestAPI.Controllers
         //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
         //    }
         //}
-        //#endregion
+        #endregion
 
-        //#region Control Room
-        //[Route(Provider + "/Transit360-ATMS/ControlRoomGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage ControlRoomGetAll()
-        //{
-        //    try
-        //    {
-        //        List<ControlRoomIL> controlRooms = ControlRoomBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = controlRooms;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ControlRoomGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        #region Control Room
+        [Route(Provider + "/" + APIPath + "/ControlRoomGetAll")]
+        [HttpGet]
+        public HttpResponseMessage ControlRoomGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ControlRoomBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ControlRoomGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/ControlRoomGetByUserId")]
-        //[HttpGet]
-        //public HttpResponseMessage ControlRoomGetByUserId(Int64 UserId)
-        //{
-        //    try
-        //    {
-        //        List<ControlRoomIL> controlRooms = ControlRoomBL.GetByUserId(UserId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = controlRooms;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ControlRoomGetByUserId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/ControlRoomGetById")]
+        [HttpGet]
+        public HttpResponseMessage ControlRoomGetById(int ControlRoomId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ControlRoomBL.GetById(ControlRoomId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ControlRoomGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/ControlRoomGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage ControlRoomGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        ControlRoomIL controlRoom = ControlRoomBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = controlRoom;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ControlRoomGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/ControlRoomInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage ControlRoomInsertUpdate(ControlRoomIL controlRoom)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = ControlRoomBL.InsertUpdate(controlRoom);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ControlRoomInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
+        [Route(Provider + "/" + APIPath + "/ControlRoomInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage ControlRoomInsertUpdate(ControlRoomIL controlRoom)
+        {
+            try
+            {
+                response.Message = ControlRoomBL.InsertUpdate(controlRoom);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ControlRoomInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
 
         //#region Category Master
         //[Route(Provider + "/Transit360-ATMS/CategoryMasterGetAll")]

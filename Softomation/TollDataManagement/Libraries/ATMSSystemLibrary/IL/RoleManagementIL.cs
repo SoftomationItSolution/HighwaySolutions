@@ -43,7 +43,5 @@ namespace Softomation.ATMSSystemLibrary.IL
                 rolePermission = value;
             }
         }
-
-       
     }
 }
