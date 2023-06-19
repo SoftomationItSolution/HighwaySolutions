@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/allservices/api.service';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { VehicleClassPopupComponent } from '../vehicle-class-popup/vehicle-class-popup.component';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 declare var $: any;
 
 @Component({
@@ -14,14 +15,14 @@ declare var $: any;
 export class VehicleClassDataComponent implements OnInit {
   ErrorData:any;
   PermissionData:any;
-  DevicesData:any;
+  VehicleClassData:any;
   LogedRoleId;
   LogedUserId;
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
               private spinner: NgxSpinnerService) {
       this.LogedRoleId =  this.emitService.getRoleDetails();
       this.LogedUserId = this.emitService.getUserDetails();
@@ -40,6 +41,7 @@ export class VehicleClassDataComponent implements OnInit {
      }
 
   ngOnInit(): void {
+    this.GetAllData();
   }
   ngAfterViewInit(): void {
     this.innerHeight = this.emitService.getInnerHeight();
@@ -52,7 +54,7 @@ export class VehicleClassDataComponent implements OnInit {
 GetPermissionData() {
 this.spinner.show();
 const Obj = {
-  EventId: 6,
+  EventId: 8,
   RoleId: this.LogedRoleId
 };
 this.dbService.RolePermissionGetByEventId(Obj).subscribe(
@@ -80,7 +82,7 @@ GetAllData() {
   this.dbService.VehicleClassGetAll().subscribe(
     data => {
       this.spinner.hide();
-      this.DevicesData = data.ResponceData;
+      this.VehicleClassData = data.ResponseData;
     },
     (error) => {
       this.spinner.hide();
