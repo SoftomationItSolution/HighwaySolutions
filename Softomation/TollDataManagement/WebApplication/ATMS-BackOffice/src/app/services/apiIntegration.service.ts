@@ -181,25 +181,53 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ControlRoomInsertUpdate', data, { headers: headers_object });
   }
- //#endregion
+  //#endregion
 
   //#region  Vehicle Class
   VehicleClassGetById(EntryId: any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix  + '/VehicleClassGetById?EntryId=' + EntryId, { headers: this.header });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?EntryId=' + EntryId, { headers: headers_object });
   }
   VehicleClassGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: this.header });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: headers_object });
   }
   VehicleClassInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl+ this.Prefix  + '/VehicleClassInsertUpdate', data, { headers: this.header });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VehicleClassInsertUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region Equipment Details
+  EquipmentDetailsGetById(EquipmentId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetById?EquipmentId=' + EquipmentId, { headers: headers_object });
+  }
+  EquipmentDetailsGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetAll', { headers: headers_object });
+  }
+  EquipmentDetailsGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetActive', { headers: headers_object });
+  }
+  EquipmentDetailsInsertUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsInsertUpdate', data, { headers: headers_object });
   }
 
+  EquipmentTypeGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentTypeGetActive', { headers: headers_object });
+  }
   //#endregion
 
 }
