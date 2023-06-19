@@ -11,9 +11,9 @@ declare var $: any;
   styleUrls: ['./control-room-configuration.component.css']
 })
 export class ControlRoomConfigurationComponent implements OnInit {
-  ErrorData:any;
-  PermissionData:any;
-  DevicesData:any;
+  ErrorData: any;
+  PermissionData: any;
+  DevicesData: any;
   LogedRoleId;
   LogedUserId;
   DataUpdate: Number = 0;
@@ -21,91 +21,105 @@ export class ControlRoomConfigurationComponent implements OnInit {
   DataView: Number = 0;
   public innerHeight: any;
   constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
-              private spinner: NgxSpinnerService) {
-      this.LogedRoleId =  this.emitService.getRoleDetails();
-      this.LogedUserId = this.emitService.getUserDetails();
-      this.emitService.PageRefresh.subscribe(
-        (visibility: boolean) => {
-          if (visibility) {
-            this.GetAllData();
-          }
-        });
-      this.emitService.InnerHeight.subscribe(
-          (innerHeight: any) => {
-            this.innerHeight = innerHeight;
-            this.SetPageHeight();
-          });
-      this.GetPermissionData();
-     }
+    private spinner: NgxSpinnerService) {
+    this.LogedRoleId = this.emitService.getRoleDetails();
+    this.LogedUserId = this.emitService.getUserDetails();
+    this.emitService.PageRefresh.subscribe(
+      (visibility: boolean) => {
+        if (visibility) {
+          this.GetAllData();
+        }
+      });
+    this.emitService.InnerHeight.subscribe(
+      (innerHeight: any) => {
+        this.innerHeight = innerHeight;
+        this.SetPageHeight();
+      });
+    this.GetPermissionData();
+  }
 
   ngOnInit(): void {
   }
+  
   ngAfterViewInit(): void {
     this.innerHeight = this.emitService.getInnerHeight();
     this.SetPageHeight();
   }
+
   SetPageHeight() {
     $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 175);
     $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 175);
   }
-GetPermissionData() {
-this.spinner.show();
-const Obj = {
-  MenuId: 3,
-  RoleId: this.LogedRoleId
-};
-this.dbService.RolePermissionGetByEventId(Obj).subscribe(
-  data => {
-    this.spinner.hide();
-    this.PermissionData = data.ResponseData;
-    this.DataAdd = this.PermissionData.DataAdd;
-    this.DataUpdate = this.PermissionData.DataUpdate;
-    this.DataView = this.PermissionData.DataView;
-    if (this.DataView != 1) {
-      this.emitService.unauthorized();
-    }
-    this.GetAllData();
-  },
-  (error) => {
-    this.spinner.hide();
-    this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-    this.emitService.openSnackBar(this.ErrorData, false);
+  GetPermissionData() {
+    this.spinner.show();
+    const Obj = {
+      MenuId: 3,
+      RoleId: this.LogedRoleId
+    };
+    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+      data => {
+        this.spinner.hide();
+        this.PermissionData = data.ResponseData;
+        this.DataAdd = this.PermissionData.DataAdd;
+        this.DataUpdate = this.PermissionData.DataUpdate;
+        this.DataView = this.PermissionData.DataView;
+        if (this.DataView != 1) {
+          this.emitService.unauthorized();
+        }
+        this.GetAllData();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.emitService.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
-);
-}
 
-GetAllData() {
-  this.spinner.show();
-  this.dbService.ControlRoomGetAll().subscribe(
-    data => {
-      this.spinner.hide();
-      this.DevicesData = data.ResponseData;
-    },
-    (error) => {
-      this.spinner.hide();
-      this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+  GetAllData() {
+    this.spinner.show();
+    this.dbService.ControlRoomGetAll().subscribe(
+      data => {
+        this.spinner.hide();
+        this.DevicesData = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.emitService.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  NewEntry() {
+    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '450px';
+      dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
+      this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
       this.emitService.openSnackBar(this.ErrorData, false);
     }
-  );
-}
-NewEntry() {
-  const dialogConfig = new MatDialogConfig();
-  dialogConfig.disableClose = true;
-  dialogConfig.autoFocus = true;
-  dialogConfig.width = '60%';
-  dialogConfig.height = '450px';
-  dialogConfig.data = { action: 'Save', ControlRoomId: 0, PermissionData: this.PermissionData};
-  this.dialog.open(ControlRoomPopupComponent, dialogConfig);
-}
-onRowEditInit(data:any) {
-  const dialogConfig = new MatDialogConfig();
-  dialogConfig.disableClose = true;
-  dialogConfig.autoFocus = true;
-  dialogConfig.width = '60%';
-  dialogConfig.height = '450px';
-  dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId, PermissionData: this.PermissionData};
-  this.dialog.open(ControlRoomPopupComponent, dialogConfig);
-}
+  }
 
-
+  onRowEditInit(data: any) {
+    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '450px';
+      dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
+      this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+      this.emitService.openSnackBar(this.ErrorData, false);
+    }
+  }
 }

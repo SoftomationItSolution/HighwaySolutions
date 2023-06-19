@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
@@ -143,6 +143,7 @@ export const MY_CUSTOM_FORMATS = {
     MatButtonModule
   ],
   providers: [
+    [DatePipe],
     { provide: MAT_DATE_LOCALE, useValue: 'in' }, // you can change useValue
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },
