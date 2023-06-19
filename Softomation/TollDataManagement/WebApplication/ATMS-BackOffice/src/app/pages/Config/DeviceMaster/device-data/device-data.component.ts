@@ -72,7 +72,7 @@ export class DeviceDataComponent implements OnInit {
   GetPermissionData() {
     this.spinner.show();
     const Obj = {
-      EventId: 2,
+      EventId: 4,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByEventId(Obj).subscribe(

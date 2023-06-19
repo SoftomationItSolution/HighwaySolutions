@@ -147,12 +147,20 @@ namespace Softomation.ATMSSystemLibrary
             Scroll = 2
         }
 
-        public enum OperatorTransType
+        public enum EquipmentCategoryType
         {
-            Allotment = 1,
-            Deposit = 2,
-            Collection = 3,
-            Adjestment = 4,
+            FieldEquipment = 1,
+            ControlRoomEquipment = 2,
+            NetworkInfrastructure= 3,
+            PowerEquipment = 4,
+            OtherAssets = 5
+        }
+
+        public enum EquipmentConnectionType
+        {
+            Network = 1,
+            COM = 2,
+            Other = 3
         }
         public enum DataBaseProvider
         {
