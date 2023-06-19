@@ -498,6 +498,26 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/ControlRoomGetActive")]
+        [HttpGet]
+        public HttpResponseMessage ControlRoomGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ControlRoomBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ControlRoomGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/ControlRoomGetById")]
         [HttpGet]
         public HttpResponseMessage ControlRoomGetById(int ControlRoomId)
@@ -535,6 +555,8 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        
+        
         #endregion
 
         //#region Category Master

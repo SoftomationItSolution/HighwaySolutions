@@ -52,6 +52,7 @@ import { AtccdataComponent } from './pages/ATCC/atccdata/atccdata.component';
 import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-room-popup/control-room-popup.component';
 import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/device-popup.component';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -85,6 +86,7 @@ export const MY_CUSTOM_FORMATS = {
     ControlRoomConfigurationComponent,
     ControlRoomPopupComponent,
     DeviceDataComponent,
+    DevicePopupComponent,
     VehicleClassDataComponent,
     RoleConfigurationComponent,
     RoleConfigurationPopupComponent,

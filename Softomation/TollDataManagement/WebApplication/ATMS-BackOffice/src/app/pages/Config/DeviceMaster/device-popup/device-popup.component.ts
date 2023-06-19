@@ -140,7 +140,7 @@ export class DevicePopupComponent implements OnInit {
 
   }
   ControlRoomDetails() {
-    this.dbService.ControlRoomGetByUserId(this.LogedUserId).subscribe(
+    this.dbService.ControlRoomGetActive().subscribe(
       data => {
         this.SiteList = data.ResponceData;
         this.DeviceCategory();

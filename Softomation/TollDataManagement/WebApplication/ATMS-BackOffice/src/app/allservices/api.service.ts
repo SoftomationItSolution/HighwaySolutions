@@ -298,6 +298,10 @@ ControlRoomGetAll(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetAll', { headers: this.header });
 }
+ControlRoomGetActive(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetActive', { headers: this.header });
+}
 ControlRoomGetById(EntryId:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   return this.objHttp.get(this.ApiCallUrl + 'ControlRoomGetById?EntryId=' + EntryId, { headers: this.header });
