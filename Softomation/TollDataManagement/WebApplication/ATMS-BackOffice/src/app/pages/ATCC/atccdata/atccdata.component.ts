@@ -10,28 +10,28 @@ import { EmittersService } from 'src/app/allservices/emitters.service';
   styleUrls: ['./atccdata.component.css']
 })
 export class AtccdataComponent {
-  DataAdd=1;
-  DataUpdate=1;
-  DataView=1;
+  DataAdd = 1;
+  DataUpdate = 1;
+  DataView = 1;
   LogedRoleId;
   LogedUserId;
-  DevicesData:any;
-  ErrorData:any;
-  PermissionData:any;
-  constructor(public dialog: MatDialog, private dbService: ApiService,private emitService: EmittersService,
+  DevicesData: any;
+  ErrorData: any;
+  PermissionData: any;
+  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
     private spinner: NgxSpinnerService) {
-      this.LogedRoleId=  this.emitService.getRoleDetails();
-      this.LogedUserId = this.emitService.getUserDetails();
-      this.emitService.PageRefresh.subscribe(
-        (visibility: boolean) => {
-          if (visibility) {
-            this.GetAtccData();
-          };
-        });
+    this.LogedRoleId = this.emitService.getRoleDetails();
+    this.LogedUserId = this.emitService.getUserDetails();
+    this.emitService.PageRefresh.subscribe(
+      (visibility: boolean) => {
+        if (visibility) {
+          this.GetAtccData();
+        };
+      });
   }
 
   ngOnInit() {
-   this.GetPermissionData();
+    this.GetPermissionData();
   }
 
   GetAtccData() {
@@ -67,7 +67,7 @@ export class AtccdataComponent {
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
-        if(this.DataView != 1){
+        if (this.DataView != 1) {
           this.emitService.unauthorized();
         }
         this.GetAtccData();
@@ -78,7 +78,7 @@ export class AtccdataComponent {
         this.emitService.openSnackBar(this.ErrorData, false);
       }
     );
-    }
+  }
 
   NewEntry() {
     const dialogConfig = new MatDialogConfig();
@@ -86,11 +86,11 @@ export class AtccdataComponent {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "60%";
     dialogConfig.height = '450px';
-    dialogConfig.data = { "action": 'Update'}
+    dialogConfig.data = { "action": 'Update' }
     //this.dialog.open(METConfigPopupComponent, dialogConfig);
   }
 
-  onRowEditInit(TransactionRowData:any) {
+  onRowEditInit(TransactionRowData: any) {
     // const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;
     // dialogConfig.autoFocus = true;
