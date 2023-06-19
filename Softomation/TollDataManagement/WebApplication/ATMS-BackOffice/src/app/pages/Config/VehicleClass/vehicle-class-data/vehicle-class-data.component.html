@@ -15,17 +15,17 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div>
+                <!-- <div>
                     <a href="javascript:void(0);" class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable"><i class="mdi mdi-plus me-2"></i> Add Module</a>
                     <div class="dropdown d-inline-block float-right">
                         <button type="button" class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
                             <i class="mdi mdi-filter-menu-outline"></i>
                         </button>
                     </div>
-                </div>
+                </div> -->
                 <div class="table-responsive mt-3 listtableheight">
                     <div class="table-responsive table-height-master">
-                        <p-table #dt sortField="EntryId" [sortOrder]="-1" [value]="DevicesData" [rowHover]="true" [scrollable]="true" 
+                        <p-table #dt sortField="EntryId" [sortOrder]="-1" [value]="VehicleClassData" [rowHover]="true" [scrollable]="true" 
                         [resizableColumns]="true" [style]="{'min-width':'1100px'}" styleClass="p-datatable-striped p-datatable-gridlines"
                         [globalFilterFields]="['EntryId','ClassName','ClassDescription','VehicleSpeed','DataStatusName']">
                             <ng-template pTemplate="caption">
@@ -37,13 +37,11 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>S. No.</th>
-                                    <th pSortableColumn="EntryId">Class Id <p-sortIcon field="EntryId"></p-sortIcon>
+                                    <th pSortableColumn="VehicleClassId">ClassId <p-sortIcon field="VehicleClassId"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="ClassName">Class Name <p-sortIcon field="ClassName"></p-sortIcon>
+                                    <th pSortableColumn="VehicleClassName">Class Name <p-sortIcon field="VehicleClassName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="ClassDescription">Description <p-sortIcon field="ClassDescription"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="VehicleSpeed">Allowed Speed(KMPH) <p-sortIcon field="VehicleSpeed"></p-sortIcon>
+                                    <th pSortableColumn="AllowedSpeed">Allowed Speed(KMPH) <p-sortIcon field="AllowedSpeed"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
                                     </th>
@@ -53,10 +51,9 @@
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr style="font-size: 10px;">
                                     <td>{{i+1}}</td>
-                                    <td>{{rowData.EntryId}}</td>
-                                    <td>{{rowData.ClassName}}</td>
-                                    <td>{{rowData.ClassDescription}}</td>
-                                    <td>{{rowData.VehicleSpeed}}</td>
+                                    <td>{{rowData.VehicleClassId}}</td>
+                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.AllowedSpeed}}</td>
                                     <td>{{rowData.DataStatusName}}</td>
                                     <td style="text-align: center;" *ngIf="DataUpdate==1">
                                         <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>
@@ -68,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <nav aria-label="Page navigation example" class="float-right">
+        <!-- <nav aria-label="Page navigation example" class="float-right">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
                 <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -76,6 +73,6 @@
                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
             </ul>
-        </nav>
+        </nav> -->
     </div>
 </div>
