@@ -104,3 +104,10 @@ tr {
         width: 70px !important;
     }
 }
+
+.m-active a{
+    color: #f68e2b !important
+}
+.m-active i{
+    color: #f68e2b !important
+}  

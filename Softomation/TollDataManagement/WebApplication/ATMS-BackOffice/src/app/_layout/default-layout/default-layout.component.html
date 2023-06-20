@@ -56,11 +56,11 @@
                     </div>
                 </div>
 
-                <div class="dropdown d-inline-block">
+                <!-- <div class="dropdown d-inline-block">
                     <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect" (click)="rightBar()">
                         <i class="mdi mdi-cog-outline font-size-20"></i>
                     </button>
-                </div>
+                </div> -->
         
             </div>
         </div>
@@ -81,7 +81,7 @@
                             <span>{{menu.MenuName}}</span>
                         </a>
                         <ul class="sub-menu mm-collapse" aria-expanded="false" *ngIf="menu.ParentId == 0" [ngClass]="ParentTitle == menu.MenuName ? 'mm-show' : ''">
-                            <li *ngFor="let submenu of MenuList | serchFilter :menu.MenuId: 'filtermenu'" id="mid_{{submenu.MenuId}}" >
+                            <li *ngFor="let submenu of MenuList | serchFilter :menu.MenuId: 'filtermenu'" id="mid_{{submenu.MenuId}}" [ngClass]="ChildTitle == submenu.MenuName ? 'm-active' : ''">
                                 <a [routerLink]="['/'+submenu.MenuUrl]">
                                     <i [class]="submenu.MenuIcon" class="child-menu"></i>
                                     <span>{{submenu.MenuName}}</span>

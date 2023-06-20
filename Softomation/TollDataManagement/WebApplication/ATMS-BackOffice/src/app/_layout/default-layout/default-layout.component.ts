@@ -15,23 +15,23 @@ export class DefaultLayoutComponent implements OnInit {
   docElement: HTMLElement;
   isFullScreen: boolean = false;
   isProfilepopUp: boolean = false;
-  userData:any;
-  MenuList:any;
-  currentRoute: string="dashboard"
-  childRoute: string=""
+  userData: any;
+  MenuList: any;
+  currentRoute: string = "dashboard"
+  childRoute: string = ""
   location: Location;
-  ParentTitle="Dashboard"
-  ChildTitle="Dashboard"
-  constructor(private router: Router,public dataModel: DataModel,
-    public api: apiIntegrationService,location: Location) {
+  ParentTitle = "Dashboard"
+  ChildTitle = "Dashboard"
+  constructor(private router: Router, public dataModel: DataModel,
+    public api: apiIntegrationService, location: Location) {
     this.docElement = document.documentElement;
   }
 
   ngOnInit() {
-    this.userData=this.dataModel.getUserData();
+    this.userData = this.dataModel.getUserData();
     this.GetSystemMenu()
   }
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.getTitle();
   }
 
@@ -43,9 +43,9 @@ export class DefaultLayoutComponent implements OnInit {
           this.MenuList = data.ResponseData;
           this.getTitle();
         }
-        else{
+        else {
           this.Logout();
-        } 
+        }
       },
       (error) => {
         this.Logout();
@@ -55,41 +55,41 @@ export class DefaultLayoutComponent implements OnInit {
 
   rightBar() {
     let body = document.getElementsByTagName('body')[0];
-    if(body.classList.contains("right-bar-enabled"))
-        body.classList.remove("right-bar-enabled");
+    if (body.classList.contains("right-bar-enabled"))
+      body.classList.remove("right-bar-enabled");
     else
       body.classList.add("right-bar-enabled");
   }
 
   menuTogel() {
     let body = document.getElementsByTagName('body')[0];
-    if(body.classList.contains("sidebar-enable")){
+    if (body.classList.contains("sidebar-enable")) {
       body.classList.remove("sidebar-enable");
       body.classList.remove("vertical-collpsed");
     }
-    else{
+    else {
       body.classList.add("sidebar-enable");
       body.classList.add("vertical-collpsed");
     }
-    
+
   }
 
-  menuED(event: any,m) {
+  menuED(event: any, m) {
     console.log(m)
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
       element.classList.remove('mm-active');
     });
-    if(m.ChildCount!=0){
-      const cn=document.getElementById("mid_"+m.MenuId)
+    if (m.ChildCount != 0) {
+      const cn = document.getElementById("mid_" + m.MenuId)
       let childClass = cn.querySelector('ul')
       childClass.classList.add("mm-show")
     }
 
-    const cn=document.getElementById("mid_"+m.MenuId)
+    const cn = document.getElementById("mid_" + m.MenuId)
     cn.classList.add("mm-active")
-   this.getTitle();
+    this.getTitle();
   }
 
   toggleFullScreen() {
@@ -102,17 +102,17 @@ export class DefaultLayoutComponent implements OnInit {
     this.isFullScreen = !this.isFullScreen;
   }
 
-  Logout(){
+  Logout() {
     const obj = {
       LoginId: this.userData.LoginId,
       UserTypeId: this.userData.UserTypeId,
-      UserId:this.userData.UserId
+      UserId: this.userData.UserId
     };
     this.api.LogoutUser(obj).subscribe(
       data => {
         this.dataModel.clearStorage();
         this.router.navigate(['']);
-        
+
       },
       (error) => {
         this.dataModel.clearStorage()
@@ -127,34 +127,35 @@ export class DefaultLayoutComponent implements OnInit {
 
   getTitle() {
     //var titlee = this.location.prepareExternalUrl(this.location.path());
-    var titlee = window.location.pathname.replace('/','');
+    var titlee = window.location.pathname.replace('/', '');
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(1);
     }
+    if (this.MenuList != undefined) {
+      var foundObj = this.MenuList.filter((obj: { MenuUrl: any; }) => {
+        return obj.MenuUrl === titlee;
+      });
 
-    var foundObj = this.MenuList.filter((obj: { MenuUrl: any; }) => {
-      return obj.MenuUrl === titlee;
-    });
-
-    if(foundObj.length>0){
-      if(foundObj[0].ParentId===0){
-        this.ParentTitle=foundObj[0].MenuName
-      }
-      else{
-        var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
-          return obj1.MenuId === foundObj[0].ParentId;
-        });
-        if(parentObj.length>0){
-          this.ParentTitle=parentObj[0].MenuName
+      if (foundObj.length > 0) {
+        if (foundObj[0].ParentId === 0) {
+          this.ParentTitle = foundObj[0].MenuName
         }
-        const cn=document.getElementById("mid_"+foundObj[0].ParentId)
-        if(cn!=null){
-        let childClass = cn.querySelector('ul')
-        childClass.classList.add("mm-show")
-        }
+        else {
+          var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
+            return obj1.MenuId === foundObj[0].ParentId;
+          });
+          if (parentObj.length > 0) {
+            this.ParentTitle = parentObj[0].MenuName
+          }
+          const cn = document.getElementById("mid_" + foundObj[0].ParentId)
+          if (cn != null) {
+            let childClass = cn.querySelector('ul')
+            childClass.classList.add("mm-show")
+          }
 
+        }
+        this.ChildTitle = foundObj[0].MenuName
       }
-      this.ChildTitle=foundObj[0].MenuName
     }
     return 'Dashboard';
   }

@@ -32,6 +32,8 @@ export class DevicePopupComponent implements OnInit {
   DefaultTCPPort = 0;
   DefaultBaudRate = 9600;
   DefaultComPort = 'COM 1';
+  ControlRoomData:any;
+  EquipmentTypeData:any;
   ClosePoup() { this.Dialogref.close(); }
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
@@ -44,9 +46,119 @@ export class DevicePopupComponent implements OnInit {
     this.PageTitle = 'Create New Equipment';
     if (this.EquipmentId > 0) {
       this.PageTitle = 'Update Equipment Details';
-      this.DetailsbyId();
     }
+
+    for (let i = 1; i <= 30; i++) {
+      this.ComPortSetting.push({ Id: 'COM ' + i, Name: 'COM ' + i });
+    }
+
+    this.DeviceDetailsForm = new FormGroup({
+      ControlRoomId: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentName: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentDirectionId: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentIP: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['IpAddress'])
+      ]),
+      EquipmentPortNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['PortNumber'])
+      ]),
+      EquipmentLoginId: new FormControl(''),
+      EquipmentPassword: new FormControl(''),
+      EquipmentChainageName: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentLatitude: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['Latitude'])
+      ]),
+      EquipmentLongitude: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['Longitude'])
+      ]),
+      EquipmentMacAddress: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['MacAddress'])
+      ]),
+      EquipmentModelNumber: new FormControl(''),
+      EquipmentSerialNumber: new FormControl(''),
+      EquipmentManufacturer: new FormControl(''),
+      EquipmentVendorDetail: new FormControl(''),
+      EquipmentManufacturerDate: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentPurchageDate: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentWarrantyExpireDate: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentTypeId: new FormControl('', [
+        Validators.required
+      ]),
+      ComPort: new FormControl('', [
+         Validators.required
+      ]),
+      BaudRate: new FormControl('', [
+         Validators.required
+      ]),
+      DataStatus: new FormControl(true)
+    });
   }
+
+  ControlRoom() {
+    this.spinner.show();
+    this.dbService.ControlRoomGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        this.ControlRoomData = data.ResponseData;
+        this.EquipmentType();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
+
+  EquipmentType() {
+    this.spinner.show();
+    this.dbService.EquipmentTypeGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        this.EquipmentTypeData = data.ResponseData;
+        if (this.EquipmentId > 0) {
+          this.DetailsbyId();
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
+
 
   DetailsbyId() {
     this.spinner.show();

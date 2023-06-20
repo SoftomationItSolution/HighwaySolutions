@@ -48,8 +48,8 @@ export class VehicleClassDataComponent implements OnInit {
     this.SetPageHeight();
   }
   SetPageHeight() {
-    $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 175);
-    $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 175);
+    $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 100);
+    $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 100);
   }
 GetPermissionData() {
 this.spinner.show();

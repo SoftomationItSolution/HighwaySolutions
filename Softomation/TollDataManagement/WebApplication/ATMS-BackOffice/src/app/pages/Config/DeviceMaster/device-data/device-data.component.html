@@ -16,11 +16,11 @@
                 <div class="table-responsive mt-3 listtableheight">
                     <div class="table-responsive table-height-master">
                         <div class="table-responsive table-height-master">
-                            <!-- [style]="{'min-width':'3000px'}" -->
                             <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
                                 [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
                                 [globalFilterFields]="['EquipmentTypeName','EquipmentName','EquipmentChainageName','EquipmentDirectionName'
-                            ,'DataStatusName','EquipmentIP']">
+                            ,'DataStatusName','EquipmentIP']" >
+                            <!-- scrollHeight="50vh" -->
                                 <ng-template pTemplate="caption">
                                     <div style="text-align: right">
                                         <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i> -->
