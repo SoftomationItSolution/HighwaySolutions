@@ -2,16 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { apiIntegrationService } from '../../services/apiIntegration.service';
 import { DataModel } from '../../services/data-model.model';
-
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent implements OnInit {
   UserData: any;
-  //public navItems = navItems;
-  public navItems: any[] = [];
-  public navChildItems: any[] = [];
   public perfectScrollbarConfig = {
     suppressScrollX: true,
   };
@@ -22,16 +19,20 @@ export class DefaultLayoutComponent implements OnInit {
   MenuList:any;
   currentRoute: string="dashboard"
   childRoute: string=""
+  location: Location;
+  ParentTitle="Dashboard"
+  ChildTitle="Dashboard"
   constructor(private router: Router,public dataModel: DataModel,
-    public api: apiIntegrationService,) {
+    public api: apiIntegrationService,location: Location) {
     this.docElement = document.documentElement;
-
-    
   }
 
   ngOnInit() {
     this.userData=this.dataModel.getUserData();
     this.GetSystemMenu()
+  }
+  ngAfterViewInit(){
+    this.getTitle();
   }
 
   GetSystemMenu() {
@@ -40,19 +41,14 @@ export class DefaultLayoutComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.MenuList = data.ResponseData;
+          this.getTitle();
         }
         else{
           this.Logout();
         } 
-        // else {
-        //   this.ErrorData = data.Message;
-        //   this.emitService.openSnackBar(this.ErrorData, false);
-        // }
       },
       (error) => {
         this.Logout();
-        // this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        // this.emitService.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -78,74 +74,22 @@ export class DefaultLayoutComponent implements OnInit {
     
   }
 
-  menuED(event: any) {
-    var target = event.target;
-    if (target.localName == "span") {
-      let atag = target.parentElement;
-      let p1 = atag.parentElement
-      let childClass = p1.querySelector('ul')
-      if (childClass != null) {
-        if (childClass.classList.contains("mm-show")) {
-          p1.classList.remove("mm-active")
-          childClass.classList.remove("mm-show")
-          atag.setAttribute('aria-expanded', 'false');
-          return;
-        }
-      }
-    }
-    else {
-      let p1 = target.parentElement
-      let childClass = p1.querySelector('ul')
-      if (childClass != null) {
-        if (childClass.classList.contains("mm-show")) {
-          p1.classList.remove("mm-active")
-          childClass.classList.remove("mm-show")
-          target.setAttribute('aria-expanded', 'false');
-          return;
-        }
-      }
-    }
+  menuED(event: any,m) {
+    console.log(m)
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
       element.classList.remove('mm-active');
     });
-
-    if (target.localName == "span") {
-      let atag = target.parentElement;
-      let p1 = atag.parentElement
-      let childClass = p1.querySelector('ul')
-      if (childClass != null) {
-        if (childClass.classList.contains("mm-show")) {
-          p1.classList.remove("mm-active")
-          childClass.classList.remove("mm-show")
-          atag.setAttribute('aria-expanded', 'false');
-        }
-        else {
-          p1.classList.add("mm-active")
-          childClass.classList.add("mm-show")
-          atag.setAttribute('aria-expanded', 'true');
-
-        }
-      }
+    if(m.ChildCount!=0){
+      const cn=document.getElementById("mid_"+m.MenuId)
+      let childClass = cn.querySelector('ul')
+      childClass.classList.add("mm-show")
     }
-    else {
-      let p1 = target.parentElement
-      let childClass = p1.querySelector('ul')
-      if (childClass != null) {
-        if (childClass.classList.contains("mm-show")) {
-          p1.classList.remove("mm-active")
-          childClass.classList.remove("mm-show")
-          target.setAttribute('aria-expanded', 'false');
-        }
-        else {
-          p1.classList.add("mm-active")
-          childClass.classList.add("mm-show")
-          target.setAttribute('aria-expanded', 'true');
-        }
-      }
-    }
-    // let mm = document.getElementById('sidebar-menu')
+
+    const cn=document.getElementById("mid_"+m.MenuId)
+    cn.classList.add("mm-active")
+   this.getTitle();
   }
 
   toggleFullScreen() {
@@ -179,6 +123,40 @@ export class DefaultLayoutComponent implements OnInit {
 
 
     this.router.navigate(['']);
+  }
+
+  getTitle() {
+    //var titlee = this.location.prepareExternalUrl(this.location.path());
+    var titlee = window.location.pathname.replace('/','');
+    if (titlee.charAt(0) === '#') {
+      titlee = titlee.slice(1);
+    }
+
+    var foundObj = this.MenuList.filter((obj: { MenuUrl: any; }) => {
+      return obj.MenuUrl === titlee;
+    });
+
+    if(foundObj.length>0){
+      if(foundObj[0].ParentId===0){
+        this.ParentTitle=foundObj[0].MenuName
+      }
+      else{
+        var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
+          return obj1.MenuId === foundObj[0].ParentId;
+        });
+        if(parentObj.length>0){
+          this.ParentTitle=parentObj[0].MenuName
+        }
+        const cn=document.getElementById("mid_"+foundObj[0].ParentId)
+        if(cn!=null){
+        let childClass = cn.querySelector('ul')
+        childClass.classList.add("mm-show")
+        }
+
+      }
+      this.ChildTitle=foundObj[0].MenuName
+    }
+    return 'Dashboard';
   }
 
 }
