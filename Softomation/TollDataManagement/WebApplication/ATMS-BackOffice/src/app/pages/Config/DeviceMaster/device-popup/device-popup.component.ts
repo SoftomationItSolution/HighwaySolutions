@@ -35,6 +35,7 @@ export class DevicePopupComponent implements OnInit {
   ControlRoomData:any;
   EquipmentTypeData:any;
   ClosePoup() { this.Dialogref.close(); }
+  isEditable = false;
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -111,6 +112,8 @@ export class DevicePopupComponent implements OnInit {
       ]),
       DataStatus: new FormControl(true)
     });
+
+    
   }
 
   ControlRoom() {
