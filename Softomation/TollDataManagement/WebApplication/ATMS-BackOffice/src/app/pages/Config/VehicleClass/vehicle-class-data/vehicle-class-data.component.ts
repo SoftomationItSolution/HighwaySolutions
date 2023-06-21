@@ -60,7 +60,7 @@ const Obj = {
 this.dbService.RolePermissionGetByEventId(Obj).subscribe(
   data => {
     this.spinner.hide();
-    this.PermissionData = data.ResponceData;
+    this.PermissionData = data.ResponseData;
     this.DataAdd = this.PermissionData.DataAdd;
     this.DataUpdate = this.PermissionData.DataUpdate;
     this.DataView = this.PermissionData.DataView;

@@ -255,9 +255,9 @@ export class apiIntegrationService {
 //#region  System
 SystemGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
-  const token =this.dataModel.getTokenVale();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetActive', { headers: headers_object});
 }
+
 //#endregion
 }

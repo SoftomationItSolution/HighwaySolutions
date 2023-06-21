@@ -1,57 +1,64 @@
 <div class="card" *ngIf="viewAccess===1; else notaccess">
-
-    <p-toolbar styleClass="p-mb-1">
-        <ng-template pTemplate="left" *ngIf="addAccess===1">
-            <button pButton pRipple icon="pi pi-plus" class="p-button-rounded p-button-success p-mr-2"
-                (click)="openNew()" title="Click here to add new ControlRoom"></button>
-        </ng-template>
-        <ng-template pTemplate="right">
-            <button pButton pRipple icon="pi pi-refresh" class="p-button-rounded p-button-secondary p-mr-2"
-            (click)="GetAllData()" title="Click here to refresh the page" ></button>
-        </ng-template>
-    </p-toolbar>
-    <p-table #dt [value]="packageData" [rows]="50" [paginator]="true"
-        [globalFilterFields]="['PackageName','StartChainageNumber','EndChainageNumber','StartLatitude','StartLongitude','EndLatitude','EndLongitude','DataStatusName','TypeName']"
-        responsiveLayout="scroll" [rowHover]="true" dataKey="EntryId" [scrollable]="true" [scrollHeight]="'calc(100vh - 310px)'"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true"
-        styleClass="p-datatable-striped p-datatable-gridlines">
-        <ng-template pTemplate="caption">
-            <div style="text-align: right">
-                <i class="pi pi-search"></i>
-                <input type="text" pInputText size="50" placeholder="search"
-                    (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                    style="width:auto;height: 30px;margin: 5px 1px;">
+       <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <!-- <div>
+                        <a href="javascript:void(0);" (click)="openNew()" class="btn btn-success mb-2">
+                            <i class="mdi mdi-plus me-2"></i> Add Package
+                        </a>
+                        <div class="dropdown d-inline-block float-right">
+                            <button type="button"
+                                class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
+                                <i class="mdi mdi-filter-menu-outline"></i>
+                            </button>
+                        </div>
+                    </div> -->
+                    <div class="table-responsive mt-3 listtableheight">
+                        <p-table #dt [value]="packageData" [rows]="50" [paginator]="true"
+                            responsiveLayout="scroll" [rowHover]="true" dataKey="EntryId" [scrollable]="true"
+                            [scrollHeight]="'calc(100vh - 310px)'"
+                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                            [showCurrentPageReport]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="StartChainageNumber">Chainage <p-sortIcon
+                                            field="StartChainageNumber"></p-sortIcon>
+                                    </th>
+                                    <th>Start Coordinates</th>
+                                    <th>End Coordinates</th>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon>
+                                    </th>
+                                    <!-- <th></th> -->
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-row let-i="rowIndex">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{row.PackageName}}</td>
+                                    <td>{{row.StartChainageNumber}} - {{row.EndChainageNumber}}</td>
+                                    <td>{{row.StartLatitude}},{{row.StartLongitude}}</td>
+                                    <td>{{row.EndLatitude}},{{row.EndLongitude}}</td>
+                                    <td>{{row.DataStatusName}}</td>
+                                    <!-- <td style="text-align: center;" *ngIf="updateAccess===1">
+                                        <a href="javascript:void(0);" (click)="onRowEditInit(row)"
+                                            class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                    </td> -->
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
             </div>
-        </ng-template>
-        <ng-template pTemplate="header">
-            <tr>
-                <th>S. No.</th>
-                <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
-                </th>
-                <th pSortableColumn="StartChainageNumber">Chainage <p-sortIcon field="StartChainageNumber"></p-sortIcon>
-                </th>
-                <th>Start Coordinates</th>
-                <th>End Coordinates</th>
-                <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
-                </th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-row let-i="rowIndex">
-            <tr>
-                <td>{{i+1}}</td>
-                <td>{{row.PackageName}}</td>
-                <td>{{row.StartChainageNumber}} {{row.EndChainageNumber}}</td>
-                <td>{{row.StartLatitude}},{{row.StartLongitude}}</td>
-                <td>{{row.EndLatitude}},{{row.EndLongitude}}</td>
-                <td>{{row.DataStatusName}}</td>
-                <td *ngIf="updateAccess===1">
-                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-primery p-mr-2"
-                        (click)="editPhoneBook(row)"></button>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
+        </div>
+    </div>
 </div>
 <p-dialog (visible)="popupDialog" [style]="{width: '600px'}" header="Package Details" [modal]="true"
     styleClass="p-fluid">
@@ -61,54 +68,68 @@
                 <div class="col-md-12">
                     <label for="PackageName">Name</label>
                     <input formControlName="PackageName" type="text" pInputText required autofocus />
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','PackageName')">Name is required.</small>
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','PackageName')">Name is
+                        required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="Ip">Start Chainage</label>
-                    <input formControlName="StartChainageNumber" type="text" pInputText required autocomplete="off"/>
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','StartChainageNumber')">Start Chainage Number is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartChainageNumber')">Valid Chainage Number is required.</small>
+                    <input formControlName="StartChainageNumber" type="text" pInputText required autocomplete="off" />
+                    <small class="p-error"
+                        *ngIf="submitted && dataform.hasError('required','StartChainageNumber')">Start Chainage Number
+                        is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartChainageNumber')">Valid Chainage
+                        Number is required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="Ip">End Chainage</label>
-                    <input formControlName="EndChainageNumber" type="text" pInputText required autocomplete="off"/>
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndChainageNumber')">End Chainage Number is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndChainageNumber')">Valid Chainage Number is required.</small>
+                    <input formControlName="EndChainageNumber" type="text" pInputText required autocomplete="off" />
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndChainageNumber')">End
+                        Chainage Number is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndChainageNumber')">Valid Chainage
+                        Number is required.</small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="StartLatitude">Start Latitude</label>
                     <input formControlName="StartLatitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','StartLatitude')">Start Latitude is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartLatitude')">Valid Latitude is required.</small>
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','StartLatitude')">Start
+                        Latitude is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartLatitude')">Valid Latitude is
+                        required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="StartLongitude">Start Longitude</label>
                     <input formControlName="StartLongitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','StartLongitude')">Start Longitude is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartLongitude')">Valid Longitude is required.</small>
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','StartLongitude')">Start
+                        Longitude is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','StartLongitude')">Valid Longitude is
+                        required.</small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="EndLatitude">End Latitude</label>
                     <input formControlName="EndLatitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndLatitude')">End Latitude is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndLatitude')">Valid Latitude is required.</small>
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndLatitude')">End Latitude
+                        is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndLatitude')">Valid Latitude is
+                        required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="EndLongitude">End Longitude</label>
                     <input formControlName="EndLongitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndLongitude')">End Longitude is required.</small>
-                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndLongitude')">Valid Longitude is required.</small>
+                    <small class="p-error" *ngIf="submitted && dataform.hasError('required','EndLongitude')">End
+                        Longitude is required.</small>
+                    <small class="p-error" *ngIf="dataform.hasError('pattern','EndLongitude')">Valid Longitude is
+                        required.</small>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-6">
                     <label for="DataStatus">Status</label>
                     <br>
-                    <p-toggleButton formControlName="DataStatus"  offIcon="pi pi-times" [onIcon]="onIconName">
+                    <p-toggleButton formControlName="DataStatus" offIcon="pi pi-times" [onIcon]="onIconName">
                     </p-toggleButton>
                 </div>
             </div>
@@ -116,11 +137,11 @@
     </ng-template>
     <ng-template pTemplate="footer">
         <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text"
-            (click)="saveDetails()"></button>
+        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="saveDetails()"></button>
     </ng-template>
 </p-dialog>
 
 <ng-template #notaccess>
-    <h4 style="margin: 15% 0 15% 30%;" >You don't have access of this page! <br />Kindly contact Administrator, Thanks</h4>
+    <h4 style="margin: 15% 0 15% 30%;">You don't have access of this page! <br />Kindly contact Administrator, Thanks
+    </h4>
 </ng-template>

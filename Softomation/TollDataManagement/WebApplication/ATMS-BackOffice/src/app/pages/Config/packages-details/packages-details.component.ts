@@ -27,8 +27,7 @@ export class PackagesDetailsComponent implements OnInit {
   addAccess: any = 0;
   updateAccess: any = 0;
   viewAccess: any = 0;
-  MenuPermission: any;
-  SysMenuPermission: any;
+  PermissionData: any;
   LogedRoleId;
   constructor(private pageTitle: DataModel, private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
      private router: Router,private emitService: EmittersService,) {
@@ -75,7 +74,7 @@ export class PackagesDetailsComponent implements OnInit {
     this.popupDialog = true;
   }
 
-  editPhoneBook(data: any) {
+  onRowEditInit(data: any) {
     this.submitted = false;
     this.EntryId = data.EntryId;
     this.dataform.controls['PackageName'].setValue(data.PackageName);
@@ -148,18 +147,15 @@ export class PackagesDetailsComponent implements OnInit {
       MenuId: 7,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(this.UserDetails.RoleId).subscribe(
+    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
       data => {
         this.spinner.hide();
-        this.MenuPermission = data.ResponseData;
-        if (this.MenuPermission != null && this.MenuPermission != undefined) {
-          this.SysMenuPermission = this.MenuPermission.filter((o: { SystemId: string; }) => o.SystemId == "11")
-          let result = this.SysMenuPermission.filter((e: { MenuURL: string; }) => e.MenuURL == ((this.router.url).slice(1)));
-          if (result.length > 0) {
-            this.viewAccess = result[0].DataView;
-            this.addAccess = result[0].DataAdd;
-            this.updateAccess = result[0].DataUpdate;
-          }
+        this.PermissionData = data.ResponseData;
+        this.addAccess = this.PermissionData.DataAdd;
+        this.updateAccess = this.PermissionData.DataUpdate;
+        this.viewAccess = this.PermissionData.DataView;
+        if (this.viewAccess != 1) {
+          this.emitService.unauthorized();
         }
       },
       (error) => {
