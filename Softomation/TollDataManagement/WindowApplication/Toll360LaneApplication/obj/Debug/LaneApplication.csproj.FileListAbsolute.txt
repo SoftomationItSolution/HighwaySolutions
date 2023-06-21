@@ -50,3 +50,4 @@ D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowApplication
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowApplication\Toll360LaneApplication\obj\Debug\LaneApplication.csproj.CoreCompileInputs.cache
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowApplication\Toll360LaneApplication\obj\Debug\LaneApplication.exe
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowApplication\Toll360LaneApplication\obj\Debug\LaneApplication.pdb
+D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WindowApplication\Toll360LaneApplication\obj\Debug\LaneApplication.csproj.AssemblyReference.cache
