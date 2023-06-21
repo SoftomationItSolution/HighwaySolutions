@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigIntrface, DataModel } from './data-model.model';
 
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -28,8 +26,6 @@ export class apiIntegrationService {
       this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     }
     //#endregion 
-
-
   }
 
   GetUrl() {
@@ -134,7 +130,7 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
-
+//#endregion
 
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {
@@ -202,4 +198,24 @@ export class apiIntegrationService {
 
   //#endregion
 
+  //#region  Packages
+PackagesGetAll(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  const token =this.dataModel.getTokenVale();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'PackagesGetAll', { headers: headers_object});
+}
+PackagesSetUp(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  const token =this.dataModel.getTokenVale();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'PackagesSetUp', data, { headers: headers_object});
+}
+PackagesGetActive(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  const token =this.dataModel.getTokenVale();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'PackagesGetActive', { headers: headers_object});
+}
+//#endregion
 }

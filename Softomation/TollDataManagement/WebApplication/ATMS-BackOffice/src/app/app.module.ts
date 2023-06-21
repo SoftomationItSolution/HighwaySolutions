@@ -53,6 +53,7 @@ import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-ro
 import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/device-popup.component';
+import { PackagesDetailsComponent } from './pages/Config/packages-details/packages-details.component';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -94,7 +95,8 @@ export const MY_CUSTOM_FORMATS = {
     UserConfigurationComponent,
     UserConfigurationPopupComponent,
     VidsdataComponent,
-    AtccdataComponent
+    AtccdataComponent,
+    PackagesDetailsComponent
   ],
   imports: [
     BrowserAnimationsModule,
