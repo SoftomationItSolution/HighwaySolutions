@@ -93,6 +93,8 @@
   <ItemGroup>
     <Compile Include="BL\VehicleClassBL.cs" />
     <Compile Include="BL\ControlRoomBL.cs" />
+    <Compile Include="BL\EquipmentDetailsBL.cs" />
+    <Compile Include="BL\EquipmentTypeBL.cs" />
     <Compile Include="BL\LogingActivityBL.cs" />
     <Compile Include="BL\MenuManagementBL.cs" />
     <Compile Include="BL\RoleManagementBL.cs" />
@@ -106,6 +108,8 @@
     <Compile Include="DBA\DBSelector.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
     <Compile Include="DL\ControlRoomDL.cs" />
+    <Compile Include="DL\EquipmentDetailsDL.cs" />
+    <Compile Include="DL\EquipmentTypeDL.cs" />
     <Compile Include="DL\LogingActivityDL.cs" />
     <Compile Include="DL\MenuManagementDL.cs" />
     <Compile Include="DL\RoleManagementDL.cs" />
@@ -115,6 +119,8 @@
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
     <Compile Include="IL\ControlRoomIL.cs" />
+    <Compile Include="IL\EquipmentDetailsIL.cs" />
+    <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />

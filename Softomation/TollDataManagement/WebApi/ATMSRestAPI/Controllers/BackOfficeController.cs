@@ -559,7 +559,7 @@ namespace ATMSRestAPI.Controllers
 
         #endregion
 
-        #region Control Room
+        #region Vehicle Class
         [Route(Provider + "/" + APIPath + "/VehicleClassGetAll")]
         [HttpGet]
         public HttpResponseMessage VehicleClassGetAll()
@@ -636,7 +636,106 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        #endregion
 
+        #region Equipment Details
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetAll")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentDetailsGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetActive")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentDetailsGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetById")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentDetailsGetById(int EquipmentId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetById(EquipmentId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage EquipmentDetailsInsertUpdate(EquipmentDetailsIL ed)
+        {
+            try
+            {
+                response.Message = EquipmentDetailsBL.InsertUpdate(ed);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentTypeGetActive")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentTypeGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentTypeBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         //#region Category Master

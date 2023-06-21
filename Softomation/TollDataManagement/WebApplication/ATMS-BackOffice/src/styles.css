@@ -10,11 +10,11 @@ tr {
 }
 
 tbody,
-td{
-   color: #47484a !important;
+td {
+    color: #47484a !important;
 }
 
-.mat-mdc-form-field{
+.mat-mdc-form-field {
     display: flex !important;
     background-color: transparent !important;
 }
@@ -22,14 +22,18 @@ td{
 .mdc-text-field--filled:not(.mdc-text-field--disabled) {
     background-color: transparent !important;
 }
-.mat-mdc-form-field-infix{
+
+.mat-mdc-form-field-infix {
     background-color: transparent !important;
 }
+
 .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
     padding-top: 5px !important;
     padding-bottom: 5px !important;
 }
-.mat-mdc-form-field, .mat-mdc-floating-label{
+
+.mat-mdc-form-field,
+.mat-mdc-floating-label {
     background-color: transparent !important;
     -moz-osx-font-smoothing: none !important;
     -webkit-font-smoothing: none !important;
@@ -57,12 +61,53 @@ td{
     -webkit-appearance: none;
     appearance: none;
     border-radius: 0.25rem;
-    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
 .mat-form-field-underline {
     background-color: #fff !important;
-  }
-  .mat-form-field-ripple {
+}
+
+.mat-form-field-ripple {
     background-color: #fff !important;
-  }
+}
+
+.vertical-collpsed .child-menu {
+    color: #495057 !important;
+}
+
+.vertical-collpsed #sidebar-menu ul li ul.sub-menu li a:hover {
+    color: #f68e2b !important
+}
+
+
+.vertical-collpsed .child-menu:hover {
+    color: #f68e2b !important
+}
+
+
+.p-datatable-table tbody,
+tr {
+    border-bottom-color: #c3c3c3 !important;
+    border-bottom-width: 1px !important;
+}
+
+
+#sidebar-menu ul li ul.sub-menu li a:before {
+    content: none !important
+}
+
+@media (max-width:993px) {
+    .navbar-brand-box {
+        padding: 0 0.5rem;
+        text-align: center;
+        width: 70px !important;
+    }
+}
+
+.m-active a{
+    color: #f68e2b !important
+}
+.m-active i{
+    color: #f68e2b !important
+}  

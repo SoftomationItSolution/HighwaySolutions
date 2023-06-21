@@ -11,7 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
@@ -54,6 +54,7 @@ import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-co
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/device-popup.component';
 import { PackagesDetailsComponent } from './pages/Config/packages-details/packages-details.component';
+import {MatStepperModule} from '@angular/material/stepper';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -142,9 +143,11 @@ export const MY_CUSTOM_FORMATS = {
     MessageModule,
     PanelModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatStepperModule
   ],
   providers: [
+    [DatePipe],
     { provide: MAT_DATE_LOCALE, useValue: 'in' }, // you can change useValue
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },

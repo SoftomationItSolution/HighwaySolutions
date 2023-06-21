@@ -4,13 +4,9 @@ import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { ControlRoomConfigurationComponent } from '../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
 import { DeviceDataComponent } from '../pages/Config/DeviceMaster/device-data/device-data.component';
 import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
-// import { GantryDataComponent } from '../pages/Config/Gantry/gantry-data/gantry-data.component';
-// import { GantryMappingComponent } from '../pages/Config/Gantry/gantry-mapping/gantry-mapping.component';
-// import { LaneDataComponent } from '../pages/Config/Lane/lane-data/lane-data.component';
-// import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
- import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
- import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
- import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
+import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
+import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
+import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/packages-details/packages-details.component';
 
