@@ -38,6 +38,7 @@ export class DevicePopupComponent implements OnInit {
   DefaultComPort = 'COM 1';
   ControlRoomData: any;
   EquipmentTypeData: any;
+  EquipmentTypeFilter: any;
   SystemTypeData: any;
   PackageData: any;
   PackageFilter: any;
@@ -47,6 +48,7 @@ export class DevicePopupComponent implements OnInit {
   selectedIndex=0
   btnMain="Next"//Save changes
   btn1="Previous"//Close
+  ConnectionTypeId=1
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -120,20 +122,19 @@ export class DevicePopupComponent implements OnInit {
         Validators.required,
         Validators.pattern(regExps['PortNumber'])
       ]),
-      EquipmentLoginId: new FormControl('', Validators.required,),
-      EquipmentPassword: new FormControl('', Validators.required,),
       ComPort: new FormControl('', [
         Validators.required
       ]),
       BaudRate: new FormControl('', [
         Validators.required
       ]),
+      EquipmentLoginId: new FormControl('', Validators.required,),
+      EquipmentPassword: new FormControl('', Validators.required,),
+      
       DataStatus: new FormControl(true)
     });
 
     this.ControlRoom()
-
-
   }
 
   ControlRoom() {
@@ -229,6 +230,10 @@ export class DevicePopupComponent implements OnInit {
 
   ControlChnage(ControlRoomId: any) {
     this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
+  }
+
+  EquipmentTypeChnage(EquipmentTypeId:any){
+    this.EquipmentTypeFilter=this.EquipmentTypeData.filter(e => e.EquipmentTypeId === EquipmentTypeId)
   }
 
 

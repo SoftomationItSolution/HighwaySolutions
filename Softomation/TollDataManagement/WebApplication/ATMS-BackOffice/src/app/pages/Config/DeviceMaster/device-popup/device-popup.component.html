@@ -5,7 +5,7 @@
     </div>
     <div class="modal-body">
         <mat-stepper linear #stepper>
-            <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
+            <mat-step [stepControl]="LocationDetailsForm" [editable]="isEditable">
                 <form [formGroup]="LocationDetailsForm">
                     <ng-template matStepLabel>Location</ng-template>
                     <div class="form-data">
@@ -139,13 +139,120 @@
                             </mat-form-field>
                         </div>
                      </div>
+                     <div class="clearfix"></div>
+                     <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Serial Number" formControlName="EquipmentSerialNumber" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentSerialNumber').hasError('required')">
+                                    Serial Number must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Manufacturer" formControlName="EquipmentManufacturer" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentManufacturer').hasError('required')">
+                                    Manufacturer must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Vendor" formControlName="EquipmentVendorDetail" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentVendorDetail').hasError('required')">
+                                    Vendor must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker1"
+                                    placeholder="Manufacturer Date" formControlName="EquipmentManufacturerDate" required
+                                    readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentManufacturerDate').hasError('required')">
+                                    Manufacturer Date must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker2"
+                                    placeholder="Purchage Date" formControlName="EquipmentPurchageDate" required
+                                    readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentPurchageDate').hasError('required')">
+                                    Purchage Date must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker3"
+                                    placeholder="Warranty Date" formControlName="EquipmentWarrantyExpireDate" required
+                                    readonly>
+                                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                <mat-datepicker #picker3></mat-datepicker>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentWarrantyExpireDate').hasError('required')">
+                                    Warranty Date must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                     </div>
                 </div>
-
               </form>
             </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Connection</ng-template>
-                <p>You are now done.</p>
+            <mat-step [stepControl]="DeviceCommunicationForm" [editable]="isEditable">
+                <form [formGroup]="DeviceCommunicationForm">
+                  <ng-template matStepLabel>Connection</ng-template>
+                  <div class="form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-select class="form-control" placeholder="Equipment Type" formControlName="EquipmentTypeId" required (selectionChange)="EquipmentTypeChnage($event.value)">
+                                    <mat-option *ngFor=" let ht of EquipmentTypeData;" [value]="ht.EquipmentTypeId">
+                                        {{ht.EquipmentTypeName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentTypeId').hasError('required')">
+                                    Equipment Type must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                            <mat-form-field>
+                                <input matInput placeholder="IP-Address" formControlName="EquipmentIP" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentIP').hasError('required')">
+                                    IP-Address must be entered.
+                                </mat-error>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentIP').hasError('pattern')">
+                                    IP-Address must be vaild.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                            <mat-form-field>
+                                <input matInput placeholder="Port" formControlName="EquipmentPortNumber" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPortNumber').hasError('required')">
+                                    Port must be entered.
+                                </mat-error>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPortNumber').hasError('pattern')">
+                                    Port must be vaild.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                  </div>
+                </form>
             </mat-step>
         </mat-stepper>
 
