@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Softomation.ATMSSystemLibrary.DL;
 using Softomation.ATMSSystemLibrary.IL;
 

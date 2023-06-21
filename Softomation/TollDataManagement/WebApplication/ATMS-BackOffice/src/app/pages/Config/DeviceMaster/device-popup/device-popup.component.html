@@ -284,18 +284,31 @@
     <div class="modal-body">
         <mat-stepper linear #stepper>
             <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
-              <form [formGroup]="DeviceDetailsForm">
-                <ng-template matStepLabel>Location</ng-template>
-                <mat-form-field>
+                <form [formGroup]="LocationDetailsForm">
+                    <ng-template matStepLabel>Location</ng-template>
+                    <!-- <mat-form-field>
                   <mat-label>Name</mat-label>
                   <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
-                </mat-form-field>
-                <div>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
-              </form>
+                </mat-form-field> -->
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- <label for="ControlRoomId">Control Room</label> -->
+                            <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
+                                [options]="ControlRoomData" optionLabel="ControlRoomName" optionValue="ControlRoomId"
+                                placeholder="Select"></p-dropdown>
+                            <small class="p-error"
+                                *ngIf="submitted && LocationDetailsForm.hasError('required','ControlRoomId')">
+                                Category is required.</small>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
             </mat-step>
-            <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
+            <!-- <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
               <form [formGroup]="DeviceDetailsForm">
                 <ng-template matStepLabel>Assets</ng-template>
                 <mat-form-field>
@@ -308,19 +321,19 @@
                   <button mat-button matStepperNext>Next</button>
                 </div>
               </form>
-            </mat-step>
+            </mat-step> -->
             <mat-step>
-              <ng-template matStepLabel>Connection</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-              </div>
+                <ng-template matStepLabel>Connection</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                </div>
             </mat-step>
-          </mat-stepper>
-        
+        </mat-stepper>
+
         <form [formGroup]="DeviceDetailsForm">
-           
+
         </form>
     </div>
     <div class="modal-footer">

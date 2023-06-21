@@ -15,6 +15,7 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 export class DevicePopupComponent implements OnInit {
   PageTitle: any;
   DeviceDetailsForm!: FormGroup;
+  LocationDetailsForm!: FormGroup;
   error = errorMessages;
   EquipmentId: number;
   DataStatus = true;
@@ -34,6 +35,9 @@ export class DevicePopupComponent implements OnInit {
   DefaultComPort = 'COM 1';
   ControlRoomData:any;
   EquipmentTypeData:any;
+  SystemTypeData:any;
+  PackageData:any;
+  submitted=false;
   ClosePoup() { this.Dialogref.close(); }
   isEditable = false;
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
@@ -53,8 +57,26 @@ export class DevicePopupComponent implements OnInit {
       this.ComPortSetting.push({ Id: 'COM ' + i, Name: 'COM ' + i });
     }
 
+    this.LocationDetailsForm = new FormGroup({ 
+      ControlRoomId: new FormControl('', [
+        Validators.required
+      ]),
+      PackageId: new FormControl('', [
+        Validators.required
+      ]),
+      SystemId: new FormControl('', [
+        Validators.required
+      ]),
+    });
+
     this.DeviceDetailsForm = new FormGroup({
       ControlRoomId: new FormControl('', [
+        Validators.required
+      ]),
+      PackageId: new FormControl('', [
+        Validators.required
+      ]),
+      SystemId: new FormControl('', [
         Validators.required
       ]),
       EquipmentName: new FormControl('', [
@@ -113,6 +135,8 @@ export class DevicePopupComponent implements OnInit {
       DataStatus: new FormControl(true)
     });
 
+    this.ControlRoom()
+
     
   }
 
@@ -122,7 +146,9 @@ export class DevicePopupComponent implements OnInit {
       data => {
         this.spinner.hide();
         this.ControlRoomData = data.ResponseData;
-        this.EquipmentType();
+        console.log(this.ControlRoomData)
+        this.PackageType();
+       
       },
       (error) => {
         this.spinner.hide();
@@ -147,6 +173,50 @@ export class DevicePopupComponent implements OnInit {
         if (this.EquipmentId > 0) {
           this.DetailsbyId();
         }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
+
+  PackageType() {
+    this.spinner.show();
+    this.dbService.PackagesGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        this.PackageData = data.ResponseData;
+        this.SystemType();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
+
+  SystemType() {
+    this.spinner.show();
+    this.dbService.SystemGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        this.SystemTypeData = data.ResponseData;
+        this.EquipmentType();
       },
       (error) => {
         this.spinner.hide();

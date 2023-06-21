@@ -232,23 +232,32 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  Packages
-PackagesGetAll(): Observable<any> {
+  PackagesGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    const token =this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackagesGetAll', { headers: headers_object});
+  }
+  PackagesSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    const token =this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackagesSetUp', data, { headers: headers_object});
+  }
+  PackagesGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    const token =this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetActive', { headers: headers_object});
+  }
+//#endregion
+
+//#region  System
+SystemGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   const token =this.dataModel.getTokenVale();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'PackagesGetAll', { headers: headers_object});
-}
-PackagesSetUp(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  const token =this.dataModel.getTokenVale();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'PackagesSetUp', data, { headers: headers_object});
-}
-PackagesGetActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  const token =this.dataModel.getTokenVale();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'PackagesGetActive', { headers: headers_object});
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetActive', { headers: headers_object});
 }
 //#endregion
 }
