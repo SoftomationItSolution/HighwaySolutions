@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\SystemBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
     <Compile Include="BL\ControlRoomBL.cs" />
     <Compile Include="BL\EquipmentDetailsBL.cs" />
@@ -106,6 +107,8 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\PackageDL.cs" />
+    <Compile Include="DL\SystemDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
     <Compile Include="DL\ControlRoomDL.cs" />
     <Compile Include="DL\EquipmentDetailsDL.cs" />
@@ -123,9 +126,11 @@
     <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
+    <Compile Include="IL\PackageIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />
+    <Compile Include="IL\SystemIL.cs" />
     <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

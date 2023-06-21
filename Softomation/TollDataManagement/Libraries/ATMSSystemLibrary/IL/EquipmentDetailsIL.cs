@@ -5,8 +5,12 @@ namespace Softomation.ATMSSystemLibrary.IL
     public class EquipmentDetailsIL : EquipmentTypeIL
     {
         Int64 equipmentId;
+        Int16 packageId;
+        String packageName;
         Int16 controlRoomId;
         String controlRoomName;
+        Int16 systemId;
+        String systemName;
         String equipmentName;
         Int16 equipmentDirectionId;
         String equipmentDirectionName;
@@ -31,8 +35,12 @@ namespace Softomation.ATMSSystemLibrary.IL
         public EquipmentDetailsIL()
         {
             equipmentId = 0;
+            packageId = 0;
+            packageName = string.Empty;
             controlRoomId = 0;
             controlRoomName = string.Empty;
+            systemId = 0;
+            systemName = string.Empty;
             equipmentName = string.Empty;
             equipmentDirectionId = 0;
             equipmentDirectionName = string.Empty;
@@ -67,6 +75,30 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
+        public Int16 PackageId
+        {
+            get
+            {
+                return packageId;
+            }
+
+            set
+            {
+                packageId = value;
+            }
+        }
+        public String PackageName
+        {
+            get
+            {
+                return packageName;
+            }
+
+            set
+            {
+                packageName = value;
+            }
+        }
         public Int16 ControlRoomId
         {
             get
@@ -89,6 +121,30 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 controlRoomName = value;
+            }
+        }
+        public Int16 SystemId
+        {
+            get
+            {
+                return systemId;
+            }
+
+            set
+            {
+                systemId = value;
+            }
+        }
+        public String SystemName
+        {
+            get
+            {
+                return systemName;
+            }
+
+            set
+            {
+                systemName = value;
             }
         }
         public String EquipmentName
