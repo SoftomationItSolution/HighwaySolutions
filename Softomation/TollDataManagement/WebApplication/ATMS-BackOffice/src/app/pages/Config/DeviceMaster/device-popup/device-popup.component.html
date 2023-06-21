@@ -1,281 +1,3 @@
-<!-- <div class="mat-fab-btn" style="float: right;">
-    <button mat-fab color="warn" aria-label="Close" mat-dialog-close>
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<form [formGroup]="DeviceDetailsForm">
-    <h2 mat-dialog-title>Device Details</h2>
-    <div class="popupBox-L">
-        <div class="form-row">
-            <div class="col-md-4">
-                <mat-form-field>
-                    <mat-select placeholder="Control Room" formControlName="ControlRoomId" required>
-                        <mat-option *ngFor=" let ht of SiteList;" [value]="ht.EntryId">
-                            {{ht.ControlRoomName}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('ControlRoomId').hasError('required')">
-                        Control Room must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <mat-select placeholder="Category Type" formControlName="CategoryId" required (selectionChange)="onCategoryChnage($event.value)">
-                        <mat-option *ngFor=" let ht of DeviceCategoryList;" [value]="ht.EntryId">
-                            {{ht.CategoryName}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('CategoryId').hasError('required')">
-                        Category Type must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <mat-select placeholder="Device Type" formControlName="DeviceTypeId" required >
-                        <mat-option *ngFor=" let ht of DeviceTypeList;" [value]="ht.EntryId">
-                            {{ht.DeviceTypeName}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('DeviceTypeId').hasError('required')">
-                        Device Type must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="form-row">
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Device Name" formControlName="DeviceName" autocomplete="off" required>
-                    <mat-error *ngIf="DeviceDetailsForm.get('DeviceName').hasError('required')">
-                        Device Name must be entered.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Latitude" formControlName="Latitude" autocomplete="off" required>
-                    <mat-error *ngIf="DeviceDetailsForm.get('Latitude').hasError('required')">
-                        Latitude must be entered.
-                    </mat-error>
-                    <mat-error *ngIf="DeviceDetailsForm.get('Latitude').hasError('pattern')">
-                        {{error.Latitude}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Longitude" formControlName="Longitude" autocomplete="off" required>
-                    <mat-error *ngIf="DeviceDetailsForm.get('Longitude').hasError('required')">
-                        Longitude must be entered
-                    </mat-error>
-                    <mat-error *ngIf="DeviceDetailsForm.get('Longitude').hasError('pattern')">
-                        {{error.Longitude}}
-                    </mat-error>
-                </mat-form-field>
-            </div>  
-        </div>
-        <div class="clearfix"></div>
-        <div class="form-row">
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Model Number" formControlName="ModelNumber" autocomplete="off">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Manufacturer" formControlName="Manufacturer" autocomplete="off">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Vendor" formControlName="Vendor" autocomplete="off">
-                </mat-form-field>
-            </div>
-        </div>
-        
-        <div class="clearfix"></div>
-        <div class="form-row">
-            <div class="col-md-4">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Purchage date</mat-label>
-                    <input matInput [matDatepicker]="pickerPurchage" formControlName="PurchageDate" autocomplete="off" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="pickerPurchage">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #pickerPurchage></mat-datepicker>
-                    <mat-error *ngIf="DeviceDetailsForm.get('PurchageDate').hasError('required')">
-                        Purchage Date must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Manufacturer date</mat-label>
-                    <input matInput [matDatepicker]="pickerManufacturer" formControlName="ManufacturerDate" autocomplete="off" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="pickerManufacturer">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #pickerManufacturer></mat-datepicker>
-                    <mat-error *ngIf="DeviceDetailsForm.get('ManufacturerDate').hasError('required')">
-                        Manufacturer Date must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Warranty expire date</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="WarrantyExpireDate" autocomplete="off" readonly>
-                    <mat-datepicker-toggle matSuffix [for]="picker">
-                        <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
-                    </mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="DeviceDetailsForm.get('WarrantyExpireDate').hasError('required')">
-                        Warranty Expire Date must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="form-row" >
-            <div class="col-md-4" *ngIf="SelectedCategoryId!=5">
-                <mat-form-field>
-                    <mat-select placeholder="Connection Type" formControlName="ConnectionTypeId" required (selectionChange)="ConnectionTypeChnage($event.value)">
-                        <mat-option *ngFor=" let ht of ConnectionTypeData;" [value]="ht.EntryId">
-                            {{ht.ConnectionType}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('ConnectionTypeId').hasError('required')">
-                        Connection Type must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId!=5 && SelectedConntionType!=2">
-                <mat-form-field>
-                    <input matInput placeholder="Ip Address" formControlName="IpAddress" autocomplete="off" required>
-                    <mat-error *ngIf="DeviceDetailsForm.get('IpAddress').hasError('required')">
-                        Ip Address must be entered.
-                    </mat-error>
-                    <mat-error *ngIf="DeviceDetailsForm.get('IpAddress').hasError('pattern')">
-                        {{error.IpAddress}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId!=5 && SelectedConntionType!=2">
-                <mat-form-field>
-                    <input matInput placeholder="Device Port" formControlName="PortNumber" autocomplete="off" required>
-                    <mat-error *ngIf="DeviceDetailsForm.get('PortNumber').hasError('required')">
-                        Port must be entered.
-                    </mat-error>
-                    <mat-error *ngIf="DeviceDetailsForm.get('PortNumber').hasError('pattern')">
-                        {{error.PortNumber}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId!=5 && SelectedConntionType==2">
-                <mat-form-field>
-                    <mat-select placeholder="Com Port" formControlName="ComPort" required>
-                        <mat-option *ngFor=" let ht of ComPortSetting;" [value]="ht.Id">
-                            {{ht.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('ComPort').hasError('required')">
-                        Com Port must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId!=5 && SelectedConntionType==2">
-                <mat-form-field>
-                    <mat-select placeholder="Baud Rate" formControlName="BaudRate" required>
-                        <mat-option *ngFor=" let ht of BaudRatePort;" [value]="ht.Id">
-                            {{ht.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('BaudRate').hasError('required')">
-                        Baud Rate must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId==1">
-                <mat-form-field>
-                    <mat-select placeholder="Direction" formControlName="Direction" required>
-                        <mat-option *ngFor="let type of DirectionList;" [value]="type.Id">
-                            {{type.Name}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('Direction').hasError('required')">
-                        Direction must be selected
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId==1">
-                <mat-form-field>
-                    <mat-select placeholder="Gantry" formControlName="GantryId" required (selectionChange)="onGantryChnage($event.value)">
-                        <mat-option  [value]="0">
-                            None
-                        </mat-option>
-                        <mat-option *ngFor=" let ht of GantryData;" [value]="ht.EntryId">
-                            {{ht.GantryName}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('GantryId').hasError('required')">
-                        Gantry must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId==1">
-                <mat-form-field>
-                    <mat-select placeholder="Lane" formControlName="LaneNumber" required>
-                        <mat-option  [value]="0">
-                            None
-                        </mat-option>
-                        <mat-option *ngFor=" let ht of LaneData;" [value]="ht.LaneNumber">
-                            {{ht.LaneNumber}}
-                        </mat-option>
-                    </mat-select>
-                    <mat-error *ngIf="DeviceDetailsForm.get('LaneNumber').hasError('required')">
-                        Lane must be selected.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId==1 || SelectedCategoryId==2|| SelectedCategoryId==3">
-                <mat-form-field>
-                    <input matInput placeholder="Login Id" formControlName="DeviceLoginId" autocomplete="off">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4" *ngIf="SelectedCategoryId==1 || SelectedCategoryId==2|| SelectedCategoryId==3">
-                <mat-form-field>
-                    <input matInput placeholder="Password" formControlName="DevicePassword" autocomplete="off">
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-form-field>
-                    <input matInput placeholder="Remark" formControlName="Remark" required autocomplete="off">
-                    <mat-error *ngIf="DeviceDetailsForm.get('Remark').hasError('required')">
-                        Remark must be entered.
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="col-md-4">
-                <mat-checkbox [checked]="DataStatus" (change)="onChange($event)">Status</mat-checkbox>
-            </div>
-        </div>
-        <div class="clearfix"></div>
-        <div class="form-row">
-            
-        </div>
-    </div>
-    <div align="end">
-        <div class="mat-fab-btn" style="float: right;">
-            <button mat-fab color="primary" aria-label="Add" (click)="SaveDeviceDetails()">
-                <mat-icon>save</mat-icon>
-            </button>
-        </div>
-    </div>
-</form> -->
-
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
@@ -284,18 +6,31 @@
     <div class="modal-body">
         <mat-stepper linear #stepper>
             <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
-              <form [formGroup]="DeviceDetailsForm">
-                <ng-template matStepLabel>Location</ng-template>
-                <mat-form-field>
-                  <mat-label>Name</mat-label>
-                  <input matInput formControlName="firstCtrl" placeholder="Last name, First name" required>
-                </mat-form-field>
-                <div>
-                  <button mat-button matStepperNext>Next</button>
-                </div>
-              </form>
+                <form [formGroup]="LocationDetailsForm">
+                    <ng-template matStepLabel>Location</ng-template>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-select class="form-control" placeholder="Control room"
+                                    formControlName="ControlRoomId" required>
+                                    <mat-option *ngFor=" let ht of ControlRoomData;" [value]="ht.ControlRoomId">
+                                        {{ht.ControlRoomName}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="LocationDetailsForm.get('ControlRoomId').hasError('required')">
+                                    Control room must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <button mat-button matStepperNext>Next</button>
+                    </div>
+                </form>
             </mat-step>
-            <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
+            <!-- <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
               <form [formGroup]="DeviceDetailsForm">
                 <ng-template matStepLabel>Assets</ng-template>
                 <mat-form-field>
@@ -308,19 +43,19 @@
                   <button mat-button matStepperNext>Next</button>
                 </div>
               </form>
-            </mat-step>
+            </mat-step> -->
             <mat-step>
-              <ng-template matStepLabel>Connection</ng-template>
-              <p>You are now done.</p>
-              <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
-              </div>
+                <ng-template matStepLabel>Connection</ng-template>
+                <p>You are now done.</p>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                </div>
             </mat-step>
-          </mat-stepper>
-        
+        </mat-stepper>
+
         <form [formGroup]="DeviceDetailsForm">
-           
+
         </form>
     </div>
     <div class="modal-footer">
