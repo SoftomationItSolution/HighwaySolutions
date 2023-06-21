@@ -14,7 +14,7 @@ import { DataModel } from 'src/app/services/data-model.model';
   styleUrls: ['./packages-details.component.css']
 })
 export class PackagesDetailsComponent implements OnInit {
-  ErrorData:any;
+  ErrorData: any;
   popupDialog!: boolean;
   packageData: any;
   submitted!: boolean;
@@ -30,9 +30,9 @@ export class PackagesDetailsComponent implements OnInit {
   PermissionData: any;
   LogedRoleId;
   constructor(private pageTitle: DataModel, private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
-     private router: Router,private emitService: EmittersService,) {
-    this.LogedRoleId =  this.emitService.getRoleDetails();
-    this.UserDetails=  this.pageTitle.getUserData();
+    private router: Router, private emitService: EmittersService,) {
+    this.LogedRoleId = this.emitService.getRoleDetails();
+    this.UserDetails = this.pageTitle.getUserData();
     this.GetAccessPermission();
   }
 
@@ -161,7 +161,7 @@ export class PackagesDetailsComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Somthing went wrong' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+        this.emitService.openSnackBar(this.ErrorData, false);
       }
     );
   }

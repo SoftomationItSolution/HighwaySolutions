@@ -9,6 +9,7 @@ import { UserConfigurationComponent } from '../pages/Config/UserData/user-config
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/packages-details/packages-details.component';
+import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -18,7 +19,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
-    // { path: 'incidents', component: IncidentDataComponent },
+    { path: 'incidents', component: IncidentDataComponent },
     // { path: 'vms', component: VMSDataComponent },
     // { path: 'met', component: METDataComponent },
      { path: 'vids', component: VidsdataComponent },

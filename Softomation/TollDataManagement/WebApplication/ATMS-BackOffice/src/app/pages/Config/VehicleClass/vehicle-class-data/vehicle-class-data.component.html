@@ -17,10 +17,10 @@
             <div class="card-body">
                 <div class="table-responsive mt-3 listtableheight">
                     <div class="table-responsive table-height-master">
-                        <p-table #dt sortField="EntryId" [sortOrder]="-1" [value]="VehicleClassData" [rowHover]="true" 
-                        [scrollable]="true" 
-                        [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
-                        [globalFilterFields]="['EntryId','ClassName','ClassDescription','VehicleSpeed','DataStatusName']">
+                        <p-table #dt sortField="EntryId" [sortOrder]="-1" [value]="VehicleClassData" [rowHover]="true"
+                            [scrollable]="true" [resizableColumns]="true"
+                            styleClass="p-datatable-striped p-datatable-gridlines"
+                            [globalFilterFields]="['EntryId','ClassName','ClassDescription','VehicleSpeed','DataStatusName']">
                             <ng-template pTemplate="caption">
                                 <div style="text-align: right">
                                     <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
@@ -30,13 +30,17 @@
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>S. No.</th>
-                                    <th pSortableColumn="VehicleClassId">ClassId <p-sortIcon field="VehicleClassId"></p-sortIcon>
+                                    <th pSortableColumn="VehicleClassId">ClassId <p-sortIcon
+                                            field="VehicleClassId"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="VehicleClassName">Class Name <p-sortIcon field="VehicleClassName"></p-sortIcon>
+                                    <th pSortableColumn="VehicleClassName">Class Name <p-sortIcon
+                                            field="VehicleClassName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="AllowedSpeed">Allowed Speed(KMPH) <p-sortIcon field="AllowedSpeed"></p-sortIcon>
+                                    <th pSortableColumn="AllowedSpeed">Allowed Speed(KMPH) <p-sortIcon
+                                            field="AllowedSpeed"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon>
                                     </th>
                                     <th style="text-align: center;" *ngIf="DataUpdate==1">Update</th>
                                 </tr>
@@ -49,7 +53,8 @@
                                     <td>{{rowData.AllowedSpeed}}</td>
                                     <td>{{rowData.DataStatusName}}</td>
                                     <td style="text-align: center;" *ngIf="DataUpdate==1">
-                                        <i class="icon-holder c-blue-500 pi pi-pencil" (click)="onRowEditInit(rowData)"></i>
+                                        <i class="icon-holder c-blue-500 pi pi-pencil"
+                                            (click)="onRowEditInit(rowData)"></i>
                                     </td>
                                 </tr>
                             </ng-template>
