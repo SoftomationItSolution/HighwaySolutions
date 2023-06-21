@@ -148,7 +148,7 @@ export class PackagesDetailsComponent implements OnInit {
       MenuId: 7,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(this.UserDetails.RoleId).subscribe(
+    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.MenuPermission = data.ResponseData;
