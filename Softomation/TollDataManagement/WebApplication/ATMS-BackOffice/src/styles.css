@@ -111,3 +111,9 @@ tr {
 .m-active i{
     color: #f68e2b !important
 }  
+
+.form-data{
+    height: 30vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}

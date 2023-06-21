@@ -99,7 +99,7 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Save', EquipmentId: 0 };
       this.dialog.open(DevicePopupComponent, dialogConfig);
     }
@@ -115,7 +115,7 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', EquipmentId: TransactionRowData.EquipmentId };
       this.dialog.open(DevicePopupComponent, dialogConfig);
     }

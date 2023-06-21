@@ -33,7 +33,8 @@ export const regExps: { [key: string]: RegExp } = {
     SpaceAlphabetOnly: /^[a-zA-Z ]*$/,
     DigitSpaceAlphabetOnly: /^[a-zA-Z0-9 ]*$/,
     AlphaNumericSingleSpace: /^([a-zA-Z0-9]+\s?)*$/,
-    OnlyDigit: /^(0|[1-9][0-9]*)$/
+    OnlyDigit: /^(0|[1-9][0-9]*)$/,
+    ChainageNumber:/^(\d{1,3}|\d{1,3}\.\d{0,3})$/
  };
 
 // export class ConfirmValidParentMatcher implements ErrorStateMatcher {
@@ -74,5 +75,6 @@ export const errorMessages: { [key: string]: string } = {
     SpaceAlphabetOnly: 'Please enter alphabet characters with space only',
     DigitSpaceAlphabetOnly: 'No spacial characters',
     AlphaNumericSingleSpace: 'Single space required',
-    OnlyDigit: 'Only numeric values allowed'
+    OnlyDigit: 'Only numeric values allowed',
+    ChainageNumber:"Please enter valid chainage"
 };

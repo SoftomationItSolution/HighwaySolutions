@@ -8,58 +8,151 @@
             <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
                 <form [formGroup]="LocationDetailsForm">
                     <ng-template matStepLabel>Location</ng-template>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <mat-form-field>
-                                <mat-select class="form-control" placeholder="Control room"
-                                    formControlName="ControlRoomId" required>
-                                    <mat-option *ngFor=" let ht of ControlRoomData;" [value]="ht.ControlRoomId">
-                                        {{ht.ControlRoomName}}
-                                    </mat-option>
-                                </mat-select>
-                                <mat-error *ngIf="LocationDetailsForm.get('ControlRoomId').hasError('required')">
-                                    Control room must be selected.
-                                </mat-error>
-                            </mat-form-field>
+                    <div class="form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <mat-select class="form-control" placeholder="Control room"
+                                        formControlName="ControlRoomId" required (selectionChange)="ControlChnage($event.value)">
+                                        <mat-option *ngFor=" let ht of ControlRoomData;" [value]="ht.ControlRoomId">
+                                            {{ht.ControlRoomName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="LocationDetailsForm.get('ControlRoomId').hasError('required')">
+                                        Control room must be selected.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <mat-select class="form-control" placeholder="Package"
+                                        formControlName="PackageId" required>
+                                        <mat-option *ngFor=" let ht of PackageFilter;" [value]="ht.PackageId">
+                                            {{ht.PackageName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="LocationDetailsForm.get('PackageId').hasError('required')">
+                                        Package must be selected.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
-                    </div>
-
-
-                    <div>
-                        <button mat-button matStepperNext>Next</button>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <mat-select class="form-control" placeholder="System" formControlName="SystemId" required>
+                                        <mat-option *ngFor=" let ht of SystemTypeData;" [value]="ht.SystemId">
+                                            {{ht.SystemName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="LocationDetailsForm.get('SystemId').hasError('required')">
+                                        System must be selected.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <mat-select class="form-control" placeholder="Direction" formControlName="EquipmentDirectionId" required>
+                                        <mat-option *ngFor=" let ht of DirectionList;" [value]="ht.Id">
+                                            {{ht.Name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentDirectionId').hasError('required')">
+                                        Direction must be selected.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                         <div class="clearfix"></div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Chainage" formControlName="EquipmentChainageNumber" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('required')">
+                                        Chainage must be entered.
+                                    </mat-error>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('pattern')">
+                                        Chainage must be vaild.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Equipment Name" formControlName="EquipmentName" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentName').hasError('required')">
+                                        Equipment Name must be entered.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                         </div>
+                         <div class="clearfix"></div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Latitude" formControlName="EquipmentLatitude" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentLatitude').hasError('required')">
+                                        Latitude must be entered.
+                                    </mat-error>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentLatitude').hasError('pattern')">
+                                        Latitude must be vaild.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Longitude" formControlName="EquipmentLongitude" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentLongitude').hasError('required')">
+                                        Longitude must be entered.
+                                    </mat-error>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentLongitude').hasError('pattern')">
+                                        Longitude must be vaild.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                         </div>
                     </div>
                 </form>
             </mat-step>
-            <!-- <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
+            <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
               <form [formGroup]="DeviceDetailsForm">
                 <ng-template matStepLabel>Assets</ng-template>
-                <mat-form-field>
-                  <mat-label>Address</mat-label>
-                  <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                         required>
-                </mat-form-field>
-                <div>
-                  <button mat-button matStepperPrevious>Back</button>
-                  <button mat-button matStepperNext>Next</button>
+                <div class="form-data">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="MacAddress" formControlName="EquipmentMacAddress" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentMacAddress').hasError('required')">
+                                    MacAddress must be entered.
+                                </mat-error>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentMacAddress').hasError('pattern')">
+                                    MacAddress must be vaild.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Model Number" formControlName="EquipmentModelNumber" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceDetailsForm.get('EquipmentModelNumber').hasError('required')">
+                                    Model Number must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                     </div>
                 </div>
+
               </form>
-            </mat-step> -->
+            </mat-step>
             <mat-step>
                 <ng-template matStepLabel>Connection</ng-template>
                 <p>You are now done.</p>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                </div>
             </mat-step>
         </mat-stepper>
 
-        <form [formGroup]="DeviceDetailsForm">
-
-        </form>
+       
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
-        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()" *ngIf="selectedIndex>0">{{btn1}}</button>
+        <button type="button" class="btn btn-success" (click)="goForward()">{{btnMain}}</button>
     </div>
 </div>

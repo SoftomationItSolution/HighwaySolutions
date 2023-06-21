@@ -1,7 +1,8 @@
 import { DatePipe } from '@angular/common';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatStepper } from '@angular/material/stepper';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
@@ -13,7 +14,9 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
   styleUrls: ['./device-popup.component.css']
 })
 export class DevicePopupComponent implements OnInit {
+  @ViewChild('stepper') private myStepper: MatStepper;
   PageTitle: any;
+  DeviceCommunicationForm!: FormGroup;
   DeviceDetailsForm!: FormGroup;
   LocationDetailsForm!: FormGroup;
   error = errorMessages;
@@ -33,13 +36,17 @@ export class DevicePopupComponent implements OnInit {
   DefaultTCPPort = 0;
   DefaultBaudRate = 9600;
   DefaultComPort = 'COM 1';
-  ControlRoomData:any;
-  EquipmentTypeData:any;
-  SystemTypeData:any;
-  PackageData:any;
-  submitted=false;
+  ControlRoomData: any;
+  EquipmentTypeData: any;
+  SystemTypeData: any;
+  PackageData: any;
+  PackageFilter: any;
+  submitted = false;
   ClosePoup() { this.Dialogref.close(); }
-  isEditable = false;
+  isEditable = true;
+  selectedIndex=0
+  btnMain="Next"//Save changes
+  btn1="Previous"//Close
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -57,7 +64,7 @@ export class DevicePopupComponent implements OnInit {
       this.ComPortSetting.push({ Id: 'COM ' + i, Name: 'COM ' + i });
     }
 
-    this.LocationDetailsForm = new FormGroup({ 
+    this.LocationDetailsForm = new FormGroup({
       ControlRoomId: new FormControl('', [
         Validators.required
       ]),
@@ -65,37 +72,16 @@ export class DevicePopupComponent implements OnInit {
         Validators.required
       ]),
       SystemId: new FormControl('', [
-        Validators.required
-      ]),
-    });
-
-    this.DeviceDetailsForm = new FormGroup({
-      ControlRoomId: new FormControl('', [
-        Validators.required
-      ]),
-      PackageId: new FormControl('', [
-        Validators.required
-      ]),
-      SystemId: new FormControl('', [
-        Validators.required
-      ]),
-      EquipmentName: new FormControl('', [
         Validators.required
       ]),
       EquipmentDirectionId: new FormControl('', [
         Validators.required
       ]),
-      EquipmentIP: new FormControl('', [
+      EquipmentChainageNumber: new FormControl('', [
         Validators.required,
-        Validators.pattern(regExps['IpAddress'])
+        Validators.pattern(regExps['ChainageNumber'])
       ]),
-      EquipmentPortNumber: new FormControl('', [
-        Validators.required,
-        Validators.pattern(regExps['PortNumber'])
-      ]),
-      EquipmentLoginId: new FormControl(''),
-      EquipmentPassword: new FormControl(''),
-      EquipmentChainageName: new FormControl('', [
+      EquipmentName: new FormControl('', [
         Validators.required
       ]),
       EquipmentLatitude: new FormControl('', [
@@ -106,38 +92,48 @@ export class DevicePopupComponent implements OnInit {
         Validators.required,
         Validators.pattern(regExps['Longitude'])
       ]),
+    });
+
+    this.DeviceDetailsForm = new FormGroup({
       EquipmentMacAddress: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['MacAddress'])
       ]),
-      EquipmentModelNumber: new FormControl(''),
-      EquipmentSerialNumber: new FormControl(''),
-      EquipmentManufacturer: new FormControl(''),
-      EquipmentVendorDetail: new FormControl(''),
-      EquipmentManufacturerDate: new FormControl('', [
-        Validators.required
-      ]),
-      EquipmentPurchageDate: new FormControl('', [
-        Validators.required
-      ]),
-      EquipmentWarrantyExpireDate: new FormControl('', [
-        Validators.required
-      ]),
+      EquipmentModelNumber: new FormControl('', Validators.required,),
+      EquipmentSerialNumber: new FormControl('', Validators.required,),
+      EquipmentManufacturer: new FormControl('', Validators.required,),
+      EquipmentVendorDetail: new FormControl('', Validators.required,),
+      EquipmentManufacturerDate: new FormControl('', Validators.required,),
+      EquipmentPurchageDate: new FormControl('', Validators.required,),
+      EquipmentWarrantyExpireDate: new FormControl('', Validators.required,)
+    });
+
+    this.DeviceCommunicationForm=new FormGroup({
       EquipmentTypeId: new FormControl('', [
         Validators.required
       ]),
+      EquipmentIP: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['IpAddress'])
+      ]),
+      EquipmentPortNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern(regExps['PortNumber'])
+      ]),
+      EquipmentLoginId: new FormControl('', Validators.required,),
+      EquipmentPassword: new FormControl('', Validators.required,),
       ComPort: new FormControl('', [
-         Validators.required
+        Validators.required
       ]),
       BaudRate: new FormControl('', [
-         Validators.required
+        Validators.required
       ]),
       DataStatus: new FormControl(true)
     });
 
     this.ControlRoom()
 
-    
+
   }
 
   ControlRoom() {
@@ -146,9 +142,8 @@ export class DevicePopupComponent implements OnInit {
       data => {
         this.spinner.hide();
         this.ControlRoomData = data.ResponseData;
-        console.log(this.ControlRoomData)
         this.PackageType();
-       
+
       },
       (error) => {
         this.spinner.hide();
@@ -232,6 +227,10 @@ export class DevicePopupComponent implements OnInit {
     );
   }
 
+  ControlChnage(ControlRoomId: any) {
+    this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
+  }
+
 
   DetailsbyId() {
     this.spinner.show();
@@ -259,6 +258,36 @@ export class DevicePopupComponent implements OnInit {
         this.Dialogref.close();
       }
     );
+  }
+
+  goBack() {
+    this.selectedIndex=this.myStepper.selectedIndex;
+    this.myStepper.previous();
+  }
+
+  goForward() {
+    this.myStepper.next();
+    this.selectedIndex=this.myStepper.selectedIndex;
+    if(this.selectedIndex==0 && this.LocationDetailsForm.valid==true){
+      this.selectedIndex=this.selectedIndex+1;
+      this.btnMain="Next"
+      this.btn1="Previous"
+      this.myStepper.selectedIndex=1;
+      setTimeout(() => {
+        this.myStepper.linear = true;
+     });
+    }
+    else if(this.selectedIndex==1 && this.DeviceDetailsForm.valid==true){
+      this.selectedIndex=this.selectedIndex+1;
+      this.btnMain="Save changes"
+      this.btn1="Close"
+    }
+
+    else if(this.selectedIndex==2 && this.DeviceCommunicationForm.valid==true){
+      this.selectedIndex=this.selectedIndex+1;
+      this.SaveDetails()
+    }
+    
   }
 
   SaveDetails() {
