@@ -8,11 +8,13 @@ import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-config
 import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
+import { PackagesDetailsComponent } from '../pages/Config/packages-details/packages-details.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'controlRoom', component: ControlRoomConfigurationComponent },
     { path: 'equipment', component: DeviceDataComponent },
+    { path: 'package', component: PackagesDetailsComponent },
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
