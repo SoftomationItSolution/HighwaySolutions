@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\PackageBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
     <Compile Include="BL\ControlRoomBL.cs" />
