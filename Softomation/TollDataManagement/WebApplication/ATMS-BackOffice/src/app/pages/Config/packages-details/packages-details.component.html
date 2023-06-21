@@ -1,5 +1,5 @@
 <div class="card" *ngIf="viewAccess===1; else notaccess">
-       <div class="row">
+    <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -15,11 +15,9 @@
                         </div>
                     </div> -->
                     <div class="table-responsive mt-3 listtableheight">
-                        <p-table #dt [value]="packageData" [rows]="50" [paginator]="true"
-                            responsiveLayout="scroll" [rowHover]="true" dataKey="EntryId" [scrollable]="true"
-                            [scrollHeight]="'calc(100vh - 310px)'"
-                            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-                            [showCurrentPageReport]="true" styleClass="p-datatable-striped p-datatable-gridlines">
+                        <p-table #dt [value]="packageData" [rows]="50" [paginator]="true" responsiveLayout="scroll"
+                            [rowHover]="true" dataKey="EntryId" [scrollable]="true"
+                            [scrollHeight]="'calc(100vh - 310px)'">
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>S. No.</th>

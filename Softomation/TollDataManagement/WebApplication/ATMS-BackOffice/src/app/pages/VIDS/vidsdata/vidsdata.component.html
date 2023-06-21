@@ -15,12 +15,6 @@
                         <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true" 
                         [style]="{'min-width':'1100px'}" styleClass="p-datatable-striped p-datatable-gridlines" 
                         [globalFilterFields]="['RoleName','DataStatusName']">
-                            <ng-template pTemplate="caption">
-                                <div style="text-align: right">
-                                    <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
-                                    <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
-                                </div>
-                            </ng-template>
                             <ng-template pTemplate="header">
                                 <tr>
                                     <th>S. No.</th>

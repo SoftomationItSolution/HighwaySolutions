@@ -253,4 +253,91 @@ PackagesGetById(PackageId: any): Observable<any> {
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetById?PackageId=' + PackageId, { headers: headers_object });
 }
 //#endregion
+
+
+//#region Incident Details
+
+IncidentSetUp(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/IncidentCreate', data, { headers: headers_object});
+}
+IncidentModify(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/IncidentModify', data, { headers: headers_object});
+}
+
+IncidentMediaSetUp(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/IncidentCreateImage', data, { headers: headers_object});
+}
+IncidentGetPendingCount(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'IMS/IncidentPendingCount', { headers: headers_object});
+}
+
+IncidentClose(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  const token =this.dataModel.getTokenVale();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/IncidentClose', data, { headers: headers_object});
+}
+IncidentCreateImage(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  const token =this.dataModel.getTokenVale();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/IncidentCreateImage', data, { headers: headers_object});
+}
+IncidentPendingGet(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'IMS/IncidentPendingGet', { headers: headers_object});
+}
+GetClosedIncident(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix+ 'IMS/GetClosedIncident', { headers: headers_object});
+}
+
+TaskListModify(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix+ 'IMS/TaskListModify', data, { headers: headers_object});
+}
+
+TaskModifyAssignee(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix+ 'IMS/TaskModifyAssignee', data, { headers: headers_object});
+}
+//#endregion
+
+//#region Check List
+MasterCheckListActive(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'IMS/MasterCheckListActive', { headers: headers_object});
+}
+
+CheckListActionApproveByOperator(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/CheckListActionApproveByOperator', data, { headers: headers_object});
+}
+CheckListGetAll(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + 'IMS/CheckListGetAll', { headers: headers_object});
+}
+
+CheckListSetup(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + 'IMS/CheckListSetup', data, { headers: headers_object});
+}
+//#endregion
+
 }

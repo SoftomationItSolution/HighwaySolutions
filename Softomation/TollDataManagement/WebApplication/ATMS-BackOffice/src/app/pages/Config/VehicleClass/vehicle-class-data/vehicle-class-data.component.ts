@@ -54,7 +54,7 @@ export class VehicleClassDataComponent implements OnInit {
 GetPermissionData() {
 this.spinner.show();
 const Obj = {
-  EventId: 8,
+  MenuId: 8,
   RoleId: this.LogedRoleId
 };
 this.dbService.RolePermissionGetByEventId(Obj).subscribe(
