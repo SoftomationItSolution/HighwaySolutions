@@ -24,6 +24,7 @@ namespace ATMSRestAPI.Controllers
         {
             LogMaster.Write(message, Constants.ErrorLogModule.BackOfficeAPI);
         }
+      
         #region Login
         [Route(Provider + "/" + APIPath + "/ValidateUser")]
         [AllowAnonymous]
@@ -215,6 +216,29 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in GetMenu : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        #endregion
+
+        #region System Details
+        [Route(Provider + "/" + APIPath + "/SystemGetActive")]
+        [HttpGet]
+        public HttpResponseMessage SystemGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemGetActive : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -555,8 +579,86 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        #endregion
 
+        #region Package Room
+        [Route(Provider + "/" + APIPath + "/PackageGetAll")]
+        [HttpGet]
+        public HttpResponseMessage PackageGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PackageBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PackageGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
+        [Route(Provider + "/" + APIPath + "/PackageGetActive")]
+        [HttpGet]
+        public HttpResponseMessage PackageGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PackageBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PackageGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PackageGetById")]
+        [HttpGet]
+        public HttpResponseMessage PackageGetById(int PackageId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PackageBL.GetById(PackageId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PackageGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PackageInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage PackageInsertUpdate(PackageIL pkg)
+        {
+            try
+            {
+                response.Message = PackageBL.InsertUpdate(pkg);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PackageInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Vehicle Class
