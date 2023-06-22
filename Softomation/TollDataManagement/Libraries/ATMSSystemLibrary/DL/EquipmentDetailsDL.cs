@@ -22,8 +22,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 string spName = "USP_EquipmentDetailsInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ed.EquipmentId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomId", DbType.Int16, ed.ControlRoomId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageId", DbType.Int16, ed.PackageId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, ed.SystemId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentTypeId", DbType.Int16, ed.EquipmentTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentProtocolTypeId", DbType.Int16, ed.EquipmentProtocolTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentName", DbType.String, ed.EquipmentName.Trim(), ParameterDirection.Input, 200));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentDirectionId", DbType.Int16, ed.EquipmentDirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentIP", DbType.String, ed.EquipmentIP, ParameterDirection.Input,20));

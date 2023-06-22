@@ -151,7 +151,7 @@ namespace Softomation.ATMSSystemLibrary
         {
             FieldEquipment = 1,
             ControlRoomEquipment = 2,
-            NetworkInfrastructure= 3,
+            NetworkInfrastructure = 3,
             PowerEquipment = 4,
             OtherAssets = 5
         }
@@ -162,6 +162,17 @@ namespace Softomation.ATMSSystemLibrary
             COM = 2,
             Other = 3
         }
+
+        public enum ConnectionProtocolType
+        {
+            TCP = 1,
+            UDP = 2,
+            Serail = 3,
+            MQTT = 4,
+            HTTP = 5,
+            Other = 6
+        }
+
         public enum DataBaseProvider
         {
             Oracle = 1,

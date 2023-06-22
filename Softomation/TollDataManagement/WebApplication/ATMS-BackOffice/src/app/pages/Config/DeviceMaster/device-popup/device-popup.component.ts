@@ -27,12 +27,13 @@ export class DevicePopupComponent implements OnInit {
   DetailData: any;
   DeviceTypeList: any;
   LogedUserId;
+  ProtocolList = [{ Id: 1, Name: 'TCP' }, { Id: 2, Name: 'UDP' }, { Id: 3, Name: 'Serail' }, { Id: 4, Name: 'MQTT' }, { Id: 5, Name: 'HTTP' }, { Id: 6, Name: "Other" }];
   DirectionList = [{ Id: 0, Name: 'None' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, { Id: 3, Name: 'Medium' }];
   BaudRatePort = [{ Id: 110, Name: 110 }, { Id: 300, Name: 300 }, { Id: 600, Name: 600 }, { Id: 1200, Name: 1200 },
   { Id: 2400, Name: 2400 }, { Id: 4800, Name: 4800 }, { Id: 9600, Name: 9600 }, { Id: 14400, Name: 14400 }, { Id: 19200, Name: 19200 },
   { Id: 38400, Name: 38400 }, { Id: 57600, Name: 57600 }, { Id: 115200, Name: 115200 }, { Id: 128000, Name: 128000 }, { Id: 256000, Name: 256000 }];
   ComPortSetting: any = [];
-  DefaultTCPIP = '192.168.0.0';
+  DefaultTCPIP = '127.0.0.1';
   DefaultTCPPort = 0;
   DefaultBaudRate = 9600;
   DefaultComPort = 'COM 1';
@@ -45,10 +46,10 @@ export class DevicePopupComponent implements OnInit {
   submitted = false;
   ClosePoup() { this.Dialogref.close(); }
   isEditable = true;
-  selectedIndex=0
-  btnMain="Next"//Save changes
-  btn1="Previous"//Close
-  ConnectionTypeId=1
+  selectedIndex = 0
+  btnMain = "Next"//Save changes
+  btn1 = "Previous"//Close
+  ConnectionTypeId = 1
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -62,7 +63,7 @@ export class DevicePopupComponent implements OnInit {
       this.PageTitle = 'Update Equipment Details';
     }
 
-    for (let i = 1; i <= 30; i++) {
+    for (let i = 1; i <= 10; i++) {
       this.ComPortSetting.push({ Id: 'COM ' + i, Name: 'COM ' + i });
     }
 
@@ -107,11 +108,15 @@ export class DevicePopupComponent implements OnInit {
       EquipmentVendorDetail: new FormControl('', Validators.required,),
       EquipmentManufacturerDate: new FormControl('', Validators.required,),
       EquipmentPurchageDate: new FormControl('', Validators.required,),
-      EquipmentWarrantyExpireDate: new FormControl('', Validators.required,)
+      EquipmentWarrantyExpireDate: new FormControl('', Validators.required,),
+      DataStatus: new FormControl(true)
     });
 
-    this.DeviceCommunicationForm=new FormGroup({
+    this.DeviceCommunicationForm = new FormGroup({
       EquipmentTypeId: new FormControl('', [
+        Validators.required
+      ]),
+      EquipmentProtocolTypeId: new FormControl('', [
         Validators.required
       ]),
       EquipmentIP: new FormControl('', [
@@ -130,7 +135,7 @@ export class DevicePopupComponent implements OnInit {
       ]),
       EquipmentLoginId: new FormControl('', Validators.required,),
       EquipmentPassword: new FormControl('', Validators.required,),
-      
+
       DataStatus: new FormControl(true)
     });
 
@@ -232,8 +237,38 @@ export class DevicePopupComponent implements OnInit {
     this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
   }
 
-  EquipmentTypeChnage(EquipmentTypeId:any){
-    this.EquipmentTypeFilter=this.EquipmentTypeData.filter(e => e.EquipmentTypeId === EquipmentTypeId)
+  EquipmentTypeChnage(EquipmentTypeId: any) {
+    this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === EquipmentTypeId)
+    if (this.EquipmentTypeFilter.length > 0) {
+      this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
+    }
+    if (this.ConnectionTypeId == 1) {
+      this.DeviceCommunicationForm.controls['EquipmentLoginId'].reset();
+      this.DeviceCommunicationForm.controls['EquipmentPassword'].reset();
+      this.DeviceCommunicationForm.controls['EquipmentIP'].reset();
+      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].reset();
+      this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
+      this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
+      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(1);
+    }
+    else if (this.ConnectionTypeId == 2) {
+      this.DeviceCommunicationForm.controls['EquipmentLoginId'].reset();
+      this.DeviceCommunicationForm.controls['EquipmentPassword'].reset();
+      this.DeviceCommunicationForm.controls['ComPort'].reset();
+      this.DeviceCommunicationForm.controls['BaudRate'].reset();
+      this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DefaultTCPIP);
+      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DefaultTCPPort);
+      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(3);
+    }
+    else {
+      this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
+      this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
+      this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DefaultTCPIP);
+      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DefaultTCPPort);
+      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(6);
+      this.DeviceCommunicationForm.controls['EquipmentLoginId'].setValue('NR');
+      this.DeviceCommunicationForm.controls['EquipmentPassword'].setValue('NR');
+    }
   }
 
 
@@ -266,36 +301,105 @@ export class DevicePopupComponent implements OnInit {
   }
 
   goBack() {
-    this.selectedIndex=this.myStepper.selectedIndex;
+    this.selectedIndex = this.myStepper.selectedIndex;
     this.myStepper.previous();
   }
 
   goForward() {
     this.myStepper.next();
-    this.selectedIndex=this.myStepper.selectedIndex;
-    if(this.selectedIndex==0 && this.LocationDetailsForm.valid==true){
-      this.selectedIndex=this.selectedIndex+1;
-      this.btnMain="Next"
-      this.btn1="Previous"
-      this.myStepper.selectedIndex=1;
+    this.selectedIndex = this.myStepper.selectedIndex;
+    if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
+      this.selectedIndex = this.selectedIndex + 1;
+      this.btnMain = "Next"
+      this.btn1 = "Previous"
+      this.myStepper.selectedIndex = 1;
       setTimeout(() => {
         this.myStepper.linear = true;
-     });
+      });
     }
-    else if(this.selectedIndex==1 && this.DeviceDetailsForm.valid==true){
-      this.selectedIndex=this.selectedIndex+1;
-      this.btnMain="Save changes"
-      this.btn1="Close"
+    else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
+      this.selectedIndex = this.selectedIndex + 1;
+      this.btnMain = "Save changes"
+      this.btn1 = "Close"
     }
 
-    else if(this.selectedIndex==2 && this.DeviceCommunicationForm.valid==true){
-      this.selectedIndex=this.selectedIndex+1;
+    else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
+      this.selectedIndex = this.selectedIndex + 1;
       this.SaveDetails()
     }
-    
+
   }
 
   SaveDetails() {
-
+    if (this.DeviceDetailsForm.invalid) {
+      return;
+    }
+    let ConnectionAddress = '';
+    let Port = 0;
+    if (this.ConnectionTypeId == 1) {
+      ConnectionAddress = this.DeviceCommunicationForm.value.EquipmentIP;
+      Port = this.DeviceCommunicationForm.value.EquipmentPortNumber;
+    } else if (this.ConnectionTypeId == 2) {
+      ConnectionAddress = this.DeviceCommunicationForm.value.ComPort;
+      Port = this.DeviceCommunicationForm.value.BaudRate;
+    }
+    else {
+      ConnectionAddress = this.DefaultTCPIP;
+      Port = this.DefaultTCPPort;
+    }
+    const Obj = {
+      EquipmentId: this.EquipmentId,
+      ControlRoomId: this.LocationDetailsForm.value.ControlRoomId,
+      PackageId: this.LocationDetailsForm.value.PackageId,
+      SystemId: this.LocationDetailsForm.value.SystemId,
+      EquipmentDirectionId: this.LocationDetailsForm.value.SystemId,
+      EquipmentChainageNumber: this.LocationDetailsForm.value.EquipmentChainageNumber,
+      EquipmentName: this.LocationDetailsForm.value.EquipmentName,
+      EquipmentLatitude: this.LocationDetailsForm.value.EquipmentLatitude,
+      EquipmentLongitude: this.LocationDetailsForm.value.EquipmentLongitude,
+      EquipmentMacAddress: this.DeviceDetailsForm.value.EquipmentMacAddress,
+      EquipmentModelNumber: this.DeviceDetailsForm.value.EquipmentModelNumber,
+      EquipmentSerialNumber: this.DeviceDetailsForm.value.EquipmentSerialNumber,
+      EquipmentManufacturer: this.DeviceDetailsForm.value.EquipmentManufacturer,
+      EquipmentVendorDetail: this.DeviceDetailsForm.value.EquipmentVendorDetail,
+      EquipmentManufacturerDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentManufacturerDate, 'dd-MMM-yyyy'),
+      EquipmentPurchageDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentPurchageDate, 'dd-MMM-yyyy'),
+      EquipmentWarrantyExpireDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentWarrantyExpireDate, 'dd-MMM-yyyy'),
+      EquipmentTypeId: this.DeviceCommunicationForm.value.EquipmentTypeId,
+      EquipmentProtocolTypeId: this.DeviceCommunicationForm.value.EquipmentProtocolTypeId,
+      EquipmentIP: ConnectionAddress,
+      EquipmentPortNumber: Port,
+      EquipmentLoginId: this.DeviceCommunicationForm.value.EquipmentLoginId,
+      EquipmentPassword: this.DeviceCommunicationForm.value.EquipmentPassword,
+      DataStatus: this.DeviceDetailsForm.value.DataStatus == true ? 1 : 2,
+      CreatedBy: this.LoginUserId,
+      ModifiedBy: this.LoginUserId
+    };
+    this.spinner.show();
+    this.dbService.EquipmentDetailsInsertUpdate(Obj).subscribe(
+      data => {
+        this.spinner.hide();
+        const returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.emitService.setPageRefresh(true);
+          this.emitService.openSnackBar(this.ErrorData, true);
+          this.ClosePoup();
+        } else {
+          this.ErrorData = data.Message;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.emitService.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.emitService.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 }

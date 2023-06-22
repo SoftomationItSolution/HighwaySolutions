@@ -65,28 +65,7 @@
                             </div>
                         </div>
                          <div class="clearfix"></div>
-                         <div class="row">
-                            <div class="col-md-6">
-                                <mat-form-field>
-                                    <input matInput placeholder="Chainage" formControlName="EquipmentChainageNumber" autocomplete="off" required>
-                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('required')">
-                                        Chainage must be entered.
-                                    </mat-error>
-                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('pattern')">
-                                        Chainage must be vaild.
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                                <mat-form-field>
-                                    <input matInput placeholder="Equipment Name" formControlName="EquipmentName" autocomplete="off" required>
-                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentName').hasError('required')">
-                                        Equipment Name must be entered.
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                         </div>
-                         <div class="clearfix"></div>
+                       
                          <div class="row">
                             <div class="col-md-6">
                                 <mat-form-field>
@@ -111,6 +90,28 @@
                                 </mat-form-field>
                             </div>
                          </div>
+                         <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Chainage" formControlName="EquipmentChainageNumber" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('required')">
+                                        Chainage must be entered.
+                                    </mat-error>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('pattern')">
+                                        Chainage must be vaild.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field>
+                                    <input matInput placeholder="Equipment Name" formControlName="EquipmentName" autocomplete="off" required>
+                                    <mat-error *ngIf="LocationDetailsForm.get('EquipmentName').hasError('required')">
+                                        Equipment Name must be entered.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                         </div>
+                         <div class="clearfix"></div>
                     </div>
                 </form>
             </mat-step>
@@ -207,6 +208,14 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                                <label  class="form-check-label" for="formCheck2">
+                                    Status
+                                </label>
+                            </div>
+                        </div>
                      </div>
                 </div>
               </form>
@@ -225,6 +234,18 @@
                                 </mat-select>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentTypeId').hasError('required')">
                                     Equipment Type must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <mat-select class="form-control" placeholder="Protocol" formControlName="EquipmentProtocolTypeId" required>
+                                    <mat-option *ngFor=" let ht of ProtocolList;" [value]="ht.Id">
+                                        {{ht.Name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentProtocolTypeId').hasError('required')">
+                                    Protocol must be selected.
                                 </mat-error>
                             </mat-form-field>
                         </div>
@@ -247,6 +268,47 @@
                                 </mat-error>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPortNumber').hasError('pattern')">
                                     Port must be vaild.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                            <mat-form-field>
+                                <mat-select class="form-control" placeholder="ComPort" formControlName="ComPort" required>
+                                    <mat-option *ngFor=" let ht of ComPortSetting;" [value]="ht.Id">
+                                        {{ht.Name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('ComPort').hasError('required')">
+                                    ComPort must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                            <mat-form-field>
+                                <mat-select class="form-control" placeholder="Baud Rate" formControlName="BaudRate" required>
+                                    <mat-option *ngFor=" let ht of BaudRatePort;" [value]="ht.Id">
+                                        {{ht.Name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('BaudRate').hasError('required')">
+                                    BaudRate must be selected.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Equipment LoginId" formControlName="EquipmentLoginId" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentLoginId').hasError('required')">
+                                    Equipment LoginId must be entered.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field>
+                                <input matInput placeholder="Equipment Password" formControlName="EquipmentPassword" autocomplete="off" required>
+                                <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPassword').hasError('required')">
+                                    Equipment Password must be entered.
                                 </mat-error>
                             </mat-form-field>
                         </div>
