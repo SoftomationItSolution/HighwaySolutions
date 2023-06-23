@@ -90,6 +90,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <mat-form-field>
+                            <label class="form-label" for="RoleId">Role Name</label>
                             <mat-select class="form-control" placeholder="Role Name" formControlName="RoleId" required>
                                 <mat-option *ngFor=" let ht of RoleData;" [value]="ht.RoleId">
                                     {{ht.RoleName}}
@@ -102,6 +103,7 @@
                     </div>
                     <div class="col-md-6">
                         <mat-form-field>
+                            <label class="form-label" for="UserType">User Type</label>
                             <mat-select class="form-control" placeholder="User Type" formControlName="UserType"
                                 required>
                                 <mat-option *ngFor=" let ht of UserTypeList;" [value]="ht.Id">
@@ -118,6 +120,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <mat-form-field>
+                            <label class="form-label" for="AccountExpiredDate">Account Expiry Date</label>
                             <input matInput class="form-control" [matDatepicker]="picker1"
                                 placeholder="Account Expiry Date" formControlName="AccountExpiredDate" required
                                 readonly>

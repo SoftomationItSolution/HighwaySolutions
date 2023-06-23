@@ -50,6 +50,7 @@ export class DevicePopupComponent implements OnInit {
   btnMain = "Next"//Save changes
   btn1 = "Previous"//Close
   ConnectionTypeId = 1
+  process=false;
   constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -94,7 +95,7 @@ export class DevicePopupComponent implements OnInit {
       EquipmentLongitude: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['Longitude'])
-      ]),
+      ])
     });
 
     this.DeviceDetailsForm = new FormGroup({
@@ -278,13 +279,44 @@ export class DevicePopupComponent implements OnInit {
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        //this.DeviceDetailsForm.controls['ControlRoomName'].setValue(this.DetailData.ControlRoomName);
-        if (this.DetailData.DataStatus == 1) {
-          this.DeviceDetailsForm.controls['DataStatus'].setValue(true);
-        } else {
-          this.DeviceDetailsForm.controls['DataStatus'].setValue(false);
+        this.LocationDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
+        this.ControlChnage(this.DetailData.ControlRoomId)
+        this.LocationDetailsForm.controls['PackageId'].setValue(this.DetailData.PackageId);
+        this.LocationDetailsForm.controls['SystemId'].setValue(this.DetailData.SystemId);
+        this.LocationDetailsForm.controls['EquipmentDirectionId'].setValue(this.DetailData.EquipmentDirectionId);
+        this.LocationDetailsForm.controls['EquipmentChainageNumber'].setValue(this.DetailData.EquipmentChainageNumber);
+        this.LocationDetailsForm.controls['EquipmentName'].setValue(this.DetailData.EquipmentName);
+        this.LocationDetailsForm.controls['EquipmentLatitude'].setValue(this.DetailData.EquipmentLatitude);
+        this.LocationDetailsForm.controls['EquipmentLongitude'].setValue(this.DetailData.EquipmentLongitude);
+        this.DeviceDetailsForm.controls['EquipmentMacAddress'].setValue(this.DetailData.EquipmentMacAddress);
+        this.DeviceDetailsForm.controls['EquipmentModelNumber'].setValue(this.DetailData.EquipmentModelNumber);
+        this.DeviceDetailsForm.controls['EquipmentSerialNumber'].setValue(this.DetailData.EquipmentSerialNumber);
+        this.DeviceDetailsForm.controls['EquipmentManufacturer'].setValue(this.DetailData.EquipmentManufacturer);
+        this.DeviceDetailsForm.controls['EquipmentVendorDetail'].setValue(this.DetailData.EquipmentVendorDetail);
+        this.DeviceDetailsForm.controls['EquipmentManufacturerDate'].setValue(this.DetailData.EquipmentManufacturerDate);
+        this.DeviceDetailsForm.controls['EquipmentPurchageDate'].setValue(this.DetailData.EquipmentPurchageDate);
+        this.DeviceDetailsForm.controls['EquipmentWarrantyExpireDate'].setValue(this.DetailData.EquipmentWarrantyExpireDate);
+        this.DeviceCommunicationForm.controls['EquipmentTypeId'].setValue(this.DetailData.EquipmentTypeId);
+        this.EquipmentTypeChnage(this.DetailData.EquipmentTypeId)
+        this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(this.DetailData.EquipmentProtocolTypeId);
+        this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === this.DetailData.EquipmentProtocolTypeId)
+        if (this.EquipmentTypeFilter.length > 0) {
+          this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
         }
-
+        if(this.ConnectionTypeId==1){
+          this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DetailData.EquipmentIP);
+          this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DetailData.EquipmentPortNumber);
+        }
+        else if(this.ConnectionTypeId==2){
+        this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DetailData.EquipmentIP);
+        this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DetailData.EquipmentPortNumber);
+        }
+        this.DeviceCommunicationForm.controls['EquipmentLoginId'].setValue(this.DetailData.EquipmentLoginId);
+        this.DeviceCommunicationForm.controls['EquipmentPassword'].setValue(this.DetailData.EquipmentPassword);
+        if (this.DetailData.DataStatus == 1) 
+          this.DeviceDetailsForm.controls['DataStatus'].setValue(true);
+        else 
+          this.DeviceDetailsForm.controls['DataStatus'].setValue(false);
       },
       (error) => {
         this.spinner.hide();
@@ -303,30 +335,47 @@ export class DevicePopupComponent implements OnInit {
   goBack() {
     this.selectedIndex = this.myStepper.selectedIndex;
     this.myStepper.previous();
-  }
-
-  goForward() {
-    this.myStepper.next();
-    this.selectedIndex = this.myStepper.selectedIndex;
     if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
-      this.selectedIndex = this.selectedIndex + 1;
       this.btnMain = "Next"
       this.btn1 = "Previous"
-      this.myStepper.selectedIndex = 1;
-      setTimeout(() => {
-        this.myStepper.linear = true;
-      });
     }
     else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
       this.selectedIndex = this.selectedIndex + 1;
-      this.btnMain = "Save changes"
-      this.btn1 = "Close"
+      this.btnMain = "Next"
+      this.btn1 = "Previous"
     }
-
     else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
       this.selectedIndex = this.selectedIndex + 1;
+      this.btnMain = "Next"
+      this.btn1 = "Previous"
+    }
+  }
+
+  goForward(event:any) {
+    this.myStepper.next();
+    this.selectedIndex = this.myStepper.selectedIndex;
+    if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
+      this.btnMain = "Next"
+      this.btn1 = "Previous"
+      this.process=false;
+    }
+    else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
+      this.selectedIndex = this.selectedIndex + 1;
+      this.btnMain = "Next"
+      this.btn1 = "Previous"
+      this.process=false;
+    }
+    else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
+      this.selectedIndex = this.selectedIndex + 1;
+      this.btnMain = "Save changes"
+      this.btn1 = "Previous"
+      this.process=true;
+    }
+    if(this.process && event.target.textContent=="Save changes"){
       this.SaveDetails()
     }
+
+   
 
   }
 
@@ -352,7 +401,7 @@ export class DevicePopupComponent implements OnInit {
       ControlRoomId: this.LocationDetailsForm.value.ControlRoomId,
       PackageId: this.LocationDetailsForm.value.PackageId,
       SystemId: this.LocationDetailsForm.value.SystemId,
-      EquipmentDirectionId: this.LocationDetailsForm.value.SystemId,
+      EquipmentDirectionId: this.LocationDetailsForm.value.EquipmentDirectionId,
       EquipmentChainageNumber: this.LocationDetailsForm.value.EquipmentChainageNumber,
       EquipmentName: this.LocationDetailsForm.value.EquipmentName,
       EquipmentLatitude: this.LocationDetailsForm.value.EquipmentLatitude,

@@ -12,6 +12,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="ControlRoomId">Control room</label>
                                     <mat-select class="form-control" placeholder="Control room"
                                         formControlName="ControlRoomId" required (selectionChange)="ControlChnage($event.value)">
                                         <mat-option *ngFor=" let ht of ControlRoomData;" [value]="ht.ControlRoomId">
@@ -25,6 +26,7 @@
                             </div>
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="PackageId">Package</label>
                                     <mat-select class="form-control" placeholder="Package"
                                         formControlName="PackageId" required>
                                         <mat-option *ngFor=" let ht of PackageFilter;" [value]="ht.PackageId">
@@ -41,6 +43,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="SystemId">System</label>
                                     <mat-select class="form-control" placeholder="System" formControlName="SystemId" required>
                                         <mat-option *ngFor=" let ht of SystemTypeData;" [value]="ht.SystemId">
                                             {{ht.SystemName}}
@@ -53,6 +56,7 @@
                             </div>
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="EquipmentDirectionId">Direction</label>
                                     <mat-select class="form-control" placeholder="Direction" formControlName="EquipmentDirectionId" required>
                                         <mat-option *ngFor=" let ht of DirectionList;" [value]="ht.Id">
                                             {{ht.Name}}
@@ -69,6 +73,7 @@
                          <div class="row">
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="EquipmentLatitude">Latitude</label>
                                     <input matInput placeholder="Latitude" formControlName="EquipmentLatitude" autocomplete="off" required>
                                     <mat-error *ngIf="LocationDetailsForm.get('EquipmentLatitude').hasError('required')">
                                         Latitude must be entered.
@@ -80,6 +85,7 @@
                             </div>
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="EquipmentLongitude">Longitude</label>
                                     <input matInput placeholder="Longitude" formControlName="EquipmentLongitude" autocomplete="off" required>
                                     <mat-error *ngIf="LocationDetailsForm.get('EquipmentLongitude').hasError('required')">
                                         Longitude must be entered.
@@ -93,6 +99,7 @@
                          <div class="row">
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="EquipmentChainageNumber">Chainage</label>
                                     <input matInput placeholder="Chainage" formControlName="EquipmentChainageNumber" autocomplete="off" required>
                                     <mat-error *ngIf="LocationDetailsForm.get('EquipmentChainageNumber').hasError('required')">
                                         Chainage must be entered.
@@ -104,6 +111,7 @@
                             </div>
                             <div class="col-md-6">
                                 <mat-form-field>
+                                    <label class="form-label" for="EquipmentName">Equipment Name</label>
                                     <input matInput placeholder="Equipment Name" formControlName="EquipmentName" autocomplete="off" required>
                                     <mat-error *ngIf="LocationDetailsForm.get('EquipmentName').hasError('required')">
                                         Equipment Name must be entered.
@@ -122,6 +130,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentMacAddress">MacAddress</label>
                                 <input matInput placeholder="MacAddress" formControlName="EquipmentMacAddress" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceDetailsForm.get('EquipmentMacAddress').hasError('required')">
                                     MacAddress must be entered.
@@ -133,6 +142,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentModelNumber">Model Number</label>
                                 <input matInput placeholder="Model Number" formControlName="EquipmentModelNumber" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceDetailsForm.get('EquipmentModelNumber').hasError('required')">
                                     Model Number must be entered.
@@ -144,6 +154,7 @@
                      <div class="row">
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentSerialNumber">Serial Number</label>
                                 <input matInput placeholder="Serial Number" formControlName="EquipmentSerialNumber" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceDetailsForm.get('EquipmentSerialNumber').hasError('required')">
                                     Serial Number must be entered.
@@ -152,6 +163,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentManufacturer">Manufacturer</label>
                                 <input matInput placeholder="Manufacturer" formControlName="EquipmentManufacturer" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceDetailsForm.get('EquipmentManufacturer').hasError('required')">
                                     Manufacturer must be entered.
@@ -163,6 +175,7 @@
                      <div class="row">
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentVendorDetail">Vendor</label>
                                 <input matInput placeholder="Vendor" formControlName="EquipmentVendorDetail" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceDetailsForm.get('EquipmentVendorDetail').hasError('required')">
                                     Vendor must be entered.
@@ -171,6 +184,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentManufacturerDate">Manufacturer Date</label>
                                 <input matInput class="form-control" [matDatepicker]="picker1"
                                     placeholder="Manufacturer Date" formControlName="EquipmentManufacturerDate" required
                                     readonly>
@@ -186,6 +200,7 @@
                      <div class="row">
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentPurchageDate">Purchage Date</label>
                                 <input matInput class="form-control" [matDatepicker]="picker2"
                                     placeholder="Purchage Date" formControlName="EquipmentPurchageDate" required
                                     readonly>
@@ -198,6 +213,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentWarrantyExpireDate">Warranty Date</label>
                                 <input matInput class="form-control" [matDatepicker]="picker3"
                                     placeholder="Warranty Date" formControlName="EquipmentWarrantyExpireDate" required
                                     readonly>
@@ -227,6 +243,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentTypeId">Equipment Type</label>
                                 <mat-select class="form-control" placeholder="Equipment Type" formControlName="EquipmentTypeId" required (selectionChange)="EquipmentTypeChnage($event.value)">
                                     <mat-option *ngFor=" let ht of EquipmentTypeData;" [value]="ht.EquipmentTypeId">
                                         {{ht.EquipmentTypeName}}
@@ -239,6 +256,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentProtocolTypeId">Protocol</label>
                                 <mat-select class="form-control" placeholder="Protocol" formControlName="EquipmentProtocolTypeId" required>
                                     <mat-option *ngFor=" let ht of ProtocolList;" [value]="ht.Id">
                                         {{ht.Name}}
@@ -251,6 +269,7 @@
                         </div>
                         <div class="col-md-6" *ngIf="ConnectionTypeId===1">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentIP">IP-Address</label>
                                 <input matInput placeholder="IP-Address" formControlName="EquipmentIP" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentIP').hasError('required')">
                                     IP-Address must be entered.
@@ -262,6 +281,7 @@
                         </div>
                         <div class="col-md-6" *ngIf="ConnectionTypeId===1">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentPortNumber">Port</label>
                                 <input matInput placeholder="Port" formControlName="EquipmentPortNumber" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPortNumber').hasError('required')">
                                     Port must be entered.
@@ -273,6 +293,7 @@
                         </div>
                         <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                             <mat-form-field>
+                                <label class="form-label" for="ComPort">ComPort</label>
                                 <mat-select class="form-control" placeholder="ComPort" formControlName="ComPort" required>
                                     <mat-option *ngFor=" let ht of ComPortSetting;" [value]="ht.Id">
                                         {{ht.Name}}
@@ -285,6 +306,7 @@
                         </div>
                         <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                             <mat-form-field>
+                                <label class="form-label" for="BaudRate">Baud Rate</label>
                                 <mat-select class="form-control" placeholder="Baud Rate" formControlName="BaudRate" required>
                                     <mat-option *ngFor=" let ht of BaudRatePort;" [value]="ht.Id">
                                         {{ht.Name}}
@@ -295,9 +317,9 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentLoginId">Equipment LoginId</label>
                                 <input matInput placeholder="Equipment LoginId" formControlName="EquipmentLoginId" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentLoginId').hasError('required')">
                                     Equipment LoginId must be entered.
@@ -306,6 +328,7 @@
                         </div>
                         <div class="col-md-6">
                             <mat-form-field>
+                                <label class="form-label" for="EquipmentPassword">Equipment Password</label>
                                 <input matInput placeholder="Equipment Password" formControlName="EquipmentPassword" autocomplete="off" required>
                                 <mat-error *ngIf="DeviceCommunicationForm.get('EquipmentPassword').hasError('required')">
                                     Equipment Password must be entered.
@@ -317,11 +340,9 @@
                 </form>
             </mat-step>
         </mat-stepper>
-
-       
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="goBack()" *ngIf="selectedIndex>0">{{btn1}}</button>
-        <button type="button" class="btn btn-success" (click)="goForward()">{{btnMain}}</button>
+        <button type="button" class="btn btn-success" (click)="goForward($event)">{{btnMain}}</button>
     </div>
 </div>

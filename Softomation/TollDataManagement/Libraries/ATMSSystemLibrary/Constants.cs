@@ -170,7 +170,8 @@ namespace Softomation.ATMSSystemLibrary
             Serail = 3,
             MQTT = 4,
             HTTP = 5,
-            Other = 6
+            RTSP=6,
+            Other = 7
         }
 
         public enum DataBaseProvider

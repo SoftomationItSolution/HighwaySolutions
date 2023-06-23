@@ -127,7 +127,17 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ControlRoomName"] != DBNull.Value)
                 ed.ControlRoomName = Convert.ToString(dr["ControlRoomName"]);
 
-            
+            if (dr["PackageId"] != DBNull.Value)
+                ed.PackageId = Convert.ToInt16(dr["PackageId"]);
+
+            if (dr["PackageName"] != DBNull.Value)
+                ed.PackageName = Convert.ToString(dr["PackageName"]);
+          
+            if (dr["SystemId"] != DBNull.Value)
+                ed.SystemId = Convert.ToInt16(dr["SystemId"]);
+
+            if (dr["SystemName"] != DBNull.Value)
+                ed.SystemName = Convert.ToString(dr["SystemName"]);
 
             if (dr["EquipmentName"] != DBNull.Value)
                 ed.EquipmentName = Convert.ToString(dr["EquipmentName"]);
@@ -216,10 +226,14 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EquipmentIconName"] != DBNull.Value)
                 ed.EquipmentIconName = Convert.ToString(dr["EquipmentIconName"]);
 
+            if (dr["EquipmentProtocolTypeId"] != DBNull.Value)
+                ed.EquipmentProtocolTypeId = Convert.ToInt16(dr["EquipmentProtocolTypeId"]);
+
             ed.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)ed.DataStatus);
             ed.EquipmentDirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)ed.EquipmentDirectionId);
             ed.EquipmentCategoryTypeName = Enum.GetName(typeof(Constants.EquipmentCategoryType), (Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
             ed.EquipmentConnectionTypeName = Enum.GetName(typeof(Constants.EquipmentConnectionType), (Constants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
+            ed.EquipmentProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.EquipmentProtocolTypeId);
             return ed;
         }
         #endregion

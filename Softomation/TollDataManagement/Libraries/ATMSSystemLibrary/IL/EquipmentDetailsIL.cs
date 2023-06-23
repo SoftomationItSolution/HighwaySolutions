@@ -15,6 +15,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 equipmentDirectionId;
         String equipmentDirectionName;
         Int16 equipmentProtocolTypeId;
+        String equipmentProtocolTypeName;
         String equipmentIP;
         Int64 equipmentPortNumber;
         String equipmentLoginId;
@@ -46,6 +47,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             equipmentDirectionId = 0;
             equipmentDirectionName = string.Empty;
             equipmentProtocolTypeId = 0;
+            equipmentProtocolTypeName = string.Empty;
             equipmentIP = string.Empty;
             equipmentPortNumber = 0;
             equipmentLoginId = string.Empty;
@@ -198,6 +200,20 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentProtocolTypeId = value;
             }
         }
+
+        public String EquipmentProtocolTypeName
+        {
+            get
+            {
+                return equipmentProtocolTypeName;
+            }
+
+            set
+            {
+                equipmentProtocolTypeName = value;
+            }
+        }
+
         public String EquipmentIP
         {
             get
