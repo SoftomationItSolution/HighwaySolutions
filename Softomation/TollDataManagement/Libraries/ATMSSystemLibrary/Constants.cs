@@ -307,12 +307,6 @@ namespace Softomation.ATMSSystemLibrary
             Delete,
             Control,
         };
-
-        public enum Direction
-        {
-            UP = 1,
-            Down
-        };
         #endregion
 
         #region Methods

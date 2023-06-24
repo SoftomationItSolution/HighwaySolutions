@@ -21,6 +21,8 @@ export class ControlRoomPopupComponent implements OnInit {
   LogedUserId;
   ErrorData: any;
   DetailData: any;
+  submitted=false;
+  DirectionList = [{ Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<ControlRoomPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
@@ -30,9 +32,11 @@ export class ControlRoomPopupComponent implements OnInit {
   ngOnInit(): void {
     this.PageTitle = 'Create New Controlroom';
     this.DataDetailsForm = new FormGroup({
-      ControlRoomName: new FormControl('', [
-        Validators.required
-      ]),
+      ControlRoomName: new FormControl('', [Validators.required]),
+      ChainageNumber:new FormControl('', [Validators.required, Validators.pattern(regExps['ChainageNumber'])]),
+      Latitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
+      Longitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
+      DirectionId: new FormControl('', [Validators.required]),
       DataStatus: new FormControl(true),
     });
     if (this.ControlRoomId > 0) {
@@ -48,6 +52,10 @@ export class ControlRoomPopupComponent implements OnInit {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
         this.DataDetailsForm.controls['ControlRoomName'].setValue(this.DetailData.ControlRoomName);
+        this.DataDetailsForm.controls['ChainageNumber'].setValue(this.DetailData.ChainageNumber);
+        this.DataDetailsForm.controls['Latitude'].setValue(this.DetailData.Latitude);
+        this.DataDetailsForm.controls['Longitude'].setValue(this.DetailData.Longitude);
+        this.DataDetailsForm.controls['DirectionId'].setValue(this.DetailData.DirectionId);
         if (this.DetailData.DataStatus == 1) {
           this.DataDetailsForm.controls['DataStatus'].setValue(true);
         } else {
@@ -76,12 +84,17 @@ export class ControlRoomPopupComponent implements OnInit {
   }
 
   SaveDetails() {
+    this.submitted=true;
     if (this.DataDetailsForm.invalid) {
       return;
     }
     const Obj = {
       ControlRoomId: this.ControlRoomId,
       ControlRoomName: this.DataDetailsForm.value.ControlRoomName,
+      ChainageNumber: this.DataDetailsForm.value.ChainageNumber,
+      Latitude: this.DataDetailsForm.value.Latitude,
+      Longitude: this.DataDetailsForm.value.Longitude,
+      DirectionId: this.DataDetailsForm.value.DirectionId,
       DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
       CreatedBy: this.LogedUserId
     };

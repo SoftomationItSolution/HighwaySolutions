@@ -97,7 +97,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }
@@ -113,7 +113,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }

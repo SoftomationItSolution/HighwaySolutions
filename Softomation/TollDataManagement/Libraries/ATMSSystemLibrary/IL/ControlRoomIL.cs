@@ -6,11 +6,20 @@ namespace Softomation.ATMSSystemLibrary.IL
     {
         Int64 controlRoomId;
         String controlRoomName;
-
+        decimal chainageNumber;
+        decimal latitude;
+        decimal longitude;
+        short directionId;
+        String directionName;
         public ControlRoomIL()
         {
             this.controlRoomId = 0;
             this.controlRoomName = string.Empty;
+            this.chainageNumber = 0;
+            this.latitude = 0;
+            this.longitude = 0;
+            this.directionId = 0;
+            this.directionName = string.Empty;
         }
         public Int64 ControlRoomId
         {
@@ -27,6 +36,71 @@ namespace Softomation.ATMSSystemLibrary.IL
         public String ControlRoomName
         {
             get => controlRoomName; set => controlRoomName = value;
+        }
+
+        public Decimal ChainageNumber
+        {
+            get
+            {
+                return chainageNumber;
+            }
+
+            set
+            {
+                chainageNumber = value;
+            }
+        }
+
+        public Decimal Latitude
+        {
+            get
+            {
+                return latitude;
+            }
+
+            set
+            {
+                latitude = value;
+            }
+        }
+
+        public Decimal Longitude
+        {
+            get
+            {
+                return longitude;
+            }
+
+            set
+            {
+                longitude = value;
+            }
+        }
+
+        public Int16 DirectionId
+        {
+            get
+            {
+                return directionId;
+            }
+
+            set
+            {
+                directionId = value;
+            }
+        }
+
+        public String DirectionName
+        {
+            get
+            {
+                return directionName;
+            }
+
+            set
+            {
+                directionName = value;
+            }
         }
     }
 }

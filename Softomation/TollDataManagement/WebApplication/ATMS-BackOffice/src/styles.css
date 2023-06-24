@@ -160,3 +160,7 @@ tr {
     height: 365px !important;
     overflow-x: auto !important;
 }
+
+.form-check{
+    margin-top: 35px;
+}
