@@ -125,7 +125,7 @@ namespace Softomation.ATMSSystemLibrary
             None = 0,
             LHS = 1,
             RHS = 2,
-            Medium = 3
+            Median = 3
         }
         public enum UserLoginStatus
         {

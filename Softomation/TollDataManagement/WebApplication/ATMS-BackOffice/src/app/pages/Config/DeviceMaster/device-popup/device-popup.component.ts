@@ -27,8 +27,8 @@ export class DevicePopupComponent implements OnInit {
   DetailData: any;
   DeviceTypeList: any;
   LogedUserId;
-  ProtocolList = [{ Id: 1, Name: 'TCP' }, { Id: 2, Name: 'UDP' }, { Id: 3, Name: 'Serail' }, { Id: 4, Name: 'MQTT' }, { Id: 5, Name: 'HTTP' }, { Id: 6, Name: "Other" }];
-  DirectionList = [{ Id: 0, Name: 'None' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, { Id: 3, Name: 'Medium' }];
+  ProtocolList = [{ Id: 1, Name: 'TCP' }, { Id: 2, Name: 'UDP' }, { Id: 3, Name: 'Serail' }, { Id: 4, Name: 'MQTT' }, { Id: 5, Name: 'HTTP' }, { Id: 6, Name: "RTSP" }, { Id: 6, Name: "Other" }];
+  DirectionList = [{ Id: 0, Name: 'None' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, { Id: 3, Name: 'Median' }];
   BaudRatePort = [{ Id: 110, Name: 110 }, { Id: 300, Name: 300 }, { Id: 600, Name: 600 }, { Id: 1200, Name: 1200 },
   { Id: 2400, Name: 2400 }, { Id: 4800, Name: 4800 }, { Id: 9600, Name: 9600 }, { Id: 14400, Name: 14400 }, { Id: 19200, Name: 19200 },
   { Id: 38400, Name: 38400 }, { Id: 57600, Name: 57600 }, { Id: 115200, Name: 115200 }, { Id: 128000, Name: 128000 }, { Id: 256000, Name: 256000 }];
