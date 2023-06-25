@@ -23,13 +23,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassId", DbType.Int64, data.ClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int64, data.VehicleClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassName", DbType.String, data.VehicleClassName, ParameterDirection.Input, 20));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassIcon", DbType.String, data.VehicleClassIcon, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AllowedSpeed", DbType.Decimal, data.AllowedSpeed, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, data.DataStatus, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, data.CreatedDate, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int64, data.CreatedBy, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, data.ModifiedDate, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int64, data.ModifiedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, data.CreatedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
             }
@@ -72,7 +69,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
         }
-        internal static VehicleClassIL GetById(Int32 classId)
+        internal static VehicleClassIL GetById(Int32 ClassId)
         {
             DataTable dt = new DataTable();
             VehicleClassIL crData = new VehicleClassIL();
@@ -80,7 +77,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_VehicleClassGetById";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@classId", DbType.Int32, classId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassId", DbType.Int32, ClassId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     crData = CreateObjectFromDataRow(dr);
@@ -98,8 +95,8 @@ namespace Softomation.ATMSSystemLibrary.DL
         {
             VehicleClassIL user = new VehicleClassIL();
 
-            if (dr["EntryId"] != DBNull.Value)
-                user.ClassId = Convert.ToInt16(dr["EntryId"]);
+            if (dr["ClassId"] != DBNull.Value)
+                user.ClassId = Convert.ToInt16(dr["ClassId"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 user.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);

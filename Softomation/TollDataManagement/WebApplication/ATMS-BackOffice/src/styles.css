@@ -1,4 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* #D6D8D9 */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #D6D8D9; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D6D8D9; 
+  }
+
 tbody,
 td,
 tfoot,
@@ -163,4 +187,27 @@ tr {
 
 .form-check{
     margin-top: 35px;
+}
+
+.p-datatable-scrollable-table>.p-datatable-thead{
+    background: #fff !important;
+}
+
+.p-calendar .p-datepicker{
+    background: #fff !important;
+    
+}
+
+.p-datepicker-calendar-container{
+    background: #fff !important;
+}
+
+.p-calendar{
+    min-width: 100% !important;
+}
+
+.p-datepicker-trigger{
+    color: #fff !important;
+    background: #23C58F !important;
+    border: none !important;
 }

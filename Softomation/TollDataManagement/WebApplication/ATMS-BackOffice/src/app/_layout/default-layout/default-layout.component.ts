@@ -75,7 +75,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   menuED(event: any, m) {
-    console.log(m)
+    //console.log(m)
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');

@@ -19,11 +19,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
-    { path: 'incidents', component: IncidentDataComponent },
-    // { path: 'vms', component: VMSDataComponent },
-    // { path: 'met', component: METDataComponent },
+    { path: 'pendigIncident', component: IncidentDataComponent },
      { path: 'vids', component: VidsdataComponent },
-    // { path: 'ecb', component: ECBDataComponent },
     { path: 'atcc', component: AtccdataComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent }

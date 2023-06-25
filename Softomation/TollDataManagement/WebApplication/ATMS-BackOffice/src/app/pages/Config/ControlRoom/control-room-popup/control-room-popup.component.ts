@@ -17,7 +17,6 @@ export class ControlRoomPopupComponent implements OnInit {
   error = errorMessages;
   ControlRoomId: number;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;

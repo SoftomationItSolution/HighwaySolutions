@@ -18,8 +18,7 @@
                     <label for="Ip">Chainage</label>
                     <input formControlName="ChainageNumber" type="text" pInputText required autocomplete="off"
                         class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ChainageNumber')">Start
-                        Chainage Number
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ChainageNumber')">Chainage Number
                         is required.</small>
                     <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','ChainageNumber')">Valid Chainage
                         Number is required.</small>

@@ -8,17 +8,21 @@
                         <i class="mdi mdi-plus me-2"></i> Add Control Room
                     </a>
                     <div class="dropdown d-inline-block float-right">
-                        <button type="button"
+                        <!-- <button type="button"
                             class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
                             <i class="mdi mdi-filter-menu-outline"></i>
-                        </button>
+                        </button> -->
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
-                        [style]="{'min-width':'1100px','border-collapse': 'collapse', 'border-spacing': '0','width': '100%'}"
                         styleClass="table table-centered datatable dt-responsive nowrap"
-                        [globalFilterFields]="['ControlRoomName','ChainageNumber','Latitude','Longitude','DirectionName','DataStatusName']">
+                        [globalFilterFields]="['ControlRoomName','ChainageNumber','Latitude','Longitude','DirectionName',
+                        'DataStatusName']" scrollHeight="50vh">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>

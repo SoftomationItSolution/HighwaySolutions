@@ -19,8 +19,6 @@ import { CreateIncidentComponent } from '../create-incident/create-incident.comp
 })
 export class IncidentDataComponent implements OnInit {
   IMSGetTopic = ["IMSLatestData"]
-  private IMSDataSubscribe!: Subscription;
-
   submitted!: boolean;
   MasterDialog!: boolean;
   ViewDialog!: boolean;
@@ -89,7 +87,6 @@ export class IncidentDataComponent implements OnInit {
       if (params['RefNo'] != undefined)
         this.RefrenceNumberParam = params['RefNo'];
     });
-    //this.MediaPrefix = this.pageTitle.getMediaAPI();
     this.UserDetails = this.pageTitle.getUserData();
     this.GetAccessPermission();
   }
@@ -347,7 +344,7 @@ export class IncidentDataComponent implements OnInit {
   GetAccessPermission() {
     //this.spinner.show();
     const Obj = {
-      MenuId: 22,
+      MenuId: 26,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByEventId(Obj).subscribe(

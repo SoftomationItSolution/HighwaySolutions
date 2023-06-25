@@ -30,11 +30,6 @@ export class RoleConfigurationComponent implements OnInit {
           this.GetAllData();
         }
       });
-    this.emitService.InnerHeight.subscribe(
-      (innerHeight: any) => {
-        this.innerHeight = innerHeight;
-        this.SetPageHeight();
-      });
     this.GetPermissionData();
 
   }
@@ -72,15 +67,6 @@ export class RoleConfigurationComponent implements OnInit {
 
   }
 
-  SetPageHeight() {
-    $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 175);
-    $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 175);
-  }
-  ngAfterViewInit(): void {
-    this.innerHeight = this.emitService.getInnerHeight();
-    this.SetPageHeight();
-  }
-
   GetAllData() {
     this.spinner.show();
     this.dbService.RoleConfigurationGetAll().subscribe(
@@ -96,13 +82,19 @@ export class RoleConfigurationComponent implements OnInit {
     );
   }
   NewEntry() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.height = '450px';
-    dialogConfig.data = { action: 'Save', RoleId: 0 };
-    this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+    if (this.DataAdd == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = { action: 'Save', RoleId: 0 };
+      this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+      this.emitService.openSnackBar(this.ErrorData, false);
+    }
   }
   onRowEditInit(data: any) {
     if (this.DataUpdate == 1) {
@@ -110,11 +102,11 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId };
       this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
     }
-    else{
+    else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
       this.emitService.openSnackBar(this.ErrorData, false);
     }
@@ -126,11 +118,11 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
       this.dialog.open(RolePermissionPopupComponent, dialogConfig);
     }
-    else{
+    else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
       this.emitService.openSnackBar(this.ErrorData, false);
     }

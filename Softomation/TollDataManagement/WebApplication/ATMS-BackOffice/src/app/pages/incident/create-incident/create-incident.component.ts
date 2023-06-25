@@ -17,7 +17,6 @@ export class CreateIncidentComponent {
   error = errorMessages;
   ControlRoomId: number;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;

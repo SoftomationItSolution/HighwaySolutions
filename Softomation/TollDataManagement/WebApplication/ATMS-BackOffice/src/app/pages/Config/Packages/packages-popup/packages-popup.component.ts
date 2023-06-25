@@ -17,7 +17,6 @@ export class PackagesPopupComponent implements OnInit {
   error = errorMessages;
   PackageId: number;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;

@@ -59,7 +59,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { IncidentDataComponent } from './pages/incident/incident-data/incident-data.component';
 import { CreateIncidentComponent } from './pages/incident/create-incident/create-incident.component';
 import { InputTextModule } from 'primeng/inputtext';
-
+import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
+import {NgApexchartsModule } from "ng-apexcharts";
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -95,6 +96,7 @@ export const MY_CUSTOM_FORMATS = {
     DeviceDataComponent,
     DevicePopupComponent,
     VehicleClassDataComponent,
+    VehicleClassPopupComponent,
     RoleConfigurationComponent,
     RoleConfigurationPopupComponent,
     RolePermissionPopupComponent,
@@ -111,6 +113,7 @@ export const MY_CUSTOM_FORMATS = {
     BrowserAnimationsModule,
     BrowserModule,
     ReactiveFormsModule,
+    NgApexchartsModule,
     CommonModule,
     HttpClientModule,
     FormsModule,

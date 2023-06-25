@@ -78,38 +78,38 @@ export class DevicePopupComponent implements OnInit {
       SystemId: new FormControl('', [
         Validators.required
       ]),
-      EquipmentDirectionId: new FormControl('', [
+      DirectionId: new FormControl('', [
         Validators.required
       ]),
-      EquipmentChainageNumber: new FormControl('', [
+      ChainageNumber: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['ChainageNumber'])
       ]),
       EquipmentName: new FormControl('', [
         Validators.required
       ]),
-      EquipmentLatitude: new FormControl('', [
+      Latitude: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['Latitude'])
       ]),
-      EquipmentLongitude: new FormControl('', [
+      Longitude: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['Longitude'])
       ])
     });
 
     this.DeviceDetailsForm = new FormGroup({
-      EquipmentMacAddress: new FormControl('', [
+      MacAddress: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['MacAddress'])
       ]),
-      EquipmentModelNumber: new FormControl('', Validators.required,),
-      EquipmentSerialNumber: new FormControl('', Validators.required,),
-      EquipmentManufacturer: new FormControl('', Validators.required,),
-      EquipmentVendorDetail: new FormControl('', Validators.required,),
-      EquipmentManufacturerDate: new FormControl('', Validators.required,),
-      EquipmentPurchageDate: new FormControl('', Validators.required,),
-      EquipmentWarrantyExpireDate: new FormControl('', Validators.required,),
+      ModelNumber: new FormControl('', Validators.required,),
+      SerialNumber: new FormControl('', Validators.required,),
+      ManufacturerDetail: new FormControl('', Validators.required,),
+      VendorDetail: new FormControl('', Validators.required,),
+      ManufacturerDate: new FormControl('', Validators.required,),
+      PurchageDate: new FormControl('', Validators.required,),
+      WarrantyExpireDate: new FormControl('', Validators.required,),
       DataStatus: new FormControl(true)
     });
 
@@ -117,14 +117,14 @@ export class DevicePopupComponent implements OnInit {
       EquipmentTypeId: new FormControl('', [
         Validators.required
       ]),
-      EquipmentProtocolTypeId: new FormControl('', [
+      ProtocolTypeId: new FormControl('', [
         Validators.required
       ]),
-      EquipmentIP: new FormControl('', [
+      IpAddress: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['IpAddress'])
       ]),
-      EquipmentPortNumber: new FormControl('', [
+      PortNumber: new FormControl('', [
         Validators.required,
         Validators.pattern(regExps['PortNumber'])
       ]),
@@ -134,9 +134,8 @@ export class DevicePopupComponent implements OnInit {
       BaudRate: new FormControl('', [
         Validators.required
       ]),
-      EquipmentLoginId: new FormControl('', Validators.required,),
-      EquipmentPassword: new FormControl('', Validators.required,),
-
+      LoginId: new FormControl('', Validators.required,),
+      Password: new FormControl('', Validators.required,),
       DataStatus: new FormControl(true)
     });
 
@@ -244,31 +243,31 @@ export class DevicePopupComponent implements OnInit {
       this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
     }
     if (this.ConnectionTypeId == 1) {
-      this.DeviceCommunicationForm.controls['EquipmentLoginId'].reset();
-      this.DeviceCommunicationForm.controls['EquipmentPassword'].reset();
-      this.DeviceCommunicationForm.controls['EquipmentIP'].reset();
-      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].reset();
+      this.DeviceCommunicationForm.controls['LoginId'].reset();
+      this.DeviceCommunicationForm.controls['Password'].reset();
+      this.DeviceCommunicationForm.controls['IpAddress'].reset();
+      this.DeviceCommunicationForm.controls['PortNumber'].reset();
       this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
       this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
-      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(1);
+      this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(1);
     }
     else if (this.ConnectionTypeId == 2) {
-      this.DeviceCommunicationForm.controls['EquipmentLoginId'].reset();
-      this.DeviceCommunicationForm.controls['EquipmentPassword'].reset();
+      this.DeviceCommunicationForm.controls['LoginId'].reset();
+      this.DeviceCommunicationForm.controls['Password'].reset();
       this.DeviceCommunicationForm.controls['ComPort'].reset();
       this.DeviceCommunicationForm.controls['BaudRate'].reset();
-      this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DefaultTCPIP);
-      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DefaultTCPPort);
-      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(3);
+      this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
+      this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
+      this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(3);
     }
     else {
       this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
       this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
-      this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DefaultTCPIP);
-      this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DefaultTCPPort);
-      this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(6);
-      this.DeviceCommunicationForm.controls['EquipmentLoginId'].setValue('NR');
-      this.DeviceCommunicationForm.controls['EquipmentPassword'].setValue('NR');
+      this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
+      this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
+      this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(6);
+      this.DeviceCommunicationForm.controls['LoginId'].setValue('NR');
+      this.DeviceCommunicationForm.controls['Password'].setValue('NR');
     }
   }
 
@@ -283,36 +282,36 @@ export class DevicePopupComponent implements OnInit {
         this.ControlChnage(this.DetailData.ControlRoomId)
         this.LocationDetailsForm.controls['PackageId'].setValue(this.DetailData.PackageId);
         this.LocationDetailsForm.controls['SystemId'].setValue(this.DetailData.SystemId);
-        this.LocationDetailsForm.controls['EquipmentDirectionId'].setValue(this.DetailData.EquipmentDirectionId);
-        this.LocationDetailsForm.controls['EquipmentChainageNumber'].setValue(this.DetailData.EquipmentChainageNumber);
+        this.LocationDetailsForm.controls['DirectionId'].setValue(this.DetailData.DirectionId);
+        this.LocationDetailsForm.controls['ChainageNumber'].setValue(this.DetailData.ChainageNumber);
         this.LocationDetailsForm.controls['EquipmentName'].setValue(this.DetailData.EquipmentName);
-        this.LocationDetailsForm.controls['EquipmentLatitude'].setValue(this.DetailData.EquipmentLatitude);
-        this.LocationDetailsForm.controls['EquipmentLongitude'].setValue(this.DetailData.EquipmentLongitude);
-        this.DeviceDetailsForm.controls['EquipmentMacAddress'].setValue(this.DetailData.EquipmentMacAddress);
-        this.DeviceDetailsForm.controls['EquipmentModelNumber'].setValue(this.DetailData.EquipmentModelNumber);
-        this.DeviceDetailsForm.controls['EquipmentSerialNumber'].setValue(this.DetailData.EquipmentSerialNumber);
-        this.DeviceDetailsForm.controls['EquipmentManufacturer'].setValue(this.DetailData.EquipmentManufacturer);
-        this.DeviceDetailsForm.controls['EquipmentVendorDetail'].setValue(this.DetailData.EquipmentVendorDetail);
-        this.DeviceDetailsForm.controls['EquipmentManufacturerDate'].setValue(this.DetailData.EquipmentManufacturerDate);
-        this.DeviceDetailsForm.controls['EquipmentPurchageDate'].setValue(this.DetailData.EquipmentPurchageDate);
-        this.DeviceDetailsForm.controls['EquipmentWarrantyExpireDate'].setValue(this.DetailData.EquipmentWarrantyExpireDate);
+        this.LocationDetailsForm.controls['Latitude'].setValue(this.DetailData.Latitude);
+        this.LocationDetailsForm.controls['Longitude'].setValue(this.DetailData.Longitude);
+        this.DeviceDetailsForm.controls['MacAddress'].setValue(this.DetailData.MacAddress);
+        this.DeviceDetailsForm.controls['ModelNumber'].setValue(this.DetailData.ModelNumber);
+        this.DeviceDetailsForm.controls['SerialNumber'].setValue(this.DetailData.SerialNumber);
+        this.DeviceDetailsForm.controls['ManufacturerDetail'].setValue(this.DetailData.ManufacturerDetail);
+        this.DeviceDetailsForm.controls['VendorDetail'].setValue(this.DetailData.VendorDetail);
+        this.DeviceDetailsForm.controls['ManufacturerDate'].setValue(new Date(this.DetailData.ManufacturerDate));
+        this.DeviceDetailsForm.controls['PurchageDate'].setValue(new Date(this.DetailData.PurchageDate));
+        this.DeviceDetailsForm.controls['WarrantyExpireDate'].setValue(new Date(this.DetailData.WarrantyExpireDate));
         this.DeviceCommunicationForm.controls['EquipmentTypeId'].setValue(this.DetailData.EquipmentTypeId);
         this.EquipmentTypeChnage(this.DetailData.EquipmentTypeId)
-        this.DeviceCommunicationForm.controls['EquipmentProtocolTypeId'].setValue(this.DetailData.EquipmentProtocolTypeId);
-        this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === this.DetailData.EquipmentProtocolTypeId)
+        this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(this.DetailData.ProtocolTypeId);
+        this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === this.DetailData.ProtocolTypeId)
         if (this.EquipmentTypeFilter.length > 0) {
           this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
         }
         if(this.ConnectionTypeId==1){
-          this.DeviceCommunicationForm.controls['EquipmentIP'].setValue(this.DetailData.EquipmentIP);
-          this.DeviceCommunicationForm.controls['EquipmentPortNumber'].setValue(this.DetailData.EquipmentPortNumber);
+          this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
+          this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
         }
         else if(this.ConnectionTypeId==2){
-        this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DetailData.EquipmentIP);
-        this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DetailData.EquipmentPortNumber);
+        this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DetailData.IpAddress);
+        this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DetailData.PortNumber);
         }
-        this.DeviceCommunicationForm.controls['EquipmentLoginId'].setValue(this.DetailData.EquipmentLoginId);
-        this.DeviceCommunicationForm.controls['EquipmentPassword'].setValue(this.DetailData.EquipmentPassword);
+        this.DeviceCommunicationForm.controls['LoginId'].setValue(this.DetailData.LoginId);
+        this.DeviceCommunicationForm.controls['Password'].setValue(this.DetailData.Password);
         if (this.DetailData.DataStatus == 1) 
           this.DeviceDetailsForm.controls['DataStatus'].setValue(true);
         else 
@@ -340,18 +339,17 @@ export class DevicePopupComponent implements OnInit {
       this.btn1 = "Previous"
     }
     else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
-      this.selectedIndex = this.selectedIndex + 1;
       this.btnMain = "Next"
       this.btn1 = "Previous"
     }
     else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
-      this.selectedIndex = this.selectedIndex + 1;
       this.btnMain = "Next"
       this.btn1 = "Previous"
     }
   }
 
   goForward(event:any) {
+    this.submitted=true;
     this.myStepper.next();
     this.selectedIndex = this.myStepper.selectedIndex;
     if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
@@ -360,13 +358,11 @@ export class DevicePopupComponent implements OnInit {
       this.process=false;
     }
     else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
-      this.selectedIndex = this.selectedIndex + 1;
       this.btnMain = "Next"
       this.btn1 = "Previous"
       this.process=false;
     }
     else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
-      this.selectedIndex = this.selectedIndex + 1;
       this.btnMain = "Save changes"
       this.btn1 = "Previous"
       this.process=true;
@@ -386,8 +382,8 @@ export class DevicePopupComponent implements OnInit {
     let ConnectionAddress = '';
     let Port = 0;
     if (this.ConnectionTypeId == 1) {
-      ConnectionAddress = this.DeviceCommunicationForm.value.EquipmentIP;
-      Port = this.DeviceCommunicationForm.value.EquipmentPortNumber;
+      ConnectionAddress = this.DeviceCommunicationForm.value.IpAddress;
+      Port = this.DeviceCommunicationForm.value.PortNumber;
     } else if (this.ConnectionTypeId == 2) {
       ConnectionAddress = this.DeviceCommunicationForm.value.ComPort;
       Port = this.DeviceCommunicationForm.value.BaudRate;
@@ -401,25 +397,25 @@ export class DevicePopupComponent implements OnInit {
       ControlRoomId: this.LocationDetailsForm.value.ControlRoomId,
       PackageId: this.LocationDetailsForm.value.PackageId,
       SystemId: this.LocationDetailsForm.value.SystemId,
-      EquipmentDirectionId: this.LocationDetailsForm.value.EquipmentDirectionId,
-      EquipmentChainageNumber: this.LocationDetailsForm.value.EquipmentChainageNumber,
+      DirectionId: this.LocationDetailsForm.value.DirectionId,
+      ChainageNumber: this.LocationDetailsForm.value.ChainageNumber,
       EquipmentName: this.LocationDetailsForm.value.EquipmentName,
-      EquipmentLatitude: this.LocationDetailsForm.value.EquipmentLatitude,
-      EquipmentLongitude: this.LocationDetailsForm.value.EquipmentLongitude,
-      EquipmentMacAddress: this.DeviceDetailsForm.value.EquipmentMacAddress,
-      EquipmentModelNumber: this.DeviceDetailsForm.value.EquipmentModelNumber,
-      EquipmentSerialNumber: this.DeviceDetailsForm.value.EquipmentSerialNumber,
-      EquipmentManufacturer: this.DeviceDetailsForm.value.EquipmentManufacturer,
-      EquipmentVendorDetail: this.DeviceDetailsForm.value.EquipmentVendorDetail,
-      EquipmentManufacturerDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentManufacturerDate, 'dd-MMM-yyyy'),
-      EquipmentPurchageDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentPurchageDate, 'dd-MMM-yyyy'),
-      EquipmentWarrantyExpireDate: this.datepipe.transform(this.DeviceDetailsForm.value.EquipmentWarrantyExpireDate, 'dd-MMM-yyyy'),
+      Latitude: this.LocationDetailsForm.value.Latitude,
+      Longitude: this.LocationDetailsForm.value.Longitude,
+      MacAddress: this.DeviceDetailsForm.value.MacAddress,
+      ModelNumber: this.DeviceDetailsForm.value.ModelNumber,
+      SerialNumber: this.DeviceDetailsForm.value.SerialNumber,
+      ManufacturerDetail: this.DeviceDetailsForm.value.ManufacturerDetail,
+      VendorDetail: this.DeviceDetailsForm.value.VendorDetail,
+      ManufacturerDate: this.datepipe.transform(this.DeviceDetailsForm.value.ManufacturerDate, 'dd-MMM-yyyy'),
+      PurchageDate: this.datepipe.transform(this.DeviceDetailsForm.value.PurchageDate, 'dd-MMM-yyyy'),
+      WarrantyExpireDate: this.datepipe.transform(this.DeviceDetailsForm.value.WarrantyExpireDate, 'dd-MMM-yyyy'),
       EquipmentTypeId: this.DeviceCommunicationForm.value.EquipmentTypeId,
-      EquipmentProtocolTypeId: this.DeviceCommunicationForm.value.EquipmentProtocolTypeId,
-      EquipmentIP: ConnectionAddress,
-      EquipmentPortNumber: Port,
-      EquipmentLoginId: this.DeviceCommunicationForm.value.EquipmentLoginId,
-      EquipmentPassword: this.DeviceCommunicationForm.value.EquipmentPassword,
+      ProtocolTypeId: this.DeviceCommunicationForm.value.ProtocolTypeId,
+      IpAddress: ConnectionAddress,
+      PortNumber: Port,
+      LoginId: this.DeviceCommunicationForm.value.LoginId,
+      Password: this.DeviceCommunicationForm.value.Password,
       DataStatus: this.DeviceDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LoginUserId,
       ModifiedBy: this.LoginUserId

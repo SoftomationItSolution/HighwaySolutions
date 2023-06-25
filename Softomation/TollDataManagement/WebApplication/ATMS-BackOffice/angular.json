@@ -33,7 +33,7 @@
             "scripts": [
               "src/assets/js/pages/mainapp.js",
               "src/assets/libs/jquery/jquery.min.js",
-              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js",
               "src/assets/js/pages/dashboard.init.js"
             ]
           },

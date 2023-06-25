@@ -12,26 +12,26 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 systemId;
         String systemName;
         String equipmentName;
-        Int16 equipmentDirectionId;
-        String equipmentDirectionName;
-        Int16 equipmentProtocolTypeId;
-        String equipmentProtocolTypeName;
-        String equipmentIP;
-        Int64 equipmentPortNumber;
-        String equipmentLoginId;
-        String equipmentPassword;
-        Decimal equipmentChainageNumber;
-        String equipmentChainageName;
-        Decimal equipmentLatitude;
-        Decimal equipmentLongitude;
-        String equipmentMacAddress;
-        String equipmentModelNumber;
-        String equipmentSerialNumber;
-        String equipmentManufacturer;
-        String equipmentVendorDetail;
-        DateTime equipmentManufacturerDate;
-        DateTime equipmentPurchageDate;
-        DateTime equipmentWarrantyExpireDate;
+        Int16 directionId;
+        String directionName;
+        Int16 protocolTypeId;
+        String protocolTypeName;
+        String ipAddress;
+        Int64 portNumber;
+        String loginId;
+        String password;
+        Decimal chainageNumber;
+        String chainageName;
+        Decimal latitude;
+        Decimal longitude;
+        String macAddress;
+        String modelNumber;
+        String serialNumber;
+        String manufacturer;
+        String vendorDetail;
+        DateTime manufacturerDate;
+        DateTime purchageDate;
+        DateTime warrantyExpireDate;
         Boolean onLineStatus;
 
         public EquipmentDetailsIL()
@@ -44,26 +44,26 @@ namespace Softomation.ATMSSystemLibrary.IL
             systemId = 0;
             systemName = string.Empty;
             equipmentName = string.Empty;
-            equipmentDirectionId = 0;
-            equipmentDirectionName = string.Empty;
-            equipmentProtocolTypeId = 0;
-            equipmentProtocolTypeName = string.Empty;
-            equipmentIP = string.Empty;
-            equipmentPortNumber = 0;
-            equipmentLoginId = string.Empty;
-            equipmentPassword = string.Empty;
-            equipmentChainageNumber = 0;
-            equipmentChainageName = string.Empty;
-            equipmentLatitude = 0;
-            equipmentLongitude = 0;
-            equipmentMacAddress = string.Empty;
-            equipmentModelNumber = string.Empty;
-            equipmentSerialNumber = string.Empty;
-            equipmentManufacturer = string.Empty;
-            equipmentVendorDetail = string.Empty;
-            equipmentManufacturerDate = DateTime.Now;
-            equipmentPurchageDate = DateTime.Now;
-            equipmentWarrantyExpireDate = DateTime.Now;
+            directionId = 0;
+            directionName = string.Empty;
+            protocolTypeId = 0;
+            protocolTypeName = string.Empty;
+            ipAddress = string.Empty;
+            portNumber = 0;
+            loginId = string.Empty;
+            password = string.Empty;
+            chainageNumber = 0;
+            chainageName = string.Empty;
+            latitude = 0;
+            longitude = 0;
+            macAddress = string.Empty;
+            modelNumber = string.Empty;
+            serialNumber = string.Empty;
+            manufacturer = string.Empty;
+            vendorDetail = string.Empty;
+            manufacturerDate = DateTime.Now;
+            purchageDate = DateTime.Now;
+            warrantyExpireDate = DateTime.Now;
             onLineStatus = true;
         }
 
@@ -163,247 +163,247 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentName = value;
             }
         }
-        public Int16 EquipmentDirectionId
+        public Int16 DirectionId
         {
             get
             {
-                return equipmentDirectionId;
+                return directionId;
             }
 
             set
             {
-                equipmentDirectionId = value;
+                directionId = value;
             }
         }
-        public String EquipmentDirectionName
+        public String DirectionName
         {
             get
             {
-                return equipmentDirectionName;
+                return directionName;
             }
 
             set
             {
-                equipmentDirectionName = value;
-            }
-        }
-
-        public Int16 EquipmentProtocolTypeId
-        {
-            get
-            {
-                return equipmentProtocolTypeId;
-            }
-
-            set
-            {
-                equipmentProtocolTypeId = value;
+                directionName = value;
             }
         }
 
-        public String EquipmentProtocolTypeName
+        public Int16 ProtocolTypeId
         {
             get
             {
-                return equipmentProtocolTypeName;
+                return protocolTypeId;
             }
 
             set
             {
-                equipmentProtocolTypeName = value;
+                protocolTypeId = value;
             }
         }
 
-        public String EquipmentIP
+        public String ProtocolTypeName
         {
             get
             {
-                return equipmentIP;
+                return protocolTypeName;
             }
 
             set
             {
-                equipmentIP = value;
+                protocolTypeName = value;
             }
         }
-        public Int64 EquipmentPortNumber
+
+        public String IpAddress
         {
             get
             {
-                return equipmentPortNumber;
+                return ipAddress;
             }
 
             set
             {
-                equipmentPortNumber = value;
+                ipAddress = value;
             }
         }
-        public String EquipmentLoginId
+        public Int64 PortNumber
         {
             get
             {
-                return equipmentLoginId;
+                return portNumber;
             }
 
             set
             {
-                equipmentLoginId = value;
+                portNumber = value;
             }
         }
-        public String EquipmentPassword
+        public String LoginId
         {
             get
             {
-                return equipmentPassword;
+                return loginId;
             }
 
             set
             {
-                equipmentPassword = value;
+                loginId = value;
             }
         }
-        public Decimal EquipmentChainageNumber
+        public String Password
         {
             get
             {
-                return equipmentChainageNumber;
+                return password;
             }
 
             set
             {
-                equipmentChainageNumber = value;
+                password = value;
             }
         }
-        public String EquipmentChainageName
+        public Decimal ChainageNumber
         {
             get
             {
-                return equipmentChainageName;
+                return chainageNumber;
             }
 
             set
             {
-                equipmentChainageName = value;
+                chainageNumber = value;
             }
         }
-        public Decimal EquipmentLatitude
+        public String ChainageName
         {
             get
             {
-                return equipmentLatitude;
+                return chainageName;
             }
 
             set
             {
-                equipmentLatitude = value;
+                chainageName = value;
             }
         }
-        public Decimal EquipmentLongitude
+        public Decimal Latitude
         {
             get
             {
-                return equipmentLongitude;
+                return latitude;
             }
 
             set
             {
-                equipmentLongitude = value;
+                latitude = value;
             }
         }
-        public String EquipmentMacAddress
+        public Decimal Longitude
         {
             get
             {
-                return equipmentMacAddress;
+                return longitude;
             }
 
             set
             {
-                equipmentMacAddress = value;
+                longitude = value;
             }
         }
-        public String EquipmentModelNumber
+        public String MacAddress
         {
             get
             {
-                return equipmentModelNumber;
+                return macAddress;
             }
 
             set
             {
-                equipmentModelNumber = value;
+                macAddress = value;
             }
         }
-        public String EquipmentSerialNumber
+        public String ModelNumber
         {
             get
             {
-                return equipmentSerialNumber;
+                return modelNumber;
             }
 
             set
             {
-                equipmentSerialNumber = value;
+                modelNumber = value;
             }
         }
-        public String EquipmentManufacturer
+        public String SerialNumber
         {
             get
             {
-                return equipmentManufacturer;
+                return serialNumber;
             }
 
             set
             {
-                equipmentManufacturer = value;
+                serialNumber = value;
             }
         }
-        public String EquipmentVendorDetail
+        public String ManufacturerDetail
         {
             get
             {
-                return equipmentVendorDetail;
+                return manufacturer;
             }
 
             set
             {
-                equipmentVendorDetail = value;
+                manufacturer = value;
             }
         }
-        public DateTime EquipmentManufacturerDate
+        public String VendorDetail
         {
             get
             {
-                return equipmentManufacturerDate;
+                return vendorDetail;
             }
 
             set
             {
-                equipmentManufacturerDate = value;
+                vendorDetail = value;
             }
         }
-        public DateTime EquipmentPurchageDate
+        public DateTime ManufacturerDate
         {
             get
             {
-                return equipmentPurchageDate;
+                return manufacturerDate;
             }
 
             set
             {
-                equipmentPurchageDate = value;
+                manufacturerDate = value;
             }
         }
-        public DateTime EquipmentWarrantyExpireDate
+        public DateTime PurchageDate
         {
             get
             {
-                return equipmentWarrantyExpireDate;
+                return purchageDate;
             }
 
             set
             {
-                equipmentWarrantyExpireDate = value;
+                purchageDate = value;
+            }
+        }
+        public DateTime WarrantyExpireDate
+        {
+            get
+            {
+                return warrantyExpireDate;
+            }
+
+            set
+            {
+                warrantyExpireDate = value;
             }
         }
         public Boolean OnLineStatus

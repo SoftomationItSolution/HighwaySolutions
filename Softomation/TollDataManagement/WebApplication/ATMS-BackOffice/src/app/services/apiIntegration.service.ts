@@ -53,7 +53,7 @@ export class apiIntegrationService {
               reject(err);
             },
             complete: () => {
-              console.log('complete');
+              //console.log('complete');
             },
           });
         });
@@ -138,6 +138,11 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetById?UserId=' + UserId, { headers: headers_object });
   }
+  UserGetByIdWithPassword(UserId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserGetByIdWithPassword?UserId=' + UserId, { headers: headers_object });
+  }
   UserConfigurationGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -185,10 +190,10 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  Vehicle Class
-  VehicleClassGetById(EntryId: any): Observable<any> {
+  VehicleClassGetById(ClassId: any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?EntryId=' + EntryId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?ClassId=' + ClassId, { headers: headers_object });
   }
   VehicleClassGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();

@@ -7,17 +7,16 @@
                         <i class="mdi mdi-plus me-2"></i> Add User
                     </a>
                     <div class="dropdown d-inline-block float-right">
-                        <button type="button"
-                            class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
-                            <i class="mdi mdi-filter-menu-outline"></i>
-                        </button>
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText class="form-control"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
-                        [style]="{'min-width':'1100px','border-collapse': 'collapse', 'border-spacing': '0','width': '100%'}"
-                        [scrollHeight]="'60vh'"
-                        styleClass="table table-centered datatable dt-responsive nowrap"
+                        scrollHeight="50vh" styleClass="table table-centered datatable dt-responsive nowrap"
                         [globalFilterFields]="['LoginId','FirstName','LastName','MobileNumber','EmailId','RoleName','UserTypeName','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
@@ -26,17 +25,20 @@
                                 </th>
                                 <th pSortableColumn="LastName">Last Name <p-sortIcon field="LastName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon field="MobileNumber"></p-sortIcon>
+                                <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon
+                                        field="MobileNumber"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="EmailId">Email Id <p-sortIcon field="EmailId"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="UserTypeName">Type <p-sortIcon field="UserTypeName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="AccountExpiredDate">Account Expire <p-sortIcon field="AccountExpiredDate"></p-sortIcon>
+                                <th pSortableColumn="AccountExpiredDate">Account Expire <p-sortIcon
+                                        field="AccountExpiredDate"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="RoleName">Role Name <p-sortIcon field="RoleName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="DataStatusName">Status <p-sortIcon field="DataStatusName"></p-sortIcon>
+                                <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                        field="DataStatusName"></p-sortIcon>
                                 </th>
                                 <th style="text-align: center;">Action</th>
                             </tr>
@@ -65,6 +67,5 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
