@@ -24,6 +24,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
   hide = true;
   hide1 = true;
   confirmValidParentMatcher = new ConfirmValidParentMatcher();
+  submitted=false;
   close() {this.Dialogref.close(); }
 
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -41,7 +42,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
           Validators.required
         ]),
         Password: new FormControl('', [
-          Validators.required, Validators.pattern(regExps.Password)
+          Validators.required, Validators.pattern(regExps['Password'])
         ]),
         ConfirmPassword: new FormControl('', [
           Validators.required
@@ -56,6 +57,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
   }
 
   UpdatePassword() {
+    this.submitted=true;
     if (this.PasswordForm.valid) {
       if (this.PasswordForm.get('Password').value == this.PasswordForm.get('ConfirmPassword').value) {
         this.spinner.show();
@@ -103,6 +105,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
       }
     }
   }
+  ClosePoup() { this.Dialogref.close(); }
 
 
 }

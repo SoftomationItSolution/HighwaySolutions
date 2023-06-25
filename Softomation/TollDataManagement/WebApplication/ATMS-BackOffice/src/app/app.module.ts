@@ -61,6 +61,8 @@ import { CreateIncidentComponent } from './pages/incident/create-incident/create
 import { InputTextModule } from 'primeng/inputtext';
 import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
 import {NgApexchartsModule } from "ng-apexcharts";
+import { ChnagePasswordPopUpComponent } from './pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
+import { PasswordModule } from 'primeng/password';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -102,6 +104,7 @@ export const MY_CUSTOM_FORMATS = {
     RolePermissionPopupComponent,
     UserConfigurationComponent,
     UserConfigurationPopupComponent,
+    ChnagePasswordPopUpComponent,
     VidsdataComponent,
     AtccdataComponent,
     PackagesDetailsComponent,
@@ -156,6 +159,7 @@ export const MY_CUSTOM_FORMATS = {
     MatButtonModule,
     MatStepperModule,
     InputTextModule,
+    PasswordModule
   ],
   providers: [
     [DatePipe],

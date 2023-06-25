@@ -211,3 +211,13 @@ tr {
     background: #23C58F !important;
     border: none !important;
 }
+
+.dropdown-menu a{
+    cursor: pointer;
+}
+.p-password ,.p-inputtext{
+    width: 100%;
+}
+.p-input-icon-right>.p-icon-wrapper {
+    left: 98%;
+}
