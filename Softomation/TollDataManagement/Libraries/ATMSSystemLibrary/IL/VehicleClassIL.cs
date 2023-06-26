@@ -1,5 +1,4 @@
 ﻿using System;
-using Softomation.ATMSSystemLibrary.IL;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {

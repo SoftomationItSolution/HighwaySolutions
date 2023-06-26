@@ -37,7 +37,7 @@ export class RolePermissionPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.DetailData = data.ResponseData;
-          console.log(this.DetailData)
+          //console.log(this.DetailData)
         } else {
           this.ClosePoup();
           this.ErrorData = [{ AlertMessage: 'permission details not found.' }];

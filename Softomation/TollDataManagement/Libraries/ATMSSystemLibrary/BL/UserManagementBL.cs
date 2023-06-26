@@ -11,6 +11,7 @@ namespace Softomation.ATMSSystemLibrary.BL
         {
             try
             {
+               
                 return UserManagementDL.InsertUpdate(user);
             }
             catch (Exception ex)

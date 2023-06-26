@@ -5,22 +5,60 @@
     </div>
     <div class="modal-body">
         <form [formGroup]="DataDetailsForm">
-            <div class="mb-3">
-                <!-- appearance="outline" -->
-                <mat-form-field>
-                    <label class="form-label" for="fullname">Control Room Name</label>
-                    <input matInput  type="text" class="form-control" placeholder="Enter control name" formControlName="ControlRoomName">
-                    <mat-error *ngIf="DataDetailsForm.get('ControlRoomName').hasError('required')">
-                        Name must be entered.
-                    </mat-error>
-                </mat-form-field>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="ControlRoomName">Control Name</label>
+                    <input formControlName="ControlRoomName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ControlRoomName')">Name is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Ip">Chainage</label>
+                    <input formControlName="ChainageNumber" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ChainageNumber')">Chainage Number
+                        is required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','ChainageNumber')">Valid Chainage
+                        Number is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Latitude">Latitude</label>
+                    <input formControlName="Latitude" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','Latitude')">Latitude
+                        is required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Latitude')">Valid Latitude is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Longitude">Longitude</label>
+                    <input formControlName="Longitude" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Longitude')">Longitude is
+                        required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Longitude')">Valid Longitude is
+                        required.</small>
+                </div>
             </div>
-            <div class="mb-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
-                    <label  class="form-check-label" for="formCheck2">
-                        Status
-                    </label>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="DirectionId">Direction</label>
+                    <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId" [options]="DirectionList"
+                        optionLabel="Name" optionValue="Id" placeholder="Select"  class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','DirectionId')">Direction is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
                 </div>
             </div>
         </form>

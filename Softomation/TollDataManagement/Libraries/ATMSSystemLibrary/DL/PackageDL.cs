@@ -25,12 +25,12 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageId", DbType.Int32, pd.PackageId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomId", DbType.Int32, pd.ControlRoomId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageName", DbType.String, pd.PackageName.Trim(), ParameterDirection.Input, 50));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLongitude", DbType.Decimal, pd.StartLongitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartChainageNumber", DbType.Decimal, pd.StartChainageNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndChainageNumber", DbType.Decimal, pd.EndChainageNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLatitude", DbType.Decimal, pd.StartLatitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLongitude", DbType.Decimal, pd.StartLongitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLatitude", DbType.Decimal, pd.EndLatitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLatitude", DbType.Decimal, pd.EndLatitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLongitude", DbType.Decimal, pd.EndLongitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, pd.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, pd.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));

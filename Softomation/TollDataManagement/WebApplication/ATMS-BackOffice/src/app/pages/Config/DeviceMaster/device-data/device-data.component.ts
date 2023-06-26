@@ -30,25 +30,12 @@ export class DeviceDataComponent implements OnInit {
           this.GetAllData();
         }
       });
-
-    this.emitService.InnerHeight.subscribe(
-      (innerHeight: any) => {
-        this.innerHeight = innerHeight;
-        this.SetPageHeight();
-      });
   }
-  SetPageHeight() {
-    $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 100);
-    $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 100);
-  }
+  
   ngOnInit() {
     this.GetPermissionData();
+  }
 
-  }
-  ngAfterViewInit(): void {
-    this.innerHeight = this.emitService.getInnerHeight();
-    this.SetPageHeight();
-  }
   GetAllData() {
     this.spinner.show();
     this.dbService.EquipmentDetailsGetAll().subscribe(
@@ -94,7 +81,7 @@ export class DeviceDataComponent implements OnInit {
   }
 
   NewEntry() {
-    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+    if (this.DataAdd == 1) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
@@ -110,7 +97,7 @@ export class DeviceDataComponent implements OnInit {
   }
 
   onRowEditInit(TransactionRowData: any) {
-    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+    if (this.DataUpdate == 1) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;

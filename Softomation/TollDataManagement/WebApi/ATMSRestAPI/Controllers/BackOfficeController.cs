@@ -415,6 +415,8 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        
+
         [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
         [HttpPost]
         public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
@@ -447,6 +449,7 @@ namespace ATMSRestAPI.Controllers
                 }
                 else
                 {
+                    user.LoginPassword = Constants.Encrypt(user.LoginPassword);
                     response.Message = UserManagementBL.InsertUpdate(user);
                     return Request.CreateResponse(HttpStatusCode.OK, response);
                 }
@@ -494,6 +497,28 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in UserConfigurationGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserGetByIdWithPassword")]
+        [HttpGet]
+        public HttpResponseMessage UserGetByIdWithPassword(int UserId)
+        {
+            try
+            {
+                UserManagementIL users = UserManagementBL.GetById(UserId);
+                users.LoginPassword = Constants.Decrypt(users.LoginPassword);
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = users;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserGetByIdWithPassword : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -704,13 +729,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/VehicleClassGetById")]
         [HttpGet]
-        public HttpResponseMessage VehicleClassGetById(int classId)
+        public HttpResponseMessage VehicleClassGetById(int ClassId)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VehicleClassBL.GetById(classId);
+                response.ResponseData = VehicleClassBL.GetById(ClassId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)

@@ -7,10 +7,10 @@
                         <i class="mdi mdi-plus me-2"></i> Add Equipment
                     </a>
                     <div class="dropdown d-inline-block float-right">
-                        <button type="button"
-                            class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
-                            <i class="mdi mdi-filter-menu-outline"></i>
-                        </button>
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
@@ -18,16 +18,9 @@
                         <div class="table-responsive table-height-master">
                             <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
                                 [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
-                                [globalFilterFields]="['EquipmentTypeName','EquipmentName','EquipmentChainageName','EquipmentDirectionName'
-                            ,'DataStatusName','EquipmentIP']" >
-                            <!-- scrollHeight="50vh" -->
-                                <ng-template pTemplate="caption">
-                                    <div style="text-align: right">
-                                        <!-- <i class="pi pi-search" style="margin:4px 4px 0 0"></i> -->
-                                        <!-- <input type="text" pInputText size="50" placeholder="Filter" (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto"> -->
-                                    </div>
-                                </ng-template>
-                                <ng-template pTemplate="header">
+                                [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
+                            ,'DataStatusName','IpAddress']" scrollHeight="50vh">
+                            <ng-template pTemplate="header" styleClass="thead-light">
                                     <tr>
                                         <th>S. No.</th>
                                         <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
@@ -36,14 +29,14 @@
                                         <th pSortableColumn="EquipmentName">Name <p-sortIcon
                                                 field="EquipmentName"></p-sortIcon>
                                         </th>
-                                        <th pSortableColumn="EquipmentChainageName">Chainage <p-sortIcon
-                                                field="EquipmentChainageName"></p-sortIcon>
+                                        <th pSortableColumn="ChainageName">Chainage <p-sortIcon
+                                                field="ChainageName"></p-sortIcon>
                                         </th>
-                                        <th pSortableColumn="EquipmentIP">IP-Address <p-sortIcon
-                                                field="EquipmentIP"></p-sortIcon>
+                                        <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
+                                                field="IpAddress"></p-sortIcon>
                                         </th>
-                                        <th pSortableColumn="EquipmentDirectionName">Direction <p-sortIcon
-                                                field="EquipmentDirectionName"></p-sortIcon>
+                                        <th pSortableColumn="DirectionName">Direction <p-sortIcon
+                                                field="DirectionName"></p-sortIcon>
                                         </th>
                                         <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                                 field="DataStatusName"></p-sortIcon>
@@ -56,9 +49,9 @@
                                         <td>{{i+1}}</td>
                                         <td>{{rowData.EquipmentTypeName}}</td>
                                         <td>{{rowData.EquipmentName}}</td>
-                                        <td>{{rowData.EquipmentChainageName}}</td>
-                                        <td>{{rowData.EquipmentIP}}</td>
-                                        <td>{{rowData.EquipmentDirectionName}}</td>
+                                        <td>{{rowData.ChainageName}}</td>
+                                        <td>{{rowData.IpAddress}}</td>
+                                        <td>{{rowData.DirectionName}}</td>
                                         <td>{{rowData.DataStatusName}}</td>
                                         <td style="text-align: center;">
                                             <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

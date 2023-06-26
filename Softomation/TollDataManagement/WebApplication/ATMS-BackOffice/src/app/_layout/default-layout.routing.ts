@@ -8,7 +8,7 @@ import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-config
 import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
-import { PackagesDetailsComponent } from '../pages/Config/packages-details/packages-details.component';
+import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
 import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
 
 export const AdminLayoutRoutes: Routes = [
@@ -19,11 +19,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
-    { path: 'incidents', component: IncidentDataComponent },
-    // { path: 'vms', component: VMSDataComponent },
-    // { path: 'met', component: METDataComponent },
+    { path: 'pendigIncident', component: IncidentDataComponent },
      { path: 'vids', component: VidsdataComponent },
-    // { path: 'ecb', component: ECBDataComponent },
     { path: 'atcc', component: AtccdataComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent }

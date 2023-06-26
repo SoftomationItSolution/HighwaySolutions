@@ -2,9 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 
 @Component({
   selector: 'app-vehicle-class-popup',
@@ -15,74 +15,43 @@ export class VehicleClassPopupComponent implements OnInit {
   PageTitle:any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  EntryId: number;
-  ClientId;
+  ClassId: number;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  PermissionData;
-  ButtonShow = false;
-  ApplicationType :any;
-  constructor(private dbService: ApiService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
+  submitted=false;
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<VehicleClassPopupComponent>, public dialog: MatDialog) {
-    //this.ApplicationType =  parseInt(this.emitService.getApplicationType());
-    this.ApplicationType =  this.emitService.getApplicationType();;
     this.LogedUserId = this.emitService.getUserDetails();
-    this.ClientId = this.emitService.getClientId();
-    this.EntryId = parentData.EntryId;
-    this.PermissionData = parentData.PermissionData;
-    if (this.EntryId == 0) {
-      if (this.PermissionData.DataAdd == 1) {
-          this.ButtonShow = true;
-      }
-    } else {
-      if (this.PermissionData.DataUpdate == 1) {
-       this.ButtonShow = true;
-      }
-    }
+    this.ClassId = parentData.ClassId;
   }
-
   ngOnInit(): void {
-    this.PageTitle = 'Create New Vehicle Class';
+    this.PageTitle = 'Create New Vehicle Classification';
     this.DataDetailsForm = new FormGroup({
-      ClassName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(regExps['AlphaNumericSingleSpace'])
-      ]),
-      VehicleSpeed: new FormControl('', [
-        Validators.required,
-        Validators.pattern(regExps['OnlyDigit'])
-      ]),
-      ClassDescription: new FormControl(''),
+      VehicleClassId:new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
+      VehicleClassName: new FormControl('', [Validators.required,Validators.pattern(regExps['AlphaNumericSingleSpace'])],),
+      AllowedSpeed:new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
+      DataStatus: new FormControl(true),
     });
-    if (this.EntryId > 0) {
+    if (this.ClassId > 0) {
+      this.PageTitle = 'Update Vehicle Classification Details';
       this.DetailsbyId();
     }
   }
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.VehicleClassGetById(this.EntryId).subscribe(
+    this.dbService.VehicleClassGetById(this.ClassId).subscribe(
       data => {
         this.spinner.hide();
-        debugger;
-        let returnMessage = data.Message[0].AlertMessage;
-        if (returnMessage == 'success') {
-          this.DetailData = data.ResponceData;
-          this.DataStatusDs = this.DetailData.DataStatus;
-          if (this.DetailData.DataStatus == 1) {
-            this.DataStatus = true;
-          } else {
-            this.DataStatus = false;
-          }
-          this.DataDetailsForm.controls['ClassName'].setValue(this.DetailData.ClassName);
-          this.DataDetailsForm.controls['ClassDescription'].setValue(this.DetailData.ClassDescription);
-          this.DataDetailsForm.controls['VehicleSpeed'].setValue(this.DetailData.VehicleSpeed);
+        this.DetailData = data.ResponseData;
+        this.DataDetailsForm.controls['VehicleClassId'].setValue(this.DetailData.VehicleClassId);
+        this.DataDetailsForm.controls['AllowedSpeed'].setValue(this.DetailData.AllowedSpeed);
+        this.DataDetailsForm.controls['VehicleClassName'].setValue(this.DetailData.VehicleClassName);
+        if (this.DetailData.DataStatus == 1) {
+          this.DataDetailsForm.controls['DataStatus'].setValue(true);
         } else {
-          this.ErrorData = [{ AlertMessage: 'lane details not found.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
-          this.ClosePoup();
+          this.DataDetailsForm.controls['DataStatus'].setValue(false);
         }
       },
       (error) => {
@@ -93,32 +62,22 @@ export class VehicleClassPopupComponent implements OnInit {
     );
   }
 
-  onChange(event:any) {
-    if (event.checked) {
-      this.DataStatus = true;
-      this.DataStatusDs = 1;
-    } else {
-      this.DataStatus = false;
-      this.DataStatusDs = 2;
-    }
-  }
+  
 
   ClosePoup() { this.Dialogref.close(); }
 
-  ClearDetails() {
-    this.DataDetailsForm.reset();
-  }
-
+  
   SaveDetails() {
+    this.submitted=true;
     if (this.DataDetailsForm.invalid) {
       return;
     }
     const Obj = {
-      EntryId: this.EntryId,
-      ClassName: this.DataDetailsForm.value.ClassName,
-      ClassDescription: this.DataDetailsForm.value.ClassDescription,
-      VehicleSpeed: this.DataDetailsForm.value.VehicleSpeed,
-      DataStatus: this.DataStatusDs,
+      ClassId: this.ClassId,
+      VehicleClassId: this.DataDetailsForm.value.VehicleClassId,
+      VehicleClassName: this.DataDetailsForm.value.VehicleClassName,
+      AllowedSpeed: this.DataDetailsForm.value.AllowedSpeed,
+      DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
     };

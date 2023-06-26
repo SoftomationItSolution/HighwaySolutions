@@ -1,4 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* #D6D8D9 */
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #fff; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #D6D8D9; 
+    border-radius: 10px;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #D6D8D9; 
+  }
+
 tbody,
 td,
 tfoot,
@@ -116,4 +140,84 @@ tr {
     height: 30vh;
     overflow-x: hidden;
     overflow-y: scroll;
+}
+.p-error {
+    color: #f44336;
+}
+.small, small {
+    font-size: 80%;
+    font-weight: 400;
+}
+
+.p-dropdown {
+    background: #fff;
+    border: none !important;
+    transition: background-color .2s,color .2s,border-color .2s,box-shadow .2s;
+    border-radius: 3px;
+}
+
+.p-dropdown-items-wrapper{
+    max-height: 200px;
+    overflow: hidden;
+   
+}
+.p-dropdown-items {
+    margin: 0;
+    padding: .5rem 0;
+    list-style-type: none;
+    background: #fff !important;
+    border: 1px solid #ccc5c5 !important;
+    border-top: none !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item {
+    margin: 0;
+    padding: 0.5rem 1rem;
+    border: 0;
+    color: #000;
+    background: #fff;
+    transition: box-shadow .2s;
+    border-radius: 0;
+}
+
+.modal-body{
+    height: 365px !important;
+    overflow-x: auto !important;
+}
+
+.form-check{
+    margin-top: 35px;
+}
+
+.p-datatable-scrollable-table>.p-datatable-thead{
+    background: #fff !important;
+}
+
+.p-calendar .p-datepicker{
+    background: #fff !important;
+    
+}
+
+.p-datepicker-calendar-container{
+    background: #fff !important;
+}
+
+.p-calendar{
+    min-width: 100% !important;
+}
+
+.p-datepicker-trigger{
+    color: #fff !important;
+    background: #23C58F !important;
+    border: none !important;
+}
+
+.dropdown-menu a{
+    cursor: pointer;
+}
+.p-password ,.p-inputtext{
+    width: 100%;
+}
+.p-input-icon-right>.p-icon-wrapper {
+    left: 98%;
 }

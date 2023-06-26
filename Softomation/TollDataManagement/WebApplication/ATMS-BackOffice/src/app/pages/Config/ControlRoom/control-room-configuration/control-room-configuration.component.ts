@@ -30,26 +30,13 @@ export class ControlRoomConfigurationComponent implements OnInit {
           this.GetAllData();
         }
       });
-    this.emitService.InnerHeight.subscribe(
-      (innerHeight: any) => {
-        this.innerHeight = innerHeight;
-        this.SetPageHeight();
-      });
     this.GetPermissionData();
   }
 
   ngOnInit(): void {
   }
   
-  ngAfterViewInit(): void {
-    this.innerHeight = this.emitService.getInnerHeight();
-    this.SetPageHeight();
-  }
 
-  SetPageHeight() {
-    $('.table-height-master .p-datatable-scrollable-body').css('max-height', (this.innerHeight) - 175);
-    $('.table-height-master .p-datatable-scrollable-body').css('min-height', (this.innerHeight) - 175);
-  }
   GetPermissionData() {
     this.spinner.show();
     const Obj = {
@@ -92,12 +79,12 @@ export class ControlRoomConfigurationComponent implements OnInit {
   }
 
   NewEntry() {
-    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+    if (this.DataAdd == 1) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }
@@ -108,12 +95,12 @@ export class ControlRoomConfigurationComponent implements OnInit {
   }
 
   onRowEditInit(data: any) {
-    if (this.DataUpdate == 1 || this.DataAdd == 1) {
+    if (this.DataUpdate == 1) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '450px';
+      dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }

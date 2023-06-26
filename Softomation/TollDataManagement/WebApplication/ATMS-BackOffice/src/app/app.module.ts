@@ -53,10 +53,16 @@ import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-ro
 import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/device-popup.component';
-import { PackagesDetailsComponent } from './pages/Config/packages-details/packages-details.component';
+import { PackagesDetailsComponent } from './pages/Config/Packages/packages-details/packages-details.component';
+import { PackagesPopupComponent } from './pages/Config/Packages/packages-popup/packages-popup.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { IncidentDataComponent } from './pages/incident/incident-data/incident-data.component';
 import { CreateIncidentComponent } from './pages/incident/create-incident/create-incident.component';
+import { InputTextModule } from 'primeng/inputtext';
+import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
+import {NgApexchartsModule } from "ng-apexcharts";
+import { ChnagePasswordPopUpComponent } from './pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
+import { PasswordModule } from 'primeng/password';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -92,14 +98,17 @@ export const MY_CUSTOM_FORMATS = {
     DeviceDataComponent,
     DevicePopupComponent,
     VehicleClassDataComponent,
+    VehicleClassPopupComponent,
     RoleConfigurationComponent,
     RoleConfigurationPopupComponent,
     RolePermissionPopupComponent,
     UserConfigurationComponent,
     UserConfigurationPopupComponent,
+    ChnagePasswordPopUpComponent,
     VidsdataComponent,
     AtccdataComponent,
     PackagesDetailsComponent,
+    PackagesPopupComponent,
     IncidentDataComponent,
     CreateIncidentComponent
   ],
@@ -107,6 +116,7 @@ export const MY_CUSTOM_FORMATS = {
     BrowserAnimationsModule,
     BrowserModule,
     ReactiveFormsModule,
+    NgApexchartsModule,
     CommonModule,
     HttpClientModule,
     FormsModule,
@@ -134,7 +144,6 @@ export const MY_CUSTOM_FORMATS = {
     MatDatepickerModule,
     MatRadioModule,
     OverlayModule,
-    DropdownModule,
     InputNumberModule,
     RadioButtonModule,
     FileUploadModule,
@@ -148,7 +157,9 @@ export const MY_CUSTOM_FORMATS = {
     PanelModule,
     MatDialogModule,
     MatButtonModule,
-    MatStepperModule
+    MatStepperModule,
+    InputTextModule,
+    PasswordModule
   ],
   providers: [
     [DatePipe],

@@ -40,11 +40,11 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
-        public static VehicleClassIL GetById(int classId)
+        public static VehicleClassIL GetById(int ClassId)
         {
             try
             {
-                return VehicleClassDL.GetById(classId);
+                return VehicleClassDL.GetById(ClassId);
             }
             catch (Exception ex)
             {

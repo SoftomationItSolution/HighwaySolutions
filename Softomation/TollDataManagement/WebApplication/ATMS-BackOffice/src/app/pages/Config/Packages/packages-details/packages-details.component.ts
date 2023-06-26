@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmittersService } from 'src/app/allservices/emitters.service';
-import { UserConfigurationPopupComponent } from '../user-configuration-popup/user-configuration-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { PackagesPopupComponent } from '../packages-popup/packages-popup.component';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 declare var $: any;
 @Component({
-  selector: 'app-user-configuration',
-  templateUrl: './user-configuration.component.html',
-  styleUrls: ['./user-configuration.component.css']
+  selector: 'app-packages-details',
+  templateUrl: './packages-details.component.html',
+  styleUrls: ['./packages-details.component.css']
 })
-export class UserConfigurationComponent implements OnInit {
-  DevicesData: any;
+export class PackagesDetailsComponent implements OnInit {
   ErrorData: any;
-  LogedRoleId;
   PermissionData: any;
+  DevicesData: any;
+  LogedRoleId;
+  LogedUserId;
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
@@ -22,6 +23,7 @@ export class UserConfigurationComponent implements OnInit {
   constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
     private spinner: NgxSpinnerService) {
     this.LogedRoleId = this.emitService.getRoleDetails();
+    this.LogedUserId = this.emitService.getUserDetails();
     this.emitService.PageRefresh.subscribe(
       (visibility: boolean) => {
         if (visibility) {
@@ -31,10 +33,13 @@ export class UserConfigurationComponent implements OnInit {
     this.GetPermissionData();
   }
 
+  ngOnInit(): void {
+  }
+  
   GetPermissionData() {
     this.spinner.show();
     const Obj = {
-      MenuId: 10,
+      MenuId: 7,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByEventId(Obj).subscribe(
@@ -56,14 +61,10 @@ export class UserConfigurationComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {
 
-  }
- 
- 
   GetAllData() {
     this.spinner.show();
-    this.dbService.UserConfigurationGetAll().subscribe(
+    this.dbService.PackagesGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -75,6 +76,7 @@ export class UserConfigurationComponent implements OnInit {
       }
     );
   }
+
   NewEntry() {
     if (this.DataAdd == 1) {
       const dialogConfig = new MatDialogConfig();
@@ -82,23 +84,8 @@ export class UserConfigurationComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
       dialogConfig.height = '500px';
-      dialogConfig.data = { action: 'Save', UserId: 0 };
-      this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
-    }
-    else {
-      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
-    }
-  }
-  onRowEditInit(data: any) {
-    if (this.DataAdd == 1) {
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
-      dialogConfig.data = { action: 'Update', UserId: data.UserId };
-      this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
+      dialogConfig.data = { action: 'Save', PackageId: 0 };
+      this.dialog.open(PackagesPopupComponent, dialogConfig);
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -106,4 +93,19 @@ export class UserConfigurationComponent implements OnInit {
     }
   }
 
+  onRowEditInit(data: any) {
+    if (this.DataUpdate == 1) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = { action: 'Update', PackageId: data.PackageId };
+      this.dialog.open(PackagesPopupComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+      this.emitService.openSnackBar(this.ErrorData, false);
+    }
+  }
 }

@@ -53,7 +53,7 @@ export class apiIntegrationService {
               reject(err);
             },
             complete: () => {
-              console.log('complete');
+              //console.log('complete');
             },
           });
         });
@@ -138,6 +138,11 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetById?UserId=' + UserId, { headers: headers_object });
   }
+  UserGetByIdWithPassword(UserId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserGetByIdWithPassword?UserId=' + UserId, { headers: headers_object });
+  }
   UserConfigurationGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -185,10 +190,10 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  Vehicle Class
-  VehicleClassGetById(EntryId: any): Observable<any> {
+  VehicleClassGetById(ClassId: any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?EntryId=' + EntryId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?ClassId=' + ClassId, { headers: headers_object });
   }
   VehicleClassGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
@@ -236,19 +241,24 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.GetUrl();
     const token =this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackagesGetAll', { headers: headers_object});
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetAll', { headers: headers_object});
   }
   PackagesSetUp(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     const token =this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackagesSetUp', data, { headers: headers_object});
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackageInsertUpdate', data, { headers: headers_object});
   }
   PackagesGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     const token =this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetActive', { headers: headers_object});
+  }
+  PackagesGetById(PackageId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetById?PackageId=' + PackageId, { headers: headers_object });
   }
 //#endregion
 

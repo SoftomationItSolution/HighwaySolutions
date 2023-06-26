@@ -22,7 +22,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             List<EquipmentTypeIL> eds = new List<EquipmentTypeIL>();
             try
             {
-                string spName = "USP_EquipmentDetailsGetAll";
+                string spName = "USP_EquipmentTypeMasterGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)

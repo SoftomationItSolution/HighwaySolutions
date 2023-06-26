@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { apiIntegrationService } from '../../services/apiIntegration.service';
 import { DataModel } from '../../services/data-model.model';
 import { Location } from '@angular/common';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -23,7 +25,7 @@ export class DefaultLayoutComponent implements OnInit {
   ParentTitle = "Dashboard"
   ChildTitle = "Dashboard"
   constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, location: Location) {
+    public api: apiIntegrationService, location: Location,public dialog: MatDialog,) {
     this.docElement = document.documentElement;
   }
 
@@ -75,7 +77,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   menuED(event: any, m) {
-    console.log(m)
+    //console.log(m)
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
@@ -158,6 +160,15 @@ export class DefaultLayoutComponent implements OnInit {
       }
     }
     return 'Dashboard';
+  }
+
+  chOpen(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '40%';
+    dialogConfig.height = '400px';
+    this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
   }
 
 }

@@ -35,7 +35,7 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentTypeId = value;
             }
         }
-
+        
         public String EquipmentTypeName
         {
             get

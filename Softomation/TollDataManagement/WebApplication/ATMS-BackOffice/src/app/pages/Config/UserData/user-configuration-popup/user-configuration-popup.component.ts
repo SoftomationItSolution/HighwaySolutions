@@ -17,17 +17,12 @@ export class UserConfigurationPopupComponent implements OnInit {
   error = errorMessages;
   UserId: any;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  ClientData: any;
   RoleData: any;
-  PlazaData: any;
-  selectedUserType = 0;
-  onsub = false
   UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
-
+  submitted=false;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData,
     private emitService: EmittersService, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
@@ -66,7 +61,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         Validators.required,
         Validators.pattern(regExps['Password'])
       ]),
-      UserType: new FormControl('', [
+      UserTypeId: new FormControl('', [
         Validators.required
       ]),
       DataStatus: new FormControl(true),
@@ -101,17 +96,15 @@ export class UserConfigurationPopupComponent implements OnInit {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.UserConfigurationGetById(this.UserId).subscribe(
+    this.dbService.UserGetByIdWithPassword(this.UserId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        this.DataStatusDs = this.DetailData.DataStatus;
         if (this.DetailData.DataStatus == 1) {
           this.DataStatus = true;
         } else {
           this.DataStatus = false;
         }
-        this.selectedUserType = this.DetailData.UserType;
         this.DataDetailsForm.controls['LoginId'].setValue(this.DetailData.LoginId);
         this.DataDetailsForm.controls['LoginPassword'].setValue(this.DetailData.LoginPassword);
         this.DataDetailsForm.controls['MobileNumber'].setValue(this.DetailData.MobileNumber);
@@ -119,7 +112,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.DataDetailsForm.controls['EmailId'].setValue(this.DetailData.EmailId);
         this.DataDetailsForm.controls['FirstName'].setValue(this.DetailData.FirstName);
         this.DataDetailsForm.controls['LastName'].setValue(this.DetailData.LastName);
-        this.DataDetailsForm.controls['AccountExpiredDate'].setValue(this.DetailData.AccountExpiredDate);
+        this.DataDetailsForm.controls['AccountExpiredDate'].setValue(new Date(this.DetailData.AccountExpiredDate));
         this.DataDetailsForm.controls['UserType'].setValue(this.DetailData.UserType);
       },
       (error) => {
@@ -135,16 +128,6 @@ export class UserConfigurationPopupComponent implements OnInit {
     );
   }
 
-  onChange(event: any) {
-    if (event.checked) {
-      this.DataStatus = true;
-      this.DataStatusDs = 1;
-    } else {
-      this.DataStatus = false;
-      this.DataStatusDs = 2;
-    }
-  }
-
   ClosePoup() { this.Dialogref.close(); }
 
   ClearDetails() {
@@ -152,7 +135,7 @@ export class UserConfigurationPopupComponent implements OnInit {
   }
 
   SaveDetails() {
-    this.onsub = true;
+    this.submitted = true;
     this.DataDetailsForm.errors;
     if (this.DataDetailsForm.valid == true) {
 
@@ -164,10 +147,10 @@ export class UserConfigurationPopupComponent implements OnInit {
         LastName: this.DataDetailsForm.value.LastName,
         MobileNumber: this.DataDetailsForm.value.MobileNumber,
         EmailId: this.DataDetailsForm.value.EmailId,
-        UserTypeId: this.DataDetailsForm.value.UserType,
+        UserTypeId: this.DataDetailsForm.value.UserTypeId,
         AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
         RoleId: this.DataDetailsForm.value.RoleId,
-        DataStatus: this.DataStatusDs,
+        DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
         CreatedBy: this.LogedUserId
       };
       this.spinner.show();

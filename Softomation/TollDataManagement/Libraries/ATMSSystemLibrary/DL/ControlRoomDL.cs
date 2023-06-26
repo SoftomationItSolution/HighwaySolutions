@@ -22,6 +22,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomId", DbType.Int32, role.ControlRoomId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomName", DbType.String, role.ControlRoomName.Trim(), ParameterDirection.Input, 200));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, role.ChainageNumber, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, role.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, role.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, role.DirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, role.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, role.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -102,6 +106,18 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ControlRoomName"] != DBNull.Value)
                 cr.ControlRoomName = Convert.ToString(dr["ControlRoomName"]);
 
+            if (dr["ChainageNumber"] != DBNull.Value)
+                cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
+
+            if (dr["Latitude"] != DBNull.Value)
+                cr.Latitude = Convert.ToDecimal(dr["Latitude"]);
+
+            if (dr["Longitude"] != DBNull.Value)
+                cr.Longitude = Convert.ToDecimal(dr["Longitude"]);
+
+            if (dr["DirectionId"] != DBNull.Value)
+                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
+
             if (dr["DataStatus"] != DBNull.Value)
                 cr.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
@@ -118,6 +134,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 cr.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
             cr.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)cr.DataStatus);
+            cr.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)cr.DirectionId);
 
             return cr;
         }

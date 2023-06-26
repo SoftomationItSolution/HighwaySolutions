@@ -4,39 +4,33 @@
             <div class="card-body">
                 <div>
                     <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-plus me-2"></i> Add User
+                        <i class="mdi mdi-plus me-2"></i> Add Package
                     </a>
                     <div class="dropdown d-inline-block float-right">
+                        <!-- <button type="button"
+                            class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
+                            <i class="mdi mdi-filter-menu-outline"></i>
+                        </button> -->
                         <span class="p-input-icon-left">
                             <i class="fa fa-search"></i>
-                            <input type="text" pInputText class="form-control"
-                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
                         </span>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
-                        scrollHeight="50vh" styleClass="table table-centered datatable dt-responsive nowrap"
-                        [globalFilterFields]="['LoginId','FirstName','LastName','MobileNumber','EmailId','RoleName','UserTypeName','DataStatusName']">
+                        styleClass="table table-centered datatable dt-responsive nowrap"
+                        [globalFilterFields]="['PackageName','StartChainageNumber','EndChainageNumber','DataStatusName']" scrollHeight="50vh">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="FirstName">First Name <p-sortIcon field="FirstName"></p-sortIcon>
+                                <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="LastName">Last Name <p-sortIcon field="LastName"></p-sortIcon>
+                                <th pSortableColumn="StartChainageNumber">Chainage<p-sortIcon
+                                        field="StartChainageNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon
-                                        field="MobileNumber"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="EmailId">Email Id <p-sortIcon field="EmailId"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="UserTypeName">Type <p-sortIcon field="UserTypeName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="AccountExpiredDate">Account Expire <p-sortIcon
-                                        field="AccountExpiredDate"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="RoleName">Role Name <p-sortIcon field="RoleName"></p-sortIcon>
-                                </th>
+                                <th>Start Coordinates</th>
+                                <th>End Coordinates</th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
                                 </th>
@@ -46,13 +40,10 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.FirstName}}</td>
-                                <td>{{rowData.LastName}}</td>
-                                <td>{{rowData.MobileNumber}}</td>
-                                <td>{{rowData.EmailId}}</td>
-                                <td>{{rowData.UserTypeName}}</td>
-                                <td>{{rowData.AccountExpiredDate |date}}</td>
-                                <td>{{rowData.RoleName}}</td>
+                                <td>{{rowData.PackageName}}</td>
+                                <td>{{rowData.StartChainageNumber}} - {{rowData.EndChainageNumber}}</td>
+                                <td>{{rowData.StartLatitude}},{{rowData.StartLongitude}}</td>
+                                <td>{{rowData.EndLatitude}},{{rowData.EndLongitude}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
@@ -67,5 +58,14 @@
                 </div>
             </div>
         </div>
+        <!-- <nav aria-label="Page navigation example" class="float-right">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav> -->
     </div>
 </div>

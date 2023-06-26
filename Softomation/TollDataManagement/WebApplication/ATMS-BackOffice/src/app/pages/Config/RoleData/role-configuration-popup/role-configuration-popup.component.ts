@@ -17,10 +17,10 @@ export class RoleConfigurationPopupComponent implements OnInit {
   error = errorMessages;
   RoleId: number;
   DataStatus = true;
-  DataStatusDs = 1;
   LogedUserId;
   ErrorData: any;
   DetailData: any;
+  submitted=false;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
               private emitService: EmittersService, public Dialogref: MatDialogRef<RoleConfigurationPopupComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.emitService.getUserDetails();
@@ -76,6 +76,7 @@ export class RoleConfigurationPopupComponent implements OnInit {
   }
 
   SaveDetails() {
+    this.submitted=true;
     if (this.DataDetailsForm.invalid) {
       return;
     }

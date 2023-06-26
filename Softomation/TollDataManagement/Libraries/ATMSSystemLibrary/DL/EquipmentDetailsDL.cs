@@ -22,25 +22,27 @@ namespace Softomation.ATMSSystemLibrary.DL
                 string spName = "USP_EquipmentDetailsInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ed.EquipmentId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomId", DbType.Int16, ed.ControlRoomId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageId", DbType.Int16, ed.PackageId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, ed.SystemId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentTypeId", DbType.Int16, ed.EquipmentTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ProtocolTypeId", DbType.Int16, ed.ProtocolTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentName", DbType.String, ed.EquipmentName.Trim(), ParameterDirection.Input, 200));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentDirectionId", DbType.Int16, ed.EquipmentDirectionId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentIP", DbType.String, ed.EquipmentIP, ParameterDirection.Input,20));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentPortNumber", DbType.Int64, ed.EquipmentPortNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentLoginId", DbType.String, ed.EquipmentLoginId, ParameterDirection.Input, 50));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentPassword", DbType.String, ed.EquipmentPassword, ParameterDirection.Input, 50));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentChainageNumber", DbType.Decimal, ed.EquipmentChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentLatitude", DbType.Decimal, ed.EquipmentLatitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentLongitude", DbType.Decimal, ed.EquipmentLongitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentMacAddress", DbType.String, ed.EquipmentMacAddress, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentModelNumber", DbType.String, ed.EquipmentModelNumber, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentSerialNumber", DbType.String, ed.EquipmentSerialNumber, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufacturer", DbType.String, ed.EquipmentManufacturer, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentVendorDetail", DbType.String, ed.EquipmentVendorDetail, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufacturerDate", DbType.Date, ed.EquipmentManufacturerDate, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentPurchageDate", DbType.Date, ed.EquipmentPurchageDate, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentWarrantyExpireDate", DbType.Date, ed.EquipmentWarrantyExpireDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, ed.DirectionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IpAddress", DbType.String, ed.IpAddress, ParameterDirection.Input,20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PortNumber", DbType.Int64, ed.PortNumber, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, ed.LoginId, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Password", DbType.String, ed.Password, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ed.ChainageNumber, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ed.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ed.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDetail", DbType.String, ed.ManufacturerDetail, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VendorDetail", DbType.String, ed.VendorDetail, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDate", DbType.Date, ed.ManufacturerDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PurchageDate", DbType.Date, ed.PurchageDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WarrantyExpireDate", DbType.Date, ed.WarrantyExpireDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, ed.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, ed.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -125,61 +127,71 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ControlRoomName"] != DBNull.Value)
                 ed.ControlRoomName = Convert.ToString(dr["ControlRoomName"]);
 
-            
+            if (dr["PackageId"] != DBNull.Value)
+                ed.PackageId = Convert.ToInt16(dr["PackageId"]);
+
+            if (dr["PackageName"] != DBNull.Value)
+                ed.PackageName = Convert.ToString(dr["PackageName"]);
+          
+            if (dr["SystemId"] != DBNull.Value)
+                ed.SystemId = Convert.ToInt16(dr["SystemId"]);
+
+            if (dr["SystemName"] != DBNull.Value)
+                ed.SystemName = Convert.ToString(dr["SystemName"]);
 
             if (dr["EquipmentName"] != DBNull.Value)
                 ed.EquipmentName = Convert.ToString(dr["EquipmentName"]);
 
-            if (dr["EquipmentDirectionId"] != DBNull.Value)
-                ed.EquipmentDirectionId = Convert.ToInt16(dr["EquipmentDirectionId"]);
+            if (dr["DirectionId"] != DBNull.Value)
+                ed.DirectionId = Convert.ToInt16(dr["DirectionId"]);
 
-            if (dr["EquipmentIP"] != DBNull.Value)
-                ed.EquipmentIP = Convert.ToString(dr["EquipmentIP"]);
+            if (dr["IpAddress"] != DBNull.Value)
+                ed.IpAddress = Convert.ToString(dr["IpAddress"]);
 
-            if (dr["EquipmentPortNumber"] != DBNull.Value)
-                ed.EquipmentPortNumber = Convert.ToInt64(dr["EquipmentPortNumber"]);
+            if (dr["PortNumber"] != DBNull.Value)
+                ed.PortNumber = Convert.ToInt64(dr["PortNumber"]);
 
-            if (dr["EquipmentLoginId"] != DBNull.Value)
-                ed.EquipmentLoginId = Convert.ToString(dr["EquipmentLoginId"]);
+            if (dr["LoginId"] != DBNull.Value)
+                ed.LoginId = Convert.ToString(dr["LoginId"]);
 
-            if (dr["EquipmentPassword"] != DBNull.Value)
-                ed.EquipmentPassword = Convert.ToString(dr["EquipmentPassword"]);
+            if (dr["Password"] != DBNull.Value)
+                ed.Password = Convert.ToString(dr["Password"]);
 
-            if (dr["EquipmentChainageNumber"] != DBNull.Value)
+            if (dr["ChainageNumber"] != DBNull.Value)
             {
-                ed.EquipmentChainageNumber = Convert.ToDecimal(dr["EquipmentChainageNumber"]);
-                ed.EquipmentChainageName = ed.EquipmentChainageNumber.ToString().Replace(".", "+");
+                ed.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
+                ed.ChainageName = ed.ChainageNumber.ToString().Replace(".", "+");
             }
 
-            if (dr["EquipmentLatitude"] != DBNull.Value)
-                ed.EquipmentLatitude = Convert.ToDecimal(dr["EquipmentLatitude"]);
+            if (dr["Latitude"] != DBNull.Value)
+                ed.Latitude = Convert.ToDecimal(dr["Latitude"]);
 
-            if (dr["EquipmentLongitude"] != DBNull.Value)
-                ed.EquipmentLongitude = Convert.ToDecimal(dr["EquipmentLongitude"]);
+            if (dr["Longitude"] != DBNull.Value)
+                ed.Longitude = Convert.ToDecimal(dr["Longitude"]);
 
-            if (dr["EquipmentMacAddress"] != DBNull.Value)
-                ed.EquipmentMacAddress = Convert.ToString(dr["EquipmentMacAddress"]);
+            if (dr["MacAddress"] != DBNull.Value)
+                ed.MacAddress = Convert.ToString(dr["MacAddress"]);
 
-            if (dr["EquipmentModelNumber"] != DBNull.Value)
-                ed.EquipmentModelNumber = Convert.ToString(dr["EquipmentModelNumber"]);
+            if (dr["ModelNumber"] != DBNull.Value)
+                ed.ModelNumber = Convert.ToString(dr["ModelNumber"]);
 
-            if (dr["EquipmentSerialNumber"] != DBNull.Value)
-                ed.EquipmentSerialNumber = Convert.ToString(dr["EquipmentSerialNumber"]);
+            if (dr["SerialNumber"] != DBNull.Value)
+                ed.SerialNumber = Convert.ToString(dr["SerialNumber"]);
 
-            if (dr["EquipmentManufacturer"] != DBNull.Value)
-                ed.EquipmentManufacturer = Convert.ToString(dr["EquipmentManufacturer"]);
+            if (dr["ManufacturerDetail"] != DBNull.Value)
+                ed.ManufacturerDetail = Convert.ToString(dr["ManufacturerDetail"]);
 
-            if (dr["EquipmentVendorDetail"] != DBNull.Value)
-                ed.EquipmentVendorDetail = Convert.ToString(dr["EquipmentVendorDetail"]);
+            if (dr["VendorDetail"] != DBNull.Value)
+                ed.VendorDetail = Convert.ToString(dr["VendorDetail"]);
 
-            if (dr["EquipmentManufacturerDate"] != DBNull.Value)
-                ed.EquipmentManufacturerDate = Convert.ToDateTime(dr["EquipmentManufacturerDate"]);
+            if (dr["ManufacturerDate"] != DBNull.Value)
+                ed.ManufacturerDate = Convert.ToDateTime(dr["ManufacturerDate"]);
 
-            if (dr["EquipmentPurchageDate"] != DBNull.Value)
-                ed.EquipmentPurchageDate = Convert.ToDateTime(dr["EquipmentPurchageDate"]);
+            if (dr["PurchageDate"] != DBNull.Value)
+                ed.PurchageDate = Convert.ToDateTime(dr["PurchageDate"]);
 
-            if (dr["EquipmentWarrantyExpireDate"] != DBNull.Value)
-                ed.EquipmentWarrantyExpireDate = Convert.ToDateTime(dr["EquipmentWarrantyExpireDate"]);
+            if (dr["WarrantyExpireDate"] != DBNull.Value)
+                ed.WarrantyExpireDate = Convert.ToDateTime(dr["WarrantyExpireDate"]);
 
             if (dr["OnLineStatus"] != DBNull.Value)
                 ed.OnLineStatus = Convert.ToBoolean(dr["OnLineStatus"]);
@@ -214,10 +226,14 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EquipmentIconName"] != DBNull.Value)
                 ed.EquipmentIconName = Convert.ToString(dr["EquipmentIconName"]);
 
+            if (dr["ProtocolTypeId"] != DBNull.Value)
+                ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
+
             ed.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)ed.DataStatus);
-            ed.EquipmentDirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)ed.EquipmentDirectionId);
+            ed.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)ed.DirectionId);
             ed.EquipmentCategoryTypeName = Enum.GetName(typeof(Constants.EquipmentCategoryType), (Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
             ed.EquipmentConnectionTypeName = Enum.GetName(typeof(Constants.EquipmentConnectionType), (Constants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
+            ed.ProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
         #endregion

@@ -5426,7 +5426,7 @@
             e[t].nextElementSibling.classList.remove("show"));
     }
     function t(e) {
-        console.log(sessionStorage.getItem("is_visited"));
+        //console.log(sessionStorage.getItem("is_visited"));
         if (n("#light-mode-switch").prop("checked") && "light-mode-switch" === e || sessionStorage.getItem("is_visited")=== "light-mode-switch"){
             console.log("lighe mode is checked =>>>.");
             (n("html").removeAttr("dir"),
@@ -5435,7 +5435,7 @@
 
         }
         if (!n("#light-mode-switch").prop("checked") && "light-mode-switch" === e || sessionStorage.getItem("is_visited")=== "dark-mode-switch"  ){
-            console.log("lighe mode is not checked");
+            //console.log("lighe mode is not checked");
             (n("html").removeAttr("dir"),
                 n("#bootstrap-style").attr("href", "assets/css/bootstrap-dark.min.css"), n("#app-style").attr("href", "assets/css/app-dark.min.css"),
                  sessionStorage.setItem("is_visited", "dark-mode-switch"))

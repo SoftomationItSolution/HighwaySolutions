@@ -27,12 +27,13 @@
               "src/assets/css/bootstrap.min.css",
               "src/assets/css/icons.min.css",
               "src/assets/css/app.min.css",
+              "node_modules/primeng/resources/primeng.min.css",
               "src/styles.css"
             ],
             "scripts": [
               "src/assets/js/pages/mainapp.js",
               "src/assets/libs/jquery/jquery.min.js",
-              "src/assets/libs/apexcharts/apexcharts.min.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js",
               "src/assets/js/pages/dashboard.init.js"
             ]
           },
