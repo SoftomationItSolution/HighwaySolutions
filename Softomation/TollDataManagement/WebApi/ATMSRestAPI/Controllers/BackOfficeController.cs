@@ -433,7 +433,6 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                user.LoginPassword = Constants.Encrypt(user.LoginPassword);
                 response.Message = UserManagementBL.UpdatePassword(user);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }

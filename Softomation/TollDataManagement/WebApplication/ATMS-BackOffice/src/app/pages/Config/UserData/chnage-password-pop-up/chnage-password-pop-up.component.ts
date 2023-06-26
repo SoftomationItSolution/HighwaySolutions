@@ -35,7 +35,10 @@ export class ChnagePasswordPopUpComponent implements OnInit {
       this.PasswordForm = this.formBuilder.group(
         {
           CurrentPassword: ["",Validators.required],
-          NewPassword: ["",Validators.required,Validators.pattern(regExps['Password'])],
+          NewPassword: new FormControl('', [
+            Validators.required,
+            Validators.pattern(regExps['Password'])
+          ]),
           ConfirmPassword: ["",Validators.required]
         },
         {
@@ -53,12 +56,16 @@ export class ChnagePasswordPopUpComponent implements OnInit {
           data => {
             let returnMessage = data.Message[0].AlertMessage;
             if (returnMessage == 'success') {
-              const obj = {UserId: this.LogedUserId, LoginPassword: this.PasswordForm.get('NewPassword').value};
+              const obj = {
+                UserId: this.LogedUserId,
+                LoginPassword: this.PasswordForm.get('NewPassword').value,
+                CreatedBy: this.LogedUserId
+                };
               this.dbServive.UserUpdatePassword(obj).subscribe(
                 data => {
                   this.spinner.hide();
                   returnMessage = data.Message[0].AlertMessage;
-                  if (returnMessage == 'success') {
+                  if (returnMessage.indexOf('success')>-1) {
                     this.ErrorData = [{AlertMessage: 'Password changed successfully'}];
                     this.dm.openSnackBar(this.ErrorData, true);
                     this.ClosePoup();
