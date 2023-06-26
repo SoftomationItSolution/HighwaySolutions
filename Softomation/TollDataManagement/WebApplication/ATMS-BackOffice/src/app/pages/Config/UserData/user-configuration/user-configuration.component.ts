@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { UserConfigurationPopupComponent } from '../user-configuration-popup/user-configuration-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 declare var $: any;
 @Component({
   selector: 'app-user-configuration',
@@ -19,15 +20,10 @@ export class UserConfigurationComponent implements OnInit {
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
-    this.emitService.PageRefresh.subscribe(
-      (visibility: boolean) => {
-        if (visibility) {
-          this.GetAllData();
-        }
-      });
+    //this.LogedRoleId = this.dm.getRoleDetails();
+     this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
   }
 
@@ -45,14 +41,14 @@ export class UserConfigurationComponent implements OnInit {
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.emitService.unauthorized();
+          this.dm.unauthorized();
         }
         this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -71,7 +67,7 @@ export class UserConfigurationComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -87,7 +83,7 @@ export class UserConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
   onRowEditInit(data: any) {
@@ -102,7 +98,7 @@ export class UserConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 

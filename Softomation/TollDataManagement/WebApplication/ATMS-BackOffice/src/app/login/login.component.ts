@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   ErrorData: any;
   loginReposnse: any;
   constructor(public router: Router, public api: apiIntegrationService, public dataModel: DataModel,
-    private spinner: NgxSpinnerService, private emitService: EmittersService) { }
+    private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -57,7 +57,7 @@ export class LoginComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dataModel.openSnackBar(this.ErrorData, false);
 
       }
     );

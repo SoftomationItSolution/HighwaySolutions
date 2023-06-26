@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { DevicePopupComponent } from '../device-popup/device-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 declare var $: any;
 @Component({
   selector: 'app-device-data',
@@ -21,15 +22,9 @@ export class DeviceDataComponent implements OnInit {
   LogedRoleId;
   ConrtolRoomId = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private emitService: EmittersService, private dbService: apiIntegrationService,
+  constructor(public dialog: MatDialog, private dm: DataModel, private dbService: apiIntegrationService,
     private spinner: NgxSpinnerService) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
-    this.emitService.PageRefresh.subscribe(
-      (visibility: boolean) => {
-        if (visibility) {
-          this.GetAllData();
-        }
-      });
+    this.LogedRoleId = this.dm.getRoleId();
   }
   
   ngOnInit() {
@@ -47,10 +42,10 @@ export class DeviceDataComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );
@@ -68,14 +63,14 @@ export class DeviceDataComponent implements OnInit {
         this.PermissionData = data.ResponseData;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.emitService.unauthorized();
+          this.dm.unauthorized();
         }
         this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -92,7 +87,7 @@ export class DeviceDataComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 
@@ -108,7 +103,7 @@ export class DeviceDataComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 }

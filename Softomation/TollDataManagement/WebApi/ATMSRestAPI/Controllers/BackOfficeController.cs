@@ -393,17 +393,27 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 UserManagementIL users = UserManagementBL.GetById((int)user.UserId);
-                if (user.LoginPassword == Constants.Decrypt(users.LoginPassword))
+                if (users == null || string.IsNullOrEmpty(users.LoginPassword))
                 {
-                    resp.AlertMessage = "success";
+                    resp.AlertMessage = "User Details not found";
                     response.Message.Add(resp);
                     return Request.CreateResponse(HttpStatusCode.OK, response);
                 }
                 else
                 {
-                    resp.AlertMessage = "failed";
-                    response.Message.Add(resp);
-                    return Request.CreateResponse(HttpStatusCode.OK, response);
+
+                    if (user.LoginPassword == Constants.Decrypt(users.LoginPassword))
+                    {
+                        resp.AlertMessage = "success";
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
+                    else
+                    {
+                        resp.AlertMessage = "failed";
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
                 }
             }
             catch (Exception ex)
@@ -423,6 +433,7 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
+                user.LoginPassword = Constants.Encrypt(user.LoginPassword);
                 response.Message = UserManagementBL.UpdatePassword(user);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
@@ -449,7 +460,6 @@ namespace ATMSRestAPI.Controllers
                 }
                 else
                 {
-                    user.LoginPassword = Constants.Encrypt(user.LoginPassword);
                     response.Message = UserManagementBL.InsertUpdate(user);
                     return Request.CreateResponse(HttpStatusCode.OK, response);
                 }

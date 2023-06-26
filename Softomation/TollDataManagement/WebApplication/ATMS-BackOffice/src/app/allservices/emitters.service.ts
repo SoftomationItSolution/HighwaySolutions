@@ -1,7 +1,5 @@
 import { EventEmitter, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { SnakbarComponent } from './snakbar/snakbar.component';
 
 
 @Injectable({
@@ -13,7 +11,7 @@ export class EmittersService {
   PageRefresh = new EventEmitter<boolean>();
   CurrentPage = new EventEmitter<string>();
   InnerHeight = new EventEmitter<any>();
-  constructor(private router: Router, public snackBar: MatSnackBar) { }
+  constructor(private router: Router) { }
   setPageRefresh(value: boolean) {
     this.PageRefresh.emit(value);
   }
@@ -118,12 +116,7 @@ export class EmittersService {
     this.setInnerHeight(innHeight);
   }
 
-  openSnackBar(message: any, success: boolean) {
-    this.snackBar.openFromComponent(SnakbarComponent, {
-      duration: 2000,
-      data: { success, message }
-    });
-  }
+ 
 }
 
 

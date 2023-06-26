@@ -4,6 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { ControlRoomPopupComponent } from '../control-room-popup/control-room-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 declare var $: any;
 @Component({
   selector: 'app-control-room-configuration',
@@ -20,16 +21,10 @@ export class ControlRoomConfigurationComponent implements OnInit {
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
-    this.LogedUserId = this.emitService.getUserDetails();
-    this.emitService.PageRefresh.subscribe(
-      (visibility: boolean) => {
-        if (visibility) {
-          this.GetAllData();
-        }
-      });
+      this.LogedUserId = this.dm.getUserId();
+      this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
   }
 
@@ -51,14 +46,14 @@ export class ControlRoomConfigurationComponent implements OnInit {
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.emitService.unauthorized();
+          this.dm.unauthorized();
         }
         this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -73,7 +68,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -90,7 +85,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 
@@ -106,7 +101,7 @@ export class ControlRoomConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 }

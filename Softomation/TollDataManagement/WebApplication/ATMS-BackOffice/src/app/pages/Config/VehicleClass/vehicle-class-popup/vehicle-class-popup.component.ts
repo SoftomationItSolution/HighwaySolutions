@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-vehicle-class-popup',
@@ -12,7 +12,7 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
   styleUrls: ['./vehicle-class-popup.component.css']
 })
 export class VehicleClassPopupComponent implements OnInit {
-  PageTitle:any;
+  PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
   ClassId: number;
@@ -20,18 +20,19 @@ export class VehicleClassPopupComponent implements OnInit {
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  submitted=false;
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-              private emitService: EmittersService, public Dialogref: MatDialogRef<VehicleClassPopupComponent>, public dialog: MatDialog) {
-    this.LogedUserId = this.emitService.getUserDetails();
+  submitted = false;
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, 
+    @Inject(MAT_DIALOG_DATA) parentData: any,private dm: DataModel, public Dialogref: MatDialogRef<VehicleClassPopupComponent>,
+    public dialog: MatDialog) {
+    this.LogedUserId = this.dm.getUserId();
     this.ClassId = parentData.ClassId;
   }
   ngOnInit(): void {
     this.PageTitle = 'Create New Vehicle Classification';
     this.DataDetailsForm = new FormGroup({
-      VehicleClassId:new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
-      VehicleClassName: new FormControl('', [Validators.required,Validators.pattern(regExps['AlphaNumericSingleSpace'])],),
-      AllowedSpeed:new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
+      VehicleClassId: new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
+      VehicleClassName: new FormControl('', [Validators.required, Validators.pattern(regExps['AlphaNumericSingleSpace'])],),
+      AllowedSpeed: new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
       DataStatus: new FormControl(true),
     });
     if (this.ClassId > 0) {
@@ -57,18 +58,18 @@ export class VehicleClassPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
 
-  
+
 
   ClosePoup() { this.Dialogref.close(); }
 
-  
+
   SaveDetails() {
-    this.submitted=true;
+    this.submitted = true;
     if (this.DataDetailsForm.invalid) {
       return;
     }
@@ -77,7 +78,7 @@ export class VehicleClassPopupComponent implements OnInit {
       VehicleClassId: this.DataDetailsForm.value.VehicleClassId,
       VehicleClassName: this.DataDetailsForm.value.VehicleClassName,
       AllowedSpeed: this.DataDetailsForm.value.AllowedSpeed,
-      DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
+      DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
     };
@@ -88,18 +89,17 @@ export class VehicleClassPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
+          this.dm.openSnackBar(this.ErrorData, true);
           this.ClosePoup();
         } else {
           this.ErrorData = data.Message;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }

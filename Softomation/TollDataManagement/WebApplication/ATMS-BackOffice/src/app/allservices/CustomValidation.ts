@@ -43,11 +43,29 @@ export class ConfirmValidParentMatcher implements ErrorStateMatcher {
     }
     // notSame:false;
     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-    const pass = group.get('Password').value;
+    const pass = group.get('NewPassword').value;
     const confirmPass = group.get('ConfirmPassword').value;
     return pass === confirmPass ? null : { notSame: true };
   }
 }
+
+export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
+    return (formGroup: FormGroup) => {
+      let control = formGroup.controls[controlName];
+      let matchingControl = formGroup.controls[matchingControlName]
+      if (
+        matchingControl.errors &&
+        !matchingControl.errors['confirmPasswordValidator']
+      ) {
+        return;
+      }
+      if (control.value !== matchingControl.value) {
+        matchingControl.setErrors({ confirmPasswordValidator: true });
+      } else {
+        matchingControl.setErrors(null);
+      }
+    };
+  }
 
 export const errorMessages: { [key: string]: string } = {
     Amount: 'Enter a valid amount.',

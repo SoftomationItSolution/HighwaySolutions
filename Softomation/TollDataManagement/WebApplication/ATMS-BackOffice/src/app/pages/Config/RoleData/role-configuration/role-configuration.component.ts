@@ -5,6 +5,7 @@ import { EmittersService } from 'src/app/allservices/emitters.service';
 import { RoleConfigurationPopupComponent } from '../role-configuration-popup/role-configuration-popup.component';
 import { RolePermissionPopupComponent } from '../role-permission-popup/role-permission-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 declare var $: any;
 @Component({
   selector: 'app-role-configuration',
@@ -21,15 +22,9 @@ export class RoleConfigurationComponent implements OnInit {
   DataView: Number = 0;
   UpdatePermission = 0;
   public innerHeight: any;
-  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private emitService: EmittersService,
-    private spinner: NgxSpinnerService) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
-    this.emitService.PageRefresh.subscribe(
-      (visibility: boolean) => {
-        if (visibility) {
-          this.GetAllData();
-        }
-      });
+  constructor(public dialog: MatDialog, private dbService: apiIntegrationService, 
+    private dm: DataModel,private spinner: NgxSpinnerService) {
+      this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
 
   }
@@ -48,7 +43,7 @@ export class RoleConfigurationComponent implements OnInit {
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.emitService.unauthorized();
+          this.dm.unauthorized();
         }
         if (this.PermissionData.DataAdd == 1 || this.PermissionData.DataUpdate == 1) {
           this.UpdatePermission = 1;
@@ -58,7 +53,7 @@ export class RoleConfigurationComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -77,7 +72,7 @@ export class RoleConfigurationComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -93,7 +88,7 @@ export class RoleConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
   onRowEditInit(data: any) {
@@ -108,7 +103,7 @@ export class RoleConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 
@@ -124,7 +119,7 @@ export class RoleConfigurationComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
   }
 

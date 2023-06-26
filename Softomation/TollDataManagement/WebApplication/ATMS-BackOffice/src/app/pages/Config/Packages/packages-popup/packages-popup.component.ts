@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-packages-popup',
@@ -12,7 +13,7 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
   styleUrls: ['./packages-popup.component.css']
 })
 export class PackagesPopupComponent implements OnInit {
-  PageTitle:any;
+  PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
   PackageId: number;
@@ -20,11 +21,11 @@ export class PackagesPopupComponent implements OnInit {
   LogedUserId;
   ErrorData: any;
   DetailData: any;
-  submitted=false
-  ControlRoomData:any
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-              private emitService: EmittersService, public Dialogref: MatDialogRef<PackagesPopupComponent>, public dialog: MatDialog) {
-    this.LogedUserId = this.emitService.getUserDetails();
+  submitted = false
+  ControlRoomData: any
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
+    private dm: DataModel, public Dialogref: MatDialogRef<PackagesPopupComponent>, public dialog: MatDialog) {
+    this.LogedUserId = this.dm.getUserId();
     this.PackageId = parentData.PackageId;
   }
 
@@ -61,10 +62,10 @@ export class PackagesPopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -91,16 +92,16 @@ export class PackagesPopupComponent implements OnInit {
         } else {
           this.DataDetailsForm.controls['DataStatus'].setValue(false);
         }
-       
+
       },
       (error) => {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -128,7 +129,7 @@ export class PackagesPopupComponent implements OnInit {
       EndLongitude: this.DataDetailsForm.value.EndLongitude,
       StartChainageNumber: this.DataDetailsForm.value.StartChainageNumber,
       EndChainageNumber: this.DataDetailsForm.value.EndChainageNumber,
-      DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
+      DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();
@@ -138,22 +139,21 @@ export class PackagesPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
+          this.dm.openSnackBar(this.ErrorData, true);
           this.ClosePoup();
         } else {
           this.ErrorData = data.Message;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );

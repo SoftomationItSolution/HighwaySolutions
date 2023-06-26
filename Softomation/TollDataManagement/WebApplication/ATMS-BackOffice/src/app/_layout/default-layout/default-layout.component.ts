@@ -167,7 +167,7 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '40%';
-    dialogConfig.height = '400px';
+    dialogConfig.height = '450px';
     this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
   }
 

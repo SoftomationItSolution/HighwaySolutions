@@ -80,14 +80,14 @@ export class IncidentDataComponent implements OnInit {
   rowdatafilltered: any;
   LogedRoleId;
   ErrorData;
-  constructor(private pageTitle: DataModel, private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
-    public datepipe: DatePipe, private router: ActivatedRoute, private emitService: EmittersService,public dialog: MatDialog,) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
+  constructor(private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
+    public datepipe: DatePipe, private router: ActivatedRoute, private dm: DataModel,public dialog: MatDialog,) {
+    this.LogedRoleId = this.dm.getRoleId();
     this.router.queryParams.subscribe(params => {
       if (params['RefNo'] != undefined)
         this.RefrenceNumberParam = params['RefNo'];
     });
-    this.UserDetails = this.pageTitle.getUserData();
+    this.UserDetails = this.dm.getUserData();
     this.GetAccessPermission();
   }
 
@@ -168,7 +168,7 @@ export class IncidentDataComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: error.message }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -220,7 +220,7 @@ export class IncidentDataComponent implements OnInit {
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You do not have right!' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     }
     // this.Masterform.reset();
     // this.MasterDialog = true;
@@ -270,7 +270,7 @@ export class IncidentDataComponent implements OnInit {
       },
       (error: any) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -355,13 +355,13 @@ export class IncidentDataComponent implements OnInit {
           this.updateAccess = this.MenuPermission.DataUpdate;
           this.viewAccess = this.MenuPermission.DataView;
           if (this.viewAccess != 1) {
-            this.emitService.unauthorized();
+            this.dm.unauthorized();
           }
         }
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -543,16 +543,16 @@ export class IncidentDataComponent implements OnInit {
             this.uploadedFiles = [];
             this.hideDialog();
             this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           } else {
             const ErrorData = data.Message;
             this.ErrorData = [{ AlertMessage: ErrorData.AlertMessage }];
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           }
         },
         (error: any) => {
           this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       );
     }
@@ -626,15 +626,15 @@ export class IncidentDataComponent implements OnInit {
 
           this.hideDialog();
           this.ErrorData = [{ AlertMessage: 'Incident Modified Successfully' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } else {
           this.ErrorData = [{ AlertMessage: data.Message.AlertMessage }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error: any) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
@@ -646,7 +646,7 @@ export class IncidentDataComponent implements OnInit {
     objTask.ModifiedBy = this.UserDetails.EntryId;
     if (objTask.OperatorActionConfirm == '') {
       this.ErrorData = [{ AlertMessage: 'Write Remark before accept' }];
-      this.emitService.openSnackBar(this.ErrorData, false);
+      this.dm.openSnackBar(this.ErrorData, false);
     } else {
 
       this.dbService.CheckListActionApproveByOperator(objTask).subscribe(
@@ -660,15 +660,15 @@ export class IncidentDataComponent implements OnInit {
             //this.GetAllData();
             this.hideDialog();
             this.ErrorData = [{ AlertMessage: 'Incident Modified' }];
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           } else {
             this.ErrorData = [{ AlertMessage: data.Message.AlertMessage }];
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           }
         },
         (error: any) => {
           this.ErrorData = [{ AlertMessage: 'Something went wrong' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       );
 

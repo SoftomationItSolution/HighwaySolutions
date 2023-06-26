@@ -7,6 +7,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-device-popup',
@@ -51,10 +52,10 @@ export class DevicePopupComponent implements OnInit {
   btn1 = "Previous"//Close
   ConnectionTypeId = 1
   process=false;
-  constructor(private emitService: EmittersService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
+  constructor(private dm: DataModel, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
-    this.LogedUserId = this.emitService.getUserDetails();
+    this.LogedUserId = this.dm.getUserId();
     this.EquipmentId = parentData.EquipmentId;
   }
 
@@ -155,10 +156,10 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -179,10 +180,10 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -201,10 +202,10 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -223,10 +224,10 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -321,10 +322,10 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -427,22 +428,21 @@ export class DevicePopupComponent implements OnInit {
         const returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
+          this.dm.openSnackBar(this.ErrorData, true);
           this.ClosePoup();
         } else {
           this.ErrorData = data.Message;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );

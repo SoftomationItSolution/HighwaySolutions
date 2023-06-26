@@ -1,4 +1,7 @@
 import { EventEmitter, Injectable } from "@angular/core";
+import { SnakbarComponent } from "../allservices/snakbar/snakbar.component";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { Router } from "@angular/router";
 @Injectable({
   providedIn: 'root'
 })
@@ -6,7 +9,8 @@ export class DataModel {
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
-  clearStorage(){
+  constructor(public snackBar: MatSnackBar,private router: Router) { }
+  clearStorage() {
     localStorage.removeItem("Transit360loggedIn");
     localStorage.removeItem("Transit360Token");
     localStorage.removeItem("Transit360UserData");
@@ -34,7 +38,7 @@ export class DataModel {
     this.LogInStatusEmit.emit(status);
   }
 
-  
+
   setDataAPI(path: string) {
     return localStorage.setItem('Transit360API', path);
   }
@@ -52,6 +56,23 @@ export class DataModel {
   setUserData(token: string) {
     return localStorage.setItem('Transit360UserData', token);
   }
+
+  getUserId() {
+    let result = this.getUserData();
+    if (result != null)
+      return result.UserId;
+    else
+      return -1
+  }
+
+  getRoleId() {
+    let result = this.getUserData();
+    if (result != null)
+      return result.RoleId;
+    else
+      return -1
+  }
+
   getUserData() {
     var result = localStorage.getItem('Transit360UserData');
     if (result != undefined)
@@ -59,13 +80,24 @@ export class DataModel {
     else
       return null;
   }
+
+  openSnackBar(message: any, success: boolean) {
+    this.snackBar.openFromComponent(SnakbarComponent, {
+      duration: 2000,
+      data: { success, message }
+    });
+  }
+
+  unauthorized() {
+    this.router.navigate(['/unauthorized']);
+  }
 }
 
 export interface ConfigIntrface {
-    Prefx: string
-    BaseURL: string
-    ApiPort: Number
-    ApiAdminPath: string,
-    Latitude: Number,
-    Longitude: Number
-    }
+  Prefx: string
+  BaseURL: string
+  ApiPort: Number
+  ApiAdminPath: string,
+  Latitude: Number,
+  Longitude: Number
+}

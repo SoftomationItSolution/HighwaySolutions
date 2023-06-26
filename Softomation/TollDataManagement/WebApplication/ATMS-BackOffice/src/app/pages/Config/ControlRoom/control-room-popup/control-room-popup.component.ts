@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-control-room-popup',
@@ -23,8 +24,8 @@ export class ControlRoomPopupComponent implements OnInit {
   submitted=false;
   DirectionList = [{ Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-              private emitService: EmittersService, public Dialogref: MatDialogRef<ControlRoomPopupComponent>, public dialog: MatDialog) {
-    this.LogedUserId = this.emitService.getUserDetails();
+              private dm: DataModel, public Dialogref: MatDialogRef<ControlRoomPopupComponent>, public dialog: MatDialog) {
+    this.LogedUserId = this.dm.getUserId();
     this.ControlRoomId = parentData.ControlRoomId;
   }
 
@@ -66,10 +67,10 @@ export class ControlRoomPopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
         this.Dialogref.close();
       }
@@ -104,22 +105,21 @@ export class ControlRoomPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
+          this.dm.openSnackBar(this.ErrorData, true);
           this.ClosePoup();
         } else {
           this.ErrorData = data.Message;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );

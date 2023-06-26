@@ -3,6 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { NgxSpinnerService } from 'ngx-spinner';
 import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-role-permission-popup',
@@ -12,16 +13,17 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 export class RolePermissionPopupComponent implements OnInit {
   LogedUserId;
   RoleId;
-  PageTitle:any;
+  PageTitle: any;
   ErrorData: any;
   DetailData: any;
   UpdatePermission = 0;
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-              private emitService: EmittersService, public Dialogref: MatDialogRef<RolePermissionPopupComponent>, public dialog: MatDialog) {
-  this.LogedUserId = this.emitService.getUserDetails();
-  this.RoleId = parentData.RoleId;
-  this.UpdatePermission = parentData.UpdatePermission;
-}
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
+    @Inject(MAT_DIALOG_DATA) parentData: any, private dm: DataModel, public Dialogref: MatDialogRef<RolePermissionPopupComponent>,
+    public dialog: MatDialog) {
+    this.LogedUserId = this.dm.getUserId();
+    this.RoleId = parentData.RoleId;
+    this.UpdatePermission = parentData.UpdatePermission;
+  }
 
   ngOnInit(): void {
     this.PageTitle = 'Role & Rights Permission';
@@ -41,28 +43,28 @@ export class RolePermissionPopupComponent implements OnInit {
         } else {
           this.ClosePoup();
           this.ErrorData = [{ AlertMessage: 'permission details not found.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
 
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
-  handleCheck(event:any, rowData :any, eventfor:any) {
-    let result = this.DetailData.filter((e:any) => e.EventId == rowData.EventId);
+  handleCheck(event: any, rowData: any, eventfor: any) {
+    let result = this.DetailData.filter((e: any) => e.EventId == rowData.EventId);
     if (eventfor == 1) {
       if (!event) {
         result[0].DataView = 0;
         if (result.length > 0) {
           if (result[0].DataAdd != 2) {
-             result[0].DataAdd = 0;
+            result[0].DataAdd = 0;
           }
           if (result[0].DataUpdate != 2) {
-              result[0].DataUpdate = 0;
+            result[0].DataUpdate = 0;
           }
         }
       } else {
@@ -73,7 +75,7 @@ export class RolePermissionPopupComponent implements OnInit {
         result[0].DataAdd = 1;
         if (result.length > 0) {
           if (result[0].DataView != 2) {
-              result[0].DataView = 1;
+            result[0].DataView = 1;
           }
         }
       } else {
@@ -84,7 +86,7 @@ export class RolePermissionPopupComponent implements OnInit {
         result[0].DataUpdate = 1;
         if (result.length > 0) {
           if (result[0].DataView != 2) {
-              result[0].DataView = 1;
+            result[0].DataView = 1;
           }
         }
       } else {
@@ -95,29 +97,29 @@ export class RolePermissionPopupComponent implements OnInit {
   SaveDetails() {
     this.spinner.show();
     for (let index = 0; index < this.DetailData.length; index++) {
-        if (this.DetailData[index].DataView != 2) {
-          if (this.DetailData[index].DataView) {
+      if (this.DetailData[index].DataView != 2) {
+        if (this.DetailData[index].DataView) {
           this.DetailData[index].DataView = 1;
-          } else {
+        } else {
           this.DetailData[index].DataView = 0;
-          }
         }
+      }
 
-        if (this.DetailData[index].DataAdd != 2) {
-          if (this.DetailData[index].DataAdd) {
+      if (this.DetailData[index].DataAdd != 2) {
+        if (this.DetailData[index].DataAdd) {
           this.DetailData[index].DataAdd = 1;
-          } else {
+        } else {
           this.DetailData[index].DataAdd = 0;
-          }
         }
+      }
 
-        if (this.DetailData[index].DataUpdate != 2) {
-          if (this.DetailData[index].DataUpdate) {
+      if (this.DetailData[index].DataUpdate != 2) {
+        if (this.DetailData[index].DataUpdate) {
           this.DetailData[index].DataUpdate = 1;
-          } else {
+        } else {
           this.DetailData[index].DataUpdate = 0;
-          }
         }
+      }
 
     }
     const Obj = {
@@ -132,18 +134,17 @@ export class RolePermissionPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
-          this.emitService.setPageRefresh(true);
-          this.emitService.openSnackBar(this.ErrorData, true);
+          this.dm.openSnackBar(this.ErrorData, true);
           this.ClosePoup();
         } else {
           this.ErrorData = data;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }

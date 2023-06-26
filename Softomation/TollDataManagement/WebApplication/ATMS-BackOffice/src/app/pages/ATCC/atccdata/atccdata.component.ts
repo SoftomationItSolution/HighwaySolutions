@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/allservices/api.service';
 import { EmittersService } from 'src/app/allservices/emitters.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-atccdata',
@@ -18,16 +19,11 @@ export class AtccdataComponent {
   DevicesData: any;
   ErrorData: any;
   PermissionData: any;
-  constructor(public dialog: MatDialog, private dbService: ApiService, private emitService: EmittersService,
+  constructor(public dialog: MatDialog, private dbService: ApiService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
-    this.LogedRoleId = this.emitService.getRoleDetails();
-    this.LogedUserId = this.emitService.getUserDetails();
-    this.emitService.PageRefresh.subscribe(
-      (visibility: boolean) => {
-        if (visibility) {
-          this.GetAtccData();
-        };
-      });
+      this.LogedUserId = this.dm.getUserId();
+      this.LogedRoleId = this.dm.getRoleId();
+    
   }
 
   ngOnInit() {
@@ -45,10 +41,10 @@ export class AtccdataComponent {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );
@@ -68,14 +64,14 @@ export class AtccdataComponent {
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.emitService.unauthorized();
+          this.dm.unauthorized();
         }
         this.GetAtccData();
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.emitService.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }

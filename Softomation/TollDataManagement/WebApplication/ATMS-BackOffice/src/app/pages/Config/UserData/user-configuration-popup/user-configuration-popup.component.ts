@@ -3,8 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
+import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-user-configuration-popup',
@@ -24,8 +24,8 @@ export class UserConfigurationPopupComponent implements OnInit {
   UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
   submitted=false;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData,
-    private emitService: EmittersService, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
-    this.LogedUserId = this.emitService.getUserDetails();
+    private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
+      this.LogedUserId = this.dm.getUserId();
     this.UserId = parentData.UserId;
     this.GetRoleData();
   }
@@ -72,7 +72,6 @@ export class UserConfigurationPopupComponent implements OnInit {
     }
   }
 
-
   GetRoleData() {
     this.dbService.RoleConfigurationGetActive().subscribe(
       data => {
@@ -83,16 +82,14 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );
   }
-
-
 
   DetailsbyId() {
     this.spinner.show();
@@ -113,16 +110,16 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.DataDetailsForm.controls['FirstName'].setValue(this.DetailData.FirstName);
         this.DataDetailsForm.controls['LastName'].setValue(this.DetailData.LastName);
         this.DataDetailsForm.controls['AccountExpiredDate'].setValue(new Date(this.DetailData.AccountExpiredDate));
-        this.DataDetailsForm.controls['UserType'].setValue(this.DetailData.UserType);
+        this.DataDetailsForm.controls['UserTypeId'].setValue(this.DetailData.UserTypeId);
       },
       (error) => {
         this.spinner.hide();
         try {
           this.ErrorData = error.error;
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.emitService.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );
@@ -160,22 +157,21 @@ export class UserConfigurationPopupComponent implements OnInit {
           let returnMessage = data.Message[0].AlertMessage;
           if (returnMessage.indexOf('success')>-1) {
             this.ErrorData = [{ AlertMessage: 'Success' }];
-            this.emitService.setPageRefresh(true);
-            this.emitService.openSnackBar(this.ErrorData, true);
+            this.dm.openSnackBar(this.ErrorData, true);
             this.ClosePoup();
           } else {
             this.ErrorData = data;
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           }
         },
         (error) => {
           this.spinner.hide();
           try {
             this.ErrorData = error.error;
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           } catch (error) {
             this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-            this.emitService.openSnackBar(this.ErrorData, false);
+            this.dm.openSnackBar(this.ErrorData, false);
           }
         }
       );
