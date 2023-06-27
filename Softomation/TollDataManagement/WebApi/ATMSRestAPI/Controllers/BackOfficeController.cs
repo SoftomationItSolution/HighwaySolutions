@@ -41,6 +41,12 @@ namespace ATMSRestAPI.Controllers
                         user.UserId = 0;
                         user.RoleId = 0;
                         user.LoginId = login.LoginId;
+                        user.EmailId = "sysadmin@gmail.com";
+                        user.FirstName = "Super";
+                        user.LastName = "Admin";
+                        user.MobileNumber = "9999999999";
+                        user.RoleName = "sysadmin";
+                        user.UserTypeName = "Super";
                         result.UserData = user;
                         LogingActivityIL activity = new LogingActivityIL();
                         login.LoginId = Constants.Encrypt(login.LoginId);

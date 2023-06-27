@@ -5,6 +5,7 @@ import { DataModel } from '../../services/data-model.model';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
+import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -166,9 +167,18 @@ export class DefaultLayoutComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '40%';
-    dialogConfig.height = '450px';
+    dialogConfig.width = '50%';
+    dialogConfig.height = '500px';
     this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
+  }
+
+  pfOpen(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '500px';
+    this.dialog.open(UserProfilePopupComponent, dialogConfig);
   }
 
 }
