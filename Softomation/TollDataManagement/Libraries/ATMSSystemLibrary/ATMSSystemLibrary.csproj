@@ -108,6 +108,7 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\IncidentDL.cs" />
     <Compile Include="DL\PackageDL.cs" />
     <Compile Include="DL\SystemDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="IL\ControlRoomIL.cs" />
     <Compile Include="IL\EquipmentDetailsIL.cs" />
     <Compile Include="IL\EquipmentTypeIL.cs" />
+    <Compile Include="IL\IncidentIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\PackageIL.cs" />
