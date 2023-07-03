@@ -91,7 +91,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             return incidentstatusList;
         }
 
-        internal static List<IncidentDetailsIL> GetClose()
+        internal static List<IncidentDetailsIL> GetClosed()
         {
             List<IncidentDetailsIL> incidentstatusList = new List<IncidentDetailsIL>();
             try

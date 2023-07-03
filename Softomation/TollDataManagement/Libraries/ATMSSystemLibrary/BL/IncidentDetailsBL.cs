@@ -19,7 +19,7 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public List<IncidentDetailsIL> GetUnAssigned()
+        public static List<IncidentDetailsIL> GetUnAssigned()
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public List<IncidentDetailsIL> GetPending()
+        public static List<IncidentDetailsIL> GetPending()
         {
             try
             {
@@ -43,11 +43,11 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public List<IncidentDetailsIL> GetClose()
+        public static List<IncidentDetailsIL> GetClosed()
         {
             try
             {
-                return IncidentDetailsDL.GetClose();
+                return IncidentDetailsDL.GetClosed();
             }
             catch (Exception ex)
             {
