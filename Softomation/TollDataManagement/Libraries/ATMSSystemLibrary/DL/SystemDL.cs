@@ -44,7 +44,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             try
             {
                 smlist = GetAll();
-                return smlist.FindAll(n => n.DataStatus == (short)Constants.DataStatus.Active);
+                return smlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -120,7 +120,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 sm.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            sm.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)sm.DataStatus);
+            sm.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)sm.DataStatus);
             return sm;
         }
         #endregion

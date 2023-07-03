@@ -84,7 +84,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             try
             {
                 edlist = GetAll();
-                return edlist.FindAll(n => n.DataStatus == (short)Constants.DataStatus.Active);
+                return edlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -229,7 +229,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ProtocolTypeId"] != DBNull.Value)
                 ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
 
-            ed.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)ed.DataStatus);
+            ed.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)ed.DataStatus);
             ed.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)ed.DirectionId);
             ed.EquipmentCategoryTypeName = Enum.GetName(typeof(Constants.EquipmentCategoryType), (Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
             ed.EquipmentConnectionTypeName = Enum.GetName(typeof(Constants.EquipmentConnectionType), (Constants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);

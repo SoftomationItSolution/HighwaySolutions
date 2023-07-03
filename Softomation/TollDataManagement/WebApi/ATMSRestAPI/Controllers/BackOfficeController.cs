@@ -41,6 +41,12 @@ namespace ATMSRestAPI.Controllers
                         user.UserId = 0;
                         user.RoleId = 0;
                         user.LoginId = login.LoginId;
+                        user.EmailId = "sysadmin@gmail.com";
+                        user.FirstName = "Super";
+                        user.LastName = "Admin";
+                        user.MobileNumber = "9999999999";
+                        user.RoleName = "sysadmin";
+                        user.UserTypeName = "Super";
                         result.UserData = user;
                         LogingActivityIL activity = new LogingActivityIL();
                         login.LoginId = Constants.Encrypt(login.LoginId);
@@ -104,7 +110,7 @@ namespace ATMSRestAPI.Controllers
                                     response.ResponseData = null;
                                     return Request.CreateResponse(HttpStatusCode.OK, response);
                                 }
-                                else if (obj.DataStatus != (short)Constants.DataStatus.Active)
+                                else if (obj.DataStatus != (short)Constants.DataStatusType.Active)
                                 {
                                     LogingActivityIL activity = new LogingActivityIL();
                                     login.LoginId = Constants.Encrypt(login.LoginId);
@@ -867,6 +873,86 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in EquipmentTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region IMS
+        [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetUnAssigned()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetUnAssigned();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetUnAssigned : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetPending")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetPending()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetPending();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetPending : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetClosed")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetClosed()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetClosed();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetClosed : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSInsert")]
+        [HttpPost]
+        public HttpResponseMessage IMSInsert(IncidentDetailsIL ims)
+        {
+            try
+            {
+                response.Message = IncidentDetailsBL.Insert(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSInsert : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

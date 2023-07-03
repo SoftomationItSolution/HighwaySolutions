@@ -91,6 +91,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\IncidentDetailsBL.cs" />
+    <Compile Include="BL\IncidentStatusBL.cs" />
     <Compile Include="BL\PackageBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
@@ -108,6 +110,8 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\IncidentDetailsDL.cs" />
+    <Compile Include="DL\IncidentStatusDL.cs" />
     <Compile Include="DL\PackageDL.cs" />
     <Compile Include="DL\SystemDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
@@ -125,6 +129,8 @@
     <Compile Include="IL\ControlRoomIL.cs" />
     <Compile Include="IL\EquipmentDetailsIL.cs" />
     <Compile Include="IL\EquipmentTypeIL.cs" />
+    <Compile Include="IL\IncidentDetailsIL.cs" />
+    <Compile Include="IL\IncidentStatusIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\PackageIL.cs" />

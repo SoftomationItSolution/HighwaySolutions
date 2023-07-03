@@ -194,7 +194,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 user.RoleName = Convert.ToString(dr["RoleName"]);
 
             user.UserTypeName = Enum.GetName(typeof(Constants.AppUserType), (Constants.AppUserType)user.UserTypeId);
-            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)user.DataStatus);
+            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)user.DataStatus);
             return user;
         }
         #endregion
