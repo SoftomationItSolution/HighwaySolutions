@@ -12,7 +12,6 @@ declare var $: any;
   styleUrls: ['./device-data.component.css']
 })
 export class DeviceDataComponent implements OnInit {
-  MapStatus = true;
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -21,6 +20,7 @@ export class DeviceDataComponent implements OnInit {
   PermissionData: any;
   LogedRoleId;
   ConrtolRoomId = 0;
+ 
   public innerHeight: any;
   constructor(public dialog: MatDialog, private dm: DataModel, private dbService: apiIntegrationService,
     private spinner: NgxSpinnerService) {

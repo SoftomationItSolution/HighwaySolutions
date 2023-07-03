@@ -9,11 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, DatePipe } from '@angular/common';
-import { MatInputModule } from '@angular/material/input';
-import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
@@ -28,12 +24,7 @@ import { RoleConfigurationPopupComponent } from './pages/Config/RoleData/role-co
 import { UserConfigurationComponent } from './pages/Config/UserData/user-configuration/user-configuration.component';
 import { TableModule } from 'primeng/table';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatRadioModule } from '@angular/material/radio';
 import { OverlayModule } from 'primeng/overlay';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { RadioButtonModule } from 'primeng/radiobutton';
@@ -64,6 +55,7 @@ import {NgApexchartsModule } from "ng-apexcharts";
 import { ChnagePasswordPopUpComponent } from './pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { PasswordModule } from 'primeng/password';
 import { UserProfilePopupComponent } from './pages/Config/UserData/user-profile-popup/user-profile-popup.component';
+import { TabViewModule } from 'primeng/tabview';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -125,26 +117,11 @@ export const MY_CUSTOM_FORMATS = {
     AppRoutingModule,
     DropdownModule,
     NgxSpinnerModule,
-    MatButtonModule,
-    MatCheckboxModule,
     MatRippleModule, 
-    FieldsetModule,
     MatSnackBarModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ReactiveFormsModule,
     TableModule,
-    MatFormFieldModule,
     MatIconModule,
-    MatMenuModule,
-    MatDividerModule,
-    MatInputModule,
     MatTooltipModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatRadioModule,
     OverlayModule,
     InputNumberModule,
     RadioButtonModule,
@@ -158,10 +135,10 @@ export const MY_CUSTOM_FORMATS = {
     MessageModule,
     PanelModule,
     MatDialogModule,
-    MatButtonModule,
     MatStepperModule,
     InputTextModule,
-    PasswordModule
+    PasswordModule,
+    TabViewModule 
   ],
   providers: [
     [DatePipe],

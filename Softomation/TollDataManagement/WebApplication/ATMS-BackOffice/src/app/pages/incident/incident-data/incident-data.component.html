@@ -1,349 +1,130 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body" *ngIf="viewAccess==1; else notaccess">
+            <div class="card-body">
                 <div>
-                    <a href="javascript:void(0);" (click)="openNew()" class="btn btn-success mb-2">
+                    <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
                         <i class="mdi mdi-plus me-2"></i> Add Incident
                     </a>
                     <div class="dropdown d-inline-block float-right">
-                        <button type="button"
-                            class="btn header-item noti-icon right-bar-toggle1 waves-effect height-45">
-                            <i class="mdi mdi-filter-menu-outline"></i>
-                        </button>
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input *ngIf="TabId==0" type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            <input *ngIf="TabId==1" type="text" pInputText class="form-control" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
                     </div>
                 </div>
-                <div class="table-responsive mt-3 listtableheight">
-                    <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollHeight]="'calc(100vh - 310px)'" [rows]="25" width="400vh"
-                    [paginator]="true" [scrollable]="true" [resizableColumns]="true"
-                    styleClass="p-datatable-striped p-datatable-gridlines" [globalFilterFields]="['ReferenceNumber','CategoryName','Description','Priority',
-                'SourceName','DirectionName','ChainageNumber','PatrolVehicleName']">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th style="min-width: 2%;">No.</th>
-                            <th pSortableColumn="SourceName" style="min-width: 8%;">Source By<p-sortIcon field="SourceName"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="CategoryName" style="min-width: 8%;">Category<p-sortIcon field="CategoryName"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="DirectionName" style="min-width: 7%;">Direction<p-sortIcon field="DirectionName"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="ChainageNumber" style="min-width: 8%;">Chainage No<p-sortIcon field="ChainageNumber"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="Description" style="min-width: 11%;">Description <p-sortIcon field="Description"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="PatrolVehicleName" style="min-width: 7%;">Assign To<p-sortIcon field="PatrolVehicleName"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="StatusDateTime" style="min-width: 11%;">Date Time <p-sortIcon
-                                    field="StatusDateTime"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="PatProcessPercentage" style="min-width: 11%;">Patrolling Progress <p-sortIcon field="PatProcessPercentage"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="ProcessPercentage" style="min-width: 11%;">Operator Progress <p-sortIcon field="ProcessPercentage"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="Priority" style="min-width: 4%;">Priority<p-sortIcon field="Priority"></p-sortIcon>
-                            </th>
-                            <th style="min-width: 4%;">Images</th>
-                            <th style="min-width: 4%;">Close</th>
-                            <th pSortableColumn="ReferenceNumber" style="min-width: 12%;">Reference No<p-sortIcon field="ReferenceNumber"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="OperatorRemarkforNeglecting" style="min-width: 16%;">Neglecting Remark<p-sortIcon field="OperatorRemarkforNeglecting"></p-sortIcon>
-                            </th>
-                            <th pSortableColumn="OperRemarkforNegDateTime" style="min-width: 9%;">Neglecting DateTime<p-sortIcon field="OperRemarkforNegDateTime"></p-sortIcon>
-                            </th>
-                            <th style="min-width: 5%;">Status</th>
-                            <th style="min-width: 5%;">Edit</th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                        <tr style="font-size: 11px;" >
-                            <td style="min-width: 2%;">{{i+1}}</td>
-                            <td style="min-width: 8%;">{{rowData.SourceName}}</td>
-                            <td style="min-width: 8%;">{{rowData.CategoryName}}</td>
-                            <td style="min-width: 7%;">{{rowData.DirectionName}}</td>
-                            <td style="min-width: 8%;">{{rowData.ChainageNumber}}</td>
-                            <td style="min-width: 11%;">{{rowData.Description}}</td>
-                            <td style="min-width: 7%;">{{rowData.PatrolVehicleName}}</td>
-                            <td style="min-width: 11%;">{{rowData.StatusDateTimeStamp | date: 'dd-MMM-yyyy HH:mm:ss'}}</td>
-                            <td style="min-width: 11%;">
-                                <div  pTooltip="Click here to see the details" (click)="ViewTask(rowData.ReferenceNumber)"
-                                    style="background-color: orange; width: 100%; border: solid 1px black; ">
-                                    <div [style.width]="rowData.PatProcessPercentage+ '%'"
-                                        style="background-color: green; color: black;"><b>{{rowData.PatProcessPercentage}}%</b></div>
-                                </div>
-                            </td>
-                            <td style="min-width: 11%;">
-                                <div  pTooltip="Click here to see the details" (click)="ViewTask(rowData.ReferenceNumber)"
-                                    style="background-color: orange; width: 100%; border: solid 1px black; ">
-                                    <div [style.width]="rowData.ProcessPercentage+ '%'"
-                                        style="background-color: green; color: black;"><b>{{rowData.ProcessPercentage}}%</b></div>
-                                </div>
-                            </td>
-                            <td style="min-width: 4%;"><a>{{rowData.Priority}}</a></td>
-                            <td style="min-width: 4%;">
-                                <button *ngIf="rowData.ImageCount >0" (click)="ViewMedia(rowData.ReferenceNumber)" pButton pRipple icon="pi pi-images"
-                                    style="width: 30px;height: 30px;"></button>
-                            </td>
-                            <td style="text-align: center; min-width: 4%;">
-                                <button *ngIf="rowData.ProcessPercentage=='100' && rowData.IncidentStatusName !== 'Closed'" pButton
-                                    pRipple icon="fa fa-paper-plane" class="p-button-rounded p-button-success"
-                                    (click)="ReviewTask(rowData)"></button>
-                            </td>
-                            <td style="min-width: 12%;">{{rowData.ReferenceNumber}}</td>
-                            <td style="min-width: 16%;">{{rowData.OperatorRemarkforNeglecting}}</td>
-                            <td style="min-width: 9%;">{{rowData.OperRemarkforNegDateTime | date: 'dd-MMM-yyyy HH:mm:ss'}}</td>
-                            <td style="min-width: 5%;" [ngClass]="{'rejected' : rowData.IncidentStatusId == 4}">{{rowData.IncidentStatusName}}</td>
-                            <td style="min-width: 5%;"><button pButton pRipple label="Edit" icon="pi pi-edit" (click)="EditIncident(rowData)"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
+                <ul class="nav nav-pills" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation" (click)="tabChange(0)">
+                        <button class="nav-link active" id="open-issue" data-bs-toggle="tab" data-bs-target="#open"
+                            type="button" role="tab" aria-controls="open" aria-selected="true">Open</button>
+                    </li>
+                    <li class="nav-item" role="presentation" (click)="tabChange(1)">
+                        <button class="nav-link" id="pending-issue" data-bs-toggle="tab" data-bs-target="#pending"
+                            type="button" role="tab" aria-controls="pending" aria-selected="false">Pending</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-issue">
+                        <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
+                            [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
+                    ,'DataStatusName','IpAddress']" scrollHeight="56vh">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
+                                            field="EquipmentTypeName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="EquipmentName">Name <p-sortIcon
+                                            field="EquipmentName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="ChainageName">Chainage <p-sortIcon
+                                            field="ChainageName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
+                                            field="IpAddress"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="DirectionName">Direction <p-sortIcon
+                                            field="DirectionName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon>
+                                    </th>
+                                    <th style="text-align: center;">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{rowData.EquipmentTypeName}}</td>
+                                    <td>{{rowData.EquipmentName}}</td>
+                                    <td>{{rowData.ChainageName}}</td>
+                                    <td>{{rowData.IpAddress}}</td>
+                                    <td>{{rowData.DirectionName}}</td>
+                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                            class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                    <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-issue">
+                        <p-table #dt1 [value]="DevicesData" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
+                            [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
+                    ,'DataStatusName','IpAddress']" scrollHeight="56vh">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
+                                            field="EquipmentTypeName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="EquipmentName">Name <p-sortIcon
+                                            field="EquipmentName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="ChainageName">Chainage <p-sortIcon
+                                            field="ChainageName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
+                                            field="IpAddress"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="DirectionName">Direction <p-sortIcon
+                                            field="DirectionName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon>
+                                    </th>
+                                    <th style="text-align: center;">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr>
+                                    <td>{{i+1}}</td>
+                                    <td>{{rowData.EquipmentTypeName}}</td>
+                                    <td>{{rowData.EquipmentName}}</td>
+                                    <td>{{rowData.ChainageName}}</td>
+                                    <td>{{rowData.IpAddress}}</td>
+                                    <td>{{rowData.DirectionName}}</td>
+                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                            class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- 
-<p-dialog [(visible)]="ViewDialog" [style]="{width: '1400px'}" (onHide)="HideCall()" header="Incident Action Progress"
-    [modal]="true" styleClass="p-fluid">
-    <ng-template pTemplate="content">
-        <div class="row">
-            <div class="col-md-12">
-                <p-table [value]="TaskList">
-                    <ng-template pTemplate="header">
-                        <tr>
-                            <th>Steps</th>
-                            <th>CheckList Status</th>
-                            <th>Patrolling Remark</th>
-                            <th>Media Type</th>
-                            <th>Assign To</th>
-                            <th>Action Start Time</th>
-                            <th>Action End Time </th>
-                            <th>Operator Remark</th>
-                            <th>Operator status</th>
-                            <th>Operator Closed Time</th>
-                            <th></th>
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-product>
-                        <tr style="height: 60px;">
-                            <td>{{product.StepsName}}</td>
-                            <td>{{product.PatActionStatusStr}}</td>
-                            <td>{{product.PatVehActionPerform}}</td>
-                            <td>{{product.StepsProofName}}</td>
-                            <td>{{product.PatVehicleName}}</td>
-
-                            <td>{{product.ActionStartDateTime }}
-                            </td>
-                            <td>
-                                <ng-template [ngIf]="product.ActionEndDateTimeStamp != ''">
-                                    {{product.ActionEndDateTime | date: 'dd-MMM-yyyy HH:mm:ss'}}
-                                </ng-template>
-                            </td>
-                            <td>
-                                <div *ngIf="product.OperatorActionConfirmStatus == 0 && product.ActionStatus == 4 ; else elseTemplateName">
-                                    <input type="text" pInputText [(ngModel)]="product.OperatorActionConfirm" />
-                                </div>
-                                <ng-template #elseTemplateName>
-                                    {{product.OperatorActionConfirm}}
-                                </ng-template>
-                            </td>
-                            <td>
-                                {{product.OperatorActionConfirmStatusstr}}
-                            </td>
-                            <td>
-                                <ng-template [ngIf]="product.OperatorActionConfirmTime != ''">
-                                    {{product.OperatorActionConfirmTimeStamp | date: 'dd-MMM-yyyy HH:mm:ss'}}
-                                </ng-template>
-                            <td>
-                                <button
-                                    *ngIf="(product.ActionEndDateTimeStamp != '' && product.OperatorActionConfirmStatus == 0) || (product.ActionStatus == 4 && product.OperatorActionConfirmStatus == 0)"
-                                    [style]="{'margin-top':'0px','float':'left'}" pButton pRipple icon="fa fa-check"
-                                    class="p-button-rounded p-button-success p-mr-2"
-                                    (click)="OperatorCheck(product.EntryId1)"
-                                    title="Click here to save the Audit data"></button>
-                            </td>
-                        </tr>
-                    </ng-template>
-                </p-table>
-            </div>
-        </div>
-    </ng-template>
-</p-dialog> -->
-
-<!-- <p-dialog [(visible)]="MediaDialog" [style]="{width: '500px'}" header="Incident Media" [modal]="true"
-    styleClass="p-fluid">
-    <ng-template pTemplate="content">
-        <div class="row">
-            <div class="row" *ngIf="BindData.length>0;else other_content">
-                <div  class="col-md-4 mt-3 col-lg-6"
-                    *ngFor="let d of BindData">
-                    <img width="200" src="{{this.MediaPrefix}}{{d.MediaPath}}" onclick="window.open(this.src)">
-                </div>
-            </div>
-            <ng-template #other_content>
-                <div class="col-md-4 mt-4 col-lg-4">
-                    <img width="200" src="../assets/img/noimage.png">
-                </div>
-            </ng-template>
-
-        </div>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-            (click)="hideMediaDialog()"></button>
-    </ng-template>
-</p-dialog>
-
-<p-dialog [(visible)]="ReviewDialog" [style]="{width: '400px'}" header="Review Task List" [modal]="true"
-    styleClass="p-fluid">
-    <ng-template pTemplate="content">
-        <form [formGroup]="SubMasterform">
-            <div class="row">
-                <label>Reference Number: <b>{{ReferenceNumber}}</b></label>
-                <div class="col-md-12">
-                    <label for="ConnectionTypeId">Update the Status</label>
-                    <p-dropdown appendTo="body" formControlName="TaskStatusId" [options]="IncidentStatusList"
-                        [(ngModel)]="SelectedStatus" optionLabel="IncidentStatusName" optionValue="EntryId"
-                        placeholder="Select"></p-dropdown>
-                </div>
-                <div class="col-md-12">
-                    <label for="SubCategoryId">Sub Category</label>
-                    <p-dropdown formControlName="SubCategoryId" inputId="SubCategoryId" appendTo="body"
-                        [options]="SubCatData" optionLabel="SubCategoryName" optionValue="EntryId" placeholder="Select">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && SubMasterform.hasError('required','SubCategoryId')">Sub
-                        Category is required.</small>
-                </div>
-                <div class="col-md-12">
-                    <label for="Comments">Comments</label>
-                    <input formControlName="Comments" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && SubMasterform.hasError('required','Comments')">Comments
-                        is required.</small>
-                </div>
-            </div>
-        </form>
-    </ng-template>
-
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text"
-            (click)="hideReviewDialog()"></button>
-        <button pButton pRipple label="Submit" icon="pi pi-check" class="p-button-text" (click)="CloseTask()"></button>
-    </ng-template>
-</p-dialog>
-
-<p-dialog [(visible)]="MasterDialog" [style]="{width: '1000px'}" header="Incident Details - {{RefNo}}" [modal]="true"
-    styleClass="p-fluid">
-    <ng-template pTemplate="content">
-        <form [formGroup]="Masterform">
-            <div class="row">
-                <div class="col-md-3">
-                    <label for="SourceId">Incident Source*</label>
-                    <p-dropdown appendTo="body" formControlName="SourceId" [options]="SourceList"
-                        optionLabel="SourceName" optionValue="SourceId" placeholder="Select Source of Incident"
-                        (onChange)="FillDevice($event.value)">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','SourceId')">Source is
-                        required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="DeviceId">Device Source</label>
-                    <p-dropdown appendTo="body" formControlName="DeviceId" [options]="IncidentDeviceList"
-                        optionLabel="DeviceName" optionValue="EntryId" placeholder="Select Source device"
-                        (onChange)="FillChainage($event)">
-                    </p-dropdown>
-                </div>
-                <div class="col-md-3">
-                    <label for="SourceId">Direction*</label>
-                    <p-dropdown appendTo="body" formControlName="DirectionId" [options]="DirectionList"
-                        optionLabel="Name" optionValue="EntryId" placeholder="Select Direction"
-                        (onChange)="FillNearByVMS($event.value)">
-                    </p-dropdown>
-                    <small class="p-error"
-                        *ngIf="submitted && Masterform.hasError('required','DirectionId')">DirectionId is
-                        required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="CategoryId">Category*</label>
-                    <p-dropdown appendTo="body" formControlName="CategoryId" inputId="IncidentCategory"
-                        [options]="IncidentCategoryList" optionLabel="CategoryName" optionValue="EntryId"
-                        placeholder="Select">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','CategoryId')">Category is
-                        required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="Longitude">Chainage Number*</label>
-                    <input formControlName="ChainageNumber" type="text" (ngModelChange)="FillCoordinates()"
-                        pInputText />
-                    <small class="p-error"
-                        *ngIf="submitted && Masterform.hasError('required','ChainageNumber')">Chainage Number is
-                        required.</small>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('pattern','ChainageNumber')">Valid
-                        Chainage Number is required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="Latitude">Latitude*</label>
-                    <input formControlName="Latitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','Latitude')">Latitude is
-                        required.</small>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('pattern','Latitude')">Valid Latitude
-                        is
-                        required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="Longitude">Longitude*</label>
-                    <input formControlName="Longitude" type="text" pInputText />
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','Longitude')">Longitude is
-                        required.</small>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('pattern','Longitude')">Valid
-                        Longitude is
-                        required.</small>
-                </div>
-                <div class="col-md-3">
-                    <label for="NearByVMS">Display on nearby VMS</label>
-                    <input readonly formControlName="NearByVMS" type="text" pInputText />
-                </div>
-                <div class="col-md-3">
-                    <label for="VehicleNo">Vehicle No</label>
-                    <input formControlName="VehicleNo" type="text" pInputText />
-                </div>
-                <div class="col-md-3">
-                    <label for="SourceId">Vehicle Class</label>
-                    <p-dropdown appendTo="body" formControlName="VehicleClassId" [options]="AllVehicleClassList"
-                        optionLabel="VehicleClassName" optionValue="VehicleClassId" placeholder="Select Vehicle Class">
-                    </p-dropdown>
-                </div>
-                <div class="col-md-3">
-                    <label for="SourceId">Assign To Patrolling Team*</label>
-                    <p-dropdown appendTo="body" [disabled]="incidentstatusId" formControlName="AssigneeId" [options]="AllPatrollingVehicleList"
-                        optionLabel="DeviceName" optionValue="EntryId" placeholder="Select Patrolling team">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','AssigneeId')">Assigning
-                        To Patrolling Team is
-                        required.</small>
-                </div>
-                <div class="col-md-12">
-                    <label for="Description">Remarks/Description</label>
-                    <input formControlName="Description" type="text" pInputText />
-                </div>
-                <div class="col-md-12">
-                    <p-fileUpload (onSelect)="uploadFileEvt($event)" (onClear)="removeFileEvt()"
-                        [showUploadButton]="false" [multiple]="multiple" [maxFileSize]="maxFileSize"
-                        accept="image/png, image/jpeg, image/jpg">
-                        <ng-template pTemplate="content">
-                        </ng-template>
-                    </p-fileUpload>
-                </div>
-            </div>
-        </form>
-    </ng-template>
-    <ng-template pTemplate="footer">
-        <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()"></button>
-        <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="SaveIncident()"></button>
-    </ng-template>
-</p-dialog> -->
-
-<ng-template #notaccess>
-    <h4 style="margin: 15% 0 15% 30%;">You don't have access of this page! <br />Kindly contact Administrator, Thanks
-    </h4>
-</ng-template>

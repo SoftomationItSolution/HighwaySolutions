@@ -116,10 +116,13 @@ namespace Softomation.ATMSSystemLibrary
         }
         public enum IncidentGeneratedByType
         {
-            Auto = 0,
-            Operator = 1,
-            PetrollingTeam = 2,
-            Commuters = 3
+            SysAdmin = 0,
+            Administrator = 1,
+            Enforcement = 2,
+            Operater = 3,
+            Commuters = 4,
+            PetrollingTeam = 5,
+            Auto = 6
         }
         public enum DirectionType
         {
