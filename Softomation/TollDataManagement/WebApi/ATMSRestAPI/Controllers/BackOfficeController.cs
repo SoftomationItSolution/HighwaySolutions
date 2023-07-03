@@ -881,6 +881,27 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region IMS
+        [Route(Provider + "/" + APIPath + "/IncidentSourceGetActive")]
+        [HttpGet]
+        public HttpResponseMessage IncidentSourceGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentSourceBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IncidentSourceGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
         [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
         [HttpGet]
         public HttpResponseMessage IMSGetUnAssigned()
