@@ -17,6 +17,9 @@ export class ReportsComponent {
   submitted = false;
   ErrorData: any;
   ControlRoomData: any;
+  PackageFilter: any;
+  PackageData: any;
+  DirectionList = [{ Id: 0, Name: 'None' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, { Id: 3, Name: 'Median' }];
   constructor(private dm: DataModel, private spinner: NgxSpinnerService,
   public datepipe: DatePipe,private dbService: apiIntegrationService,) {
   this.LoginUserId = this.dm.getUserId();
@@ -25,13 +28,16 @@ export class ReportsComponent {
 ngOnInit(): void {
   this.ReportForm = new FormGroup({
     ControlRoomId: new FormControl('', [Validators.required]),
-    VendorDetail: new FormControl('', Validators.required,),
-    ManufacturerDate: new FormControl('', Validators.required,),
-    PurchageDate: new FormControl('', Validators.required,),
-    WarrantyExpireDate: new FormControl('', Validators.required,),
-    DataStatus: new FormControl(true)
+    StartDate: new FormControl('', Validators.required,),
+    EndDate: new FormControl('', Validators.required,),
+    PackageId: new FormControl('', [Validators.required]),
+    DirectionId: new FormControl('', [Validators.required]),
+    ReportId: new FormControl('', [Validators.required]),
+    EventTypeId: new FormControl('', [Validators.required]),
+    ClassId: new FormControl('', [Validators.required]),
   });
   this.ControlRoom();
+  this.PackageType();
 }
 
 ControlRoom() {
@@ -53,5 +59,28 @@ ControlRoom() {
       }
     }
   );
+}
+PackageType() {
+  this.spinner.show();
+  this.dbService.PackagesGetActive().subscribe(
+    data => {
+      this.spinner.hide();
+      this.PackageData = data.ResponseData;
+      //this.SystemType();
+    },
+    (error) => {
+      this.spinner.hide();
+      try {
+        this.ErrorData = error.error;
+        this.dm.openSnackBar(this.ErrorData, false);
+      } catch (error) {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    }
+  );
+}
+ControlChnage(ControlRoomId: any) {
+  this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
 }
 }
