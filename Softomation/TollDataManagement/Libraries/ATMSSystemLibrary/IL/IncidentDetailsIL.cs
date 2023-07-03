@@ -2,80 +2,80 @@
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
-    public class IncidentIL : CommonIL
+    public class IncidentDetailsIL : IncidentStatusIL
     {
         String incidentId;
-        String referenceNumber;
         Int16 incidentCategoryId;
+        String incidentCategoryName;
+        Int16 priorityId;
+        String priorityName;
         String incidentDescription;
         String incidentImagePath;
         String incidentVideoPath;
         String incidentAudioPath;
         Int16 directionId;
+        String directionName;
         Decimal chainageNumber;
         Decimal latitude;
         Decimal longitude;
         String vehiclePlateNumber;
         Int16 vehicleClassId;
+        String vehicleClassName;
         Int16 sourceSystemId;
+        String sourceSystemName;
         Int64 equipmentId;
+        String equipmentName;
         Int64 nearByVMSId;
         Int64 nearByPTZId;
         Int16 incidentGeneratedByTypeId;
+        String incidentGeneratedByTypeName;
         Int64 incidentGeneratedById;
-        Int64 rejectedBy;
-        String rejectionRemark;
-        DateTime rejectionDateTime;
-        Int64 approvedBy;
-        String approvedRemark;
-        DateTime approvedDateTime;
+        String incidentGeneratedByName;
+        Int64 actionTakenById;
+        String assignedName;
+        String actionTakenRemark;
+        DateTime actionTakenDateTime;
         Int64 assignedTo;
         DateTime assignedDateTime;
-        Int64 resolvedBy;
-        String resolvedRemark;
-        DateTime resolvedDateTime;
-        Int16 incidentStatusId;
         Decimal processPercentage;
-        Int16 subCategoryId;
-        String comments;
         Int16 sendStatus;
 
-        public IncidentIL()
+        public IncidentDetailsIL()
         {
             incidentId = string.Empty;
-            referenceNumber = string.Empty;
             incidentCategoryId = 0;
+            incidentCategoryName = string.Empty;
+            priorityId = 0;
+            priorityName = string.Empty;
             incidentDescription = string.Empty;
             incidentImagePath = string.Empty;
             incidentVideoPath = string.Empty;
             incidentAudioPath = string.Empty;
             directionId = 0;
+            directionName = string.Empty;
             chainageNumber = 0;
             latitude = 0;
             longitude = 0;
             vehiclePlateNumber = string.Empty;
             vehicleClassId = 0;
+            vehicleClassName = string.Empty;
             sourceSystemId = 0;
+            sourceSystemName = string.Empty;
             equipmentId = 0;
+            equipmentName = string.Empty;
             nearByVMSId = 0;
             nearByPTZId = 0;
             incidentGeneratedByTypeId = 0;
+            incidentGeneratedByTypeName = string.Empty;
             incidentGeneratedById = 0;
-            rejectedBy = 0;
-            rejectionRemark = string.Empty;
-            rejectionDateTime = DateTime.MinValue;
-            approvedBy = 0;
-            approvedRemark = string.Empty;
-            approvedDateTime = DateTime.MinValue;
+            incidentGeneratedByName = string.Empty;
+            actionTakenById = 0;
+            assignedName = string.Empty;
+            actionTakenRemark = string.Empty;
+            actionTakenDateTime = DateTime.MinValue;
             assignedTo = 0;
             assignedDateTime = DateTime.MinValue;
-            resolvedBy = 0;
-            resolvedRemark = string.Empty;
-            resolvedDateTime = DateTime.MinValue;
-            incidentStatusId = 0;
             processPercentage = 0;
-            subCategoryId = 0;
-            comments = string.Empty;
             sendStatus = 0;
         }
 
@@ -91,20 +91,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentId = value;
             }
         }
-
-        public String ReferenceNumber
-        {
-            get
-            {
-                return referenceNumber;
-            }
-
-            set
-            {
-                referenceNumber = value;
-            }
-        }
-
         public Int16 IncidentCategoryId
         {
             get
@@ -117,7 +103,42 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentCategoryId = value;
             }
         }
+        public String IncidentCategoryName
+        {
+            get
+            {
+                return incidentCategoryName;
+            }
 
+            set
+            {
+                incidentCategoryName = value;
+            }
+        }
+        public Int16 PriorityId
+        {
+            get
+            {
+                return priorityId;
+            }
+
+            set
+            {
+                priorityId = value;
+            }
+        }
+        public String PriorityName
+        {
+            get
+            {
+                return priorityName;
+            }
+
+            set
+            {
+                priorityName = value;
+            }
+        }
         public String IncidentDescription
         {
             get
@@ -130,7 +151,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentDescription = value;
             }
         }
-
         public String IncidentImagePath
         {
             get
@@ -180,6 +200,19 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 directionId = value;
+            }
+        }
+
+        public String DirectionName
+        {
+            get
+            {
+                return directionName;
+            }
+
+            set
+            {
+                directionName = value;
             }
         }
 
@@ -247,6 +280,18 @@ namespace Softomation.ATMSSystemLibrary.IL
                 vehicleClassId = value;
             }
         }
+        public String VehicleClassName
+        {
+            get
+            {
+                return vehicleClassName;
+            }
+
+            set
+            {
+                vehicleClassName = value;
+            }
+        }
 
         public Int16 SourceSystemId
         {
@@ -260,7 +305,18 @@ namespace Softomation.ATMSSystemLibrary.IL
                 sourceSystemId = value;
             }
         }
+        public String SourceSystemName
+        {
+            get
+            {
+                return sourceSystemName;
+            }
 
+            set
+            {
+                sourceSystemName = value;
+            }
+        }
         public Int64 EquipmentId
         {
             get
@@ -271,6 +327,19 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 equipmentId = value;
+            }
+        }
+
+        public String EquipmentName
+        {
+            get
+            {
+                return equipmentName;
+            }
+
+            set
+            {
+                equipmentName = value;
             }
         }
 
@@ -312,6 +381,18 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByTypeId = value;
             }
         }
+        public String IncidentGeneratedByTypeName
+        {
+            get
+            {
+                return incidentGeneratedByTypeName;
+            }
+
+            set
+            {
+                incidentGeneratedByTypeName = value;
+            }
+        }
 
         public Int64 IncidentGeneratedById
         {
@@ -325,85 +406,66 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedById = value;
             }
         }
-
-        public Int64 RejectedBy
+        public String IncidentGeneratedByName
         {
             get
             {
-                return rejectedBy;
+                return incidentGeneratedByName;
             }
 
             set
             {
-                rejectedBy = value;
+                incidentGeneratedByName = value;
             }
         }
-
-        public String RejectionRemark
+        public Int64 ActionTakenById
         {
             get
             {
-                return rejectionRemark;
+                return actionTakenById;
             }
 
             set
             {
-                rejectionRemark = value;
+                actionTakenById = value;
             }
         }
-
-        public DateTime RejectionDateTime
+        public String ActionTakenByName
         {
             get
             {
-                return rejectionDateTime;
+                return assignedName;
             }
 
             set
             {
-                rejectionDateTime = value;
+                assignedName = value;
             }
         }
-
-        public Int64 ApprovedBy
+        public DateTime ActionTakenDateTime
         {
             get
             {
-                return approvedBy;
+                return actionTakenDateTime;
             }
 
             set
             {
-                approvedBy = value;
+                actionTakenDateTime = value;
             }
         }
-
-        public String ApprovedRemark
+        public String ActionTakenRemark
         {
             get
             {
-                return approvedRemark;
+                return actionTakenRemark;
             }
 
             set
             {
-                approvedRemark = value;
+                actionTakenRemark = value;
             }
         }
-
-        public DateTime ApprovedDateTime
-        {
-            get
-            {
-                return approvedDateTime;
-            }
-
-            set
-            {
-                approvedDateTime = value;
-            }
-        }
-
         public Int64 AssignedTo
         {
             get
@@ -416,7 +478,18 @@ namespace Softomation.ATMSSystemLibrary.IL
                 assignedTo = value;
             }
         }
+        public String AssignedName
+        {
+            get
+            {
+                return assignedName;
+            }
 
+            set
+            {
+                assignedName = value;
+            }
+        }
         public DateTime AssignedDateTime
         {
             get
@@ -429,59 +502,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 assignedDateTime = value;
             }
         }
-
-        public Int64 ResolvedBy
-        {
-            get
-            {
-                return resolvedBy;
-            }
-
-            set
-            {
-                resolvedBy = value;
-            }
-        }
-
-        public String ResolvedRemark
-        {
-            get
-            {
-                return resolvedRemark;
-            }
-
-            set
-            {
-                resolvedRemark = value;
-            }
-        }
-
-        public DateTime ResolvedDateTime
-        {
-            get
-            {
-                return resolvedDateTime;
-            }
-
-            set
-            {
-                resolvedDateTime = value;
-            }
-        }
-
-        public Int16 IncidentStatusId
-        {
-            get
-            {
-                return incidentStatusId;
-            }
-
-            set
-            {
-                incidentStatusId = value;
-            }
-        }
-
         public Decimal ProcessPercentage
         {
             get
@@ -494,33 +514,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 processPercentage = value;
             }
         }
-
-        public Int16 SubCategoryId
-        {
-            get
-            {
-                return subCategoryId;
-            }
-
-            set
-            {
-                subCategoryId = value;
-            }
-        }
-
-        public String Comments
-        {
-            get
-            {
-                return comments;
-            }
-
-            set
-            {
-                comments = value;
-            }
-        }
-
         public Int16 SendStatus
         {
             get

@@ -110,7 +110,7 @@ namespace ATMSRestAPI.Controllers
                                     response.ResponseData = null;
                                     return Request.CreateResponse(HttpStatusCode.OK, response);
                                 }
-                                else if (obj.DataStatus != (short)Constants.DataStatus.Active)
+                                else if (obj.DataStatus != (short)Constants.DataStatusType.Active)
                                 {
                                     LogingActivityIL activity = new LogingActivityIL();
                                     login.LoginId = Constants.Encrypt(login.LoginId);

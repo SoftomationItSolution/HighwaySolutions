@@ -20,7 +20,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         public CommonIL()
         {
             this.dataStatus = 0;
-            this.dataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)dataStatus);
+            this.dataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)dataStatus);
             this.createdDate = DateTime.Now;
             this.createdBy = 0;
             this.createdByLoginId = string.Empty;

@@ -128,7 +128,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 menu.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            menu.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)menu.DataStatus);
+            menu.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)menu.DataStatus);
 
             return menu;
         }

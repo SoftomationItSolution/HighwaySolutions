@@ -142,7 +142,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 permission.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            permission.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)permission.DataStatus);
+            permission.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)permission.DataStatus);
             return permission;
         }
         #endregion

@@ -63,7 +63,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             try
             {
                 roleList = GetAll();
-                return roleList.FindAll(n => n.DataStatus == (short)Constants.DataStatus.Active);
+                return roleList.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 role.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            role.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)role.DataStatus);
+            role.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)role.DataStatus);
             role.RolePermission = RolePermissionDL.GetByRoleId(role.RoleId);
 
             return role;

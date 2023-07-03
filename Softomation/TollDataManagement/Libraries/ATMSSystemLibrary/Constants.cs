@@ -35,7 +35,6 @@ namespace Softomation.ATMSSystemLibrary
         public static string JWTkey = AppProvider + "TollingSolutionSystemProvider";
         #endregion
 
-
         #region Date Time
         public static string DateTimeFormatJson = "dd-MMM-yyyy HH:mm:ss.fff";
         public static string DateTimeFormat12H = "yyyy-MM-dd hh:mm:ss.fff";
@@ -78,25 +77,20 @@ namespace Softomation.ATMSSystemLibrary
         public static string ANPRImageFilePath = driveLetter + @":\inetpub\wwwroot\DMS_RSCEventAPI\Anpr_Data\";
 
         //For encryption and decryption
-
-
-
-        public static int CCRGSPortNumber = 8010;//Control Room General Service
-        public static int emsPortNumber = 8011;//Event messenger service
-        public static int FEIGETCReaderTCPPortNumber = 10001;// Feig ETC reader- Get it from configuration
-        public static int STARETCReaderTCPPortNumber = 50007;// STAR ETC reader
-
-        public static char degree = (Char)176;
         public static string oraclePackagePrefix = "DMS_PACKAGE.";
         public static string sqlPackagePrefix = "dbo.";
         public static string oraclePackageReportPrefix = "DMS_PACKAGE_REPORTS.";
-
-
         private static Random random = new Random();
-
         #endregion
 
         #region Enum
+        public enum PriorityType
+        {
+            Critical = 1,
+            High = 2,
+            Medium = 3,
+            Low = 4
+        }
         public enum ErrorLogModule
         {
             GeneralLog,
@@ -114,11 +108,18 @@ namespace Softomation.ATMSSystemLibrary
             Commuters = 4,
             PetrollingTeam = 5
         }
-        public enum DataStatus
+        public enum DataStatusType
         {
             Deleted = 0,
             Active = 1,
             Inactive = 2
+        }
+        public enum IncidentGeneratedByType
+        {
+            Auto = 0,
+            Operator = 1,
+            PetrollingTeam = 2,
+            Commuters = 3
         }
         public enum DirectionType
         {
@@ -133,7 +134,6 @@ namespace Softomation.ATMSSystemLibrary
             Login = 1,
             Logout = 2
         }
-
         public enum VmsMessageFormat
         {
             None = 0,
@@ -146,7 +146,6 @@ namespace Softomation.ATMSSystemLibrary
             Static = 1,
             Scroll = 2
         }
-
         public enum EquipmentCategoryType
         {
             FieldEquipment = 1,
@@ -155,14 +154,12 @@ namespace Softomation.ATMSSystemLibrary
             PowerEquipment = 4,
             OtherAssets = 5
         }
-
         public enum EquipmentConnectionType
         {
             Network = 1,
             COM = 2,
             Other = 3
         }
-
         public enum ConnectionProtocolType
         {
             TCP = 1,
@@ -170,10 +167,9 @@ namespace Softomation.ATMSSystemLibrary
             Serail = 3,
             MQTT = 4,
             HTTP = 5,
-            RTSP=6,
+            RTSP = 6,
             Other = 7
         }
-
         public enum DataBaseProvider
         {
             Oracle = 1,
@@ -310,7 +306,6 @@ namespace Softomation.ATMSSystemLibrary
         #endregion
 
         #region Methods
-
         public static string Decrypt(string input)
         {
             return Cryptography.Encryption.Decrypt(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
@@ -319,7 +314,6 @@ namespace Softomation.ATMSSystemLibrary
         {
             return Cryptography.Encryption.Encrypt(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
         }
-
         public static object GetToken(AppLoginIL input)
         {
             //http://stackoverflow.com/questions/18223868/how-to-encrypt-jwt-security-token
@@ -359,7 +353,6 @@ namespace Softomation.ATMSSystemLibrary
             const string chars = "123456789";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
         }
-
         public static bool BulkCopy(DataTable dt, string table)
         {
             try

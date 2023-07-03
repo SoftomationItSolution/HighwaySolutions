@@ -62,7 +62,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             try
             {
                 crlist = GetAll();
-                return crlist.FindAll(n => n.DataStatus == (short)Constants.DataStatus.Active);
+                return crlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -125,7 +125,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 user.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatus), (Constants.DataStatus)user.DataStatus);
+            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)user.DataStatus);
             return user;
         }
         #endregion
