@@ -63,6 +63,7 @@ import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-
 import {NgApexchartsModule } from "ng-apexcharts";
 import { ChnagePasswordPopUpComponent } from './pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { PasswordModule } from 'primeng/password';
+import { ReportsComponent } from './pages/reports/reports.component';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -110,7 +111,8 @@ export const MY_CUSTOM_FORMATS = {
     PackagesDetailsComponent,
     PackagesPopupComponent,
     IncidentDataComponent,
-    CreateIncidentComponent
+    CreateIncidentComponent,
+    ReportsComponent
   ],
   imports: [
     BrowserAnimationsModule,

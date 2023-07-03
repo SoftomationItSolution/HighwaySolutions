@@ -10,6 +10,7 @@ import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
 import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
+import { ReportsComponent } from '../pages/reports/reports.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -20,8 +21,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
     { path: 'pendigIncident', component: IncidentDataComponent },
-     { path: 'vids', component: VidsdataComponent },
+    { path: 'vids', component: VidsdataComponent },
     { path: 'atcc', component: AtccdataComponent },
+    { path: 'reports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent }
 ];
