@@ -1,0 +1,75 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="ReportForm">
+                    <ng-template matStepLabel>Assets</ng-template>
+                    <div class="form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="ControlRoomId">Control Room</label>
+                                <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ControlRoomId" placeholder="Select" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ControlRoomId')">Control
+                                    Room is
+                                    required.</small>
+                            </div>
+                           
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="VendorDetail">Vendor Detail</label>
+                                <input formControlName="VendorDetail" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','VendorDetail')">Vendor
+                                    Detail
+                                    is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ManufacturerDate">Manufacturer Date</label>
+                                <p-calendar class="form-control" formControlName="ManufacturerDate" [showIcon]="true"
+                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ManufacturerDate')">Manufacturer
+                                    Date must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="PurchageDate">Purchage Date</label>
+                                <p-calendar class="form-control" formControlName="PurchageDate" [showIcon]="true"
+                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','PurchageDate')">Purchage
+                                    Date must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="WarrantyExpireDate">Warranty Expire Date</label>
+                                <p-calendar class="form-control" formControlName="WarrantyExpireDate" [showIcon]="true"
+                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','WarrantyExpireDate')">Account
+                                    Date must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="formCheck2"
+                                        formControlName="DataStatus">
+                                    <label class="form-check-label" for="formCheck2">
+                                        Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
