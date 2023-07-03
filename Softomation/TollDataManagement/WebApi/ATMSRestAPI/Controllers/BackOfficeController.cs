@@ -880,6 +880,86 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region IMS
+        [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetUnAssigned()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetUnAssigned();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetUnAssigned : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetPending")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetPending()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetPending();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetPending : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetClosed")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetClosed()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetClosed();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetClosed : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSInsert")]
+        [HttpPost]
+        public HttpResponseMessage IMSInsert(IncidentDetailsIL ims)
+        {
+            try
+            {
+                response.Message = IncidentDetailsBL.Insert(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         //#region Category Master
         //[Route(Provider + "/Transit360-ATMS/CategoryMasterGetAll")]
         //[HttpGet]
