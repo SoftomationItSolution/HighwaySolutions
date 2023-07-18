@@ -10,61 +10,86 @@
                                 <label for="ControlRoomId">Control Room</label>
                                 <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
                                     [options]="ControlRoomData" optionLabel="ControlRoomName"
-                                    optionValue="ControlRoomId" placeholder="Select" class="form-control select2"
-                                    [style]="{'width':'100%'}"></p-dropdown>
+                                    optionValue="ControlRoomId" placeholder="Select Control Room" class="form-control select2"
+                                    [style]="{'width':'100%'}" (onChange)="ControlChnage($event.value)"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && ReportForm.hasError('required','ControlRoomId')">Control
                                     Room is
                                     required.</small>
                             </div>
-                           
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="row">
                             <div class="col-md-6">
-                                <label for="VendorDetail">Vendor Detail</label>
-                                <input formControlName="VendorDetail" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
+                                <label for="PackageId">Package</label>
+                                <p-dropdown appendTo="body" formControlName="PackageId" inputId="PackageId"
+                                    [options]="PackageFilter" optionLabel="PackageName" optionValue="PackageId"
+                                    placeholder="Select Package" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && ReportForm.hasError('required','VendorDetail')">Vendor
-                                    Detail
-                                    is required.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="ManufacturerDate">Manufacturer Date</label>
-                                <p-calendar class="form-control" formControlName="ManufacturerDate" [showIcon]="true"
-                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
-                                <small class="p-error"
-                                    *ngIf="submitted && ReportForm.hasError('required','ManufacturerDate')">Manufacturer
-                                    Date must be selected.</small>
+                                    *ngIf="submitted && ReportForm.hasError('required','PackageId')">Package
+                                    must be selected.</small>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="PurchageDate">Purchage Date</label>
-                                <p-calendar class="form-control" formControlName="PurchageDate" [showIcon]="true"
+                                <label for="StartDate">Start Date</label>
+                                <p-calendar class="form-control" formControlName="StartDate" [showIcon]="true"
                                     appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
                                 <small class="p-error"
-                                    *ngIf="submitted && ReportForm.hasError('required','PurchageDate')">Purchage
-                                    Date must be selected.</small>
+                                    *ngIf="submitted && ReportForm.hasError('required','StartDate')">
+                                    Start Date must be selected.</small>
                             </div>
                             <div class="col-md-6">
-                                <label for="WarrantyExpireDate">Warranty Expire Date</label>
-                                <p-calendar class="form-control" formControlName="WarrantyExpireDate" [showIcon]="true"
+                                <label for="EndDate">End Date</label>
+                                <p-calendar class="form-control" formControlName="EndDate" [showIcon]="true"
                                     appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
                                 <small class="p-error"
-                                    *ngIf="submitted && ReportForm.hasError('required','WarrantyExpireDate')">Account
-                                    Date must be selected.</small>
+                                    *ngIf="submitted && ReportForm.hasError('required','EndDate')">
+                                    End Date must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="DirectionId">Direction</label>
+                                <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId"
+                                    [options]="DirectionList" optionLabel="Name" optionValue="Id" placeholder="Select Direction"
+                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','DirectionId')">Direction
+                                    must be selected.</small>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="formCheck2"
-                                        formControlName="DataStatus">
-                                    <label class="form-check-label" for="formCheck2">
-                                        Status
-                                    </label>
-                                </div>
+                                <label for="ReportId">Report</label>
+                                <p-dropdown appendTo="body" formControlName="ReportId" inputId="ReportId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ReportId" placeholder="Select Report" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ReportId')">Control
+                                    Room is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="EventTypeId">Event Type</label>
+                                <p-dropdown appendTo="body" formControlName="EventTypeId" inputId="EventTypeId"
+                                    [options]="DirectionList" optionLabel="Name" optionValue="Id" placeholder="Select Event Type"
+                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','EventTypeId')">Event Type
+                                    must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ClassId">Class</label>
+                                <p-dropdown appendTo="body" formControlName="ClassId" inputId="ClassId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ClassId" placeholder="Select Class" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ClassId')">
+                                    Class is required.</small>
                             </div>
                         </div>
                     </div>

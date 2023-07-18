@@ -93,7 +93,6 @@
   <ItemGroup>
     <Compile Include="BL\IncidentCategoryBL.cs" />
     <Compile Include="BL\IncidentDetailsBL.cs" />
-    <Compile Include="BL\IncidentSourceBL.cs" />
     <Compile Include="BL\IncidentStatusBL.cs" />
     <Compile Include="BL\PackageBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
@@ -114,7 +113,6 @@
     <Compile Include="DBA\DBSelector.cs" />
     <Compile Include="DL\IncidentCategoryDL.cs" />
     <Compile Include="DL\IncidentDetailsDL.cs" />
-    <Compile Include="DL\IncidentSourceDL.cs" />
     <Compile Include="DL\IncidentStatusDL.cs" />
     <Compile Include="DL\PackageDL.cs" />
     <Compile Include="DL\SystemDL.cs" />
@@ -135,7 +133,6 @@
     <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\IncidentCategoryIL.cs" />
     <Compile Include="IL\IncidentDetailsIL.cs" />
-    <Compile Include="IL\IncidentSourceIL.cs" />
     <Compile Include="IL\IncidentStatusIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
