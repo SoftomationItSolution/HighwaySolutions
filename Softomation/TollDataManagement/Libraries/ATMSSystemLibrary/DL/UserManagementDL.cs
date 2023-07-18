@@ -135,6 +135,26 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return account;
         }
+
+        internal static List<UserManagementIL> GetByUserType(short UserTypeId)
+        {
+            DataTable dt = new DataTable();
+            List<UserManagementIL> users = new List<UserManagementIL>();
+            try
+            {
+                string spName = "USP_UserGetByUserTypeId";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserTypeId", DbType.Int32, UserTypeId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    users.Add(CreateObjectFromDataRow(dr));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return users;
+        }
         #endregion
 
         #region Helper Methods

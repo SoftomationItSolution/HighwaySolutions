@@ -140,7 +140,7 @@ export const MY_CUSTOM_FORMATS = {
     MatStepperModule,
     InputTextModule,
     PasswordModule,
-    TabViewModule 
+    TabViewModule,
   ],
   providers: [
     [DatePipe],

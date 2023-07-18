@@ -431,8 +431,6 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        
-
         [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
         [HttpPost]
         public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
@@ -534,6 +532,26 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in UserGetByIdWithPassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetByUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetByUserType(short UserTypeId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetByUserType(UserTypeId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetByUserType : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -901,6 +919,25 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/IncidentCategoryGetActive")]
+        [HttpGet]
+        public HttpResponseMessage IncidentCategoryGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentCategoryBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IncidentCategoryGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
         [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
         [HttpGet]

@@ -138,6 +138,13 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetById?UserId=' + UserId, { headers: headers_object });
   }
+
+  UserConfigurationGetByUserType(UserTypeId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId, { headers: headers_object });
+  }
+
   UserGetByIdWithPassword(UserId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -199,6 +206,12 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: headers_object });
+  }
+
+  VehicleClassGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetActive', { headers: headers_object });
   }
   VehicleClassInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
@@ -278,6 +291,12 @@ IncidentSourceGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentSourceGetActive', { headers: headers_object});
+}
+
+IncidentCategoryGetActive(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object});
 }
 
 IncidentSetUp(data: {}): Observable<any> {

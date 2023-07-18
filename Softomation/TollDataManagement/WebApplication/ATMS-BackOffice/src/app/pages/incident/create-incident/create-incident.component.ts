@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
@@ -24,8 +23,14 @@ export class CreateIncidentComponent {
   submitted = false;
   SourceList: any;
   IncidentDeviceList: any;
-  AllDeviceDataList:any;
-  IncidentDeviceCoordinates:any;
+  IncidentCategoryList: any;
+  AllDeviceDataList: any;
+  VehicleClassList: any;
+  IncidentDeviceCoordinates: any;
+  PetrollingTeamList: any;
+  uploadedFiles:any=[];
+  DirectionList = [{ Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }];
+  PriorityList = [{ Id: 1, Name: 'Critical' }, { Id: 2, Name: 'High' }, { Id: 3, Name: 'Medium' }, { Id: 4, Name: 'Low' }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<CreateIncidentComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
@@ -35,51 +40,54 @@ export class CreateIncidentComponent {
   ngOnInit(): void {
     this.PageTitle = 'Create New Incident';
     this.Masterform = new FormGroup({
-      SourceId: new FormControl('', [
-        Validators.required
-      ]),
-      DeviceId: new FormControl('', [
-      ]),
-      CategoryId: new FormControl('', [
-        Validators.required
-      ]),
-      ChainageNumber: new FormControl('', [
-        Validators.required, Validators.pattern(regExps['ChainageNumber'])
-      ]),
-      DirectionId: new FormControl('', [
-        Validators.required,
-      ]),
-      Latitude: new FormControl('', [
-        Validators.required, Validators.pattern(regExps['Latitude'])
-      ]),
-      Longitude: new FormControl('', [
-        Validators.required, Validators.pattern(regExps['Longitude'])
-      ]),
-      VehicleNo: new FormControl('', [
-      ]),
-      VehicleClassId: new FormControl('', [
-      ]),
-      AssigneeId: new FormControl('', [
-        Validators.required,
-      ]),
-      Description: new FormControl('', [
-      ]),
-      IncidentProof: new FormControl('', [
-      ]),
-      NearByVMS: new FormControl('', [
-      ]),
-      VMSId: new FormControl('', [
-      ]),
+      SourceSystemId: new FormControl('', [Validators.required]),
+      EquipmentId: new FormControl('', [Validators.required]),
+      PriorityId: new FormControl('', [Validators.required]),
+      DirectionId: new FormControl('', [Validators.required]),
+      IncidentCategoryId: new FormControl('', [Validators.required]),
+      ChainageNumber: new FormControl('', [Validators.required, Validators.pattern(regExps['ChainageNumber'])]),
+      Latitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
+      Longitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
+      VehiclePlateNumber: new FormControl('', []),
+      VehicleClassId: new FormControl('', []),
+      AssignedTo: new FormControl('', [Validators.required]),
+      IncidentDescription: new FormControl('', [Validators.required])
     });
-
     this.GetIncidentSourceList()
     this.GetAllSystemDevices();
+    this.GetIncidentCategory();
+    this.GetVehicleClass();
+    this.GetPetrollingTeam();
   }
 
   GetIncidentSourceList() {
     this.dbService.IncidentSourceGetActive().subscribe(
       data => {
         this.SourceList = data.ResponseData;
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetIncidentCategory() {
+    this.dbService.IncidentCategoryGetActive().subscribe(
+      data => {
+        this.IncidentCategoryList = data.ResponseData;
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetVehicleClass() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClassList = data.ResponseData;
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -100,28 +108,76 @@ export class CreateIncidentComponent {
     );
   }
 
-  FillDevice(val: any) {
-     this.IncidentDeviceList = [];
-     this.Masterform.controls['DeviceId'].reset();
-    if (val == 1 || val == 7) //for 1033
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "1" || e.DeviceTypeId == "25" || e.DeviceTypeId == "26");//filter for select PTZ/TMCS,VIDS,ANPR camera device only
-    // if (val == 2) //for Patrolling/Enforcement Vehicle
-    //   this.IncidentDeviceList = this.AllPatrollingVehicleList;
-    if (val == 3) //for TMCS
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "1");//filter for select PTZ/TMCS camera device only
-    if (val == 4) //for VIDS
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "25");//filter for select VIDS camera device only
-    if (val == 5) //for ANPR and VSDS
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "26");//filter for select ANPR and VSDS camera device only
-    if (val == 6) //for ECB
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "2");//filter for select ECB camera device only
-    if (val == 8) //for MOTION DETECTION
-      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { DeviceTypeId: string; }) => e.DeviceTypeId == "27");//filter for select ECB camera device only
+  GetPetrollingTeam() {
+    this.dbService.UserConfigurationGetByUserType(5).subscribe(
+      data => {
+        this.PetrollingTeamList = data.ResponseData;
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
-   FillChainage(event: any) {
-    this.IncidentDeviceCoordinates = this.IncidentDeviceList.filter((e: { EntryId: string; }) => e.EntryId == event.value);
-    this.Masterform.controls['ChainageNumber'].setValue(this.IncidentDeviceCoordinates[0].ChainageNumber)
+  uploadFileEvt(imgFile: any) {
+    this.uploadedFiles = [];
+    for (let file of imgFile.currentFiles) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const Obj = {
+          Base64: reader.result,
+          file: file
+        }
+        this.uploadedFiles.push(Obj);
+      };
+    }
+  }
+
+  removeFileEvt() {
+    this.uploadedFiles = [];
+  }
+
+  FillDevice(val: any) {
+    this.IncidentDeviceList = [];
+    this.Masterform.controls['EquipmentId'].reset();
+    if (val == 1 || val == 2 || val == 7) //for 1033
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 1 || e.EquipmentTypeId == 2 || e.EquipmentTypeId == 25 || e.EquipmentTypeId == 26 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 32);//filter for select PTZ/TMCS,VIDS,ANPR camera device only
+    else if (val == 3) //for TMCS
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 1);//filter for select PTZ/TMCS camera device only
+    else if (val == 4) //for VIDS
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 25);//filter for select VIDS camera device only
+    else if (val == 5) //for ANPR and VSDS
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 26);//filter for select ANPR and VSDS camera device only
+    else if (val == 6) //for ECB
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 2);//filter for select ECB device only
+    else if (val == 8) //for MOTION DETECTION
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 27);//filter for select MDS camera device only
+    else if (val == 9) //for ATCC
+      this.IncidentDeviceList = this.AllDeviceDataList.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 32);//filter for select ATCC camera device only
+  }
+
+  FillLocation(event: any) {
+    let deviceDetails = this.AllDeviceDataList.filter((e: { EquipmentId: any; }) => e.EquipmentId == event);
+    if(deviceDetails.length>0){
+      this.Masterform.controls['ChainageNumber'].setValue(deviceDetails[0].ChainageNumber)
+      this.Masterform.controls['Latitude'].setValue(deviceDetails[0].Latitude)
+      this.Masterform.controls['Longitude'].setValue(deviceDetails[0].Longitude)
+    }
+    else{
+      this.Masterform.controls['ChainageNumber'].reset();
+      this.Masterform.controls['Latitude'].reset()
+      this.Masterform.controls['Longitude'].reset()
+    }
+  }
+
+  FillPriority(event: any) {
+    let IncidentCategorys = this.IncidentCategoryList.filter((e: { IncidentCategoryId: any; }) => e.IncidentCategoryId == event);
+    if(IncidentCategorys.length>0)
+      this.Masterform.controls['PriorityId'].setValue(IncidentCategorys[0].PriorityId)
+    else
+      this.Masterform.controls['PriorityId'].reset();
   }
 
   DetailsbyId() {
@@ -134,7 +190,10 @@ export class CreateIncidentComponent {
   }
 
   SaveDetails() {
-
+    this.submitted=true;
+    if (this.Masterform.invalid) {
+      return;
+    }
   }
 
 }

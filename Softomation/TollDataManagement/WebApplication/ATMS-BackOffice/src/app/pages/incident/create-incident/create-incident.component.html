@@ -7,50 +7,60 @@
         <form [formGroup]="Masterform">
             <div class="row">
                 <div class="col-md-3">
-                    <label for="SourceId">Incident Source*</label>
-                    <p-dropdown appendTo="body" formControlName="SourceId" [options]="SourceList"
-                        optionLabel="SourceName" optionValue="SourceId" placeholder="Select Source of Incident"
-                        (onChange)="FillDevice($event.value)" class="form-control select2">
+                    <label for="SourceSystemId">Incident Source*</label>
+                    <p-dropdown appendTo="body" formControlName="SourceSystemId" [options]="SourceList"
+                        optionLabel="SourceName" optionValue="SourceId" placeholder="Source of Incident"
+                        (onChange)="FillDevice($event.value)"  class="form-control select2">
                     </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','SourceId')">Source is
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','SourceSystemId')">Source is
                         required.</small>
                 </div>
                 <div class="col-md-3">
-                    <label for="DeviceId">Device Source</label>
-                    <p-dropdown appendTo="body" formControlName="DeviceId" [options]="IncidentDeviceList"
-                        optionLabel="DeviceName" optionValue="EntryId" placeholder="Select Source device"
-                        (onChange)="FillChainage($event)"  class="form-control select2">
+                    <label for="EquipmentId">Equipment</label>
+                    <p-dropdown appendTo="body" formControlName="EquipmentId" [options]="IncidentDeviceList"
+                        optionLabel="EquipmentName" optionValue="EquipmentId" placeholder="Source equipment"
+                        class="form-control select2" (onChange)="FillLocation($event.value)">
                     </p-dropdown>
                 </div>
-                <!-- <div class="col-md-3">
-                    <label for="SourceId">Direction*</label>
-                    <p-dropdown appendTo="body" formControlName="DirectionId" [options]="DirectionList"
-                        optionLabel="Name" optionValue="EntryId" placeholder="Select Direction"
-                        (onChange)="FillNearByVMS($event.value)">
+                <div class="col-md-3">
+                    <label for="IncidentCategoryId">Category*</label>
+                    <p-dropdown appendTo="body" formControlName="IncidentCategoryId" inputId="IncidentCategoryId"
+                        [options]="IncidentCategoryList" optionLabel="IncidentCategoryName" optionValue="IncidentCategoryId"
+                        placeholder="Incident category" class="form-control select2" (onChange)="FillPriority($event.value)">
+                    </p-dropdown >
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','IncidentCategoryId')">Category is
+                        required.</small>
+                </div>
+                <div class="col-md-3">
+                    <label for="PriorityId">Priority*</label>
+                    <p-dropdown appendTo="body" formControlName="PriorityId" [options]="PriorityList"
+                        optionLabel="Name" optionValue="Id" placeholder="Incident Priority"
+                        class="form-control select2">
                     </p-dropdown>
                     <small class="p-error"
-                        *ngIf="submitted && Masterform.hasError('required','DirectionId')">DirectionId is
+                        *ngIf="submitted && Masterform.hasError('required','PriorityId')">Priority is
                         required.</small>
-                </div> -->
-                <!-- <div class="col-md-3">
-                    <label for="CategoryId">Category*</label>
-                    <p-dropdown appendTo="body" formControlName="CategoryId" inputId="IncidentCategory"
-                        [options]="IncidentCategoryList" optionLabel="CategoryName" optionValue="EntryId"
-                        placeholder="Select">
+                </div>
+                <div class="col-md-3">
+                    <label for="DirectionId">Direction*</label>
+                    <p-dropdown appendTo="body" formControlName="DirectionId" [options]="DirectionList"
+                        optionLabel="Name" optionValue="Id" placeholder="Incident direction"
+                        class="form-control select2">
                     </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','CategoryId')">Category is
+                    <small class="p-error"
+                        *ngIf="submitted && Masterform.hasError('required','DirectionId')">Direction is
                         required.</small>
-                </div> -->
-                <!-- <div class="col-md-3">
+                </div>
+                <div class="col-md-3">
                     <label for="Longitude">Chainage Number*</label>
-                    <input formControlName="ChainageNumber" type="text" (ngModelChange)="FillCoordinates()"
-                        pInputText />
+                    <input formControlName="ChainageNumber" type="text"
+                        pInputText class="form-control"/>
                     <small class="p-error"
                         *ngIf="submitted && Masterform.hasError('required','ChainageNumber')">Chainage Number is
                         required.</small>
                     <small class="p-error" *ngIf="submitted && Masterform.hasError('pattern','ChainageNumber')">Valid
                         Chainage Number is required.</small>
-                </div> -->
+                </div>
                 <div class="col-md-3">
                     <label for="Latitude">Latitude*</label>
                     <input formControlName="Latitude" type="text" pInputText class="form-control" />
@@ -70,40 +80,38 @@
                         required.</small>
                 </div>
                 <div class="col-md-3">
-                    <label for="NearByVMS">Display on nearby VMS</label>
-                    <input readonly formControlName="NearByVMS" type="text" pInputText class="form-control" />
+                    <label for="AssignedTo">Assigned To</label>
+                    <p-dropdown appendTo="body" formControlName="AssignedTo" [options]="PetrollingTeamList"
+                        optionLabel="LoginId" optionValue="UserId" placeholder="Select Patrolling team" class="form-control select2">
+                    </p-dropdown>
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','AssignedTo')">Assigning Team is
+                        required.</small>
                 </div>
                 <div class="col-md-3">
-                    <label for="VehicleNo">Vehicle No</label>
-                    <input formControlName="VehicleNo" type="text" pInputText class="form-control" />
+                    <label for="VehicleClassId">Vehicle Class</label>
+                    <p-dropdown appendTo="body" formControlName="VehicleClassId" [options]="VehicleClassList"
+                        optionLabel="VehicleClassName" optionValue="VehicleClassId" placeholder="Incident Vehicle Class" class="form-control select2">
+                    </p-dropdown>
                 </div>
-                <!-- <div class="col-md-3">
-                    <label for="SourceId">Vehicle Class</label>
-                    <p-dropdown appendTo="body" formControlName="VehicleClassId" [options]="AllVehicleClassList"
-                        optionLabel="VehicleClassName" optionValue="VehicleClassId" placeholder="Select Vehicle Class">
-                    </p-dropdown>
-                </div> -->
-                <!-- <div class="col-md-3">
-                    <label for="SourceId">Assign To Patrolling Team*</label>
-                    <p-dropdown appendTo="body" [disabled]="incidentstatusId" formControlName="AssigneeId" [options]="AllPatrollingVehicleList"
-                        optionLabel="DeviceName" optionValue="EntryId" placeholder="Select Patrolling team">
-                    </p-dropdown>
-                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','AssigneeId')">Assigning
-                        To Patrolling Team is
-                        required.</small>
-                </div> -->
+                <div class="col-md-3">
+                    <label for="VehiclePlateNumber">Vehicle No</label>
+                    <input formControlName="VehiclePlateNumber" type="text" pInputText class="form-control" />
+                </div>
                 <div class="col-md-12">
-                    <label for="Description">Remarks/Description</label>
-                    <input formControlName="Description" type="text" pInputText class="form-control" />
-                </div>
-                <!-- <div class="col-md-12">
                     <p-fileUpload (onSelect)="uploadFileEvt($event)" (onClear)="removeFileEvt()"
-                        [showUploadButton]="false" [multiple]="multiple" [maxFileSize]="maxFileSize"
-                        accept="image/png, image/jpeg, image/jpg">
+                        [showUploadButton]="false" [multiple]="false" [maxFileSize]="2000000"
+                        accept="image/png, image/jpeg, image/jpg" >
                         <ng-template pTemplate="content">
                         </ng-template>
                     </p-fileUpload>
-                </div> -->
+                </div>
+                <div class="col-md-12">
+                    <label for="IncidentDescription">Description</label>
+                    <input formControlName="IncidentDescription" type="text" pInputText class="form-control" />
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','IncidentDescription')">Description is
+                        required.</small>
+                </div>
+                
             </div>
         </form>
     </div>

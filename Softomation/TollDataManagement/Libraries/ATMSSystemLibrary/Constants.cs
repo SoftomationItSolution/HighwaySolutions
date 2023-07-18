@@ -236,33 +236,6 @@ namespace Softomation.ATMSSystemLibrary
 
         #endregion
 
-        #region SMS Response Code
-        public enum SMSSentStatus
-        {
-            Unsent = 1,
-            Sent,
-            Ignored
-        };
-        #region wavecell SMS Masking
-        public enum SMSMaskingAPIResponce
-        {
-            QUEUED = 1,
-            REJECTED = 2,
-        }
-        public enum WaveCellResponceCode
-        {
-            RECEIVED = 10,
-            PROCESSED = 20,
-            REJECTED_BY_WAVECELL = 21,
-            DELIVERED_TO_CARRIER = 30,
-            REJECTED_BY_CARRIER = 31,
-            DELIVERED_TO_DEVICE = 40,
-            REJECTED_BY_DEVICE = 41,
-            READ = 50
-        }
-        #endregion
-        #endregion
-
         #region Data 
         public enum PaymentStatus
         {
