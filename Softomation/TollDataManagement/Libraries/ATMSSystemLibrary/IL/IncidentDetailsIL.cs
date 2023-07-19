@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
@@ -36,6 +37,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         DateTime assignedDateTime;
         Decimal processPercentage;
         Int16 sendStatus;
+        List<IncidentActionHistoryIL> actionHistoryDetails;
 
         public IncidentDetailsIL()
         {
@@ -71,6 +73,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             assignedDateTime = DateTime.MinValue;
             processPercentage = 0;
             sendStatus = 0;
+            actionHistoryDetails = new List<IncidentActionHistoryIL>();
         }
 
         public String IncidentId
@@ -446,16 +449,16 @@ namespace Softomation.ATMSSystemLibrary.IL
                 processPercentage = value;
             }
         }
-        public Int16 SendStatus
+        public List<IncidentActionHistoryIL> ActionHistoryDetails
         {
             get
             {
-                return sendStatus;
+                return actionHistoryDetails;
             }
 
             set
             {
-                sendStatus = value;
+                actionHistoryDetails = value;
             }
         }
     }

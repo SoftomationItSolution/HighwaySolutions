@@ -229,6 +229,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 id.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
+            id.ActionHistoryDetails = IncidentActionHistoryDL.GetActionHistory(id.IncidentId);
+
             id.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)id.DataStatus);
             id.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)id.DirectionId);
             id.IncidentGeneratedByTypeName = Enum.GetName(typeof(Constants.IncidentGeneratedByType), (Constants.IncidentGeneratedByType)id.IncidentGeneratedByTypeId);
