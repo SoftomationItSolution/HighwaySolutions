@@ -12,9 +12,15 @@
 }
 
 .mat-stepper-horizontal {
-    margin-top: 8px;
+    margin-top: 0px;
+    height:333px;
   }
+
+  .mat-horizontal-content-container {
+    overflow: hidden;
+    padding: 0 10px 16px 15px !important;
+}
   
-  .mat-mdc-form-field {
+  /* .mat-mdc-form-field {
     margin-top: 16px;
-  }
+  } */

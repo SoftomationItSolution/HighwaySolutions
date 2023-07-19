@@ -31,10 +31,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         String incidentGeneratedByTypeName;
         Int64 incidentGeneratedById;
         String incidentGeneratedByName;
-        Int64 actionTakenById;
         String assignedName;
-        String actionTakenRemark;
-        DateTime actionTakenDateTime;
         Int64 assignedTo;
         DateTime assignedDateTime;
         Decimal processPercentage;
@@ -69,10 +66,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             incidentGeneratedByTypeName = string.Empty;
             incidentGeneratedById = 0;
             incidentGeneratedByName = string.Empty;
-            actionTakenById = 0;
             assignedName = string.Empty;
-            actionTakenRemark = string.Empty;
-            actionTakenDateTime = DateTime.MinValue;
             assignedTo = 0;
             assignedDateTime = DateTime.MinValue;
             processPercentage = 0;
@@ -163,7 +157,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentImagePath = value;
             }
         }
-
         public String IncidentVideoPath
         {
             get
@@ -176,7 +169,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentVideoPath = value;
             }
         }
-
         public String IncidentAudioPath
         {
             get
@@ -189,7 +181,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentAudioPath = value;
             }
         }
-
         public Int16 DirectionId
         {
             get
@@ -202,7 +193,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 directionId = value;
             }
         }
-
         public String DirectionName
         {
             get
@@ -215,7 +205,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 directionName = value;
             }
         }
-
         public Decimal ChainageNumber
         {
             get
@@ -228,7 +217,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 chainageNumber = value;
             }
         }
-
         public Decimal Latitude
         {
             get
@@ -241,7 +229,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 latitude = value;
             }
         }
-
         public Decimal Longitude
         {
             get
@@ -254,7 +241,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 longitude = value;
             }
         }
-
         public String VehiclePlateNumber
         {
             get
@@ -267,7 +253,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 vehiclePlateNumber = value;
             }
         }
-
         public Int16 VehicleClassId
         {
             get
@@ -292,7 +277,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 vehicleClassName = value;
             }
         }
-
         public Int16 SourceSystemId
         {
             get
@@ -329,7 +313,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
-
         public String EquipmentName
         {
             get
@@ -342,7 +325,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentName = value;
             }
         }
-
         public Int64 NearByVMSId
         {
             get
@@ -355,7 +337,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 nearByVMSId = value;
             }
         }
-
         public Int64 NearByPTZId
         {
             get
@@ -368,7 +349,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 nearByPTZId = value;
             }
         }
-
         public Int16 IncidentGeneratedByTypeId
         {
             get
@@ -393,7 +373,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByTypeName = value;
             }
         }
-
         public Int64 IncidentGeneratedById
         {
             get
@@ -418,54 +397,7 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByName = value;
             }
         }
-        public Int64 ActionTakenById
-        {
-            get
-            {
-                return actionTakenById;
-            }
-
-            set
-            {
-                actionTakenById = value;
-            }
-        }
-        public String ActionTakenByName
-        {
-            get
-            {
-                return assignedName;
-            }
-
-            set
-            {
-                assignedName = value;
-            }
-        }
-        public DateTime ActionTakenDateTime
-        {
-            get
-            {
-                return actionTakenDateTime;
-            }
-
-            set
-            {
-                actionTakenDateTime = value;
-            }
-        }
-        public String ActionTakenRemark
-        {
-            get
-            {
-                return actionTakenRemark;
-            }
-
-            set
-            {
-                actionTakenRemark = value;
-            }
-        }
+       
         public Int64 AssignedTo
         {
             get

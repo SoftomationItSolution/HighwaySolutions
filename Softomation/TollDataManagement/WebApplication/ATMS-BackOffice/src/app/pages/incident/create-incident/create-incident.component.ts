@@ -15,7 +15,7 @@ export class CreateIncidentComponent {
   PageTitle: any;
   Masterform!: FormGroup;
   error = errorMessages;
-  ControlRoomId: number;
+  IncidentId: string;
   DataStatus = true;
   LogedUserId;
   ErrorData: any;
@@ -34,7 +34,7 @@ export class CreateIncidentComponent {
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<CreateIncidentComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
-    this.ControlRoomId = parentData.ControlRoomId;
+    this.IncidentId = parentData.IncidentId;
   }
 
   ngOnInit(): void {
@@ -194,6 +194,59 @@ export class CreateIncidentComponent {
     if (this.Masterform.invalid) {
       return;
     }
+    if(this.uploadedFiles==undefined){
+      this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    if(this.uploadedFiles.length==0){
+      this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    const Obj = {
+      IncidentId: this.IncidentId,
+      IncidentCategoryId: this.Masterform.value.IncidentCategoryId,
+      IncidentDescription: this.Masterform.value.IncidentDescription,
+      DirectionId: this.Masterform.value.DirectionId,
+      ChainageNumber: this.Masterform.value.ChainageNumber,
+      Latitude: this.Masterform.value.Latitude,
+      Longitude: this.Masterform.value.Longitude,
+      VehiclePlateNumber: this.Masterform.value.VehiclePlateNumber,
+      VehicleClassId: this.Masterform.value.VehicleClassId,
+      SourceSystemId: this.Masterform.value.SourceSystemId,
+      EquipmentId: this.Masterform.value.EquipmentId,
+      IncidentGeneratedById: this.LogedUserId,
+      IncidentImagePath: this.uploadedFiles[0].Base64,
+      IncidentGeneratedByTypeId:3,//Operater
+      IncidentStatusId: 4,//Assigned
+      CreatedBy: this.LogedUserId
+    };
+    this.spinner.show();
+    this.dbService.IncidentSetUp(Obj).subscribe(
+      data => {
+        this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.ClosePoup();
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 
 }

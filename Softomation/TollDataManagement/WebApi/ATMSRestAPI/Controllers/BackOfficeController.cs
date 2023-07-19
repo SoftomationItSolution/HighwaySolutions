@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using ATMSRestAPI.Models;
@@ -24,7 +25,7 @@ namespace ATMSRestAPI.Controllers
         {
             LogMaster.Write(message, Constants.ErrorLogModule.BackOfficeAPI);
         }
-      
+
         #region Login
         [Route(Provider + "/" + APIPath + "/ValidateUser")]
         [AllowAnonymous]
@@ -1005,6 +1006,10 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
+                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                ims.IncidentImagePath = FilePath.Replace(currentPath, "");
                 response.Message = IncidentDetailsBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }

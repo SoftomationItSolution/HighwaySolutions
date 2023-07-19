@@ -2,6 +2,7 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -357,6 +358,53 @@ namespace Softomation.ATMSSystemLibrary
             {
                 throw ex;
             }
+        }
+
+        public static string SaveMediaFiles(string base64, string FilePath, string FileName, string ext)
+        {
+            string preExt = string.Empty;
+            string result = string.Empty;
+            string fileType = string.Empty;
+            if (!string.IsNullOrEmpty(base64))
+            {
+                try
+                {
+                    if (!Directory.Exists(FilePath))
+                    {
+                        Directory.CreateDirectory(FilePath);
+                    }
+                    FilePath = FilePath + FileName + ext;
+                    if (ext != ".html")
+                    {
+                        if (base64.StartsWith("data:"))
+                        {
+                            preExt = base64.Split(',')[0];
+                            preExt = preExt.Split(';')[0];
+                            preExt = preExt.Replace("data:", "");
+                            string[] fileDetails = preExt.Split('/');
+                            preExt = fileDetails[1];
+                            fileType = fileDetails[0];
+                            base64 = base64.Split(',')[1];
+                        }
+                        byte[] bytes = Convert.FromBase64String(base64);
+                        if (!string.IsNullOrEmpty(preExt))
+                            FilePath = FilePath.Replace(ext, "." + preExt);
+                        File.WriteAllBytes(FilePath, bytes);
+                    }
+                    else
+                    {
+                        File.WriteAllText(FilePath, base64);
+                    }
+                    result = FilePath;
+                }
+                catch (Exception ex)
+                {
+
+                    result = "Invalid";
+                    throw ex;
+                }
+            }
+            return result;
         }
 
         //public static DevicesMasterIL GetCentralGeoCoordinate(List<DevicesMasterIL> geoCoordinates)

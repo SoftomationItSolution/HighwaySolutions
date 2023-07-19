@@ -85,7 +85,7 @@ export class IncidentDataComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
       dialogConfig.height = '500px';
-      dialogConfig.data = { action: 'Save', EquipmentId: 0 };
+      dialogConfig.data = { action: 'Save', IncidentId: '' };
       this.dialog.open(CreateIncidentComponent, dialogConfig);
     }
     else {

@@ -11,7 +11,7 @@ namespace Softomation.ATMSSystemLibrary.DL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_IncidentDetails";
+        static string tableName = "tbl_IncidentDetailsHistory";
         #endregion
 
         internal static List<ResponseIL> Insert(IncidentDetailsIL ims)
@@ -23,7 +23,8 @@ namespace Softomation.ATMSSystemLibrary.DL
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentId", DbType.String, ims.IncidentId, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentCategoryId", DbType.Int16, ims.IncidentCategoryId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentDescription", DbType.String, ims.ChainageNumber, ParameterDirection.Input, 500));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PriorityId", DbType.Int16, ims.PriorityId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentDescription", DbType.String, ims.IncidentDescription, ParameterDirection.Input, 500));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentImagePath", DbType.String, ims.IncidentImagePath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentVideoPath", DbType.String, ims.IncidentVideoPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentAudioPath", DbType.String, ims.IncidentAudioPath, ParameterDirection.Input, 255));
@@ -35,12 +36,9 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, ims.VehicleClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SourceSystemId", DbType.Int16, ims.SourceSystemId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ims.EquipmentId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@NearByVMSId", DbType.Int64, ims.NearByVMSId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@NearByPTZId", DbType.Int64, ims.NearByPTZId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedByTypeId", DbType.Int16, ims.IncidentGeneratedByTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedById", DbType.Int64, ims.IncidentGeneratedById, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentStatusId", DbType.Int16, ims.IncidentStatusId, ParameterDirection.Input)); 
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, ims.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ims.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -52,7 +50,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return responses;
         }
-
         internal static List<IncidentDetailsIL> GetUnAssigned()
         {
             List<IncidentDetailsIL> incidentstatusList = new List<IncidentDetailsIL>();
@@ -186,19 +183,7 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["IncidentGeneratedByName"] != DBNull.Value)
                 id.IncidentGeneratedByName = Convert.ToString(dr["IncidentGeneratedByName"]);
-
-            if (dr["ActionTakenById"] != DBNull.Value)
-                id.ActionTakenById = Convert.ToInt64(dr["ActionTakenById"]);
-
-            if (dr["ActionTakenByName"] != DBNull.Value)
-                id.ActionTakenByName = Convert.ToString(dr["ActionTakenByName"]);
-
-            if (dr["ActionTakenDateTime"] != DBNull.Value)
-                id.ActionTakenDateTime = Convert.ToDateTime(dr["ActionTakenDateTime"]);
-
-            if (dr["ActionTakenRemark"] != DBNull.Value)
-                id.ActionTakenRemark = Convert.ToString(dr["ActionTakenRemark"]);
-
+            
             if (dr["AssignedTo"] != DBNull.Value)
                 id.AssignedTo = Convert.ToInt64(dr["AssignedTo"]);
 
@@ -223,8 +208,11 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ProcessPercentage"] != DBNull.Value)
                 id.ProcessPercentage = Convert.ToDecimal(dr["ProcessPercentage"]);
 
-            if (dr["SendStatus"] != DBNull.Value)
-                id.SendStatus = Convert.ToInt16(dr["SendStatus"]);
+            if (dr["DataSendStatus"] != DBNull.Value)
+                id.DataSendStatus = Convert.ToBoolean(dr["DataSendStatus"]);
+
+            if (dr["MediaSendStatus"] != DBNull.Value)
+                id.MediaSendStatus = Convert.ToBoolean(dr["MediaSendStatus"]);
 
             if (dr["DataStatus"] != DBNull.Value)
                 id.DataStatus = Convert.ToInt16(dr["DataStatus"]);
