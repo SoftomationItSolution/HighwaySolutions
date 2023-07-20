@@ -180,7 +180,7 @@ small {
 }
 
 .modal-body {
-    height: 399px !important;
+    min-height: 230px !important;
     overflow-x: auto !important;
 }
 

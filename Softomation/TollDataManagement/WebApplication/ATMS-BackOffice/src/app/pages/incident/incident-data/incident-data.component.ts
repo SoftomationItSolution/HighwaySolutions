@@ -5,6 +5,7 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import { CreateIncidentComponent } from '../create-incident/create-incident.component';
 import { IncidentHistoryComponent } from '../incident-history/incident-history.component';
+import { IncidentProcessComponent } from '../incident-process/incident-process.component';
 
 @Component({
   selector: 'app-incident-data',
@@ -153,19 +154,31 @@ export class IncidentDataComponent implements OnInit {
   }
 
   onActionHistory(TransactionRowData: any){
-    const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
-      dialogConfig.data = TransactionRowData;
-      this.dialog.open(IncidentHistoryComponent, dialogConfig);
+    if(TransactionRowData.ActionHistoryDetails.length>0){
+      const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = '60%';
+        dialogConfig.height = '500px';
+        dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
+        this.dialog.open(IncidentHistoryComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'No action history found!' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
   }
   onReAssigned(TransactionRowData: any){
 
   }
   onStatusChanged(TransactionRowData: any){
-
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '331px';
+      dialogConfig.data = { action: 'Action Perform', IncidentId: TransactionRowData.IncidentId };
+      this.dialog.open(IncidentProcessComponent, dialogConfig);
   }
 }
 

@@ -299,6 +299,13 @@ IncidentCategoryGetActive(): Observable<any> {
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object});
 }
+
+IncidentStatusGetActive(): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentStatusGetActive', { headers: headers_object});
+}
+
 IncidentCreate(data: {}): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -329,6 +336,8 @@ IMSGetById(data:any): Observable<any> {
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object});
 }
+
+
 //#endregion
 
 //#region Check List

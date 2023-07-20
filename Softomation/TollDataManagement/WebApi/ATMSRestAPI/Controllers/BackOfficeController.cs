@@ -940,6 +940,26 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/IncidentStatusGetActive")]
+        [HttpGet]
+        public HttpResponseMessage IncidentStatusGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentStatusBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IncidentStatusGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/IMSGetInProgress")]
         [HttpGet]
         public HttpResponseMessage IMSGetInProgress(short hours)
