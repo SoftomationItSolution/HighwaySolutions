@@ -9,60 +9,68 @@
                     <div class="dropdown d-inline-block float-right">
                         <span class="p-input-icon-left">
                             <i class="fa fa-search"></i>
-                            <input *ngIf="TabId==0" type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
-                            <input *ngIf="TabId==1" type="text" pInputText class="form-control" (input)="dt1.filterGlobal($any($event.target).value, 'contains')" />
+                            <input *ngIf="TabId==0" type="text" pInputText class="form-control"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            <input *ngIf="TabId==1" type="text" pInputText class="form-control"
+                                (input)="dt1.filterGlobal($any($event.target).value, 'contains')" />
                         </span>
                     </div>
                 </div>
                 <ul class="nav nav-pills" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation" (click)="tabChange(0)">
-                        <button class="nav-link active" id="open-issue" data-bs-toggle="tab" data-bs-target="#open"
-                            type="button" role="tab" aria-controls="open" aria-selected="true">Pending</button>
+                        <button class="nav-link active" id="pending-issue" data-bs-toggle="tab"
+                            data-bs-target="#pending" type="button" role="tab" aria-controls="pending"
+                            aria-selected="true">Pending</button>
                     </li>
                     <li class="nav-item" role="presentation" (click)="tabChange(1)">
-                        <button class="nav-link" id="pending-issue" data-bs-toggle="tab" data-bs-target="#pending"
-                            type="button" role="tab" aria-controls="pending" aria-selected="false">Assigned</button>
+                        <button class="nav-link" id="inprogress-issue" data-bs-toggle="tab" data-bs-target="#inprogress"
+                            type="button" role="tab" aria-controls="inprogress" aria-selected="false">In
+                            Progress</button>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="open" role="tabpanel" aria-labelledby="open-issue">
-                        <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
+                    <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-issue">
+                        <p-table #dt [value]="PendingData" [rowHover]="true" [scrollable]="true"
                             [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
-                            [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
-                    ,'DataStatusName','IpAddress']" scrollHeight="56vh">
+                            [globalFilterFields]="['IncidentId','IncidentCategoryName','PriorityName','EquipmentName','ChainageName','DirectionName']">
                             <ng-template pTemplate="header" styleClass="thead-light">
                                 <tr>
                                     <th>S. No.</th>
-                                    <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
-                                            field="EquipmentTypeName"></p-sortIcon>
+                                    <th>Incident Id</th>
+                                    <th pSortableColumn="IncidentCategoryName">Type <p-sortIcon
+                                            field="IncidentCategoryName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="EquipmentName">Name <p-sortIcon
+                                    <th pSortableColumn="PriorityName">Priority <p-sortIcon
+                                            field="PriorityName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="EquipmentName">Source Equipment<p-sortIcon
                                             field="EquipmentName"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="ChainageName">Chainage <p-sortIcon
                                             field="ChainageName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
-                                            field="IpAddress"></p-sortIcon>
-                                    </th>
                                     <th pSortableColumn="DirectionName">Direction <p-sortIcon
                                             field="DirectionName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
-                                            field="DataStatusName"></p-sortIcon>
-                                    </th>
+                                    <th style="text-align: center;">Meida</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr>
                                     <td>{{i+1}}</td>
-                                    <td>{{rowData.EquipmentTypeName}}</td>
+                                    <td>{{rowData.IncidentId}}</td>
+                                    <td>{{rowData.IncidentCategoryName}}</td>
+                                    <td>{{rowData.PriorityName}}</td>
                                     <td>{{rowData.EquipmentName}}</td>
                                     <td>{{rowData.ChainageName}}</td>
-                                    <td>{{rowData.IpAddress}}</td>
                                     <td>{{rowData.DirectionName}}</td>
-                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
+                                            class="me-3 text-secondary" title="Meida Files">
+                                            <i class="fa fa-paperclip font-size-18"></i>
+                                        </a>
+                                    </td>
                                     <td style="text-align: center;">
                                         <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
                                             class="me-3 text-primary" data-bs-container="#tooltip-container0"
@@ -74,49 +82,65 @@
                             </ng-template>
                         </p-table>
                     </div>
-                    <div class="tab-pane fade" id="pending" role="tabpanel" aria-labelledby="pending-issue">
-                        <p-table #dt1 [value]="DevicesData" [rowHover]="true" [scrollable]="true"
+                    <div class="tab-pane fade" id="inprogress" role="tabpanel" aria-labelledby="inprogress-issue">
+                        <p-table #dt1 [value]="InProgressData" [rowHover]="true" [scrollable]="true"
                             [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
-                            [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
-                    ,'DataStatusName','IpAddress']" scrollHeight="56vh">
+                            [globalFilterFields]="['IncidentId','IncidentCategoryName','PriorityName','EquipmentName','ChainageName','DirectionName']">
                             <ng-template pTemplate="header" styleClass="thead-light">
                                 <tr>
                                     <th>S. No.</th>
-                                    <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
-                                            field="EquipmentTypeName"></p-sortIcon>
+                                    <th>Incident Id</th>
+                                    <th pSortableColumn="IncidentCategoryName">Type <p-sortIcon
+                                            field="IncidentCategoryName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="EquipmentName">Name <p-sortIcon
+                                    <th pSortableColumn="PriorityName">Priority <p-sortIcon
+                                            field="PriorityName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="EquipmentName">Source Equipment<p-sortIcon
                                             field="EquipmentName"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="ChainageName">Chainage <p-sortIcon
                                             field="ChainageName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
-                                            field="IpAddress"></p-sortIcon>
-                                    </th>
                                     <th pSortableColumn="DirectionName">Direction <p-sortIcon
                                             field="DirectionName"></p-sortIcon>
                                     </th>
-                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
-                                            field="DataStatusName"></p-sortIcon>
+                                    <th pSortableColumn="AssignedName">Assigned To <p-sortIcon
+                                            field="AssignedName"></p-sortIcon>
                                     </th>
-                                    <th style="text-align: center;">Action</th>
+                                    <th pSortableColumn="IncidentStatusName">Status <p-sortIcon
+                                            field="IncidentStatusName"></p-sortIcon>
+                                    </th>
+                                    <th style="text-align: center;">Meida</th>
+                                    <th style="text-align: center;">History</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr>
                                     <td>{{i+1}}</td>
-                                    <td>{{rowData.EquipmentTypeName}}</td>
+                                    <td>{{rowData.IncidentId}}</td>
+                                    <td>{{rowData.IncidentCategoryName}}</td>
+                                    <td>{{rowData.PriorityName}}</td>
                                     <td>{{rowData.EquipmentName}}</td>
                                     <td>{{rowData.ChainageName}}</td>
-                                    <td>{{rowData.IpAddress}}</td>
                                     <td>{{rowData.DirectionName}}</td>
-                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td class="hyperlink" (click)="onReAssigned(rowData)">
+                                        {{rowData.AssignedName}}
+                                    </td>
+                                    <td class="hyperlink" (click)="onStatusChanged(rowData)">
+                                        {{rowData.IncidentStatusName}}
+                                    </td>
                                     <td style="text-align: center;">
-                                        <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                        <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
+                                            class="me-3 text-secondary" title="Meida Files">
+                                            <i class="fa fa-paperclip font-size-18"></i>
+                                        </a>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onActionHistory(rowData)"
                                             class="me-3 text-primary" data-bs-container="#tooltip-container0"
                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                            <i class="mdi mdi-format-list-bulleted font-size-18"></i>
                                         </a>
                                     </td>
                                 </tr>

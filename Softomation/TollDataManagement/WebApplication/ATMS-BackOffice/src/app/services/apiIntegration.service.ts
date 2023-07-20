@@ -47,6 +47,8 @@ export class apiIntegrationService {
               returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
               this.ApiCallUrl = returnURL;
               this.dataModel.setDataAPI(this.ApiCallUrl)
+              let mediaPath=curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+              this.dataModel.setMediaAPI(mediaPath)
               resolve(returnURL);
             },
             error: (err: any) => {
@@ -292,36 +294,41 @@ IncidentSourceGetActive(): Observable<any> {
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentSourceGetActive', { headers: headers_object});
 }
-
 IncidentCategoryGetActive(): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object});
 }
-
-IncidentSetUp(data: {}): Observable<any> {
+IncidentCreate(data: {}): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSInsert', data, { headers: headers_object});
 }
-
-IMSGetPending(): Observable<any> {
+IncidentUpdate(data: {}): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetPending', { headers: headers_object});
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSUpdate', data, { headers: headers_object});
 }
-
-IMSGetClosed(): Observable<any> {
+IMSGetPending(data:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetClosed', { headers: headers_object});
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetPending?hours=' + data, { headers: headers_object});
 }
-IMSGetUnAssigned(): Observable<any> {
+IMSGetClosed(data:any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetUnAssigned', { headers: headers_object});
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetClosed?hours=' + data, { headers: headers_object});
 }
-
+IMSGetInProgress(data:any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetInProgress?hours=' + data, { headers: headers_object});
+}
+IMSGetById(data:any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object});
+}
 //#endregion
 
 //#region Check List

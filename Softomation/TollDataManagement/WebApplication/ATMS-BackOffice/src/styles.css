@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-
+/* https://pictogrammers.com/library/mdi/icon/format-list-bulleted/ */
 /* #D6D8D9 */
 /* width */
 ::-webkit-scrollbar {
@@ -23,7 +23,7 @@
     background: #D6D8D9; 
   }
 
-  tbody,
+  /* tbody,
   td,
   tfoot,
   th,
@@ -36,7 +36,7 @@
   tbody,
   td {
       color: #47484a !important;
-  }
+  } */
   
   .mat-mdc-form-field {
       display: flex !important;
@@ -327,6 +327,11 @@ tr {
 
 .modal-header {
     padding: 12px 12px !important
+}
+.hyperlink{
+    cursor: pointer;
+    color: #1891fc;
+    text-decoration: underline;
 }
 
 @media (max-height: 1400px) and (max-width: 1450px) {}

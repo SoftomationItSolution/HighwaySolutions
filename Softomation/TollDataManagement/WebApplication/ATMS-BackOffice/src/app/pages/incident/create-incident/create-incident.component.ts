@@ -29,6 +29,7 @@ export class CreateIncidentComponent {
   IncidentDeviceCoordinates: any;
   PetrollingTeamList: any;
   uploadedFiles:any=[];
+  lastFilePath="";
   DirectionList = [{ Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }];
   PriorityList = [{ Id: 1, Name: 'Critical' }, { Id: 2, Name: 'High' }, { Id: 3, Name: 'Medium' }, { Id: 4, Name: 'Low' }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
@@ -54,16 +55,15 @@ export class CreateIncidentComponent {
       IncidentDescription: new FormControl('', [Validators.required])
     });
     this.GetIncidentSourceList()
-    this.GetAllSystemDevices();
-    this.GetIncidentCategory();
-    this.GetVehicleClass();
-    this.GetPetrollingTeam();
+   
   }
 
   GetIncidentSourceList() {
     this.dbService.IncidentSourceGetActive().subscribe(
       data => {
         this.SourceList = data.ResponseData;
+        this.GetAllSystemDevices();
+        
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -76,6 +76,8 @@ export class CreateIncidentComponent {
     this.dbService.IncidentCategoryGetActive().subscribe(
       data => {
         this.IncidentCategoryList = data.ResponseData;
+        this.GetVehicleClass();
+       
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -88,6 +90,8 @@ export class CreateIncidentComponent {
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
         this.VehicleClassList = data.ResponseData;
+        this.GetPetrollingTeam();
+       
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -100,6 +104,8 @@ export class CreateIncidentComponent {
     this.dbService.EquipmentDetailsGetActive().subscribe(
       data => {
         this.AllDeviceDataList = data.ResponseData;
+        this.GetIncidentCategory();
+       
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -112,6 +118,10 @@ export class CreateIncidentComponent {
     this.dbService.UserConfigurationGetByUserType(5).subscribe(
       data => {
         this.PetrollingTeamList = data.ResponseData;
+        if (this.IncidentId != '') {
+          this.PageTitle = 'Update Incident Details';
+          this.DetailsbyId();
+        }
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -181,6 +191,39 @@ export class CreateIncidentComponent {
   }
 
   DetailsbyId() {
+    this.spinner.show();
+    this.dbService.IMSGetById(this.IncidentId).subscribe(
+      data => {
+        this.spinner.hide();
+        this.DetailData = data.ResponseData;
+        this.Masterform.controls['SourceSystemId'].setValue(this.DetailData.SourceSystemId);
+        this.FillDevice(this.DetailData.SourceSystemId);
+        this.Masterform.controls['EquipmentId'].setValue(this.DetailData.EquipmentId);
+        this.Masterform.controls['IncidentCategoryId'].setValue(this.DetailData.IncidentCategoryId);
+        this.FillPriority(this.DetailData.IncidentCategoryId)
+        this.Masterform.controls['PriorityId'].setValue(this.DetailData.PriorityId);
+        this.Masterform.controls['DirectionId'].setValue(this.DetailData.DirectionId);
+        this.Masterform.controls['ChainageNumber'].setValue(this.DetailData.ChainageNumber);
+        this.Masterform.controls['Latitude'].setValue(this.DetailData.Latitude);
+        this.Masterform.controls['Longitude'].setValue(this.DetailData.Longitude);
+        this.Masterform.controls['AssignedTo'].setValue(this.DetailData.AssignedTo);
+        this.Masterform.controls['VehicleClassId'].setValue(this.DetailData.VehicleClassId);
+        this.Masterform.controls['VehiclePlateNumber'].setValue(this.DetailData.VehiclePlateNumber);
+        this.Masterform.controls['IncidentDescription'].setValue(this.DetailData.IncidentDescription);
+        this.lastFilePath=this.DetailData.IncidentImagePath;
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
   }
 
   ClosePoup() { this.Dialogref.close(); }
@@ -189,6 +232,12 @@ export class CreateIncidentComponent {
     this.Masterform.reset();
   }
 
+  ProcessDetails(){
+    if(this.IncidentId=='')
+      this.SaveDetails()
+    else
+       this.UpdateDetails()
+  }
   SaveDetails() {
     this.submitted=true;
     if (this.Masterform.invalid) {
@@ -206,6 +255,7 @@ export class CreateIncidentComponent {
     }
     const Obj = {
       IncidentId: this.IncidentId,
+      PriorityId: this.Masterform.value.PriorityId,
       IncidentCategoryId: this.Masterform.value.IncidentCategoryId,
       IncidentDescription: this.Masterform.value.IncidentDescription,
       DirectionId: this.Masterform.value.DirectionId,
@@ -217,13 +267,69 @@ export class CreateIncidentComponent {
       SourceSystemId: this.Masterform.value.SourceSystemId,
       EquipmentId: this.Masterform.value.EquipmentId,
       IncidentGeneratedById: this.LogedUserId,
+      AssignedTo:this.Masterform.value.AssignedTo,
       IncidentImagePath: this.uploadedFiles[0].Base64,
       IncidentGeneratedByTypeId:3,//Operater
       IncidentStatusId: 4,//Assigned
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();
-    this.dbService.IncidentSetUp(Obj).subscribe(
+    this.dbService.IncidentCreate(Obj).subscribe(
+      data => {
+        this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.ClosePoup();
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
+  UpdateDetails() {
+    this.submitted=true;
+    if (this.Masterform.invalid) {
+      return;
+    }
+    if(this.uploadedFiles.length>0){
+     this.lastFilePath=this.uploadedFiles[0].Base64;
+    }
+    const Obj = {
+      IncidentId: this.IncidentId,
+      PriorityId: this.Masterform.value.PriorityId,
+      IncidentCategoryId: this.Masterform.value.IncidentCategoryId,
+      IncidentDescription: this.Masterform.value.IncidentDescription,
+      DirectionId: this.Masterform.value.DirectionId,
+      ChainageNumber: this.Masterform.value.ChainageNumber,
+      Latitude: this.Masterform.value.Latitude,
+      Longitude: this.Masterform.value.Longitude,
+      VehiclePlateNumber: this.Masterform.value.VehiclePlateNumber,
+      VehicleClassId: this.Masterform.value.VehicleClassId,
+      SourceSystemId: this.Masterform.value.SourceSystemId,
+      EquipmentId: this.Masterform.value.EquipmentId,
+      IncidentGeneratedById: this.LogedUserId,
+      AssignedTo:this.Masterform.value.AssignedTo,
+      IncidentImagePath: this.lastFilePath,
+      IncidentGeneratedByTypeId:3,//Operater
+      IncidentStatusId: 4,//Assigned
+      ModifiedBy: this.LogedUserId
+    };
+    this.spinner.show();
+    this.dbService.IncidentUpdate(Obj).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;

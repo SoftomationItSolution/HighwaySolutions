@@ -17,6 +17,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 directionId;
         String directionName;
         Decimal chainageNumber;
+        String chainageName;
         Decimal latitude;
         Decimal longitude;
         String vehiclePlateNumber;
@@ -53,6 +54,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             directionId = 0;
             directionName = string.Empty;
             chainageNumber = 0;
+            chainageName = string.Empty;
             latitude = 0;
             longitude = 0;
             vehiclePlateNumber = string.Empty;
@@ -218,6 +220,18 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 chainageNumber = value;
+            }
+        }
+        public String ChainageName
+        {
+            get
+            {
+                return chainageName;
+            }
+
+            set
+            {
+                chainageName = value;
             }
         }
         public Decimal Latitude

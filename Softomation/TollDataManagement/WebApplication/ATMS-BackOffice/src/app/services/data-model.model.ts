@@ -2,6 +2,8 @@ import { EventEmitter, Injectable } from "@angular/core";
 import { SnakbarComponent } from "../allservices/snakbar/snakbar.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import { MediaViewComponent } from "../pages/media-view/media-view.component";
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +11,7 @@ export class DataModel {
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
-  constructor(public snackBar: MatSnackBar,private router: Router) { }
+  constructor(public snackBar: MatSnackBar,private router: Router,public dialog: MatDialog) { }
   clearStorage() {
     localStorage.removeItem("Transit360loggedIn");
     localStorage.removeItem("Transit360Token");
@@ -44,6 +46,13 @@ export class DataModel {
   }
   getDataAPI() {
     return localStorage.getItem('Transit360API');
+  }
+
+  setMediaAPI(path: string) {
+    return localStorage.setItem('Transit360MediaAPI', path);
+  }
+  getMediaAPI() {
+    return localStorage.getItem('Transit360MediaAPI');
   }
 
   setTokenVale(token: string) {
@@ -87,7 +96,15 @@ export class DataModel {
       data: { success, message }
     });
   }
-
+  MediaView(data:any){
+    const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = data;
+      this.dialog.open(MediaViewComponent, dialogConfig);
+  }
   unauthorized() {
     this.router.navigate(['/unauthorized']);
   }

@@ -19,11 +19,33 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static List<IncidentDetailsIL> GetUnAssigned()
+        public static List<ResponseIL> Update(IncidentDetailsIL ims)
         {
             try
             {
-                return IncidentDetailsDL.GetUnAssigned();
+                return IncidentDetailsDL.Update(ims);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static IncidentDetailsIL GetById(String IncidentId)
+        {
+            try
+            {
+                return IncidentDetailsDL.GetById(IncidentId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<IncidentDetailsIL> GetInProgress(short hours)
+        {
+            try
+            {
+                return IncidentDetailsDL.GetInProgress(hours);
             }
             catch (Exception ex)
             {
@@ -31,11 +53,11 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static List<IncidentDetailsIL> GetPending()
+        public static List<IncidentDetailsIL> GetPending(short hours)
         {
             try
             {
-                return IncidentDetailsDL.GetPending();
+                return IncidentDetailsDL.GetPending(hours);
             }
             catch (Exception ex)
             {
@@ -43,11 +65,11 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static List<IncidentDetailsIL> GetClosed()
+        public static List<IncidentDetailsIL> GetClosed(short hours)
         {
             try
             {
-                return IncidentDetailsDL.GetClosed();
+                return IncidentDetailsDL.GetClosed(hours);
             }
             catch (Exception ex)
             {

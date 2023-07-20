@@ -57,6 +57,9 @@ import { PasswordModule } from 'primeng/password';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { UserProfilePopupComponent } from './pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 import { TabViewModule } from 'primeng/tabview';
+import { MediaViewComponent } from './pages/media-view/media-view.component';
+import { IncidentHistoryComponent } from './pages/incident/incident-history/incident-history.component';
+import { IncidentProcessComponent } from './pages/incident/incident-process/incident-process.component';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -106,7 +109,10 @@ export const MY_CUSTOM_FORMATS = {
     PackagesPopupComponent,
     IncidentDataComponent,
     CreateIncidentComponent,
-    ReportsComponent
+    ReportsComponent,
+    MediaViewComponent,
+    IncidentHistoryComponent,
+    IncidentProcessComponent
   ],
   imports: [
     BrowserAnimationsModule,

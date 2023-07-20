@@ -940,20 +940,20 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
+        [Route(Provider + "/" + APIPath + "/IMSGetInProgress")]
         [HttpGet]
-        public HttpResponseMessage IMSGetUnAssigned()
+        public HttpResponseMessage IMSGetInProgress(short hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetUnAssigned();
+                response.ResponseData = IncidentDetailsBL.GetInProgress(hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in IMSGetUnAssigned : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in IMSGetInProgress : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -962,13 +962,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/IMSGetPending")]
         [HttpGet]
-        public HttpResponseMessage IMSGetPending()
+        public HttpResponseMessage IMSGetPending(short hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetPending();
+                response.ResponseData = IncidentDetailsBL.GetPending(hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -982,13 +982,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/IMSGetClosed")]
         [HttpGet]
-        public HttpResponseMessage IMSGetClosed()
+        public HttpResponseMessage IMSGetClosed(short hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetClosed();
+                response.ResponseData = IncidentDetailsBL.GetClosed(hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -999,6 +999,28 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+
+        [Route(Provider + "/" + APIPath + "/IMSGetById")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetById(String IncidentId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetById(IncidentId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
 
         [Route(Provider + "/" + APIPath + "/IMSInsert")]
         [HttpPost]
@@ -1016,6 +1038,32 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in IMSInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSUpdate")]
+        [HttpPost]
+        public HttpResponseMessage IMSUpdate(IncidentDetailsIL ims)
+        {
+            try
+            {
+                IncidentDetailsIL lastData = IncidentDetailsBL.GetById(ims.IncidentId);
+                if (lastData.IncidentImagePath != ims.IncidentImagePath)
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                    FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                }
+                response.Message = IncidentDetailsBL.Update(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSUpdate : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
