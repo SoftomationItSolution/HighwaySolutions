@@ -337,6 +337,12 @@ IMSGetById(data:any): Observable<any> {
   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object});
 }
 
+IMSActionHistoryInsert(data: {}): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSActionHistoryInsert', data, { headers: headers_object});
+}
+
 
 //#endregion
 

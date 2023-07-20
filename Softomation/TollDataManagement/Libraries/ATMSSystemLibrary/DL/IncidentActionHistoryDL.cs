@@ -25,9 +25,9 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionImagePath", DbType.String, ims.ActionImagePath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionVideoPath", DbType.String, ims.ActionVideoPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionAudioPath", DbType.String, ims.ActionAudioPath, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenBy", DbType.Int64, ims.ActionTakenById, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenById", DbType.Int64, ims.ActionTakenById, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenRemark", DbType.String, ims.ActionTakenRemark, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenDateTime", DbType.Date, ims.ActionTakenDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenDateTime", DbType.Date, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionStatusId", DbType.Int16, ims.ActionStatusId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);

@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\IncidentActionHistoryBL.cs" />
     <Compile Include="BL\IncidentCategoryBL.cs" />
     <Compile Include="BL\IncidentDetailsBL.cs" />
     <Compile Include="BL\IncidentSourceBL.cs" />

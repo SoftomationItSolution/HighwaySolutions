@@ -1089,6 +1089,28 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/IMSActionHistoryInsert")]
+        [HttpPost]
+        public HttpResponseMessage IMSActionHistoryInsert(IncidentActionHistoryIL ims)
+        {
+            try
+            {
+                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\"+ ims.IncidentId+"\\";
+                FilePath = Constants.SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                ims.ActionImagePath = FilePath.Replace(currentPath, "");
+                response.Message = IncidentActionHistoryBL.Insert(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSActionHistoryInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         //#region Category Master

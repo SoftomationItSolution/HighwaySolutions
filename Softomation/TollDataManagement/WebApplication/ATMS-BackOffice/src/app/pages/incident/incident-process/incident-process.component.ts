@@ -13,6 +13,7 @@ import { DataModel } from 'src/app/services/data-model.model';
 })
 export class IncidentProcessComponent {
   PageTitle: string = "Incident Action Process";
+  LogedUserId;
   dataDetails: any;
   IncidentId:any;
   ErrorData: any;
@@ -25,7 +26,7 @@ export class IncidentProcessComponent {
     @Inject(MAT_DIALOG_DATA) parentData: any, private dm: DataModel, public Dialogref: MatDialogRef<IncidentProcessComponent>,
     public dialog: MatDialog) {
     this.IncidentId= parentData.IncidentId;
-    
+    this.LogedUserId = this.dm.getUserId();
     this.DetailsbyId();
     this.GetIncidentStatus();
   }
@@ -103,7 +104,52 @@ export class IncidentProcessComponent {
   ClosePoup() { this.Dialogref.close(); }
 
   SaveProcess(){
-
+    this.submitted=true;
+    if (this.Masterform.invalid) {
+      return;
+    }
+    if(this.uploadedFiles==undefined){
+      this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    if(this.uploadedFiles.length==0){
+      this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    const Obj = {
+      IncidentId: this.IncidentId,
+      ActionImagePath: this.uploadedFiles[0].Base64,
+      ActionTakenById:this.LogedUserId,
+      ActionTakenRemark: this.Masterform.value.ActionTakenRemark,
+      ActionStatusId: this.Masterform.value.ActionStatusId,
+    };
+    this.spinner.show();
+    this.dbService.IMSActionHistoryInsert(Obj).subscribe(
+      data => {
+        this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.ClosePoup();
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 
 }
