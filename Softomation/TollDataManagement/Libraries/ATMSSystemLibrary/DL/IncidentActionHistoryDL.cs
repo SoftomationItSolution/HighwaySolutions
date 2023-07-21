@@ -25,6 +25,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionImagePath", DbType.String, ims.ActionImagePath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionVideoPath", DbType.String, ims.ActionVideoPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionAudioPath", DbType.String, ims.ActionAudioPath, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedToId", DbType.Int64, ims.AssignedToId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenById", DbType.Int64, ims.ActionTakenById, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenRemark", DbType.String, ims.ActionTakenRemark, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ActionTakenDateTime", DbType.Date, DateTime.Now, ParameterDirection.Input));
@@ -87,6 +88,12 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["ActionTakenRemark"] != DBNull.Value)
                 id.ActionTakenRemark = Convert.ToString(dr["ActionTakenRemark"]);
+
+            if (dr["AssignedToId"] != DBNull.Value)
+                id.AssignedToId = Convert.ToInt64(dr["AssignedToId"]);
+
+            if (dr["AssignedToName"] != DBNull.Value)
+                id.AssignedToName = Convert.ToString(dr["AssignedToName"]);
 
             if (dr["ActionStatusId"] != DBNull.Value)
                 id.ActionStatusId = Convert.ToInt16(dr["ActionStatusId"]);

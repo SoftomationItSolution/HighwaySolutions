@@ -6,6 +6,7 @@ import { DataModel } from 'src/app/services/data-model.model';
 import { CreateIncidentComponent } from '../create-incident/create-incident.component';
 import { IncidentHistoryComponent } from '../incident-history/incident-history.component';
 import { IncidentProcessComponent } from '../incident-process/incident-process.component';
+import { IncidentAssigneComponent } from '../incident-assigne/incident-assigne.component';
 
 @Component({
   selector: 'app-incident-data',
@@ -23,7 +24,6 @@ export class IncidentDataComponent implements OnInit {
   LogedRoleId;
   ConrtolRoomId = 0;
   TabId=0
-  public innerHeight: any;
   constructor(public dialog: MatDialog, private dm: DataModel, private dbService: apiIntegrationService,
     private spinner: NgxSpinnerService) {
     this.LogedRoleId = this.dm.getRoleId();
@@ -32,6 +32,7 @@ export class IncidentDataComponent implements OnInit {
   ngOnInit() {
     this.GetPermissionData();
   }
+  
   GetPermissionData() {
     this.spinner.show();
     const Obj = {
@@ -168,9 +169,17 @@ export class IncidentDataComponent implements OnInit {
       this.dm.openSnackBar(this.ErrorData, false);
     }
   }
-  onReAssigned(TransactionRowData: any){
 
+  onReAssigned(TransactionRowData: any){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '331px';
+      dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
+      this.dialog.open(IncidentAssigneComponent, dialogConfig);
   }
+
   onStatusChanged(TransactionRowData: any){
     const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;

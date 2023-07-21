@@ -334,38 +334,61 @@ tr {
     text-decoration: underline;
 }
 
-@media (max-height: 1400px) and (max-width: 1450px) {}
-@media (max-height: 550px) {
-    .p-datatable-wrapper {
-        max-height: 47vh !important
-    }
-
-    .page-content-wrapper {
-        margin-top: -115px !important;
-        height: 74vh;
-    }
-
-    .listtableheight {
-        height: 47vh !important
-    }
-
-    .p-datatable-table tbody,
-    tr {
-        font-size: 11px !important;
-        font-weight: 600;
-    }
-
-    .p-datatable-table tbody tr td {
-        padding: 0px 0px 0px 0px !important;
-    }
+.outer-progressbar{
+    background-color: rgb(231, 234, 231); 
+    width: 100%; 
+    border: solid 1px #cfcdcd8f; 
 }
-@media (max-height: 650px) {
+
+.inner-progressbar{
+    background-color: rgb(96, 95, 94); 
+    color: black;
+}
+#page-topbar{
+    z-index: 1000 !important;
+    height:55px !important
+}
+.navbar-header{
+    height:55px !important
+}
+.logo {
+    line-height: 55px !important;
+}
+
+.logo img{
+    height: 50px !important;
+    margin-top: 11px !important;
+}
+
+.navbar-brand-box{
+    padding: 0px !important;
+}
+.vertical-menu{
+    top: 55px !important;
+}
+.page-content {
+    padding: calc(55px) calc(24px / 2) 60px calc(24px / 2);
+}
+.ims-tab{
+    height: 60vh !important
+}
+.footer{
+    height: 30px !important;
+    padding: 8px calc(24px / 2) !important;
+}
+@media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
-        height: 74vh;
+        height: 81vh;
     }
 
     .listtableheight {
+        height: 60vh !important
+    }
+    .p-datatable-wrapper {
+        max-height: 60vh !important;
+    }
+    .ims-tab{
         height: 56vh !important
     }
 
@@ -379,4 +402,55 @@ tr {
         padding: 0px 0px 0px 0px !important;
     }
 }
-@media (max-width: 1450px) {}
+@media (max-height: 650px) and (min-height: 551px) {
+    .page-content-wrapper {
+        margin-top: -115px !important;
+        height: 81vh;
+    }
+
+    .listtableheight {
+        height: 63vh !important
+    }
+    .p-datatable-wrapper {
+        max-height: 63vh !important;
+    }
+    .ims-tab{
+        height: 60vh !important
+    }
+
+    .p-datatable-table tbody,
+    tr {
+        font-size: 11px !important;
+        font-weight: 600;
+    }
+
+    .p-datatable-table tbody tr td {
+        padding: 0px 0px 0px 0px !important;
+    }
+}
+@media (max-height: 720px) and (min-height: 651px){
+    .page-content-wrapper {
+        margin-top: -115px !important;
+        height: 81vh;
+    }
+
+    .listtableheight {
+        height: 69vh !important
+    }
+    .p-datatable-wrapper {
+        max-height: 69vh !important;
+    }
+    .ims-tab{
+        height: 66vh !important
+    }
+
+    .p-datatable-table tbody,
+    tr {
+        font-size: 11px !important;
+        font-weight: 600;
+    }
+
+    .p-datatable-table tbody tr td {
+        padding: 0px 0px 0px 0px !important;
+    }
+}

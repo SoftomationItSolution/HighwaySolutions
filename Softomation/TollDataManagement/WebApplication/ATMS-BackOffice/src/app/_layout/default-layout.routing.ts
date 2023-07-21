@@ -11,6 +11,7 @@ import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
 import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
 import { ReportsComponent } from '../pages/reports/reports.component';
+import { IncidentClosedComponent } from '../pages/incident/incident-closed/incident-closed.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -21,6 +22,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
     { path: 'pendigIncident', component: IncidentDataComponent },
+    { path: 'closeIncident', component: IncidentClosedComponent },
     { path: 'vids', component: VidsdataComponent },
     { path: 'atcc', component: AtccdataComponent },
     { path: 'reports', component: ReportsComponent },

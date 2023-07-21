@@ -39,7 +39,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ims.EquipmentId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedByTypeId", DbType.Int16, ims.IncidentGeneratedByTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedById", DbType.Int64, ims.IncidentGeneratedById, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedTo", DbType.Int64, ims.AssignedTo, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedToId", DbType.Int64, ims.AssignedToId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentStatusId", DbType.Int16, ims.IncidentStatusId, ParameterDirection.Input)); 
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ims.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -76,7 +76,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ims.EquipmentId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedByTypeId", DbType.Int16, ims.IncidentGeneratedByTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentGeneratedById", DbType.Int64, ims.IncidentGeneratedById, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedTo", DbType.Int64, ims.AssignedTo, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedToId", DbType.Int64, ims.AssignedToId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentStatusId", DbType.Int16, ims.IncidentStatusId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, ims.ModifiedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -235,9 +235,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EquipmentName"] != DBNull.Value)
                 id.EquipmentName = Convert.ToString(dr["EquipmentName"]);
 
-            if (dr["NearByVMSId"] != DBNull.Value)
-                id.NearByVMSId = Convert.ToInt64(dr["NearByVMSId"]);
-
             if (dr["NearByPTZId"] != DBNull.Value)
                 id.NearByPTZId = Convert.ToInt64(dr["NearByPTZId"]);
 
@@ -250,11 +247,11 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["IncidentGeneratedByName"] != DBNull.Value)
                 id.IncidentGeneratedByName = Convert.ToString(dr["IncidentGeneratedByName"]);
             
-            if (dr["AssignedTo"] != DBNull.Value)
-                id.AssignedTo = Convert.ToInt64(dr["AssignedTo"]);
+            if (dr["AssignedToId"] != DBNull.Value)
+                id.AssignedToId = Convert.ToInt64(dr["AssignedToId"]);
 
-            if (dr["AssignedName"] != DBNull.Value)
-                id.AssignedName = Convert.ToString(dr["AssignedName"]);
+            if (dr["AssignedToName"] != DBNull.Value)
+                id.AssignedToName = Convert.ToString(dr["AssignedToName"]);
 
             if (dr["IncidentStatusId"] != DBNull.Value)
                 id.IncidentStatusId = Convert.ToInt16(dr["IncidentStatusId"]);

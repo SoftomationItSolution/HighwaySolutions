@@ -28,7 +28,7 @@
                             Progress</button>
                     </li>
                 </ul>
-                <div class="tab-content" id="myTabContent">
+                <div class="tab-content ims-tab" id="myTabContent">
                     <div class="tab-pane fade show active" id="pending" role="tabpanel" aria-labelledby="pending-issue">
                         <p-table #dt [value]="PendingData" [rowHover]="true" [scrollable]="true"
                             [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
@@ -52,6 +52,7 @@
                                     <th pSortableColumn="DirectionName">Direction <p-sortIcon
                                             field="DirectionName"></p-sortIcon>
                                     </th>
+                                    <th style="text-align: center;">Progress</th>
                                     <th style="text-align: center;">Meida</th>
                                     <th style="text-align: center;">Action</th>
                                 </tr>
@@ -65,6 +66,13 @@
                                     <td>{{rowData.EquipmentName}}</td>
                                     <td>{{rowData.ChainageName}}</td>
                                     <td>{{rowData.DirectionName}}</td>
+                                    <td>
+                                        <div class="outer-progressbar">
+                                            <div [style.width]="rowData.ProcessPercentage+ '%'" class="inner-progressbar">
+                                                <b>{{rowData.ProcessPercentage}}%</b>
+                                            </div>
+                                        </div>
+                                    </td>
                                     <td style="text-align: center;">
                                         <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                             class="me-3 text-secondary" title="Meida Files">
@@ -111,6 +119,7 @@
                                     <th pSortableColumn="IncidentStatusName">Status <p-sortIcon
                                             field="IncidentStatusName"></p-sortIcon>
                                     </th>
+                                    <th style="text-align: center;">Progress</th>
                                     <th style="text-align: center;">Meida</th>
                                     <th style="text-align: center;">History</th>
                                 </tr>
@@ -125,10 +134,17 @@
                                     <td>{{rowData.ChainageName}}</td>
                                     <td>{{rowData.DirectionName}}</td>
                                     <td class="hyperlink" (click)="onReAssigned(rowData)">
-                                        {{rowData.AssignedName}}
+                                        {{rowData.AssignedToName}}
                                     </td>
                                     <td class="hyperlink" (click)="onStatusChanged(rowData)">
                                         {{rowData.IncidentStatusName}}
+                                    </td>
+                                    <td>
+                                        <div class="outer-progressbar">
+                                            <div [style.width]="rowData.ProcessPercentage+ '%'" class="inner-progressbar">
+                                                <b>{{rowData.ProcessPercentage}}%</b>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td style="text-align: center;">
                                         <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
@@ -136,6 +152,7 @@
                                             <i class="fa fa-paperclip font-size-18"></i>
                                         </a>
                                     </td>
+                                    
                                     <td style="text-align: center;">
                                         <a href="javascript:void(0);" (click)="onActionHistory(rowData)"
                                             class="me-3 text-primary" data-bs-container="#tooltip-container0"

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -1048,10 +1049,13 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
-                FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
-                ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                if (!string.IsNullOrEmpty(ims.IncidentImagePath))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                    FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                }
                 response.Message = IncidentDetailsBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
@@ -1073,11 +1077,20 @@ namespace ATMSRestAPI.Controllers
                 IncidentDetailsIL lastData = IncidentDetailsBL.GetById(ims.IncidentId);
                 if (lastData.IncidentImagePath != ims.IncidentImagePath)
                 {
-                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
-                    FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
-                    ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                    if (!string.IsNullOrEmpty(ims.IncidentImagePath))
+                    {
+                        string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                        String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                        FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                        ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                        if (File.Exists(currentPath + lastData.IncidentImagePath))
+                            File.Delete(currentPath + lastData.IncidentImagePath);
+                    }
+                    else
+                        ims.IncidentImagePath = lastData.IncidentImagePath;
                 }
+                else
+                    ims.IncidentImagePath = lastData.IncidentImagePath;
                 response.Message = IncidentDetailsBL.Update(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
@@ -1096,10 +1109,13 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\"+ ims.IncidentId+"\\";
-                FilePath = Constants.SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
-                ims.ActionImagePath = FilePath.Replace(currentPath, "");
+                if (!string.IsNullOrEmpty(ims.ActionImagePath))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\" + ims.IncidentId + "\\";
+                    FilePath = Constants.SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    ims.ActionImagePath = FilePath.Replace(currentPath, "");
+                }
                 response.Message = IncidentActionHistoryBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }

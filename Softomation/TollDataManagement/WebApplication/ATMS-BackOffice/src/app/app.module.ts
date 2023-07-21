@@ -60,6 +60,8 @@ import { TabViewModule } from 'primeng/tabview';
 import { MediaViewComponent } from './pages/media-view/media-view.component';
 import { IncidentHistoryComponent } from './pages/incident/incident-history/incident-history.component';
 import { IncidentProcessComponent } from './pages/incident/incident-process/incident-process.component';
+import { IncidentAssigneComponent } from './pages/incident/incident-assigne/incident-assigne.component';
+import { IncidentClosedComponent } from './pages/incident/incident-closed/incident-closed.component';
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -112,7 +114,9 @@ export const MY_CUSTOM_FORMATS = {
     ReportsComponent,
     MediaViewComponent,
     IncidentHistoryComponent,
-    IncidentProcessComponent
+    IncidentProcessComponent,
+    IncidentAssigneComponent,
+    IncidentClosedComponent
   ],
   imports: [
     BrowserAnimationsModule,

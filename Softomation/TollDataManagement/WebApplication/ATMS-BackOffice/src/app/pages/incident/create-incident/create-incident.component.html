@@ -87,13 +87,13 @@
                             required.</small>
                     </div>
                     <div class="col-md-3">
-                        <label for="AssignedTo">Assigned To</label>
-                        <p-dropdown appendTo="body" formControlName="AssignedTo" [options]="PetrollingTeamList"
+                        <label for="AssignedToId">Assigned To</label>
+                        <p-dropdown appendTo="body" formControlName="AssignedToId" [options]="PetrollingTeamList"
                             optionLabel="LoginId" optionValue="UserId" placeholder="Select Patrolling team"
                             class="form-control select2">
                         </p-dropdown>
                         <small class="p-error"
-                            *ngIf="submitted && Masterform.hasError('required','AssignedTo')">Assigning Team is
+                            *ngIf="submitted && Masterform.hasError('required','AssignedToId')">Assigning Team is
                             required.</small>
                     </div>
                     <div class="col-md-3">

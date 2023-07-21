@@ -6,35 +6,61 @@ import { errorMessages } from 'src/app/allservices/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
+
 @Component({
-  selector: 'app-incident-process',
-  templateUrl: './incident-process.component.html',
-  styleUrls: ['./incident-process.component.css']
+  selector: 'app-incident-assigne',
+  templateUrl: './incident-assigne.component.html',
+  styleUrls: ['./incident-assigne.component.css']
 })
-export class IncidentProcessComponent {
+export class IncidentAssigneComponent {
   PageTitle: string = "Incident Action Process";
+  AssignedToName: string = "Assigned To";
   LogedUserId;
   dataDetails: any;
   IncidentId:any;
   ErrorData: any;
+  PetrollingTeamList:any;
   Masterform!: FormGroup;
   error = errorMessages;
   submitted=false;
   ActionList:any;
   uploadedFiles:any=[];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
-    @Inject(MAT_DIALOG_DATA) parentData: any, private dm: DataModel, public Dialogref: MatDialogRef<IncidentProcessComponent>,
+    @Inject(MAT_DIALOG_DATA) parentData: any, private dm: DataModel, public Dialogref: MatDialogRef<IncidentAssigneComponent>,
     public dialog: MatDialog) {
     this.IncidentId= parentData.IncidentId;
     this.LogedUserId = this.dm.getUserId();
   }
 
   ngOnInit(): void {
-    this.Masterform = new FormGroup({
+    this.Masterform = new FormGroup
+    ({
       ActionStatusId: new FormControl('', [Validators.required]),
+      AssignedToId: new FormControl('', [Validators.required]),
       ActionTakenRemark: new FormControl('', [Validators.required]),
     });
     this.GetIncidentStatus();
+  }
+
+  GetPetrollingTeam() {
+    this.dbService.UserConfigurationGetByUserType(5).subscribe(
+      data => {
+        this.PetrollingTeamList = data.ResponseData;
+        this.DetailsbyId();
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  ActionChange(val:any){
+    let res=this.ActionList.filter((e: { IncidentStatusId: any; }) => e.IncidentStatusId == val);
+    if(res.length>0){
+      this.AssignedToName=res[0].IncidentStatusName;
+    }
+
   }
 
   DetailsbyId() {
@@ -43,7 +69,7 @@ export class IncidentProcessComponent {
       data => {
         this.spinner.hide();
         this.dataDetails = data.ResponseData;
-        this.PageTitle = this.dataDetails.IncidentStatusName + "(" + this.IncidentId + ")";
+        this.PageTitle = "Manage Assigne: (" + this.IncidentId + ")";
         //this.Masterform.controls['ActionStatusId'].setValue(this.dataDetails.IncidentStatusId);
       },
       (error) => {
@@ -66,8 +92,8 @@ export class IncidentProcessComponent {
       data => {
         this.spinner.hide();
         var dataresult = data.ResponseData;
-        this.ActionList = dataresult.filter((e: { IncidentStatusId: any; }) => e.IncidentStatusId == 2 || e.IncidentStatusId == 3 || e.IncidentStatusId == 6);
-        this.DetailsbyId();
+        this.ActionList = dataresult.filter((e: { IncidentStatusId: any; }) => e.IncidentStatusId == 4 || e.IncidentStatusId == 5 || e.IncidentStatusId == 9);
+        this.GetPetrollingTeam();
       },
       (error) => {
         this.spinner.hide();
@@ -116,8 +142,8 @@ export class IncidentProcessComponent {
     }
     const Obj = {
       IncidentId: this.IncidentId,
-      ActionImagePath: this.uploadedFiles[0].Base64,
       ActionTakenById:this.LogedUserId,
+      AssignedToId: this.Masterform.value.AssignedToId,
       ActionTakenRemark: this.Masterform.value.ActionTakenRemark,
       ActionStatusId: this.Masterform.value.ActionStatusId,
     };

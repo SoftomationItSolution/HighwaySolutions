@@ -16,6 +16,8 @@ namespace Softomation.ATMSSystemLibrary.IL
         String actionAudioPath;
         Int16 actionStatusId;
         String actionStatusName;
+        Int64 assignedToId;
+        String assignedToName;
         public IncidentActionHistoryIL()
         {
             incidentId = string.Empty;
@@ -28,6 +30,9 @@ namespace Softomation.ATMSSystemLibrary.IL
             actionAudioPath = string.Empty;
             actionStatusId = 0;
             actionStatusName = string.Empty;
+            assignedToId = 0;
+            assignedToName = string.Empty;
+           
         }
         public String IncidentId
         {
@@ -147,6 +152,31 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 actionStatusName = value;
+            }
+        }
+
+        public Int64 AssignedToId
+        {
+            get
+            {
+                return assignedToId;
+            }
+
+            set
+            {
+                assignedToId = value;
+            }
+        }
+        public String AssignedToName
+        {
+            get
+            {
+                return assignedToName;
+            }
+
+            set
+            {
+                assignedToName = value;
             }
         }
     }

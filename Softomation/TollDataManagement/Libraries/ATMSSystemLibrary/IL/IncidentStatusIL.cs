@@ -8,13 +8,14 @@ namespace Softomation.ATMSSystemLibrary.IL
         String incidentStatusName;
         String incidentStatusIcon;
         String incidentStatusColorCode;
-
+        Decimal processPercentage;
         public IncidentStatusIL()
         {
             incidentStatusId = 0;
             incidentStatusName = string.Empty;
             incidentStatusIcon = string.Empty;
             incidentStatusColorCode = string.Empty;
+            processPercentage = 0;
         }
 
         public Int16 IncidentStatusId
@@ -66,6 +67,19 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 incidentStatusColorCode = value;
+            }
+        }
+
+        public Decimal ProcessPercentage
+        {
+            get
+            {
+                return processPercentage;
+            }
+
+            set
+            {
+                processPercentage = value;
             }
         }
     }

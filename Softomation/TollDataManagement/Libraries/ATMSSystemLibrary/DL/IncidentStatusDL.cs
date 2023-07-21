@@ -52,37 +52,40 @@ namespace Softomation.ATMSSystemLibrary.DL
         #region Helper Methods
         internal static IncidentStatusIL CreateObjectFromDataRow(DataRow dr)
         {
-            IncidentStatusIL incidentstatus = new IncidentStatusIL();
+            IncidentStatusIL imsStatus = new IncidentStatusIL();
 
             if (dr["IncidentStatusId"] != DBNull.Value)
-                incidentstatus.IncidentStatusId = Convert.ToInt16(dr["IncidentStatusId"]);
+                imsStatus.IncidentStatusId = Convert.ToInt16(dr["IncidentStatusId"]);
 
             if (dr["IncidentStatusName"] != DBNull.Value)
-                incidentstatus.IncidentStatusName = Convert.ToString(dr["IncidentStatusName"]);
+                imsStatus.IncidentStatusName = Convert.ToString(dr["IncidentStatusName"]);
 
             if (dr["IncidentStatusIcon"] != DBNull.Value)
-                incidentstatus.IncidentStatusIcon = Convert.ToString(dr["IncidentStatusIcon"]);
+                imsStatus.IncidentStatusIcon = Convert.ToString(dr["IncidentStatusIcon"]);
 
             if (dr["IncidentStatusColorCode"] != DBNull.Value)
-                incidentstatus.IncidentStatusColorCode = Convert.ToString(dr["IncidentStatusColorCode"]);
+                imsStatus.IncidentStatusColorCode = Convert.ToString(dr["IncidentStatusColorCode"]);
+
+            if (dr["ProcessPercentage"] != DBNull.Value)
+                imsStatus.ProcessPercentage = Convert.ToDecimal(dr["ProcessPercentage"]);
 
             if (dr["DataStatus"] != DBNull.Value)
-                incidentstatus.DataStatus = Convert.ToInt16(dr["DataStatus"]);
+                imsStatus.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
             if (dr["CreatedDate"] != DBNull.Value)
-                incidentstatus.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
+                imsStatus.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
             if (dr["CreatedBy"] != DBNull.Value)
-                incidentstatus.CreatedBy = Convert.ToInt32(dr["CreatedBy"]);
+                imsStatus.CreatedBy = Convert.ToInt32(dr["CreatedBy"]);
 
             if (dr["ModifiedDate"] != DBNull.Value)
-                incidentstatus.ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"]);
+                imsStatus.ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"]);
 
             if (dr["ModifiedBy"] != DBNull.Value)
-                incidentstatus.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
+                imsStatus.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            incidentstatus.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)incidentstatus.DataStatus);
-            return incidentstatus;
+            imsStatus.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)imsStatus.DataStatus);
+            return imsStatus;
         }
         #endregion
     }

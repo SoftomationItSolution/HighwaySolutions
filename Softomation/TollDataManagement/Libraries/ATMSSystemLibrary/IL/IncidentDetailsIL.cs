@@ -33,11 +33,10 @@ namespace Softomation.ATMSSystemLibrary.IL
         String incidentGeneratedByTypeName;
         Int64 incidentGeneratedById;
         String incidentGeneratedByName;
-        String assignedName;
-        Int64 assignedTo;
+        String assignedToName;
+        Int64 assignedToId;
         DateTime assignedDateTime;
-        Decimal processPercentage;
-        Int16 sendStatus;
+        
         List<IncidentActionHistoryIL> actionHistoryDetails;
 
         public IncidentDetailsIL()
@@ -70,11 +69,9 @@ namespace Softomation.ATMSSystemLibrary.IL
             incidentGeneratedByTypeName = string.Empty;
             incidentGeneratedById = 0;
             incidentGeneratedByName = string.Empty;
-            assignedName = string.Empty;
-            assignedTo = 0;
+            assignedToName = string.Empty;
+            assignedToId = 0;
             assignedDateTime = DateTime.MinValue;
-            processPercentage = 0;
-            sendStatus = 0;
             actionHistoryDetails = new List<IncidentActionHistoryIL>();
         }
 
@@ -414,29 +411,28 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByName = value;
             }
         }
-       
-        public Int64 AssignedTo
+        public Int64 AssignedToId
         {
             get
             {
-                return assignedTo;
+                return assignedToId;
             }
 
             set
             {
-                assignedTo = value;
+                assignedToId = value;
             }
         }
-        public String AssignedName
+        public String AssignedToName
         {
             get
             {
-                return assignedName;
+                return assignedToName;
             }
 
             set
             {
-                assignedName = value;
+                assignedToName = value;
             }
         }
         public DateTime AssignedDateTime
@@ -449,18 +445,6 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 assignedDateTime = value;
-            }
-        }
-        public Decimal ProcessPercentage
-        {
-            get
-            {
-                return processPercentage;
-            }
-
-            set
-            {
-                processPercentage = value;
             }
         }
         public List<IncidentActionHistoryIL> ActionHistoryDetails

@@ -51,7 +51,7 @@ export class CreateIncidentComponent {
       Longitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
       VehiclePlateNumber: new FormControl('', []),
       VehicleClassId: new FormControl('', []),
-      AssignedTo: new FormControl('', [Validators.required]),
+      AssignedToId: new FormControl('', [Validators.required]),
       IncidentDescription: new FormControl('', [Validators.required])
     });
     this.GetIncidentSourceList()
@@ -206,7 +206,7 @@ export class CreateIncidentComponent {
         this.Masterform.controls['ChainageNumber'].setValue(this.DetailData.ChainageNumber);
         this.Masterform.controls['Latitude'].setValue(this.DetailData.Latitude);
         this.Masterform.controls['Longitude'].setValue(this.DetailData.Longitude);
-        this.Masterform.controls['AssignedTo'].setValue(this.DetailData.AssignedTo);
+        this.Masterform.controls['AssignedToId'].setValue(this.DetailData.AssignedToId);
         this.Masterform.controls['VehicleClassId'].setValue(this.DetailData.VehicleClassId);
         this.Masterform.controls['VehiclePlateNumber'].setValue(this.DetailData.VehiclePlateNumber);
         this.Masterform.controls['IncidentDescription'].setValue(this.DetailData.IncidentDescription);
@@ -267,7 +267,7 @@ export class CreateIncidentComponent {
       SourceSystemId: this.Masterform.value.SourceSystemId,
       EquipmentId: this.Masterform.value.EquipmentId,
       IncidentGeneratedById: this.LogedUserId,
-      AssignedTo:this.Masterform.value.AssignedTo,
+      AssignedToId:this.Masterform.value.AssignedToId,
       IncidentImagePath: this.uploadedFiles[0].Base64,
       IncidentGeneratedByTypeId:3,//Operater
       IncidentStatusId: 4,//Assigned
@@ -322,7 +322,7 @@ export class CreateIncidentComponent {
       SourceSystemId: this.Masterform.value.SourceSystemId,
       EquipmentId: this.Masterform.value.EquipmentId,
       IncidentGeneratedById: this.LogedUserId,
-      AssignedTo:this.Masterform.value.AssignedTo,
+      AssignedToId:this.Masterform.value.AssignedToId,
       IncidentImagePath: this.lastFilePath,
       IncidentGeneratedByTypeId:3,//Operater
       IncidentStatusId: 4,//Assigned
