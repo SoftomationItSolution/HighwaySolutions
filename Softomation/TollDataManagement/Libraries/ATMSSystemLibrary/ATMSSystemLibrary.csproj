@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\EquipmentConfigBL.cs" />
     <Compile Include="BL\IncidentActionHistoryBL.cs" />
     <Compile Include="BL\IncidentCategoryBL.cs" />
     <Compile Include="BL\IncidentDetailsBL.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\EquipmentConfigDL.cs" />
     <Compile Include="DL\IncidentActionHistoryDL.cs" />
     <Compile Include="DL\IncidentCategoryDL.cs" />
     <Compile Include="DL\IncidentDetailsDL.cs" />
@@ -133,6 +135,7 @@
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
     <Compile Include="IL\ControlRoomIL.cs" />
+    <Compile Include="IL\EquipmentConfigIL.cs" />
     <Compile Include="IL\EquipmentDetailsIL.cs" />
     <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\IncidentActionHistoryIL.cs" />

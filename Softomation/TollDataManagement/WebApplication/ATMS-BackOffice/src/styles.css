@@ -1,29 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
-/* https://pictogrammers.com/library/mdi/icon/format-list-bulleted/ */
+/* https://pictogrammers.com/library/mdi/ */
 /* #D6D8D9 */
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
-  }
-  
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #fff; 
-    border-radius: 10px;
-  }
-   
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #D6D8D9; 
-    border-radius: 10px;
-  }
-  
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #D6D8D9; 
-  }
+}
 
-  /* tbody,
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #D6D8D9;
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #D6D8D9;
+}
+
+/* tbody,
   td,
   tfoot,
   th,
@@ -37,40 +37,41 @@
   td {
       color: #47484a !important;
   } */
-  
-  .mat-mdc-form-field {
-      display: flex !important;
-      background-color: transparent !important;
-  }
-  
-  .mdc-text-field--filled:not(.mdc-text-field--disabled) {
-      background-color: transparent !important;
-  }
-  
-  .mat-mdc-form-field-infix {
-      background-color: transparent !important;
-  }
-  
-  .mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
-      padding-top: 5px !important;
-      padding-bottom: 5px !important;
-  }
-  
-  .mat-mdc-form-field,
-  .mat-mdc-floating-label {
-      background-color: transparent !important;
-      -moz-osx-font-smoothing: none !important;
-      -webkit-font-smoothing: none !important;
-      font-family: var(--bs-body-font-family) !important;
-      font-size: var(--bs-body-font-size) !important;
-      line-height: var(--bs-body-line-height) !important;
-      font-weight: var(--mdc-typography-body1-font-weight, 400);
-      letter-spacing: var(--mdc-typography-body1-letter-spacing, 0.03125em);
-      -webkit-text-decoration: none !important;
-      text-decoration: none !important;
-      text-transform: none !important;
-  }
-  .form-control {
+
+.mat-mdc-form-field {
+    display: flex !important;
+    background-color: transparent !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: transparent !important;
+}
+
+.mat-mdc-form-field-infix {
+    background-color: transparent !important;
+}
+
+.mdc-text-field--no-label:not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mat-mdc-form-field-infix {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.mat-mdc-form-field,
+.mat-mdc-floating-label {
+    background-color: transparent !important;
+    -moz-osx-font-smoothing: none !important;
+    -webkit-font-smoothing: none !important;
+    font-family: var(--bs-body-font-family) !important;
+    font-size: var(--bs-body-font-size) !important;
+    line-height: var(--bs-body-line-height) !important;
+    font-weight: var(--mdc-typography-body1-font-weight, 400);
+    letter-spacing: var(--mdc-typography-body1-letter-spacing, 0.03125em);
+    -webkit-text-decoration: none !important;
+    text-decoration: none !important;
+    text-transform: none !important;
+}
+
+.form-control {
     display: block;
     width: 100%;
     padding: 0.47rem 0.75rem !important;
@@ -328,54 +329,101 @@ tr {
 .modal-header {
     padding: 12px 12px !important
 }
-.hyperlink{
+
+.hyperlink {
     cursor: pointer;
     color: #1891fc;
     text-decoration: underline;
 }
 
-.outer-progressbar{
-    background-color: rgb(231, 234, 231); 
-    width: 100%; 
-    border: solid 1px #cfcdcd8f; 
+.outer-progressbar {
+    background-color: rgb(231, 234, 231);
+    width: 100%;
+    border: solid 1px #cfcdcd8f;
 }
 
-.inner-progressbar{
-    background-color: rgb(96, 95, 94); 
+.inner-progressbar {
+    background-color: rgb(96, 95, 94);
     color: black;
 }
-#page-topbar{
+
+#page-topbar {
     z-index: 1000 !important;
-    height:55px !important
+    height: 55px !important
 }
-.navbar-header{
-    height:55px !important
+
+.navbar-header {
+    height: 55px !important
 }
+
 .logo {
     line-height: 55px !important;
 }
 
-.logo img{
+.logo img {
     height: 50px !important;
     margin-top: 11px !important;
 }
 
-.navbar-brand-box{
+.navbar-brand-box {
     padding: 0px !important;
 }
-.vertical-menu{
+
+.vertical-menu {
     top: 55px !important;
 }
+
 .page-content {
     padding: calc(55px) calc(24px / 2) 60px calc(24px / 2);
 }
-.ims-tab{
+
+.ims-tab {
     height: 60vh !important
 }
-.footer{
+
+.footer {
     height: 30px !important;
     padding: 8px calc(24px / 2) !important;
 }
+
+.listheight {
+    width: 100%;
+    height: 74vh;
+}
+
+.ccard {
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.ccard {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: 1rem;
+}
+
+.ccard .card-body {
+    height: 65vh;
+}
+.p-treenode-content{
+    padding: 5px;
+}
+.p-tree-container li {
+    background-color: #ebeff1 !important;
+    transition: background-color .15s;
+}
+
+.p-treenode-label {
+    font-size: .9em !important;
+    font-weight: 600 !important;
+    color: #416578 !important;
+}
+
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -385,10 +433,12 @@ tr {
     .listtableheight {
         height: 60vh !important
     }
+
     .p-datatable-wrapper {
         max-height: 60vh !important;
     }
-    .ims-tab{
+
+    .ims-tab {
         height: 56vh !important
     }
 
@@ -402,6 +452,7 @@ tr {
         padding: 0px 0px 0px 0px !important;
     }
 }
+
 @media (max-height: 650px) and (min-height: 551px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -409,12 +460,14 @@ tr {
     }
 
     .listtableheight {
-        height: 63vh !important
+        height: 64vh !important
     }
+
     .p-datatable-wrapper {
         max-height: 63vh !important;
     }
-    .ims-tab{
+
+    .ims-tab {
         height: 60vh !important
     }
 
@@ -428,7 +481,8 @@ tr {
         padding: 0px 0px 0px 0px !important;
     }
 }
-@media (max-height: 720px) and (min-height: 651px){
+
+@media (max-height: 720px) and (min-height: 651px) {
     .page-content-wrapper {
         margin-top: -115px !important;
         height: 81vh;
@@ -437,10 +491,12 @@ tr {
     .listtableheight {
         height: 69vh !important
     }
+
     .p-datatable-wrapper {
         max-height: 69vh !important;
     }
-    .ims-tab{
+
+    .ims-tab {
         height: 66vh !important
     }
 

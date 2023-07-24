@@ -85,6 +85,56 @@ namespace Softomation.ATMSSystemLibrary
         #endregion
 
         #region Enum
+        public enum VIDSEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+            MainCarriageway = 3,
+            ParkingSpot = 4
+        }
+        public enum ATCCEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+        }
+        public enum VMSEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+        }
+        public enum VSDSEquipmentPositionType
+        {
+            Lane_0 = 0,
+            Lane_1 = 1,
+            Lane_2 = 2,
+            Lane_3 = 3,
+            Lane_4 = 4,
+            Lane_5 = 5,
+            Lane_6 = 6,
+            Lane_7 = 7,
+            Lane_8 = 8
+        }
+
+        public enum SystemMasterType
+        {
+            ADAS = 1,
+            ATCC = 2,
+            ECS = 3,
+            FMS = 4,
+            TMCS = 5,
+            VIDS = 6,
+            VMS = 7,
+            VSDS = 8,
+            Weather = 9,
+            IMS = 10,
+            Config = 11,
+            TTMS = 12,
+            RMS = 13,
+            NMS = 14,
+            Challan = 15,
+            CRS = 16,
+            MRCS = 17
+        }
         public enum PriorityType
         {
             Critical = 1,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
@@ -28,18 +29,18 @@ namespace Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ProtocolTypeId", DbType.Int16, ed.ProtocolTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentName", DbType.String, ed.EquipmentName.Trim(), ParameterDirection.Input, 200));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, ed.DirectionId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IpAddress", DbType.String, ed.IpAddress, ParameterDirection.Input,20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IpAddress", DbType.String, ed.IpAddress, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PortNumber", DbType.Int64, ed.PortNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, ed.LoginId, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Password", DbType.String, ed.Password, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ed.ChainageNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ed.Latitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ed.Longitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDetail", DbType.String, ed.ManufacturerDetail, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VendorDetail", DbType.String, ed.VendorDetail, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDetail", DbType.String, ed.ManufacturerDetail, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VendorDetail", DbType.String, ed.VendorDetail, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDate", DbType.Date, ed.ManufacturerDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PurchageDate", DbType.Date, ed.PurchageDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WarrantyExpireDate", DbType.Date, ed.WarrantyExpireDate, ParameterDirection.Input));
@@ -111,6 +112,27 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return edData;
         }
+
+        internal static List<EquipmentDetailsIL> GetBySystemId(Int16 SystemId)
+        {
+            DataTable dt = new DataTable();
+            List<EquipmentDetailsIL> edData = new List<EquipmentDetailsIL>();
+            try
+            {
+                string spName = "USP_EquipmentDetailsGetBySystemId";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    edData.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return edData;
+        }
         #endregion
 
         #region Helper Methods
@@ -132,7 +154,7 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["PackageName"] != DBNull.Value)
                 ed.PackageName = Convert.ToString(dr["PackageName"]);
-          
+
             if (dr["SystemId"] != DBNull.Value)
                 ed.SystemId = Convert.ToInt16(dr["SystemId"]);
 
@@ -236,6 +258,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             ed.ProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
+
+
         #endregion
     }
 }

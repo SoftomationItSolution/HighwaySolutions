@@ -12,8 +12,12 @@ import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-deta
 import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
 import { ReportsComponent } from '../pages/reports/reports.component';
 import { IncidentClosedComponent } from '../pages/incident/incident-closed/incident-closed.component';
+import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-config/vids-equipment-config.component';
+import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
+import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
 
 export const AdminLayoutRoutes: Routes = [
+   
     { path: 'dashboard', component: DashboardComponent },
     { path: 'controlRoom', component: ControlRoomConfigurationComponent },
     { path: 'equipment', component: DeviceDataComponent },
@@ -21,11 +25,16 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vehicleClass', component: VehicleClassDataComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'users', component: UserConfigurationComponent },
-    { path: 'pendigIncident', component: IncidentDataComponent },
-    { path: 'closeIncident', component: IncidentClosedComponent },
-    { path: 'vids', component: VidsdataComponent },
     { path: 'atcc', component: AtccdataComponent },
     { path: 'reports', component: ReportsComponent },
+    { path: 'pendigIncident', component: IncidentDataComponent },
+    { path: 'closeIncident', component: IncidentClosedComponent },
+    { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
+    { path: 'vidsIncidentConfig', component: VidsEquipmentConfigComponent },
+    { path: 'vidsIncidentHistroy', component: VidsdataComponent },
+    { path: 'vidsValidation', component: VidsValidationComponent },
+    { path: 'vidsValidated', component: VidsValidatedComponent },
     { path: '**', component: PageNotFoundComponent },
-    { path: 'unauthorized', component: PageNotFoundComponent }
+    { path: 'unauthorized', component: PageNotFoundComponent },
+ 
 ];

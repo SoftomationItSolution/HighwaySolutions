@@ -223,6 +223,11 @@ export class apiIntegrationService {
   //#endregion
 
   //#region Equipment Details
+  EquipmentDetailsGetBySystemId(SystemId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+  }
   EquipmentDetailsGetById(EquipmentId: any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');

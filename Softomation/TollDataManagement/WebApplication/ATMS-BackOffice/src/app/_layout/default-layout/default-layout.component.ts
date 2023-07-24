@@ -26,7 +26,7 @@ export class DefaultLayoutComponent implements OnInit {
   ParentTitle = "Dashboard"
   ChildTitle = "Dashboard"
   constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, location: Location,public dialog: MatDialog,) {
+    public api: apiIntegrationService, location: Location, public dialog: MatDialog,) {
     this.docElement = document.documentElement;
   }
 
@@ -78,19 +78,25 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   menuED(event: any, m) {
-    //console.log(m)
+    const cn = document.getElementById("mid_" + m.MenuId);
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
       element.classList.remove('mm-active');
     });
     if (m.ChildCount != 0) {
-      const cn = document.getElementById("mid_" + m.MenuId)
+      if (cn.classList.contains("mm-active"))
+        cn.classList.remove("mm-show")
+      else
+        cn.classList.add("mm-show")
       let childClass = cn.querySelector('ul')
-      childClass.classList.add("mm-show")
+      if (childClass.classList.contains("mm-show")) {
+        childClass.classList.remove("mm-show")
+      }
+      else {
+        childClass.classList.add("mm-show")
+      }
     }
-
-    const cn = document.getElementById("mid_" + m.MenuId)
     cn.classList.add("mm-active")
     this.getTitle();
   }
@@ -122,9 +128,6 @@ export class DefaultLayoutComponent implements OnInit {
         this.router.navigate(['']);
       }
     );
-
-
-
     this.router.navigate(['']);
   }
 
@@ -155,7 +158,6 @@ export class DefaultLayoutComponent implements OnInit {
             let childClass = cn.querySelector('ul')
             childClass.classList.add("mm-show")
           }
-
         }
         this.ChildTitle = foundObj[0].MenuName
       }
@@ -163,16 +165,16 @@ export class DefaultLayoutComponent implements OnInit {
     return 'Dashboard';
   }
 
-  chOpen(){
+  chOpen() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
-    dialogConfig.height = '500px';0
+    dialogConfig.height = '500px'; 0
     this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
   }
 
-  pfOpen(){
+  pfOpen() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

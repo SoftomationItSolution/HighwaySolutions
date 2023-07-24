@@ -62,6 +62,13 @@ import { IncidentHistoryComponent } from './pages/incident/incident-history/inci
 import { IncidentProcessComponent } from './pages/incident/incident-process/incident-process.component';
 import { IncidentAssigneComponent } from './pages/incident/incident-assigne/incident-assigne.component';
 import { IncidentClosedComponent } from './pages/incident/incident-closed/incident-closed.component';
+import { VidsEquipmentConfigComponent } from './pages/VIDS/vids-equipment-config/vids-equipment-config.component';
+import { VidsIncidentConfigComponent } from './pages/VIDS/vids-incident-config/vids-incident-config.component';
+import { VidsValidationComponent } from './pages/VIDS/vids-validation/vids-validation.component';
+import { VidsValidatedComponent } from './pages/VIDS/vids-validated/vids-validated.component';
+import { TreeModule } from 'primeng/tree';
+import { DragDropModule } from 'primeng/dragdrop';
+
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -116,7 +123,11 @@ export const MY_CUSTOM_FORMATS = {
     IncidentHistoryComponent,
     IncidentProcessComponent,
     IncidentAssigneComponent,
-    IncidentClosedComponent
+    IncidentClosedComponent,
+    VidsEquipmentConfigComponent,
+    VidsIncidentConfigComponent,
+    VidsValidationComponent,
+    VidsValidatedComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -151,6 +162,8 @@ export const MY_CUSTOM_FORMATS = {
     InputTextModule,
     PasswordModule,
     TabViewModule,
+    TreeModule,
+    DragDropModule 
   ],
   providers: [
     [DatePipe],

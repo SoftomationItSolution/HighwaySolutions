@@ -1,0 +1,39 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="listheight">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card ccard radius-t-0 h-100">
+                                <div class="position-tl w-102 border-t-3 brc-primary-tp3 ml-n1px mt-n1px"></div>
+                                <div class="card-header pb-3 brc-secondary-l3">
+                                    <h5 class="card-title mb-2 mb-md-0 text-dark-m3">
+                                        Equipment
+                                    </h5>
+                                </div>
+                                <div class="card-body pt-2 pb-1">
+                                    <p-tree [value]="availableData" [draggableNodes]="true"></p-tree>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card ccard radius-t-0 h-100">
+                                <div class="position-tl w-102 border-t-3 brc-primary-tp3 ml-n1px mt-n1px"></div>
+                                <div class="card-header pb-3 brc-secondary-l3">
+                                    <h5 class="card-title mb-2 mb-md-0 text-dark-m3">
+                                        Equipment Location
+                                    </h5>
+                                </div>
+                                <div class="card-body pt-2 pb-1">
+                                    <p-tree [value]="fillData"  [droppableNodes]="true" (onNodeDrop)="onNodeDrop($event)"></p-tree>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
