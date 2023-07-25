@@ -410,9 +410,11 @@ tr {
 .ccard .card-body {
     height: 65vh;
 }
-.p-treenode-content{
+
+.p-treenode-content {
     padding: 5px;
 }
+
 .p-tree-container li {
     background-color: #ebeff1 !important;
     transition: background-color .15s;
@@ -422,6 +424,54 @@ tr {
     font-size: .9em !important;
     font-weight: 600 !important;
     color: #416578 !important;
+}
+
+#availableDataList,#FillDataList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.parentNode {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.parentNode::before {
+    content: "\25B6";
+    color: black;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.parentNode-down::before {
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+.nested {
+    display: none;
+}
+
+.nested-active {
+    list-style-type: none;
+    display: block;
+    background-color: #ebeff1 !important;
+    transition: background-color .15s;
+}
+
+.nested-active li{
+    font-size: .9em !important;
+    font-weight: 600 !important;
+    color: #416578 !important;
+}
+
+.bold{
+    font-weight: bolder;
 }
 
 @media (max-height: 550px) {

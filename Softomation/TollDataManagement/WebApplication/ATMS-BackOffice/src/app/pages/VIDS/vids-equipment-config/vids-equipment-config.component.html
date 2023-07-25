@@ -2,6 +2,13 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+                <div class="row">
+                    <div class="com-md-12">
+                        <div class="dropdown d-inline-block float-right">
+                            <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
                 <div class="listheight">
                     <div class="row">
                         <div class="col-md-6">
@@ -9,11 +16,22 @@
                                 <div class="position-tl w-102 border-t-3 brc-primary-tp3 ml-n1px mt-n1px"></div>
                                 <div class="card-header pb-3 brc-secondary-l3">
                                     <h5 class="card-title mb-2 mb-md-0 text-dark-m3">
-                                        Equipment
+                                        Equipment Details
                                     </h5>
                                 </div>
                                 <div class="card-body pt-2 pb-1">
-                                    <p-tree [value]="availableData" [draggableNodes]="true"></p-tree>
+                                    <ul id="availableDataList">
+                                        <li *ngFor="let d of availableData">
+                                            <span class="parentNode parentNode-down"
+                                                (click)="childExCol($event)">{{d.label}}</span>
+                                            <ul class="nested nested-active">
+                                                <li *ngFor="let c of d.children" pDraggable
+                                                    (onDragStart)="onDragStart(c)" (onDragEnd)="onDragEnd()">
+                                                    {{c.label}}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -22,11 +40,33 @@
                                 <div class="position-tl w-102 border-t-3 brc-primary-tp3 ml-n1px mt-n1px"></div>
                                 <div class="card-header pb-3 brc-secondary-l3">
                                     <h5 class="card-title mb-2 mb-md-0 text-dark-m3">
-                                        Equipment Location
+                                        Equipment Config Details
                                     </h5>
                                 </div>
-                                <div class="card-body pt-2 pb-1">
-                                    <p-tree [value]="fillData"  [droppableNodes]="true" (onNodeDrop)="onNodeDrop($event)"></p-tree>
+                                <div class="card-body pt-2 pb-1" pDroppable (onDrop)="onNodeDrop()">
+                                    <ul id="FillDataList">
+                                        <li *ngFor="let d of FillFinalData">
+                                            <span class="parentNode parentNode-down bold"
+                                                (click)="childExCol($event)">{{d.ChainageName}}</span>
+                                            <ul class="nested nested-active">
+                                                <li *ngFor="let c of d.LPUList">
+                                                    {{c.label}}
+                                                </li>
+                                                <li *ngFor="let c of d.CameraList">
+                                                  <div class="row">
+                                                    <div class="col-md-8">{{c.label}}</div>
+                                                    <div class="col-md-4">
+                                                        <p-dropdown [(ngModel)]="c.PositionId" appendTo="body" inputId="PositionId" [options]="PositionList"
+                                                        optionLabel="Name" optionValue="ID" placeholder="Select" (onChange)="handleCheck($event,c)"   [style]="{'width':'100%'}"></p-dropdown>
+                                                    </div>
+                                                  </div>
+                                                </li>
+                                                <li *ngFor="let c of d.MDSList">
+                                                    {{c.label}}
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -34,6 +74,5 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
