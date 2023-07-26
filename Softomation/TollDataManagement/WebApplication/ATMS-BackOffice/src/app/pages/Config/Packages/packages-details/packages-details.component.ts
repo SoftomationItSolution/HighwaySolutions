@@ -33,11 +33,13 @@ export class PackagesDetailsComponent implements OnInit {
   
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 7,
+      MenuUrl: MenuUrl,
+      SystemId:0,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;

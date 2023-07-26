@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { TreeDragDropService } from 'primeng/api';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
@@ -7,8 +6,7 @@ import { DataModel } from 'src/app/services/data-model.model';
 @Component({
   selector: 'app-vids-equipment-config',
   templateUrl: './vids-equipment-config.component.html',
-  styleUrls: ['./vids-equipment-config.component.css'],
-  providers: [TreeDragDropService]
+  styleUrls: ['./vids-equipment-config.component.css']
 })
 export class VidsEquipmentConfigComponent implements OnInit {
   availableData: any = [];
@@ -26,7 +24,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
   EquipmentTypeData: any;
   EquipmentDetails: any;
   SystemId = 6;
-  PositionList=[{ID:1,Name:"Entry"},{ID:2,Name:"Exit"},{ID:3,Name:"Main Carriageway"},{ID:4,Name:"Parking Spot"}]
+  PositionList = [{ ID: 1, Name: "Entry" }, { ID: 2, Name: "Exit" }, { ID: 3, Name: "Main Carriageway" }, { ID: 4, Name: "Parking Spot" }]
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
@@ -39,11 +37,13 @@ export class VidsEquipmentConfigComponent implements OnInit {
 
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 3,
+      MenuUrl: MenuUrl,
+      SystemId: this.SystemId,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;
@@ -71,6 +71,41 @@ export class VidsEquipmentConfigComponent implements OnInit {
         var dataType = data.ResponseData;
         dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 25 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
         this.GetEquipmentDetails(dataType);
+        this.GetEquipmentConfig();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
+  GetEquipmentConfig() {
+    this.spinner.show();
+    this.dbService.EquipmentConfigGetBySystemId(this.SystemId).subscribe(
+      data => {
+        this.spinner.hide();
+        var dataType = data.ResponseData;
+        for (let k = 0; k < dataType.length; k++) {
+          const element = dataType[k];
+          let obj={
+            EquipmentName:element.EquipmentName,
+            IpAddress:element.IpAddress,
+            EquipmentTypeId: element.EquipmentTypeId,
+            EquipmentTypeName: element.EquipmentTypeName,
+            ChainageName: element.ChainageName,
+            EquipmentId: element.EquipmentId,
+            PositionId: element.PositionId
+          }
+          this.fillData.push(obj)
+        }
+        this.ResetNodes();
       },
       (error) => {
         this.spinner.hide();
@@ -100,19 +135,24 @@ export class VidsEquipmentConfigComponent implements OnInit {
               const element1 = d1[k];
               let onjChild = {
                 key: j + '-' + k,
-                label: element1.EquipmentName + "-(" + element1.IpAddress + "-" + element1.ChainageName + ")",
+                EquipmentName:element1.EquipmentName,
+                IpAddress:element1.IpAddress,
                 EquipmentTypeId: element1.EquipmentTypeId,
+                EquipmentTypeName: element1.EquipmentTypeName,
                 ChainageName: element1.ChainageName,
                 EquipmentId: element1.EquipmentId,
-                PositionId:0
+                PositionId: 0
               }
               childs.push(onjChild);
             }
             let obj = {
               key: j,
-              label: element.EquipmentTypeName,
+              EquipmentName:element.EquipmentName,
+              IpAddress:element.IpAddress,
+              EquipmentTypeId: element.EquipmentTypeId,
+              EquipmentTypeName: element.EquipmentTypeName,
               children: childs,
-              PositionId:0
+              PositionId: 0
             }
             this.availableData.push(obj)
           }
@@ -131,25 +171,18 @@ export class VidsEquipmentConfigComponent implements OnInit {
     );
   }
 
-
-
-  SaveDetails() {
-
-  }
-
-
   onDragStart(val: any) {
     this.selection = val;
 
   }
-
   onDragEnd() {
     this.selection = null;
   }
+
   onNodeDrop() {
     if (this.fillData.length == 0) {
       if (this.selection.EquipmentTypeId != 28) {
-        this.ErrorData = [{ AlertMessage: 'First Need to add Media Converter !' }];
+        this.ErrorData = [{ AlertMessage: 'Media converter is required!' }];
         this.dm.openSnackBar(this.ErrorData, false);
       }
       else {
@@ -159,14 +192,14 @@ export class VidsEquipmentConfigComponent implements OnInit {
     else {
       var d1 = this.fillData.filter((e: { EquipmentId: any; }) => e.EquipmentId == this.selection.EquipmentId);
       if (d1.length > 0) {
-        this.ErrorData = [{ AlertMessage: 'This Equipment already exists !' }];
+        this.ErrorData = [{ AlertMessage: 'This equipment already exists!' }];
         this.dm.openSnackBar(this.ErrorData, false);
       }
       else {
         if (this.selection.EquipmentTypeId != 28) {
           var d3 = this.fillData.filter((e: { ChainageName: any, EquipmentTypeId: any; }) => e.ChainageName == this.selection.ChainageName && e.EquipmentTypeId == 28);
           if (d3.length == 0) {
-            this.ErrorData = [{ AlertMessage: 'First Need to add Media Converter !' }];
+            this.ErrorData = [{ AlertMessage: 'Media converter is required!' }];
             this.dm.openSnackBar(this.ErrorData, false);
           }
           else
@@ -177,54 +210,54 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
     }
     this.ResetNodes();
-
   }
-  ResetNodes() {
-    this.FillFinalData=[];
-    var child0 = []
-      var p0 = this.fillData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 28);
-      if (p0.length > 0) {
-        for (let j = 0; j < p0.length; j++) {
-          child0.push(p0[j])
-          let element1=p0[j]
-          
-          var LPUList=[];
-          var p1 = this.fillData.filter((e: { EquipmentTypeId: any,ChainageName:any; }) => e.EquipmentTypeId == 3 && e.ChainageName==element1.ChainageName);
-          if (p1.length > 0) {
-            for (let j = 0; j < p1.length; j++) {
-              LPUList.push(p1[j])
-            }
-          }
-          var CameraList=[];
-          var p2 = this.fillData.filter((e: { EquipmentTypeId: any,ChainageName:any; }) => e.EquipmentTypeId == 25 && e.ChainageName==element1.ChainageName);
-          if (p2.length > 0) {
-            for (let j = 0; j < p2.length; j++) {
-              CameraList.push(p2[j])
-            }
-          }
-          var MDSList=[];
-          var p3 = this.fillData.filter((e: { EquipmentTypeId: any,ChainageName:any; }) => e.EquipmentTypeId == 27 && e.ChainageName==element1.ChainageName);
-          if (p3.length > 0) {
-            for (let j = 0; j < p3.length; j++) {
-              MDSList.push(p3[j])
-            }
-          }
 
-          let mainObj = {
-            key: j,
-            label: element1.label,
-            EquipmentTypeId: element1.EquipmentTypeId,
-            ChainageName: element1.ChainageName,
-            EquipmentId: element1.EquipmentId,
-            LPUList:LPUList,
-            CameraList:CameraList,
-            MDSList:MDSList,
+  ResetNodes() {
+    this.FillFinalData = [];
+    var child0 = []
+    var p0 = this.fillData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 28);
+    if (p0.length > 0) {
+      for (let j = 0; j < p0.length; j++) {
+        child0.push(p0[j])
+        let element1 = p0[j]
+
+        var LPUList = [];
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 3 && e.ChainageName == element1.ChainageName);
+        if (p1.length > 0) {
+          for (let j = 0; j < p1.length; j++) {
+            LPUList.push(p1[j])
           }
-          this.FillFinalData.push(mainObj)
         }
-      }  
-     
-      console.log(this.FillFinalData)
+        var CameraList = [];
+        var p2 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 25 && e.ChainageName == element1.ChainageName);
+        if (p2.length > 0) {
+          for (let j = 0; j < p2.length; j++) {
+            CameraList.push(p2[j])
+          }
+        }
+        var MDSList = [];
+        var p3 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 27 && e.ChainageName == element1.ChainageName);
+        if (p3.length > 0) {
+          for (let j = 0; j < p3.length; j++) {
+            MDSList.push(p3[j])
+          }
+        }
+
+        let mainObj = {
+          key: j,
+          label: element1.label,
+          EquipmentTypeId: element1.EquipmentTypeId,
+          ChainageName: element1.ChainageName,
+          EquipmentId: element1.EquipmentId,
+          LPUList: LPUList,
+          CameraList: CameraList,
+          MDSList: MDSList,
+        }
+        this.FillFinalData.push(mainObj)
+      }
+    }
+
+    console.log(this.FillFinalData)
   }
 
   childExCol(event) {
@@ -232,7 +265,92 @@ export class VidsEquipmentConfigComponent implements OnInit {
     event.target.classList.toggle("parentNode-down")
   }
 
-  handleCheck(event:any,row){
-    
+  SaveDetails() {
+    if (this.FillFinalData.length == 0) {
+      this.ErrorData = [{ AlertMessage: 'Add equipment in config details!' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    else {
+      var FinalData = [];
+      for (let k = 0; k < this.FillFinalData.length; k++) {
+        let element = this.FillFinalData[k];
+        let obj = {
+          SystemId: this.SystemId,
+          EquipmentId: element.EquipmentId,
+          EquipmentTypeId: element.EquipmentTypeId,
+          ParentId: 0,
+          PositionId: 0,
+          CreatedBy: this.LogedUserId,
+          ModifiedBy: this.LogedUserId,
+        }
+        FinalData.push(obj);
+        for (let j = 0; j < element.LPUList.length; j++) {
+          let Lelement = element.LPUList[j];
+          let Lobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Lelement.EquipmentId,
+            EquipmentTypeId: Lelement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Lelement.PositionId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Lobj);
+        }
+        for (let m = 0; m < element.CameraList.length; m++) {
+          let Celement = element.CameraList[m];
+          let Cobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Celement.EquipmentId,
+            EquipmentTypeId: Celement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Celement.PositionId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Cobj);
+        }
+        for (let n = 0; n < element.MDSList.length; n++) {
+          let Melement = element.MDSList[n];
+          let Mobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Melement.EquipmentId,
+            EquipmentTypeId: Melement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Melement.PositionId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Mobj);
+        }
+      }
+
+      this.spinner.show();
+      this.dbService.EquipmentConfigSetup(FinalData).subscribe(
+        data => {
+          this.spinner.hide();
+          let returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage == 'success') {
+            this.ErrorData = [{ AlertMessage: 'Success' }];
+            this.dm.openSnackBar(this.ErrorData, true);
+          } else {
+            this.ErrorData = data.Message;
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.dm.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+        }
+      );
+
+    }
   }
 }

@@ -258,8 +258,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             ed.ProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
-
-
         #endregion
     }
 }

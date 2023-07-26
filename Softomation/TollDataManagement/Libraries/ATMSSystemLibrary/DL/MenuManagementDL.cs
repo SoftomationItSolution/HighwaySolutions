@@ -107,8 +107,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ParentId"] != DBNull.Value)
                 menu.ParentId = Convert.ToInt16(dr["ParentId"]);
 
-            if (dr["ParentId"] != DBNull.Value)
-                menu.ParentId = Convert.ToInt16(dr["ParentId"]);
+            if (dr["SystemId"] != DBNull.Value)
+                menu.SystemId = Convert.ToInt16(dr["SystemId"]);
 
             if (dr["MennuAccess"] != DBNull.Value)
                 menu.MennuAccess = Convert.ToInt16(dr["MennuAccess"]);

@@ -354,15 +354,15 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/RolePermissionGetByEventId")]
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByMenu")]
         [HttpPost]
-        public HttpResponseMessage RolePermissionGetByEventId(RolePermissionIL role)
+        public HttpResponseMessage RolePermissionGetByMenu(RolePermissionIL role)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = RolePermissionBL.GetByMenuId(role);
+                response.ResponseData = RolePermissionBL.GetByMenu(role);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -923,7 +923,7 @@ namespace ATMSRestAPI.Controllers
         #region Equipment Config
         [Route(Provider + "/" + APIPath + "/EquipmentConfigGetBySystemId")]
         [HttpGet]
-        public HttpResponseMessage EquipmentDetailsGetById(short SystemId)
+        public HttpResponseMessage EquipmentConfigGetBySystemId(short SystemId)
         {
             try
             {
@@ -935,6 +935,24 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in EquipmentConfigGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        
+        [Route(Provider + "/" + APIPath + "/EquipmentConfigSetup")]
+        [HttpPost]
+        public HttpResponseMessage EquipmentConfigSetup(List<EquipmentConfigIL> config)
+        {
+            try
+            {
+                response.Message = EquipmentConfigBL.SetUp(config);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentConfigSetup : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

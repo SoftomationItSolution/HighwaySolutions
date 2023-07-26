@@ -58,15 +58,16 @@ namespace Softomation.ATMSSystemLibrary.DL
         }
 
         #region Get Methods
-        internal static RolePermissionIL GetByMenuId(RolePermissionIL rolePermission)
+        internal static RolePermissionIL GetByMenu(RolePermissionIL rolePermission)
         {
             DataTable dt = new DataTable();
             RolePermissionIL role = new RolePermissionIL();
             try
             {
-                string spName = "USP_RolesPersmissionGetByMenuId";
+                string spName = "USP_RolesPersmissionGetByMenu";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MenuId", DbType.Int32, rolePermission.MenuId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MenuURL", DbType.String, rolePermission.MenuUrl, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, rolePermission.SystemId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, rolePermission.RoleId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)

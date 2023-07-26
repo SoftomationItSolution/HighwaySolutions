@@ -92,10 +92,10 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetMenu?RoleId=' + RoleId, { headers: headers_object });
   }
 
-  RolePermissionGetByEventId(data: {}): Observable<any> {
+  RolePermissionGetByMenu(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionGetByEventId', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionGetByMenu', data, { headers: headers_object });
   }
 
   RoleConfigurationGetAll(): Observable<any> {
@@ -253,6 +253,19 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentTypeGetActive', { headers: headers_object });
+  }
+  //#endregion
+
+//#region  Equipment Config
+  EquipmentConfigGetBySystemId(SystemId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentConfigGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+  }
+  EquipmentConfigSetup(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentConfigSetup', data, { headers: headers_object });
   }
   //#endregion
 

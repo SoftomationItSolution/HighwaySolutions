@@ -9,6 +9,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         String menuUrl;
         String menuIcon;
         Int16 parentId;
+        Int16 systemId;
         Int16 mennuAccess;
         Int16 oderBy;
         Int16 childCount;
@@ -19,6 +20,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.menuUrl = String.Empty;
             this.menuIcon = String.Empty;
             this.parentId = 0;
+            this.systemId = 0;
             this.mennuAccess = 0;
             this.oderBy = 0;
             this.childCount = 0;
@@ -84,6 +86,18 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 parentId = value;
+            }
+        }
+        public Int16 SystemId
+        {
+            get
+            {
+                return systemId;
+            }
+
+            set
+            {
+                systemId = value;
             }
         }
 

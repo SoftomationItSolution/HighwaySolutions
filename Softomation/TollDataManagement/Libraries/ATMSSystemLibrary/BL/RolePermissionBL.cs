@@ -31,11 +31,11 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static RolePermissionIL GetByMenuId(RolePermissionIL rolePermission)
+        public static RolePermissionIL GetByMenu(RolePermissionIL rolePermission)
         {
             try
             {
-                return RolePermissionDL.GetByMenuId(rolePermission);
+                return RolePermissionDL.GetByMenu(rolePermission);
             }
             catch (Exception ex)
             {

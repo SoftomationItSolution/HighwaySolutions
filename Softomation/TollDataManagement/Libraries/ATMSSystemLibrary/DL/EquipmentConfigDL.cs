@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Text;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 using static Softomation.ATMSSystemLibrary.Constants;
@@ -14,6 +15,55 @@ namespace Softomation.ATMSSystemLibrary.DL
         static DataTable dt;
         static string tableName = "tbl_EquipmentConfig";
         #endregion
+
+
+        internal static List<ResponseIL> SetUp(List<EquipmentConfigIL> config)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                DataTable ImportDataTable = new DataTable();
+                ImportDataTable.Clear();
+                ImportDataTable.Columns.Add("SystemId");
+                ImportDataTable.Columns.Add("EquipmentTypeId");
+                ImportDataTable.Columns.Add("EquipmentId");
+                ImportDataTable.Columns.Add("ParentId");
+                ImportDataTable.Columns.Add("PositionId");
+                ImportDataTable.Columns.Add("SessionId");
+                DataRow row;
+                string SessionId = Constants.RandomString(10);
+                StringBuilder xmlPermission = new StringBuilder();
+                for (int i = 0; i < config.Count; i++)
+                {
+                    row = ImportDataTable.NewRow();
+                    row["SystemId"] = config[i].SystemId;
+                    row["EquipmentTypeId"] = config[i].EquipmentTypeId;
+                    row["EquipmentId"] = config[i].EquipmentId;
+                    row["ParentId"] = config[i].ParentId;
+                    row["PositionId"] = config[i].PositionId;
+                    row["SessionId"] = SessionId;
+                    ImportDataTable.Rows.Add(row);
+                }
+                if (Constants.BulkCopy(ImportDataTable, "temp_EquipmentConfig"))
+                {
+                    string spName = "USP_EquipmentConfigInsertUpdate";
+                    DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, config[0].SystemId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, config[0].CreatedBy, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input)); 
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, config[0].ModifiedBy, ParameterDirection.Input));
+                    DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                    responses = ResponseIL.ConvertResponseList(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
 
         internal static List<EquipmentConfigIL> GetBySystemId(short SystemId)
         {
@@ -35,6 +85,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             return config;
         }
 
+       
+
         #region Helper Methods
         private static EquipmentConfigIL CreateObjectFromDataRow(DataRow dr, short SystemId)
         {
@@ -45,9 +97,15 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["EquipmentTypeId"] != DBNull.Value)
                 id.EquipmentTypeId = Convert.ToInt16(dr["EquipmentTypeId"]);
-
+            
+            if (dr["EquipmentTypeName"] != DBNull.Value)
+                id.EquipmentTypeName = Convert.ToString(dr["EquipmentTypeName"]);
+            
             if (dr["ChainageNumber"] != DBNull.Value)
+            {
                 id.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
+                id.ChainageName = id.ChainageNumber.ToString().Replace(".", "+");
+            }
 
             if (dr["IpAddress"] != DBNull.Value)
                 id.IpAddress = Convert.ToString(dr["IpAddress"]);

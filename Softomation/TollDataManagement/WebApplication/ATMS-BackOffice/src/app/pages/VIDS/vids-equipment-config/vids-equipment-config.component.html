@@ -23,11 +23,11 @@
                                     <ul id="availableDataList">
                                         <li *ngFor="let d of availableData">
                                             <span class="parentNode parentNode-down"
-                                                (click)="childExCol($event)">{{d.label}}</span>
+                                                (click)="childExCol($event)">{{d.EquipmentTypeName}}</span>
                                             <ul class="nested nested-active">
                                                 <li *ngFor="let c of d.children" pDraggable
                                                     (onDragStart)="onDragStart(c)" (onDragEnd)="onDragEnd()">
-                                                    {{c.label}}
+                                                    {{c.ChainageName+'-'+c.IpAddress}}
                                                 </li>
                                             </ul>
                                         </li>
@@ -50,19 +50,21 @@
                                                 (click)="childExCol($event)">{{d.ChainageName}}</span>
                                             <ul class="nested nested-active">
                                                 <li *ngFor="let c of d.LPUList">
-                                                    {{c.label}}
+                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
                                                 </li>
                                                 <li *ngFor="let c of d.CameraList">
                                                   <div class="row">
-                                                    <div class="col-md-8">{{c.label}}</div>
+                                                    <div class="col-md-8">
+                                                        {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
+                                                    </div>
                                                     <div class="col-md-4">
                                                         <p-dropdown [(ngModel)]="c.PositionId" appendTo="body" inputId="PositionId" [options]="PositionList"
-                                                        optionLabel="Name" optionValue="ID" placeholder="Select" (onChange)="handleCheck($event,c)"   [style]="{'width':'100%'}"></p-dropdown>
+                                                        optionLabel="Name" optionValue="ID" placeholder="Select" [style]="{'width':'100%'}"></p-dropdown>
                                                     </div>
                                                   </div>
                                                 </li>
                                                 <li *ngFor="let c of d.MDSList">
-                                                    {{c.label}}
+                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
                                                 </li>
                                             </ul>
                                         </li>
