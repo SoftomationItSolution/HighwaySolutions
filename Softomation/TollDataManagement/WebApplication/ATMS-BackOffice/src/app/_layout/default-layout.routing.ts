@@ -15,9 +15,9 @@ import { IncidentClosedComponent } from '../pages/incident/incident-closed/incid
 import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-config/vids-equipment-config.component';
 import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
 import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
+import { VidsIncidentConfigComponent } from '../pages/VIDS/vids-incident-config/vids-incident-config.component';
 
 export const AdminLayoutRoutes: Routes = [
-   
     { path: 'dashboard', component: DashboardComponent },
     { path: 'controlRoom', component: ControlRoomConfigurationComponent },
     { path: 'equipment', component: DeviceDataComponent },
@@ -30,7 +30,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'pendigIncident', component: IncidentDataComponent },
     { path: 'closeIncident', component: IncidentClosedComponent },
     { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
-    { path: 'vidsIncidentConfig', component: VidsEquipmentConfigComponent },
+    { path: 'vidsIncidentConfig', component: VidsIncidentConfigComponent },
     { path: 'vidsIncidentHistroy', component: VidsdataComponent },
     { path: 'vidsValidation', component: VidsValidationComponent },
     { path: 'vidsValidated', component: VidsValidatedComponent },
