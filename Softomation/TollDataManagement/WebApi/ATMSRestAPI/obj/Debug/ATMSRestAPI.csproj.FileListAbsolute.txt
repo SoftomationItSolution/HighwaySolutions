@@ -230,8 +230,6 @@ D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAP
 D:\Softomation\Projects\ATMS1.0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.csproj.AssemblyReference.cache
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.csproj.CoreCompileInputs.cache
-E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.dll
-E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\ATMSRestAPI.dll.config
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\ATMSRestAPI.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\ATMSRestAPI.pdb
@@ -343,3 +341,5 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAP
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.Threading.Tasks.Extensions.xml
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Microsoft.Bcl.AsyncInterfaces.xml
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.csproj.CopyComplete
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb

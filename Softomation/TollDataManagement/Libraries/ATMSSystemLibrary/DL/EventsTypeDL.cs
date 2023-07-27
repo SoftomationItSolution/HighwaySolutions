@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Text;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
@@ -13,6 +14,50 @@ namespace Softomation.ATMSSystemLibrary.DL
         static DataTable dt;
         static string tableName = "tbl_EventsTypeMaster";
         #endregion
+
+        internal static List<ResponseIL> SetUp(List<EventsTypeIL> types)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                DataTable ImportDataTable = new DataTable();
+                ImportDataTable.Clear();
+                ImportDataTable.Columns.Add("EventsTypeId");
+                ImportDataTable.Columns.Add("EventsRequired");
+                ImportDataTable.Columns.Add("ChallanRequired");
+                ImportDataTable.Columns.Add("SessionId");
+                DataRow row;
+                string SessionId = Constants.RandomString(10);
+                StringBuilder xmlPermission = new StringBuilder();
+                for (int i = 0; i < types.Count; i++)
+                {
+                    row = ImportDataTable.NewRow();
+                    row["EquipmentTypeId"] = types[i].EventsTypeId;
+                    row["EventsRequired"] = types[i].EventsRequired;
+                    row["ChallanRequired"] = types[i].ChallanRequired;
+                    row["SessionId"] = SessionId;
+                    ImportDataTable.Rows.Add(row);
+                }
+                if (Constants.BulkCopy(ImportDataTable, "temp_EventsTypeMaster"))
+                {
+                    string spName = "USP_EventsTypeUpdate";
+                    DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, types[0].SystemId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, types[0].CreatedBy, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, types[0].ModifiedBy, ParameterDirection.Input));
+                    DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                    responses = ResponseIL.ConvertResponseList(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
 
         #region Get Methods
         internal static List<EventsTypeIL> GetAll()
@@ -55,7 +100,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             List<EventsTypeIL> eds = new List<EventsTypeIL>();
             try
             {
-                string spName = "USP_EventsTypeMasterGetAll";
+                string spName = "USP_EventsTypeMasterGetBySystemId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];

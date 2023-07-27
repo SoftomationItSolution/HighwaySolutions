@@ -389,4 +389,17 @@ CheckListSetup(data: {}): Observable<any> {
 }
 //#endregion
 
+//#region  Equipment Config
+EventsTypeGetBySystemId(SystemId: any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EventsTypeGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+}
+EventsTypeSetup(data: any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EventsTypeSetup', data, { headers: headers_object });
+}
+//#endregion
+
 }

@@ -9,6 +9,18 @@ namespace Softomation.ATMSSystemLibrary.BL
 {
     public class EventsTypeBL
     {
+        public static List<ResponseIL> SetUp(List<EventsTypeIL> types)
+        {
+            try
+            {
+                return EventsTypeDL.SetUp(types);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
         public static List<EventsTypeIL> GetAll()
         {
             try

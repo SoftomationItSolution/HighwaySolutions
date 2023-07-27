@@ -392,10 +392,6 @@ tr {
 }
 
 .ccard {
-    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
-}
-
-.ccard {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -405,10 +401,12 @@ tr {
     background-clip: border-box;
     border: 0 solid rgba(0, 0, 0, .125);
     border-radius: 1rem;
+    padding-top: 10px;
+    box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
 }
 
 .ccard .card-body {
-    height: 58vh;
+    height: 60vh;
 }
 
 .p-treenode-content {
@@ -479,6 +477,10 @@ tr {
     font-weight: bolder;
 }
 
+.listtablepadding .p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td {
+    padding: 5px 0px 5px 0px !important;
+}
+
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -535,6 +537,11 @@ tr {
     .p-datatable-table tbody tr td {
         padding: 0px 0px 0px 0px !important;
     }
+   
+    .listtablepadding .p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td {
+        padding: 5px 0px 5px 0px !important;
+    }
+    
 }
 
 @media (max-height: 720px) and (min-height: 651px) {

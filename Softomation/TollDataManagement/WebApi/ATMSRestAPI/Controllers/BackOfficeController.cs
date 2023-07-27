@@ -6,11 +6,15 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using ATMSRestAPI.Models;
+using System.Web.Mvc;
 using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.IL;
 using Softomation.ATMSSystemLibrary.SystemLogger;
+using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
+using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace ATMSRestAPI.Controllers
 {
@@ -1182,6 +1186,117 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in IMSActionHistoryInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Events Type
+        [Route(Provider + "/" + APIPath + "/EventsTypeSetup")]
+        [HttpPost]
+        public HttpResponseMessage EventsTypeSetup(List<EventsTypeIL> setup)
+        {
+            try
+            {
+                response.Message = EventsTypeBL.SetUp(setup);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EventsTypeSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EventsTypeGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage EventsTypeGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EventsTypeBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EventsTypeGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region VIDS Events
+        [Route(Provider + "/" + APIPath + "/VIDSEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/VIDSEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VIDSEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                if (data.ControlRoomList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ControlRoomId IN (" + data.ControlRoomList + ") ";
+                }
+                if (data.PackageList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageList + ") ";
+                }
+                if (data.ChainageList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ChainageNumber IN (" + data.ChainageList + ") ";
+                }
+                if (data.DirectionList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionList + ") ";
+                }
+                if (data.PositionList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionList + ") ";
+                }
+                if (data.EventList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventList + ") ";
+                }
+                if (data.IncidentList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.IncidentStatusId IN (" + data.IncidentList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventsGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
