@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
+import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 
@@ -11,30 +10,57 @@ import { DataModel } from 'src/app/services/data-model.model';
   styleUrls: ['./vidsdata.component.css']
 })
 export class VidsdataComponent {
-  DataAdd=1;
-  DataUpdate=1;
-  DataView=1;
+  DataAdd = 1;
+  DataUpdate = 1;
+  DataView = 1;
   LogedRoleId;
   LogedUserId;
-  DevicesData:any;
-  ErrorData:any;
-  PermissionData:any;
-  constructor(public dialog: MatDialog, private dbService: ApiService,private dm: DataModel,
-    private spinner: NgxSpinnerService) {
-      this.LogedUserId = this.dm.getUserId();
-      this.LogedRoleId = this.dm.getRoleId();
+  EventHistroyData: any;
+  ErrorData: any;
+  PermissionData: any;
+  constructor(private dbService: apiIntegrationService, private dm: DataModel, private spinner: NgxSpinnerService) {
+    this.LogedUserId = this.dm.getUserId();
+    this.LogedRoleId = this.dm.getRoleId();
   }
 
   ngOnInit() {
-   this.GetPermissionData();
+    this.GetPermissionData();
   }
 
-  GetDeviceData() {
+  GetPermissionData() {
     this.spinner.show();
-    this.dbService.VIDSGetLatest().subscribe(
+    var MenuUrl = window.location.pathname.replace('/', '');
+    const Obj = {
+      MenuUrl: MenuUrl,
+      SystemId: 0,
+      RoleId: this.LogedRoleId
+    };
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
-        this.DevicesData = data.ResponceData;
+        this.PermissionData = data.ResponseData;
+        this.DataAdd = this.PermissionData.DataAdd;
+        this.DataUpdate = this.PermissionData.DataUpdate;
+        this.DataView = this.PermissionData.DataView;
+        if (this.DataView != 1) {
+          this.dm.unauthorized();
+        }
+        this.GetEventHistroy();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetEventHistroy() {
+    this.spinner.show();
+    this.dbService.VIDSEventsGetByHours(24).subscribe(
+      data => {
+        this.spinner.hide();
+        this.EventHistroyData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();
@@ -49,48 +75,19 @@ export class VidsdataComponent {
     );
   }
 
-  GetPermissionData() {
-    this.spinner.show();
-    const Obj = {
-      EventId: 10,
-      RoleId: this.LogedRoleId
+  onMidiaView(TransactionRowData: any){
+    var obj={
+      PageTitle:"VIDS Event media-("+TransactionRowData.EventTypeName+")",
+      ImageData:[{
+        ImagePath:TransactionRowData.EventImageUrl
+      }],
+      VideoData:[{
+        VideoPath:TransactionRowData.EventVideoUrl
+      }],
+      AudioData:[{
+        AudioPath:''
+      }]
     }
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
-      data => {
-        this.spinner.hide();
-        this.PermissionData = data.ResponceData;
-        this.DataAdd = this.PermissionData.DataAdd;
-        this.DataUpdate = this.PermissionData.DataUpdate;
-        this.DataView = this.PermissionData.DataView;
-        if(this.DataView != 1){
-          this.dm.unauthorized();
-        }
-        this.GetDeviceData();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-    }
-
-  NewEntry() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "60%";
-    dialogConfig.height = '450px';
-    dialogConfig.data = { "action": 'Update'}
-    //this.dialog.open(METConfigPopupComponent, dialogConfig);
-  }
-
-  onRowEditInit(TransactionRowData:any) {
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width = "60%";
-    // dialogConfig.data = { "action": 'Update', "EntryId": TransactionRowData.EntryId, "Permission": this.DataUpdate }
-    // this.dialog.open(VMSPopupComponent, dialogConfig);
+    this.dm.MediaView(obj);
   }
 }

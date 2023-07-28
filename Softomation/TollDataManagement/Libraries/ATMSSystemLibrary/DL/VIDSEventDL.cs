@@ -103,7 +103,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 events.Longitude = Convert.ToDecimal(dr["Longitude"]);
 
             if (dr["EventStartDate"] != DBNull.Value)
+            {
                 events.EventStartDate = Convert.ToDateTime(dr["EventStartDate"]);
+                events.EventStartDateStamp = events.EventStartDate.ToString(Constants.DATETIME_FORMAT_Client);
+            }
 
             if (dr["EventEndDate"] != DBNull.Value)
                 events.EventEndDate = Convert.ToDateTime(dr["EventEndDate"]);
@@ -135,6 +138,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EventImageUrl"] != DBNull.Value)
                 events.EventImageUrl = Convert.ToString(dr["EventImageUrl"]);
 
+            if (dr["EventVideoUrl"] != DBNull.Value)
+                events.EventVideoUrl = Convert.ToString(dr["EventVideoUrl"]);
+
             if (dr["IncidentStatusId"] != DBNull.Value)
                 events.IncidentStatusId = Convert.ToInt16(dr["IncidentStatusId"]);
 
@@ -151,7 +157,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 events.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
             events.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.DirectionId);
-            events.PositionName = Enum.GetName(typeof(Constants.PriorityType), (Constants.VIDSEquipmentPositionType)events.PositionId);
+            events.PositionName = Enum.GetName(typeof(Constants.VIDSEquipmentPositionType), (Constants.VIDSEquipmentPositionType)events.PositionId);
             return events;
         }
         #endregion

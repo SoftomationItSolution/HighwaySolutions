@@ -31,7 +31,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'closeIncident', component: IncidentClosedComponent },
     { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
     { path: 'vidsIncidentConfig', component: VidsIncidentConfigComponent },
-    { path: 'vidsIncidentHistroy', component: VidsdataComponent },
+    { path: 'vidsEventHistroy', component: VidsdataComponent },
     { path: 'vidsValidation', component: VidsValidationComponent },
     { path: 'vidsValidated', component: VidsValidatedComponent },
     { path: '**', component: PageNotFoundComponent },

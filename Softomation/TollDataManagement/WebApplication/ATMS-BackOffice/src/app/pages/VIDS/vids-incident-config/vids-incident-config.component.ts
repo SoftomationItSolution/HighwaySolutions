@@ -18,8 +18,7 @@ export class VidsIncidentConfigComponent {
   PermissionData:any;
   ErrorData:any;
   EventTypeList:any
-  constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService) {
+  constructor(private dbService: apiIntegrationService, private dm: DataModel,private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();

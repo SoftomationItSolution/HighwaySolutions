@@ -360,8 +360,6 @@ IMSActionHistoryInsert(data: {}): Observable<any> {
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSActionHistoryInsert', data, { headers: headers_object});
 }
-
-
 //#endregion
 
 //#region Check List
@@ -399,6 +397,19 @@ EventsTypeSetup(data: any): Observable<any> {
   this.ApiCallUrl = this.GetUrl();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EventsTypeSetup', data, { headers: headers_object });
+}
+//#endregion
+
+//#region  Equipment Config
+VIDSEventsGetByHours(Hours: any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+}
+VIDSEventsGetByFilter(data: any): Observable<any> {
+  this.ApiCallUrl = this.GetUrl();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
 }
 //#endregion
 

@@ -32,7 +32,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 for (int i = 0; i < types.Count; i++)
                 {
                     row = ImportDataTable.NewRow();
-                    row["EquipmentTypeId"] = types[i].EventsTypeId;
+                    row["EventsTypeId"] = types[i].EventsTypeId;
                     row["EventsRequired"] = types[i].EventsRequired;
                     row["ChallanRequired"] = types[i].ChallanRequired;
                     row["SessionId"] = SessionId;
