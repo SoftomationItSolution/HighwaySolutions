@@ -74,6 +74,28 @@ namespace Softomation.ATMSSystemLibrary.DL
 
         }
 
+        internal static SystemIL GetByName(String SystemName)
+        {
+            DataTable dt = new DataTable();
+            SystemIL smData = new SystemIL();
+            try
+            {
+                string spName = "USP_SystemGetByName";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemName", DbType.String, SystemName, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    smData = CreateObjectFromDataRow(dr);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return smData;
+
+        }
+
         #endregion
 
         #region Helper Methods

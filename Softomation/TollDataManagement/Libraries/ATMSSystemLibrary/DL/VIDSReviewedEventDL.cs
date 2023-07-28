@@ -7,52 +7,14 @@ using Softomation.ATMSSystemLibrary.IL;
 
 namespace Softomation.ATMSSystemLibrary.DL
 {
-    internal class VIDSEventDL
+    internal class VIDSReviewedEventDL
     {
         #region Global Varialble
         static DataTable dt;
         static string tableName = "tbl_VIDSEventsHistory";
         #endregion
 
-        internal static List<VIDSEventIL> GetByHours(short hours)
-        {
-            List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
-            try
-            {
-                string spName = "USP_VIDSEventsGetByHours";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Hours", DbType.Int16, hours, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    vidsEvents.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return vidsEvents;
-        }
-
-        internal static List<VIDSEventIL> GetPendingReviewByHours(short hours)
-        {
-            List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
-            try
-            {
-                string spName = "USP_VIDSPendingReviewEventsGetByHours";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Hours", DbType.Int16, hours, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    vidsEvents.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return vidsEvents;
-        }
+        
         internal static List<VIDSEventIL> GetByFilter(DataFilterIL data)
         {
             DataTable dt = new DataTable();

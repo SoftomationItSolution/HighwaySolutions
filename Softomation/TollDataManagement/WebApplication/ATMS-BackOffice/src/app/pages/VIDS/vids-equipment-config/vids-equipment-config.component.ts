@@ -23,20 +23,36 @@ export class VidsEquipmentConfigComponent implements OnInit {
   DataView: Number = 0;
   EquipmentTypeData: any;
   EquipmentDetails: any;
-  SystemId = 6;
+  SystemId = 0;
   PositionList = [{ ID: 1, Name: "Entry" }, { ID: 2, Name: "Exit" }, { ID: 3, Name: "Main Carriageway" }, { ID: 4, Name: "Parking Spot" }]
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
-    this.GetPermissionData();
   }
 
   ngOnInit(): void {
+    this.SystemGetByName()
+  }
+  SystemGetByName() {
+    this.spinner.show();
+    let MenuUrl = window.location.pathname.replace('/', '');
+    let systenname = MenuUrl.substring(0, 4)
+    this.dbService.SystemGetByName(systenname).subscribe(
+      data => {
+        let SystemDetails = data.ResponseData;
+        this.SystemId = SystemDetails.SystemId;
+        this.GetPermissionData();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   GetPermissionData() {
-    this.spinner.show();
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
       MenuUrl: MenuUrl,
@@ -45,15 +61,17 @@ export class VidsEquipmentConfigComponent implements OnInit {
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.spinner.hide();
         this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
+          this.spinner.hide();
           this.dm.unauthorized();
         }
-        this.EquipmentType();
+        else {
+          this.EquipmentType();
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -64,14 +82,11 @@ export class VidsEquipmentConfigComponent implements OnInit {
   }
 
   EquipmentType() {
-    this.spinner.show();
     this.dbService.EquipmentTypeGetActive().subscribe(
       data => {
-        this.spinner.hide();
         var dataType = data.ResponseData;
         dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 25 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
         this.GetEquipmentDetails(dataType);
-        this.GetEquipmentConfig();
       },
       (error) => {
         this.spinner.hide();
@@ -87,16 +102,15 @@ export class VidsEquipmentConfigComponent implements OnInit {
   }
 
   GetEquipmentConfig() {
-    this.spinner.show();
     this.dbService.EquipmentConfigGetBySystemId(this.SystemId).subscribe(
       data => {
         this.spinner.hide();
         var dataType = data.ResponseData;
         for (let k = 0; k < dataType.length; k++) {
           const element = dataType[k];
-          let obj={
-            EquipmentName:element.EquipmentName,
-            IpAddress:element.IpAddress,
+          let obj = {
+            EquipmentName: element.EquipmentName,
+            IpAddress: element.IpAddress,
             EquipmentTypeId: element.EquipmentTypeId,
             EquipmentTypeName: element.EquipmentTypeName,
             ChainageName: element.ChainageName,
@@ -121,10 +135,9 @@ export class VidsEquipmentConfigComponent implements OnInit {
   }
 
   GetEquipmentDetails(dataType: any) {
-    this.spinner.show();
     this.dbService.EquipmentDetailsGetBySystemId(this.SystemId).subscribe(
       data => {
-        this.spinner.hide();
+        this.GetEquipmentConfig();
         this.EquipmentDetails = data.ResponseData;
         for (let j = 0; j < dataType.length; j++) {
           const element = dataType[j];
@@ -135,8 +148,8 @@ export class VidsEquipmentConfigComponent implements OnInit {
               const element1 = d1[k];
               let onjChild = {
                 key: j + '-' + k,
-                EquipmentName:element1.EquipmentName,
-                IpAddress:element1.IpAddress,
+                EquipmentName: element1.EquipmentName,
+                IpAddress: element1.IpAddress,
                 EquipmentTypeId: element1.EquipmentTypeId,
                 EquipmentTypeName: element1.EquipmentTypeName,
                 ChainageName: element1.ChainageName,
@@ -147,8 +160,8 @@ export class VidsEquipmentConfigComponent implements OnInit {
             }
             let obj = {
               key: j,
-              EquipmentName:element.EquipmentName,
-              IpAddress:element.IpAddress,
+              EquipmentName: element.EquipmentName,
+              IpAddress: element.IpAddress,
               EquipmentTypeId: element.EquipmentTypeId,
               EquipmentTypeName: element.EquipmentTypeName,
               children: childs,
@@ -350,7 +363,6 @@ export class VidsEquipmentConfigComponent implements OnInit {
           }
         }
       );
-
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
@@ -15,7 +16,9 @@ namespace Softomation.ATMSSystemLibrary.IL
         private String directionFilterList;
         private String startDateTime;
         private String endDateTime;
+        Boolean isReviewedRequired;
         private String filterQuery;
+        private List<MasterData> systemDataList;
         private List<MasterData> controlRoomDataList;
         private List<MasterData> packageDataList;
         private List<MasterData> chainageDataList;
@@ -32,8 +35,10 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.directionFilterList = string.Empty;
             this.endDateTime = string.Empty;
             this.startDateTime = string.Empty;
+            this.isReviewedRequired = false;
             this.filterQuery = string.Empty;
-           
+
+            systemDataList = new List<MasterData>();
             controlRoomDataList = new List<MasterData>();
             packageDataList = new List<MasterData>();
             chainageDataList = new List<MasterData>();
@@ -78,11 +83,26 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => endDateTime; set => endDateTime = value;
         }
+        public bool IsReviewedRequired
+        {
+            get => isReviewedRequired; set => isReviewedRequired = value;
+        }
         public string FilterQuery
         {
             get => filterQuery; set => filterQuery = value;
         }
+        public List<MasterData> SystemDataList
+        {
+            get
+            {
+                return systemDataList;
+            }
 
+            set
+            {
+                systemDataList = value;
+            }
+        }
         public List<MasterData> ControlRoomDataList
         {
             get
@@ -129,14 +149,16 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int64 parentId;
         Decimal minValue;
         Decimal maxValue;
+        Decimal dataValue;
 
-       public MasterData()
+        public MasterData()
         {
             dataId = 0;
             dataName = string.Empty;
             parentId = 0;
             minValue = 0;
             maxValue = 0;
+            dataValue = 0;
         }
 
         public Int64 DataId
@@ -201,6 +223,18 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 maxValue = value;
+            }
+        }
+        public Decimal DataValue
+        {
+            get
+            {
+                return dataValue;
+            }
+
+            set
+            {
+                dataValue = value;
             }
         }
     }

@@ -26,9 +26,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         String eventVideoUrl;
         Int16 incidentStatusId;
         String incidentStatusName;
-        DateTime createdDate;
-        Boolean dataSendStatus;
-        Boolean mediaSendStatus;
+        Boolean isReviewedRequired;
 
         public VIDSEventIL()
         {
@@ -54,9 +52,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.eventVideoUrl = string.Empty;
             this.incidentStatusId = 0;
             this.incidentStatusName = string.Empty;
-            this.createdDate = DateTime.MinValue;
-            this.dataSendStatus = false;
-            this.mediaSendStatus = false;
+            isReviewedRequired = false;
         }
 
         public String TransactionId
@@ -324,40 +320,16 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentStatusName = value;
             }
         }
-        public DateTime CreatedDate
+        public Boolean IsReviewedRequired
         {
             get
             {
-                return createdDate;
+                return isReviewedRequired;
             }
 
             set
             {
-                createdDate = value;
-            }
-        }
-        public Boolean DataSendStatus
-        {
-            get
-            {
-                return dataSendStatus;
-            }
-
-            set
-            {
-                dataSendStatus = value;
-            }
-        }
-        public Boolean MediaSendStatus
-        {
-            get
-            {
-                return mediaSendStatus;
-            }
-
-            set
-            {
-                mediaSendStatus = value;
+                isReviewedRequired = value;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             {
                 DataTable ImportDataTable = new DataTable();
                 ImportDataTable.Clear();
-                ImportDataTable.Columns.Add("EventsTypeId");
+                ImportDataTable.Columns.Add("EventTypeId");
                 ImportDataTable.Columns.Add("EventsRequired");
                 ImportDataTable.Columns.Add("ChallanRequired");
                 ImportDataTable.Columns.Add("SessionId");
@@ -32,7 +32,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 for (int i = 0; i < types.Count; i++)
                 {
                     row = ImportDataTable.NewRow();
-                    row["EventsTypeId"] = types[i].EventsTypeId;
+                    row["EventTypeId"] = types[i].EventTypeId;
                     row["EventsRequired"] = types[i].EventsRequired;
                     row["ChallanRequired"] = types[i].ChallanRequired;
                     row["SessionId"] = SessionId;
@@ -122,8 +122,8 @@ namespace Softomation.ATMSSystemLibrary.DL
         {
             EventsTypeIL ed = new EventsTypeIL();
 
-            if (dr["EventsTypeId"] != DBNull.Value)
-                ed.EventsTypeId = Convert.ToInt16(dr["EventsTypeId"]);
+            if (dr["EventTypeId"] != DBNull.Value)
+                ed.EventTypeId = Convert.ToInt16(dr["EventTypeId"]);
 
             if (dr["EventTypeName"] != DBNull.Value)
                 ed.EventTypeName = Convert.ToString(dr["EventTypeName"]);

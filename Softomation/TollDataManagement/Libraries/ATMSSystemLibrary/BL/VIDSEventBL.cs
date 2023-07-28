@@ -18,6 +18,17 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static List<VIDSEventIL> GetPendingReviewByHours(short hours)
+        {
+            try
+            {
+                return VIDSEventDL.GetPendingReviewByHours(hours);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static List<VIDSEventIL> GetByFilter(DataFilterIL data)
         {
             try

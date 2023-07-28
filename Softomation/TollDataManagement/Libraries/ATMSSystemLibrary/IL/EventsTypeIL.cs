@@ -4,7 +4,7 @@ namespace Softomation.ATMSSystemLibrary.IL
 {
     public class EventsTypeIL : CommonIL
     {
-        Int16 eventsTypeId;
+        Int16 eventTypeId;
         String eventTypeName;
         Boolean eventsRequired;
         Boolean challanRequired;
@@ -12,23 +12,23 @@ namespace Softomation.ATMSSystemLibrary.IL
 
         public EventsTypeIL()
         {
-            this.eventsTypeId = 0;
+            this.eventTypeId = 0;
             this.eventTypeName = string.Empty;
             this.eventsRequired = false;
             this.challanRequired = false;
             this.systemId = 0;
         }
 
-        public Int16 EventsTypeId
+        public Int16 EventTypeId
         {
             get
             {
-                return eventsTypeId;
+                return eventTypeId;
             }
 
             set
             {
-                eventsTypeId = value;
+                eventTypeId = value;
             }
         }
         public String EventTypeName

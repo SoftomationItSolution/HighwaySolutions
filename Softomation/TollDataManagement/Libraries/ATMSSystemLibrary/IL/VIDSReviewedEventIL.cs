@@ -4,7 +4,7 @@ namespace Softomation.ATMSSystemLibrary.IL
 {
     public class VIDSReviewedEventIL : VIDSEventIL
     {
-        Boolean isReviewedRequired;
+        Boolean isChallanRequired;
         Boolean reviewedStatus;
         Int16 reviewedEventTypeId;
         String reviewedEventTypeName;
@@ -17,7 +17,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         String reviewedRemark;
         public VIDSReviewedEventIL()
         {
-            isReviewedRequired = false;
+            isChallanRequired = false;
             reviewedStatus = false;
             reviewedEventTypeId = 0;
             reviewedEventTypeName = string.Empty;
@@ -29,16 +29,16 @@ namespace Softomation.ATMSSystemLibrary.IL
             reviewedDateTime = DateTime.MinValue;
             reviewedRemark = string.Empty;
         }
-        public Boolean IsReviewedRequired
+        public Boolean IsChallanRequired
         {
             get
             {
-                return isReviewedRequired;
+                return isChallanRequired;
             }
 
             set
             {
-                isReviewedRequired = value;
+                isChallanRequired = value;
             }
         }
         public Boolean ReviewedStatus

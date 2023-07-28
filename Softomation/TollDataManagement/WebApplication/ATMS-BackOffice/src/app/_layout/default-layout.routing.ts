@@ -30,7 +30,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'pendigIncident', component: IncidentDataComponent },
     { path: 'closeIncident', component: IncidentClosedComponent },
     { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
-    { path: 'vidsIncidentConfig', component: VidsIncidentConfigComponent },
+    { path: 'vidsEventConfig', component: VidsIncidentConfigComponent },
     { path: 'vidsEventHistroy', component: VidsdataComponent },
     { path: 'vidsValidation', component: VidsValidationComponent },
     { path: 'vidsValidated', component: VidsValidatedComponent },

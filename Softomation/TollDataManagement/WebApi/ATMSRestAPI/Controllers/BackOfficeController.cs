@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Mvc;
 using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.IL;
@@ -251,6 +250,26 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in SystemGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemGetByName")]
+        [HttpGet]
+        public HttpResponseMessage SystemGetByName(string SystemName)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemBL.GetByName(SystemName);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemGetByName : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -1233,6 +1252,28 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region Data Filter Master
+        [Route(Provider + "/" + APIPath + "/FilterMasterGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage FilterMasterGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DataFilterBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FilterMasterGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region VIDS Events
         [Route(Provider + "/" + APIPath + "/VIDSEventsGetByHours")]
         [HttpGet]
@@ -1254,16 +1295,43 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/VIDSPendingReviewGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSPendingReviewGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetPendingReviewByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSPendingReviewGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/VIDSEventsGetByFilter")]
         [HttpPost]
         public HttpResponseMessage VIDSEventsGetByFilter(DataFilterIL data)
         {
             try
             {
-                data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                if (data.IsReviewedRequired) 
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
                 if (data.ControlRoomFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
                 }
                 if (data.PackageFilterList != "0")
                 {
@@ -1271,7 +1339,7 @@ namespace ATMSRestAPI.Controllers
                 }
                 if (data.ChainageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND H.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
                 }
                 if (data.DirectionFilterList != "0")
                 {
@@ -1285,10 +1353,7 @@ namespace ATMSRestAPI.Controllers
                 {
                     data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
                 }
-                if (data.IncidentFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.IncidentStatusId IN (" + data.IncidentFilterList + ") ";
-                }
+               
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = VIDSEventBL.GetByFilter(data);

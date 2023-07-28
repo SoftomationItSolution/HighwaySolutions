@@ -4,7 +4,6 @@ namespace Softomation.ATMSSystemLibrary.IL
 {
     public class VIDSChallanEventIL : VIDSReviewedEventIL
     {
-        Boolean isChallanRequired;
         Int16 challanTypeId;
         String challanTypeName;
         Int16 challanStatusId;
@@ -12,7 +11,6 @@ namespace Softomation.ATMSSystemLibrary.IL
         String challanRemark;
         public VIDSChallanEventIL()
         {
-            this.isChallanRequired = false;
             this.challanTypeId = 0;
             this.challanTypeName = string.Empty;
             this.challanStatusId = 0;
@@ -20,18 +18,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.challanRemark = string.Empty;
         }
 
-        public Boolean IsChallanRequired
-        {
-            get
-            {
-                return isChallanRequired;
-            }
-
-            set
-            {
-                isChallanRequired = value;
-            }
-        }
+        
         public Int16 ChallanTypeId
         {
             get

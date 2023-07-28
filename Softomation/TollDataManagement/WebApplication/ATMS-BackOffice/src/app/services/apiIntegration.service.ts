@@ -47,7 +47,7 @@ export class apiIntegrationService {
               returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
               this.ApiCallUrl = returnURL;
               this.dataModel.setDataAPI(this.ApiCallUrl)
-              let mediaPath=curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+              let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
               this.dataModel.setMediaAPI(mediaPath)
               resolve(returnURL);
             },
@@ -132,7 +132,7 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
-//#endregion
+  //#endregion
 
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {
@@ -256,7 +256,7 @@ export class apiIntegrationService {
   }
   //#endregion
 
-//#region  Equipment Config
+  //#region  Equipment Config
   EquipmentConfigGetBySystemId(SystemId: any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -272,145 +272,161 @@ export class apiIntegrationService {
   //#region  Packages
   PackagesGetAll(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
-    const token =this.dataModel.getTokenVale();
+    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetAll', { headers: headers_object});
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetAll', { headers: headers_object });
   }
   PackagesSetUp(data: {}): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
-    const token =this.dataModel.getTokenVale();
+    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackageInsertUpdate', data, { headers: headers_object});
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackageInsertUpdate', data, { headers: headers_object });
   }
   PackagesGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
-    const token =this.dataModel.getTokenVale();
+    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetActive', { headers: headers_object});
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetActive', { headers: headers_object });
   }
   PackagesGetById(PackageId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetById?PackageId=' + PackageId, { headers: headers_object });
   }
-//#endregion
+  //#endregion
 
-//#region  System
-SystemGetActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetActive', { headers: headers_object});
-}
+  //#region  System
+  SystemGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetActive', { headers: headers_object });
+  }
+  SystemGetByName(SystemName: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetByName?SystemName=' + SystemName, { headers: headers_object });
+  }
+  //#endregion
 
-//#endregion
 
+  //#region Incident Details
 
-//#region Incident Details
+  IncidentSourceGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentSourceGetActive', { headers: headers_object });
+  }
+  IncidentCategoryGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object });
+  }
 
-IncidentSourceGetActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentSourceGetActive', { headers: headers_object});
-}
-IncidentCategoryGetActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object});
-}
+  IncidentStatusGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentStatusGetActive', { headers: headers_object });
+  }
 
-IncidentStatusGetActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentStatusGetActive', { headers: headers_object});
-}
+  IncidentCreate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSInsert', data, { headers: headers_object });
+  }
+  IncidentUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSUpdate', data, { headers: headers_object });
+  }
+  IMSGetPending(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetPending?hours=' + data, { headers: headers_object });
+  }
+  IMSGetClosed(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetClosed?hours=' + data, { headers: headers_object });
+  }
+  IMSGetInProgress(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetInProgress?hours=' + data, { headers: headers_object });
+  }
+  IMSGetById(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object });
+  }
 
-IncidentCreate(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSInsert', data, { headers: headers_object});
-}
-IncidentUpdate(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSUpdate', data, { headers: headers_object});
-}
-IMSGetPending(data:any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetPending?hours=' + data, { headers: headers_object});
-}
-IMSGetClosed(data:any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetClosed?hours=' + data, { headers: headers_object});
-}
-IMSGetInProgress(data:any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetInProgress?hours=' + data, { headers: headers_object});
-}
-IMSGetById(data:any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object});
-}
+  IMSActionHistoryInsert(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSActionHistoryInsert', data, { headers: headers_object });
+  }
+  //#endregion
 
-IMSActionHistoryInsert(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSActionHistoryInsert', data, { headers: headers_object});
-}
-//#endregion
+  //#region Check List
+  MasterCheckListActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/MasterCheckListActive', { headers: headers_object });
+  }
 
-//#region Check List
-MasterCheckListActive(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/MasterCheckListActive', { headers: headers_object});
-}
+  CheckListActionApproveByOperator(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListActionApproveByOperator', data, { headers: headers_object });
+  }
+  CheckListGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/CheckListGetAll', { headers: headers_object });
+  }
 
-CheckListActionApproveByOperator(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListActionApproveByOperator', data, { headers: headers_object});
-}
-CheckListGetAll(): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/CheckListGetAll', { headers: headers_object});
-}
+  CheckListSetup(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListSetup', data, { headers: headers_object });
+  }
+  //#endregion
 
-CheckListSetup(data: {}): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListSetup', data, { headers: headers_object});
-}
-//#endregion
+  //#region  Equipment Config
+  EventsTypeGetBySystemId(SystemId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EventsTypeGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+  }
+  EventsTypeSetup(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EventsTypeSetup', data, { headers: headers_object });
+  }
+  //#endregion
 
-//#region  Equipment Config
-EventsTypeGetBySystemId(SystemId: any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EventsTypeGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-}
-EventsTypeSetup(data: any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EventsTypeSetup', data, { headers: headers_object });
-}
-//#endregion
+  //#region Filter Master Data 
+  FilterMasterGetBySystemId(SystemId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterMasterGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+  }
+  //#endregion
 
-//#region  Equipment Config
-VIDSEventsGetByHours(Hours: any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
-}
-VIDSEventsGetByFilter(data: any): Observable<any> {
-  this.ApiCallUrl = this.GetUrl();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
-}
-//#endregion
-
+  //#region  VIDS System
+  VIDSEventsGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+  VIDSPendingReviewGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+  VIDSEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
+  }
+  //#endregion
 }

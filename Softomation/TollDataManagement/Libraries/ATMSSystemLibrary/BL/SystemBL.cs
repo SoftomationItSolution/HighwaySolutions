@@ -33,15 +33,26 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
-        public static SystemIL GetById(short ControlRoomId)
+        public static SystemIL GetById(short SystemId)
         {
             try
             {
-                return SystemDL.GetById(ControlRoomId);
+                return SystemDL.GetById(SystemId);
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
 
+        }
+        public static SystemIL GetByName(String SystemName)
+        {
+            try
+            {
+                return SystemDL.GetByName(SystemName);
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
 

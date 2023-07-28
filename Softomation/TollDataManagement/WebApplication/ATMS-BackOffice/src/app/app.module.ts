@@ -68,6 +68,8 @@ import { VidsValidationComponent } from './pages/VIDS/vids-validation/vids-valid
 import { VidsValidatedComponent } from './pages/VIDS/vids-validated/vids-validated.component';
 import { TreeModule } from 'primeng/tree';
 import { DragDropModule } from 'primeng/dragdrop';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { ImageModule } from 'primeng/image';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -163,7 +165,9 @@ export const MY_CUSTOM_FORMATS = {
     PasswordModule,
     TabViewModule,
     TreeModule,
-    DragDropModule 
+    DragDropModule,
+    MultiSelectModule,
+    ImageModule
   ],
   providers: [
     [DatePipe],

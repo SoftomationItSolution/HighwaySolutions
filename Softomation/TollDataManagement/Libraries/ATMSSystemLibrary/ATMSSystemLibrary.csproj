@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\DataFilterBL.cs" />
     <Compile Include="BL\EquipmentConfigBL.cs" />
     <Compile Include="BL\EventsTypeBL.cs" />
     <Compile Include="BL\IncidentActionHistoryBL.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="DL\RolePermissionDL.cs" />
     <Compile Include="DL\UserManagementDL.cs" />
     <Compile Include="DL\VIDSEventDL.cs" />
+    <Compile Include="DL\VIDSReviewedEventDL.cs" />
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />

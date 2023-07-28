@@ -9,7 +9,7 @@ import { DataModel } from 'src/app/services/data-model.model';
   styleUrls: ['./vids-incident-config.component.css']
 })
 export class VidsIncidentConfigComponent {
-  SystemId = 6;
+  SystemId = 0;
   LogedRoleId;
   LogedUserId;
   DataUpdate: Number = 0;
@@ -23,9 +23,27 @@ export class VidsIncidentConfigComponent {
     this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
   }
-
-  GetPermissionData() {
+  ngOnInit(): void {
+    this.SystemGetByName()
+  }
+  SystemGetByName() {
     this.spinner.show();
+    let MenuUrl = window.location.pathname.replace('/', '');
+    let systenname = MenuUrl.substring(0, 4)
+    this.dbService.SystemGetByName(systenname).subscribe(
+      data => {
+        let SystemDetails = data.ResponseData;
+        this.SystemId = SystemDetails.SystemId;
+        this.GetPermissionData();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetPermissionData() {
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
       MenuUrl: MenuUrl,
@@ -34,15 +52,16 @@ export class VidsIncidentConfigComponent {
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.spinner.hide();
         this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
+          this.spinner.hide();
           this.dm.unauthorized();
         }
-        this.GetEventType();
+        else
+          this.GetEventType();
       },
       (error) => {
         this.spinner.hide();
@@ -53,7 +72,6 @@ export class VidsIncidentConfigComponent {
   }
 
   GetEventType(){
-    this.spinner.show();
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
         this.spinner.hide();
