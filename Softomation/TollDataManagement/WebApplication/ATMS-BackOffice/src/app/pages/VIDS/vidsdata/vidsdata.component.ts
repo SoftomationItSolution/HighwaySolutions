@@ -90,4 +90,8 @@ export class VidsdataComponent {
     }
     this.dm.MediaView(obj);
   }
+
+  ExColl(event:any){
+    document.getElementById("collapseOne").classList.toggle("show")
+}
 }

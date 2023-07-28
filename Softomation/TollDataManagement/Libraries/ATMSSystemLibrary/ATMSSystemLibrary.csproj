@@ -116,6 +116,7 @@
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\DataFilterDL.cs" />
     <Compile Include="DL\EquipmentConfigDL.cs" />
     <Compile Include="DL\EventsTypeDL.cs" />
     <Compile Include="DL\IncidentActionHistoryDL.cs" />

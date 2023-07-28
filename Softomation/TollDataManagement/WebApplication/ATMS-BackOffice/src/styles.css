@@ -502,6 +502,13 @@ tr {
     background-color: #b3b7c1 !important;
 }
 
+.data-filter .card-header{
+padding: 0px !important;
+background-color: #011b40;
+}
+.collapse{
+border: 1px solid #d6d4d4;
+}
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -611,7 +618,7 @@ tr {
         max-height: 69vh !important;
     }
     .listtablepagging .p-datatable-wrapper {
-        max-height: 64vh !important;
+        max-height: 54vh !important;
     }
     .ims-tab {
         height: 66vh !important

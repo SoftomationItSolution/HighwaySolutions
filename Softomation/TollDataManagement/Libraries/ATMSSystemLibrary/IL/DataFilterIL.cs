@@ -1,124 +1,74 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
     public class DataFilterIL
     {
-        private Int16 controllRoomId;
-        private String controlRoomList;
-        private Int16 packageId;
-        private String packageList;
-        private Decimal chainageNumber;
-        private String chainageList;
-        private Int16 positionId;
-        private String positionList;
-        private Int16 eventId;
-        private String eventList;
-        private String locationName;
-        private Int16 incidentTypeId;
-        private String incidentList;
-        private String incidentName;
-        private Int16 directionId;
-        private String directionList;
-        private String directionName;
-        private Int16 reportType;
+        Int16 systemId;
+        private String controlRoomFilterList;
+        private String packageFilterList;
+        private String chainageFilterList;
+        private String positionFilterList;
+        private String eventFilterList;
+        private String incidentFilterList;
+        private String directionFilterList;
         private String startDateTime;
         private String endDateTime;
-        private String baseUrl;
-        private String reportName;
-        private String mediaUrl;
         private String filterQuery;
-        private String reviewerId;
-        private String reviewerName;
-        private String menuId;
-        private String menuName;
-        private String reportFormatType;
+        private List<MasterData> controlRoomDataList;
+        private List<MasterData> packageDataList;
+        private List<MasterData> chainageDataList;
 
         public DataFilterIL()
         {
-            this.controllRoomId = 0;
-            this.controlRoomList = string.Empty;
-            this.packageId = 0;
-            this.packageList = string.Empty;
-            this.chainageNumber = 0;
-            this.chainageList = string.Empty;
-            this.positionId = 0;
-            this.positionList = string.Empty;
-            this.eventId = 0;
-            this.eventList = string.Empty;
-            this.incidentTypeId = 0;
-            this.incidentList = string.Empty;
-            this.IncidentName = string.Empty;
-            this.directionId = 0;
-            this.DirectionList = string.Empty;
-            this.DirectionName = string.Empty;
-            this.reportType = 0;
-            this.endDateTime = String.Empty;
-            this.startDateTime = String.Empty;
-            this.baseUrl = String.Empty;
-            this.mediaUrl = String.Empty;
-            this.reportName = String.Empty;
-            this.filterQuery = String.Empty;
-            this.ReviewerId = string.Empty;
-            this.ReviewerName = string.Empty;
-            this.reportFormatType = string.Empty;
+            this.systemId = 0;
+            this.controlRoomFilterList = string.Empty;
+            this.packageFilterList = string.Empty;
+            this.chainageFilterList = string.Empty;
+            this.positionFilterList = string.Empty;
+            this.eventFilterList = string.Empty;
+            this.incidentFilterList = string.Empty;
+            this.directionFilterList = string.Empty;
+            this.endDateTime = string.Empty;
+            this.startDateTime = string.Empty;
+            this.filterQuery = string.Empty;
+           
+            controlRoomDataList = new List<MasterData>();
+            packageDataList = new List<MasterData>();
+            chainageDataList = new List<MasterData>();
         }
-
-        public short ControllRoomId
+        public short SystemId
         {
-            get => controllRoomId; set => controllRoomId = value;
+            get => systemId; set => systemId = value;
         }
-        public string ControlRoomList
+        public string ControlRoomFilterList
         {
-            get => controlRoomList; set => controlRoomList = value;
+            get => controlRoomFilterList; set => controlRoomFilterList = value;
         }
-        public short PackageId
+        public string PackageFilterList
         {
-            get => packageId; set => packageId = value;
+            get => packageFilterList; set => packageFilterList = value;
         }
-        public string PackageList
+        public string ChainageFilterList
         {
-            get => packageList; set => packageList = value;
+            get => chainageFilterList; set => chainageFilterList = value;
         }
-        public decimal ChainageNumber
+        public string PositionFilterList
         {
-            get => chainageNumber; set => chainageNumber = value;
+            get => positionFilterList; set => positionFilterList = value;
         }
-        public string ChainageList
+        public string EventFilterList
         {
-            get => chainageList; set => chainageList = value;
+            get => eventFilterList; set => eventFilterList = value;
         }
-        public short PositionId
+        public string IncidentFilterList
         {
-            get => positionId; set => positionId = value;
+            get => incidentFilterList; set => incidentFilterList = value;
         }
-        public string PositionList
+        public string DirectionFilterList
         {
-            get => positionList; set => positionList = value;
-        }
-        public short EventId
-        {
-            get => eventId; set => eventId = value;
-        }
-        public string EventList
-        {
-            get => eventList; set => eventList = value;
-        }
-        public short IncidentTypeId
-        {
-            get => incidentTypeId; set => incidentTypeId = value;
-        }
-        public string IncidentList
-        {
-            get => incidentList; set => incidentList = value;
-        }
-        public short DirectionId
-        {
-            get => directionId; set => directionId = value;
-        }
-        public short ReportType
-        {
-            get => reportType; set => reportType = value;
+            get => directionFilterList; set => directionFilterList = value;
         }
         public string StartDateTime
         {
@@ -128,57 +78,130 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => endDateTime; set => endDateTime = value;
         }
-        public string BaseUrl
-        {
-            get => baseUrl; set => baseUrl = value;
-        }
-        public string ReportName
-        {
-            get => reportName; set => reportName = value;
-        }
-        public string MediaUrl
-        {
-            get => mediaUrl; set => mediaUrl = value;
-        }
         public string FilterQuery
         {
             get => filterQuery; set => filterQuery = value;
         }
-        public string DirectionList
+
+        public List<MasterData> ControlRoomDataList
         {
-            get => directionList; set => directionList = value;
+            get
+            {
+                return controlRoomDataList;
+            }
+
+            set
+            {
+                controlRoomDataList = value;
+            }
         }
-        public string ReviewerId
+        public List<MasterData> PackageDataList
         {
-            get => reviewerId; set => reviewerId = value;
+            get
+            {
+                return packageDataList;
+            }
+
+            set
+            {
+                packageDataList = value;
+            }
         }
-        public string ReviewerName
+        public List<MasterData> ChainageDataList
         {
-            get => reviewerName; set => reviewerName = value;
+            get
+            {
+                return chainageDataList;
+            }
+
+            set
+            {
+                chainageDataList = value;
+            }
         }
-        public string DirectionName
+    }
+
+
+    public class MasterData
+    {
+        Int64 dataId;
+        String dataName;
+        Int64 parentId;
+        Decimal minValue;
+        Decimal maxValue;
+
+       public MasterData()
         {
-            get => directionName; set => directionName = value;
+            dataId = 0;
+            dataName = string.Empty;
+            parentId = 0;
+            minValue = 0;
+            maxValue = 0;
         }
-        public string LocationName
+
+        public Int64 DataId
         {
-            get => locationName; set => locationName = value;
+            get
+            {
+                return dataId;
+            }
+
+            set
+            {
+                dataId = value;
+            }
         }
-        public string IncidentName
+
+        public String DataName
         {
-            get => incidentName; set => incidentName = value;
+            get
+            {
+                return dataName;
+            }
+
+            set
+            {
+                dataName = value;
+            }
         }
-        public string MenuId
+
+        public Int64 ParentId
         {
-            get => menuId; set => menuId = value;
+            get
+            {
+                return parentId;
+            }
+
+            set
+            {
+                parentId = value;
+            }
         }
-        public string MenuName
+
+        public Decimal MinValue
         {
-            get => menuName; set => menuName = value;
+            get
+            {
+                return minValue;
+            }
+
+            set
+            {
+                minValue = value;
+            }
         }
-        public string ReportFormatType
+
+        public Decimal MaxValue
         {
-            get => reportFormatType; set => reportFormatType = value;
+            get
+            {
+                return maxValue;
+            }
+
+            set
+            {
+                maxValue = value;
+            }
         }
     }
 }

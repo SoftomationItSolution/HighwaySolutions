@@ -1261,33 +1261,33 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                if (data.ControlRoomList != "0")
+                if (data.ControlRoomFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ControlRoomId IN (" + data.ControlRoomList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
                 }
-                if (data.PackageList != "0")
+                if (data.PackageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
                 }
-                if (data.ChainageList != "0")
+                if (data.ChainageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND H.ChainageNumber IN (" + data.ChainageList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND H.ChainageNumber IN (" + data.ChainageFilterList + ") ";
                 }
-                if (data.DirectionList != "0")
+                if (data.DirectionFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
                 }
-                if (data.PositionList != "0")
+                if (data.PositionFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
                 }
-                if (data.EventList != "0")
+                if (data.EventFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
                 }
-                if (data.IncidentList != "0")
+                if (data.IncidentFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND H.IncidentStatusId IN (" + data.IncidentList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND H.IncidentStatusId IN (" + data.IncidentFilterList + ") ";
                 }
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);

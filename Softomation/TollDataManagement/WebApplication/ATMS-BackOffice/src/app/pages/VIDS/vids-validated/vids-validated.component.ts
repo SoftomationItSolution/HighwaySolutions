@@ -6,5 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./vids-validated.component.css']
 })
 export class VidsValidatedComponent {
-
+  ExColl(event:any){
+      document.getElementById("collapseOne").classList.toggle("show")
+  }
 }
