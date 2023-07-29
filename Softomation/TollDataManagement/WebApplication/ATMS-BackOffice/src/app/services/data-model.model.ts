@@ -11,12 +11,13 @@ export class DataModel {
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
-  constructor(public snackBar: MatSnackBar,private router: Router,public dialog: MatDialog) { }
+  constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) { }
   clearStorage() {
     localStorage.removeItem("Transit360loggedIn");
     localStorage.removeItem("Transit360Token");
     localStorage.removeItem("Transit360UserData");
   }
+  
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
@@ -35,15 +36,14 @@ export class DataModel {
       return false;
   }
 
-
   LogInStatus(status: boolean) {
     this.LogInStatusEmit.emit(status);
   }
 
-
   setDataAPI(path: string) {
     return localStorage.setItem('Transit360API', path);
   }
+  
   getDataAPI() {
     return localStorage.getItem('Transit360API');
   }
@@ -96,17 +96,23 @@ export class DataModel {
       data: { success, message }
     });
   }
-  MediaView(data:any){
+
+  MediaView(data: any) {
     const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
-      dialogConfig.data = data;
-      this.dialog.open(MediaViewComponent, dialogConfig);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.height = '500px';
+    dialogConfig.data = data;
+    this.dialog.open(MediaViewComponent, dialogConfig);
   }
+
   unauthorized() {
     this.router.navigate(['/unauthorized']);
+  }
+
+  async delay(ms: number) {
+    await new Promise<void>(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
   }
 }
 

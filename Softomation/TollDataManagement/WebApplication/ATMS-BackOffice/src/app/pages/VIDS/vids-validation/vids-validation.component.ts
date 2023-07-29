@@ -360,8 +360,11 @@ export class VidsValidationComponent {
 
   AutoSelected() {
     this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+    this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
+    this.Reviewedform.controls['ReviewedEventTypeId'].setValue(this.SelectedRow.EventTypeId);
+    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
     if (this.SelectedRow.EventVideoUrl != "") {
-      this.delay(100).then(any => {
+      this.dm.delay(100).then(any => {
         this.VideoFound = true;
       });
     }
@@ -376,11 +379,24 @@ export class VidsValidationComponent {
     var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 
-  async delay(ms: number) {
-    await new Promise<void>(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
-  }
+ 
 
   SaveEntry(){
-    
+    let process=true;
+    if(this.Reviewedform.value.IsChallanRequired){
+      if(this.Reviewedform.value.ReviewedPlateNumber==""){
+        this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process=false
+      }
+      if(this.Reviewedform.value.ReviewedVehicleClassId==0){
+        this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process=false
+      }
+    }
+    if(process){
+      
+    }
   }
 }

@@ -467,13 +467,18 @@ tr {
     transition: background-color .15s;
 }
 
-
-.nested-active li .p-dropdown-label,
 .p-dropdown-trigger {
+    background: #fff !important;
+}
+.nested-active li .p-dropdown-label {
     font-size: .9em !important;
     font-weight: 600 !important;
     background: #ebeff1 !important;
     color: #406376 !important;
+}
+
+.nested-active .p-dropdown-trigger {
+    background: #ebeff1 !important;
 }
 
 .bold {
@@ -678,27 +683,55 @@ input[type=radio] {
     margin-bottom: auto;
 }
 
-.btn-search i {
-    font-size: 40px;
-    color: gray;
-}
-.btn-audit i {
-    font-size: 40px;
-    color: #1c9e72;
-}
+
 
 .p-paginator .p-paginator-icon {
-    color: #000;
+    color: #595757;
 }
 .table-responsive{
     overflow: hidden !important;
 }
 .card-body {
-    padding: 1.00rem 1.00rem !important;
+    padding: 1rem 1rem 0rem 1rem !important;
 }
 .audit-media{
     width: 200px;
     height: 150px;
+    border: 1px solid #000;
+}
+.p-dropdown-trigger .p-icon-wrapper{
+    color: #595757 !important;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+  }
+  .btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 8px 12px;
+    font-size: 25px;
+    line-height: 1.33;
+    border-radius: 25px;
+  }
+  .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
+  }
+  
+.chk{
+    margin-top: 37px;
+    margin-left: -35px;
 }
 @media (max-height: 550px) {
     .page-content-wrapper {
@@ -769,6 +802,7 @@ input[type=radio] {
     .audit-media{
         width: 200px;
         height: 150px;
+        
     }
     .ims-tab {
         height: 60vh !important
@@ -834,29 +868,33 @@ input[type=radio] {
 @media (max-height: 800px) and (min-height: 721px) {
     .page-content-wrapper {
         margin-top: -115px !important;
-        height: 81vh;
+        height: 85vh;
     }
-
+    .listheight {
+        height: 76vh;
+    }
+    .ccard .card-body {
+        height: 68vh;
+    }
     .listtableheight {
-        height: 69vh !important
+        height: 74vh !important;
     }
-
     .listtablepagging {
-        height: 56vh !important
+        height: 55vh !important
     }
-
     .p-datatable-wrapper {
         max-height: 69vh !important;
     }
-
     .listtablepagging .p-datatable-wrapper {
-        max-height: 54vh !important;
+        max-height: 51vh !important;
     }
-
     .listtablepagging-c .p-datatable-wrapper {
-        max-height: 59vh !important;
+        max-height: 74vh !important;
     }
-
+    .audit-media{
+        width: 300px;
+        height: 250px;
+    }
     .ims-tab {
         height: 66vh !important
     }
