@@ -24,7 +24,8 @@ namespace Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Clear();
                 ImportDataTable.Columns.Add("EventTypeId");
                 ImportDataTable.Columns.Add("EventsRequired");
-                ImportDataTable.Columns.Add("ChallanRequired");
+                ImportDataTable.Columns.Add("ReviewRequired");
+                ImportDataTable.Columns.Add("ChallanTypeId");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
                 string SessionId = Constants.RandomString(10);
@@ -34,7 +35,8 @@ namespace Softomation.ATMSSystemLibrary.DL
                     row = ImportDataTable.NewRow();
                     row["EventTypeId"] = types[i].EventTypeId;
                     row["EventsRequired"] = types[i].EventsRequired;
-                    row["ChallanRequired"] = types[i].ChallanRequired;
+                    row["ReviewRequired"] = types[i].ReviewRequired;
+                    row["ChallanTypeId"] = types[i].ChallanTypeId;
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
@@ -131,11 +133,14 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EventsRequired"] != DBNull.Value)
                 ed.EventsRequired = Convert.ToBoolean(dr["EventsRequired"]);
 
-            if (dr["ChallanRequired"] != DBNull.Value)
-                ed.ChallanRequired = Convert.ToBoolean(dr["ChallanRequired"]);
+            if (dr["ReviewRequired"] != DBNull.Value)
+                ed.ReviewRequired = Convert.ToBoolean(dr["ReviewRequired"]);
 
             if (dr["SystemId"] != DBNull.Value)
                 ed.SystemId = Convert.ToInt16(dr["SystemId"]);
+
+            if (dr["ChallanTypeId"] != DBNull.Value)
+                ed.ChallanTypeId = Convert.ToInt16(dr["ChallanTypeId"]);
 
             if (dr["DataStatus"] != DBNull.Value)
                 ed.DataStatus = Convert.ToInt16(dr["DataStatus"]);

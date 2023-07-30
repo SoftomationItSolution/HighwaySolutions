@@ -24,7 +24,9 @@
                                 </th>
                                 <th pSortableColumn="EventsRequired" style="text-align: center;">Events Required <p-sortIcon field="EventsRequired"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ChallanRequired" style="text-align: center;">Challan Required <p-sortIcon field="ChallanRequired"></p-sortIcon>
+                                <th pSortableColumn="ReviewRequired" style="text-align: center;">Review Required <p-sortIcon field="ReviewRequired"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="ChallanTypeId">Chalan Type <p-sortIcon field="ChallanTypeId"></p-sortIcon>
                                 </th>
                             </tr>
                         </ng-template>
@@ -36,7 +38,11 @@
                                     <input class="form-check-input" type="checkbox" (ngModelChange)="handleCheck($event,rowData,'EventsRequired')" [(ngModel)]="rowData.EventsRequired">
                                 </td>
                                 <td style="text-align: center;">
-                                    <input class="form-check-input" type="checkbox" (ngModelChange)="handleCheck($event,rowData,'ChallanRequired')" [(ngModel)]="rowData.ChallanRequired">
+                                    <input class="form-check-input" type="checkbox" (ngModelChange)="handleCheck($event,rowData,'ReviewRequired')" [(ngModel)]="rowData.ReviewRequired">
+                                </td>
+                                <td>
+                                    <p-dropdown [(ngModel)]="rowData.ChallanTypeId" appendTo="body" inputId="ChallanTypeId" [options]="ChalanTypeData"
+                                    optionLabel="DataName" optionValue="DataId" placeholder="Select" [style]="{'width':'100%'}" [disabled]="rowData.ReviewRequired==false"></p-dropdown>
                                 </td>
                                </tr>
                         </ng-template>

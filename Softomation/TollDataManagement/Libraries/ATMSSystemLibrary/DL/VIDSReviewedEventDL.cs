@@ -13,8 +13,30 @@ namespace Softomation.ATMSSystemLibrary.DL
         static DataTable dt;
         static string tableName = "tbl_VIDSEventsHistory";
         #endregion
+        internal static List<ResponseIL> ReviewUpdate(VIDSReviewedEventIL data)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                string spName = "USP_VIDSEventReviewUpdate";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, data.TransactionId, ParameterDirection.Input, 30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedEventTypeId", DbType.Int16, data.ReviewedEventTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedPlateNumber", DbType.String, data.ReviewedPlateNumber, ParameterDirection.Input, 20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedVehicleClassId", DbType.Int16, data.ReviewedVehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsChallanRequired", DbType.Boolean, data.IsChallanRequired, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedById", DbType.Int64, data.ReviewedById, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                responses = ResponseIL.ConvertResponseList(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
 
-        
         internal static List<VIDSEventIL> GetByFilter(DataFilterIL data)
         {
             DataTable dt = new DataTable();
@@ -35,6 +57,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return vidsEvents;
         }
+
+        
 
         #region Helper Methods
         private static VIDSEventIL CreateObjectFromDataRow(DataRow dr)

@@ -341,6 +341,7 @@ export class VidsValidationComponent {
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
+        this.SelectedIndex=0;
         this.AutoSelected();
       },
       (error) => {
@@ -396,7 +397,32 @@ export class VidsValidationComponent {
       }
     }
     if(process){
-      
+      var obj={
+        TransactionId:this.SelectedRow.TransactionId,
+        ReviewedPlateNumber:this.Reviewedform.value.ReviewedPlateNumber,
+        ReviewedEventTypeId:this.Reviewedform.value.ReviewedEventTypeId,
+        ReviewedVehicleClassId:this.Reviewedform.value.ReviewedVehicleClassId,
+        IsChallanRequired:this.Reviewedform.value.IsChallanRequired
+      }
+      this.dbService.VIDSEventReviewed(obj).subscribe(
+        data => {
+          this.spinner.hide();
+          this.EventHistroyData = data.ResponseData;
+          this.SelectedIndex=0;
+          this.AutoSelected();
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.dm.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+  
+        }
+      );
     }
   }
 }

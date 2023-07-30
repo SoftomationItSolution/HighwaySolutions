@@ -25,6 +25,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
   EquipmentDetails: any;
   SystemId = 0;
   PositionList = [{ ID: 1, Name: "Entry" }, { ID: 2, Name: "Exit" }, { ID: 3, Name: "Main Carriageway" }, { ID: 4, Name: "Parking Spot" }]
+
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
@@ -51,7 +52,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
     );
   }
-
+  
   GetPermissionData() {
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
@@ -71,6 +72,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
         }
         else {
           this.EquipmentType();
+          
         }
       },
       (error) => {
@@ -80,7 +82,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
     );
   }
-
+ 
   EquipmentType() {
     this.dbService.EquipmentTypeGetActive().subscribe(
       data => {

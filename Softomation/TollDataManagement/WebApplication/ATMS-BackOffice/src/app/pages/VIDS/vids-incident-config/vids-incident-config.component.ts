@@ -17,7 +17,8 @@ export class VidsIncidentConfigComponent {
   DataView: Number = 0;
   PermissionData:any;
   ErrorData:any;
-  EventTypeList:any
+  EventTypeList:any;
+  ChalanTypeData:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
@@ -26,6 +27,7 @@ export class VidsIncidentConfigComponent {
   ngOnInit(): void {
     this.SystemGetByName()
   }
+
   SystemGetByName() {
     this.spinner.show();
     let MenuUrl = window.location.pathname.replace('/', '');
@@ -43,6 +45,7 @@ export class VidsIncidentConfigComponent {
       }
     );
   }
+
   GetPermissionData() {
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
@@ -60,8 +63,10 @@ export class VidsIncidentConfigComponent {
           this.spinner.hide();
           this.dm.unauthorized();
         }
-        else
+        else{
           this.GetEventType();
+          this.ChalanTypeGetAll();
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -89,22 +94,60 @@ export class VidsIncidentConfigComponent {
       }
     );
   }
-
+  ChalanTypeGetAll() {
+    this.dbService.ChalanTypeGetAll().subscribe(
+      data => {
+        this.ChalanTypeData = data.ResponseData;
+        console.log(this.ChalanTypeData)
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
   handleCheck(event,data,type){
+    
     if(!event && type=='EventsRequired'){
       for (let i = 0; i < this.EventTypeList.length; i++) {
         const element = this.EventTypeList[i];
         if(element.EventTypeId==data.EventTypeId){
-          this.EventTypeList[i].ChallanRequired=event;
+          this.EventTypeList[i].ReviewRequired=event;
+          this.EventTypeList[i].ChallanTypeId=0;
           break;
         }
       }
     }
-    else if(event && type=='ChallanRequired'){
+    else if(event && type=='EventsRequired'){
+      for (let i = 0; i < this.EventTypeList.length; i++) {
+        const element = this.EventTypeList[i];
+        if(element.EventTypeId==data.EventTypeId){
+          this.EventTypeList[i].ChallanTypeId=0;
+          break;
+        }
+      }
+    }
+    else if(event && type=='ReviewRequired'){
       for (let i = 0; i < this.EventTypeList.length; i++) {
         const element = this.EventTypeList[i];
         if(element.EventTypeId==data.EventTypeId){
           this.EventTypeList[i].EventsRequired=event;
+          this.EventTypeList[i].ChallanTypeId=0;
+          break;
+        }
+      }
+    }
+    else if(!event && type=='ReviewRequired'){
+      for (let i = 0; i < this.EventTypeList.length; i++) {
+        const element = this.EventTypeList[i];
+        if(element.EventTypeId==data.EventTypeId){
+          this.EventTypeList[i].ChallanTypeId=0;
           break;
         }
       }

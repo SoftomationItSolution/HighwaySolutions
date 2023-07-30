@@ -7,16 +7,20 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 eventTypeId;
         String eventTypeName;
         Boolean eventsRequired;
-        Boolean challanRequired;
+        Boolean reviewRequired;
         Int16 systemId;
+        Int16 challanTypeId;
+        String challanTypeName;
 
         public EventsTypeIL()
         {
             this.eventTypeId = 0;
             this.eventTypeName = string.Empty;
             this.eventsRequired = false;
-            this.challanRequired = false;
+            this.reviewRequired = false;
             this.systemId = 0;
+            this.challanTypeId = 0;
+            this.challanTypeName = string.Empty;
         }
 
         public Int16 EventTypeId
@@ -55,16 +59,16 @@ namespace Softomation.ATMSSystemLibrary.IL
                 eventsRequired = value;
             }
         }
-        public Boolean ChallanRequired
+        public Boolean ReviewRequired
         {
             get
             {
-                return challanRequired;
+                return reviewRequired;
             }
 
             set
             {
-                challanRequired = value;
+                reviewRequired = value;
             }
         }
         public Int16 SystemId
@@ -77,6 +81,30 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 systemId = value;
+            }
+        }
+        public Int16 ChallanTypeId
+        {
+            get
+            {
+                return challanTypeId;
+            }
+
+            set
+            {
+                challanTypeId = value;
+            }
+        }
+        public String ChallanTypeName
+        {
+            get
+            {
+                return challanTypeName;
+            }
+
+            set
+            {
+                challanTypeName = value;
             }
         }
     }

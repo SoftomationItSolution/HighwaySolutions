@@ -10,6 +10,7 @@ using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.IL;
 using Softomation.ATMSSystemLibrary.SystemLogger;
+using static Softomation.ATMSSystemLibrary.Constants;
 using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
@@ -1252,6 +1253,36 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region Chalan Type
+        [Route(Provider + "/" + APIPath + "/ChalanTypeGetAll")]
+        [HttpGet]
+        public HttpResponseMessage ChalanTypeGetAll()
+        {
+            try
+            {
+                var typeList = new List<MasterData>();
+                foreach (int i in Enum.GetValues(typeof(ChallanType)))
+                {
+                    MasterData t = new MasterData();
+                    t.DataId = i;
+                    t.DataName = SplitCamelCase(Enum.GetName(typeof(ChallanType), (ChallanType)i));
+                    typeList.Add(t);
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = typeList;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ChalanTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region Data Filter Master
         [Route(Provider + "/" + APIPath + "/FilterMasterGetBySystemId")]
         [HttpGet]
@@ -1362,6 +1393,24 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in VIDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/VIDSEventReviewUpdate")]
+        [HttpPost]
+        public HttpResponseMessage VIDSEventReviewUpdate(VIDSReviewedEventIL data)
+        {
+            try
+            {
+                response.Message = VIDSReviewedEventBL.ReviewUpdate(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventReviewUpdate : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

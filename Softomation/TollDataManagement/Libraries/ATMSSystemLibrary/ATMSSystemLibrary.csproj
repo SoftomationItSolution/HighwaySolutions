@@ -111,6 +111,7 @@
     <Compile Include="BL\RolePermissionBL.cs" />
     <Compile Include="BL\UserManagementBL.cs" />
     <Compile Include="BL\VIDSEventBL.cs" />
+    <Compile Include="BL\VIDSReviewedEventBL.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
