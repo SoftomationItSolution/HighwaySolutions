@@ -21,6 +21,7 @@ export class VidsdataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
+  TotalCount=0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
@@ -133,6 +134,7 @@ export class VidsdataComponent {
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -312,7 +314,8 @@ export class VidsdataComponent {
     this.dbService.VIDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;       
+        this.EventHistroyData = data.ResponseData;    
+        this.TotalCount = this.EventHistroyData.length;   
       },
       (error) => {
         this.spinner.hide();

@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Text.Json.Serialization;
+using System.Web.Script.Serialization;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
@@ -80,7 +82,8 @@ namespace Softomation.ATMSSystemLibrary.DL
         internal static VIDSReviewedEventIL CreateObjectFromDataRow(DataRow dr)
         {
             VIDSReviewedEventIL events = new VIDSReviewedEventIL();
-            events = (VIDSReviewedEventIL)VIDSEventDL.CreateObjectFromDataRow(dr);
+            JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+            events = json_serializer.Deserialize<VIDSReviewedEventIL>(json_serializer.Serialize(VIDSEventDL.CreateObjectFromDataRow(dr)));
             if (dr["ReviewedEventTypeId"] != DBNull.Value)
                 events.ReviewedEventTypeId = Convert.ToInt16(dr["ReviewedEventTypeId"]);
 
