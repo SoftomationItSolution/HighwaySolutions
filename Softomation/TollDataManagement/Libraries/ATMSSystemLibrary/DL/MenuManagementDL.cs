@@ -26,7 +26,6 @@ namespace Softomation.ATMSSystemLibrary.DL
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     menus.Add(CreateObjectFromDataRow(dr));
-
                 menus = UpdateChildCount(menus);
 
             }

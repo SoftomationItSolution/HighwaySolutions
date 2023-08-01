@@ -167,7 +167,8 @@ export const MY_CUSTOM_FORMATS = {
     TreeModule,
     DragDropModule,
     MultiSelectModule,
-    ImageModule
+    ImageModule,
+    ConfirmDialogModule 
   ],
   providers: [
     [DatePipe],

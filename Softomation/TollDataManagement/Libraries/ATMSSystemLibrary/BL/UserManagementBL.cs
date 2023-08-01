@@ -96,6 +96,17 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static List<UserManagementIL> GetBySystemUserType(short UserTypeId, short SystemId)
+        {
+            try
+            {
+                return UserManagementDL.GetBySystemUserType(UserTypeId, SystemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

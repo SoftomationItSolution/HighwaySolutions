@@ -8,7 +8,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         String menuName;
         String menuUrl;
         String menuIcon;
-        Int16 parentId;
+        Int64 parentId;
         Int16 systemId;
         Int16 mennuAccess;
         Int16 oderBy;
@@ -76,7 +76,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Int16 ParentId
+        public Int64 ParentId
         {
             get
             {

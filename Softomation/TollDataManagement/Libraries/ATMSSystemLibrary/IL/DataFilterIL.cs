@@ -14,6 +14,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         private String eventFilterList;
         private String incidentFilterList;
         private String directionFilterList;
+        private String reviewedFilterList;
         private String startDateTime;
         private String endDateTime;
         Boolean isReviewedRequired;
@@ -33,8 +34,9 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.eventFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
             this.directionFilterList = string.Empty;
-            this.endDateTime = string.Empty;
+            this.reviewedFilterList = string.Empty;
             this.startDateTime = string.Empty;
+            this.endDateTime = string.Empty;
             this.isReviewedRequired = false;
             this.filterQuery = string.Empty;
 
@@ -74,6 +76,10 @@ namespace Softomation.ATMSSystemLibrary.IL
         public string DirectionFilterList
         {
             get => directionFilterList; set => directionFilterList = value;
+        }
+        public string ReviewedFilterList
+        {
+            get => reviewedFilterList; set => reviewedFilterList = value;
         }
         public string StartDateTime
         {

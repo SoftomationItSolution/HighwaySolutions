@@ -583,6 +583,26 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetBySystemUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetBySystemUserType(short UserTypeId,short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetBySystemUserType(UserTypeId, SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetBySystemUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Control Room
@@ -964,7 +984,7 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-        
+
         [Route(Provider + "/" + APIPath + "/EquipmentConfigSetup")]
         [HttpPost]
         public HttpResponseMessage EquipmentConfigSetup(List<EquipmentConfigIL> config)
@@ -1306,6 +1326,7 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region VIDS Events
+
         [Route(Provider + "/" + APIPath + "/VIDSEventsGetByHours")]
         [HttpGet]
         public HttpResponseMessage VIDSEventsGetByHours(short Hours)
@@ -1326,33 +1347,13 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/VIDSPendingReviewGetByHours")]
-        [HttpGet]
-        public HttpResponseMessage VIDSPendingReviewGetByHours(short Hours)
-        {
-            try
-            {
-                resp.AlertMessage = "success";
-                response.Message.Add(resp);
-                response.ResponseData = VIDSEventBL.GetPendingReviewByHours(Hours);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in VIDSPendingReviewGetByHours : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-
         [Route(Provider + "/" + APIPath + "/VIDSEventsGetByFilter")]
         [HttpPost]
         public HttpResponseMessage VIDSEventsGetByFilter(DataFilterIL data)
         {
             try
             {
-                if (data.IsReviewedRequired) 
+                if (data.IsReviewedRequired)
                 {
                     data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
@@ -1384,7 +1385,7 @@ namespace ATMSRestAPI.Controllers
                 {
                     data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
                 }
-               
+
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = VIDSEventBL.GetByFilter(data);
@@ -1393,6 +1394,26 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in VIDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #region un audited
+        [Route(Provider + "/" + APIPath + "/VIDSPendingReviewGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSPendingReviewGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetPendingReviewByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSPendingReviewGetByHours : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -1416,6 +1437,86 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        #endregion
+
+        #region audited
+        [Route(Provider + "/" + APIPath + "/VIDSReviewedEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSReviewedEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSReviewedEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSReviewedEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/VIDSReviewedEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VIDSReviewedEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.EventFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (H.EventTypeId IN (" + data.EventFilterList + ") OR H.ReviewedEventTypeId IN (" + data.EventFilterList + ")) ";
+                }
+                if (data.ReviewedFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSReviewedEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSReviewedEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
         #endregion
 
     }
