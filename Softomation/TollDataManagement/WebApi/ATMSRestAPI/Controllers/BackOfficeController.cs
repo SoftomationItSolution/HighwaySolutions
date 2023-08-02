@@ -1392,7 +1392,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region Chalan Type
+        #region Challan Type
         [Route(Provider + "/" + APIPath + "/ChalanTypeGetAll")]
         [HttpGet]
         public HttpResponseMessage ChalanTypeGetAll()
@@ -1422,7 +1422,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region Chalan Type
+        #region Challan Type
         [Route(Provider + "/" + APIPath + "/LaneGetAll")]
         [HttpGet]
         public HttpResponseMessage LaneGetAll()
