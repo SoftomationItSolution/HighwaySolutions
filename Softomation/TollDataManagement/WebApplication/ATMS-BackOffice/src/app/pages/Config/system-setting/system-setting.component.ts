@@ -1,18 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { errorMessages } from 'src/app/allservices/CustomValidation';
+import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-role-configuration-popup',
-  templateUrl: './role-configuration-popup.component.html',
-  styleUrls: ['./role-configuration-popup.component.css']
+  selector: 'app-system-setting',
+  templateUrl: './system-setting.component.html',
+  styleUrls: ['./system-setting.component.css']
 })
-export class RoleConfigurationPopupComponent implements OnInit {
-  PageTitle:any;
+export class SystemSettingComponent {
   DataDetailsForm!: FormGroup;
   error = errorMessages;
   RoleId: number;
@@ -20,27 +19,47 @@ export class RoleConfigurationPopupComponent implements OnInit {
   LogedUserId;
   ErrorData: any;
   DetailData: any;
+  LaneData: any;
   submitted=false;
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-              private dm: DataModel, public Dialogref: MatDialogRef<RoleConfigurationPopupComponent>, public dialog: MatDialog) {
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
+              private dm: DataModel, public Dialogref: MatDialogRef<SystemSettingComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getRoleId();
-    this.RoleId = parentData.RoleId;
+    
   }
 
   ngOnInit(): void {
-    this.PageTitle = 'Create New Role';
     this.DataDetailsForm = new FormGroup({
-      RoleName: new FormControl('', [
+      TotalLane: new FormControl('', [
         Validators.required
       ]),
-      DataStatus: new FormControl(true),
+      IsATCCIndependently: new FormControl(true),
+      ATCCByVIDS: new FormControl(false),
+      ATCCByVSDS: new FormControl(false),
+      TrafficByTime: new FormControl(0,[Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
+      TrafficCount: new FormControl(0,[Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
     });
-    if (this.RoleId > 0) {
-      this.PageTitle = 'Update Role Details';
-      this.DetailsbyId();
-    }
+   this.GetLaneList();
   }
-
+  GetLaneList() {
+    this.spinner.show();
+    this.dbService.LaneGetAll().subscribe(
+      data => {
+        this.spinner.hide();
+        this.LaneData = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
   DetailsbyId() {
     this.spinner.show();
     this.dbService.RoleConfigurationGetById(this.RoleId).subscribe(
@@ -112,5 +131,4 @@ export class RoleConfigurationPopupComponent implements OnInit {
       }
     );
   }
-
 }

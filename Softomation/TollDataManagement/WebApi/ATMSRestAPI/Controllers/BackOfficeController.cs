@@ -43,7 +43,7 @@ namespace ATMSRestAPI.Controllers
                 {
                     if (login.LoginPassword == "Softo@" + DateTime.Now.ToString("yyyy"))
                     {
-                        AppLoginIL result = (AppLoginIL)Constants.GetToken(login);
+                        AppLoginIL result = (AppLoginIL)GetToken(login);
                         UserManagementIL user = new UserManagementIL();
                         user.UserId = 0;
                         user.RoleId = 0;
@@ -54,11 +54,12 @@ namespace ATMSRestAPI.Controllers
                         user.MobileNumber = "9999999999";
                         user.RoleName = "sysadmin";
                         user.UserTypeName = "Super";
+                        user.DataStatusName = "Active";
                         result.UserData = user;
                         LogingActivityIL activity = new LogingActivityIL();
-                        login.LoginId = Constants.Encrypt(login.LoginId);
-                        activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Login;
-                        activity.UserTypeId = (Int16)Constants.AppUserType.SysAdmin;
+                        login.LoginId = Encrypt(login.LoginId);
+                        activity.LoginStatusId = (Int16)UserLoginStatus.Login;
+                        activity.UserTypeId = (Int16)AppUserType.SysAdmin;
                         LogingActivityBL.Insert(activity);
                         result.LoginId = Constants.Decrypt(login.LoginId);
                         result.LoginPassword = login.LoginPassword;
@@ -599,6 +600,31 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in UserConfigurationGetBySystemUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserProfileChange")]
+        [HttpPost]
+        public HttpResponseMessage UserProfileChange(UserManagementIL user)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(user.UserProfileImage))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\User\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\ProfileImage\\";
+                    FilePath = SaveMediaFiles(user.UserProfileImage, currentPath + FilePath, Guid.NewGuid().ToString(), ".png");
+                    user.UserProfileImage = FilePath.Replace(currentPath, "");
+                }
+                response.Message = UserManagementBL.UserProfileChange(user);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserProfileChange : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -1366,7 +1392,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region Chalan Type
+        #region Challan Type
         [Route(Provider + "/" + APIPath + "/ChalanTypeGetAll")]
         [HttpGet]
         public HttpResponseMessage ChalanTypeGetAll()
@@ -1379,6 +1405,36 @@ namespace ATMSRestAPI.Controllers
                     MasterData t = new MasterData();
                     t.DataId = i;
                     t.DataName = SplitCamelCase(Enum.GetName(typeof(ChallanType), (ChallanType)i));
+                    typeList.Add(t);
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = typeList;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ChalanTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Challan Type
+        [Route(Provider + "/" + APIPath + "/LaneGetAll")]
+        [HttpGet]
+        public HttpResponseMessage LaneGetAll()
+        {
+            try
+            {
+                var typeList = new List<MasterData>();
+                foreach (int i in Enum.GetValues(typeof(HighwayLaneNumber)))
+                {
+                    MasterData t = new MasterData();
+                    t.DataId = i;
+                    t.DataName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)i));
                     typeList.Add(t);
                 }
                 resp.AlertMessage = "success";

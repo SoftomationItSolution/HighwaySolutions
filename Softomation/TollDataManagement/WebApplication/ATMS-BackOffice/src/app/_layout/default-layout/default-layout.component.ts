@@ -6,6 +6,7 @@ import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
+import { SystemSettingComponent } from 'src/app/pages/Config/system-setting/system-setting.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -132,7 +133,6 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   getTitle() {
-    //var titlee = this.location.prepareExternalUrl(this.location.path());
     var titlee = window.location.pathname.replace('/', '');
     if (titlee.charAt(0) === '#') {
       titlee = titlee.slice(1);
@@ -179,8 +179,17 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
-    dialogConfig.height = '439px';
+    dialogConfig.height = '480px';
     this.dialog.open(UserProfilePopupComponent, dialogConfig);
+  }
+
+  ssOpen() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '440px';
+    this.dialog.open(SystemSettingComponent, dialogConfig);
   }
 
 }

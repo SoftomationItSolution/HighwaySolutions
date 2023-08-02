@@ -15,10 +15,9 @@ namespace Softomation.ATMSSystemLibrary.IL
         String lastName;
         String emailId;
         String mobileNumber;
-        Int32 roleId;
         Int16 userTypeId;
         String userTypeName;
-        String sessionId;
+        String userProfileImage;
         Nullable<DateTime> accountExpiredDate;
         public UserManagementIL()
         {
@@ -29,10 +28,9 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.lastName = string.Empty;
             this.emailId = string.Empty;
             this.mobileNumber = string.Empty;
-            this.roleId = 0;
             this.userTypeId = 0;
             this.userTypeName = string.Empty;
-            this.sessionId = string.Empty;
+            this.userProfileImage = string.Empty;
             this.accountExpiredDate = null;
         }
         public Int64 UserId
@@ -64,10 +62,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => mobileNumber; set => mobileNumber = value;
         }
-        public Int32 RoleId
-        {
-            get => roleId; set => roleId = value;
-        }
+       
         public Int16 UserTypeId
         {
             get => userTypeId; set => userTypeId = value;
@@ -76,21 +71,14 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => userTypeName; set => userTypeName = value;
         }
+        public String UserProfileImage
+        {
+            get => userProfileImage; set => userProfileImage = value;
+        }
         public Nullable<DateTime> AccountExpiredDate
         {
             get => accountExpiredDate; set => accountExpiredDate = value;
         }
-        public String SessionId
-        {
-            get
-            {
-                return sessionId;
-            }
-
-            set
-            {
-                sessionId = value;
-            }
-        }
+        
     }
 }
