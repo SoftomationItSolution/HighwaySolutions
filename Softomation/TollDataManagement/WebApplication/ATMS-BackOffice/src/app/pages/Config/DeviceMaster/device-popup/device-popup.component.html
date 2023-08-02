@@ -1,7 +1,9 @@
 <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
-        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close"></button>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
     </div>
     <div class="modal-body">
         <mat-stepper linear #stepper>
