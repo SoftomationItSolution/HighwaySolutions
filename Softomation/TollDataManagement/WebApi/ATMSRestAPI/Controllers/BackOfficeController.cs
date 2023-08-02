@@ -281,6 +281,45 @@ namespace ATMSRestAPI.Controllers
 
         #endregion
 
+        #region System Setting
+        [Route(Provider + "/" + APIPath + "/SystemSettingSetUp")]
+        [HttpPost]
+        public HttpResponseMessage SystemSettingSetUp(SystemSettingIL ss)
+        {
+            try
+            {
+                response.Message = SystemSettingBL.InsertUpdate(ss);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemSettingSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        [Route(Provider + "/" + APIPath + "/SystemSettingGet")]
+        [HttpGet]
+        public HttpResponseMessage SystemSettingGet()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemSettingBL.Get();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemSettingGet : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region Role Management
         [Route(Provider + "/" + APIPath + "/RoleConfigurationSetUp")]
         [HttpPost]
@@ -1444,7 +1483,36 @@ namespace ATMSRestAPI.Controllers
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in ChalanTypeGetAll : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in LaneGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/LaneGetActive")]
+        [HttpGet]
+        public HttpResponseMessage LaneGetActive()
+        {
+            try
+            {
+                var typeList = new List<MasterData>();
+                foreach (int i in Enum.GetValues(typeof(HighwayLaneNumber)))
+                {
+                    MasterData t = new MasterData();
+                    t.DataId = i;
+                    t.DataName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)i));
+                    typeList.Add(t);
+                }
+                SystemSettingIL system = SystemSettingBL.Get();
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = typeList.FindAll(x => x.DataId <= system.TotalLane);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in LaneGetActive : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
