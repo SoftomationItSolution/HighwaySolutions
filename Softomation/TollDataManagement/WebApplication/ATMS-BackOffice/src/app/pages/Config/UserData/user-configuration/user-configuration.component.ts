@@ -80,8 +80,8 @@ export class UserConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '473px';
       dialogConfig.data = { action: 'Save', UserId: 0 };
       this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
     }
@@ -95,8 +95,8 @@ export class UserConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '473px';
       dialogConfig.data = { action: 'Update', UserId: data.UserId };
       this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
     }

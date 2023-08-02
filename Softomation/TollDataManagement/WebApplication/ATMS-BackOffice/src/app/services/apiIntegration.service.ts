@@ -244,6 +244,13 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetAll', { headers: headers_object });
   }
+
+  EquipmentDetailsGetByFilter(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetByFilter', data, { headers: headers_object });
+  }
+
   EquipmentDetailsGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');

@@ -1,1325 +1,859 @@
-/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VIDSPendingReviewEventsGetByHours]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VIDSPendingReviewEventsGetByHours]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VIDSEventsHistory]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VIDSEventsHistory]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VIDSEventsGetByHours]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VIDSEventsGetByHours]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VIDSEventsGetByFilter]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VIDSEventsGetByFilter]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VIDSEventReviewUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VIDSEventReviewUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VehicleClassInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VehicleClassInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VehicleClassGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VehicleClassGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_VehicleClassGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_VehicleClassGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UserUpdatePassword]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UserUpdatePassword]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UsersGetByLoginId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UsersGetByLoginId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UserInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UserInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UserGetByUserTypeId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UserGetByUserTypeId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UserGetbyId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UserGetbyId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_UserGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_UserGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_SystemGetByName]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_SystemGetByName]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_SystemGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_SystemGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_SystemGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_SystemGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolesPersmissionGetByRoleId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolesPersmissionGetByRoleId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolesPersmissionGetByMenuId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolesPersmissionGetByMenuId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolesPersmissionGetByMenu]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolesPersmissionGetByMenu]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolesGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolesGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolesGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolesGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RolePermissionInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RolePermissionInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_RoleInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_RoleInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_PackageInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_PackageInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_PackageGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_PackageGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_PackageGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_PackageGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_MenuGetByRoleId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_MenuGetByRoleId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_MenuGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_MenuGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_MasterDataGetBySystemId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_MasterDataGetBySystemId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_LogingActivityUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_LogingActivityUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_LogingActivityInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_LogingActivityInsert]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentStatusMasterGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentStatusMasterGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentSourceGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentSourceGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentGetPending]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentGetPending]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentGetInProgress]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentGetInProgress]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentGetClose]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentGetClose]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentDetailsUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentDetailsUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentDetailsInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentDetailsInsert]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentDetailsGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentDetailsGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentCategoryMasterGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentCategoryMasterGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentActionInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentActionInsert]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_IncidentActionHistorGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_IncidentActionHistorGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EventsTypeUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EventsTypeUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EventsTypeMasterGetBySystemId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EventsTypeMasterGetBySystemId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EventsTypeMasterGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EventsTypeMasterGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_ErrorInfoInsert]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_ErrorInfoInsert]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentTypeMasterGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentTypeMasterGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentDetailsInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentDetailsInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentDetailsGetBySystemId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentDetailsGetBySystemId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentDetailsGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentDetailsGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentDetailsGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentDetailsGetAll]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentConfigInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentConfigInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_EquipmentConfigGetBySystemId]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_EquipmentConfigGetBySystemId]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_ControlRoomInsertUpdate]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_ControlRoomInsertUpdate]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_ControlRoomGetById]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_ControlRoomGetById]
-GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[USP_ControlRoomGetAll]') AND type in (N'P', N'PC'))
-DROP PROCEDURE [dbo].[USP_ControlRoomGetAll]
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__SendS__6A50C1DA]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherEventHistory] DROP CONSTRAINT [DF__tbl_Weath__SendS__6A50C1DA]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__IsAle__695C9DA1]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherEventHistory] DROP CONSTRAINT [DF__tbl_Weath__IsAle__695C9DA1]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__SendS__6C390A4C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__SendS__6C390A4C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__Modif__70FDBF69]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__Modif__70FDBF69]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__Modif__70099B30]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__Modif__70099B30]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__Creat__6F1576F7]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__Creat__6F1576F7]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__Creat__6E2152BE]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__Creat__6E2152BE]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Weath__DataS__6D2D2E85]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT [DF__tbl_Weath__DataS__6D2D2E85]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSS__SendS__60C757A0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSSectionSpeedHistory] DROP CONSTRAINT [DF__tbl_VSDSS__SendS__60C757A0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSS__Creat__5FD33367]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSSectionSpeedHistory] DROP CONSTRAINT [DF__tbl_VSDSS__Creat__5FD33367]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Media__004002F9]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Media__004002F9]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__DataS__7F4BDEC0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__DataS__7F4BDEC0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Creat__7E57BA87]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Creat__7E57BA87]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsCha__7D63964E]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsCha__7D63964E]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Revie__7C6F7215]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Revie__7C6F7215]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Revie__7B7B4DDC]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Revie__7B7B4DDC]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Revie__7A8729A3]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Revie__7A8729A3]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsRev__7993056A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsRev__7993056A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsWro__789EE131]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsWro__789EE131]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsSta__77AABCF8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsSta__77AABCF8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsFau__76B698BF]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsFau__76B698BF]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__IsPla__75C27486]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__IsPla__75C27486]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VSDSE__Vehic__74CE504D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT [DF__tbl_VSDSE__Vehic__74CE504D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Media__5649C92D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Media__5649C92D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__DataS__5555A4F4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__DataS__5555A4F4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Modif__5C02A283]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Modif__5C02A283]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Modif__5B0E7E4A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Modif__5B0E7E4A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Creat__5A1A5A11]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Creat__5A1A5A11]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Creat__592635D8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Creat__592635D8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__DataS__5832119F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__DataS__5832119F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VMSMe__Displ__573DED66]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT [DF__tbl_VMSMe__Displ__573DED66]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Media__08A03ED0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Media__08A03ED0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__DataS__07AC1A97]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__DataS__07AC1A97]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Syste__06B7F65E]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Syste__06B7F65E]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Creat__05C3D225]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Creat__05C3D225]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Revie__04CFADEC]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Revie__04CFADEC]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Revie__03DB89B3]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Revie__03DB89B3]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Revie__02E7657A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Revie__02E7657A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Revie__01F34141]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Revie__01F34141]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Revie__00FF1D08]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Revie__00FF1D08]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__IsRev__000AF8CF]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__IsRev__000AF8CF]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Chall__7F16D496]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Chall__7F16D496]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Chall__7E22B05D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Chall__7E22B05D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__IsCha__7D2E8C24]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__IsCha__7D2E8C24]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_VIDSE__Incid__7C3A67EB]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT [DF__tbl_VIDSE__Incid__7C3A67EB]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__Modif__65F62111]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__Modif__65F62111]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__Modif__6501FCD8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__Modif__6501FCD8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__Creat__640DD89F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__Creat__640DD89F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__Creat__6319B466]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__Creat__6319B466]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__DataS__6225902D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__DataS__6225902D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Vehic__Allow__61316BF4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT [DF__tbl_Vehic__Allow__61316BF4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_UserM__Modif__48CFD27E]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT [DF__tbl_UserM__Modif__48CFD27E]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_UserM__Modif__47DBAE45]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT [DF__tbl_UserM__Modif__47DBAE45]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_UserM__Creat__46E78A0C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT [DF__tbl_UserM__Creat__46E78A0C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_UserM__Creat__45F365D3]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT [DF__tbl_UserM__Creat__45F365D3]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_UserM__DataS__44FF419A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT [DF__tbl_UserM__DataS__44FF419A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__Modif__336AA144]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__Modif__336AA144]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__Modif__32767D0B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__Modif__32767D0B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__Creat__318258D2]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__Creat__318258D2]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__Creat__308E3499]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__Creat__308E3499]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__DataS__2F9A1060]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__DataS__2F9A1060]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Syste__DashB__2EA5EC27]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT [DF__tbl_Syste__DashB__2EA5EC27]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__Modif__5441852A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__Modif__5441852A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__Modif__534D60F1]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__Modif__534D60F1]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__Creat__52593CB8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__Creat__52593CB8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__Creat__5165187F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__Creat__5165187F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__DataS__5070F446]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__DataS__5070F446]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__DataU__4F7CD00D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__DataU__4F7CD00D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__DataA__4E88ABD4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__DataA__4E88ABD4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleP__DataV__4D94879B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT [DF__tbl_RoleP__DataV__4D94879B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleM__Modif__440B1D61]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT [DF__tbl_RoleM__Modif__440B1D61]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleM__Modif__4316F928]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT [DF__tbl_RoleM__Modif__4316F928]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleM__Creat__4222D4EF]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT [DF__tbl_RoleM__Creat__4222D4EF]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleM__Creat__412EB0B6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT [DF__tbl_RoleM__Creat__412EB0B6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_RoleM__DataS__403A8C7D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT [DF__tbl_RoleM__DataS__403A8C7D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Modif__2610A626]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Modif__2610A626]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Modif__251C81ED]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Modif__251C81ED]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Creat__24285DB4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Creat__24285DB4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Creat__2334397B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Creat__2334397B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__DataS__22401542]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__DataS__22401542]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Order__214BF109]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Order__214BF109]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Repor__Paren__2057CCD0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT [DF__tbl_Repor__Paren__2057CCD0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Packa__Modif__3EDC53F0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT [DF__tbl_Packa__Modif__3EDC53F0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Packa__Modif__3DE82FB7]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT [DF__tbl_Packa__Modif__3DE82FB7]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Packa__Creat__3CF40B7E]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT [DF__tbl_Packa__Creat__3CF40B7E]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Packa__Creat__3BFFE745]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT [DF__tbl_Packa__Creat__3BFFE745]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Packa__DataS__3B0BC30C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT [DF__tbl_Packa__DataS__3B0BC30C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_MenuM__Modif__3F466844]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT [DF__tbl_MenuM__Modif__3F466844]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_MenuM__Modif__3E52440B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT [DF__tbl_MenuM__Modif__3E52440B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_MenuM__Creat__3D5E1FD2]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT [DF__tbl_MenuM__Creat__3D5E1FD2]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_MenuM__Creat__3C69FB99]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT [DF__tbl_MenuM__Creat__3C69FB99]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_MenuM__DataS__3B75D760]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT [DF__tbl_MenuM__DataS__3B75D760]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Login__Creat__3A81B327]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_LogingActivity] DROP CONSTRAINT [DF__tbl_Login__Creat__3A81B327]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Login__Login__398D8EEE]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_LogingActivity] DROP CONSTRAINT [DF__tbl_Login__Login__398D8EEE]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__1C5231C2]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT [DF__tbl_Incid__Modif__1C5231C2]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__1B5E0D89]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT [DF__tbl_Incid__Modif__1B5E0D89]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__1A69E950]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT [DF__tbl_Incid__Creat__1A69E950]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__1975C517]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT [DF__tbl_Incid__Creat__1975C517]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__1881A0DE]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT [DF__tbl_Incid__DataS__1881A0DE]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__39788055]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__39788055]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__38845C1C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__38845C1C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__379037E3]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__379037E3]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__369C13AA]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__369C13AA]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__35A7EF71]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__DataS__35A7EF71]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Proce__34B3CB38]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT [DF__tbl_Incid__Proce__34B3CB38]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__10AB74EC]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__10AB74EC]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__0FB750B3]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__0FB750B3]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__0EC32C7A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__0EC32C7A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__0DCF0841]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__0DCF0841]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Media__4301EA8F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__Media__4301EA8F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__420DC656]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__DataS__420DC656]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__4119A21D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__Modif__4119A21D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__40257DE4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__Modif__40257DE4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__3F3159AB]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__Creat__3F3159AB]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__3E3D3572]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT [DF__tbl_Incid__Creat__3E3D3572]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__3F9B6DFF]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__3F9B6DFF]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__3EA749C6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__3EA749C6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__3DB3258D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__3DB3258D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__3CBF0154]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__3CBF0154]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__3BCADD1B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__DataS__3BCADD1B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__IsAut__3AD6B8E2]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__IsAut__3AD6B8E2]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Categ__39E294A9]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT [DF__tbl_Incid__Categ__39E294A9]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__37FA4C37]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__Modif__37FA4C37]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__370627FE]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__Modif__370627FE]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__361203C5]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__Creat__361203C5]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__351DDF8C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__Creat__351DDF8C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__3429BB53]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__DataS__3429BB53]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__IsAut__3335971A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT [DF__tbl_Incid__IsAut__3335971A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__1BC821DD]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__1BC821DD]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Modif__1AD3FDA4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__Modif__1AD3FDA4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__19DFD96B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__19DFD96B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Creat__18EBB532]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__Creat__18EBB532]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__17F790F9]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__DataS__17F790F9]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Order__17036CC0]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT [DF__tbl_Incid__Order__17036CC0]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__Media__3C54ED00]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentActionHistory] DROP CONSTRAINT [DF__tbl_Incid__Media__3C54ED00]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Incid__DataS__3B60C8C7]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_IncidentActionHistory] DROP CONSTRAINT [DF__tbl_Incid__DataS__3B60C8C7]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Modif__216BEC9A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Modif__216BEC9A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Modif__2077C861]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Modif__2077C861]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Creat__1F83A428]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Creat__1F83A428]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Creat__1E8F7FEF]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Creat__1E8F7FEF]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__DataS__1D9B5BB6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__DataS__1D9B5BB6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Syste__1CA7377D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Syste__1CA7377D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Chall__19CACAD2]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Chall__19CACAD2]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Revie__1BB31344]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Revie__1BB31344]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Event__Event__1ABEEF0B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT [DF__tbl_Event__Event__1ABEEF0B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Creat__5AB9788F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Creat__5AB9788F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__59C55456]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__59C55456]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__58D1301D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__58D1301D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__57DD0BE4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__57DD0BE4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__56E8E7AB]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__56E8E7AB]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__55F4C372]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__55F4C372]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Error__Error__55009F39]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT [DF__tbl_Error__Error__55009F39]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__5614BF03]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__Modif__5614BF03]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__55209ACA]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__Modif__55209ACA]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__542C7691]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__Creat__542C7691]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__53385258]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__Creat__53385258]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__DataS__52442E1F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__DataS__52442E1F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Equip__515009E6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT [DF__tbl_Equip__Equip__515009E6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__57A801BA]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__Modif__57A801BA]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__56B3DD81]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__Modif__56B3DD81]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__55BFB948]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__Creat__55BFB948]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__54CB950F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__Creat__54CB950F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__DataS__53D770D6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__DataS__53D770D6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__OnLin__52E34C9D]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT [DF__tbl_Equip__OnLin__52E34C9D]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__4F67C174]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Modif__4F67C174]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Modif__4E739D3B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Modif__4E739D3B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__4D7F7902]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Creat__4D7F7902]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Creat__4C8B54C9]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Creat__4C8B54C9]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__DataS__4B973090]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__DataS__4B973090]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Order__4AA30C57]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Order__4AA30C57]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Posit__49AEE81E]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Posit__49AEE81E]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Equip__Paren__48BAC3E5]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT [DF__tbl_Equip__Paren__48BAC3E5]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Contr__Modif__4A4E069C]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT [DF__tbl_Contr__Modif__4A4E069C]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Contr__Modif__4959E263]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT [DF__tbl_Contr__Modif__4959E263]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Contr__Creat__4865BE2A]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT [DF__tbl_Contr__Creat__4865BE2A]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Contr__Creat__477199F1]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT [DF__tbl_Contr__Creat__477199F1]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_Contr__DataS__467D75B8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT [DF__tbl_Contr__DataS__467D75B8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__Modif__3D2915A8]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__Modif__3D2915A8]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__Modif__3C34F16F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__Modif__3C34F16F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__Creat__3B40CD36]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__Creat__3B40CD36]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__Creat__3A4CA8FD]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__Creat__3A4CA8FD]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__DataS__395884C4]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__DataS__395884C4]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_CallE__SendS__3864608B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT [DF__tbl_CallE__SendS__3864608B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__Media__6774552F]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__Media__6774552F]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__DataS__668030F6]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__DataS__668030F6]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__Creat__658C0CBD]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__Creat__658C0CBD]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__IsRev__6497E884]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__IsRev__6497E884]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__IsWro__63A3C44B]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__IsWro__63A3C44B]
-END
-GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__tbl_ATCCE__Vehic__62AFA012]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT [DF__tbl_ATCCE__Vehic__62AFA012]
-END
-GO
-/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[temp_ImportPermission]') AND type in (N'U'))
-DROP TABLE [dbo].[temp_ImportPermission]
-GO
-/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[temp_EventsTypeMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[temp_EventsTypeMaster]
-GO
-/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[temp_EquipmentConfig]') AND type in (N'U'))
-DROP TABLE [dbo].[temp_EquipmentConfig]
-GO
-/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSPendingReviewEventsGetByHours]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsReviewedGetByHours]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsHistory]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsGetByHours]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsGetByFilter]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventReviewUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserUpdatePassword]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UsersGetByLoginId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetByUserTypeId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetBySystemUserTypeId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetbyId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetByName]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByRoleId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByMenuId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByMenu]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolesGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolesGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RolePermissionInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_RoleInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_PackageInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_PackageGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_PackageGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_MenuGetByRoleId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_MenuGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_MasterDataGetBySystemId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_LogingActivityUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_LogingActivityInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentStatusMasterGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentSourceGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetPending]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetInProgress]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetClose]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentCategoryMasterGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentActionInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentActionHistorGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeMasterGetBySystemId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeMasterGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ErrorInfoInsert]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentTypeMasterGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetBySystemId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentConfigInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentConfigGetBySystemId]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomGetAll]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherEventHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_WeatherEventHistory]
+ALTER TABLE [dbo].[tbl_WeatherEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__SendS__6A50C1DA]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__IsAle__695C9DA1]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_WeatherConfiguration]
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__SendS__6C390A4C]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__Modif__70FDBF69]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__Modif__70099B30]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__Creat__6F1576F7]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__Creat__6E2152BE]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherConfiguration]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_WeatherConfiguration] DROP CONSTRAINT IF EXISTS [DF__tbl_Weath__DataS__6D2D2E85]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSSectionSpeedHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VSDSSectionSpeedHistory]
+ALTER TABLE [dbo].[tbl_VSDSSectionSpeedHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSS__SendS__60C757A0]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSSectionSpeedHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSSectionSpeedHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSS__Creat__5FD33367]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VSDSEventHistory]
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Media__004002F9]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VMSMessageHistory]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__DataS__7F4BDEC0]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Creat__7E57BA87]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsCha__7D63964E]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Revie__7C6F7215]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Revie__7B7B4DDC]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Revie__7A8729A3]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsRev__7993056A]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsWro__789EE131]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsSta__77AABCF8]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsFau__76B698BF]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__IsPla__75C27486]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VSDSEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VSDSEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VSDSE__Vehic__74CE504D]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VMSMessageDetails]
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Media__5649C92D]
 GO
-/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__DataS__5555A4F4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Modif__5C02A283]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Modif__5B0E7E4A]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Creat__5A1A5A11]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Creat__592635D8]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__DataS__5832119F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VMSMessageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VMSMessageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_VMSMe__Displ__573DED66]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VIDSEventsHistory]
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Media__08A03ED0]
 GO
-/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__DataS__07AC1A97]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Syste__06B7F65E]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Creat__05C3D225]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Revie__04CFADEC]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Revie__03DB89B3]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Revie__02E7657A]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Revie__01F34141]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Revie__00FF1D08]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__IsRev__000AF8CF]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Chall__7F16D496]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Chall__7E22B05D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__IsCha__7D2E8C24]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VIDSEventsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VIDSEventsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_VIDSE__Incid__7C3A67EB]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_VehicleClass]
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Modif__65F62111]
 GO
-/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Modif__6501FCD8]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Creat__640DD89F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Creat__6319B466]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__DataS__6225902D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_VehicleClass]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Allow__61316BF4]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_UserMaster]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__48CFD27E]
 GO
-/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__47DBAE45]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__46E78A0C]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__45F365D3]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__DataS__44FF419A]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_SystemMaster]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__336AA144]
 GO
-/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__32767D0B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__318258D2]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__308E3499]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DataS__2F9A1060]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DashB__2EA5EC27]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_RolePermission]
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__Modif__5441852A]
 GO
-/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__Modif__534D60F1]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__Creat__52593CB8]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__Creat__5165187F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__DataS__5070F446]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__DataU__4F7CD00D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__DataA__4E88ABD4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__DataV__4D94879B]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RoleMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_RoleMaster]
+ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleM__Modif__440B1D61]
 GO
-/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RoleMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleM__Modif__4316F928]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RoleMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleM__Creat__4222D4EF]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RoleMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleM__Creat__412EB0B6]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RoleMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_RoleMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleM__DataS__403A8C7D]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_ReportMaster]
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Modif__2610A626]
 GO
-/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Modif__251C81ED]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Creat__24285DB4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Creat__2334397B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__DataS__22401542]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Order__214BF109]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ReportMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ReportMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Repor__Paren__2057CCD0]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_PackageDetails]
+ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__Modif__3EDC53F0]
 GO
-/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__Modif__3DE82FB7]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__Creat__3CF40B7E]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__Creat__3BFFE745]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__DataS__3B0BC30C]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_MenuMaster]
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3F466844]
 GO
-/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3E52440B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3D5E1FD2]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3C69FB99]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__DataS__3B75D760]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_LogingActivity]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_LogingActivity]
+ALTER TABLE [dbo].[tbl_LogingActivity] DROP CONSTRAINT IF EXISTS [DF__tbl_Login__Creat__3A81B327]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_LogingActivity]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_LogingActivity] DROP CONSTRAINT IF EXISTS [DF__tbl_Login__Login__398D8EEE]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSubCategory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentSubCategory]
+ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__1C5231C2]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSubCategory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__1B5E0D89]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSubCategory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__1A69E950]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSubCategory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__1975C517]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSubCategory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSubCategory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__1881A0DE]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentStatusMaster]
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__39788055]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__38845C1C]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__379037E3]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__369C13AA]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__35A7EF71]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentStatusMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentStatusMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Proce__34B3CB38]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSourceMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentSourceMaster]
+ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__10AB74EC]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSourceMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__0FB750B3]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSourceMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__0EC32C7A]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentSourceMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentSourceMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__0DCF0841]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentDetailsHistory]
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Media__4301EA8F]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__420DC656]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__4119A21D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__40257DE4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__3F3159AB]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentDetailsHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentDetailsHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__3E3D3572]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentCheckListMaster]
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__3F9B6DFF]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__3EA749C6]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__3DB3258D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__3CBF0154]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__3BCADD1B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__IsAut__3AD6B8E2]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckListMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckListMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Categ__39E294A9]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentCheckList]
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__37FA4C37]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__370627FE]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__361203C5]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__351DDF8C]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__3429BB53]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCheckList]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCheckList] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__IsAut__3335971A]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentCategoryMaster]
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__1BC821DD]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Modif__1AD3FDA4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__19DFD96B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Creat__18EBB532]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__17F790F9]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentCategoryMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentCategoryMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Order__17036CC0]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentActionHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_IncidentActionHistory]
+ALTER TABLE [dbo].[tbl_IncidentActionHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__Media__3C54ED00]
 GO
-/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_IncidentActionHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_IncidentActionHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_Incid__DataS__3B60C8C7]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_EventsTypeMaster]
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Modif__216BEC9A]
 GO
-/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Modif__2077C861]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Creat__1F83A428]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Creat__1E8F7FEF]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__DataS__1D9B5BB6]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Syste__1CA7377D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Chall__19CACAD2]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Revie__1BB31344]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EventsTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EventsTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Event__Event__1ABEEF0B]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_ErrorInfo]
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Creat__5AB9788F]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__59C55456]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__58D1301D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__57DD0BE4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__56E8E7AB]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__55F4C372]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ErrorInfo]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ErrorInfo] DROP CONSTRAINT IF EXISTS [DF__tbl_Error__Error__55009F39]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_EquipmentTypeMaster]
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__5614BF03]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__55209ACA]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__542C7691]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__53385258]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__DataS__52442E1F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentTypeMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentTypeMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Equip__515009E6]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_EquipmentDetails]
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__57A801BA]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__56B3DD81]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__55BFB948]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__54CB950F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__DataS__53D770D6]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__OnLin__52E34C9D]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_EquipmentConfig]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__4F67C174]
 GO
-/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__4E739D3B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__4D7F7902]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__4C8B54C9]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__DataS__4B973090]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Order__4AA30C57]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Posit__49AEE81E]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Paren__48BAC3E5]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_ControlRoomMaster]
+ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__Modif__4A4E069C]
 GO
-/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__Modif__4959E263]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__Creat__4865BE2A]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__Creat__477199F1]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__DataS__467D75B8]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_CallEventsDetails]
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__Modif__3D2915A8]
 GO
-/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__Modif__3C34F16F]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__Creat__3B40CD36]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__Creat__3A4CA8FD]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__DataS__395884C4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_CallEventsDetails]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_CallEventsDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_CallE__SendS__3864608B]
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_ATCCEventHistory]
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__Media__6774552F]
 GO
-/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ActivityLog]') AND type in (N'U'))
-DROP TABLE [dbo].[tbl_ActivityLog]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__DataS__668030F6]
 GO
-/****** Object:  Table [dbo].[eventdata]    Script Date: 31-07-2023 16:26:11 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[eventdata]') AND type in (N'U'))
-DROP TABLE [dbo].[eventdata]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__Creat__658C0CBD]
 GO
-/****** Object:  Table [dbo].[eventdata]    Script Date: 31-07-2023 16:26:11 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__IsRev__6497E884]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__IsWro__63A3C44B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__Vehic__62AFA012]
+GO
+/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[temp_ImportPermission]
+GO
+/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[temp_EventsTypeMaster]
+GO
+/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[temp_EquipmentConfig]
+GO
+/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_WeatherEventHistory]
+GO
+/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_WeatherConfiguration]
+GO
+/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VSDSSectionSpeedHistory]
+GO
+/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VSDSEventHistory]
+GO
+/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VMSMessageHistory]
+GO
+/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VMSMessageDetails]
+GO
+/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VIDSEventsHistory]
+GO
+/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_VehicleClass]
+GO
+/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_UserMaster]
+GO
+/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_SystemMaster]
+GO
+/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_RolePermission]
+GO
+/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_RoleMaster]
+GO
+/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_ReportMaster]
+GO
+/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_PackageDetails]
+GO
+/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_MenuMaster]
+GO
+/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_LogingActivity]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentSubCategory]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentStatusMaster]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentSourceMaster]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentDetailsHistory]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentCheckListMaster]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentCheckList]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentCategoryMaster]
+GO
+/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_IncidentActionHistory]
+GO
+/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_EventsTypeMaster]
+GO
+/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_ErrorInfo]
+GO
+/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_EquipmentTypeMaster]
+GO
+/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_EquipmentDetails]
+GO
+/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_EquipmentConfig]
+GO
+/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_ControlRoomMaster]
+GO
+/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_CallEventsDetails]
+GO
+/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_ATCCEventHistory]
+GO
+/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_ActivityLog]
+GO
+/****** Object:  Table [dbo].[eventdata]    Script Date: 01-08-2023 18:18:27 ******/
+DROP TABLE IF EXISTS [dbo].[eventdata]
+GO
+/****** Object:  Table [dbo].[eventdata]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1337,7 +871,7 @@ CREATE TABLE [dbo].[eventdata](
 	[ModifiedBy] [bigint] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1352,7 +886,7 @@ CREATE TABLE [dbo].[tbl_ActivityLog](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1383,7 +917,7 @@ CREATE TABLE [dbo].[tbl_ATCCEventHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1409,7 +943,7 @@ CREATE TABLE [dbo].[tbl_CallEventsDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1428,7 +962,7 @@ CREATE TABLE [dbo].[tbl_ControlRoomMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1447,7 +981,7 @@ CREATE TABLE [dbo].[tbl_EquipmentConfig](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1483,7 +1017,7 @@ CREATE TABLE [dbo].[tbl_EquipmentDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1502,7 +1036,7 @@ CREATE TABLE [dbo].[tbl_EquipmentTypeMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1517,7 +1051,7 @@ CREATE TABLE [dbo].[tbl_ErrorInfo](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1536,7 +1070,7 @@ CREATE TABLE [dbo].[tbl_EventsTypeMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1555,7 +1089,7 @@ CREATE TABLE [dbo].[tbl_IncidentActionHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1573,7 +1107,7 @@ CREATE TABLE [dbo].[tbl_IncidentCategoryMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1592,7 +1126,7 @@ CREATE TABLE [dbo].[tbl_IncidentCheckList](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1610,7 +1144,7 @@ CREATE TABLE [dbo].[tbl_IncidentCheckListMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1645,7 +1179,7 @@ CREATE TABLE [dbo].[tbl_IncidentDetailsHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1661,7 +1195,7 @@ CREATE TABLE [dbo].[tbl_IncidentSourceMaster](
 	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1679,7 +1213,7 @@ CREATE TABLE [dbo].[tbl_IncidentStatusMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1695,7 +1229,7 @@ CREATE TABLE [dbo].[tbl_IncidentSubCategory](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1711,7 +1245,7 @@ CREATE TABLE [dbo].[tbl_LogingActivity](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1732,7 +1266,7 @@ CREATE TABLE [dbo].[tbl_MenuMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1754,7 +1288,7 @@ CREATE TABLE [dbo].[tbl_PackageDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1771,7 +1305,7 @@ CREATE TABLE [dbo].[tbl_ReportMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1786,7 +1320,7 @@ CREATE TABLE [dbo].[tbl_RoleMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1804,7 +1338,7 @@ CREATE TABLE [dbo].[tbl_RolePermission](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1825,7 +1359,7 @@ CREATE TABLE [dbo].[tbl_SystemMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1848,7 +1382,7 @@ CREATE TABLE [dbo].[tbl_UserMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1866,7 +1400,7 @@ CREATE TABLE [dbo].[tbl_VehicleClass](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1905,7 +1439,7 @@ CREATE TABLE [dbo].[tbl_VIDSEventsHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1926,7 +1460,7 @@ CREATE TABLE [dbo].[tbl_VMSMessageDetails](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1941,7 +1475,7 @@ CREATE TABLE [dbo].[tbl_VMSMessageHistory](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1991,7 +1525,7 @@ CREATE TABLE [dbo].[tbl_VSDSEventHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2010,7 +1544,7 @@ CREATE TABLE [dbo].[tbl_VSDSSectionSpeedHistory](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2034,7 +1568,7 @@ CREATE TABLE [dbo].[tbl_WeatherConfiguration](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2058,7 +1592,7 @@ CREATE TABLE [dbo].[tbl_WeatherEventHistory](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2072,7 +1606,7 @@ CREATE TABLE [dbo].[temp_EquipmentConfig](
 	[SessionId] [varchar](10) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2085,7 +1619,7 @@ CREATE TABLE [dbo].[temp_EventsTypeMaster](
 	[SessionId] [varchar](10) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 31-07-2023 16:26:11 ******/
+/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 01-08-2023 18:18:27 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -2200,11 +1734,23 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (76, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-07-30T15:45:20.023' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (78, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T13:25:16.863' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (23, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"0","EquipmentDirectionId":2,"EquipmentProtocolTypeId":1,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":0.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":0.000000,"EquipmentMacAddress":"0","EquipmentModelNumber":"0","EquipmentSerialNumber":"0","EquipmentManufacturer":"0","EquipmentVendorDetail":"0","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-22","EquipmentWarrantyExpireDate":"2023-06-22","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-22T08:39:26.867","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":0,"EquipmentName":"3","EquipmentDirectionId":0,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:07:14.947","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-23T23:07:14.947' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (25, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":16,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:15:31.503","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":16,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:30:53.677","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-23T23:30:53.677' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (45, 0, N'{"ClassId":2,"VehicleClassId":1,"VehicleClassName":"Motorcycle","VehicleClassIcon":"fa fa-motorcycle","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-01-18T12:21:46.273","CreatedBy":0,"ModifiedDate":"2022-09-17T12:16:25.887","ModifiedBy":1}', N'{"ClassId":2,"VehicleClassId":1,"VehicleClassName":"Motorcycle","VehicleClassIcon":"fa fa-motorcycle","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-01-18T12:21:46.273","CreatedBy":0,"ModifiedDate":"2023-06-26T21:17:34.287","ModifiedBy":0}', N'Update', N'8', CAST(N'2023-06-26T21:17:34.287' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (79, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T14:21:22.523' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (80, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T14:21:27.500' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (81, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T14:21:32.930' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (82, 0, NULL, N'{"EventTypeId":5,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T14:21:39.323' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (83, 0, NULL, N'{"EventTypeId":8,"IsChallanRequired":false,"ChallanTypeId":0}', N'Insert', N'32', CAST(N'2023-08-01T14:21:43.813' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (26, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":16,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:30:53.677","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":16,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:31:04.240","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-23T23:31:04.240' AS DateTime))
 GO
@@ -2212,11 +1758,27 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (32, 0, N'{"ControlRoomId":1,"ControlRoomName":"","DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:00:00.387","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:00:28.427","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-06-24T13:00:28.427' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (84, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:25:10.517' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (85, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:26:17.683' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (86, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:26:18.610' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (87, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:26:19.347' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (88, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:26:19.937' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (89, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":false,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T14:26:20.570' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (28, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":0,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:37:40.670","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":0,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:40:31.680","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-23T23:40:31.680' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (29, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":0,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:40:31.680","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","EquipmentDirectionId":0,"EquipmentProtocolTypeId":0,"EquipmentIP":"192.168.1.1","EquipmentPortNumber":80,"EquipmentLoginId":"a","EquipmentPassword":"a","EquipmentChainageNumber":2.000,"EquipmentLatitude":0.000000,"EquipmentLongitude":1.000000,"EquipmentMacAddress":"4","EquipmentModelNumber":"5","EquipmentSerialNumber":"6","EquipmentManufacturer":"7","EquipmentVendorDetail":"8","EquipmentManufacturerDate":"2023-06-22","EquipmentPurchageDate":"2023-06-23","EquipmentWarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:53:11.107","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-23T23:53:11.107' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (33, 0, N'{"PackageId":1,"ControlRoomId":1,"PackageName":"PKG-1","StartChainageNumber":0.000,"EndChainageNumber":300.000,"DataStatus":1,"CreatedDate":"2023-06-20T15:51:12.060","CreatedBy":0,"ModifiedDate":"2023-06-20T15:51:12.060","ModifiedBy":0}', N'{"PackageId":1,"ControlRoomId":1,"PackageName":"PKG-1","StartChainageNumber":0.000,"EndChainageNumber":100.000,"StartLatitude":0.000000,"StartLongitude":0.000000,"EndLatitude":0.000000,"EndLongitude":0.000000,"DataStatus":1,"CreatedDate":"2023-06-20T15:51:12.060","CreatedBy":0,"ModifiedDate":"2023-06-24T13:01:57.797","ModifiedBy":0}', N'Update', N'7', CAST(N'2023-06-24T13:01:57.797' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (90, 0, NULL, N'{"EventTypeId":1,"IsChallanRequired":false,"ChallanTypeId":5}', N'Insert', N'32', CAST(N'2023-08-01T14:26:32.260' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (94, 0, NULL, NULL, N'Permission Modified', N'9', CAST(N'2023-08-01T17:40:39.860' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (34, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:00:28.427","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":0.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:59:52.390","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-06-24T13:59:52.390' AS DateTime))
 GO
@@ -2229,6 +1791,8 @@ GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (42, 0, N'{"UserId":1,"LoginId":"Admin","LoginPassword":"l8jzHjvGnMX3Xcz3lU1JbDpPwrIDNjh50q1T+BNMQOc=","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-14","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:45:46.443","ModifiedBy":1}', N'{"UserId":1,"LoginId":"Admin","LoginPassword":"wTGXfQWcGaBfZJavKzulTQ==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-13","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:49:07.887","ModifiedBy":1}', N'Update', N'10', CAST(N'2023-06-26T19:49:07.887' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (74, 0, NULL, NULL, N'VIDS- Modified', N'30', CAST(N'2023-07-30T15:43:25.077' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (77, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":true,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T13:19:07.697' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (36, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":0,"ProtocolTypeId":0,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-22","PurchageDate":"2023-06-23","WarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:53:11.107","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-25T14:28:19.750","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-25T14:28:19.750' AS DateTime))
 GO
@@ -2270,6 +1834,8 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (72, 0, NULL, NULL, N'VIDS- Modified', N'30', CAST(N'2023-07-28T15:35:43.400' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (93, 0, N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"1","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-26","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:16:13.847","ModifiedBy":0}', N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"VIDS","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-25","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:45:41.280","ModifiedBy":3}', N'Update', N'10', CAST(N'2023-08-01T15:45:41.280' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (57, 0, NULL, N'{"IncidentId":"TMCS-202307191622512330","IncidentCategoryId":6,"PriorityId":0,"IncidentDescription":"test","IncidentImagePath":"\\IMS\\IncidentImage\\19Jul2023\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByVMSId":0,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"ProcessPercentage":0.00,"SendStatus":0,"IncidentStatusId":1,"CreatedDate":"2023-07-19T16:20:29.860","CreatedBy":0,"ModifiedDate":"2023-07-19T16:22:51.250","ModifiedBy":0}', N'Insert', N'26', CAST(N'2023-07-19T16:20:29.860' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (58, 0, NULL, N'{"IncidentId":"VIDS-202307191629333800","IncidentCategoryId":3,"PriorityId":0,"IncidentDescription":"test2","IncidentImagePath":"\\IMS\\IncidentImage\\19Jul2023\\99f8f709-2677-493e-91ea-e68e02299568.png","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":212.300,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"","VehicleClassId":0,"SourceSystemId":4,"EquipmentId":11,"NearByVMSId":0,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"ProcessPercentage":0.00,"SendStatus":0,"IncidentStatusId":1,"CreatedDate":"2023-07-19T16:27:12.007","CreatedBy":0,"ModifiedDate":"2023-07-19T16:29:33.380","ModifiedBy":0}', N'Insert', N'26', CAST(N'2023-07-19T16:27:12.007' AS DateTime))
@@ -2284,11 +1850,15 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (71, 0, NULL, NULL, N'VIDS- Modified', N'30', CAST(N'2023-07-28T15:35:32.613' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (92, 0, NULL, NULL, N'Permission Modified', N'9', CAST(N'2023-08-01T15:45:23.890' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (61, 0, NULL, N'{"IncidentId":"TMCS-202307201622512330","IncidentCategoryId":6,"PriorityId":1,"IncidentDescription":"test","IncidentImagePath":"\\IMS\\19Jul2023\\IncidentImage\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByVMSId":0,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"AssignedTo":2,"ProcessPercentage":0.00,"IncidentStatusId":4,"CreatedDate":"2023-07-20T13:27:10.990","CreatedBy":0,"ModifiedDate":"2023-07-20T13:29:34.580","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false},{"IncidentId":"TMCS-202307201622512330","IncidentCategoryId":0,"PriorityId":0,"IncidentDescription":"","IncidentImagePath":"","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":0,"ChainageNumber":0.000,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"","VehicleClassId":0,"SourceSystemId":0,"EquipmentId":0,"NearByVMSId":0,"NearByPTZId":48,"IncidentGeneratedByTypeId":0,"IncidentGeneratedById":0,"AssignedTo":0,"ProcessPercentage":0.00,"IncidentStatusId":0,"CreatedDate":"2023-07-20T18:12:38.370","CreatedBy":0,"ModifiedDate":"2023-07-20T18:15:01.733","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false}', N'Insert', N'26', CAST(N'2023-07-20T18:12:38.370' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (68, 0, NULL, NULL, N'VIDS- Created', N'29', CAST(N'2023-07-26T17:14:48.157' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (73, 0, NULL, NULL, N'VIDS- Modified', N'30', CAST(N'2023-07-30T15:40:01.797' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (91, 0, NULL, N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"1","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-26","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:16:13.847","ModifiedBy":0}', N'Insert', N'10', CAST(N'2023-08-01T15:13:37.257' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_ActivityLog] OFF
 GO
@@ -2811,6 +2381,10 @@ INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], 
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (130, NULL, N'0', 1, NULL, CAST(N'2023-07-30T15:25:25.977' AS DateTime), NULL, CAST(N'2023-07-30T15:25:26.007' AS DateTime))
 GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (131, NULL, N'0', 1, NULL, CAST(N'2023-08-01T13:18:06.467' AS DateTime), NULL, CAST(N'2023-08-01T13:18:06.513' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (134, NULL, N'0', 1, NULL, CAST(N'2023-08-01T16:35:46.803' AS DateTime), NULL, CAST(N'2023-08-01T16:35:46.853' AS DateTime))
+GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (20, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-06-17T00:11:21.150' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (21, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-06-17T00:11:23.430' AS DateTime))
@@ -2844,6 +2418,8 @@ GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (78, NULL, N'1', 1, NULL, CAST(N'2023-06-26T21:32:31.920' AS DateTime), NULL, CAST(N'2023-06-26T21:32:31.920' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (113, NULL, N'0', 1, NULL, CAST(N'2023-07-24T17:20:20.153' AS DateTime), NULL, CAST(N'2023-07-24T17:20:20.157' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (133, NULL, N'0', 1, NULL, CAST(N'2023-08-01T15:27:22.553' AS DateTime), NULL, CAST(N'2023-08-01T15:27:22.593' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (28, NULL, N'0', 1, NULL, CAST(N'2023-06-17T04:20:35.547' AS DateTime), NULL, CAST(N'2023-06-17T04:20:35.547' AS DateTime))
 GO
@@ -2912,6 +2488,8 @@ GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (127, NULL, N'0', 1, NULL, CAST(N'2023-07-29T10:32:31.780' AS DateTime), NULL, CAST(N'2023-07-29T10:32:31.813' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (129, NULL, N'0', 1, NULL, CAST(N'2023-07-30T00:02:17.803' AS DateTime), NULL, CAST(N'2023-07-30T00:02:18.183' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (132, NULL, N'0', 1, NULL, CAST(N'2023-08-01T13:22:51.337' AS DateTime), NULL, CAST(N'2023-08-01T13:22:51.397' AS DateTime))
 GO
 SET IDENTITY_INSERT [dbo].[tbl_LogingActivity] OFF
 GO
@@ -3109,37 +2687,37 @@ INSERT [dbo].[tbl_RoleMaster] ([RoleId], [RoleName], [DataStatus], [CreatedDate]
 GO
 SET IDENTITY_INSERT [dbo].[tbl_RoleMaster] OFF
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 2, 1, 1, 1, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 2, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 3, 1, 1, 1, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 3, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 4, 0, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 7, 0, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 8, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 4, 0, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 9, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 8, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 10, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 9, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 11, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 10, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 13, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 11, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 15, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 13, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 16, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 16, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 17, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 18, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 18, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 25, 0, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 19, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 26, 0, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 22, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 24, 1, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 24, 1, 0, 0, 1, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0, CAST(N'2023-06-17T05:50:40.283' AS DateTime), 0)
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 27, 0, 0, 0, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 1, 1, 1, 0, 1, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0)
 GO
@@ -3170,6 +2748,18 @@ GO
 INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 22, 1, 1, 0, 1, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 24, 1, 0, 0, 1, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0, CAST(N'2023-06-22T00:00:04.770' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 28, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 29, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 30, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 31, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 32, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 33, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_SystemMaster] ON 
 GO
@@ -3215,6 +2805,8 @@ INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName]
 GO
 INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'pt1', N'ek4e0KyF2CB1xj3nwprPWg==', N'Patrolling', N'Team', N'pt1@gmail.com', N'9982567732', CAST(N'2033-06-12' AS Date), 1, 5, 1, CAST(N'2023-06-16T01:10:15.223' AS DateTime), 0, CAST(N'2023-06-26T21:33:56.993' AS DateTime), 1)
 GO
+INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'user1', N'EbWS3/EHBvt8Qg7+RlryTg==', N'User', N'VIDS', N'abc@g.com', N'128909870909', CAST(N'2029-12-25' AS Date), 2, 3, 1, CAST(N'2023-08-01T15:13:37.257' AS DateTime), 0, CAST(N'2023-08-01T15:45:41.280' AS DateTime), 3)
+GO
 SET IDENTITY_INSERT [dbo].[tbl_UserMaster] OFF
 GO
 SET IDENTITY_INSERT [dbo].[tbl_VehicleClass] ON 
@@ -3239,19 +2831,19 @@ INSERT [dbo].[tbl_VehicleClass] ([ClassId], [VehicleClassId], [VehicleClassName]
 GO
 SET IDENTITY_INSERT [dbo].[tbl_VehicleClass] OFF
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231114058223', 13, N'AL_E001C0250-20230719009751', 5, CAST(N'2023-07-19T11:14:05.8223000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009751.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 5, N'', 0, 0, CAST(N'2023-07-30T15:45:20.023' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231114058223', 13, N'AL_E001C0250-20230719009751', 5, CAST(N'2023-07-19T11:14:05.8223000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009751.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 0, N'', 0, 0, CAST(N'2023-08-01T13:25:16.863' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231055455075', 13, N'AL_E001C0250-20230719009052', 5, CAST(N'2023-07-19T10:55:45.5075000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009052.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231055455075', 13, N'AL_E001C0250-20230719009052', 5, CAST(N'2023-07-19T10:55:45.5075000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009052.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 5, N'', 0, 0, CAST(N'2023-08-01T14:21:22.523' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231055341117', 13, N'AL_E001C0250-20230719009049', 5, CAST(N'2023-07-19T10:55:34.1117000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009049.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231055341117', 13, N'AL_E001C0250-20230719009049', 5, CAST(N'2023-07-19T10:55:34.1117000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719009049.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 5, N'', 0, 0, CAST(N'2023-08-01T14:21:27.500' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231044237766', 11, N'AL_E001C0040-20230719001310', 5, CAST(N'2023-07-19T10:44:23.7766000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001310.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231044237766', 11, N'AL_E001C0040-20230719001310', 5, CAST(N'2023-07-19T10:44:23.7766000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001310.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 5, N'', 0, 0, CAST(N'2023-08-01T14:21:32.930' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231044149167', 11, N'AL_E001C0040-20230719001308', 3, CAST(N'2023-07-19T10:44:14.9167000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001308.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231044149167', 11, N'AL_E001C0040-20230719001308', 3, CAST(N'2023-07-19T10:44:14.9167000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001308.jpeg', NULL, 0, 1, 6, 0, NULL, 1, 1, 3, N'UP32BG1634', 3, 0, CAST(N'2023-08-01T13:19:07.697' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231041461386', 11, N'AL_E001C0050-20230719002505', 5, CAST(N'2023-07-19T10:41:46.1386000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719002505.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231041461386', 11, N'AL_E001C0050-20230719002505', 5, CAST(N'2023-07-19T10:41:46.1386000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719002505.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 5, N'', 0, 0, CAST(N'2023-08-01T14:21:39.323' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231039295776', 11, N'AL_E001C0050-20230719002470', 8, CAST(N'2023-07-19T10:39:29.5776000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719002470.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231039295776', 11, N'AL_E001C0050-20230719002470', 8, CAST(N'2023-07-19T10:39:29.5776000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719002470.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 1, 8, N'', 0, 0, CAST(N'2023-08-01T14:21:43.813' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231039244238', 11, N'AL_E001C0040-20230719001269', 8, CAST(N'2023-07-19T10:39:24.4238000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001269.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
@@ -3263,23 +2855,23 @@ INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID],
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231024594365', 15, N'AL_E001C0180-20230719001046', 8, CAST(N'2023-07-19T10:24:59.4365000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0180-20230719001046.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231016522236', 11, N'AL_E001C0060-20230719006503', 3, CAST(N'2023-07-19T10:16:52.2236000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0060-20230719006503.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231016522236', 11, N'AL_E001C0060-20230719006503', 3, CAST(N'2023-07-19T10:16:52.2236000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0060-20230719006503.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:25:10.517' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231016237193', 15, N'AL_E001C0230-20230719000053', 3, CAST(N'2023-07-19T10:16:23.7193000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0230-20230719000053.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231016237193', 15, N'AL_E001C0230-20230719000053', 3, CAST(N'2023-07-19T10:16:23.7193000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0230-20230719000053.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:26:17.683' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231012589260', 13, N'AL_E001C0250-20230719007555', 3, CAST(N'2023-07-19T10:12:58.9260000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719007555.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231012589260', 13, N'AL_E001C0250-20230719007555', 3, CAST(N'2023-07-19T10:12:58.9260000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719007555.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:26:18.610' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231010599471', 11, N'AL_E001C0050-20230719002187', 5, CAST(N'2023-07-19T10:10:59.9471000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719002187.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231006518026', 15, N'AL_E001C0220-20230719009439', 3, CAST(N'2023-07-19T10:06:51.8026000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0220-20230719009439.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231006518026', 15, N'AL_E001C0220-20230719009439', 3, CAST(N'2023-07-19T10:06:51.8026000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0220-20230719009439.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:26:19.347' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231004335071', 15, N'AL_E001C0160-20230719004062', 3, CAST(N'2023-07-19T10:04:33.5071000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0160-20230719004062.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720231004335071', 15, N'AL_E001C0160-20230719004062', 3, CAST(N'2023-07-19T10:04:33.5071000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0160-20230719004062.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:26:19.937' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230957029560', 11, N'AL_E001C0050-20230719001974', 5, CAST(N'2023-07-19T09:57:02.9560000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0050-20230719001974.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230953082611', 11, N'AL_E001C0040-20230719001077', 5, CAST(N'2023-07-19T09:53:08.2611000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001077.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230953052693', 11, N'AL_E001C0040-20230719001076', 3, CAST(N'2023-07-19T09:53:05.2693000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001076.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230953052693', 11, N'AL_E001C0040-20230719001076', 3, CAST(N'2023-07-19T09:53:05.2693000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0040-20230719001076.jpeg', NULL, 0, 0, 6, 0, NULL, 1, 1, 3, N'', 0, 0, CAST(N'2023-08-01T14:26:20.570' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230950011826', 13, N'AL_E001C0250-20230719006833', 5, CAST(N'2023-07-19T09:50:01.1826000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719006833.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
@@ -3301,7 +2893,7 @@ INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID],
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230854163874', 13, N'AL_E001C0250-20230719004656', 1, CAST(N'2023-07-19T08:54:16.3874000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719004656.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
-INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230851138790', 13, N'AL_E001C0250-20230719004532', 1, CAST(N'2023-07-19T08:51:13.8790000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719004532.jpeg', NULL, 0, 1, 0, 0, NULL, 1, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230851138790', 13, N'AL_E001C0250-20230719004532', 1, CAST(N'2023-07-19T08:51:13.8790000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0250-20230719004532.jpeg', NULL, 0, 0, 5, 0, NULL, 1, 1, 1, N'', 0, 0, CAST(N'2023-08-01T14:26:32.260' AS DateTime), NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_VIDSEventsHistory] ([TransactionId], [EquipmentId], [EventID], [EventTypeId], [EventStartDate], [EventEndDate], [EventDuration], [LaneNumber], [VehicleSpeed], [VehicleClassId], [PlateNumber], [PlateImageUrl], [EventImageUrl], [EventVideoUrl], [IncidentStatusId], [IsChallanRequired], [ChallanTypeId], [ChallanStatusId], [ChallanRemark], [IsReviewedRequired], [ReviewedStatus], [ReviewedEventTypeId], [ReviewedPlateNumber], [ReviewedVehicleClassId], [ReviewedById], [ReviewedDateTime], [ReviewedRemark], [CreatedDate], [SystemProviderId], [DataSendStatus], [MediaSendStatus]) VALUES (N'190720230849355905', 15, N'AL_E001C0160-20230719002737', 8, CAST(N'2023-07-19T08:49:35.5905000' AS DateTime2), NULL, NULL, NULL, NULL, NULL, NULL, NULL, N'VIDS/IncidentImages/AL_E001C0160-20230719002737.jpeg', NULL, 0, 0, 0, 0, NULL, NULL, 0, 0, N'0', 0, 0, NULL, NULL, CAST(N'2023-07-19T12:28:24.800' AS DateTime), 0, 0, 0)
 GO
@@ -4049,7 +3641,7 @@ ALTER TABLE [dbo].[tbl_WeatherEventHistory] ADD  DEFAULT ((0)) FOR [IsAlertRequi
 GO
 ALTER TABLE [dbo].[tbl_WeatherEventHistory] ADD  DEFAULT ((0)) FOR [SendStatus]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4059,7 +3651,7 @@ AS BEGIN
 	SELECT * FROM tbl_ControlRoomMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4071,7 +3663,7 @@ AS BEGIN
 	WHERE ControlRoomId=@ControlRoomId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4157,7 +3749,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4174,7 +3766,7 @@ END
 --EXEC USP_EquipmentConfigGetBySystemId
 --@SystemId=6
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4276,7 +3868,7 @@ END
 --@ModifiedDate='26-Jul-2022 11:30:00',
 --@ModifiedBy =0
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4296,7 +3888,7 @@ AS BEGIN
 	INNER JOIN tbl_SystemMaster SM ON ED.SystemId=SM.SystemId AND SM.DataStatus=1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4318,7 +3910,7 @@ AS BEGIN
 	WHERE ED.EquipmentId=@EquipmentId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4340,7 +3932,7 @@ AS BEGIN
 	WHERE ED.SystemId=@SystemId AND ED.DataStatus=1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4459,7 +4051,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4469,7 +4061,7 @@ AS BEGIN
 	SELECT * FROM tbl_EquipmentTypeMaster ORDER BY EquipmentLevel
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4480,7 +4072,7 @@ AS  INSERT INTO tbl_ErrorInfo(ErrorNumber,ErrorSeverity,ErrorState,ErrorProcedur
 	SELECT ERROR_NUMBER() AS ErrorNumber,ERROR_SEVERITY() AS ErrorSeverity,ERROR_STATE() AS ErrorState,
 	ERROR_PROCEDURE() AS ErrorProcedure,ERROR_LINE() AS ErrorLine ,ERROR_MESSAGE() AS ErrorMessage;  
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4490,7 +4082,7 @@ AS BEGIN
 	SELECT * FROM tbl_EventsTypeMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4499,10 +4091,10 @@ CREATE PROCEDURE [dbo].[USP_EventsTypeMasterGetBySystemId]
 @SystemId smallint
 AS BEGIN
 	SELECT * FROM tbl_EventsTypeMaster
-	WHERE SystemId =@SystemId 
+	WHERE SystemId IN (@SystemId,0) 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4560,7 +4152,7 @@ END
 --@ModifiedDate='26-Jul-2022 11:30:00',
 --@ModifiedBy =0
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4580,7 +4172,7 @@ AS BEGIN
 	ORDER BY ActionTakenDateTime
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4628,7 +4220,7 @@ END TRY
 		select * from #Temp;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4639,7 +4231,7 @@ AS BEGIN
 	ORDER BY OrderBy
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4663,7 +4255,7 @@ AS BEGIN
 	WHERE IncidentId=@IncidentId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4749,7 +4341,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4833,7 +4425,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4869,7 +4461,7 @@ AS BEGIN
 	WHERE ID.IncidentStatusId IN (6,7) AND ID.CreatedDate>=@MinDate
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4905,7 +4497,7 @@ AS BEGIN
 	WHERE ID.IncidentStatusId NOT IN (1,6,7,8) AND ID.CreatedDate>=@MinDate
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4941,7 +4533,7 @@ AS BEGIN
 	WHERE ID.IncidentStatusId IN (1,8) AND ID.CreatedDate>=@MinDate
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4951,7 +4543,7 @@ AS BEGIN
 SELECT * FROM tbl_IncidentSourceMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4961,7 +4553,7 @@ AS BEGIN
 SELECT * FROM tbl_IncidentStatusMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4985,7 +4577,7 @@ AS BEGIN
 	VALUES(@UserId,@LoginStatusId,@UserTypeId,@LoginDateTime,NULL,@CreatedDate)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5009,7 +4601,7 @@ AS BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5044,7 +4636,7 @@ AS BEGIN
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5063,7 +4655,7 @@ END
 --@LoginId='admin'
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5083,7 +4675,7 @@ END
 --@RoleId=1
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5095,7 +4687,7 @@ AS BEGIN
 	FROM tbl_PackageDetails PD INNER JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5109,7 +4701,7 @@ AS BEGIN
 	WHERE PD.PackageId=@PackageId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5188,7 +4780,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5273,7 +4865,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5310,7 +4902,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5325,7 +4917,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5337,7 +4929,7 @@ AS BEGIN
 	FROM tbl_RoleMaster where RoleId=@RoleId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5350,13 +4942,13 @@ CREATE PROCEDURE [dbo].[USP_RolesPersmissionGetByMenu]
 
 AS BEGIN
 	
-	CREATE table #Temp (MenuId bigint,MenuName varchar(100),MenuURL varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,DataUpdate smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
+	CREATE table #Temp (MenuId bigint,ParentId bigint,MenuName varchar(100),MenuURL varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,DataUpdate smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
 	if(@RoleId=0)
 	BEGIN
 		IF(@SystemId=0)
 		BEGIN
-			INSERT INTO #Temp(MenuId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-			SELECT RP.MenuId,MenuName,MenuURL,@RoleId,1,1,1,RP.DataStatus,
+			INSERT INTO #Temp(MenuId,ParentId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+			SELECT RP.MenuId,ParentId,MenuName,MenuURL,@RoleId,1,1,1,RP.DataStatus,
 			RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 			FROM tbl_MenuMaster RP
 			WHERE MenuURL=@MenuURL
@@ -5364,8 +4956,8 @@ AS BEGIN
 		END
 		ELSE
 		BEGIN
-			INSERT INTO #Temp(MenuId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-			SELECT RP.MenuId,MenuName,MenuURL,@RoleId,1,1,1,RP.DataStatus,
+			INSERT INTO #Temp(MenuId,ParentId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+			SELECT RP.MenuId,ParentId,MenuName,MenuURL,@RoleId,1,1,1,RP.DataStatus,
 			RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 			FROM tbl_MenuMaster RP
 			WHERE RP.MenuURL=@MenuURL AND SystemId=@SystemId
@@ -5376,8 +4968,8 @@ AS BEGIN
 	BEGIN
 		IF(@SystemId=0)
 		BEGIN
-			INSERT INTO #Temp(MenuId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-			SELECT RP.MenuId,MenuName,MenuURL,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
+			INSERT INTO #Temp(MenuId,ParentId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+			SELECT RP.MenuId,ParentId,MenuName,MenuURL,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
 			RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 			FROM tbl_RolePermission RP INNER JOIN tbl_MenuMaster MM ON RP.MenuId=MM.MenuId AND MM.DataStatus=1
 			WHERE RP.RoleId=@RoleId 
@@ -5385,8 +4977,8 @@ AS BEGIN
 		END
 		ELSE
 		BEGIN
-			INSERT INTO #Temp(MenuId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-			SELECT RP.MenuId,MenuName,MenuURL,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
+			INSERT INTO #Temp(MenuId,ParentId,MenuName,MenuURL,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+			SELECT RP.MenuId,ParentId,MenuName,MenuURL,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
 			RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 			FROM tbl_RolePermission RP INNER JOIN tbl_MenuMaster MM ON RP.MenuId=MM.MenuId AND MM.DataStatus=1
 			WHERE RP.RoleId=@RoleId AND SystemId=@SystemId
@@ -5402,7 +4994,7 @@ END
 --EXEC USP_RolesPersmissionGetByRoleId
 --@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5414,11 +5006,11 @@ CREATE PROCEDURE [dbo].[USP_RolesPersmissionGetByMenuId]
 
 AS BEGIN
 	
-	CREATE table #Temp (MenuId bigint,MenuName varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,DataUpdate smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
+	CREATE table #Temp (MenuId bigint,ParentId bigint,MenuName varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,DataUpdate smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
 	if(@RoleId=0)
 	BEGIN
-		INSERT INTO #Temp(MenuId,MenuName,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-		SELECT RP.MenuId,MenuName,@RoleId,1,1,1,RP.DataStatus,
+		INSERT INTO #Temp(MenuId,ParentId,MenuName,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+		SELECT RP.MenuId,ParentId,MenuName,@RoleId,1,1,1,RP.DataStatus,
 		RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 		FROM tbl_MenuMaster RP
 		WHERE RP.MenuId=@MenuId
@@ -5428,8 +5020,8 @@ AS BEGIN
 	BEGIN
 		
 
-		INSERT INTO #Temp(MenuId,MenuName,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-		SELECT RP.MenuId,MenuName,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
+		INSERT INTO #Temp(MenuId,ParentId,MenuName,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+		SELECT RP.MenuId,ParentId,MenuName,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
 		RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 		FROM tbl_RolePermission RP INNER JOIN tbl_MenuMaster MM ON RP.MenuId=MM.MenuId AND MM.DataStatus=1
 		WHERE RP.RoleId=@RoleId
@@ -5444,7 +5036,7 @@ END
 --EXEC USP_RolesPersmissionGetByRoleId
 --@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5453,21 +5045,26 @@ CREATE PROCEDURE [dbo].[USP_RolesPersmissionGetByRoleId]
 @RoleId bigint
 AS BEGIN
 
-	CREATE table #Temp (MenuId bigint,MenuName varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,
-	DataUpdate smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
+	CREATE table #Temp (MenuId bigint,ParentId bigint,MenuName varchar(100),RoleId bigint,DataView Smallint,DataAdd Smallint,
+	DataUpdate smallint,OderBy Smallint,DataStatus smallint,CreatedDate datetime,CreatedBy int,ModifiedDate datetime,ModifiedBy int)
 
-	INSERT INTO #Temp(MenuId,MenuName,RoleId,DataView,DataAdd,DataUpdate,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-	SELECT RP.MenuId,MenuName,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,RP.DataStatus,
+	INSERT INTO #Temp(MenuId,ParentId,MenuName,RoleId,DataView,DataAdd,DataUpdate,OderBy,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+	SELECT RP.MenuId,ParentId,MenuName,RP.RoleId,RP.DataView,RP.DataAdd,RP.DataUpdate,MM.OderBy,RP.DataStatus,
 	RP.CreatedDate,RP.CreatedBy,RP.ModifiedDate,RP.ModifiedBy
 	FROM tbl_RolePermission RP INNER JOIN tbl_MenuMaster MM ON RP.MenuId=MM.MenuId AND MM.DataStatus=1
 	WHERE RP.RoleId=@RoleId
-	ORDER BY RP.MenuId
+	ORDER BY MM.OderBy
+	INSERT INTO #Temp(MenuId,ParentId,MenuName,RoleId,DataView,DataAdd,DataUpdate,OderBy,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+	SELECT MenuId,ParentId,MenuName,@RoleId,0,0,0,OderBy,DataStatus,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy FROM tbl_MenuMaster WHERE MenuId NOT IN (SELECT MenuId FROM #Temp) AND DataStatus=1
 
-	SELECT * FROM #Temp 
+	SELECT * FROM #Temp ORDER BY OderBy
 	
 END
+--GO 
+--EXEC USP_RolesPersmissionGetByRoleId
+--@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5477,7 +5074,7 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5488,7 +5085,7 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster WHERE SystemId=@SystemId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5499,7 +5096,7 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster WHERE SystemName=@SystemName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5517,7 +5114,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5536,7 +5133,38 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 01-08-2023 18:18:28 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_UserGetBySystemUserTypeId]
+@UserTypeId smallint,
+@SystemId smallint
+AS BEGIN
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
+	FROM tbl_UserMaster U 
+	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
+	WHERE U.UserTypeId=@UserTypeId AND R.RoleId IN 
+	(
+		SELECT RoleId FROM tbl_RolePermission
+		WHERE MenuId IN 
+		(
+			SELECT MenuId FROM tbl_MenuMaster WHERE SystemId=@SystemId
+		) AND (DataAdd=1 OR DataUpdate=1)
+	)
+	
+END
+--GO
+--EXEC USP_UserGetBySystemUserTypeId
+--@UserTypeId=3,
+--@SystemId=6
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5555,7 +5183,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5659,7 +5287,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5678,7 +5306,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5726,7 +5354,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5741,7 +5369,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5757,7 +5385,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5835,7 +5463,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5869,7 +5497,7 @@ BEGIN
 			SELECT @ChallanTypeId=ChallanTypeId FROM tbl_EventsTypeMaster WHERE EventTypeId=@ReviewedEventTypeId
 			UPDATE tbl_VIDSEventsHistory SET ReviewedEventTypeId=@ReviewedEventTypeId,ReviewedPlateNumber=@ReviewedPlateNumber,
 			ReviewedVehicleClassId=@ReviewedVehicleClassId,ReviewedById=@ReviewedById,ReviewedDateTime=@ReviewedDateTime,
-			IsChallanRequired=@IsChallanRequired
+			IsChallanRequired=@IsChallanRequired,ReviewedStatus=1
 			,ChallanTypeId=@ChallanTypeId
 			WHERE TransactionId=@TransactionId
 
@@ -5881,7 +5509,8 @@ BEGIN
 				
 			INSERT INTO tbl_ActivityLog(UserId,CurrentColumn,ActionId,MenuId,CreatedDate)
 			VALUES(@ReviewedById,@CVal,'Insert',@MenuId,@ReviewedDateTime);
-			
+			INSERT INTO #Temp(AlertMessage)
+		   VALUES('success')
 		END
 		END TRY  
 	BEGIN CATCH  
@@ -5891,7 +5520,7 @@ BEGIN
 		select * from #Temp;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5917,7 +5546,7 @@ AS
 			'+@FilterQuery+' ORDER BY EventStartDate DESC')
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5955,7 +5584,7 @@ AS BEGIN
 	ORDER BY EventStartDate DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5968,7 +5597,7 @@ AS BEGIN
 	H.PlateNumber,H.PlateImageUrl,H.EventImageUrl,H.EventVideoUrl,H.IncidentStatusId,ISM.IncidentStatusName,
 	H.IsChallanRequired,H.ChallanTypeId,H.ChallanStatusId,H.ChallanRemark,H.IsReviewedRequired,H.ReviewedStatus,H.ReviewedEventTypeId,
 	REM.EventTypeName ReviewedEventTypeName,H.ReviewedPlateNumber,H.ReviewedVehicleClassId,RVC.VehicleClassName AS 
-	ReviewedVehicleClassName,H.ReviewedBy,RUM.LoginId AS ReviewedByLoginId,H.ReviewedDateTime,H.ReviewedRemark,
+	ReviewedVehicleClassName,H.ReviewedById,RUM.LoginId AS ReviewedByLoginId,H.ReviewedDateTime,H.ReviewedRemark,
 	H.CreatedDate,H.SystemProviderId,H.DataSendStatus,H.MediaSendStatus 
 	FROM tbl_VIDSEventsHistory H 
 	LEFT JOIN tbl_EquipmentDetails ED ON H.EquipmentId=ED.EquipmentId
@@ -5980,12 +5609,55 @@ AS BEGIN
 	LEFT JOIN tbl_IncidentStatusMaster ISM ON H.IncidentStatusId=ISM.IncidentStatusId
 	LEFT JOIN tbl_EventsTypeMaster REM ON H.ReviewedEventTypeId=REM.EventTypeId
 	LEFT JOIN tbl_VehicleClass RVC ON H.ReviewedVehicleClassId=RVC.VehicleClassId
-	LEFT JOIN tbl_UserMaster RUM ON H.ReviewedBy=RUM.UserId
+	LEFT JOIN tbl_UserMaster RUM ON H.ReviewedById=RUM.UserId
 END
 --GO
 --EXEC USP_VIDSEventsHistory
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 31-07-2023 16:26:12 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_VIDSEventsReviewedGetByHours]
+@Hours smallint=0
+AS BEGIN
+	 DECLARE @MinDate DateTime
+	IF(@Hours=0)
+	BEGIN
+		SELECT @MinDate=MIN(EventStartDate) FROM tbl_VIDSEventsHistory where ReviewedStatus=1
+		SET @MinDate=ISNULL(@MinDate,GETDATE())
+	END
+	ELSE
+	BEGIN
+		SELECT @MinDate=MAX(EventStartDate) FROM tbl_VIDSEventsHistory where ReviewedStatus=1
+		SET @MinDate=ISNULL(@MinDate,GETDATE())
+		SET @MinDate=DATEADD(HOUR,-1*@Hours,@MinDate)
+	END
+
+	SELECT H.TransactionId,H.EquipmentId,ED.ChainageNumber,ED.DirectionId,EC.PositionId,PD.PackageId,PD.PackageName,
+	CR.ControlRoomId,CR.ControlRoomName,H.EventID,H.EventTypeId,EM.EventTypeName,H.EventStartDate,H.EventEndDate,
+	ED.Longitude,ED.Latitude,H.EventDuration,H.LaneNumber,H.VehicleSpeed,H.VehicleClassId,VC.VehicleClassName,
+	H.PlateNumber,H.PlateImageUrl,H.EventImageUrl,H.EventVideoUrl,H.IncidentStatusId,ISM.IncidentStatusName,
+	H.CreatedDate,H.DataSendStatus,H.MediaSendStatus,H.ReviewedEventTypeId,REM.EventTypeName ReviewedEventTypeName,
+	H.ReviewedPlateNumber,H.ReviewedVehicleClassId,RVC.VehicleClassName AS ReviewedVehicleClassName,H.ReviewedById,
+	RUM.LoginId AS ReviewedByLoginId,H.ReviewedDateTime
+	FROM tbl_VIDSEventsHistory H 
+	LEFT JOIN tbl_EquipmentDetails ED ON H.EquipmentId=ED.EquipmentId
+	LEFT JOIN tbl_EquipmentConfig EC ON H.EquipmentId=EC.EquipmentId
+	LEFT JOIN tbl_PackageDetails PD ON ED.PackageId=PD.PackageId
+	LEFT JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
+	LEFT JOIN tbl_EventsTypeMaster EM ON H.EventTypeId=EM.EventTypeId
+	LEFT JOIN tbl_VehicleClass VC ON H.VehicleClassId=VC.VehicleClassId
+	LEFT JOIN tbl_IncidentStatusMaster ISM ON H.IncidentStatusId=ISM.IncidentStatusId
+	LEFT JOIN tbl_EventsTypeMaster REM ON H.ReviewedEventTypeId=REM.EventTypeId
+	LEFT JOIN tbl_VehicleClass RVC ON H.ReviewedVehicleClassId=RVC.VehicleClassId
+	LEFT JOIN tbl_UserMaster RUM ON H.ReviewedById=RUM.UserId
+	WHERE EventStartDate>=@MinDate AND ReviewedStatus=1
+	ORDER BY EventStartDate DESC
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON

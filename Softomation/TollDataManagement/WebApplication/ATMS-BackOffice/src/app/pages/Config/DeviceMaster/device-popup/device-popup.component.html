@@ -15,7 +15,7 @@
                                 <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
                                     [options]="ControlRoomData" optionLabel="ControlRoomName"
                                     optionValue="ControlRoomId" placeholder="Select" class="form-control select2"
-                                    [style]="{'width':'100%'}"></p-dropdown>
+                                    (onChange)="ControlChange($event.value)"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && LocationDetailsForm.hasError('required','ControlRoomId')">Control
                                     Room is
@@ -26,7 +26,7 @@
                                 <p-dropdown appendTo="body" formControlName="PackageId" inputId="PackageId"
                                     [options]="PackageFilter" optionLabel="PackageName" optionValue="PackageId"
                                     placeholder="Select" class="form-control select2"
-                                    [style]="{'width':'100%'}"></p-dropdown>
+                                    ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && LocationDetailsForm.hasError('required','PackageId')">Package
                                     must be selected.</small>
@@ -39,7 +39,7 @@
                                 <p-dropdown appendTo="body" formControlName="SystemId" inputId="SystemId"
                                     [options]="SystemTypeData" optionLabel="SystemName" optionValue="SystemId"
                                     placeholder="Select" class="form-control select2"
-                                    [style]="{'width':'100%'}"></p-dropdown>
+                                    ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && LocationDetailsForm.hasError('required','SystemId')">System must
                                     be selected.</small>
@@ -47,8 +47,8 @@
                             <div class="col-md-6">
                                 <label for="DirectionId">Direction</label>
                                 <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId"
-                                    [options]="DirectionList" optionLabel="Name" optionValue="Id" placeholder="Select"
-                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                    [options]="DirectionList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && LocationDetailsForm.hasError('required','DirectionId')">Direction
                                     must be selected.</small>
@@ -111,7 +111,7 @@
             <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
                 <form [formGroup]="DeviceDetailsForm">
                     <ng-template matStepLabel>Assets</ng-template>
-                    <div class="form-data">
+                    <div class="equipment-form-data">
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="MacAddress">Mac-Address</label>
@@ -167,8 +167,8 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="ManufacturerDate">Manufacturer Date</label>
-                                <p-calendar class="form-control" formControlName="ManufacturerDate" [showIcon]="true"
-                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <p-calendar class="form-control custom-cal" formControlName="ManufacturerDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceDetailsForm.hasError('required','ManufacturerDate')">Manufacturer
                                     Date must be selected.</small>
@@ -178,16 +178,16 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="PurchageDate">Purchage Date</label>
-                                <p-calendar class="form-control" formControlName="PurchageDate" [showIcon]="true"
-                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <p-calendar class="form-control custom-cal" formControlName="PurchageDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceDetailsForm.hasError('required','PurchageDate')">Purchage
                                     Date must be selected.</small>
                             </div>
                             <div class="col-md-6">
                                 <label for="WarrantyExpireDate">Warranty Expire Date</label>
-                                <p-calendar class="form-control" formControlName="WarrantyExpireDate" [showIcon]="true"
-                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <p-calendar class="form-control custom-cal" formControlName="WarrantyExpireDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceDetailsForm.hasError('required','WarrantyExpireDate')">Account
                                     Date must be selected.</small>
@@ -208,14 +208,14 @@
             <mat-step [stepControl]="DeviceCommunicationForm" [editable]="isEditable">
                 <form [formGroup]="DeviceCommunicationForm">
                     <ng-template matStepLabel>Connection</ng-template>
-                    <div class="form-data">
+                    <div class="equipment-form-data">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="EquipmentTypeId">Control Room</label>
+                                <label for="EquipmentTypeId">Equipment Type</label>
                                 <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
                                     [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
                                     optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
-                                    [style]="{'width':'100%'}"></p-dropdown>
+                                    ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
                                     Type must be selected.</small>
@@ -223,8 +223,8 @@
                             <div class="col-md-6">
                                 <label for="ProtocolTypeId">Protocol Type</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="ProtocolList" optionLabel="Name" optionValue="Id" placeholder="Select"
-                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
                                     Type must be selected.</small>
@@ -245,7 +245,8 @@
                                 <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
                                 <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','PortNumber')">Port Number
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','PortNumber')">Port
+                                    Number
                                     must be required.</small>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','PortNumber')">Vaild
@@ -254,8 +255,8 @@
                             <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                                 <label class="form-label" for="ComPort">Com Port</label>
                                 <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
-                                    [options]="ComPortSetting" optionLabel="Name" optionValue="Id" placeholder="Select"
-                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
                                     Port must be selected.</small>
@@ -263,8 +264,8 @@
                             <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                                 <label class="form-label" for="BaudRate">Baud Rate</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="BaudRatePort" optionLabel="Name" optionValue="Id" placeholder="Select"
-                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
                                     must be selected.</small>

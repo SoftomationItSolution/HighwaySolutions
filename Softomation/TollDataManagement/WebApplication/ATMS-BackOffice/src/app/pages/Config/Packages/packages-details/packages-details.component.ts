@@ -79,8 +79,8 @@ export class PackagesDetailsComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Save', PackageId: 0 };
       this.dialog.open(PackagesPopupComponent, dialogConfig);
     }
@@ -95,8 +95,8 @@ export class PackagesDetailsComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Update', PackageId: data.PackageId };
       this.dialog.open(PackagesPopupComponent, dialogConfig);
     }

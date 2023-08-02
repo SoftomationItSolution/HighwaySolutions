@@ -9,13 +9,15 @@ import { UserConfigurationComponent } from '../pages/Config/UserData/user-config
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
-import { IncidentDataComponent } from '../pages/incident/incident-data/incident-data.component';
+import { ImsProgressComponent } from '../pages/IMS/ims-progress/ims-progress.component';
+import { ImsPendingComponent } from '../pages/IMS/ims-pending/ims-pending.component';
+import { IncidentClosedComponent } from '../pages/IMS/incident-closed/incident-closed.component';
 import { ReportsComponent } from '../pages/reports/reports.component';
-import { IncidentClosedComponent } from '../pages/incident/incident-closed/incident-closed.component';
 import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-config/vids-equipment-config.component';
 import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
 import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
 import { VidsIncidentConfigComponent } from '../pages/VIDS/vids-incident-config/vids-incident-config.component';
+
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -27,8 +29,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'users', component: UserConfigurationComponent },
     { path: 'atcc', component: AtccdataComponent },
     { path: 'reports', component: ReportsComponent },
-    { path: 'pendigIncident', component: IncidentDataComponent },
-    { path: 'closeIncident', component: IncidentClosedComponent },
+    { path: 'imsPending', component: ImsPendingComponent },
+    { path: 'imsProgress', component: ImsProgressComponent },
+    { path: 'imsClosed', component: IncidentClosedComponent },
     { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
     { path: 'vidsEventConfig', component: VidsIncidentConfigComponent },
     { path: 'vidsEventHistroy', component: VidsdataComponent },

@@ -7,11 +7,13 @@ namespace Softomation.ATMSSystemLibrary.IL
     public class DataFilterIL
     {
         Int16 systemId;
+        private String systemFilterList;
         private String controlRoomFilterList;
         private String packageFilterList;
         private String chainageFilterList;
         private String positionFilterList;
         private String eventFilterList;
+        private String equipmentTypeFilterList;
         private String incidentFilterList;
         private String directionFilterList;
         private String reviewedFilterList;
@@ -27,10 +29,12 @@ namespace Softomation.ATMSSystemLibrary.IL
         public DataFilterIL()
         {
             this.systemId = 0;
+            this.systemFilterList = string.Empty;
             this.controlRoomFilterList = string.Empty;
             this.packageFilterList = string.Empty;
             this.chainageFilterList = string.Empty;
             this.positionFilterList = string.Empty;
+            this.equipmentTypeFilterList = string.Empty;
             this.eventFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
             this.directionFilterList = string.Empty;
@@ -49,6 +53,10 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => systemId; set => systemId = value;
         }
+        public string SystemFilterList
+        {
+            get => systemFilterList; set => systemFilterList = value;
+        }
         public string ControlRoomFilterList
         {
             get => controlRoomFilterList; set => controlRoomFilterList = value;
@@ -64,6 +72,10 @@ namespace Softomation.ATMSSystemLibrary.IL
         public string PositionFilterList
         {
             get => positionFilterList; set => positionFilterList = value;
+        }
+        public string EquipmentTypeFilterList
+        {
+            get => equipmentTypeFilterList; set => equipmentTypeFilterList = value;
         }
         public string EventFilterList
         {

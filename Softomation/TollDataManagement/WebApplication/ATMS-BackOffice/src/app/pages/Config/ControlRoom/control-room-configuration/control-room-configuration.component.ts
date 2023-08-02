@@ -78,8 +78,8 @@ export class ControlRoomConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }
@@ -94,8 +94,8 @@ export class ControlRoomConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }

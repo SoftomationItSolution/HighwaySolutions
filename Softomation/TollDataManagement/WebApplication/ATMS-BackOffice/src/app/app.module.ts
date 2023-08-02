@@ -47,8 +47,6 @@ import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/d
 import { PackagesDetailsComponent } from './pages/Config/Packages/packages-details/packages-details.component';
 import { PackagesPopupComponent } from './pages/Config/Packages/packages-popup/packages-popup.component';
 import {MatStepperModule} from '@angular/material/stepper';
-import { IncidentDataComponent } from './pages/incident/incident-data/incident-data.component';
-import { CreateIncidentComponent } from './pages/incident/create-incident/create-incident.component';
 import { InputTextModule } from 'primeng/inputtext';
 import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
 import {NgApexchartsModule } from "ng-apexcharts";
@@ -58,10 +56,14 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { UserProfilePopupComponent } from './pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 import { TabViewModule } from 'primeng/tabview';
 import { MediaViewComponent } from './pages/media-view/media-view.component';
-import { IncidentHistoryComponent } from './pages/incident/incident-history/incident-history.component';
-import { IncidentProcessComponent } from './pages/incident/incident-process/incident-process.component';
-import { IncidentAssigneComponent } from './pages/incident/incident-assigne/incident-assigne.component';
-import { IncidentClosedComponent } from './pages/incident/incident-closed/incident-closed.component';
+import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.component';
+import { CreateIncidentComponent } from './pages/IMS/create-incident/create-incident.component';
+import { ImsProgressComponent } from './pages/IMS/ims-progress/ims-progress.component';
+import { ImsPendingComponent } from './pages/IMS/ims-pending/ims-pending.component';
+import { IncidentHistoryComponent } from './pages/IMS/incident-history/incident-history.component';
+import { IncidentProcessComponent } from './pages/IMS/incident-process/incident-process.component';
+import { IncidentAssigneComponent } from './pages/IMS/incident-assigne/incident-assigne.component';
+import { IncidentClosedComponent } from './pages/IMS/incident-closed/incident-closed.component';
 import { VidsEquipmentConfigComponent } from './pages/VIDS/vids-equipment-config/vids-equipment-config.component';
 import { VidsIncidentConfigComponent } from './pages/VIDS/vids-incident-config/vids-incident-config.component';
 import { VidsValidationComponent } from './pages/VIDS/vids-validation/vids-validation.component';
@@ -70,6 +72,7 @@ import { TreeModule } from 'primeng/tree';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ImageModule } from 'primeng/image';
+
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -129,7 +132,9 @@ export const MY_CUSTOM_FORMATS = {
     VidsEquipmentConfigComponent,
     VidsIncidentConfigComponent,
     VidsValidationComponent,
-    VidsValidatedComponent
+    VidsValidatedComponent,
+    ImsProgressComponent,
+    ImsPendingComponent
   ],
   imports: [
     BrowserAnimationsModule,

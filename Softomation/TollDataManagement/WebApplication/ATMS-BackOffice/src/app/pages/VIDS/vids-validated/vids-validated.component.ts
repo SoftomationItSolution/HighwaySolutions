@@ -28,6 +28,7 @@ export class VidsValidatedComponent {
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
+  
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
   PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,

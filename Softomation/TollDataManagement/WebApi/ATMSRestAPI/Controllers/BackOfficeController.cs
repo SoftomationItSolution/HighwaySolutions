@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Mvc;
 using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.IL;
@@ -859,6 +860,51 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in EquipmentDetailsGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage EquipmentDetailsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE 1=1 ";
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.SystemFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.SystemId IN (" + data.SystemFilterList + ") ";
+                }
+                if (data.EquipmentTypeFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.EquipmentTypeId IN (" + data.EquipmentTypeFilterList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
