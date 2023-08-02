@@ -334,6 +334,21 @@ export class apiIntegrationService {
   }
   //#endregion
 
+  //#region System Setting
+  SystemSettingSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemSettingSetUp', data, { headers: headers_object });
+  }
+  SystemSettingGet(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemSettingGet', { headers: headers_object });
+  }
+  //#endregion
+
   //#region Incident Details
   IncidentSourceGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
