@@ -65,7 +65,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             DataFilterIL dataResult = new DataFilterIL();
             try
             {
-                string spName = "USP_MasterDataGetBySystemId";
+                string spName = "USP_ReportDataGetBySystemId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
                 ds = DBAccessor.LoadDataSet(command, "temp");
