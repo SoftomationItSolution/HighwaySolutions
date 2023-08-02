@@ -1,38 +1,40 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+import { IncidentHistoryComponent } from '../incident-history/incident-history.component';
+import { IncidentAssigneComponent } from '../incident-assigne/incident-assigne.component';
+
 @Component({
-  selector: 'app-vids-validated',
-  templateUrl: './vids-validated.component.html',
-  styleUrls: ['./vids-validated.component.css']
+  selector: 'app-incident-closed',
+  templateUrl: './incident-closed.component.html',
+  styleUrls: ['./incident-closed.component.css']
 })
-export class VidsValidatedComponent {
+export class IncidentClosedComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
   LogedRoleId;
   LogedUserId;
-  EventHistroyData: any;
+  IMSData: any;
   ErrorData: any;
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
-  EventData: any;
-  ReviewedData:any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  
-  DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  IncidentFilter: any;
+  DirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
+  PriorityList = [{ DataId: 1, DataName: 'Critical' }, { DataId: 2, DataName: 'High' }, { DataId: 3, DataName: 'Medium' }, { DataId: 4, DataName: 'Low' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -45,10 +47,9 @@ export class VidsValidatedComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      PositionFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
-      EventFilterList: new FormControl(''),
-      ReviewedFilterList: new FormControl(''),
+      IncidentFilterList: new FormControl(''),
+      PriorityFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -107,8 +108,8 @@ export class VidsValidatedComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetEventData();
-        this.GetReviewerData();
+        this.IncidentFilter = this.MasterData.IncidentDataList;
+        this.GetIMSHistroy();
       },
       (error) => {
         this.spinner.hide();
@@ -118,40 +119,12 @@ export class VidsValidatedComponent {
     );
   }
 
-  GetEventData() {
-    this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
-      data => {
-        this.EventData = data.ResponseData;
-        this.GetReviewerData();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-
-  GetReviewerData() {
-    this.dbService.UserConfigurationGetBySystemUserType(3,this.SystemId).subscribe(
-      data => {
-        this.ReviewedData = data.ResponseData;
-        this.GetEventHistroy();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-
-  GetEventHistroy() {
-    this.dbService.VIDSReviewedEventsGetByHours(24).subscribe(
+  GetIMSHistroy() {
+    this.dbService.IMSGetClosed(24).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
+        this.IMSData = data.ResponseData;
+        this.TotalCount = this.IMSData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -168,18 +141,45 @@ export class VidsValidatedComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "Incident media-(" + TransactionRowData.IncidentId + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.EventImageUrl
+        ImagePath: TransactionRowData.IncidentImagePath
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.EventVideoUrl
+        VideoPath: TransactionRowData.IncidentVideoPath
       }],
       AudioData: [{
-        AudioPath: ''
+        AudioPath: TransactionRowData.IncidentAudioPath
       }]
     }
     this.dm.MediaView(obj);
+  }
+
+
+
+  onActionHistory(TransactionRowData: any) {
+    if (TransactionRowData.ActionHistoryDetails.length > 0) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
+      this.dialog.open(IncidentHistoryComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'No action history found!' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
+  }
+  onReAssigned(TransactionRowData: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.height = '331px';
+    dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
+    this.dialog.open(IncidentAssigneComponent, dialogConfig);
   }
 
   ExColl(event: any) {
@@ -270,7 +270,7 @@ export class VidsValidatedComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -278,7 +278,7 @@ export class VidsValidatedComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -286,62 +286,54 @@ export class VidsValidatedComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
     }
 
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+    let PriorityFilterList = "0"
+    if (this.FilterDetailsForm.value.PriorityFilterList != null && this.FilterDetailsForm.value.PriorityFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PriorityFilterList.toString();
+      if (crData.split(',').length != this.PriorityList.length) {
+        PriorityFilterList = this.FilterDetailsForm.value.PriorityFilterList.toString();
       }
     }
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
     }
 
-    let EventFilterList = "0"
-    if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData=this.FilterDetailsForm.value.EventFilterList.toString();
-      if (crData.split(',').length != this.EventData.length) {
-        EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
+    let IncidentFilterList = "0"
+    if (this.FilterDetailsForm.value.IncidentFilterList != null && this.FilterDetailsForm.value.IncidentFilterList != '') {
+      let crData = this.FilterDetailsForm.value.IncidentFilterList.toString();
+      if (crData.split(',').length != this.IncidentFilter.length) {
+        IncidentFilterList = this.FilterDetailsForm.value.IncidentFilterList.toString();
       }
     }
-
-    let ReviewedFilterList="0";
-    if (this.FilterDetailsForm.value.ReviewedFilterList != null && this.FilterDetailsForm.value.ReviewedFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ReviewedFilterList.toString();
-      if (crData.split(',').length != this.ReviewedData.length) {
-        ReviewedFilterList = this.FilterDetailsForm.value.ReviewedFilterList.toString();
-      }
-    }
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
+      IncidentStatusList: "1,6,7,8",
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      PositionFilterList:PositionFilterList,
-      DirectionFilterList:DirectionFilterList,
-      EventFilterList:EventFilterList,
-      ReviewedFilterList:ReviewedFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      PriorityFilterList: PriorityFilterList,
+      DirectionFilterList: DirectionFilterList,
+      IncidentFilterList: IncidentFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.VIDSReviewedEventsGetByFilter(obj).subscribe(
+    this.dbService.IMSGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.IMSData = data.ResponseData;
+        this.TotalCount = this.IMSData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -352,9 +344,7 @@ export class VidsValidatedComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-       
       }
     );
-
   }
 }

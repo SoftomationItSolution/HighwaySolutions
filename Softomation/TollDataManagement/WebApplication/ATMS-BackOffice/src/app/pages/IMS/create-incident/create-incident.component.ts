@@ -30,8 +30,8 @@ export class CreateIncidentComponent {
   PetrollingTeamList: any;
   uploadedFiles:any=[];
   lastFilePath="";
-  DirectionList = [{ Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }];
-  PriorityList = [{ Id: 1, Name: 'Critical' }, { Id: 2, Name: 'High' }, { Id: 3, Name: 'Medium' }, { Id: 4, Name: 'Low' }];
+  DirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
+  PriorityList = [{ DataId: 1, DataName: 'Critical' }, { DataId: 2, DataName: 'High' }, { DataId: 3, DataName: 'Medium' }, { DataId: 4, DataName: 'Low' }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<CreateIncidentComponent>, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();

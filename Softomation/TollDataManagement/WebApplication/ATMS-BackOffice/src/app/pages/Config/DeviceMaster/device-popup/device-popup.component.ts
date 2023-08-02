@@ -28,11 +28,11 @@ export class DevicePopupComponent implements OnInit {
   DetailData: any;
   DeviceTypeList: any;
   LogedUserId;
-  ProtocolList = [{ Id: 1, Name: 'TCP' }, { Id: 2, Name: 'UDP' }, { Id: 3, Name: 'Serail' }, { Id: 4, Name: 'MQTT' }, { Id: 5, Name: 'HTTP' }, { Id: 6, Name: "RTSP" }, { Id: 6, Name: "Other" }];
-  DirectionList = [{ Id: 0, Name: 'None' }, { Id: 1, Name: 'LHS' }, { Id: 2, Name: 'RHS' }, { Id: 3, Name: 'Median' }];
-  BaudRatePort = [{ Id: 110, Name: 110 }, { Id: 300, Name: 300 }, { Id: 600, Name: 600 }, { Id: 1200, Name: 1200 },
-  { Id: 2400, Name: 2400 }, { Id: 4800, Name: 4800 }, { Id: 9600, Name: 9600 }, { Id: 14400, Name: 14400 }, { Id: 19200, Name: 19200 },
-  { Id: 38400, Name: 38400 }, { Id: 57600, Name: 57600 }, { Id: 115200, Name: 115200 }, { Id: 128000, Name: 128000 }, { Id: 256000, Name: 256000 }];
+  DirectionList = [{ DataId: 0, DataName: 'None' },{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }, { DataId: 3, DataName: 'Median' }];
+  ProtocolList = [{ DataId: 1, DataName: 'TCP' }, { DataId: 2, DataName: 'UDP' }, { DataId: 3, DataName: 'Serail' }, { DataId: 4, DataName: 'MQTT' }, { DataId: 5, DataName: 'HTTP' }, { DataId: 6, Name: "RTSP" }, { DataId: 6, DataName: "Other" }];
+  BaudRatePort = [{ DataId: 110, DataName: 110 }, { DataId: 300, DataName: 300 }, { DataId: 600, DataName: 600 }, { DataId: 1200, DataName: 1200 },
+  { DataId: 2400, DataName: 2400 }, { DataId: 4800, DataName: 4800 }, { DataId: 9600, DataName: 9600 }, { DataId: 14400, DataName: 14400 }, { DataId: 19200, DataName: 19200 },
+  { DataId: 38400, DataName: 38400 }, { DataId: 57600, DataName: 57600 }, { DataId: 115200, DataName: 115200 }, { DataId: 128000, DataName: 128000 }, { DataId: 256000, DataName: 256000 }];
   ComPortSetting: any = [];
   DefaultTCPIP = '127.0.0.1';
   DefaultTCPPort = 0;
@@ -66,7 +66,7 @@ export class DevicePopupComponent implements OnInit {
     }
 
     for (let i = 1; i <= 10; i++) {
-      this.ComPortSetting.push({ Id: 'COM ' + i, Name: 'COM ' + i });
+      this.ComPortSetting.push({ DataId: 'COM ' + i, DataName: 'COM ' + i });
     }
 
     this.LocationDetailsForm = new FormGroup({
@@ -234,7 +234,7 @@ export class DevicePopupComponent implements OnInit {
     );
   }
 
-  ControlChnage(ControlRoomId: any) {
+  ControlChange(ControlRoomId: any) {
     this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
   }
 
@@ -280,7 +280,7 @@ export class DevicePopupComponent implements OnInit {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
         this.LocationDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
-        this.ControlChnage(this.DetailData.ControlRoomId)
+        this.ControlChange(this.DetailData.ControlRoomId)
         this.LocationDetailsForm.controls['PackageId'].setValue(this.DetailData.PackageId);
         this.LocationDetailsForm.controls['SystemId'].setValue(this.DetailData.SystemId);
         this.LocationDetailsForm.controls['DirectionId'].setValue(this.DetailData.DirectionId);

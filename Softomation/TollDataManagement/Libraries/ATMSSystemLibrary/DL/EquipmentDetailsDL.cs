@@ -92,6 +92,28 @@ namespace Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
         }
+
+        internal static List<EquipmentDetailsIL> GetByFilter(DataFilterIL data)
+        {
+            DataTable dt = new DataTable();
+            List<EquipmentDetailsIL> eds = new List<EquipmentDetailsIL>();
+            try
+            {
+                string spName = "USP_EquipmentDetailsGetByFilter";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    eds.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return eds;
+        }
+
         internal static EquipmentDetailsIL GetById(Int32 EquipmentId)
         {
             DataTable dt = new DataTable();
@@ -258,6 +280,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             ed.ProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
+
+       
         #endregion
     }
 }

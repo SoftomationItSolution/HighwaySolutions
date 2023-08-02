@@ -75,7 +75,7 @@ namespace Softomation.ATMSSystemLibrary.DL
         }
 
         #region Helper Methods
-        private static VIDSEventIL CreateObjectFromDataRow(DataRow dr)
+        internal static VIDSEventIL CreateObjectFromDataRow(DataRow dr)
         {
             VIDSEventIL events = new VIDSEventIL();
 

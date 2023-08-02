@@ -187,7 +187,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 directionName = value;
             }
         }
-
         public Int16 ProtocolTypeId
         {
             get
@@ -200,7 +199,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 protocolTypeId = value;
             }
         }
-
         public String ProtocolTypeName
         {
             get
@@ -213,7 +211,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 protocolTypeName = value;
             }
         }
-
         public String IpAddress
         {
             get

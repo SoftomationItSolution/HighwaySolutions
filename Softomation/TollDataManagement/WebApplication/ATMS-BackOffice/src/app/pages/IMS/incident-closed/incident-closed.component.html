@@ -9,7 +9,7 @@
                                 <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
                                     <i class="fa fa-chevron-circle-up filter-icon-class" id="datafilterIcon"></i>
                                 </a>
-                                <span class="rc">Record:{{TotalCount}}</span>
+                                
                             </h5>
                         </div>
                         <div class="dropdown d-inline-block float-right">
@@ -41,7 +41,7 @@
                                         <div class="col-md-3">
                                             <label for="ControlRoomFilterList">Control Room</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="ControlRoomFilterList"
+                                                 formControlName="ControlRoomFilterList"
                                                 inputId="ControlRoomFilterList" [options]="ControlRoomData"
                                                 (onChange)="FillPackages()" optionLabel="DataName" optionValue="DataId"
                                                 placeholder="Control Room">
@@ -50,7 +50,7 @@
                                         <div class="col-md-3">
                                             <label for="PackageFilterList">Package</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="PackageFilterList"
+                                                 formControlName="PackageFilterList"
                                                 inputId="PackageFilterList" [options]="PackageFilter"
                                                 (onChange)="FillChainage()" optionLabel="DataName" optionValue="DataId"
                                                 placeholder="Package">
@@ -59,35 +59,34 @@
                                         <div class="col-md-3">
                                             <label for="ChainageFilterList">Chainage</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="ChainageFilterList"
+                                                 formControlName="ChainageFilterList"
                                                 inputId="ChainageFilterList" [options]="ChainageFilter"
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
+                                            <label for="IncidentFilterList">Incident Type</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                 formControlName="IncidentFilterList"
+                                                inputId="IncidentFilterList" [options]="IncidentFilter"
+                                                optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Incident Type">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
                                             <label for="DirectionFilterList">Direction</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="DirectionFilterList"
+                                                 formControlName="DirectionFilterList"
                                                 inputId="DirectionFilterList" [options]="DirectionList"
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="PositionFilterList">Camera View</label>
+                                            <label for="PriorityFilterList">Priority</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="PositionFilterList"
-                                                inputId="PositionFilterList" [options]="PositionList"
-                                                optionLabel="DataName" optionValue="DataValue"
-                                                placeholder="Camera View">
-                                            </p-multiSelect>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="EventFilterList">Event Type</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
-                                                inputId="EventFilterList" [options]="EventData"
-                                                optionLabel="EventTypeName" optionValue="EventTypeId"
-                                                placeholder="Event Type">
+                                                 formControlName="PriorityFilterList"
+                                                inputId="PriorityFilterList" [options]="PriorityList"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Priority">
                                             </p-multiSelect>
                                         </div>
                                     </div>
@@ -102,13 +101,21 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
-                    <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
+                    <p-table #dt [value]="IMSData" [rowHover]="true" [scrollable]="true"
                         [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
-                        [globalFilterFields]="['PackageName','ChainageName','DirectionName','EventTypeName','EventStartDateStamp']">
+                        [globalFilterFields]="['IncidentId','IncidentCategoryName','PriorityName','EquipmentName','ChainageName','DirectionName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="PackageName">Package <p-sortIcon field="PackageName"></p-sortIcon>
+                                <th>Incident Id</th>
+                                <th pSortableColumn="IncidentCategoryName">Type <p-sortIcon
+                                        field="IncidentCategoryName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="PriorityName">Priority <p-sortIcon
+                                        field="PriorityName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="EquipmentName">Source Equipment<p-sortIcon
+                                        field="EquipmentName"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="ChainageName">Chainage <p-sortIcon
                                         field="ChainageName"></p-sortIcon>
@@ -116,30 +123,37 @@
                                 <th pSortableColumn="DirectionName">Direction <p-sortIcon
                                         field="DirectionName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="PositionName">Camera <p-sortIcon field="PositionName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="EventTypeName">Event Type <p-sortIcon
-                                        field="EventTypeName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="EventStartDateStamp">Event Time <p-sortIcon
-                                        field="EventStartDateStamp"></p-sortIcon>
-                                </th>
                                 <th style="text-align: center;">Meida</th>
+                                <th style="text-align: center;">Re-open</th>
+                                <th style="text-align: center;">History</th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.PackageName}}</td>
+                                <td>{{rowData.IncidentId}}</td>
+                                <td>{{rowData.IncidentCategoryName}}</td>
+                                <td>{{rowData.PriorityName}}</td>
+                                <td>{{rowData.EquipmentName}}</td>
                                 <td>{{rowData.ChainageName}}</td>
                                 <td>{{rowData.DirectionName}}</td>
-                                <td>{{rowData.PositionName}}</td>
-                                <td>{{rowData.EventTypeName}}</td>
-                                <td>{{rowData.EventStartDateStamp}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Meida Files">
                                         <i class="fa fa-paperclip font-size-18"></i>
+                                    </a>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onReAssigned(rowData)"
+                                        class="me-3 text-danger" title="Meida Files">
+                                        <i class="fa fa-reply-all font-size-18"></i>
+                                    </a>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onActionHistory(rowData)"
+                                        class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="mdi mdi-format-list-bulleted font-size-18"></i>
                                     </a>
                                 </td>
                             </tr>

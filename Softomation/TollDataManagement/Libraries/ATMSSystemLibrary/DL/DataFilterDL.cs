@@ -17,6 +17,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             List<MasterData> ControlData = new List<MasterData>();
             List<MasterData> PackageData = new List<MasterData>();
             List<MasterData> ChainageData = new List<MasterData>();
+            List<MasterData> IncidentData = new List<MasterData>();
             try
             {
                 string spName = "USP_MasterDataGetBySystemId";
@@ -39,6 +40,10 @@ namespace Softomation.ATMSSystemLibrary.DL
                 foreach (DataRow dr in ds.Tables[3].Rows)
                     ChainageData.Add(CreateObjectForChainage(dr));
                 #endregion
+                #region Incident
+                foreach (DataRow dr in ds.Tables[4].Rows)
+                    IncidentData.Add(CreateObjectForIncident(dr));
+                #endregion
 
 
             }
@@ -52,6 +57,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 dataResult.ControlRoomDataList = ControlData;
                 dataResult.PackageDataList = PackageData;
                 dataResult.ChainageDataList = ChainageData;
+                dataResult.IncidentDataList = IncidentData;
             }
             return dataResult;
         }
@@ -107,6 +113,18 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["ChainageName"] != DBNull.Value)
                 dataFilter.DataName = Convert.ToString(dr["ChainageName"]);
+
+            return dataFilter;
+        }
+
+        private static MasterData CreateObjectForIncident(DataRow dr)
+        {
+            MasterData dataFilter = new MasterData();
+            if (dr["IncidentCategoryId"] != DBNull.Value)
+                dataFilter.DataId = Convert.ToInt16(dr["IncidentCategoryId"]);
+
+            if (dr["IncidentCategoryName"] != DBNull.Value)
+                dataFilter.DataName = Convert.ToString(dr["IncidentCategoryName"]);
 
             return dataFilter;
         }

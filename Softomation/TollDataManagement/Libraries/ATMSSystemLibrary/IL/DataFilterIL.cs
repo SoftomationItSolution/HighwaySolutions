@@ -7,13 +7,18 @@ namespace Softomation.ATMSSystemLibrary.IL
     public class DataFilterIL
     {
         Int16 systemId;
+        private String systemFilterList;
         private String controlRoomFilterList;
         private String packageFilterList;
         private String chainageFilterList;
         private String positionFilterList;
         private String eventFilterList;
+        private String equipmentTypeFilterList;
         private String incidentFilterList;
+        private String incidentStatusList;
         private String directionFilterList;
+        private String priorityFilterList;
+        private String reviewedFilterList;
         private String startDateTime;
         private String endDateTime;
         Boolean isReviewedRequired;
@@ -22,19 +27,25 @@ namespace Softomation.ATMSSystemLibrary.IL
         private List<MasterData> controlRoomDataList;
         private List<MasterData> packageDataList;
         private List<MasterData> chainageDataList;
+        private List<MasterData> incidentDataList;
 
         public DataFilterIL()
         {
             this.systemId = 0;
+            this.systemFilterList = string.Empty;
             this.controlRoomFilterList = string.Empty;
             this.packageFilterList = string.Empty;
             this.chainageFilterList = string.Empty;
             this.positionFilterList = string.Empty;
+            this.equipmentTypeFilterList = string.Empty;
             this.eventFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
+            this.incidentStatusList = string.Empty;
             this.directionFilterList = string.Empty;
-            this.endDateTime = string.Empty;
+            this.priorityFilterList = string.Empty;
+            this.reviewedFilterList = string.Empty;
             this.startDateTime = string.Empty;
+            this.endDateTime = string.Empty;
             this.isReviewedRequired = false;
             this.filterQuery = string.Empty;
 
@@ -42,10 +53,15 @@ namespace Softomation.ATMSSystemLibrary.IL
             controlRoomDataList = new List<MasterData>();
             packageDataList = new List<MasterData>();
             chainageDataList = new List<MasterData>();
+            incidentDataList = new List<MasterData>();
         }
         public short SystemId
         {
             get => systemId; set => systemId = value;
+        }
+        public string SystemFilterList
+        {
+            get => systemFilterList; set => systemFilterList = value;
         }
         public string ControlRoomFilterList
         {
@@ -63,6 +79,10 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => positionFilterList; set => positionFilterList = value;
         }
+        public string EquipmentTypeFilterList
+        {
+            get => equipmentTypeFilterList; set => equipmentTypeFilterList = value;
+        }
         public string EventFilterList
         {
             get => eventFilterList; set => eventFilterList = value;
@@ -71,9 +91,22 @@ namespace Softomation.ATMSSystemLibrary.IL
         {
             get => incidentFilterList; set => incidentFilterList = value;
         }
+        public string IncidentStatusList
+        {
+            get => incidentStatusList; set => incidentStatusList = value;
+        }
+
+        public string PriorityFilterList
+        {
+            get => priorityFilterList; set => priorityFilterList = value;
+        }
         public string DirectionFilterList
         {
             get => directionFilterList; set => directionFilterList = value;
+        }
+        public string ReviewedFilterList
+        {
+            get => reviewedFilterList; set => reviewedFilterList = value;
         }
         public string StartDateTime
         {
@@ -137,6 +170,18 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 chainageDataList = value;
+            }
+        }
+        public List<MasterData> IncidentDataList
+        {
+            get
+            {
+                return incidentDataList;
+            }
+
+            set
+            {
+                incidentDataList = value;
             }
         }
     }

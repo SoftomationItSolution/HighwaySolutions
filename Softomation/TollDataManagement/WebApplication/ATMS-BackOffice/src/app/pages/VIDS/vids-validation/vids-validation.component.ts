@@ -2,13 +2,15 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
   selector: 'app-vids-validation',
   templateUrl: './vids-validation.component.html',
-  styleUrls: ['./vids-validation.component.css']
+  styleUrls: ['./vids-validation.component.css'],
+  providers: [ConfirmationService]
 })
 export class VidsValidationComponent {
   DataAdd = 1;
@@ -33,10 +35,11 @@ export class VidsValidationComponent {
   PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
   SelectedRow: any = null;
   MediaPrefix: any;
-  VehicleClass:any;
+  VehicleClass: any;
   VideoFound = false;
+  TotalCount = 0;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
     this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
@@ -58,7 +61,7 @@ export class VidsValidationComponent {
       ReviewedPlateNumber: new FormControl(''),
       ReviewedEventTypeId: new FormControl(''),
       ReviewedVehicleClassId: new FormControl(''),
-      IsChallanRequired:new FormControl(false)
+      IsChallanRequired: new FormControl(false)
     });
     this.SystemGetByName()
   }
@@ -156,10 +159,12 @@ export class VidsValidationComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VIDSEventsGetByHours(24).subscribe(
+    this.dbService.VIDSPendingReviewGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
         this.AutoSelected();
       },
       (error) => {
@@ -341,7 +346,8 @@ export class VidsValidationComponent {
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
-        this.SelectedIndex=0;
+        this.TotalCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
         this.AutoSelected();
       },
       (error) => {
@@ -371,45 +377,47 @@ export class VidsValidationComponent {
     }
   }
 
-  onRowSelect(event: any, data: any, index: number) {
+  onRowSelect(index: number) {
     this.SelectedIndex = index;
     this.AutoSelected();
   }
 
-  viewImage() {
-    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
-  }
+  
 
- 
-
-  SaveEntry(){
-    let process=true;
-    if(this.Reviewedform.value.IsChallanRequired){
-      if(this.Reviewedform.value.ReviewedPlateNumber==""){
+  SaveEntry() {
+    let process = true;
+    if (this.Reviewedform.value.IsChallanRequired) {
+      if (this.Reviewedform.value.ReviewedPlateNumber == "") {
         this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
         this.dm.openSnackBar(this.ErrorData, false);
-        process=false
+        process = false
       }
-      if(this.Reviewedform.value.ReviewedVehicleClassId==0){
+      if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
         this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
         this.dm.openSnackBar(this.ErrorData, false);
-        process=false
+        process = false
       }
     }
-    if(process){
-      var obj={
-        TransactionId:this.SelectedRow.TransactionId,
-        ReviewedPlateNumber:this.Reviewedform.value.ReviewedPlateNumber,
-        ReviewedEventTypeId:this.Reviewedform.value.ReviewedEventTypeId,
-        ReviewedVehicleClassId:this.Reviewedform.value.ReviewedVehicleClassId,
-        IsChallanRequired:this.Reviewedform.value.IsChallanRequired
+    if (process) {
+      var obj = {
+        TransactionId: this.SelectedRow.TransactionId,
+        ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
+        ReviewedEventTypeId: this.Reviewedform.value.ReviewedEventTypeId,
+        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId,
+        IsChallanRequired: this.Reviewedform.value.IsChallanRequired
       }
       this.dbService.VIDSEventReviewed(obj).subscribe(
         data => {
           this.spinner.hide();
-          this.EventHistroyData = data.ResponseData;
-          this.SelectedIndex=0;
-          this.AutoSelected();
+          const returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage == 'success') {
+            this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
+            this.dm.openSnackBar(this.ErrorData, true);
+            this.ProcessNextRecord();
+          }
+          else {
+            this.confirmBox(returnMessage + " Do you want to reload data?")
+          }
         },
         (error) => {
           this.spinner.hide();
@@ -420,9 +428,36 @@ export class VidsValidationComponent {
             this.ErrorData = [{ AlertMessage: "Something went wrong." }];
             this.dm.openSnackBar(this.ErrorData, false);
           }
-  
+
         }
       );
     }
+  }
+
+  ProcessNextRecord() {
+    this.TotalCount = this.EventHistroyData.length;
+    if (this.TotalCount > 1) {
+      this.EventHistroyData.splice(this.SelectedIndex, 1);
+    }
+    this.TotalCount = this.EventHistroyData.length;
+    this.SelectedIndex = 0;
+    this.AutoSelected();
+  }
+
+  confirmBox(msg: string) {
+    this.confirmationService.confirm({
+      message: msg,
+      icon: 'fa fa-exclamation-triangle',
+      accept: () => {
+        this.SearchEntry();
+      },
+      reject: (type: ConfirmEventType) => {
+        this.ProcessNextRecord();
+      }
+    });
+  }
+
+  viewImage() {
+    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 }

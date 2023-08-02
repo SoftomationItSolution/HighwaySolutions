@@ -168,6 +168,26 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return incidentstatusList;
         }
+        internal static List<IncidentDetailsIL> GetByFilter(DataFilterIL data)
+        {
+            DataTable dt = new DataTable();
+            List<IncidentDetailsIL> imsEvents = new List<IncidentDetailsIL>();
+            try
+            {
+                string spName = "USP_IncidentGetByFilter";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    imsEvents.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return imsEvents;
+        }
         #endregion
 
         #region Helper Methods
@@ -292,6 +312,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             id.PriorityName = Enum.GetName(typeof(Constants.PriorityType), (Constants.PriorityType)id.PriorityId);
             return id;
         }
+
+       
         #endregion
     }
 }

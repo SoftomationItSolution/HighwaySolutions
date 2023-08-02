@@ -9,6 +9,7 @@
                                 <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
                                     <i class="fa fa-chevron-circle-up filter-icon-class" id="datafilterIcon"></i>
                                 </a>
+                                <span class="rc">Record:{{TotalCount}}</span>
                             </h5>
                         </div>
                         <div class="dropdown d-inline-block float-right">
@@ -121,7 +122,7 @@
                                     </tr>
                                 </ng-template>
                                 <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                                    <tr [pSelectableRow]="rowData" (click)="onRowSelect($event,rowData,i)">
+                                    <tr [pSelectableRow]="rowData" (click)="onRowSelect(i)">
                                         <td>{{rowData.ChainageName}}</td>
                                         <td>{{rowData.EventTypeName}}</td>
                                         <td>{{rowData.EventStartDateStamp}}</td>
@@ -182,5 +183,14 @@
                 </div>
             </div>
         </div>
+        <p-confirmDialog #cd [style]="{width: '50vw'}">
+            <ng-template pTemplate="header">
+                <h3>Header Content</h3>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button type="button" pButton icon="fa fa-times" label="No" (click)="cd.reject()"></button>
+                <button type="button" pButton icon="fa fa-check" label="Yes" (click)="cd.accept()"></button>
+            </ng-template>
+        </p-confirmDialog>
     </div>
 </div>

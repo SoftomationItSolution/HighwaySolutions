@@ -21,5 +21,27 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static List<VIDSReviewedEventIL> GetByHours(short hours)
+        {
+            try
+            {
+                return VIDSReviewedEventDL.GetByHours(hours);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<VIDSReviewedEventIL> GetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return VIDSReviewedEventDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

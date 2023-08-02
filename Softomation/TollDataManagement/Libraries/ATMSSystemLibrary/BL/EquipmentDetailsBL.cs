@@ -71,5 +71,17 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+        public static List<EquipmentDetailsIL> GetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return EquipmentDetailsDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
