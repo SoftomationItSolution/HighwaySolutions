@@ -61,6 +61,7 @@ export class SystemSettingComponent {
       data => {
         this.spinner.hide();
         this.LaneData = data.ResponseData;
+        this.GetDetails();
       },
       (error) => {
         this.spinner.hide();
@@ -75,33 +76,50 @@ export class SystemSettingComponent {
       }
     );
   }
-  // DetailsbyId() {
-  //   this.spinner.show();
-  //   this.dbService.RoleConfigurationGetById(this.RoleId).subscribe(
-  //     data => {
-  //       this.spinner.hide();
-  //       this.DetailData = data.ResponseData;
-  //       this.DataDetailsForm.controls['RoleName'].setValue(this.DetailData.RoleName);
-  //       if (this.DetailData.DataStatus == 1) {
-  //         this.DataDetailsForm.controls['DataStatus'].setValue(true);
-  //       } else {
-  //         this.DataDetailsForm.controls['DataStatus'].setValue(false);
-  //       }
+  GetDetails() {
+    this.spinner.show();
+    this.dbService.SystemSettingGet().subscribe(
+      data => {
+        this.spinner.hide();
+        this.DetailData = data.ResponseData;
+        this.DataDetailsForm.controls['TotalLane'].setValue(this.DetailData.TotalLane);
+        this.DataDetailsForm.controls['TrafficCount'].setValue(this.DetailData.TrafficCount);
+        this.DataDetailsForm.controls['TrafficByTime'].setValue(this.DetailData.TrafficByTime);
+        this.DataDetailsForm.controls['IsATCCIndependently'].setValue(this.DetailData.IsATCCIndependently);
+        if(this.DetailData.IsATCCIndependently){
+          this.DataDetailsForm.controls['ATCCByVIDS'].setValue(false);
+          this.DataDetailsForm.controls['ATCCByVSDS'].setValue(false);
+          this.DataDetailsForm.controls['ATCCByVSDS'].disable();
+          this.DataDetailsForm.controls['ATCCByVIDS'].disable();
+        }
+        else{
+          this.DataDetailsForm.controls['ATCCByVSDS'].setValue(this.DetailData.ATCCByVSDS);
+          this.DataDetailsForm.controls['ATCCByVIDS'].setValue(this.DetailData.ATCCByVIDS);
+          this.DataDetailsForm.controls['ATCCByVSDS'].enable();
+          this.DataDetailsForm.controls['ATCCByVIDS'].enable();
+        }
+        
+        
+        // if (this.DetailData.DataStatus == 1) {
+        //   this.DataDetailsForm.controls['DataStatus'].setValue(true);
+        // } else {
+        //   this.DataDetailsForm.controls['DataStatus'].setValue(false);
+        // }
        
-  //     },
-  //     (error) => {
-  //       this.spinner.hide();
-  //       try {
-  //         this.ErrorData = error.error;
-  //         this.dm.openSnackBar(this.ErrorData, false);
-  //       } catch (error) {
-  //         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-  //         this.dm.openSnackBar(this.ErrorData, false);
-  //       }
-  //       this.Dialogref.close();
-  //     }
-  //   );
-  // }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+        this.Dialogref.close();
+      }
+    );
+  }
 
   ClosePoup() { this.Dialogref.close(); }
 
@@ -124,7 +142,7 @@ export class SystemSettingComponent {
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();
-    this.dbService.RoleConfigurationSetUp(Obj).subscribe(
+    this.dbService.SystemSettingSetUp(Obj).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;
