@@ -44,8 +44,6 @@ namespace Softomation.ATMSSystemLibrary.DL
                 foreach (DataRow dr in ds.Tables[4].Rows)
                     IncidentData.Add(CreateObjectForIncident(dr));
                 #endregion
-
-
             }
             catch (Exception ex)
             {
