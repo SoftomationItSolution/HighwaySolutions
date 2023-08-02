@@ -101,6 +101,7 @@
     <Compile Include="BL\IncidentStatusBL.cs" />
     <Compile Include="BL\PackageBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
+    <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
     <Compile Include="BL\ControlRoomBL.cs" />
     <Compile Include="BL\EquipmentDetailsBL.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="DL\IncidentStatusDL.cs" />
     <Compile Include="DL\PackageDL.cs" />
     <Compile Include="DL\SystemDL.cs" />
+    <Compile Include="DL\SystemSettingDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
     <Compile Include="DL\ControlRoomDL.cs" />
     <Compile Include="DL\EquipmentDetailsDL.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />
     <Compile Include="IL\SystemIL.cs" />
+    <Compile Include="IL\SystemSettingIL.cs" />
     <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\VIDSChallanEventIL.cs" />
