@@ -17,5 +17,16 @@ namespace Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static DataFilterIL GetReportBySystemId(Int16 SystemId)
+        {
+            try
+            {
+                return DataFilterDL.GetReportBySystemId(SystemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

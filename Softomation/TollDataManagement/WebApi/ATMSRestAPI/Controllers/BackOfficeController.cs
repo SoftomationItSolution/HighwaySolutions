@@ -1472,6 +1472,27 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+
+        [Route(Provider + "/" + APIPath + "/FilterReportGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage FilterReportGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DataFilterBL.GetReportBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FilterReportGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region VIDS Events

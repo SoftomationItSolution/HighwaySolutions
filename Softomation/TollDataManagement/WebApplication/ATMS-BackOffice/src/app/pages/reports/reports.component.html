@@ -71,7 +71,7 @@
                                             <p-dropdown appendTo="body" formControlName="SystemId" inputId="DataId"
                                                 [options]="SystemData" optionLabel="DataName" optionValue="DataId"
                                                 placeholder="Select" class="form-control select2"
-                                                ></p-dropdown>
+                                                (onChange)="GetMasterReportData()"></p-dropdown>
                                             <!-- <small class="p-error"
                                                 *ngIf="submitted && LocationDetailsForm.hasError('required','SystemId')">System must
                                                 be selected.</small> -->

@@ -444,6 +444,11 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterMasterGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
   }
+  FilterReportGetBySystemId(SystemId: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterReportGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
+  }
   //#endregion
 
   //#region  VIDS System
