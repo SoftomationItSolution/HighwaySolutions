@@ -587,7 +587,7 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/UserConfigurationGetBySystemUserType")]
         [HttpGet]
-        public HttpResponseMessage UserConfigurationGetBySystemUserType(short UserTypeId,short SystemId)
+        public HttpResponseMessage UserConfigurationGetBySystemUserType(short UserTypeId, short SystemId)
         {
             try
             {
@@ -1272,6 +1272,53 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in IMSActionHistoryInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage IMSGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE ID.CreatedDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND ID.CreatedDate<= CONVERT(DATETIME,'" + data.EndDateTime + "') AND ID.IncidentStatusId IN (" + data.IncidentStatusList + ")";
+
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PriorityFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.PriorityId IN (" + data.PriorityFilterList + ") ";
+                }
+                if (data.IncidentFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.IncidentCategoryId IN (" + data.IncidentFilterList + ") ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

@@ -15,7 +15,9 @@ namespace Softomation.ATMSSystemLibrary.IL
         private String eventFilterList;
         private String equipmentTypeFilterList;
         private String incidentFilterList;
+        private String incidentStatusList;
         private String directionFilterList;
+        private String priorityFilterList;
         private String reviewedFilterList;
         private String startDateTime;
         private String endDateTime;
@@ -25,6 +27,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         private List<MasterData> controlRoomDataList;
         private List<MasterData> packageDataList;
         private List<MasterData> chainageDataList;
+        private List<MasterData> incidentDataList;
 
         public DataFilterIL()
         {
@@ -37,7 +40,9 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.equipmentTypeFilterList = string.Empty;
             this.eventFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
+            this.incidentStatusList = string.Empty;
             this.directionFilterList = string.Empty;
+            this.priorityFilterList = string.Empty;
             this.reviewedFilterList = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
@@ -48,6 +53,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             controlRoomDataList = new List<MasterData>();
             packageDataList = new List<MasterData>();
             chainageDataList = new List<MasterData>();
+            incidentDataList = new List<MasterData>();
         }
         public short SystemId
         {
@@ -84,6 +90,15 @@ namespace Softomation.ATMSSystemLibrary.IL
         public string IncidentFilterList
         {
             get => incidentFilterList; set => incidentFilterList = value;
+        }
+        public string IncidentStatusList
+        {
+            get => incidentStatusList; set => incidentStatusList = value;
+        }
+
+        public string PriorityFilterList
+        {
+            get => priorityFilterList; set => priorityFilterList = value;
         }
         public string DirectionFilterList
         {
@@ -155,6 +170,18 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 chainageDataList = value;
+            }
+        }
+        public List<MasterData> IncidentDataList
+        {
+            get
+            {
+                return incidentDataList;
+            }
+
+            set
+            {
+                incidentDataList = value;
             }
         }
     }

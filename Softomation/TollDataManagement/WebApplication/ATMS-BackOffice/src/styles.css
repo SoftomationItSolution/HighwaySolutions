@@ -305,7 +305,8 @@ tr {
 }
 
 .p-datatable-wrapper {
-    max-height: 56vh !important
+    max-height: 56vh !important;
+    min-height: 56vh !important;
 }
 
 .page-content {
@@ -333,8 +334,8 @@ tr {
 }
 
 .inner-progressbar {
-    background-color: rgb(96, 95, 94);
-    color: black;
+    background-color: #011b41;
+    color: #f68e2b;
 }
 
 #page-topbar {
@@ -731,10 +732,12 @@ input[type=radio] {
 
 .listtablepagging .p-datatable-wrapper {
     max-height: 54vh !important;
+    min-height: 54vh !important;
 }
 
 .listtablepagging-c .p-datatable-wrapper {
     max-height: 59vh !important;
+    min-height: 59vh !important;
 }
 
 .btn-search {
@@ -891,19 +894,6 @@ input[type=radio] {
     margin-right: 0.5rem;
 }
 
-/* .permission-table .p-datatable-wrapper{
-    height: 61vh !important;
-}
-.permission-table .p-datatable-wrapper .parent_tr {
-   font-weight: 800;
-}
-.permission-table .p-datatable-wrapper .parent_tr td:first-child {
-    width: 150px !important;
- }
-.permission-table .p-datatable-wrapper .child_tr td:first-child {
-    width: 150px !important;
-    padding-left: 15px !important;
- } */
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -916,6 +906,7 @@ input[type=radio] {
 
     .p-datatable-wrapper {
         max-height: 60vh !important;
+        min-height: 60vh !important;
     }
 
     .listtablepagging {
@@ -924,10 +915,12 @@ input[type=radio] {
 
     .listtablepagging .p-datatable-wrapper {
         max-height: 38vh !important;
+        min-height: 38vh !important;
     }
 
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
+        min-height: 59vh !important;
     }
 
     .ims-tab {
@@ -957,6 +950,7 @@ input[type=radio] {
 
     .p-datatable-wrapper {
         max-height: 63vh !important;
+        min-height: 63vh !important;
     }
 
     .listtablepagging {
@@ -965,10 +959,12 @@ input[type=radio] {
 
     .listtablepagging .p-datatable-wrapper {
         max-height: 34vh !important;
+        min-height: 34vh !important;
     }
 
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
+        min-height: 59vh !important;
     }
 
     .audit-media {
@@ -1009,6 +1005,7 @@ input[type=radio] {
 
     .p-datatable-wrapper {
         max-height: 69vh !important;
+        min-height: 69vh !important;
     }
 
     .listtablepagging {
@@ -1017,10 +1014,12 @@ input[type=radio] {
 
     .listtablepagging .p-datatable-wrapper {
         max-height: 44vh !important;
+        min-height: 44vh !important;
     }
 
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 65vh !important;
+        min-height: 65vh !important;
     }
 
     .ims-tab {
@@ -1062,14 +1061,17 @@ input[type=radio] {
 
     .p-datatable-wrapper {
         max-height: 69vh !important;
+        min-height: 69vh !important;
     }
 
     .listtablepagging .p-datatable-wrapper {
         max-height: 51vh !important;
+        min-height: 51vh !important;
     }
 
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 74vh !important;
+        min-height: 74vh !important;
     }
 
     .audit-media {
