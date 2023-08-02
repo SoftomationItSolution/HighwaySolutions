@@ -63,7 +63,24 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return responses;
         }
-
+        internal static List<ResponseIL> UserProfileChange(UserManagementIL user)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                string spName = "USP_UserProfileChange";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, user.UserId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserProfileImage", DbType.String, user.UserProfileImage, ParameterDirection.Input, 200));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                responses = ResponseIL.ConvertResponseList(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
         #region Get Methods
         internal static List<UserManagementIL> GetAll()
         {
@@ -213,6 +230,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["UserTypeId"] != DBNull.Value)
                 user.UserTypeId = Convert.ToInt16(dr["UserTypeId"]);
 
+            if (dr["UserProfileImage"] != DBNull.Value)
+                user.UserProfileImage = Convert.ToString(dr["UserProfileImage"]);
+            
             if (dr["RoleName"] != DBNull.Value)
                 user.RoleName = Convert.ToString(dr["RoleName"]);
 

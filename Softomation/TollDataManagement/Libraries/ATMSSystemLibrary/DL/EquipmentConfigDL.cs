@@ -122,7 +122,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (SystemId == (short)SystemMasterType.VIDS)
                 id.PositionName = Enum.GetName(typeof(VIDSEquipmentPositionType), (VIDSEquipmentPositionType)id.PositionId);
             else if (SystemId == (short)SystemMasterType.VSDS)
-                id.PositionName = Enum.GetName(typeof(VSDSEquipmentPositionType), (VSDSEquipmentPositionType)id.PositionId);
+                id.PositionName = Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)id.PositionId);
             else if (SystemId == (short)SystemMasterType.ATCC)
                 id.PositionName = Enum.GetName(typeof(ATCCEquipmentPositionType), (ATCCEquipmentPositionType)id.PositionId);
             else if (SystemId == (short)SystemMasterType.VMS)

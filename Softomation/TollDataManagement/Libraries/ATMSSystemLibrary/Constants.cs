@@ -103,7 +103,7 @@ namespace Softomation.ATMSSystemLibrary
             Entry = 1,
             Exit = 2,
         }
-        public enum VSDSEquipmentPositionType
+        public enum HighwayLaneNumber
         {
             Lane_0 = 0,
             Lane_1 = 1,
@@ -470,7 +470,7 @@ namespace Softomation.ATMSSystemLibrary
         }
         public static string SplitCamelCase(string str)
         {
-            return Regex.Replace(Regex.Replace(str,@"(\P{Ll})(\P{Ll}\p{Ll})","$1 $2"),@"(\p{Ll})(\P{Ll})","$1 $2");
+            return Regex.Replace(Regex.Replace(str,@"(\P{Ll})(\P{Ll}\p{Ll})","$1 $2"),@"(\p{Ll})(\P{Ll})","$1 $2").Replace("_"," ");
         }
         
         #endregion

@@ -72,6 +72,8 @@ import { TreeModule } from 'primeng/tree';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ImageModule } from 'primeng/image';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { SystemSettingComponent } from './pages/Config/system-setting/system-setting.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -134,7 +136,8 @@ export const MY_CUSTOM_FORMATS = {
     VidsValidationComponent,
     VidsValidatedComponent,
     ImsProgressComponent,
-    ImsPendingComponent
+    ImsPendingComponent,
+    SystemSettingComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -173,7 +176,8 @@ export const MY_CUSTOM_FORMATS = {
     DragDropModule,
     MultiSelectModule,
     ImageModule,
-    ConfirmDialogModule 
+    ConfirmDialogModule,
+    ImageCropperModule 
   ],
   providers: [
     [DatePipe],

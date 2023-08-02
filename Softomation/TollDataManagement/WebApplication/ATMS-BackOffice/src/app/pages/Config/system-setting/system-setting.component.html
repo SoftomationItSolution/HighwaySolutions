@@ -1,0 +1,76 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0">System Setting</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="TotalLane">Total Lane</label>
+                    <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane" [options]="LaneData"
+                        optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
+                        Lane is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
+                            formControlName="IsATCCIndependently">
+                        <label class="form-check-label" for="IsATCCIndependently">
+                            ATCC Independently
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check" style="padding-bottom: 10px;">
+                        <input class="form-check-input" type="checkbox" id="ATCCByVIDS" formControlName="ATCCByVIDS"
+                            [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
+                        <label class="form-check-label" for="ATCCByVIDS">
+                            ATCC By VIDS
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check" style="padding-bottom: 10px;">
+                        <input class="form-check-input" type="checkbox" id="ATCCByVSDS" formControlName="ATCCByVSDS"
+                            [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
+                        <label class="form-check-label" for="ATCCByVSDS">
+                            ATCC By VSDS
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="TrafficByTime">Traffic velocity By time (minutes)</label>
+                        <input formControlName="TrafficByTime" type="text" pInputText required autocomplete="off"
+                            class="form-control" />
+                        <small class="p-error"
+                            *ngIf="submitted && DataDetailsForm.hasError('required','TrafficByTime')">Traffic velocity
+                            By time (minutes) is required.</small>
+                        <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','TrafficByTime')">Traffic
+                            velocity By time (minutes) must be numeric.</small>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="TrafficCount">Vehicle crossed at location</label>
+                        <input formControlName="TrafficCount" type="text" pInputText required autocomplete="off"
+                            class="form-control" />
+                        <small class="p-error"
+                            *ngIf="submitted && DataDetailsForm.hasError('required','TrafficCount')">Vehicle crossed at
+                            location is required.</small>
+                        <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','TrafficCount')">Vehicle
+                            crossed at location must be numeric.</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

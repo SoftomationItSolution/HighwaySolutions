@@ -34,6 +34,19 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
+
+        public static List<ResponseIL> UserProfileChange(UserManagementIL user)
+        {
+            try
+            {
+                return UserManagementDL.UserProfileChange(user);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static List<UserManagementIL> GetAll()
         {
             try
@@ -108,5 +121,6 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
         }
 
+       
     }
 }

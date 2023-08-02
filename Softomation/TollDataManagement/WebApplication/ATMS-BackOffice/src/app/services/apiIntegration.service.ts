@@ -179,6 +179,11 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/UserUpdatePassword', data, { headers: headers_object });
   }
+  UserProfileChange(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/UserProfileChange', data, { headers: headers_object });
+  }
   //#endregion
 
   //#region  ControlRoom
@@ -321,9 +326,15 @@ export class apiIntegrationService {
   }
   //#endregion
 
+  //#region  Lane
+  LaneGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetAll', { headers: headers_object });
+  }
+  //#endregion
 
   //#region Incident Details
-
   IncidentSourceGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');

@@ -168,7 +168,7 @@ small {
     transition: box-shadow .2s;
     border-radius: 0;
 }
-
+.p-disabled { color: grey; font-weight: bold }
 .modal-body {
     min-height: 230px !important;
     overflow-x: auto !important;
@@ -318,9 +318,13 @@ tr {
 }
 
 .modal-header {
-    padding: 12px 12px !important
+    padding: 12px 12px !important;
+    background: #011b41 !important;
+    color: #f68e2b !important
 }
-
+.modal-title{
+    color: #f68e2b !important
+}
 .hyperlink {
     cursor: pointer;
     color: #1891fc;
@@ -745,7 +749,10 @@ input[type=radio] {
     margin-bottom: auto;
 }
 
-
+.btn-close{
+    background: none !important;
+    color: #fff !important;
+}
 
 .p-paginator .p-paginator-icon {
     color: #595757;
