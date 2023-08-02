@@ -71,7 +71,7 @@ export class PackagesPopupComponent implements OnInit {
       }
     );
   }
-
+  
 
   DetailsbyId() {
     this.spinner.show();

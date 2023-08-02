@@ -1,0 +1,39 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="Masterform">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="ActionStatusId">Incident Action*</label>
+                    <p-dropdown appendTo="body" formControlName="ActionStatusId" [options]="ActionList"
+                        optionLabel="IncidentStatusName" optionValue="IncidentStatusId" placeholder="Incident Action"
+                        class="form-control select2" (onChange)="ActionChange($event.value)">
+                    </p-dropdown>
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','ActionStatusId')">Incident Action is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="AssignedToId">{{AssignedToName}}</label>
+                    <p-dropdown appendTo="body" formControlName="AssignedToId" [options]="PetrollingTeamList"
+                        optionLabel="LoginId" optionValue="UserId" placeholder="Select Patrolling team"
+                        class="form-control select2">
+                    </p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && Masterform.hasError('required','AssignedToId')">Assigning Team is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="ActionTakenRemark">Remark</label>
+                    <input formControlName="ActionTakenRemark" type="text" pInputText class="form-control" />
+                    <small class="p-error" *ngIf="submitted && Masterform.hasError('required','ActionTakenRemark')">Remark is required.</small>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveProcess()">Save changes</button>
+    </div>
+</div>

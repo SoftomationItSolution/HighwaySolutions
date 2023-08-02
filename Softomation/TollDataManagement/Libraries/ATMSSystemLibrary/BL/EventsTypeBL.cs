@@ -1,0 +1,60 @@
+﻿using System;
+using System.Collections.Generic;
+using Softomation.ATMSSystemLibrary.IL;
+using Softomation.ATMSSystemLibrary.DL;
+using System.Data.Common;
+using System.Data;
+
+namespace Softomation.ATMSSystemLibrary.BL
+{
+    public class EventsTypeBL
+    {
+        public static List<ResponseIL> SetUp(List<EventsTypeIL> types)
+        {
+            try
+            {
+                return EventsTypeDL.SetUp(types);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public static List<EventsTypeIL> GetAll()
+        {
+            try
+            {
+                return EventsTypeDL.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        public static List<EventsTypeIL> GetActive()
+        {
+            try
+            {
+                return EventsTypeDL.GetActive();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<EventsTypeIL> GetBySystemId(Int16 SystemId)
+        {
+            try
+            {
+                return EventsTypeDL.GetBySystemId(SystemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+    }
+}

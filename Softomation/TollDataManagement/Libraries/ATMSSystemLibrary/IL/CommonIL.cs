@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
@@ -14,9 +10,12 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int32 createdBy;
         DateTime modifiedDate;
         Int32 modifiedBy;
-        string createdByLoginId;
-        string modifiedByLoginId;
-        
+        String createdByLoginId;
+        String modifiedByLoginId;
+        Boolean dataSendStatus;
+        Boolean mediaSendStatus;
+
+
         public CommonIL()
         {
             this.dataStatus = 0;
@@ -27,8 +26,10 @@ namespace Softomation.ATMSSystemLibrary.IL
             this.modifiedDate = DateTime.Now;
             this.modifiedBy = 0;
             this.modifiedByLoginId = string.Empty;
+            this.dataSendStatus = false;
+            this.mediaSendStatus = false;
         }
-       
+
         public Int16 DataStatus
         {
             get => dataStatus; set => dataStatus = value;
@@ -83,6 +84,32 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 modifiedByLoginId = value;
+            }
+        }
+
+        public Boolean DataSendStatus
+        {
+            get
+            {
+                return dataSendStatus;
+            }
+
+            set
+            {
+                dataSendStatus = value;
+            }
+        }
+
+        public Boolean MediaSendStatus
+        {
+            get
+            {
+                return mediaSendStatus;
+            }
+
+            set
+            {
+                mediaSendStatus = value;
             }
         }
     }

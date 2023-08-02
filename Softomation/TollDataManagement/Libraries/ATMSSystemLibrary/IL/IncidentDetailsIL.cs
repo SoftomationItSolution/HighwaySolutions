@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
@@ -16,6 +17,7 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int16 directionId;
         String directionName;
         Decimal chainageNumber;
+        String chainageName;
         Decimal latitude;
         Decimal longitude;
         String vehiclePlateNumber;
@@ -31,14 +33,11 @@ namespace Softomation.ATMSSystemLibrary.IL
         String incidentGeneratedByTypeName;
         Int64 incidentGeneratedById;
         String incidentGeneratedByName;
-        Int64 actionTakenById;
-        String assignedName;
-        String actionTakenRemark;
-        DateTime actionTakenDateTime;
-        Int64 assignedTo;
+        String assignedToName;
+        Int64 assignedToId;
         DateTime assignedDateTime;
-        Decimal processPercentage;
-        Int16 sendStatus;
+        
+        List<IncidentActionHistoryIL> actionHistoryDetails;
 
         public IncidentDetailsIL()
         {
@@ -54,6 +53,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             directionId = 0;
             directionName = string.Empty;
             chainageNumber = 0;
+            chainageName = string.Empty;
             latitude = 0;
             longitude = 0;
             vehiclePlateNumber = string.Empty;
@@ -69,14 +69,10 @@ namespace Softomation.ATMSSystemLibrary.IL
             incidentGeneratedByTypeName = string.Empty;
             incidentGeneratedById = 0;
             incidentGeneratedByName = string.Empty;
-            actionTakenById = 0;
-            assignedName = string.Empty;
-            actionTakenRemark = string.Empty;
-            actionTakenDateTime = DateTime.MinValue;
-            assignedTo = 0;
+            assignedToName = string.Empty;
+            assignedToId = 0;
             assignedDateTime = DateTime.MinValue;
-            processPercentage = 0;
-            sendStatus = 0;
+            actionHistoryDetails = new List<IncidentActionHistoryIL>();
         }
 
         public String IncidentId
@@ -163,7 +159,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentImagePath = value;
             }
         }
-
         public String IncidentVideoPath
         {
             get
@@ -176,7 +171,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentVideoPath = value;
             }
         }
-
         public String IncidentAudioPath
         {
             get
@@ -189,7 +183,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentAudioPath = value;
             }
         }
-
         public Int16 DirectionId
         {
             get
@@ -202,7 +195,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 directionId = value;
             }
         }
-
         public String DirectionName
         {
             get
@@ -215,7 +207,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 directionName = value;
             }
         }
-
         public Decimal ChainageNumber
         {
             get
@@ -228,7 +219,18 @@ namespace Softomation.ATMSSystemLibrary.IL
                 chainageNumber = value;
             }
         }
+        public String ChainageName
+        {
+            get
+            {
+                return chainageName;
+            }
 
+            set
+            {
+                chainageName = value;
+            }
+        }
         public Decimal Latitude
         {
             get
@@ -241,7 +243,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 latitude = value;
             }
         }
-
         public Decimal Longitude
         {
             get
@@ -254,7 +255,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 longitude = value;
             }
         }
-
         public String VehiclePlateNumber
         {
             get
@@ -267,7 +267,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 vehiclePlateNumber = value;
             }
         }
-
         public Int16 VehicleClassId
         {
             get
@@ -292,7 +291,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 vehicleClassName = value;
             }
         }
-
         public Int16 SourceSystemId
         {
             get
@@ -329,7 +327,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
-
         public String EquipmentName
         {
             get
@@ -342,7 +339,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 equipmentName = value;
             }
         }
-
         public Int64 NearByVMSId
         {
             get
@@ -355,7 +351,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 nearByVMSId = value;
             }
         }
-
         public Int64 NearByPTZId
         {
             get
@@ -368,7 +363,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 nearByPTZId = value;
             }
         }
-
         public Int16 IncidentGeneratedByTypeId
         {
             get
@@ -393,7 +387,6 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByTypeName = value;
             }
         }
-
         public Int64 IncidentGeneratedById
         {
             get
@@ -418,76 +411,28 @@ namespace Softomation.ATMSSystemLibrary.IL
                 incidentGeneratedByName = value;
             }
         }
-        public Int64 ActionTakenById
+        public Int64 AssignedToId
         {
             get
             {
-                return actionTakenById;
+                return assignedToId;
             }
 
             set
             {
-                actionTakenById = value;
+                assignedToId = value;
             }
         }
-        public String ActionTakenByName
+        public String AssignedToName
         {
             get
             {
-                return assignedName;
+                return assignedToName;
             }
 
             set
             {
-                assignedName = value;
-            }
-        }
-        public DateTime ActionTakenDateTime
-        {
-            get
-            {
-                return actionTakenDateTime;
-            }
-
-            set
-            {
-                actionTakenDateTime = value;
-            }
-        }
-        public String ActionTakenRemark
-        {
-            get
-            {
-                return actionTakenRemark;
-            }
-
-            set
-            {
-                actionTakenRemark = value;
-            }
-        }
-        public Int64 AssignedTo
-        {
-            get
-            {
-                return assignedTo;
-            }
-
-            set
-            {
-                assignedTo = value;
-            }
-        }
-        public String AssignedName
-        {
-            get
-            {
-                return assignedName;
-            }
-
-            set
-            {
-                assignedName = value;
+                assignedToName = value;
             }
         }
         public DateTime AssignedDateTime
@@ -502,28 +447,16 @@ namespace Softomation.ATMSSystemLibrary.IL
                 assignedDateTime = value;
             }
         }
-        public Decimal ProcessPercentage
+        public List<IncidentActionHistoryIL> ActionHistoryDetails
         {
             get
             {
-                return processPercentage;
+                return actionHistoryDetails;
             }
 
             set
             {
-                processPercentage = value;
-            }
-        }
-        public Int16 SendStatus
-        {
-            get
-            {
-                return sendStatus;
-            }
-
-            set
-            {
-                sendStatus = value;
+                actionHistoryDetails = value;
             }
         }
     }

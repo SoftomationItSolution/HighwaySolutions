@@ -2,81 +2,142 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div>
-                    <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-plus me-2"></i> Add Equipment
-                    </a>
-                    <div class="dropdown d-inline-block float-right">
-                        <span class="p-input-icon-left">
-                            <i class="fa fa-search"></i>
-                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
-                        </span>
-                    </div>
-                </div>
-                <div class="table-responsive mt-3 listtableheight">
-                    <div class="table-responsive table-height-master">
-                        <div class="table-responsive table-height-master">
-                            <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
-                                [resizableColumns]="true" styleClass="p-datatable-striped p-datatable-gridlines"
-                                [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName'
-                            ,'DataStatusName','IpAddress']" scrollHeight="56vh">
-                            <ng-template pTemplate="header" styleClass="thead-light">
-                                    <tr>
-                                        <th>S. No.</th>
-                                        <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
-                                                field="EquipmentTypeName"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="EquipmentName">Name <p-sortIcon
-                                                field="EquipmentName"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="ChainageName">Chainage <p-sortIcon
-                                                field="ChainageName"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
-                                                field="IpAddress"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="DirectionName">Direction <p-sortIcon
-                                                field="DirectionName"></p-sortIcon>
-                                        </th>
-                                        <th pSortableColumn="DataStatusName">Status <p-sortIcon
-                                                field="DataStatusName"></p-sortIcon>
-                                        </th>
-                                        <th style="text-align: center;">Action</th>
-                                    </tr>
-                                </ng-template>
-                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                                    <tr>
-                                        <td>{{i+1}}</td>
-                                        <td>{{rowData.EquipmentTypeName}}</td>
-                                        <td>{{rowData.EquipmentName}}</td>
-                                        <td>{{rowData.ChainageName}}</td>
-                                        <td>{{rowData.IpAddress}}</td>
-                                        <td>{{rowData.DirectionName}}</td>
-                                        <td>{{rowData.DataStatusName}}</td>
-                                        <td style="text-align: center;">
-                                            <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
-                                                class="me-3 text-primary" data-bs-container="#tooltip-container0"
-                                                data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
-                                                <i class="mdi mdi-pencil font-size-18"></i>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </ng-template>
-                            </p-table>
+                <div id="accordion" class="data-filter">
+                    <div class="card-header">
+                        <div class="dropdown d-inline-block">
+                            <h5 class="mb-0">
+                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
+                                    <i class="fa fa-chevron-circle-up filter-icon-class" id="datafilterIcon"></i>
+                                </a>
+                                <a href="javascript:void(0);" (click)="NewEntry()" class="mb-2">
+                                    <i class="mdi mdi-plus filter-icon-class"></i> 
+                                </a>
+                                
+                            </h5>
+                        </div>
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="fa fa-search"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
                         </div>
                     </div>
-
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <form [formGroup]="FilterDetailsForm">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label for="SystemFilterList">System</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                formControlName="SystemFilterList"
+                                                inputId="SystemFilterList" [options]="SystemData"
+                                                optionLabel="DataName" optionValue="DataId" placeholder="System">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="ControlRoomFilterList">Control Room</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                formControlName="ControlRoomFilterList"
+                                                inputId="ControlRoomFilterList" [options]="ControlRoomData"
+                                                (onChange)="FillPackages()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Control Room">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="PackageFilterList">Package</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                formControlName="PackageFilterList"
+                                                inputId="PackageFilterList" [options]="PackageFilter"
+                                                (onChange)="FillChainage()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Package">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="ChainageFilterList">Chainage</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                formControlName="ChainageFilterList"
+                                                inputId="ChainageFilterList" [options]="ChainageFilter"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="DirectionFilterList">Direction</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                 formControlName="DirectionFilterList"
+                                                inputId="DirectionFilterList" [options]="DirectionList"
+                                                optionLabel="DataName" optionValue="DataName" placeholder="Direction">
+                                            </p-multiSelect>
+                                        </div> 
+                                        <div class="col-md-4">
+                                            <label for="EquipmentTypeFilterList">Equipment Type</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                formControlName="EquipmentTypeFilterList"
+                                                inputId="EquipmentTypeFilterList" [options]="EquipmentTypeData"
+                                                optionLabel="EquipmentTypeName" optionValue="EquipmentTypeId"  placeholder="Equipment Type">
+                                            </p-multiSelect>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search" (click)="SearchEntry()">
+                                        <i class="mdi mdi-feature-search-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
+                    <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true"
+                        [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
+                        [globalFilterFields]="['EquipmentTypeName','EquipmentName','ChainageName','DirectionName','DataStatusName','IpAddress']">
+                        <ng-template pTemplate="header" styleClass="thead-light">
+                            <tr>
+                                <th>S. No.</th>
+                                <th pSortableColumn="EquipmentTypeName">Type <p-sortIcon
+                                        field="EquipmentTypeName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="EquipmentName">Name <p-sortIcon
+                                        field="EquipmentName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="ChainageName">Chainage <p-sortIcon
+                                        field="ChainageName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="IpAddress">IP-Address <p-sortIcon
+                                        field="IpAddress"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="DirectionName">Direction <p-sortIcon
+                                        field="DirectionName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                        field="DataStatusName"></p-sortIcon>
+                                </th>
+                                <th style="text-align: center;">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{rowData.EquipmentTypeName}}</td>
+                                <td>{{rowData.EquipmentName}}</td>
+                                <td>{{rowData.ChainageName}}</td>
+                                <td>{{rowData.IpAddress}}</td>
+                                <td>{{rowData.DirectionName}}</td>
+                                <td>{{rowData.DataStatusName}}</td>
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                        class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="mdi mdi-pencil font-size-18"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
                 </div>
             </div>
         </div>
-        <!-- <nav aria-label="Page navigation example" class="float-right">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav> -->
     </div>
-</div>
+  </div>

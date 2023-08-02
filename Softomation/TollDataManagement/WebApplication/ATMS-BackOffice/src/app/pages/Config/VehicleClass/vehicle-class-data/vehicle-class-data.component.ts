@@ -32,14 +32,15 @@ export class VehicleClassDataComponent implements OnInit {
   ngOnInit(): void {
     this.GetAllData();
   }
-
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 8,
+      MenuUrl: MenuUrl,
+      SystemId:0,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;
@@ -58,6 +59,8 @@ export class VehicleClassDataComponent implements OnInit {
       }
     );
   }
+
+  
 
   GetAllData() {
     this.spinner.show();
@@ -78,8 +81,8 @@ export class VehicleClassDataComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Save', ClassId: -1 };
       this.dialog.open(VehicleClassPopupComponent, dialogConfig);
     }
@@ -93,8 +96,8 @@ export class VehicleClassDataComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Update', ClassId: data.ClassId };
       this.dialog.open(VehicleClassPopupComponent, dialogConfig);
     }

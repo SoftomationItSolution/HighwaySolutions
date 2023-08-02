@@ -4,40 +4,76 @@
         <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-        <div class="table-responsive">
-            <p-table #dt [value]="DetailData" [scrollHeight]="'40vh'" [rowHover]="true" [scrollable]="true" [resizableColumns]="true" styleClass="p-datatable-gridlines">
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Menu</th>
-                        <th style="text-align: center;">View/Access</th>
-                        <th style="text-align: center;">Add</th>
-                        <th style="text-align: center;">Update</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-rowData let-columns="columns">
-                    <tr>
-                        <td>{{rowData.MenuName}}</td>
-                        <td style="text-align: center;">
-                            <input (ngModelChange)="handleCheck($event,rowData,1)" *ngIf="rowData.DataView != 2" type="checkbox" [(ngModel)]="rowData.DataView" />
-                            <div *ngIf="rowData.DataView == 2">
-                                <i class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i>
+        <div class="table-responsive permission-table">
+            <ul id="permission-table">
+                <li class="parent">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <span class="name">Menu</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="checkbox">Access</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="checkbox">Addition</span>
+                        </div>
+                        <div class="col-md-3">
+                            <span class="checkbox">Updation</span>
+                        </div>
+                    </div>
+                </li>
+                <li *ngFor="let d of DetailData | serchFilter :'0': 'filtermenu'" class="child">
+                    <div class="row parent-row" *ngIf="d.ChildCount===0">
+                        <div class="col-md-3">
+                            {{d.MenuName}}
+                        </div>
+                        <div class="col-md-3">
+                            <input class="chk1" (ngModelChange)="handleCheck($event,d,0)" *ngIf="d.DataView != 2" type="checkbox" [(ngModel)]="d.DataView" />
+                            
+                        </div>
+                        <div class="col-md-3">
+                            <input class="chk2" (ngModelChange)="handleCheck($event,d,1)" type="checkbox" [(ngModel)]="d.DataAdd" />
+                        </div>
+                        <div class="col-md-3">
+                            <input class="chk3" (ngModelChange)="handleCheck($event,d,2)" type="checkbox"
+                                [(ngModel)]="d.DataUpdate" />
+                           
+                        </div>
+                    </div>
+                    <div class="row parent-row" (click)="exCol($event,d)" *ngIf="d.ChildCount!=0">
+                        <div class="col-md-3 parentNode parentNode-down bold">
+                            {{d.MenuName}}
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <i class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i> -->
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <i class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i> -->
+                        </div>
+                        <div class="col-md-3">
+                            <!-- <i  class="icon-holder c-disbale-500 fa fa-check-square fa-lg" aria-hidden="true"></i> -->
+                        </div>
+                    </div>
+                    <ul class="nested nested-active">
+                        <li *ngFor="let c of DetailData | serchFilter :d.MenuId: 'filtermenu'">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    {{c.MenuName}}
+                                </div>
+                                <div class="col-md-3">
+                                    <input  (ngModelChange)="handleCheck($event,c,0)" type="checkbox" [(ngModel)]="c.DataView" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input (ngModelChange)="handleCheck($event,c,1)" type="checkbox" [(ngModel)]="c.DataAdd" />
+                                </div>
+                                <div class="col-md-3">
+                                    <input (ngModelChange)="handleCheck($event,c,2)" type="checkbox" [(ngModel)]="c.DataUpdate" />
+                                </div>
                             </div>
-                        </td>
-                        <td style="text-align: center;">
-                            <input (ngModelChange)="handleCheck($event,rowData,2)" *ngIf="rowData.DataAdd != 2" type="checkbox" [(ngModel)]="rowData.DataAdd" />
-                            <div *ngIf="rowData.DataAdd == 2">
-                                <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
-                            </div>
-                        </td>
-                        <td style="text-align: center;">
-                            <input (ngModelChange)="handleCheck($event,rowData,3)" *ngIf="rowData.DataUpdate != 2" type="checkbox" [(ngModel)]="rowData.DataUpdate" />
-                            <div *ngIf="rowData.DataUpdate == 2">
-                                <i class="icon-holder c-red-500 fa fa-ban fa-lg" aria-hidden="true"></i>
-                            </div>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="modal-footer">

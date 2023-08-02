@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +7,12 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ATMS-BackOffice';
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+   console.log("height:" + window.innerHeight, "width:" + window.innerWidth);
+  }
+
+  constructor(){
+    this.onResize();
+  }
 }

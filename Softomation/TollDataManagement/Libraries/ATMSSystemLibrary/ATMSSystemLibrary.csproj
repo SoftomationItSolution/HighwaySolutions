@@ -91,6 +91,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\DataFilterBL.cs" />
+    <Compile Include="BL\EquipmentConfigBL.cs" />
+    <Compile Include="BL\EventsTypeBL.cs" />
+    <Compile Include="BL\IncidentActionHistoryBL.cs" />
+    <Compile Include="BL\IncidentCategoryBL.cs" />
     <Compile Include="BL\IncidentDetailsBL.cs" />
     <Compile Include="BL\IncidentSourceBL.cs" />
     <Compile Include="BL\IncidentStatusBL.cs" />
@@ -105,12 +110,19 @@
     <Compile Include="BL\RoleManagementBL.cs" />
     <Compile Include="BL\RolePermissionBL.cs" />
     <Compile Include="BL\UserManagementBL.cs" />
+    <Compile Include="BL\VIDSEventBL.cs" />
+    <Compile Include="BL\VIDSReviewedEventBL.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
+    <Compile Include="DL\DataFilterDL.cs" />
+    <Compile Include="DL\EquipmentConfigDL.cs" />
+    <Compile Include="DL\EventsTypeDL.cs" />
+    <Compile Include="DL\IncidentActionHistoryDL.cs" />
+    <Compile Include="DL\IncidentCategoryDL.cs" />
     <Compile Include="DL\IncidentDetailsDL.cs" />
     <Compile Include="DL\IncidentSourceDL.cs" />
     <Compile Include="DL\IncidentStatusDL.cs" />
@@ -125,12 +137,19 @@
     <Compile Include="DL\RoleManagementDL.cs" />
     <Compile Include="DL\RolePermissionDL.cs" />
     <Compile Include="DL\UserManagementDL.cs" />
+    <Compile Include="DL\VIDSEventDL.cs" />
+    <Compile Include="DL\VIDSReviewedEventDL.cs" />
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
     <Compile Include="IL\ControlRoomIL.cs" />
+    <Compile Include="IL\DataFilterIL.cs" />
+    <Compile Include="IL\EquipmentConfigIL.cs" />
     <Compile Include="IL\EquipmentDetailsIL.cs" />
     <Compile Include="IL\EquipmentTypeIL.cs" />
+    <Compile Include="IL\EventsTypeIL.cs" />
+    <Compile Include="IL\IncidentActionHistoryIL.cs" />
+    <Compile Include="IL\IncidentCategoryIL.cs" />
     <Compile Include="IL\IncidentDetailsIL.cs" />
     <Compile Include="IL\IncidentSourceIL.cs" />
     <Compile Include="IL\IncidentStatusIL.cs" />
@@ -143,6 +162,9 @@
     <Compile Include="IL\SystemIL.cs" />
     <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
+    <Compile Include="IL\VIDSChallanEventIL.cs" />
+    <Compile Include="IL\VIDSEventIL.cs" />
+    <Compile Include="IL\VIDSReviewedEventIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConfigurations\DataBaseConfig.cs" />
     <Compile Include="SystemLogger\LogMaster.cs" />

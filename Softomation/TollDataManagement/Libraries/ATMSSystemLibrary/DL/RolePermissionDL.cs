@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Text;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
@@ -58,20 +59,21 @@ namespace Softomation.ATMSSystemLibrary.DL
         }
 
         #region Get Methods
-        internal static RolePermissionIL GetByMenuId(RolePermissionIL rolePermission)
+        internal static RolePermissionIL GetByMenu(RolePermissionIL rolePermission)
         {
             DataTable dt = new DataTable();
             RolePermissionIL role = new RolePermissionIL();
             try
             {
-                string spName = "USP_RolesPersmissionGetByMenuId";
+                string spName = "USP_RolesPersmissionGetByMenu";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MenuId", DbType.Int32, rolePermission.MenuId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MenuURL", DbType.String, rolePermission.MenuUrl, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, rolePermission.SystemId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, rolePermission.RoleId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     role = CreateObjectFromDataRow(dr);
-
+              
             }
             catch (Exception ex)
             {
@@ -94,6 +96,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     rolePermissions.Add(CreateObjectFromDataRow(dr));
+                rolePermissions = UpdateChildCount(rolePermissions);
 
             }
             catch (Exception ex)
@@ -103,14 +106,44 @@ namespace Softomation.ATMSSystemLibrary.DL
             return rolePermissions;
         }
         #endregion
-        
+
         #region Helper Methods
+        private static List<RolePermissionIL> UpdateChildCount(List<RolePermissionIL> menus)
+        {
+            try
+            {
+                List<RolePermissionIL> UpdatedMenu = new List<RolePermissionIL>();
+                if (menus.Count > 0)
+                {
+                    List<RolePermissionIL> filtered = menus.FindAll(e => e.ParentId == 0);
+
+                    foreach (RolePermissionIL item in filtered)
+                    {
+                        List<RolePermissionIL> Subfiltered = menus.FindAll(e => e.ParentId == item.MenuId);
+                        if (Subfiltered.Count > 0)
+                        {
+                            UpdatedMenu = menus.Where(w => w.MenuId == item.MenuId).Select(s => { s.ChildCount = Convert.ToInt16(Subfiltered.Count); return s; }).ToList();
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+            return menus;
+        }
         private static RolePermissionIL CreateObjectFromDataRow(DataRow dr)
         {
             RolePermissionIL permission = new RolePermissionIL();
 
             if (dr["MenuId"] != DBNull.Value)
                 permission.MenuId = Convert.ToInt32(dr["MenuId"]);
+
+            if (dr["ParentId"] != DBNull.Value)
+                permission.ParentId = Convert.ToInt32(dr["ParentId"]);
 
             if (dr["MenuName"] != DBNull.Value)
                 permission.MenuName = Convert.ToString(dr["MenuName"]);

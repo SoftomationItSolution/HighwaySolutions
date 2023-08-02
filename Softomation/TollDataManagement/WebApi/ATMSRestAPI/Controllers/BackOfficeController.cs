@@ -1,14 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using ATMSRestAPI.Models;
+using System.Web.Mvc;
 using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.BL;
 using Softomation.ATMSSystemLibrary.IL;
 using Softomation.ATMSSystemLibrary.SystemLogger;
+using static Softomation.ATMSSystemLibrary.Constants;
+using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
+using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
+using RouteAttribute = System.Web.Http.RouteAttribute;
 
 namespace ATMSRestAPI.Controllers
 {
@@ -24,7 +31,7 @@ namespace ATMSRestAPI.Controllers
         {
             LogMaster.Write(message, Constants.ErrorLogModule.BackOfficeAPI);
         }
-      
+
         #region Login
         [Route(Provider + "/" + APIPath + "/ValidateUser")]
         [AllowAnonymous]
@@ -251,6 +258,26 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/SystemGetByName")]
+        [HttpGet]
+        public HttpResponseMessage SystemGetByName(string SystemName)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemBL.GetByName(SystemName);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemGetByName : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         #endregion
 
         #region Role Management
@@ -352,15 +379,15 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/RolePermissionGetByEventId")]
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByMenu")]
         [HttpPost]
-        public HttpResponseMessage RolePermissionGetByEventId(RolePermissionIL role)
+        public HttpResponseMessage RolePermissionGetByMenu(RolePermissionIL role)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = RolePermissionBL.GetByMenuId(role);
+                response.ResponseData = RolePermissionBL.GetByMenu(role);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -430,8 +457,6 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-
-        
 
         [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
         [HttpPost]
@@ -539,6 +564,46 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetByUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetByUserType(short UserTypeId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetByUserType(UserTypeId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetByUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetBySystemUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetBySystemUserType(short UserTypeId, short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetBySystemUserType(UserTypeId, SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetBySystemUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Control Room
@@ -621,7 +686,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region Package Room
+        #region Package
         [Route(Provider + "/" + APIPath + "/PackageGetAll")]
         [HttpGet]
         public HttpResponseMessage PackageGetAll()
@@ -801,6 +866,51 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage EquipmentDetailsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE 1=1 ";
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.SystemFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.SystemId IN (" + data.SystemFilterList + ") ";
+                }
+                if (data.EquipmentTypeFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.EquipmentTypeId IN (" + data.EquipmentTypeFilterList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetActive")]
         [HttpGet]
         public HttpResponseMessage EquipmentDetailsGetActive()
@@ -835,6 +945,26 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in EquipmentDetailsGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentDetailsGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetBySystemId : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -880,6 +1010,46 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region Equipment Config
+        [Route(Provider + "/" + APIPath + "/EquipmentConfigGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentConfigGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentConfigBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentConfigGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/EquipmentConfigSetup")]
+        [HttpPost]
+        public HttpResponseMessage EquipmentConfigSetup(List<EquipmentConfigIL> config)
+        {
+            try
+            {
+                response.Message = EquipmentConfigBL.SetUp(config);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentConfigSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region IMS
         [Route(Provider + "/" + APIPath + "/IncidentSourceGetActive")]
         [HttpGet]
@@ -901,21 +1071,60 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-
-        [Route(Provider + "/" + APIPath + "/IMSGetUnAssigned")]
+        [Route(Provider + "/" + APIPath + "/IncidentCategoryGetActive")]
         [HttpGet]
-        public HttpResponseMessage IMSGetUnAssigned()
+        public HttpResponseMessage IncidentCategoryGetActive()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetUnAssigned();
+                response.ResponseData = IncidentCategoryBL.GetActive();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in IMSGetUnAssigned : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in IncidentCategoryGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IncidentStatusGetActive")]
+        [HttpGet]
+        public HttpResponseMessage IncidentStatusGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentStatusBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IncidentStatusGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetInProgress")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetInProgress(short hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetInProgress(hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetInProgress : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -924,13 +1133,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/IMSGetPending")]
         [HttpGet]
-        public HttpResponseMessage IMSGetPending()
+        public HttpResponseMessage IMSGetPending(short hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetPending();
+                response.ResponseData = IncidentDetailsBL.GetPending(hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -944,13 +1153,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/IMSGetClosed")]
         [HttpGet]
-        public HttpResponseMessage IMSGetClosed()
+        public HttpResponseMessage IMSGetClosed(short hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = IncidentDetailsBL.GetClosed();
+                response.ResponseData = IncidentDetailsBL.GetClosed(hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -962,12 +1171,41 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+
+        [Route(Provider + "/" + APIPath + "/IMSGetById")]
+        [HttpGet]
+        public HttpResponseMessage IMSGetById(String IncidentId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetById(IncidentId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
         [Route(Provider + "/" + APIPath + "/IMSInsert")]
         [HttpPost]
         public HttpResponseMessage IMSInsert(IncidentDetailsIL ims)
         {
             try
             {
+                if (!string.IsNullOrEmpty(ims.IncidentImagePath))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                    FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                }
                 response.Message = IncidentDetailsBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
@@ -979,1206 +1217,400 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/IMSUpdate")]
+        [HttpPost]
+        public HttpResponseMessage IMSUpdate(IncidentDetailsIL ims)
+        {
+            try
+            {
+                IncidentDetailsIL lastData = IncidentDetailsBL.GetById(ims.IncidentId);
+                if (lastData.IncidentImagePath != ims.IncidentImagePath)
+                {
+                    if (!string.IsNullOrEmpty(ims.IncidentImagePath))
+                    {
+                        string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                        String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
+                        FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                        ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                        if (File.Exists(currentPath + lastData.IncidentImagePath))
+                            File.Delete(currentPath + lastData.IncidentImagePath);
+                    }
+                    else
+                        ims.IncidentImagePath = lastData.IncidentImagePath;
+                }
+                else
+                    ims.IncidentImagePath = lastData.IncidentImagePath;
+                response.Message = IncidentDetailsBL.Update(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSActionHistoryInsert")]
+        [HttpPost]
+        public HttpResponseMessage IMSActionHistoryInsert(IncidentActionHistoryIL ims)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(ims.ActionImagePath))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\" + ims.IncidentId + "\\";
+                    FilePath = Constants.SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    ims.ActionImagePath = FilePath.Replace(currentPath, "");
+                }
+                response.Message = IncidentActionHistoryBL.Insert(ims);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSActionHistoryInsert : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/IMSGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage IMSGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE ID.CreatedDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND ID.CreatedDate<= CONVERT(DATETIME,'" + data.EndDateTime + "') AND ID.IncidentStatusId IN (" + data.IncidentStatusList + ")";
+
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PriorityFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.PriorityId IN (" + data.PriorityFilterList + ") ";
+                }
+                if (data.IncidentFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ID.IncidentCategoryId IN (" + data.IncidentFilterList + ") ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = IncidentDetailsBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in IMSGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
-        //#region Category Master
-        //[Route(Provider + "/Transit360-ATMS/CategoryMasterGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage CategoryMasterGetAll()
-        //{
-        //    try
-        //    {
-        //        List<CategoryMasterIL> categoriesMaster = CategoryMasterBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = categoriesMaster;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in CategoryMasterGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        #region Events Type
+        [Route(Provider + "/" + APIPath + "/EventsTypeSetup")]
+        [HttpPost]
+        public HttpResponseMessage EventsTypeSetup(List<EventsTypeIL> setup)
+        {
+            try
+            {
+                response.Message = EventsTypeBL.SetUp(setup);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EventsTypeSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/CategoryMasterGetActive")]
-        //[HttpGet]
-        //public HttpResponseMessage CategoryMasterGetActive()
-        //{
-        //    try
-        //    {
-        //        List<CategoryMasterIL> categoriesMaster = CategoryMasterBL.GetAllActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = categoriesMaster;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in CategoryMasterGetActive : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/EventsTypeGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage EventsTypeGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EventsTypeBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EventsTypeGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
 
-        //[Route(Provider + "/Transit360-ATMS/CategoryMasterGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage CategoryMasterGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        CategoryMasterIL categoryMaster = CategoryMasterBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = categoryMaster;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in CategoryMasterGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
+        #region Chalan Type
+        [Route(Provider + "/" + APIPath + "/ChalanTypeGetAll")]
+        [HttpGet]
+        public HttpResponseMessage ChalanTypeGetAll()
+        {
+            try
+            {
+                var typeList = new List<MasterData>();
+                foreach (int i in Enum.GetValues(typeof(ChallanType)))
+                {
+                    MasterData t = new MasterData();
+                    t.DataId = i;
+                    t.DataName = SplitCamelCase(Enum.GetName(typeof(ChallanType), (ChallanType)i));
+                    typeList.Add(t);
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = typeList;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ChalanTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
 
-        //#region System Font Master
-        //[Route(Provider + "/Transit360-ATMS/SystemFont")]
-        //[HttpGet]
-        //public HttpResponseMessage SystemFont()
-        //{
-        //    try
-        //    {
-        //        InstalledFontCollection fontList = new InstalledFontCollection();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = fontList;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in SystemFont : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
+        #region Data Filter Master
+        [Route(Provider + "/" + APIPath + "/FilterMasterGetBySystemId")]
+        [HttpGet]
+        public HttpResponseMessage FilterMasterGetBySystemId(short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DataFilterBL.GetBySystemId(SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FilterMasterGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
 
-        //#region Device Type Master
-        //[Route(Provider + "/Transit360-ATMS/DeviceTypeGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage DeviceTypeGetAll()
-        //{
-        //    try
-        //    {
-        //        List<DeviceTypeIL> deviceTypes = DeviceTypeBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = deviceTypes;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DeviceTypeGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        #region VIDS Events
 
-        //[Route(Provider + "/Transit360-ATMS/DeviceTypeGetActive")]
-        //[HttpGet]
-        //public HttpResponseMessage DeviceTypeGetActive()
-        //{
-        //    try
-        //    {
-        //        List<DeviceTypeIL> deviceTypes = DeviceTypeBL.GetAllActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = deviceTypes;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DeviceTypeGetActive : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VIDSEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/DeviceTypeGetByCatId")]
-        //[HttpGet]
-        //public HttpResponseMessage DeviceTypeGetByCatId(Int16 CategoryId)
-        //{
-        //    try
-        //    {
-        //        List<DeviceTypeIL> deviceTypes = DeviceTypeBL.GetAllActiveByCatId(CategoryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = deviceTypes;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DeviceTypeGetByCatId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VIDSEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VIDSEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.EventFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
+                }
 
-        //[Route(Provider + "/Transit360-ATMS/DeviceTypeGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage DeviceTypeGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        DeviceTypeIL deviceType = DeviceTypeBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = deviceType;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DeviceTypeGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #region un audited
+        [Route(Provider + "/" + APIPath + "/VIDSPendingReviewGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSPendingReviewGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSEventBL.GetPendingReviewByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSPendingReviewGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //#region Devices Master
-        //[Route(Provider + "/Transit360-ATMS/DefaultCoordinates")]
-        //[HttpGet]
-        //public HttpResponseMessage DefaultCoordinates(Int16 ControlRoomId)
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetAllCoordinates(ControlRoomId);
-        //        DevicesMasterIL Coordinates = Constants.GetCentralGeoCoordinate(devicesMasters);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = Coordinates;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DefaultCoordinates : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetAll()
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VIDSEventReviewUpdate")]
+        [HttpPost]
+        public HttpResponseMessage VIDSEventReviewUpdate(VIDSReviewedEventIL data)
+        {
+            try
+            {
+                response.Message = VIDSReviewedEventBL.ReviewUpdate(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSEventReviewUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
 
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetAllActive")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetAllActive()
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetAllActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetAllActive : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        #region audited
+        [Route(Provider + "/" + APIPath + "/VIDSReviewedEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VIDSReviewedEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSReviewedEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSReviewedEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetByControlRoom")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetByControlRoom(Int16 ControlRoomId)
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetByControlRoom(ControlRoomId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetByControlRoom : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VIDSReviewedEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VIDSReviewedEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.EventFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (H.EventTypeId IN (" + data.EventFilterList + ") OR H.ReviewedEventTypeId IN (" + data.EventFilterList + ")) ";
+                }
+                if (data.ReviewedFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
+                }
 
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetByControlRoomActive")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetByControlRoomActive(Int16 ControlRoomId)
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetByControlRoomActive(ControlRoomId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetByControlRoomActive : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VIDSReviewedEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VIDSReviewedEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+        #endregion
 
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        DevicesMasterIL devicesMaster = DevicesMasterBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMaster;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterGetByType")]
-        //[HttpGet]
-        //public HttpResponseMessage DevicesMasterGetByType(Int16 DeviceTypeId)
-        //{
-        //    try
-        //    {
-        //        List<DevicesMasterIL> devicesMasters = DevicesMasterBL.GetByType(DeviceTypeId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = devicesMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterGetByType : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-
-        //[Route(Provider + "/Transit360-ATMS/DevicesMasterInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage DevicesMasterInsertUpdate(DevicesMasterIL devicesMaster)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = DevicesMasterBL.InsertUpdate(devicesMaster);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in DevicesMasterInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GetByConnectionType")]
-        //[HttpGet]
-        //public HttpResponseMessage GetByConnectionType()
-        //{
-        //    try
-        //    {
-        //        List<ConnectionTypeIL> hardwaries = ConnectionTypeBL.GetActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = hardwaries;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GetByConnectionType : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Gantry Master
-        //[Route(Provider + "/Transit360-ATMS/GantryGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage GantryGetAll()
-        //{
-        //    try
-        //    {
-        //        List<GantryManagementIL> gantries = GantryManagementBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = gantries;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryGetAllActive")]
-        //[HttpGet]
-        //public HttpResponseMessage GantryGetAllActive()
-        //{
-        //    try
-        //    {
-        //        List<GantryManagementIL> gantries = GantryManagementBL.GetAllActive();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = gantries;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryGetAllActive : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage GantryGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        GantryManagementIL gantry = GantryManagementBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = gantry;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage GantryInsertUpdate(GantryManagementIL gantry)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = GantryManagementBL.InsertUpdate(gantry);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Gantry Mapping Management
-        //[Route(Provider + "/Transit360-ATMS/GantryMappingSetUp")]
-        //[HttpPost]
-        //public HttpResponseMessage GantryMappingSetUp(GantryMappingIL gantry)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = GantryMappingBL.InsertUpdate(gantry);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryMappingSetUp : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryMappingValidateSetUp")]
-        //[HttpPost]
-        //public HttpResponseMessage GantryMappingValidateSetUp(GantryMappingIL gantry)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = GantryMappingBL.ValidateInsertUpdate(gantry);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryMappingValidateSetUp : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryMappingGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage GantryMappingGetAll()
-        //{
-        //    try
-        //    {
-        //        List<GantryMappingIL> gantries = GantryMappingBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = gantries;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryMappingGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/GantryMappingGetByGantryId")]
-        //[HttpGet]
-        //public HttpResponseMessage GantryMappingGetByGantryId(Int16 GantryId)
-        //{
-        //    try
-        //    {
-        //        List<GantryMappingIL> gantries = GantryMappingBL.GetByGantryId(GantryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = gantries;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in GantryMappingGetByGantryId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Lane Management
-        //[Route(Provider + "/Transit360-ATMS/LaneConfigurationSetUp")]
-        //[HttpPost]
-        //public HttpResponseMessage LaneConfigurationSetUp(LaneConfigurationIL lane)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = LaneConfigurationBL.InsertUpdate(lane);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in LaneConfigurationSetUp : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/LaneConfigurationGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage LaneConfigurationGetAll()
-        //{
-        //    try
-        //    {
-        //        List<LaneConfigurationIL> lanes = LaneConfigurationBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = lanes;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in LaneConfigurationGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/LaneConfigurationGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage LaneConfigurationGetById(int LaneId)
-        //{
-        //    try
-        //    {
-        //        LaneConfigurationIL lane = LaneConfigurationBL.GetById(LaneId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = lane;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in LaneConfigurationGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/LaneConfigurationActiveGetByGantryId")]
-        //[HttpGet]
-        //public HttpResponseMessage LaneConfigurationActiveGetByGantryId(int GantryId)
-        //{
-        //    try
-        //    {
-        //        List<LaneConfigurationIL> lane = LaneConfigurationBL.GetByGantryIdActive(GantryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = lane;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in LaneConfigurationActiveGetByGantryId : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Vehicle Class
-        //[Route(Provider + "/Transit360-ATMS/VehicleClassGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage VehicleClassGetAll()
-        //{
-        //    try
-        //    {
-        //        List<VehicleClassificationIL> vc = VehicleClassificationBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vc;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VehicleClassGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/VehicleClassGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage VehicleClassGetById(Int16 EntryId)
-        //{
-        //    try
-        //    {
-        //        VehicleClassificationIL vc = VehicleClassificationBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vc;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VehicleClassGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/VehicleClassInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage VehicleClassInsertUpdate(VehicleClassificationIL vc)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = VehicleClassificationBL.InsertUpdate(vc);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VehicleClassInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Incident Master Master
-        //[Route(Provider + "/Transit360-ATMS/IncidentMasterGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage IncidentMasterGetAll()
-        //{
-        //    try
-        //    {
-        //        List<IncidentIL> incidentMasters = IncidentMasterBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = incidentMasters;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in IncidentMasterGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/IncidentMasterGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage IncidentMasterGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        IncidentIL incidentMaster = IncidentMasterBL.GetById(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = incidentMaster;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in IncidentMasterGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/IncidentMasterInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage IncidentMasterInsertUpdate(IncidentIL IncidentMaster)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = IncidentMasterBL.InsertUpdate(IncidentMaster);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in IncidentMasterInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Field Equipment
-        //#region VMS Configuration
-        //[Route(Provider + "/Transit360-ATMS/VMSInsertUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage VMSInsertUpdate(VMSMessagingIL vms)
-        //{
-        //    try
-        //    {
-        //        if (vms.MessageFormatId == (short)Constants.VmsMessageFormat.Image)
-        //        {
-        //            var FileName = Constants.RandomString(5) + "-" + DateTime.Now.ToString(Constants.dateTimeFormatFileName);
-        //            ResponceMessage objImageRear = CommonMethods.SaveImage(vms.MessageBody, "/image/", "VMS", FileName, ".jpeg");
-        //            if (objImageRear.AlertMessage == "Invalid")
-        //            {
-        //                ResponceMessage objMessage = new ResponceMessage();
-        //                objMessage.AlertMessage = "Invalid image.";
-        //                responceMessae.Add(objMessage);
-        //            }
-        //            else
-        //            {
-        //                vms.MessageBody = objImageRear.AlertMessage.Replace("\\", "/");
-        //            }
-        //        }
-        //        if (responceMessae.Count == 0)
-        //        {
-        //            List<ResponceIL> resp = VMSMessagingBL.InsertUpdate(vms);
-        //            foreach (var ResponceIL in resp)
-        //            {
-        //                ResponceMessage objMessage = new ResponceMessage();
-        //                objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //                responceMessae.Add(objMessage);
-        //            }
-        //            responce.Message = responceMessae;
-        //            return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //        }
-        //        else
-        //        {
-        //            return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //        }
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VMSInsertUpdate : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/VMSGetAll")]
-        //[HttpGet]
-        //public HttpResponseMessage VMSGetAll()
-        //{
-        //    try
-        //    {
-        //        List<VMSMessagingIL> vmsData = VMSMessagingBL.GetAll();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vmsData;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VMSGetAll : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/VMSGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage VMSGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        VMSMessagingIL vms = VMSMessagingBL.GetbyId(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vms;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VMSGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region MET Configuration
-        //[Route(Provider + "/Transit360-ATMS/METConfiguration")]
-        //[HttpPost]
-        //public HttpResponseMessage METConfiguration(METConfigurationIL met)
-        //{
-        //    try
-        //    {
-        //        List<ResponceIL> resp = METConfigurationBL.InsertUpdate(met);
-        //        foreach (var ResponceIL in resp)
-        //        {
-        //            ResponceMessage objMessage = new ResponceMessage();
-        //            objMessage.AlertMessage = ResponceIL.AlertMessage;
-        //            responceMessae.Add(objMessage);
-        //        }
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in METConfiguration : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/METConfigurationGet")]
-        //[HttpGet]
-        //public HttpResponseMessage METConfigurationGet()
-        //{
-        //    try
-        //    {
-        //        METConfigurationIL met = METConfigurationBL.GetConfiguration();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = met;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in METConfigurationGet : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //[Route(Provider + "/Transit360-ATMS/METGetLatest")]
-        //[HttpGet]
-        //public HttpResponseMessage METGetLatest()
-        //{
-        //    try
-        //    {
-        //        List<METEventsIL> metEvents = METEventsBL.GetLatest();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = metEvents;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in METGetLatest : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region ATCC Configuration
-        //[Route(Provider + "/Transit360-ATMS/ATCCGetLatest")]
-        //[HttpGet]
-        //public HttpResponseMessage ATCCGetLatest()
-        //{
-        //    try
-        //    {
-        //        List<ATCCEventsIL> atccEvents = ATCCEventsBL.GetLatest();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = atccEvents;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ATCCGetLatest : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region ECB Configuration
-
-        //[Route(Provider + "/Transit360-ATMS/ECBCallGetLatest")]
-        //[HttpGet]
-        //public HttpResponseMessage ECBCallGetLatest()
-        //{
-        //    try
-        //    {
-        //        List<ECBCallEventsIL> metEvents = ECBCallEventsBL.GetLatest();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = metEvents;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in ECBCallGetLatest : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-        //#endregion
-
-        //#region Vids Configuration
-        //[Route(Provider + "/Transit360-ATMS/VidsGetLatest")]
-        //[HttpGet]
-        //public HttpResponseMessage VidsGetLatest()
-        //{
-        //    try
-        //    {
-        //        List<VidsIL> vidsData = VidsBL.GetLatest();
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vidsData;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VidsGetLatest : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //[Route(Provider + "/Transit360-ATMS/VidsGetById")]
-        //[HttpGet]
-        //public HttpResponseMessage VidsGetById(int EntryId)
-        //{
-        //    try
-        //    {
-        //        VidsIL vids = VidsBL.GetbyId(EntryId);
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = "success";
-        //        responceMessae.Add(objMessage);
-        //        responce.ResponceData = vids;
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.OK, responce);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VidsGetById : " + ex.Message.ToString());
-        //        ResponceMessage objMessage = new ResponceMessage();
-        //        objMessage.AlertMessage = ex.Message.ToString();
-        //        responceMessae.Add(objMessage);
-        //        responce.Message = responceMessae;
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, responce);
-        //    }
-        //}
-
-        //#endregion
-
-        //#endregion
     }
 }

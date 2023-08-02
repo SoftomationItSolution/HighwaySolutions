@@ -33,11 +33,13 @@ export class PackagesDetailsComponent implements OnInit {
   
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 7,
+      MenuUrl: MenuUrl,
+      SystemId:0,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;
@@ -77,8 +79,8 @@ export class PackagesDetailsComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Save', PackageId: 0 };
       this.dialog.open(PackagesPopupComponent, dialogConfig);
     }
@@ -93,8 +95,8 @@ export class PackagesDetailsComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Update', PackageId: data.PackageId };
       this.dialog.open(PackagesPopupComponent, dialogConfig);
     }

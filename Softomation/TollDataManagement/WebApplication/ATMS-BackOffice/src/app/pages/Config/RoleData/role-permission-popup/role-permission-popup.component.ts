@@ -149,6 +149,11 @@ export class RolePermissionPopupComponent implements OnInit {
     );
   }
 
+  exCol(event:any,rowData:any){
+    event.target.parentNode.parentNode.querySelector(".nested").classList.toggle("nested-active")
+    event.target.classList.toggle("parentNode-down")
+  }
+
   ClosePoup() { this.Dialogref.close(); }
 
 }

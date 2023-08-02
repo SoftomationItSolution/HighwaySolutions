@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { ControlRoomPopupComponent } from '../control-room-popup/control-room-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
@@ -31,14 +30,15 @@ export class ControlRoomConfigurationComponent implements OnInit {
   ngOnInit(): void {
   }
   
-
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 3,
+      MenuUrl: MenuUrl,
+      SystemId:0,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;
@@ -78,8 +78,8 @@ export class ControlRoomConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }
@@ -94,8 +94,8 @@ export class ControlRoomConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
       this.dialog.open(ControlRoomPopupComponent, dialogConfig);
     }

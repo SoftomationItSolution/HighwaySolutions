@@ -28,14 +28,16 @@ export class RoleConfigurationComponent implements OnInit {
     this.GetPermissionData();
 
   }
-
+  
   GetPermissionData() {
     this.spinner.show();
+    var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
-      MenuId: 9,
+      MenuUrl: MenuUrl,
+      SystemId:0,
       RoleId: this.LogedRoleId
     };
-    this.dbService.RolePermissionGetByEventId(Obj).subscribe(
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
         this.spinner.hide();
         this.PermissionData = data.ResponseData;
@@ -81,8 +83,8 @@ export class RoleConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Save', RoleId: 0 };
       this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
     }
@@ -96,8 +98,8 @@ export class RoleConfigurationComponent implements OnInit {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.width = '50%';
+      dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId };
       this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
     }
@@ -113,7 +115,7 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
+      dialogConfig.height = '484px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
       this.dialog.open(RolePermissionPopupComponent, dialogConfig);
     }

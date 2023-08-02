@@ -42,10 +42,8 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
         public static List<UserManagementIL> GetActive()
         {
@@ -86,6 +84,29 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
-       
+
+        public static List<UserManagementIL> GetByUserType(short UserTypeId)
+        {
+            try
+            {
+                return UserManagementDL.GetByUserType(UserTypeId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<UserManagementIL> GetBySystemUserType(short UserTypeId, short SystemId)
+        {
+            try
+            {
+                return UserManagementDL.GetBySystemUserType(UserTypeId, SystemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
     }
 }

@@ -59,5 +59,29 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
+
+        public static List<EquipmentDetailsIL> GetBySystemId(Int16 SystemId)
+        {
+            try
+            {
+                return EquipmentDetailsDL.GetBySystemId(SystemId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<EquipmentDetailsIL> GetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return EquipmentDetailsDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

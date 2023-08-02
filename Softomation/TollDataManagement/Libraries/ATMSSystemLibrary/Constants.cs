@@ -2,9 +2,11 @@
 using System.Data;
 using System.Data.SqlClient;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.IdentityModel.Tokens;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
@@ -84,6 +86,56 @@ namespace Softomation.ATMSSystemLibrary
         #endregion
 
         #region Enum
+        public enum VIDSEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+            MainCarriageway = 3,
+            ParkingSpot = 4
+        }
+        public enum ATCCEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+        }
+        public enum VMSEquipmentPositionType
+        {
+            Entry = 1,
+            Exit = 2,
+        }
+        public enum VSDSEquipmentPositionType
+        {
+            Lane_0 = 0,
+            Lane_1 = 1,
+            Lane_2 = 2,
+            Lane_3 = 3,
+            Lane_4 = 4,
+            Lane_5 = 5,
+            Lane_6 = 6,
+            Lane_7 = 7,
+            Lane_8 = 8
+        }
+
+        public enum SystemMasterType
+        {
+            ADAS = 1,
+            ATCC = 2,
+            ECS = 3,
+            FMS = 4,
+            TMCS = 5,
+            VIDS = 6,
+            VMS = 7,
+            VSDS = 8,
+            Weather = 9,
+            IMS = 10,
+            Config = 11,
+            TTMS = 12,
+            RMS = 13,
+            NMS = 14,
+            Challan = 15,
+            CRS = 16,
+            MRCS = 17
+        }
         public enum PriorityType
         {
             Critical = 1,
@@ -156,6 +208,17 @@ namespace Softomation.ATMSSystemLibrary
             NetworkInfrastructure = 3,
             PowerEquipment = 4,
             OtherAssets = 5
+        }
+
+        public enum ChallanType
+        {
+            None = 0,
+            OverSpeed = 1,
+            SectionOverSpeed = 2,
+            WrongLane = 3,
+            LaneOverspeed = 4,
+            WrongwayParking = 5,
+            WrongwayDriving = 6
         }
         public enum EquipmentConnectionType
         {
@@ -234,33 +297,6 @@ namespace Softomation.ATMSSystemLibrary
         };
 
 
-        #endregion
-
-        #region SMS Response Code
-        public enum SMSSentStatus
-        {
-            Unsent = 1,
-            Sent,
-            Ignored
-        };
-        #region wavecell SMS Masking
-        public enum SMSMaskingAPIResponce
-        {
-            QUEUED = 1,
-            REJECTED = 2,
-        }
-        public enum WaveCellResponceCode
-        {
-            RECEIVED = 10,
-            PROCESSED = 20,
-            REJECTED_BY_WAVECELL = 21,
-            DELIVERED_TO_CARRIER = 30,
-            REJECTED_BY_CARRIER = 31,
-            DELIVERED_TO_DEVICE = 40,
-            REJECTED_BY_DEVICE = 41,
-            READ = 50
-        }
-        #endregion
         #endregion
 
         #region Data 
@@ -386,724 +422,59 @@ namespace Softomation.ATMSSystemLibrary
             }
         }
 
-        //public static DevicesMasterIL GetCentralGeoCoordinate(List<DevicesMasterIL> geoCoordinates)
-        //{
-        //    DevicesMasterIL data = new DevicesMasterIL();
-        //    if (geoCoordinates.Count == 1)
-        //    {
-        //        data.Latitude = geoCoordinates[0].Latitude.ToString();
-        //        data.Longitude = geoCoordinates[0].Longitude.ToString();
-        //        return data;
-        //    }
-
-        //    double x = 0;
-        //    double y = 0;
-        //    double z = 0;
-
-        //    foreach (var geoCoordinate in geoCoordinates)
-        //    {
-        //        var latitude = Convert.ToDouble(geoCoordinate.Latitude) * Math.PI / 180;
-        //        var longitude = Convert.ToDouble(geoCoordinate.Longitude) * Math.PI / 180;
-
-        //        x += Math.Cos(latitude) * Math.Cos(longitude);
-        //        y += Math.Cos(latitude) * Math.Sin(longitude);
-        //        z += Math.Sin(latitude);
-        //    }
-
-        //    var total = geoCoordinates.Count;
-
-        //    x = x / total;
-        //    y = y / total;
-        //    z = z / total;
-
-        //    var centralLongitude = Math.Atan2(y, x);
-        //    var centralSquareRoot = Math.Sqrt(x * x + y * y);
-        //    var centralLatitude = Math.Atan2(z, centralSquareRoot);
-
-
-        //    data.Latitude = (centralLatitude * 180 / Math.PI).ToString();
-        //    data.Longitude = (centralLongitude * 180 / Math.PI).ToString();
-
-        //    return data;//new GeoCoordinate(centralLatitude * 180 / Math.PI, centralLongitude * 180 / Math.PI);
-        //}
-        //public static string MediaPath(short PlazaId, short LaneNumber, DateTime TransactionTimeStamp)
-        //{
-        //    return "P" + PlazaId.ToString() + "/" + "L" + LaneNumber.ToString() + "/" + TransactionTimeStamp.ToString("ddMMMyyyy");
-        //}
-
-        //public static string ParseJsonForResponce(string JsonResponce)
-        //{
-        //    JsonResponce = JsonResponce.Replace(",\"ResponceMessage\":\"success\"", "");
-        //    JsonResponce = JsonResponce.Replace("{\"ResponceData\":", "");
-        //    return JsonResponce = JsonResponce.TrimEnd('}');
-        //}
-
-        //public static string ParseJsonForResponceObject(string JsonResponce)
-        //{
-        //    JsonResponce = JsonResponce.Replace(",\"ResponceMessage\":\"success\"", "");
-        //    JsonResponce = JsonResponce.Replace("{\"ResponceData\":", "");
-        //    JsonResponce = JsonResponce.TrimEnd('}');
-        //    return JsonResponce = JsonResponce + "}";
-        //}
-        //public static string ImagetoBase64(string FilePath)
-        //{
-        //    try
-        //    {
-        //        using (Image image = Image.FromFile(FilePath))
-        //        {
-        //            using (MemoryStream m = new MemoryStream())
-        //            {
-        //                image.Save(m, image.RawFormat);
-        //                byte[] imageBytes = m.ToArray();
-
-        //                // Convert byte[] to Base64 String
-        //                string base64String = Convert.ToBase64String(imageBytes);
-        //                return base64String;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-        //}
-        //public static string VideotoBase64(string FilePath)
-        //{
-        //    try
-        //    {
-        //        string contentType = "data:video/mp4;base64,";
-        //        using (FileStream fsRead = new FileStream(FilePath, FileMode.Open))
-        //        {
-        //            int fsLen = (int)fsRead.Length;
-        //            byte[] heByte = new byte[fsLen];
-        //            int r = fsRead.Read(heByte, 0, heByte.Length);
-
-        //            string base64Str = Convert.ToBase64String(heByte);
-
-        //            //return contentType + base64Str;
-        //            return base64Str;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        throw ex;
-        //    }
-        //}
-        //public static string RandomString(int length)
-        //{
-        //    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        //    return new string(Enumerable.Repeat(chars, length)
-        //      .Select(s => s[random.Next(s.Length)]).ToArray());
-        //}
-        //public static List<ResponceIL> ConvertResponceList(DataTable dt)
-        //{
-        //    List<ResponceIL> responces = new List<ResponceIL>();
-        //    try
-        //    {
-        //        foreach (DataRow item in dt.Rows)
-        //            responces.Add(ConvertResponceCBE(item));
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return responces;
-        //}
-        //public static ResponceIL ConvertResponceCBE(DataRow row)
-        //{
-        //    ResponceIL responce = new ResponceIL();
-        //    try
-        //    {
-
-        //        if (row["AlertMessage"] != DBNull.Value)
-        //            responce.AlertMessage = Convert.ToString(row["AlertMessage"]);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return responce;
-        //}
-
-        //public static string DecimaltoString(Decimal input)
-        //{
-        //    string result = (Decimal.ToInt32(input)).ToString();
-
-        //    return result;
-        //}
-
-
-        //public static string GetAddress()
-        //{
-        //    StringBuilder sb = new StringBuilder();
-        //    sb.Append("Equity Tower 38th floor Sudirman Central Business District (SCBD)");
-        //    sb.Append("Jl.Jend.Sudirman kav.52 - 53, Lot 9");
-        //    sb.Append("Jakarta 12190, Indonesia");
-        //    sb.Append("P: +62 21 515 0100");
-        //    sb.Append("F: +62 21 515 1221");
-
-        //    return sb.ToString();
-        //}
-        //public static string GetEmailBody()
-        //{
-        //    string body = string.Empty;
-        //    using (StreamReader reader = new StreamReader(projectConfigDirectory + "EmailTemplate.html"))
-        //    {
-        //        body = reader.ReadToEnd();
-        //    }
-        //    body = body.Replace("[ProjectName]", ProjectName);
-        //    body = body.Replace("[Address]", GetAddress());
-        //    return body;
-        //}
-        //public static Boolean PingFunction(string ipAddress)
-        //{
-        //    try
-        //    {
-        //        Ping pingSender = new Ping();
-        //        PingOptions options = new PingOptions();
-
-        //        // Use the default Ttl value which is 128,
-        //        // but change the fragmentation behavior.
-        //        options.DontFragment = true;
-
-        //        // Create a buffer of 32 bytes of data to be transmitted.
-        //        string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        //        byte[] buffer = Encoding.ASCII.GetBytes(data);
-        //        int timeout = 50;
-
-        //        PingReply reply = pingSender.Send(ipAddress, timeout, buffer, options);
-        //        if (reply.Status == IPStatus.Success)
-        //        {
-        //            return true;
-        //        }
-        //        else
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        //public static string IsLetterOrDigit(string input)
-        //{
-        //    string result = "";
-
-        //    foreach (char c in input)
-        //    {
-        //        if (Char.IsLetterOrDigit(c))
-        //        {
-        //            result += c;
-        //        }
-        //    }
-
-        //    return result;
-        //}
-        //public static String RemoveControlCharacter(string input)
-        //{
-        //    string temp = "";
-
-        //    foreach (char c in input)
-        //    {
-        //        if (!char.IsControl(c))
-        //        {
-        //            temp += c;
-        //        }
-        //    }
-
-        //    return temp;
-        //}
-
-
-
-        //public static string GetLocalIPAddress()
-        //{
-        //    var host = Dns.GetHostEntry(Dns.GetHostName());
-        //    foreach (var ip in host.AddressList)
-        //    {
-        //        if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
-        //        {
-        //            if (!ip.ToString().StartsWith("169"))
-        //                return ip.ToString();
-        //        }
-        //    }
-        //    throw new Exception("Local IP Address Not Found!");
-
-        //}
-
-        //public static List<string> GetLocalIPAddressList()
-        //{
-        //    List<string> result = new List<string>();
-        //    var host = Dns.GetHostEntry(Dns.GetHostName());
-        //    result.Add("127.0.0.1");
-        //    foreach (var ip in host.AddressList)
-        //    {
-        //        if (IsValidateIP(ip.ToString()))
-        //        {
-        //            result.Add(ip.ToString());
-        //        }
-
-        //        //if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
-        //        //{
-        //        //    result.Add(ip.ToString());
-        //        //    //if (!ip.ToString().StartsWith("169"))
-        //        //    //    return ip.ToString();
-        //        //}
-        //    }
-        //    return result;
-        //    throw new Exception("Local IP Address Not Found!");
-        //}
-
-        //public static DateTime GetCultureDateTime(string DT)
-        //{
-        //    return Convert.ToDateTime(DT, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat);
-        //}
-
-        //public static String GetCultureDateTimeFormated(string DT)
-        //{
-        //    return (Convert.ToDateTime(DT, System.Globalization.CultureInfo.GetCultureInfo("hi-IN").DateTimeFormat)).ToString("yyyy/MM/dd HH:mm:ss");
-        //}
-        //public static Int16 GetCurrentTMSId(string IPAddress)
-        //{
-        //    Int16 TMS = 1;
-        //    return TMS;
-        //}
-
-
-        //public static int GetCurrentPlazaId()
-        //{
-        //    return 1;
-        //}
-
-        //public static int GetControlRoomId()
-        //{
-        //    return 1;
-        //}
-
-        //public static String GetDevelopedByName()
-        //{
-        //    string result = "Softomation Technologies";
-        //    return result;
-        //}
-
-        //public static String GetCompanyName()
-        //{
-        //    string result = "Softomation Technologies";
-
-
-
-        //    return result;
-
-        //}
-
-        //public static bool IsPingSuccessful(string ipAddress)
-        //{
-        //    bool result = true;
-
-        //    try
-        //    {
-        //        Ping pingSender = new Ping();
-        //        PingOptions options = new PingOptions();
-
-        //        // Use the default Ttl value which is 128,
-        //        // but change the fragmentation behavior.
-        //        options.DontFragment = true;
-
-        //        // Create a buffer of 32 bytes of data to be transmitted.
-        //        string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-        //        byte[] buffer = Encoding.ASCII.GetBytes(data);
-        //        int timeout = 50;
-
-        //        PingReply reply = pingSender.Send(ipAddress, timeout, buffer, options);
-        //        if (reply.Status == IPStatus.Success)
-        //        {
-        //            result = true;
-        //        }
-        //        else
-        //        {
-        //            result = false;
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        result = false;
-        //    }
-
-        //    return result;
-        //}
-
-        //public static bool CheckIPValid(string strIP)
-        //{
-        //    IPAddress result = null;
-        //    return
-        //        !String.IsNullOrEmpty(strIP) &&
-        //        IPAddress.TryParse(strIP, out result);
-        //}
-        //public static bool IsPortOpen(string host, int port, TimeSpan timeout)
-        //{
-        //    try
-        //    {
-        //        using (var client = new System.Net.Sockets.TcpClient())
-        //        {
-        //            var result = client.BeginConnect(host, port, null, null);
-        //            var success = result.AsyncWaitHandle.WaitOne(timeout);
-        //            client.EndConnect(result);
-        //            return success;
-        //        }
-        //    }
-        //    catch (Exception)
-        //    {
-        //        return false;
-        //    }
-        //}
-        //public static int DeleteLogFile()
-        //{
-        //    int count = 0;
-
-        //    try
-        //    {
-        //        //Get all files with full path
-        //        string[] filePaths = Directory.GetFiles(driveLetter + @":\ATMS\log\", "*.*", SearchOption.AllDirectories);
-
-        //        //Iterate thru each file
-        //        foreach (string path in filePaths)
-        //        {
-        //            FileInfo fi = new FileInfo(path);
-
-        //            //Delete file if size is greater than 500 MB it happens some time if there is no connectivity and log file is written in thread loop
-        //            // Delete 20 days older log files
-        //            if (fi.Length >= 524288000 || (DateTime.Now - fi.CreationTime).TotalDays > 20)
-        //            {
-        //                fi.Delete();
-        //                count++;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-
-        //    return count;
-        //}
-
-        //public static string UTCtoDateTimeString(string timestamp)
-        //{
-        //    DateTime dt = DateTime.Now;
-        //    string cTime = "";
-        //    try
-        //    {
-        //        if (!string.IsNullOrEmpty(timestamp))
-        //        {
-        //            double Dtimestamp = Convert.ToDouble(timestamp);
-        //            dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(Math.Round(Dtimestamp / 1000d)).ToLocalTime();
-
-        //            cTime = dt.ToString(Libraries.CommonLibrary.Constants.dateTimeFormat24HWithoutMS);
-
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return cTime;
-        //}
-
-        //public static DateTime UTCtoDateTime(string timestamp)
-        //{
-        //    DateTime dt = DateTime.Now;
-
-        //    try
-        //    {
-        //        if (!string.IsNullOrEmpty(timestamp))
-        //        {
-        //            double Dtimestamp = Convert.ToDouble(timestamp);
-        //            dt = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(Math.Round(Dtimestamp / 1000d)).ToLocalTime();
-        //            dt = Convert.ToDateTime(dt.ToString(Libraries.CommonLibrary.Constants.dateTimeFormat24HWithoutMS));
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return dt;
-        //}
-
-        //public static string ConversionDateTimeString(string timestamp)
-        //{
-        //    try
-        //    {
-        //        return Convert.ToDateTime(timestamp).ToString(Libraries.CommonLibrary.Constants.dateTimeFormat24HWithoutMS);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public static DateTime ConversionDateTime(string timestamp)
-        //{
-        //    try
-        //    {
-        //        return Convert.ToDateTime(Convert.ToDateTime(timestamp).ToString(Libraries.CommonLibrary.Constants.dateTimeFormat24HWithoutMS));
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
-        //public static string GetHashValue(string input)
-        //{
-        //    var hash = new SHA1Managed().ComputeHash(Encoding.UTF8.GetBytes(input));
-        //    return string.Concat(hash.Select(b => b.ToString("x2")));
-        //}
-
-        //public static string SaveByteArrayAsImage(string fullOutputPath, string bytesString, string FileName)
-        //{
-        //    try
-        //    {
-
-        //        if (!string.IsNullOrEmpty(bytesString))
-        //        {
-        //            string base64String = bytesString.Replace("\n", "");
-        //            byte[] imageBytes = Convert.FromBase64String(base64String);
-        //            Image x = (Bitmap)((new ImageConverter()).ConvertFrom(imageBytes));
-        //            FileName = fullOutputPath + "\\" + FileName;
-        //            x.Save(FileName);
-        //        }
-        //        else
-        //        {
-        //            FileName = string.Empty;
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //    return FileName;
-        //}
-
-        //public static string MD5Hash(string input)
-        //{
-        //    StringBuilder hash = new StringBuilder();
-        //    MD5CryptoServiceProvider md5provider = new MD5CryptoServiceProvider();
-        //    byte[] bytes = md5provider.ComputeHash(new UTF8Encoding().GetBytes(input));
-
-        //    for (int i = 0; i < bytes.Length; i++)
-        //    {
-        //        hash.Append(bytes[i].ToString("x2"));
-        //    }
-        //    return hash.ToString();
-        //}
-
-        //public static string Hash(string input)
-        //{
-        //    using (SHA1Managed sha1 = new SHA1Managed())
-        //    {
-        //        var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
-        //        var sb = new StringBuilder(hash.Length * 2);
-
-        //        foreach (byte b in hash)
-        //        {
-        //            // can be "x2" if you want lowercase
-        //            sb.Append(b.ToString("X2"));
-        //        }
-        //        return sb.ToString();
-        //    }
-        //}
-
-        //public static string SubStringSMSResponce(string responce)
-        //{
-        //    int length = responce.Length;
-        //    string result = string.Empty;
-
-        //    if (length > 4)
-        //    {
-        //        string successcode = responce.Substring(0, 4);
-        //        result = successcode;
-        //        string trsnId = responce.Substring(4, length - 4);
-        //        result = successcode + "," + trsnId;
-        //    }
-        //    else
-        //    {
-        //        string successcode = responce.Substring(0, 4);
-        //        result = successcode;
-        //        result = successcode + ",";
-        //    }
-        //    return result;
-        //}
-
-        //public static string ReferenceNumber(Int64 Id, string Initial)
-        //{
-        //    String RefNumber = String.Empty;
-        //    RefNumber = Initial + Id.ToString("00000000");
-        //    return RefNumber;
-        //}
-        //#endregion
-
-        //#region Regex
-
-        //public static bool IsValidateIP(string Address)
-        //{
-        //    //Match pattern for IP address    
-        //    string Pattern = @"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$";
-        //    //Regular Expression object    
-        //    Regex check = new Regex(Pattern);
-
-        //    //check to make sure an ip address was provided    
-        //    if (string.IsNullOrEmpty(Address))
-        //        //returns false if IP is not provided    
-        //        return false;
-        //    else
-        //        //Matching the pattern    
-        //        return check.IsMatch(Address, 0);
-        //}
-
-        ///// <summary>
-        ///// for digits with decimal. 7 digits before decimal & 3digits after decimal.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsDecimalNumber(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^\d{1,7}(\.\d{0,3})?$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// for only digits with length of 4.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsDigit(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^\d{1,4}$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-
-        ///// <summary>
-        ///// for only digits.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsADigit(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^\d{1,10}$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// for alphabets with space.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsAlpha(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^([a-zA-Z\s])*$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// for IP address.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsIP(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^(([01]?\d\d?|2[0-4]\d|25[0-5])\.){3}([01]?\d\d?|25[0-5]|2[0-4]\d)$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// for Email.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsEmail(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^[\w-]+(\.[\w-]+)*@([a-z0-9-]+(\.[a-z0-9-]+)*?\.[a-z]{2,6}|(\d{1,3}\.){3}\d{1,3})(:\d{4})?$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-
-
-        ///// <summary>
-        ///// for CellNo.
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsCellNO(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^([0-9]{10})$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
-
-        ///// <summary>
-        ///// for Special Chararcters
-        ///// </summary>
-        ///// <param name="input"></param>
-        ///// <returns></returns>
-        //public static bool IsSpecialChar(string input)
-        //{
-        //    bool result = false;
-
-        //    if (Regex.Match(input, @"^[a-zA-Z0-9]*$").Success)
-        //    {
-        //        result = true;
-        //    }
-
-        //    return result;
-        //}
+        public static string SaveMediaFiles(string base64, string FilePath, string FileName, string ext)
+        {
+            string preExt = string.Empty;
+            string result = string.Empty;
+            string fileType = string.Empty;
+            if (!string.IsNullOrEmpty(base64))
+            {
+                try
+                {
+                    if (!Directory.Exists(FilePath))
+                    {
+                        Directory.CreateDirectory(FilePath);
+                    }
+                    FilePath = FilePath + FileName + ext;
+                    if (ext != ".html")
+                    {
+                        if (base64.StartsWith("data:"))
+                        {
+                            preExt = base64.Split(',')[0];
+                            preExt = preExt.Split(';')[0];
+                            preExt = preExt.Replace("data:", "");
+                            string[] fileDetails = preExt.Split('/');
+                            preExt = fileDetails[1];
+                            fileType = fileDetails[0];
+                            base64 = base64.Split(',')[1];
+                        }
+                        byte[] bytes = Convert.FromBase64String(base64);
+                        if (!string.IsNullOrEmpty(preExt))
+                            FilePath = FilePath.Replace(ext, "." + preExt);
+                        File.WriteAllBytes(FilePath, bytes);
+                    }
+                    else
+                    {
+                        File.WriteAllText(FilePath, base64);
+                    }
+                    result = FilePath;
+                }
+                catch (Exception ex)
+                {
+
+                    result = "Invalid";
+                    throw ex;
+                }
+            }
+            return result;
+        }
+        public static string SplitCamelCase(string str)
+        {
+            return Regex.Replace(Regex.Replace(str,@"(\P{Ll})(\P{Ll}\p{Ll})","$1 $2"),@"(\p{Ll})(\P{Ll})","$1 $2");
+        }
+        
         #endregion
     }
+
+   
 }

@@ -52,13 +52,13 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/dashboard']);
         } else {
           this.ErrorData = data.Message;
+          this.dataModel.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dataModel.openSnackBar(this.ErrorData, false);
-
       }
     );
   }
