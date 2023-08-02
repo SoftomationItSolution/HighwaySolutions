@@ -140,7 +140,24 @@ GetEventData() {
     }
   );
 }
+GetMasterReportData() {
+  this.dbService.FilterReportGetBySystemId(this.FilterDetailsForm.value.SystemId).subscribe(
+    data => {
+      this.MasterData = data.ResponseData;
+      this.ControlRoomData = this.MasterData.ControlRoomDataList;
+      this.PackageFilter = this.MasterData.PackageDataList;
+      this.ChainageFilter = this.MasterData.ChainageDataList;
+      this.SystemData = this.MasterData.SystemDataList
 
+      this.GetEventData();
+    },
+    (error) => {
+      this.spinner.hide();
+      this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
+  );
+}
 ExColl(event: any) {
   document.getElementById("collapseOne").classList.toggle("show")
   if (document.getElementById("datafilterIcon").classList.contains("fa-chevron-circle-up")) {

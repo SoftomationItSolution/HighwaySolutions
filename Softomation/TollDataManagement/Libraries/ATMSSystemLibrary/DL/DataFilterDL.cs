@@ -59,6 +59,27 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return dataResult;
         }
+        internal static DataFilterIL GetReportBySystemId(Int16 SystemId)
+        {
+            DataSet ds = new DataSet();
+            DataFilterIL dataResult = new DataFilterIL();
+            try
+            {
+                string spName = "USP_MasterDataGetBySystemId";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, "temp");
+                //#region System Master
+                //foreach (DataRow dr in ds.Tables[0].Rows)
+                //    SystemData.Add(CreateObjectForSystem(dr));
+                //#endregion
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dataResult;
+        }
         private static MasterData CreateObjectForSystem(DataRow dr)
         {
             MasterData dataFilter = new MasterData();
