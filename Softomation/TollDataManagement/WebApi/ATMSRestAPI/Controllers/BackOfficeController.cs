@@ -55,6 +55,7 @@ namespace ATMSRestAPI.Controllers
                         user.RoleName = "sysadmin";
                         user.UserTypeName = "Super";
                         user.DataStatusName = "Active";
+                        user.UserProfileImage = "/User/ProfileImage/avatar-7.jpg";
                         result.UserData = user;
                         LogingActivityIL activity = new LogingActivityIL();
                         login.LoginId = Encrypt(login.LoginId);
@@ -654,9 +655,10 @@ namespace ATMSRestAPI.Controllers
                 if (!string.IsNullOrEmpty(user.UserProfileImage))
                 {
                     string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                    String FilePath = "\\User\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\ProfileImage\\";
+                    String FilePath = "\\User\\ProfileImage\\";
                     FilePath = SaveMediaFiles(user.UserProfileImage, currentPath + FilePath, Guid.NewGuid().ToString(), ".png");
                     user.UserProfileImage = FilePath.Replace(currentPath, "");
+                    user.UserProfileImage = user.UserProfileImage.Replace("\\", "/");
                 }
                 response.Message = UserManagementBL.UserProfileChange(user);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
@@ -1268,8 +1270,9 @@ namespace ATMSRestAPI.Controllers
                 {
                     string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
                     String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
-                    FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    FilePath = SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
                     ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                    ims.IncidentImagePath = ims.IncidentImagePath.Replace("\\", "/");
                 }
                 response.Message = IncidentDetailsBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
@@ -1296,8 +1299,9 @@ namespace ATMSRestAPI.Controllers
                     {
                         string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
                         String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\";
-                        FilePath = Constants.SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                        FilePath = SaveMediaFiles(ims.IncidentImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
                         ims.IncidentImagePath = FilePath.Replace(currentPath, "");
+                        ims.IncidentImagePath = ims.IncidentImagePath.Replace("\\", "/");
                         if (File.Exists(currentPath + lastData.IncidentImagePath))
                             File.Delete(currentPath + lastData.IncidentImagePath);
                     }
@@ -1328,8 +1332,9 @@ namespace ATMSRestAPI.Controllers
                 {
                     string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
                     String FilePath = "\\IMS\\" + DateTime.Now.ToString("ddMMMyyyy") + "\\IncidentImage\\" + ims.IncidentId + "\\";
-                    FilePath = Constants.SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
+                    FilePath = SaveMediaFiles(ims.ActionImagePath, currentPath + FilePath, Guid.NewGuid().ToString(), ".jpeg");
                     ims.ActionImagePath = FilePath.Replace(currentPath, "");
+                    ims.ActionImagePath = ims.ActionImagePath.Replace("\\", "/");
                 }
                 response.Message = IncidentActionHistoryBL.Insert(ims);
                 return Request.CreateResponse(HttpStatusCode.OK, response);

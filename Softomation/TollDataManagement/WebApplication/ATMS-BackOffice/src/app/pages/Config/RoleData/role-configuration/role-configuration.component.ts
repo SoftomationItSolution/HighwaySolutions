@@ -86,7 +86,14 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Save', RoleId: 0 };
-      this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -101,7 +108,14 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId };
-      this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(RoleConfigurationPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -117,7 +131,14 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.width = '60%';
       dialogConfig.height = '484px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
-      this.dialog.open(RolePermissionPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(RolePermissionPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

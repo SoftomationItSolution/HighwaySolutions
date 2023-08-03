@@ -83,7 +83,14 @@ export class UserConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '473px';
       dialogConfig.data = { action: 'Save', UserId: 0 };
-      this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -98,7 +105,14 @@ export class UserConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '473px';
       dialogConfig.data = { action: 'Update', UserId: data.UserId };
-      this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

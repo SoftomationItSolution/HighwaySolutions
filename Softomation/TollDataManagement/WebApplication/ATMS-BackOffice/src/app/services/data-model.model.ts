@@ -48,6 +48,14 @@ export class DataModel {
     return localStorage.getItem('Transit360API');
   }
 
+  setLock(path: string) {
+    return localStorage.setItem('Transit360Lock', path);
+  }
+  getLock() {
+    return localStorage.getItem('Transit360Lock');
+  }
+
+
   setMediaAPI(path: string) {
     return localStorage.setItem('Transit360MediaAPI', path);
   }

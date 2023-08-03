@@ -65,7 +65,7 @@ export class VehicleClassPopupComponent implements OnInit {
 
 
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
 
   SaveDetails() {
@@ -90,7 +90,7 @@ export class VehicleClassPopupComponent implements OnInit {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
+          this.Dialogref.close(true);
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);

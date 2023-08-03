@@ -22,20 +22,20 @@ export class ControlRoomConfigurationComponent implements OnInit {
   public innerHeight: any;
   constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
-      this.LogedUserId = this.dm.getUserId();
-      this.LogedRoleId = this.dm.getRoleId();
+    this.LogedUserId = this.dm.getUserId();
+    this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
   }
 
   ngOnInit(): void {
   }
-  
+
   GetPermissionData() {
     this.spinner.show();
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
       MenuUrl: MenuUrl,
-      SystemId:0,
+      SystemId: 0,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
@@ -81,7 +81,14 @@ export class ControlRoomConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Save', ControlRoomId: 0 };
-      this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -97,7 +104,14 @@ export class ControlRoomConfigurationComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '340px';
       dialogConfig.data = { action: 'Update', ControlRoomId: data.ControlRoomId };
-      this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(ControlRoomPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

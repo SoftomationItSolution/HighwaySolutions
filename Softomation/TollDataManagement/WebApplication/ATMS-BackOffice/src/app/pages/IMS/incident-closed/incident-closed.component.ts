@@ -179,7 +179,14 @@ export class IncidentClosedComponent {
     dialogConfig.width = '60%';
     dialogConfig.height = '331px';
     dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
-    this.dialog.open(IncidentAssigneComponent, dialogConfig);
+    const dialogRef = this.dialog.open(IncidentAssigneComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetIMSHistroy();
+          }
+        }
+      );
   }
 
   ExColl(event: any) {

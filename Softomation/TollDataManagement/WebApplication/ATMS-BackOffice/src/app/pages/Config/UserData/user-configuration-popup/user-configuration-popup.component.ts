@@ -125,7 +125,7 @@ export class UserConfigurationPopupComponent implements OnInit {
     );
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
   ClearDetails() {
     this.DataDetailsForm.reset();
@@ -158,7 +158,7 @@ export class UserConfigurationPopupComponent implements OnInit {
           if (returnMessage.indexOf('success')>-1) {
             this.ErrorData = [{ AlertMessage: 'Success' }];
             this.dm.openSnackBar(this.ErrorData, true);
-            this.ClosePoup();
+            this.Dialogref.close(true);
           } else {
             this.ErrorData = data;
             this.dm.openSnackBar(this.ErrorData, false);

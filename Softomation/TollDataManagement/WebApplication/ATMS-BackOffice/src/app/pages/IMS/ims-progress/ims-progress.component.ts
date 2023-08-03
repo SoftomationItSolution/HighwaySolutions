@@ -25,17 +25,17 @@ export class ImsProgressComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  IncidentFilter:any;
+  IncidentFilter: any;
   DirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
   PriorityList = [{ DataId: 1, DataName: 'Critical' }, { DataId: 2, DataName: 'High' }, { DataId: 3, DataName: 'Medium' }, { DataId: 4, DataName: 'Low' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe,public dialog: MatDialog) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -140,31 +140,31 @@ export class ImsProgressComponent {
     );
   }
 
-  onMidiaView(TransactionRowData: any){
-    var obj={
-      PageTitle:"Incident media-("+TransactionRowData.IncidentId+")",
-      ImageData:[{
-        ImagePath:TransactionRowData.IncidentImagePath
+  onMidiaView(TransactionRowData: any) {
+    var obj = {
+      PageTitle: "Incident media-(" + TransactionRowData.IncidentId + ")",
+      ImageData: [{
+        ImagePath: TransactionRowData.IncidentImagePath
       }],
-      VideoData:[{
-        VideoPath:TransactionRowData.IncidentVideoPath
+      VideoData: [{
+        VideoPath: TransactionRowData.IncidentVideoPath
       }],
-      AudioData:[{
-        AudioPath:TransactionRowData.IncidentAudioPath
+      AudioData: [{
+        AudioPath: TransactionRowData.IncidentAudioPath
       }]
     }
     this.dm.MediaView(obj);
   }
 
-  onActionHistory(TransactionRowData: any){
-    if(TransactionRowData.ActionHistoryDetails.length>0){
+  onActionHistory(TransactionRowData: any) {
+    if (TransactionRowData.ActionHistoryDetails.length > 0) {
       const dialogConfig = new MatDialogConfig();
-        dialogConfig.disableClose = true;
-        dialogConfig.autoFocus = true;
-        dialogConfig.width = '60%';
-        dialogConfig.height = '500px';
-        dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
-        this.dialog.open(IncidentHistoryComponent, dialogConfig);
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
+      this.dialog.open(IncidentHistoryComponent, dialogConfig);
     }
     else {
       this.ErrorData = [{ AlertMessage: 'No action history found!' }];
@@ -172,24 +172,38 @@ export class ImsProgressComponent {
     }
   }
 
-  onReAssigned(TransactionRowData: any){
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
-      dialogConfig.height = '331px';
-      dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
-      this.dialog.open(IncidentAssigneComponent, dialogConfig);
+  onReAssigned(TransactionRowData: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '331px';
+    dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
+    const dialogRef = this.dialog.open(IncidentAssigneComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.GetIMSHistroy();
+        }
+      }
+    );
   }
 
-  onStatusChanged(TransactionRowData: any){
+  onStatusChanged(TransactionRowData: any) {
     const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
-      dialogConfig.height = '331px';
-      dialogConfig.data = { action: 'Action Perform', IncidentId: TransactionRowData.IncidentId };
-      this.dialog.open(IncidentProcessComponent, dialogConfig);
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '331px';
+    dialogConfig.data = { action: 'Action Perform', IncidentId: TransactionRowData.IncidentId };
+    const dialogRef = this.dialog.open(IncidentProcessComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.GetIMSHistroy();
+        }
+      }
+    );
   }
 
   ExColl(event: any) {
@@ -280,7 +294,7 @@ export class ImsProgressComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -288,7 +302,7 @@ export class ImsProgressComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -296,7 +310,7 @@ export class ImsProgressComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
@@ -304,7 +318,7 @@ export class ImsProgressComponent {
 
     let PriorityFilterList = "0"
     if (this.FilterDetailsForm.value.PriorityFilterList != null && this.FilterDetailsForm.value.PriorityFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PriorityFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PriorityFilterList.toString();
       if (crData.split(',').length != this.PriorityList.length) {
         PriorityFilterList = this.FilterDetailsForm.value.PriorityFilterList.toString();
       }
@@ -312,7 +326,7 @@ export class ImsProgressComponent {
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
@@ -320,30 +334,30 @@ export class ImsProgressComponent {
 
     let IncidentFilterList = "0"
     if (this.FilterDetailsForm.value.IncidentFilterList != null && this.FilterDetailsForm.value.IncidentFilterList != '') {
-      let crData=this.FilterDetailsForm.value.IncidentFilterList.toString();
+      let crData = this.FilterDetailsForm.value.IncidentFilterList.toString();
       if (crData.split(',').length != this.IncidentFilter.length) {
         IncidentFilterList = this.FilterDetailsForm.value.IncidentFilterList.toString();
       }
     }
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
-      IncidentStatusList:"1,6,7,8",
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
+      IncidentStatusList: "1,6,7,8",
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      PriorityFilterList:PriorityFilterList,
-      DirectionFilterList:DirectionFilterList,
-      IncidentFilterList:IncidentFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      PriorityFilterList: PriorityFilterList,
+      DirectionFilterList: DirectionFilterList,
+      IncidentFilterList: IncidentFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED
     }
     this.spinner.show();
     this.dbService.IMSGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.IMSData = data.ResponseData;    
-        this.TotalCount = this.IMSData.length;   
+        this.IMSData = data.ResponseData;
+        this.TotalCount = this.IMSData.length;
       },
       (error) => {
         this.spinner.hide();

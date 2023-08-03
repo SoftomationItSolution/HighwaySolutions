@@ -84,7 +84,14 @@ export class VehicleClassDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Save', ClassId: -1 };
-      this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -99,7 +106,14 @@ export class VehicleClassDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
       dialogConfig.data = { action: 'Update', ClassId: data.ClassId };
-      this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

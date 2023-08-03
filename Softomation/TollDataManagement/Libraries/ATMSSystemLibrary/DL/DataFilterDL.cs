@@ -28,18 +28,22 @@ namespace Softomation.ATMSSystemLibrary.DL
                 foreach (DataRow dr in ds.Tables[0].Rows)
                     SystemData.Add(CreateObjectForSystem(dr));
                 #endregion
+
                 #region Control Room
                 foreach (DataRow dr in ds.Tables[1].Rows)
                     ControlData.Add(CreateObjectForControlRoom(dr));
                 #endregion
+                
                 #region Package
                 foreach (DataRow dr in ds.Tables[2].Rows)
                     PackageData.Add(CreateObjectForPackage(dr));
                 #endregion
+                
                 #region Chainage
                 foreach (DataRow dr in ds.Tables[3].Rows)
                     ChainageData.Add(CreateObjectForChainage(dr));
                 #endregion
+                
                 #region Incident
                 foreach (DataRow dr in ds.Tables[4].Rows)
                     IncidentData.Add(CreateObjectForIncident(dr));

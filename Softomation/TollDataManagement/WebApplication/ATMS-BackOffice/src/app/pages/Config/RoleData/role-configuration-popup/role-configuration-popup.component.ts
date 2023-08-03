@@ -69,7 +69,7 @@ export class RoleConfigurationPopupComponent implements OnInit {
     );
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
   ClearDetails() {
     this.DataDetailsForm.reset();
@@ -94,7 +94,7 @@ export class RoleConfigurationPopupComponent implements OnInit {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
+          this.Dialogref.close(true);
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);

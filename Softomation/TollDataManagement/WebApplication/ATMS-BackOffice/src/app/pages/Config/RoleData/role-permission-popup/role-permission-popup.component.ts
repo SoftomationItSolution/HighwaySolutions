@@ -135,7 +135,7 @@ export class RolePermissionPopupComponent implements OnInit {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
+          this.Dialogref.close(true);
         } else {
           this.ErrorData = data;
           this.dm.openSnackBar(this.ErrorData, false);
@@ -154,6 +154,6 @@ export class RolePermissionPopupComponent implements OnInit {
     event.target.classList.toggle("parentNode-down")
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
 }

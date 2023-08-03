@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { apiIntegrationService } from '../../services/apiIntegration.service';
 import { DataModel } from '../../services/data-model.model';
@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 import { SystemSettingComponent } from 'src/app/pages/Config/system-setting/system-setting.component';
+import { AppLockComponent } from 'src/app/pages/Config/UserData/app-lock/app-lock.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -26,14 +27,41 @@ export class DefaultLayoutComponent implements OnInit {
   location: Location;
   ParentTitle = "Dashboard"
   ChildTitle = "Dashboard"
+  MediaPrefix: any;
+  profileImage: any;
+  capslockOn = false;
+  NotificationHide=false;
+  NotificationTest="";
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: any) {
+    if (event.ctrlKey && event.keyCode == 76) {
+      this.ssOpen();
+    }
+    if (event.getModifierState && event.getModifierState('CapsLock')) {
+      this.capslockOn = true;
+    } else {
+      this.capslockOn = false;
+    }
+  }
+
+
+
   constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, location: Location, public dialog: MatDialog,) {
+    public api: apiIntegrationService, public dialog: MatDialog,) {
     this.docElement = document.documentElement;
+    this.MediaPrefix = this.dataModel.getMediaAPI()?.toString();
   }
 
   ngOnInit() {
     this.userData = this.dataModel.getUserData();
+    if (this.userData.UserProfileImage != '') {
+      this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
+    }
     this.GetSystemMenu()
+    let lck = this.dataModel.getLock();
+    if (lck == "true") {
+      this.ssOpen();
+    }
   }
   ngAfterViewInit() {
     this.getTitle();
@@ -129,7 +157,7 @@ export class DefaultLayoutComponent implements OnInit {
         this.router.navigate(['']);
       }
     );
-    this.router.navigate(['']);
+
   }
 
   getTitle() {
@@ -170,7 +198,7 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
-    dialogConfig.height = '349px'; 
+    dialogConfig.height = '349px';
     this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
   }
 
@@ -181,15 +209,33 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.width = '50%';
     dialogConfig.height = '480px';
     this.dialog.open(UserProfilePopupComponent, dialogConfig);
+    const dialogRef = this.dialog.open(UserProfilePopupComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.userData = this.dataModel.getUserData();
+          if (this.userData.UserProfileImage != '') {
+            this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
+          }
+        }
+      }
+    );
   }
 
   ssOpen() {
+    this.dataModel.setLock("true")
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '440px';
-    this.dialog.open(SystemSettingComponent, dialogConfig);
+    dialogConfig.width = '70%';
+    dialogConfig.height = '461px';
+    const dialogRef = this.dialog.open(AppLockComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.dataModel.setLock("false")
+        }
+      }
+    );
   }
-
 }

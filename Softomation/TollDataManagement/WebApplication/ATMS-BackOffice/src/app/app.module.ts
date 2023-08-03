@@ -74,6 +74,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { ImageModule } from 'primeng/image';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SystemSettingComponent } from './pages/Config/system-setting/system-setting.component';
+import { AppLockComponent } from './pages/Config/UserData/app-lock/app-lock.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -137,7 +138,8 @@ export const MY_CUSTOM_FORMATS = {
     VidsValidatedComponent,
     ImsProgressComponent,
     ImsPendingComponent,
-    SystemSettingComponent
+    SystemSettingComponent,
+    AppLockComponent
   ],
   imports: [
     BrowserAnimationsModule,

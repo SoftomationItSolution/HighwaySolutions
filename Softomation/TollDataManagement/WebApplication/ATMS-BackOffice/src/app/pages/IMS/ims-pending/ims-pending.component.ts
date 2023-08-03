@@ -147,8 +147,15 @@ export class ImsPendingComponent {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
       dialogConfig.height = '490px';
-      dialogConfig.data = { action: 'Save', IncidentId: '' };
-      this.dialog.open(CreateIncidentComponent, dialogConfig);
+      dialogConfig.data = { action: 'Update', IncidentId: ''};
+      const dialogRef = this.dialog.open(CreateIncidentComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetIMSHistroy();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -164,7 +171,14 @@ export class ImsPendingComponent {
       dialogConfig.width = '60%';
       dialogConfig.height = '490px';
       dialogConfig.data = { action: 'Update', IncidentId: TransactionRowData.IncidentId };
-      this.dialog.open(CreateIncidentComponent, dialogConfig);
+      const dialogRef = this.dialog.open(CreateIncidentComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetIMSHistroy();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

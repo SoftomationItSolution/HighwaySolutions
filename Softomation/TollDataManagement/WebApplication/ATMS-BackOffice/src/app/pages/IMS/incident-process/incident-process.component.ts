@@ -78,7 +78,7 @@ export class IncidentProcessComponent {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-        this.Dialogref.close();
+       this.ClosePoup();
       }
     );
   }
@@ -102,7 +102,7 @@ export class IncidentProcessComponent {
     this.uploadedFiles = [];
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
   SaveProcess(){
     this.submitted=true;
@@ -129,7 +129,7 @@ export class IncidentProcessComponent {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
+          this.Dialogref.close(true);
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);

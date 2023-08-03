@@ -173,7 +173,7 @@ namespace Softomation.ATMSSystemLibrary.DL
             return users;
         }
 
-        internal static List<UserManagementIL> GetBySystemUserType(short UserTypeId,short SystemId)
+        internal static List<UserManagementIL> GetBySystemUserType(short UserTypeId, short SystemId)
         {
             DataTable dt = new DataTable();
             List<UserManagementIL> users = new List<UserManagementIL>();
@@ -232,7 +232,9 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["UserProfileImage"] != DBNull.Value)
                 user.UserProfileImage = Convert.ToString(dr["UserProfileImage"]);
-            
+            else
+                user.UserProfileImage = "/User/ProfileImage/avatar-7.jpg";
+
             if (dr["RoleName"] != DBNull.Value)
                 user.RoleName = Convert.ToString(dr["RoleName"]);
 

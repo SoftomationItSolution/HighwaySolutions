@@ -223,7 +223,14 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Save', EquipmentId: 0 };
-      this.dialog.open(DevicePopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(DevicePopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -239,7 +246,14 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', EquipmentId: TransactionRowData.EquipmentId };
-      this.dialog.open(DevicePopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(DevicePopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];

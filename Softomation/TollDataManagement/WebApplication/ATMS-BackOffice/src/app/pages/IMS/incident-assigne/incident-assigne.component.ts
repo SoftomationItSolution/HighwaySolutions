@@ -70,7 +70,8 @@ export class IncidentAssigneComponent {
         this.spinner.hide();
         this.dataDetails = data.ResponseData;
         this.PageTitle = "Manage Assigne: (" + this.IncidentId + ")";
-        //this.Masterform.controls['ActionStatusId'].setValue(this.dataDetails.IncidentStatusId);
+        // debugger;
+        // this.Masterform.controls['ActionStatusId'].setValue(this.dataDetails.IncidentStatusId);
       },
       (error) => {
         this.spinner.hide();
@@ -104,7 +105,7 @@ export class IncidentAssigneComponent {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-        this.Dialogref.close();
+        this.ClosePoup();
       }
     );
   }
@@ -128,18 +129,18 @@ export class IncidentAssigneComponent {
     this.uploadedFiles = [];
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(false); }
 
   SaveProcess(){
     this.submitted=true;
     if (this.Masterform.invalid) {
       return;
     }
-    if(this.uploadedFiles.length==0 && this.Masterform.value.ActionStatusId){
-      this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-      return;
-    }
+    // if(this.uploadedFiles.length==0 && this.Masterform.value.ActionStatusId==){
+    //   this.ErrorData = [{ AlertMessage: 'Incident Image is required.' }];
+    //   this.dm.openSnackBar(this.ErrorData, false);
+    //   return;
+    // }
     const Obj = {
       IncidentId: this.IncidentId,
       ActionTakenById:this.LogedUserId,
@@ -155,7 +156,7 @@ export class IncidentAssigneComponent {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
-          this.ClosePoup();
+          this.Dialogref.close(true);
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);

@@ -17,18 +17,18 @@ import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-confi
 import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
 import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
 import { VidsIncidentConfigComponent } from '../pages/VIDS/vids-incident-config/vids-incident-config.component';
+import { SystemSettingComponent } from '../pages/Config/system-setting/system-setting.component';
 
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'controlRoom', component: ControlRoomConfigurationComponent },
-    { path: 'equipment', component: DeviceDataComponent },
-    { path: 'package', component: PackagesDetailsComponent },
-    { path: 'vehicleClass', component: VehicleClassDataComponent },
-    { path: 'role', component: RoleConfigurationComponent },
-    { path: 'users', component: UserConfigurationComponent },
-    { path: 'atcc', component: AtccdataComponent },
-    { path: 'reports', component: ReportsComponent },
+    { path: 'configSystemSetting', component: SystemSettingComponent },
+    { path: 'configControlRoom', component: ControlRoomConfigurationComponent },
+    { path: 'configPackage', component: PackagesDetailsComponent },
+    { path: 'configEquipment', component: DeviceDataComponent },
+    { path: 'configVehicleClass', component: VehicleClassDataComponent },
+    { path: 'configRole', component: RoleConfigurationComponent },
+    { path: 'configUsers', component: UserConfigurationComponent },
     { path: 'imsPending', component: ImsPendingComponent },
     { path: 'imsProgress', component: ImsProgressComponent },
     { path: 'imsClosed', component: IncidentClosedComponent },
@@ -37,6 +37,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vidsEventHistroy', component: VidsdataComponent },
     { path: 'vidsValidation', component: VidsValidationComponent },
     { path: 'vidsValidated', component: VidsValidatedComponent },
+    { path: 'rmsReports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

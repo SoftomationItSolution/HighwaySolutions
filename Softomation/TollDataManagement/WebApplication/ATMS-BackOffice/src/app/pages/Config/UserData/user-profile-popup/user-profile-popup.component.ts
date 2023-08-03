@@ -13,30 +13,39 @@ import { DataModel } from 'src/app/services/data-model.model';
 })
 export class UserProfilePopupComponent implements OnInit {
   imageChangedEvent: any = '';
-  croppedImage: any = "https://bootdey.com/img/Content/avatar/avatar7.png";
+  croppedImage: any = "";
   LogedUserId = 0;
   DetailData: any;
   ErrorData: any;
   imsgProgress=false;
   Base64Value:any='';
+  MediaPrefix:any;
   constructor(private dm: DataModel, public Dialogref: MatDialogRef<UserProfilePopupComponent>,
     public dialog: MatDialog, private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
     private sanitizer: DomSanitizer) {
     this.LogedUserId = this.dm.getUserId();
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     
   }
 
   ngOnInit(): void {
+    this.getDetails();
+
+  }
+
+  getDetails(){
     if (this.LogedUserId > 0)
       this.DetailsbyId();
     else {
       this.DetailData = this.dm.getUserData();
+      if(this.DetailData.UserProfileImage!=''){
+        this.croppedImage=this.MediaPrefix+this.DetailData.UserProfileImage;
+      }
     }
   }
 
 
   DetailsbyId() {
-    let MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.spinner.show();
     this.dbService.UserGetByIdWithPassword(this.LogedUserId).subscribe(
       data => {
@@ -44,8 +53,9 @@ export class UserProfilePopupComponent implements OnInit {
         this.imsgProgress=false;
         this.DetailData = data.ResponseData;
         if(this.DetailData.UserProfileImage!=''){
-          this.croppedImage=MediaPrefix+this.DetailData.UserProfileImage;
+          this.croppedImage=this.MediaPrefix+this.DetailData.UserProfileImage;
         }
+        this.dm.setUserData(JSON.stringify(this.DetailData));
       },
       (error) => {
         this.spinner.hide();
@@ -60,7 +70,7 @@ export class UserProfilePopupComponent implements OnInit {
     );
   }
 
-  ClosePoup() { this.Dialogref.close(); }
+  ClosePoup() { this.Dialogref.close(true); }
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -101,7 +111,7 @@ export class UserProfilePopupComponent implements OnInit {
           if (returnMessage.indexOf('success')>-1) {
             this.ErrorData = [{ AlertMessage: 'Success' }];
             this.dm.openSnackBar(this.ErrorData, true);
-            this.DetailsbyId();
+            this.getDetails();
           } else {
             this.ErrorData = data;
             this.dm.openSnackBar(this.ErrorData, false);

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { FormGroup, Validators, FormBuilder, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
 import { ConfirmPasswordValidator, errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { EmittersService } from 'src/app/allservices/emitters.service';
+
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chnage-password-pop-up',
@@ -21,12 +22,13 @@ export class ChnagePasswordPopUpComponent implements OnInit {
   PasswordForm: FormGroup;
   hide = true;
   hide1 = true;
-
+  userData:any;
   submitted=false;
-  constructor(private dm: DataModel, 
+  constructor(private dm: DataModel,private router: Router, 
     public Dialogref: MatDialogRef<ChnagePasswordPopUpComponent>, private dbServive: apiIntegrationService,
      public dialog: MatDialog, private spinner: NgxSpinnerService,private formBuilder: FormBuilder) {
       this.LogedUserId = this.dm.getUserId();
+      this.userData = this.dm.getUserData();
   }
 
 
@@ -69,6 +71,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
                     this.ErrorData = [{AlertMessage: 'Password changed successfully'}];
                     this.dm.openSnackBar(this.ErrorData, true);
                     this.ClosePoup();
+                    this.Logout();
                   } else {
                     this.ErrorData = [{AlertMessage: 'Password not changed'}];
                     this.dm.openSnackBar(this.ErrorData, false);
@@ -94,14 +97,26 @@ export class ChnagePasswordPopUpComponent implements OnInit {
             this.dm.openSnackBar(this.ErrorData, false);
           }
         );
-      // if (this.PasswordForm.get('Password').value == this.PasswordForm.get('ConfirmPassword').value) {
-        
-      // } else {
-      //   this.notSame = true;
-      // }
     }
   }
   ClosePoup() { this.Dialogref.close(); }
-
+  Logout() {
+    const obj = {
+      LoginId: this.userData.LoginId,
+      UserTypeId: this.userData.UserTypeId,
+      UserId: this.userData.UserId
+    };
+    this.dbServive.LogoutUser(obj).subscribe(
+      data => {
+        this.dm.clearStorage();
+        this.router.navigate(['']);
+      },
+      (error) => {
+        this.dm.clearStorage()
+        this.router.navigate(['']);
+      }
+    );
+   
+  }
 
 }

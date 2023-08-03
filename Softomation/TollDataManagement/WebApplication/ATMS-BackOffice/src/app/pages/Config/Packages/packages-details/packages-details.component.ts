@@ -82,7 +82,14 @@ export class PackagesDetailsComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Save', PackageId: 0 };
-      this.dialog.open(PackagesPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(PackagesPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -98,7 +105,14 @@ export class PackagesDetailsComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '476px';
       dialogConfig.data = { action: 'Update', PackageId: data.PackageId };
-      this.dialog.open(PackagesPopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(PackagesPopupComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetAllData();
+          }
+        }
+      );
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
