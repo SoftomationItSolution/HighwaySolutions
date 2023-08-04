@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Softomation.ATMSSystemLibrary.IL
 {
@@ -12,6 +13,8 @@ namespace Softomation.ATMSSystemLibrary.IL
         string systemImage;
         string systemIcon;
         bool dashBoard;
+        string reportIds;
+        List<ReportMasterIL> reportMasters;
 
         public SystemIL()
         {
@@ -23,6 +26,8 @@ namespace Softomation.ATMSSystemLibrary.IL
             systemImage = string.Empty;
             systemIcon = string.Empty;
             dashBoard = true;
+            reportIds = string.Empty;
+            reportMasters = new List<ReportMasterIL>();
         }
 
         public Int16 SystemId
@@ -126,6 +131,31 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 dashBoard = value;
+            }
+        }
+
+        public String ReportIds
+        {
+            get
+            {
+                return reportIds;
+            }
+
+            set
+            {
+                reportIds = value;
+            }
+        }
+        public List<ReportMasterIL> ReportMasters
+        {
+            get
+            {
+                return reportMasters;
+            }
+
+            set
+            {
+                reportMasters = value;
             }
         }
     }

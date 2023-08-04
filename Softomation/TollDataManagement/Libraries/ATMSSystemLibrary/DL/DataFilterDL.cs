@@ -84,6 +84,8 @@ namespace Softomation.ATMSSystemLibrary.DL
             }
             return dataResult;
         }
+
+        #region Helpler Method
         private static MasterData CreateObjectForSystem(DataRow dr)
         {
             MasterData dataFilter = new MasterData();
@@ -106,7 +108,6 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-
         private static MasterData CreateObjectForPackage(DataRow dr)
         {
             MasterData dataFilter = new MasterData();
@@ -127,7 +128,6 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-
         private static MasterData CreateObjectForChainage(DataRow dr)
         {
             MasterData dataFilter = new MasterData();
@@ -139,7 +139,6 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-
         private static MasterData CreateObjectForIncident(DataRow dr)
         {
             MasterData dataFilter = new MasterData();
@@ -151,7 +150,7 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-
+        #endregion
 
     }
 }

@@ -100,6 +100,7 @@
     <Compile Include="BL\IncidentSourceBL.cs" />
     <Compile Include="BL\IncidentStatusBL.cs" />
     <Compile Include="BL\PackageBL.cs" />
+    <Compile Include="BL\ReportMasterBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
     <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
@@ -128,6 +129,7 @@
     <Compile Include="DL\IncidentSourceDL.cs" />
     <Compile Include="DL\IncidentStatusDL.cs" />
     <Compile Include="DL\PackageDL.cs" />
+    <Compile Include="DL\ReportMasterDL.cs" />
     <Compile Include="DL\SystemDL.cs" />
     <Compile Include="DL\SystemSettingDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
@@ -158,6 +160,7 @@
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\PackageIL.cs" />
+    <Compile Include="IL\ReportMasterIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />

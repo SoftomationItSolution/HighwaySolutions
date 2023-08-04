@@ -23,7 +23,7 @@
     background: #D6D8D9;
 }
 
-.theam-bg{
+.theam-bg {
     background: #011b41 !important;
 }
 
@@ -118,6 +118,7 @@ tr {
     height: 100%;
     position: relative;
 }
+
 .account-block .overlay {
     -webkit-box-flex: 1;
     -ms-flex: 1;
@@ -129,6 +130,7 @@ tr {
     right: 0;
     background-color: rgba(0, 0, 0, 0.4);
 }
+
 .account-block .account-testimonial {
     text-align: center;
     color: #fff;
@@ -143,12 +145,14 @@ tr {
 .text-theme {
     color: #5369f8 !important;
 }
+
 .btn-theme {
     background-color: #5369f8;
     border-color: #5369f8;
     color: #fff;
 }
-.informationStrip{
+
+.informationStrip {
     opacity: 0.7;
     background-color: #000;
     width: 500px;
@@ -156,11 +160,74 @@ tr {
     height: 22px;
     font-size: 11px;
     margin-top: 26px;
-    margin-right: -18px;
+    margin-right: -15px;
     word-wrap: break-word;
     white-space: nowrap;
     overflow: hidden;
+    padding-top: 2px;
 }
+
+.scroll-left {
+    height: 50px;
+    overflow: hidden;
+    position: relative;
+}
+
+.scroll-left p {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    line-height: 50px;
+    text-align: center;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    -moz-animation: scroll-left 10s linear infinite;
+    -webkit-animation: scroll-left 10s linear infinite;
+    animation: scroll-left 10s linear infinite;
+    color: #fff;
+}
+
+/* Move it (define the animation) */
+@-moz-keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(100%);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%);
+    }
+}
+
+@-webkit-keyframes scroll-left {
+    0% {
+        -webkit-transform: translateX(100%);
+    }
+
+    100% {
+        -webkit-transform: translateX(-100%);
+    }
+}
+
+@keyframes scroll-left {
+    0% {
+        -moz-transform: translateX(100%);
+        /* Browser bug fix */
+        -webkit-transform: translateX(100%);
+        /* Browser bug fix */
+        transform: translateX(100%);
+    }
+
+    100% {
+        -moz-transform: translateX(-100%);
+        /* Browser bug fix */
+        -webkit-transform: translateX(-100%);
+        /* Browser bug fix */
+        transform: translateX(-100%);
+    }
+}
+
 @media (max-width:993px) {
     .navbar-brand-box {
         padding: 0 0.5rem;
@@ -219,7 +286,12 @@ small {
     transition: box-shadow .2s;
     border-radius: 0;
 }
-.p-disabled { color: grey; font-weight: bold }
+
+.p-disabled {
+    color: grey;
+    font-weight: bold
+}
+
 .modal-body {
     min-height: 230px !important;
     overflow-x: auto !important;
@@ -373,9 +445,11 @@ tr {
     background: #011b41 !important;
     color: #f68e2b !important
 }
-.modal-title{
+
+.modal-title {
     color: #f68e2b !important
 }
+
 .hyperlink {
     cursor: pointer;
     color: #1891fc;
@@ -426,7 +500,9 @@ tr {
 .ims-tab {
     height: 60vh !important
 }
-
+.setting-tab {
+    height: 60vh !important
+}
 .footer {
     height: 30px !important;
     padding: 8px calc(24px / 2) !important;
@@ -594,10 +670,14 @@ tr {
     height: 30px !important;
     padding: 0px 0px !important;
 }
-.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-done, .mat-step-header .mat-step-icon-state-edit {
+
+.mat-step-header .mat-step-icon-selected,
+.mat-step-header .mat-step-icon-state-done,
+.mat-step-header .mat-step-icon-state-edit {
     background-color: #f68e2b;
     color: #fff;
 }
+
 .mat-horizontal-content-container {
     overflow: hidden;
     padding: 0 10px 16px 15px !important;
@@ -800,7 +880,7 @@ input[type=radio] {
     margin-bottom: auto;
 }
 
-.btn-close{
+.btn-close {
     background: none !important;
     color: #fff !important;
 }
@@ -984,7 +1064,9 @@ input[type=radio] {
     .ims-tab {
         height: 56vh !important
     }
-
+    .setting-tab {
+        height: 60vh !important
+    }
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1034,7 +1116,9 @@ input[type=radio] {
     .ims-tab {
         height: 60vh !important
     }
-
+    .setting-tab {
+        height: 60vh !important
+    }
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1083,7 +1167,9 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
-
+    .setting-tab {
+        height: 60vh !important
+    }
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1140,7 +1226,9 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
-
+    .setting-tab {
+        height: 71vh !important
+    }
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;

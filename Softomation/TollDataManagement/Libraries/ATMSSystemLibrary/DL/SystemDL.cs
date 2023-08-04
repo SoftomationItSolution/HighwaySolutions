@@ -35,9 +35,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             return eds;
 
         }
-        
 
-        
+
+
         internal static List<SystemIL> GetActive()
         {
             List<SystemIL> smlist = new List<SystemIL>();
@@ -126,6 +126,12 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["SystemIcon"] != DBNull.Value)
                 sm.SystemIcon = Convert.ToString(dr["SystemIcon"]);
+
+            if (dr["ReportIds"] != DBNull.Value)
+            {
+                sm.ReportIds = Convert.ToString(dr["ReportIds"]);
+                sm.ReportMasters = ReportMasterDL.GetByIds(sm.ReportIds);
+            }
 
             if (dr["DataStatus"] != DBNull.Value)
                 sm.DataStatus = Convert.ToInt16(dr["DataStatus"]);

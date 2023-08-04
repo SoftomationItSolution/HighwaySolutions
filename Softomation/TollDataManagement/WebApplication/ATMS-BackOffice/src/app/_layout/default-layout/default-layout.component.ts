@@ -6,7 +6,6 @@ import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
-import { SystemSettingComponent } from 'src/app/pages/Config/system-setting/system-setting.component';
 import { AppLockComponent } from 'src/app/pages/Config/UserData/app-lock/app-lock.component';
 @Component({
   selector: 'app-dashboard',
@@ -31,7 +30,7 @@ export class DefaultLayoutComponent implements OnInit {
   profileImage: any;
   capslockOn = false;
   NotificationHide=false;
-  NotificationTest="";
+  NotificationTest="Welcome in command and control application";
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {

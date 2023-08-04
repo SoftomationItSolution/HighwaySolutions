@@ -314,6 +314,11 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  System
+  SystemGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetAll', { headers: headers_object });
+  }
   SystemGetActive(): Observable<any> {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -323,6 +328,24 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.GetUrl();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetByName?SystemName=' + SystemName, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region  System
+  ReportGetAll(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetAll', { headers: headers_object });
+  }
+  ReportGetActive(): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetActive', { headers: headers_object });
+  }
+  ReportGetByName(ReportName: any): Observable<any> {
+    this.ApiCallUrl = this.GetUrl();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetByName?ReportName=' + ReportName, { headers: headers_object });
   }
   //#endregion
 
