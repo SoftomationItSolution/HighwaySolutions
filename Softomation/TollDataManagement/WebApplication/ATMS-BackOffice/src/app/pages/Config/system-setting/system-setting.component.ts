@@ -14,55 +14,24 @@ import { DataModel } from 'src/app/services/data-model.model';
 export class SystemSettingComponent {
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  RoleId: number;
-  DataStatus = true;
+  PermissionData: any;
+  LogedRoleId: number;
+  DataUpdate: Number = 0;
+  DataAdd: Number = 0;
+  DataView: Number = 0;
   LogedUserId;
   ErrorData: any;
   DetailData: any;
   LaneData: any;
   submitted = false;
   TabId = 0
-  SystemDetails: any;
-  ReportDetails: any;
+
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
-    private dm: DataModel) {
-    this.LogedUserId = this.dm.getRoleId();
-
+    private dm: DataModel,public Dialogref: MatDialogRef<SystemSettingComponent>) {
+      this.LogedUserId = this.dm.getUserId();
+      this.LogedRoleId = this.dm.getRoleId();
   }
-  tabChange(id: number) {
-    if (id == 0)
-      console.log(id)
-    //this.GetPending();
-    else
-      console.log(id)
-    //this.GetInProgress()
-    this.TabId = id;
-  }
-
-  handleCheck(event, data, type) {
-    if (type == 1) {
-      if (!event) {
-        for (let i = 0; i < this.SystemDetails.length; i++) {
-          const element = this.SystemDetails[i];
-          if (element.SystemId == data.SystemId) {
-            this.SystemDetails[i].DashBoard = event;
-            break;
-          }
-        }
-      }
-    }
-    else {
-      if (event) {
-        for (let i = 0; i < this.SystemDetails.length; i++) {
-          const element = this.SystemDetails[i];
-          if (element.SystemId == data.SystemId) {
-            this.SystemDetails[i].DataStatus = event;
-            break;
-          }
-        }
-      }
-    }
-  }
+ 
   ngOnInit(): void {
     this.DataDetailsForm = new FormGroup({
       TotalLane: new FormControl('', [
@@ -74,9 +43,37 @@ export class SystemSettingComponent {
       TrafficByTime: new FormControl('', [Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
       TrafficCount: new FormControl('', [Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
     });
-    this.GetLaneList();
-    this.GetSystemDetails();
+    this.GetPermissionData();
   }
+
+  GetPermissionData() {
+    this.spinner.show();
+    const Obj = {
+      MenuUrl: "#PopUpSystemSetting",
+      SystemId: 0,
+      RoleId: this.LogedRoleId
+    };
+    this.dbService.RolePermissionGetByMenu(Obj).subscribe(
+      data => {
+        this.PermissionData = data.ResponseData;
+        this.DataAdd = this.PermissionData.DataAdd;
+        this.DataUpdate = this.PermissionData.DataUpdate;
+        this.DataView = this.PermissionData.DataView;
+        if (this.DataView != 1) {
+          this.spinner.hide();
+          this.dm.unauthorized();
+        }else{
+          this.GetLaneList();
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
   ATCCChanged(event: any) {
     if (event.currentTarget.checked) {
       this.DataDetailsForm.controls['ATCCByVIDS'].setValue(false);
@@ -112,6 +109,7 @@ export class SystemSettingComponent {
       }
     );
   }
+
   GetDetails() {
     this.spinner.show();
     this.dbService.SystemSettingGet().subscribe(
@@ -156,49 +154,7 @@ export class SystemSettingComponent {
     );
   }
 
-  GetSystemDetails() {
-    this.spinner.show();
-    this.dbService.SystemGetAll().subscribe(
-      data => {
-        this.SystemDetails = data.ResponseData;
-        this.GetReportDetails();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
-
-  GetReportDetails() {
-    this.dbService.ReportGetActive().subscribe(
-      data => {
-        this.ReportDetails = data.ResponseData;
-        this.spinner.hide();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
-
-
-  ClearDetails() {
-    this.DataDetailsForm.reset();
-  }
+  ClosePoup() { this.Dialogref.close(false); }
 
   SaveDetails() {
     this.submitted = true;

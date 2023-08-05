@@ -17,12 +17,17 @@ import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-confi
 import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
 import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
 import { VidsIncidentConfigComponent } from '../pages/VIDS/vids-incident-config/vids-incident-config.component';
-import { SystemSettingComponent } from '../pages/Config/system-setting/system-setting.component';
+import { SystemDetailsComponent } from '../pages/Config/system-details/system-details.component';
+import { VsdsEquipmentConfigComponent } from '../pages/VSDS/vsds-equipment-config/vsds-equipment-config.component';
+import { VsdsIncidentConfigComponent } from '../pages/VSDS/vsds-incident-config/vsds-incident-config.component';
+import { VsdsValidationComponent } from '../pages/VSDS/vsds-validation/vsds-validation.component';
+import { VsdsValidatedComponent } from '../pages/VSDS/vsds-validated/vsds-validated.component';
+import { VsdsLaneConfigComponent } from '../pages/VSDS/vsds-lane-config/vsds-lane-config.component';
 
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'configSystemSetting', component: SystemSettingComponent },
+    { path: 'configSystem', component: SystemDetailsComponent },
     { path: 'configControlRoom', component: ControlRoomConfigurationComponent },
     { path: 'configPackage', component: PackagesDetailsComponent },
     { path: 'configEquipment', component: DeviceDataComponent },
@@ -37,6 +42,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vidsEventHistroy', component: VidsdataComponent },
     { path: 'vidsValidation', component: VidsValidationComponent },
     { path: 'vidsValidated', component: VidsValidatedComponent },
+    { path: 'vsdsEquipmentConfig', component: VsdsEquipmentConfigComponent },
+    { path: 'vsdsEventConfig', component: VsdsIncidentConfigComponent },
+    { path: 'vsdsLaneConfig', component: VsdsLaneConfigComponent },
+    { path: 'vsdsEventHistroy', component: VidsdataComponent },
+    { path: 'vsdsValidation', component: VsdsValidationComponent },
+    { path: 'vsdsValidated', component: VsdsValidatedComponent },
     { path: 'rmsReports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

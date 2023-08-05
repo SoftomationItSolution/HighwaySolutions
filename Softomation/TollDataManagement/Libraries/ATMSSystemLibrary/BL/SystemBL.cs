@@ -7,6 +7,18 @@ namespace Softomation.ATMSSystemLibrary.BL
 {
     public class SystemBL
     {
+        public static List<ResponseIL> SetUp(List<SystemIL> setup)
+        {
+            try
+            {
+                return SystemDL.SetUp(setup);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public static List<SystemIL> GetAll()
         {
             try
@@ -57,5 +69,7 @@ namespace Softomation.ATMSSystemLibrary.BL
             }
 
         }
+
+       
     }
 }

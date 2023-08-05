@@ -4,11 +4,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-vids-equipment-config',
-  templateUrl: './vids-equipment-config.component.html',
-  styleUrls: ['./vids-equipment-config.component.css']
+  selector: 'app-vsds-equipment-config',
+  templateUrl: './vsds-equipment-config.component.html',
+  styleUrls: ['./vsds-equipment-config.component.css']
 })
-export class VidsEquipmentConfigComponent implements OnInit {
+export class VsdsEquipmentConfigComponent implements OnInit {
   availableData: any = [];
   selection: any = null;
   fillData: any = [];
@@ -24,8 +24,8 @@ export class VidsEquipmentConfigComponent implements OnInit {
   EquipmentTypeData: any;
   EquipmentDetails: any;
   SystemId = 0;
-  PositionList = [{ DataId: 1, DataName: "Entry" }, { DataId: 2, DataName: "Exit" }, { DataId: 3, DataName: "Main Carriageway" }, { DataId: 4, DataName: "Parking Spot" }]
-
+  LaneList:any;
+  PositionList = [{ DataId: 3, DataName: "Main Carriageway" }, { DataId: 4, DataName: "Parking Spot" }]
 
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
@@ -36,6 +36,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
   ngOnInit(): void {
     this.SystemGetByName()
   }
+
   SystemGetByName() {
     this.spinner.show();
     let MenuUrl = window.location.pathname.replace('/', '');
@@ -72,8 +73,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
           this.dm.unauthorized();
         }
         else {
-          this.EquipmentType();
-          
+          this.GetLane();
         }
       },
       (error) => {
@@ -83,12 +83,31 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
     );
   }
+
+  GetLane() {
+    this.dbService.LaneGetActive().subscribe(
+      data => {
+        this.LaneList = data.ResponseData;
+        this.EquipmentType();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
  
   EquipmentType() {
     this.dbService.EquipmentTypeGetActive().subscribe(
       data => {
         var dataType = data.ResponseData;
-        dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 25 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
+        dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 5 || e.EquipmentTypeId == 7 ||e.EquipmentTypeId == 26 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
         this.GetEquipmentDetails(dataType);
       },
       (error) => {
@@ -103,6 +122,8 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
     );
   }
+
+
 
   GetEquipmentConfig() {
     this.dbService.EquipmentConfigGetBySystemId(this.SystemId).subscribe(
@@ -157,6 +178,8 @@ export class VidsEquipmentConfigComponent implements OnInit {
                 EquipmentTypeName: element1.EquipmentTypeName,
                 ChainageName: element1.ChainageName,
                 EquipmentId: element1.EquipmentId,
+                DirectionId:element1.DirectionId,
+                DirectionName:element1.DirectionName,
                 PositionId: 0
               }
               childs.push(onjChild);
@@ -167,10 +190,13 @@ export class VidsEquipmentConfigComponent implements OnInit {
               IpAddress: element.IpAddress,
               EquipmentTypeId: element.EquipmentTypeId,
               EquipmentTypeName: element.EquipmentTypeName,
+              DirectionId:element.DirectionId,
+              DirectionName:element.DirectionName,
               children: childs,
               PositionId: 0
             }
             this.availableData.push(obj)
+           
           }
         }
       },
@@ -189,6 +215,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
 
   onDragStart(val: any) {
     this.selection = val;
+    console.log(val)
 
   }
   onDragEnd() {
@@ -213,7 +240,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
       }
       else {
         if (this.selection.EquipmentTypeId != 28) {
-          var d3 = this.fillData.filter((e: { ChainageName: any, EquipmentTypeId: any; }) => e.ChainageName == this.selection.ChainageName && e.EquipmentTypeId == 28);
+          var d3 = this.fillData.filter((e: { ChainageName: any, EquipmentTypeId: any,DirectionId:any,IpAddress:any; }) => e.ChainageName == this.selection.ChainageName && e.DirectionId == this.selection.DirectionId  && e.EquipmentTypeId == 28);
           if (d3.length == 0) {
             this.ErrorData = [{ AlertMessage: 'Media converter is required!' }];
             this.dm.openSnackBar(this.ErrorData, false);
@@ -244,8 +271,22 @@ export class VidsEquipmentConfigComponent implements OnInit {
             LPUList.push(p1[j])
           }
         }
+        var RadarList = [];
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 5 && e.ChainageName == element1.ChainageName);
+        if (p1.length > 0) {
+          for (let j = 0; j < p1.length; j++) {
+            RadarList.push(p1[j])
+          }
+        }
+        var SpeedDisplayList = [];
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 7 && e.ChainageName == element1.ChainageName);
+        if (p1.length > 0) {
+          for (let j = 0; j < p1.length; j++) {
+            SpeedDisplayList.push(p1[j])
+          }
+        }
         var CameraList = [];
-        var p2 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 25 && e.ChainageName == element1.ChainageName);
+        var p2 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 26 && e.ChainageName == element1.ChainageName);
         if (p2.length > 0) {
           for (let j = 0; j < p2.length; j++) {
             CameraList.push(p2[j])
@@ -265,7 +306,12 @@ export class VidsEquipmentConfigComponent implements OnInit {
           EquipmentTypeId: element1.EquipmentTypeId,
           ChainageName: element1.ChainageName,
           EquipmentId: element1.EquipmentId,
+          IpAddress: element1.IpAddress,
+          DirectionId:element1.DirectionId,
+          DirectionName:element1.DirectionName,
           LPUList: LPUList,
+          RadarList:RadarList,
+          SpeedDisplayList:SpeedDisplayList,
           CameraList: CameraList,
           MDSList: MDSList,
         }

@@ -7,6 +7,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 import { AppLockComponent } from 'src/app/pages/Config/UserData/app-lock/app-lock.component';
+import { SystemSettingComponent } from 'src/app/pages/Config/system-setting/system-setting.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -71,7 +72,7 @@ export class DefaultLayoutComponent implements OnInit {
       data => {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
-          this.MenuList = data.ResponseData;
+          this.MenuList = data.ResponseData.filter((e: { MenuUrl: any; }) => e.MenuUrl.indexOf('#PopUp')!=0);
           this.getTitle();
         }
         else {
@@ -207,7 +208,6 @@ export class DefaultLayoutComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
     dialogConfig.height = '480px';
-    this.dialog.open(UserProfilePopupComponent, dialogConfig);
     const dialogRef = this.dialog.open(UserProfilePopupComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(
       data => {
@@ -220,8 +220,15 @@ export class DefaultLayoutComponent implements OnInit {
       }
     );
   }
-
-  ssOpen() {
+  ssOpen(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '386px';
+    const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
+  }
+  alOpen() {
     this.dataModel.setLock("true")
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;

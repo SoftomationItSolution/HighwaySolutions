@@ -39,6 +39,10 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { PanelModule } from 'primeng/panel';
 import { RolePermissionPopupComponent } from './pages/Config/RoleData/role-permission-popup/role-permission-popup.component';
 import { VidsdataComponent } from './pages/VIDS/vidsdata/vidsdata.component';
+import { VidsEquipmentConfigComponent } from './pages/VIDS/vids-equipment-config/vids-equipment-config.component';
+import { VidsIncidentConfigComponent } from './pages/VIDS/vids-incident-config/vids-incident-config.component';
+import { VidsValidationComponent } from './pages/VIDS/vids-validation/vids-validation.component';
+import { VidsValidatedComponent } from './pages/VIDS/vids-validated/vids-validated.component';
 import { AtccdataComponent } from './pages/ATCC/atccdata/atccdata.component';
 import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-room-popup/control-room-popup.component';
 import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
@@ -64,10 +68,6 @@ import { IncidentHistoryComponent } from './pages/IMS/incident-history/incident-
 import { IncidentProcessComponent } from './pages/IMS/incident-process/incident-process.component';
 import { IncidentAssigneComponent } from './pages/IMS/incident-assigne/incident-assigne.component';
 import { IncidentClosedComponent } from './pages/IMS/incident-closed/incident-closed.component';
-import { VidsEquipmentConfigComponent } from './pages/VIDS/vids-equipment-config/vids-equipment-config.component';
-import { VidsIncidentConfigComponent } from './pages/VIDS/vids-incident-config/vids-incident-config.component';
-import { VidsValidationComponent } from './pages/VIDS/vids-validation/vids-validation.component';
-import { VidsValidatedComponent } from './pages/VIDS/vids-validated/vids-validated.component';
 import { TreeModule } from 'primeng/tree';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -75,6 +75,13 @@ import { ImageModule } from 'primeng/image';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { SystemSettingComponent } from './pages/Config/system-setting/system-setting.component';
 import { AppLockComponent } from './pages/Config/UserData/app-lock/app-lock.component';
+import { SystemDetailsComponent } from './pages/Config/system-details/system-details.component';
+import { VsdsDataComponent } from './pages/VSDS/vsds-data/vsds-data.component';
+import { VsdsEquipmentConfigComponent } from './pages/VSDS/vsds-equipment-config/vsds-equipment-config.component';
+import { VsdsIncidentConfigComponent } from './pages/VSDS/vsds-incident-config/vsds-incident-config.component';
+import { VsdsValidationComponent } from './pages/VSDS/vsds-validation/vsds-validation.component';
+import { VsdsValidatedComponent } from './pages/VSDS/vsds-validated/vsds-validated.component';
+import { VsdsLaneConfigComponent } from './pages/VSDS/vsds-lane-config/vsds-lane-config.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -121,6 +128,15 @@ export const MY_CUSTOM_FORMATS = {
     ChnagePasswordPopUpComponent,
     UserProfilePopupComponent,
     VidsdataComponent,
+    VidsEquipmentConfigComponent,
+    VidsIncidentConfigComponent,
+    VidsValidationComponent,
+    VidsValidatedComponent,
+    VsdsDataComponent,
+    VsdsEquipmentConfigComponent,
+    VsdsIncidentConfigComponent,
+    VsdsValidationComponent,
+    VsdsValidatedComponent,
     AtccdataComponent,
     PackagesDetailsComponent,
     PackagesPopupComponent,
@@ -132,14 +148,13 @@ export const MY_CUSTOM_FORMATS = {
     IncidentProcessComponent,
     IncidentAssigneComponent,
     IncidentClosedComponent,
-    VidsEquipmentConfigComponent,
-    VidsIncidentConfigComponent,
-    VidsValidationComponent,
-    VidsValidatedComponent,
+   
     ImsProgressComponent,
     ImsPendingComponent,
     SystemSettingComponent,
-    AppLockComponent
+    AppLockComponent,
+    SystemDetailsComponent,
+    VsdsLaneConfigComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -239,9 +239,24 @@ namespace ATMSRestAPI.Controllers
 
         #endregion
 
-
-
         #region System Details
+        [Route(Provider + "/" + APIPath + "/SystemSetup")]
+        [HttpPost]
+        public HttpResponseMessage SystemSetup(List<SystemIL> setup)
+        {
+            try
+            {
+                response.Message = SystemBL.SetUp(setup);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         [Route(Provider + "/" + APIPath + "/SystemGetAll")]
         [HttpGet]
         public HttpResponseMessage SystemGetAll()
@@ -1549,7 +1564,7 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region Challan Type
+        #region Lane Details
         [Route(Provider + "/" + APIPath + "/LaneGetAll")]
         [HttpGet]
         public HttpResponseMessage LaneGetAll()
@@ -1595,7 +1610,7 @@ namespace ATMSRestAPI.Controllers
                 SystemSettingIL system = SystemSettingBL.Get();
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = typeList.FindAll(x => x.DataId <= system.TotalLane);
+                response.ResponseData = typeList.FindAll(x => x.DataId <= system.TotalLane && x.DataId > 0);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -1725,6 +1740,7 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
         #region un audited
         [Route(Provider + "/" + APIPath + "/VIDSPendingReviewGetByHours")]
         [HttpGet]

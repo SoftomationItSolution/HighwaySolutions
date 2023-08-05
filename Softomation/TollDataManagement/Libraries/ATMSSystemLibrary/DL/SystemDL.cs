@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
+using System.Text;
 using Softomation.ATMSSystemLibrary.DBA;
 using Softomation.ATMSSystemLibrary.IL;
 
@@ -13,6 +15,54 @@ namespace Softomation.ATMSSystemLibrary.DL
         #region Global Varialble
         static string tableName = "tbl_SystemMaster";
         #endregion
+
+        internal static List<ResponseIL> SetUp(List<SystemIL> setup)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                DataTable ImportDataTable = new DataTable();
+                ImportDataTable.Clear();
+                ImportDataTable.Columns.Add("SystemId");
+                ImportDataTable.Columns.Add("DataStatus");
+                ImportDataTable.Columns.Add("DashBoard");
+                ImportDataTable.Columns.Add("ReportIds");
+                ImportDataTable.Columns.Add("SessionId");
+                DataRow row;
+                string SessionId = Constants.RandomString(10);
+                StringBuilder xmlPermission = new StringBuilder();
+                for (int i = 0; i < setup.Count; i++)
+                {
+                    row = ImportDataTable.NewRow();
+                    row["SystemId"] = setup[i].SystemId;
+                    row["DataStatus"] = setup[i].DataStatus;
+                    row["DashBoard"] = setup[i].DashBoard;
+                    if (setup[i].ReportIdList == null)
+                        row["ReportIds"] = string.Empty;
+                    else
+                        row["ReportIds"] = string.Join(",", setup[i].ReportIdList);
+                    row["SessionId"] = SessionId;
+                    ImportDataTable.Rows.Add(row);
+                }
+                if (Constants.BulkCopy(ImportDataTable, "temp_SystemMaster"))
+                {
+                    string spName = "USP_SystemUpdate";
+                    DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, setup[0].CreatedBy, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, setup[0].ModifiedBy, ParameterDirection.Input));
+                    DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                    responses = ResponseIL.ConvertResponseList(dt);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
 
         #region Get Methods
         internal static List<SystemIL> GetAll()
@@ -35,9 +85,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             return eds;
 
         }
-
-
-
         internal static List<SystemIL> GetActive()
         {
             List<SystemIL> smlist = new List<SystemIL>();
@@ -51,7 +98,6 @@ namespace Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
         }
-
         internal static SystemIL GetById(short SystemId)
         {
             DataTable dt = new DataTable();
@@ -73,7 +119,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             return smData;
 
         }
-
         internal static SystemIL GetByName(String SystemName)
         {
             DataTable dt = new DataTable();
@@ -95,7 +140,6 @@ namespace Softomation.ATMSSystemLibrary.DL
             return smData;
 
         }
-
         #endregion
 
         #region Helper Methods
@@ -130,7 +174,11 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["ReportIds"] != DBNull.Value)
             {
                 sm.ReportIds = Convert.ToString(dr["ReportIds"]);
-                sm.ReportMasters = ReportMasterDL.GetByIds(sm.ReportIds);
+                if (!string.IsNullOrEmpty(sm.ReportIds))
+                {
+                    sm.ReportIdList = sm.ReportIds?.Split(',')?.Select(Int16.Parse)?.ToArray();
+                    sm.ReportMastersList = ReportMasterDL.GetByIds(sm.ReportIds);
+                }
             }
 
             if (dr["DataStatus"] != DBNull.Value)

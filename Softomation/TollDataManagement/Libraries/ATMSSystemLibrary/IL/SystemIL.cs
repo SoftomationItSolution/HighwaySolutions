@@ -14,7 +14,8 @@ namespace Softomation.ATMSSystemLibrary.IL
         string systemIcon;
         bool dashBoard;
         string reportIds;
-        List<ReportMasterIL> reportMasters;
+        short[] reportIdList;
+        List<ReportMasterIL> reportMastersList;
 
         public SystemIL()
         {
@@ -27,7 +28,7 @@ namespace Softomation.ATMSSystemLibrary.IL
             systemIcon = string.Empty;
             dashBoard = true;
             reportIds = string.Empty;
-            reportMasters = new List<ReportMasterIL>();
+            reportMastersList = new List<ReportMasterIL>();
         }
 
         public Int16 SystemId
@@ -146,16 +147,29 @@ namespace Softomation.ATMSSystemLibrary.IL
                 reportIds = value;
             }
         }
-        public List<ReportMasterIL> ReportMasters
+        public List<ReportMasterIL> ReportMastersList
         {
             get
             {
-                return reportMasters;
+                return reportMastersList;
             }
 
             set
             {
-                reportMasters = value;
+                reportMastersList = value;
+            }
+        }
+
+        public Int16[] ReportIdList
+        {
+            get
+            {
+                return reportIdList;
+            }
+
+            set
+            {
+                reportIdList = value;
             }
         }
     }

@@ -8,12 +8,16 @@ namespace Softomation.ATMSSystemLibrary.IL
         Int64 parentId;
         Int16 positionId;
         String positionName;
+        Int16 laneNumberId;
+        String laneNumberName;
 
         public EquipmentConfigIL()
         {
             parentId = 0;
-            positionId=0;
+            positionId = 0;
             positionName = string.Empty;
+            laneNumberId = 0;
+            laneNumberName = string.Empty;
         }
         public Int64 ParentId
         {
@@ -49,6 +53,30 @@ namespace Softomation.ATMSSystemLibrary.IL
             set
             {
                 positionName = value;
+            }
+        }
+        public Int16 LaneNumberId
+        {
+            get
+            {
+                return laneNumberId;
+            }
+
+            set
+            {
+                laneNumberId = value;
+            }
+        }
+        public String LaneNumberName
+        {
+            get
+            {
+                return laneNumberName;
+            }
+
+            set
+            {
+                laneNumberName = value;
             }
         }
     }

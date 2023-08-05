@@ -29,6 +29,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("EquipmentId");
                 ImportDataTable.Columns.Add("ParentId");
                 ImportDataTable.Columns.Add("PositionId");
+                ImportDataTable.Columns.Add("LaneNumberId");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
                 string SessionId = Constants.RandomString(10);
@@ -41,6 +42,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                     row["EquipmentId"] = config[i].EquipmentId;
                     row["ParentId"] = config[i].ParentId;
                     row["PositionId"] = config[i].PositionId;
+                    row["LaneNumberId"] = config[i].LaneNumberId;
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
@@ -119,6 +121,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["PositionId"] != DBNull.Value)
                 id.PositionId = Convert.ToInt16(dr["PositionId"]);
 
+            if (dr["LaneNumberId"] != DBNull.Value)
+                id.LaneNumberId = Convert.ToInt16(dr["LaneNumberId"]);
+
             if (SystemId == (short)SystemMasterType.VIDS)
                 id.PositionName = Enum.GetName(typeof(VIDSEquipmentPositionType), (VIDSEquipmentPositionType)id.PositionId);
             else if (SystemId == (short)SystemMasterType.VSDS)
@@ -127,6 +132,8 @@ namespace Softomation.ATMSSystemLibrary.DL
                 id.PositionName = Enum.GetName(typeof(ATCCEquipmentPositionType), (ATCCEquipmentPositionType)id.PositionId);
             else if (SystemId == (short)SystemMasterType.VMS)
                 id.PositionName = Enum.GetName(typeof(VMSEquipmentPositionType), (VMSEquipmentPositionType)id.PositionId);
+
+            id.LaneNumberName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)id.LaneNumberId));
             return id;
         }
         #endregion

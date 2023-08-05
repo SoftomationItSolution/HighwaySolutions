@@ -1,131 +1,70 @@
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div>
-                    <a href="javascript:void(0);" (click)="SaveDetails()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-content-save-all-outline me-2"></i> Save changes
-                    </a>
-                </div>
-                <ul class="nav nav-pills" id="myTab" role="tablist">
-                    <li class="nav-item" role="presentation" (click)="tabChange(0)">
-                        <button class="nav-link active" data-bs-toggle="tab" type="button"
-                            data-bs-target="#system">System</button>
-                    </li>
-                    <li class="nav-item" role="presentation" (click)="tabChange(1)">
-                        <button class="nav-link" data-bs-toggle="tab" type="button"
-                            data-bs-target="#setting">Setting</button>
-                    </li>
-                </ul>
-                <div class="tab-content setting-tab" id="myTabContent">
-                    <div class="tab-pane fade show active" role="tabpanel" id="system">
-                        <p-table #dt [value]="SystemDetails" [rowHover]="true" [scrollable]="true"
-                            [resizableColumns]="true" styleClass="table table-centered datatable dt-responsive nowrap"
-                            [globalFilterFields]="['SystemName','SystemDescription','DashBoard','DataStatus','DirectionName',
-                        'DataStatusName']">
-                            <ng-template pTemplate="header" styleClass="thead-light">
-                                <tr>
-                                    <th>S. No.</th>
-                                    <th pSortableColumn="SystemName">Name <p-sortIcon field="SystemName"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="SystemDescription">Description <p-sortIcon
-                                            field="SystemDescription"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="DataStatus" style="text-align: center;">Status <p-sortIcon
-                                            field="DataStatus"></p-sortIcon>
-                                    </th>
-                                    <th pSortableColumn="DashBoard" style="text-align: center;">On DashBoard <p-sortIcon
-                                            field="DashBoard"></p-sortIcon>
-                                    </th>
-                                    <th>Report List</th>
-                                </tr>
-                            </ng-template>
-                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                                <tr>
-                                    <td>{{i+1}}</td>
-                                    <td>{{rowData.SystemName}}</td>
-                                    <td>{{rowData.SystemDescription}}</td>
-                                    <td style="text-align: center;">
-                                        <input class="form-check-input" type="checkbox" (ngModelChange)="handleCheck($event,rowData,1)" [(ngModel)]="rowData.DataStatus">
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <input class="form-check-input" type="checkbox" [(ngModel)]="rowData.DashBoard" (ngModelChange)="handleCheck($event,rowData,2)">
-                                    </td>
-                                    <td>
-                                        <p-multiSelect appendTo="body" class="form-control select2"
-                                            [options]="ReportDetails" [(ngModel)]="rowData.ReportMasters"
-                                            optionLabel="ReportName" optionValue="ReportId" placeholder="Reports">
-                                        </p-multiSelect>
-                                    </td>
-                                </tr>
-                            </ng-template>
-                        </p-table>
-                    </div>
-                    <div class="tab-pane fade" role="tabpanel" id="setting">
-                        <form [formGroup]="DataDetailsForm">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label for="TotalLane">Total Lane</label>
-                                    <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane" [options]="LaneData"
-                                        optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                        class="form-control select2"></p-dropdown>
-                                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
-                                        Lane is
-                                        required.</small>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
-                                            formControlName="IsATCCIndependently" (change)="ATCCChanged($event)">
-                                        <label class="form-check-label" for="IsATCCIndependently">
-                                            ATCC Independently
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check" style="padding-bottom: 20px;">
-                                        <input class="form-check-input" type="checkbox" id="ATCCByVIDS" formControlName="ATCCByVIDS"
-                                            [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
-                                        <label class="form-check-label" for="ATCCByVIDS">
-                                            ATCC By VIDS
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-check" style="padding-bottom: 20px;">
-                                        <input class="form-check-input" type="checkbox" id="ATCCByVSDS" formControlName="ATCCByVSDS">
-                                        <label class="form-check-label" for="ATCCByVSDS">
-                                            ATCC By VSDS
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label for="TrafficByTime">Traffic velocity By time (minutes)</label>
-                                        <input formControlName="TrafficByTime" type="text" pInputText required autocomplete="off"
-                                            class="form-control" />
-                                        <small class="p-error"
-                                            *ngIf="submitted && DataDetailsForm.hasError('required','TrafficByTime')">Traffic velocity
-                                            By time (minutes) is required.</small>
-                                        <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','TrafficByTime')">Traffic
-                                            velocity By time (minutes) must be numeric.</small>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="TrafficCount">Vehicle crossed at location</label>
-                                        <input formControlName="TrafficCount" type="text" pInputText required autocomplete="off"
-                                            class="form-control" />
-                                        <small class="p-error"
-                                            *ngIf="submitted && DataDetailsForm.hasError('required','TrafficCount')">Vehicle crossed at
-                                            location is required.</small>
-                                        <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','TrafficCount')">Vehicle
-                                            crossed at location must be numeric.</small>
-                                    </div>
-                                </div>
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">Setting</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <fieldset class="col-md-12">
+                <legend>ATCC</legend>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
+                                    formControlName="IsATCCIndependently"
+                                    (change)="ATCCChanged($event)">
+                                <label class="form-check-label" for="IsATCCIndependently">
+                                    ATCC Independently
+                                </label>
                             </div>
-                        </form>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check" style="padding-bottom: 20px;">
+                                <input class="form-check-input" type="checkbox" id="ATCCByVIDS"
+                                    formControlName="ATCCByVIDS"
+                                    [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
+                                <label class="form-check-label" for="ATCCByVIDS">
+                                    ATCC By VIDS
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check" style="padding-bottom: 20px;">
+                                <input class="form-check-input" type="checkbox" id="ATCCByVSDS"
+                                    formControlName="ATCCByVSDS">
+                                <label class="form-check-label" for="ATCCByVSDS">
+                                    ATCC By VSDS
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+            </fieldset>
+            <fieldset class="col-md-12">
+                <legend>VSDS</legend>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="TotalLane">Number of Lane in each direction</label>
+                            <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane"
+                                [options]="LaneData" optionLabel="DataName" optionValue="DataId"
+                                placeholder="Select" class="form-control select2"></p-dropdown>
+                            <small class="p-error"
+                                *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
+                                Lane is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
     </div>
 </div>

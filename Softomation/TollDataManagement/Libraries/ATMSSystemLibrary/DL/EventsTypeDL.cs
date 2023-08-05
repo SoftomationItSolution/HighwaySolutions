@@ -37,6 +37,7 @@ namespace Softomation.ATMSSystemLibrary.DL
                     row["EventsRequired"] = types[i].EventsRequired;
                     row["ReviewRequired"] = types[i].ReviewRequired;
                     row["ChallanTypeId"] = types[i].ChallanTypeId;
+                    row["ChallanTypeId"] = types[i].ChallanTypeId;
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
