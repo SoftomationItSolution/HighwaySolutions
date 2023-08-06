@@ -115,6 +115,9 @@ namespace Softomation.ATMSSystemLibrary.DL
             if (dr["EquipmentName"] != DBNull.Value)
                 id.EquipmentName = Convert.ToString(dr["EquipmentName"]);
 
+            if (dr["DirectionId"] != DBNull.Value)
+                id.DirectionId = Convert.ToInt16(dr["DirectionId"]);
+
             if (dr["ParentId"] != DBNull.Value)
                 id.ParentId = Convert.ToInt64(dr["ParentId"]);
 
@@ -123,6 +126,8 @@ namespace Softomation.ATMSSystemLibrary.DL
 
             if (dr["LaneNumberId"] != DBNull.Value)
                 id.LaneNumberId = Convert.ToInt16(dr["LaneNumberId"]);
+
+            id.DirectionName = Enum.GetName(typeof(DirectionType), (DirectionType)id.DirectionId);
 
             if (SystemId == (short)SystemMasterType.VIDS)
                 id.PositionName = Enum.GetName(typeof(VIDSEquipmentPositionType), (VIDSEquipmentPositionType)id.PositionId);

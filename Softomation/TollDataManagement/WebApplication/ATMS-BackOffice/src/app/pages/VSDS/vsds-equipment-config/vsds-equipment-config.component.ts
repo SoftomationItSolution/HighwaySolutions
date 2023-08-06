@@ -107,7 +107,7 @@ export class VsdsEquipmentConfigComponent implements OnInit {
     this.dbService.EquipmentTypeGetActive().subscribe(
       data => {
         var dataType = data.ResponseData;
-        dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 5 || e.EquipmentTypeId == 7 ||e.EquipmentTypeId == 26 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
+        dataType = dataType.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 3 || e.EquipmentTypeId == 5 || e.EquipmentTypeId == 7 || e.EquipmentTypeId == 17||e.EquipmentTypeId == 26 || e.EquipmentTypeId == 27 || e.EquipmentTypeId == 28);
         this.GetEquipmentDetails(dataType);
       },
       (error) => {
@@ -139,7 +139,10 @@ export class VsdsEquipmentConfigComponent implements OnInit {
             EquipmentTypeName: element.EquipmentTypeName,
             ChainageName: element.ChainageName,
             EquipmentId: element.EquipmentId,
-            PositionId: element.PositionId
+            PositionId: element.PositionId,
+            LaneNumberId: element.LaneNumberId,
+            DirectionId:element.DirectionId,
+            DirectionName:element.DirectionName,
           }
           this.fillData.push(obj)
         }
@@ -263,30 +266,36 @@ export class VsdsEquipmentConfigComponent implements OnInit {
       for (let j = 0; j < p0.length; j++) {
         child0.push(p0[j])
         let element1 = p0[j]
-
+        var NetworkSwitchList = [];
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any,DirectionId:any; }) => e.EquipmentTypeId == 17 && e.ChainageName == element1.ChainageName && e.DirectionId == element1.DirectionId);
+        if (p1.length > 0) {
+          for (let j = 0; j < p1.length; j++) {
+            NetworkSwitchList.push(p1[j])
+          }
+        }
         var LPUList = [];
-        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 3 && e.ChainageName == element1.ChainageName);
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any,DirectionId:any; }) => e.EquipmentTypeId == 3 && e.ChainageName == element1.ChainageName && e.DirectionId == element1.DirectionId);;
         if (p1.length > 0) {
           for (let j = 0; j < p1.length; j++) {
             LPUList.push(p1[j])
           }
         }
         var RadarList = [];
-        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 5 && e.ChainageName == element1.ChainageName);
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any,DirectionId:any; }) => e.EquipmentTypeId == 5 && e.ChainageName == element1.ChainageName && e.DirectionId == element1.DirectionId);
         if (p1.length > 0) {
           for (let j = 0; j < p1.length; j++) {
             RadarList.push(p1[j])
           }
         }
         var SpeedDisplayList = [];
-        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 7 && e.ChainageName == element1.ChainageName);
+        var p1 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any,DirectionId:any; }) => e.EquipmentTypeId == 7 && e.ChainageName == element1.ChainageName && e.DirectionId == element1.DirectionId);
         if (p1.length > 0) {
           for (let j = 0; j < p1.length; j++) {
             SpeedDisplayList.push(p1[j])
           }
         }
         var CameraList = [];
-        var p2 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any; }) => e.EquipmentTypeId == 26 && e.ChainageName == element1.ChainageName);
+        var p2 = this.fillData.filter((e: { EquipmentTypeId: any, ChainageName: any,DirectionId:any; }) => e.EquipmentTypeId == 26 && e.ChainageName == element1.ChainageName && e.DirectionId == element1.DirectionId);
         if (p2.length > 0) {
           for (let j = 0; j < p2.length; j++) {
             CameraList.push(p2[j])
@@ -309,6 +318,7 @@ export class VsdsEquipmentConfigComponent implements OnInit {
           IpAddress: element1.IpAddress,
           DirectionId:element1.DirectionId,
           DirectionName:element1.DirectionName,
+          NetworkSwitchList:NetworkSwitchList,
           LPUList: LPUList,
           RadarList:RadarList,
           SpeedDisplayList:SpeedDisplayList,
@@ -347,8 +357,34 @@ export class VsdsEquipmentConfigComponent implements OnInit {
           ModifiedBy: this.LogedUserId,
         }
         FinalData.push(obj);
+        for (let j = 0; j < element.NetworkSwitchList.length; j++) {
+          let Lelement = element.NetworkSwitchList[j];
+          let Lobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Lelement.EquipmentId,
+            EquipmentTypeId: Lelement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Lelement.PositionId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Lobj);
+        }
         for (let j = 0; j < element.LPUList.length; j++) {
           let Lelement = element.LPUList[j];
+          let Lobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Lelement.EquipmentId,
+            EquipmentTypeId: Lelement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Lelement.PositionId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Lobj);
+        }
+        for (let j = 0; j < element.RadarList.length; j++) {
+          let Lelement = element.RadarList[j];
           let Lobj = {
             SystemId: this.SystemId,
             EquipmentId: Lelement.EquipmentId,
@@ -368,6 +404,21 @@ export class VsdsEquipmentConfigComponent implements OnInit {
             EquipmentTypeId: Celement.EquipmentTypeId,
             ParentId: element.EquipmentId,
             PositionId: Celement.PositionId,
+            LaneNumberId: Celement.LaneNumberId,
+            CreatedBy: this.LogedUserId,
+            ModifiedBy: this.LogedUserId,
+          }
+          FinalData.push(Cobj);
+        }
+        for (let m = 0; m < element.SpeedDisplayList.length; m++) {
+          let Celement = element.SpeedDisplayList[m];
+          let Cobj = {
+            SystemId: this.SystemId,
+            EquipmentId: Celement.EquipmentId,
+            EquipmentTypeId: Celement.EquipmentTypeId,
+            ParentId: element.EquipmentId,
+            PositionId: Celement.PositionId,
+            LaneNumberId: Celement.LaneNumberId,
             CreatedBy: this.LogedUserId,
             ModifiedBy: this.LogedUserId,
           }
