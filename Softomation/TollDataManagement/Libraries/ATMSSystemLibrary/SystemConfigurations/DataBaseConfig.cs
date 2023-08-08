@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Web.Script.Serialization;
 
@@ -72,16 +73,60 @@ namespace Softomation.ATMSSystemLibrary.SystemConfigurations
                 {
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer();
                     config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(Constants.ProjectConfigDirectory + "DBConfiguration.json"));
+                    try
+                    {
+                        config.DBPassword = Constants.Decrypt(config.DBPassword);
+                    }
+                    catch (Exception)
+                    {
+                    }
                     i = 10;
                     break;
                 }
                 catch (Exception)
                 {
+                    config=new DataBaseConfig();
                     i++;
                     Thread.Sleep(100);
                 }
             }
             return config;
+        }
+
+        public static bool Serialize(DataBaseConfig config)
+        {
+            bool result = false;
+            Int16 i = 0;
+            while (i < 4)
+            {
+                try
+                {
+                    config.DBPassword = Constants.Encrypt(config.DBPassword);
+                    var jsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                    if (File.Exists(Constants.ProjectConfigDirectory + "DBConfiguration.json"))
+                    {
+                        File.Delete(Constants.ProjectConfigDirectory + "DBConfiguration.json");
+                    }
+                    else
+                    {
+                        Directory.CreateDirectory(Constants.ProjectConfigDirectory);
+                    }
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                    File.WriteAllText(Constants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
+                    i = 10;
+                    result = true;
+                    break;
+                }
+                catch (Exception)
+                {
+                    result = false;
+                    i++;
+                    Thread.Sleep(100);
+                }
+
+
+            }
+            return result;
         }
     }
 }

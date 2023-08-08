@@ -343,3 +343,8 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAP
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.csproj.CopyComplete
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Antlr3.Runtime.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.Web.Optimization.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\WebGrease.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\Antlr3.Runtime.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\WebApi\ATMSRestAPI\bin\System.Web.Optimization.xml

@@ -241,6 +241,7 @@ namespace Softomation.ATMSSystemLibrary
             Oracle = 1,
             SqlServer = 2,
             PostGrayServer = 3,
+            MySql = 4,
         }
         public enum ServerEnum
         {
