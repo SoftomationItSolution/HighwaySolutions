@@ -1,178 +1,210 @@
-/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+USE [ATMSv1]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSPendingReviewEventsGetByHours]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsReviewedGetByHours]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsHistory]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsGetByHours]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventsGetByFilter]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VIDSEventReviewUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_VehicleClassGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserUpdatePassword]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UsersGetByLoginId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserProfileChange]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_UserProfileChange]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetByUserTypeId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetBySystemUserTypeId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetbyId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_UserGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemUpdate]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemSettingInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemSettingInsertUpdate]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemSettingGet]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_SystemSettingGet]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetByName]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_SystemGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByRoleId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByMenuId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolesPersmissionGetByMenu]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolesGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolesGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RolePermissionInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_RoleInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetByName]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ReportMasterGetByName]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetByIds]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ReportMasterGetByIds]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetById]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ReportMasterGetById]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetAll]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_ReportMasterGetAll]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_PackageInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_PackageGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_PackageGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_MenuGetByRoleId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_MenuGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_MasterDataGetBySystemId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_LogingActivityUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_LogingActivityInsert]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentStatusMasterGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentSourceGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetPending]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetInProgress]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetClose]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetByFilter]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentGetByFilter]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsInsert]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentDetailsGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentCategoryMasterGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentActionInsert]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_IncidentActionHistorGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeMasterGetBySystemId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EventsTypeMasterGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_ErrorInfoInsert]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentTypeMasterGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetBySystemId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetByFilter]    Script Date: 08-08-2023 13:17:43 ******/
+DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetByFilter]
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentDetailsGetAll]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentConfigInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_EquipmentConfigGetBySystemId]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomInsertUpdate]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomGetById]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 08-08-2023 13:17:43 ******/
 DROP PROCEDURE IF EXISTS [dbo].[USP_ControlRoomGetAll]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_WeatherEventHistory]') AND type in (N'U'))
@@ -329,37 +361,52 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_V
 ALTER TABLE [dbo].[tbl_VehicleClass] DROP CONSTRAINT IF EXISTS [DF__tbl_Vehic__Allow__61316BF4]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__48CFD27E]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__338A9CD5]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__47DBAE45]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Modif__3296789C]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__46E78A0C]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__31A25463]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__45F365D3]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__Creat__30AE302A]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_UserMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__DataS__44FF419A]
+ALTER TABLE [dbo].[tbl_UserMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_UserM__DataS__2FBA0BF1]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemSetting]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemSetting] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__3C1FE2D6]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemSetting]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemSetting] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__3B2BBE9D]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemSetting]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemSetting] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__3A379A64]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemSetting]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemSetting] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__3943762B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemSetting]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_SystemSetting] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DataS__384F51F2]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__336AA144]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__45A94D10]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__32767D0B]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Modif__44B528D7]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__318258D2]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__43C1049E]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__308E3499]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__Creat__42CCE065]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DataS__2F9A1060]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DataS__41D8BC2C]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_SystemMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DashB__2EA5EC27]
+ALTER TABLE [dbo].[tbl_SystemMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Syste__DashB__40E497F3]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_RolePermission]') AND type in (N'U'))
 ALTER TABLE [dbo].[tbl_RolePermission] DROP CONSTRAINT IF EXISTS [DF__tbl_RoleP__Modif__5441852A]
@@ -436,20 +483,35 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_PackageDetails]') AND type in (N'U'))
 ALTER TABLE [dbo].[tbl_PackageDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Packa__DataS__3B0BC30C]
 GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3F466844]
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster_bkp]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3F466844]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster_bkp]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3E52440B]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster_bkp]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3D5E1FD2]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster_bkp]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3C69FB99]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster_bkp]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__DataS__3B75D760]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__3E52440B]
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__2DD1C37F]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3D5E1FD2]
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Modif__2CDD9F46]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__3C69FB99]
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__2BE97B0D]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__DataS__3B75D760]
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__Creat__2AF556D4]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_MenuMaster]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_MenuMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_MenuM__DataS__2A01329B]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_LogingActivity]') AND type in (N'U'))
 ALTER TABLE [dbo].[tbl_LogingActivity] DROP CONSTRAINT IF EXISTS [DF__tbl_Login__Creat__3A81B327]
@@ -668,28 +730,31 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_E
 ALTER TABLE [dbo].[tbl_EquipmentDetails] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__OnLin__52E34C9D]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__4F67C174]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__5C8CB268]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__4E739D3B]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Modif__5B988E2F]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__4D7F7902]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__5AA469F6]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__4C8B54C9]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Creat__59B045BD]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__DataS__4B973090]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__DataS__58BC2184]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Order__4AA30C57]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Order__57C7FD4B]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Posit__49AEE81E]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__LaneN__54EB90A0]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
-ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Paren__48BAC3E5]
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Posit__56D3D912]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_EquipmentConfig]') AND type in (N'U'))
+ALTER TABLE [dbo].[tbl_EquipmentConfig] DROP CONSTRAINT IF EXISTS [DF__tbl_Equip__Paren__55DFB4D9]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ControlRoomMaster]') AND type in (N'U'))
 ALTER TABLE [dbo].[tbl_ControlRoomMaster] DROP CONSTRAINT IF EXISTS [DF__tbl_Contr__Modif__4A4E069C]
@@ -742,136 +807,333 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[tbl_ATCCEventHistory]') AND type in (N'U'))
 ALTER TABLE [dbo].[tbl_ATCCEventHistory] DROP CONSTRAINT IF EXISTS [DF__tbl_ATCCE__Vehic__62AFA012]
 GO
-/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[vsdsEquipment]    Script Date: 08-08-2023 13:17:43 ******/
+DROP TABLE IF EXISTS [dbo].[vsdsEquipment]
+GO
+/****** Object:  Table [dbo].[VSDSData]    Script Date: 08-08-2023 13:17:43 ******/
+DROP TABLE IF EXISTS [dbo].[VSDSData]
+GO
+/****** Object:  Table [dbo].[temp_SystemMaster]    Script Date: 08-08-2023 13:17:43 ******/
+DROP TABLE IF EXISTS [dbo].[temp_SystemMaster]
+GO
+/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[temp_ImportPermission]
 GO
-/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[temp_EventsTypeMaster]
 GO
-/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[temp_EquipmentConfig]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_WeatherEventHistory]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_WeatherConfiguration]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VSDSSectionSpeedHistory]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VSDSEventHistory]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VMSMessageHistory]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VMSMessageDetails]
 GO
-/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VIDSEventsHistory]
 GO
-/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_VehicleClass]
 GO
-/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_UserMaster]
 GO
-/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_SystemSetting]    Script Date: 08-08-2023 13:17:43 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_SystemSetting]
+GO
+/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_SystemMaster]
 GO
-/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_RolePermission]
 GO
-/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_RoleMaster]
 GO
-/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_ReportMaster]
 GO
-/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_PackageDetails]
 GO
-/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_MenuMaster_bkp]    Script Date: 08-08-2023 13:17:43 ******/
+DROP TABLE IF EXISTS [dbo].[tbl_MenuMaster_bkp]
+GO
+/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_MenuMaster]
 GO
-/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_LogingActivity]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentSubCategory]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentStatusMaster]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentSourceMaster]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentDetailsHistory]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentCheckListMaster]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentCheckList]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentCategoryMaster]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_IncidentActionHistory]
 GO
-/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_EventsTypeMaster]
 GO
-/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_ErrorInfo]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_EquipmentTypeMaster]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_EquipmentDetails]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_EquipmentConfig]
 GO
-/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_ControlRoomMaster]
 GO
-/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_CallEventsDetails]
 GO
-/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_ATCCEventHistory]
 GO
-/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 08-08-2023 13:17:43 ******/
 DROP TABLE IF EXISTS [dbo].[tbl_ActivityLog]
 GO
-/****** Object:  Table [dbo].[eventdata]    Script Date: 01-08-2023 18:18:27 ******/
-DROP TABLE IF EXISTS [dbo].[eventdata]
+/****** Object:  UserDefinedFunction [dbo].[SplitString]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[SplitString]
 GO
-/****** Object:  Table [dbo].[eventdata]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  UserDefinedFunction [dbo].[GetDateDiffInHRMMSS]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[GetDateDiffInHRMMSS]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_ValueSplit]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[fnc_ValueSplit]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_Get24HourList]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[fnc_Get24HourList]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_Get24HourDate]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[fnc_Get24HourDate]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_CommaSeparated]    Script Date: 08-08-2023 13:17:43 ******/
+DROP FUNCTION IF EXISTS [dbo].[fnc_CommaSeparated]
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_CommaSeparated]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[eventdata](
-	[EventsTypeId] [tinyint] NOT NULL,
-	[EventTypeName] [nvarchar](50) NOT NULL,
-	[IncidentRequired] [bit] NOT NULL,
-	[ChallanRequired] [bit] NOT NULL,
-	[SystemId] [tinyint] NOT NULL,
-	[DataStatus] [bit] NOT NULL,
-	[CreatedDate] [nvarchar](50) NOT NULL,
-	[CreatedBy] [bigint] NOT NULL,
-	[ModifiedDate] [nvarchar](50) NOT NULL,
-	[ModifiedBy] [bigint] NOT NULL
-) ON [PRIMARY]
+CREATE FUNCTION [dbo].[fnc_CommaSeparated]
+(
+	-- Add the parameters for the function here
+	@List	varchar(8000)
+)
+RETURNS 
+@TempList TABLE
+	(
+		Id  int identity(1,1),
+		DataValue varchar(1000)
+	)
+AS
+BEGIN
+	-- Fill the table variable with the rows for your result set
+	DECLARE @ID varchar(50), @Pos Varchar(50)
+
+	SET @List = LTRIM(RTRIM(@List))+ ','
+	SET @Pos = CHARINDEX(',', @List, 1)
+
+	IF REPLACE(@List, ',', '') <> ''
+	BEGIN
+		WHILE @Pos > 0
+		BEGIN
+			SET @ID = LTRIM(RTRIM(LEFT(@List, @Pos - 1)))
+			IF @ID <> ''
+			BEGIN
+				INSERT INTO @TempList (DataValue) VALUES (CAST(@ID AS varchar(50))) --Use Appropriate conversion
+			END
+			SET @List = RIGHT(@List, LEN(@List) - @Pos)
+			SET @Pos = CHARINDEX(',', @List, 1)
+
+		END
+	END	
+	RETURN 
+END
+
 GO
-/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  UserDefinedFunction [dbo].[fnc_Get24HourDate]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[fnc_Get24HourDate]
+(
+@EndDateTime DATETIME
+)
+RETURNS 
+@TempList TABLE
+	(
+		StartDateTime DATETIME,
+		EndDateTime DATETIME
+	)
+AS
+BEGIN
+	DECLARE @StartDateTime DATETIME;
+	DECLARE @MM smallint;
+	SET @MM =FORMAT(@EndDateTime,'mm')
+	IF(@MM>0)
+	BEGIN
+		SET @EndDateTime=DATEADD(HOUR,1,@EndDateTime)
+		SET @EndDateTime= CONVERT(DATETIME,FORMAT(@EndDateTime,'dd-MMM-yyyy hh')+':00:00')
+	END
+	SET @StartDateTime=DATEADD(DAY,-1,@EndDateTime)
+	INSERT INTO @TempList (StartDateTime,EndDateTime) VALUES (@StartDateTime,@EndDateTime) 
+RETURN 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_Get24HourList]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[fnc_Get24HourList]
+(
+@StartDateTime DATETIME,
+@EndDateTime DATETIME
+)
+RETURNS 
+@TempList TABLE
+	(
+		StartDateTime DATETIME,EndDateTime DATETIME
+	)
+AS
+BEGIN
+	INSERT INTO @TempList (StartDateTime)
+	SELECT  TOP (DATEDIFF(HOUR, @StartDateTime, @EndDateTime) + 1) DATETIME = DATEADD(HOUR, ROW_NUMBER() OVER(ORDER BY a.object_id) - 1, @StartDateTime)
+	FROM   sys.all_objects a CROSS JOIN sys.all_objects b
+	DELETE FROM @TempList  WHERE StartDateTime=@StartDateTime
+UPDATE @TempList SET EndDateTime=DATEADD(HOUR,1,StartDateTime)
+RETURN 
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[fnc_ValueSplit]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[fnc_ValueSplit]
+(
+	@List	varchar(8000)
+)
+RETURNS 
+@TempList TABLE
+	(
+		Id  int identity(1,1),
+		Value varchar(1000)
+	)
+AS
+BEGIN
+	-- Fill the table variable with the rows for your result set
+	DECLARE @ID varchar(50), @Pos Varchar(50)
+
+	SET @List = LTRIM(RTRIM(@List))+ ','
+	SET @Pos = CHARINDEX(',', @List, 1)
+
+	IF REPLACE(@List, ',', '') <> ''
+	BEGIN
+		WHILE @Pos > 0
+		BEGIN
+			SET @ID = LTRIM(RTRIM(LEFT(@List, @Pos - 1)))
+			IF @ID <> ''
+			BEGIN
+				INSERT INTO @TempList (Value) VALUES (CAST(@ID AS varchar(50))) --Use Appropriate conversion
+			END
+			SET @List = RIGHT(@List, LEN(@List) - @Pos)
+			SET @Pos = CHARINDEX(',', @List, 1)
+
+		END
+	END	
+	RETURN 
+END
+
+GO
+/****** Object:  UserDefinedFunction [dbo].[GetDateDiffInHRMMSS]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[GetDateDiffInHRMMSS](@startDate DATETIME, @endDate DATETIME)
+RETURNS VARCHAR(10)
+AS BEGIN
+    DECLARE @seconds INT = DATEDIFF(s, @startDate, @endDate)
+    DECLARE @difference VARCHAR(10) =
+    FORMAT(@seconds / 3600, '00') + ':' +
+    FORMAT(@seconds % 3600 / 60, '00') + ':' +
+    FORMAT(@seconds % 60, '00')
+    RETURN @difference
+END
+GO
+/****** Object:  UserDefinedFunction [dbo].[SplitString]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE FUNCTION [dbo].[SplitString] ( @StringToSplit VARCHAR(MAX) )
+RETURNS
+ @returnList TABLE ([Name] [nvarchar] (500))
+AS
+BEGIN
+
+ DECLARE @name NVARCHAR(255)
+ DECLARE @pos INT
+
+ WHILE CHARINDEX(',', @stringToSplit) > 0
+ BEGIN
+  SELECT @pos  = CHARINDEX(',', @stringToSplit)  
+  SELECT @name = SUBSTRING(@stringToSplit, 1, @pos-1)
+
+  INSERT INTO @returnList 
+  SELECT @name
+
+  SELECT @stringToSplit = SUBSTRING(@stringToSplit, @pos+1, LEN(@stringToSplit)-@pos)
+ END
+
+ INSERT INTO @returnList
+ SELECT @stringToSplit
+
+ RETURN
+END
+GO
+/****** Object:  Table [dbo].[tbl_ActivityLog]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -886,7 +1148,7 @@ CREATE TABLE [dbo].[tbl_ActivityLog](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ATCCEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -917,7 +1179,7 @@ CREATE TABLE [dbo].[tbl_ATCCEventHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_CallEventsDetails]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -943,7 +1205,7 @@ CREATE TABLE [dbo].[tbl_CallEventsDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ControlRoomMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -962,7 +1224,7 @@ CREATE TABLE [dbo].[tbl_ControlRoomMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentConfig]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -973,6 +1235,7 @@ CREATE TABLE [dbo].[tbl_EquipmentConfig](
 	[EquipmentId] [bigint] NULL,
 	[ParentId] [bigint] NULL,
 	[PositionId] [smallint] NULL,
+	[LaneNumberId] [smallint] NULL,
 	[OrderBy] [smallint] NULL,
 	[DataStatus] [smallint] NULL,
 	[CreatedDate] [datetime] NULL,
@@ -981,7 +1244,7 @@ CREATE TABLE [dbo].[tbl_EquipmentConfig](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentDetails]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1017,7 +1280,7 @@ CREATE TABLE [dbo].[tbl_EquipmentDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EquipmentTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1036,7 +1299,7 @@ CREATE TABLE [dbo].[tbl_EquipmentTypeMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ErrorInfo]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1051,7 +1314,7 @@ CREATE TABLE [dbo].[tbl_ErrorInfo](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_EventsTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1070,7 +1333,7 @@ CREATE TABLE [dbo].[tbl_EventsTypeMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentActionHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1089,7 +1352,7 @@ CREATE TABLE [dbo].[tbl_IncidentActionHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCategoryMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1107,7 +1370,7 @@ CREATE TABLE [dbo].[tbl_IncidentCategoryMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckList]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1126,7 +1389,7 @@ CREATE TABLE [dbo].[tbl_IncidentCheckList](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentCheckListMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1144,7 +1407,7 @@ CREATE TABLE [dbo].[tbl_IncidentCheckListMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentDetailsHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1179,7 +1442,7 @@ CREATE TABLE [dbo].[tbl_IncidentDetailsHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSourceMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1195,7 +1458,7 @@ CREATE TABLE [dbo].[tbl_IncidentSourceMaster](
 	[ModifiedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentStatusMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1213,7 +1476,7 @@ CREATE TABLE [dbo].[tbl_IncidentStatusMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_IncidentSubCategory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1229,7 +1492,7 @@ CREATE TABLE [dbo].[tbl_IncidentSubCategory](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_LogingActivity]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1245,7 +1508,7 @@ CREATE TABLE [dbo].[tbl_LogingActivity](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_MenuMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1266,7 +1529,28 @@ CREATE TABLE [dbo].[tbl_MenuMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_MenuMaster_bkp]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_MenuMaster_bkp](
+	[MenuId] [int] IDENTITY(1,1) NOT NULL,
+	[MenuName] [varchar](40) NULL,
+	[MenuURL] [varchar](100) NULL,
+	[MenuIcon] [varchar](100) NULL,
+	[MennuAccess] [smallint] NULL,
+	[OderBy] [smallint] NULL,
+	[ParentId] [bigint] NULL,
+	[SystemId] [smallint] NULL,
+	[DataStatus] [smallint] NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [bigint] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [bigint] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_PackageDetails]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1288,7 +1572,7 @@ CREATE TABLE [dbo].[tbl_PackageDetails](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_ReportMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1305,7 +1589,7 @@ CREATE TABLE [dbo].[tbl_ReportMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_RoleMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1320,7 +1604,7 @@ CREATE TABLE [dbo].[tbl_RoleMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_RolePermission]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1338,7 +1622,7 @@ CREATE TABLE [dbo].[tbl_RolePermission](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_SystemMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1352,6 +1636,7 @@ CREATE TABLE [dbo].[tbl_SystemMaster](
 	[SystemImage] [varchar](50) NULL,
 	[SystemIcon] [varchar](50) NULL,
 	[DashBoard] [bit] NULL,
+	[ReportIds] [nvarchar](4000) NULL,
 	[DataStatus] [smallint] NULL,
 	[CreatedDate] [datetime] NULL,
 	[CreatedBy] [bigint] NULL,
@@ -1359,7 +1644,26 @@ CREATE TABLE [dbo].[tbl_SystemMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_SystemSetting]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tbl_SystemSetting](
+	[TotalLane] [smallint] NULL,
+	[IsATCCIndependently] [bit] NULL,
+	[ATCCByVSDS] [bit] NULL,
+	[ATCCByVIDS] [bit] NULL,
+	[trafficCount] [smallint] NULL,
+	[trafficByTime] [smallint] NULL,
+	[DataStatus] [smallint] NULL,
+	[CreatedDate] [datetime] NULL,
+	[CreatedBy] [bigint] NULL,
+	[ModifiedDate] [datetime] NULL,
+	[ModifiedBy] [bigint] NULL
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tbl_UserMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1375,6 +1679,7 @@ CREATE TABLE [dbo].[tbl_UserMaster](
 	[AccountExpiredDate] [date] NULL,
 	[RoleId] [int] NULL,
 	[UserTypeId] [int] NULL,
+	[UserProfileImage] [varchar](255) NULL,
 	[DataStatus] [smallint] NULL,
 	[CreatedDate] [datetime] NULL,
 	[CreatedBy] [bigint] NULL,
@@ -1382,7 +1687,7 @@ CREATE TABLE [dbo].[tbl_UserMaster](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VehicleClass]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1400,7 +1705,7 @@ CREATE TABLE [dbo].[tbl_VehicleClass](
 	[ModifiedBy] [bigint] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VIDSEventsHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1439,7 +1744,7 @@ CREATE TABLE [dbo].[tbl_VIDSEventsHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageDetails]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1460,7 +1765,7 @@ CREATE TABLE [dbo].[tbl_VMSMessageDetails](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VMSMessageHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1475,7 +1780,7 @@ CREATE TABLE [dbo].[tbl_VMSMessageHistory](
 	[CreatedDate] [datetime] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VSDSEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1525,7 +1830,7 @@ CREATE TABLE [dbo].[tbl_VSDSEventHistory](
 	[MediaSendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_VSDSSectionSpeedHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1544,7 +1849,7 @@ CREATE TABLE [dbo].[tbl_VSDSSectionSpeedHistory](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_WeatherConfiguration]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1568,7 +1873,7 @@ CREATE TABLE [dbo].[tbl_WeatherConfiguration](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[tbl_WeatherEventHistory]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1592,7 +1897,7 @@ CREATE TABLE [dbo].[tbl_WeatherEventHistory](
 	[SendStatus] [bit] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[temp_EquipmentConfig]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1603,10 +1908,11 @@ CREATE TABLE [dbo].[temp_EquipmentConfig](
 	[EquipmentId] [bigint] NULL,
 	[ParentId] [bigint] NULL,
 	[PositionId] [smallint] NULL,
+	[LaneNumberId] [smallint] NULL,
 	[SessionId] [varchar](10) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[temp_EventsTypeMaster]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1619,7 +1925,7 @@ CREATE TABLE [dbo].[temp_EventsTypeMaster](
 	[SessionId] [varchar](10) NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 01-08-2023 18:18:27 ******/
+/****** Object:  Table [dbo].[temp_ImportPermission]    Script Date: 08-08-2023 13:17:43 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -1632,43 +1938,86 @@ CREATE TABLE [dbo].[temp_ImportPermission](
 	[SessionId] [varchar](20) NULL
 ) ON [PRIMARY]
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Stop Vehicle', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-05-23 13:49:11.347000000', 1)
+/****** Object:  Table [dbo].[temp_SystemMaster]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Congestion', 1, 0, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-10-19 15:42:01.913000000', 1)
+SET QUOTED_IDENTIFIER ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Wrong Direction', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-10-19 15:41:44.223000000', 1)
+CREATE TABLE [dbo].[temp_SystemMaster](
+	[SystemId] [smallint] NULL,
+	[DataStatus] [smallint] NULL,
+	[DashBoard] [bit] NULL,
+	[ReportIds] [nvarchar](4000) NULL,
+	[SessionId] [nvarchar](4000) NULL
+) ON [PRIMARY]
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'Fast Moving', 0, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-05-18 13:26:57.053000000', 1)
+/****** Object:  Table [dbo].[VSDSData]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Slow Moving', 0, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2023-02-02 14:33:42.490000000', 1)
+SET QUOTED_IDENTIFIER ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'Fog/smoke', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-02-28 17:56:11.980000000', 1)
+CREATE TABLE [dbo].[VSDSData](
+	[DeviceIP] [nvarchar](50) NOT NULL,
+	[LaneNumber] [tinyint] NOT NULL,
+	[EventDate] [datetime2](7) NOT NULL,
+	[EventID] [nvarchar](50) NOT NULL,
+	[DirectionId] [tinyint] NOT NULL,
+	[PlateNumber] [nvarchar](50) NOT NULL,
+	[VehicleClassId] [tinyint] NOT NULL,
+	[CapturedSpeed] [float] NOT NULL,
+	[PlateImageUrl] [varchar](max) NOT NULL,
+	[VehicleImageUrl] [varchar](max) NOT NULL,
+	[VehicleVideoUrl] [varchar](max) NOT NULL
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Fire', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-02-28 17:56:12.527000000', 1)
+/****** Object:  Table [dbo].[vsdsEquipment]    Script Date: 08-08-2023 13:17:43 ******/
+SET ANSI_NULLS ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'Fallen Object', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-02-28 17:56:13.090000000', 1)
+SET QUOTED_IDENTIFIER ON
 GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Human Detected', 1, 1, 6, 1, N'2021-07-07 11:24:39.433000000', 0, N'2022-02-28 17:56:13.493000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'No Video', 0, 1, 6, 1, N'2022-01-14 15:19:16.093000000', 0, N'2022-02-28 17:56:13.870000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'Human Crossing Road', 0, 1, 6, 1, N'2022-02-10 12:36:11.257000000', 0, N'2022-05-23 13:49:37.483000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'Vehicle Occupancy', 1, 1, 6, 0, N'2022-02-10 12:36:36.873000000', 0, N'2022-02-28 17:56:17.883000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'Lane Changed', 1, 1, 6, 1, N'2022-02-10 12:36:47.043000000', 0, N'2022-02-28 17:56:15.197000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'Speed', 0, 1, 6, 0, N'2022-02-10 12:36:59.243000000', 0, N'2022-03-03 14:58:25.400000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'Low Speed', 0, 1, 6, 0, N'2022-02-10 12:37:12.620000000', 0, N'2022-02-28 18:00:45.223000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'ATCC', 0, 1, 6, 1, N'2022-02-10 12:37:38.067000000', 0, N'2022-05-14 15:10:00.113000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'False Event', 0, 0, 6, 1, N'2022-03-03 12:52:38.407000000', 0, N'2022-04-18 17:51:45.027000000', 1)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (18, N'Recording Connected', 0, 0, 6, 1, N'2022-07-23 13:35:18.033000000', 0, N'2022-07-23 13:35:18.033000000', 0)
-GO
-INSERT [dbo].[eventdata] ([EventsTypeId], [EventTypeName], [IncidentRequired], [ChallanRequired], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (19, N'Motion Detected', 0, 1, 6, 1, N'2022-07-23 13:36:30.847000000', 0, N'2022-07-23 13:36:30.847000000', 0)
+CREATE TABLE [dbo].[vsdsEquipment](
+	[EntryId] [smallint] NOT NULL,
+	[SystemId] [tinyint] NOT NULL,
+	[ControlRoomId] [tinyint] NOT NULL,
+	[ControlRoomName] [nvarchar](50) NOT NULL,
+	[LocationId] [smallint] NOT NULL,
+	[LocationName] [nvarchar](50) NOT NULL,
+	[ChainageNumber] [float] NOT NULL,
+	[CategoryId] [tinyint] NOT NULL,
+	[CategoryName] [nvarchar](50) NOT NULL,
+	[DeviceTypeId] [tinyint] NOT NULL,
+	[DeviceTypeName] [nvarchar](50) NOT NULL,
+	[DeviceName] [nvarchar](50) NOT NULL,
+	[ConnectionTypeId] [tinyint] NOT NULL,
+	[ConnectionType] [nvarchar](50) NOT NULL,
+	[DirectionId] [tinyint] NOT NULL,
+	[IpAddress] [nvarchar](50) NOT NULL,
+	[PortNumber] [smallint] NOT NULL,
+	[DeviceLoginId] [nvarchar](50) NOT NULL,
+	[DevicePassword] [nvarchar](50) NOT NULL,
+	[Latitude] [float] NOT NULL,
+	[Longitude] [float] NOT NULL,
+	[MACAddress] [nvarchar](50) NOT NULL,
+	[ModelNumber] [nvarchar](50) NOT NULL,
+	[Manufacturer] [nvarchar](50) NOT NULL,
+	[Vendor] [nvarchar](50) NOT NULL,
+	[Remark] [nvarchar](50) NOT NULL,
+	[PurchageDate] [date] NOT NULL,
+	[ManufacturerDate] [date] NOT NULL,
+	[WarrantyExpireDate] [date] NOT NULL,
+	[LaneNumber] [tinyint] NOT NULL,
+	[OnLineStatus] [bit] NOT NULL,
+	[DataStatus] [tinyint] NOT NULL,
+	[CreatedDate] [nvarchar](50) NOT NULL,
+	[CreatedBy] [tinyint] NOT NULL,
+	[ModifiedDate] [nvarchar](50) NOT NULL,
+	[ModifiedBy] [tinyint] NOT NULL,
+	[IconName] [nvarchar](50) NOT NULL,
+	[PtzCameraId] [tinyint] NOT NULL,
+	[PtzPreset] [nvarchar](1) NULL,
+	[ResourceId] [tinyint] NOT NULL,
+	[PackageId] [tinyint] NOT NULL
+) ON [PRIMARY]
 GO
 SET IDENTITY_INSERT [dbo].[tbl_ActivityLog] ON 
 GO
@@ -1780,6 +2129,18 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (94, 0, NULL, NULL, N'Permission Modified', N'9', CAST(N'2023-08-01T17:40:39.860' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (96, 0, NULL, NULL, N'VIDS- Modified', N'17', CAST(N'2023-08-02T20:17:23.423' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (97, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:41:25.217' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (98, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:42:49.547' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (99, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:42:55.370' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (100, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:43:15.873' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (101, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:43:59.297' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (34, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:00:28.427","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":0.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:59:52.390","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-06-24T13:59:52.390' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (35, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":0.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T13:59:52.390","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-06-24T14:04:37.520","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-06-24T14:04:37.520' AS DateTime))
@@ -1794,6 +2155,10 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (77, 0, NULL, N'{"EventTypeId":3,"IsChallanRequired":true,"ChallanTypeId":6}', N'Insert', N'32', CAST(N'2023-08-01T13:19:07.697' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (102, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:44:01.127' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (103, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:44:21.073' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (36, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":0,"ProtocolTypeId":0,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-22","PurchageDate":"2023-06-23","WarrantyExpireDate":"2023-06-24","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-23T23:53:11.107","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-25T14:28:19.750","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-06-25T14:28:19.750' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (38, 0, N'{"ClassId":0,"VehicleClassId":0,"VehicleClassName":"Unknown","VehicleClassIcon":"fa fa-times","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-01-18T12:21:46.273","CreatedBy":0,"ModifiedDate":"2022-11-03T14:38:08.423","ModifiedBy":1}', N'{"ClassId":0,"VehicleClassId":0,"VehicleClassName":"Unknown1","VehicleClassIcon":"fa fa-times","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-01-18T12:21:46.273","CreatedBy":0,"ModifiedDate":"2023-06-25T16:09:50.237","ModifiedBy":0}', N'Update', N'8', CAST(N'2023-06-25T16:09:50.237' AS DateTime))
@@ -1803,6 +2168,16 @@ GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (40, 0, N'{"UserId":1,"LoginId":"Admin","LoginPassword":"D8xXdXLEvWnyaacDv4ryUg==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-16","RoleId":1,"UserTypeId":0,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-17T08:03:47.203","ModifiedBy":1}', N'{"UserId":1,"LoginId":"Admin","LoginPassword":"6YMMiIA72\/j63JbMxp7J9RT+xDC1sv3m4V2aNsAcVPg=","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-15","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-25T17:35:49.013","ModifiedBy":1}', N'Update', N'10', CAST(N'2023-06-25T17:35:49.013' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (43, 0, N'{"UserId":1,"LoginId":"Admin","LoginPassword":"wTGXfQWcGaBfZJavKzulTQ==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-13","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:49:07.887","ModifiedBy":1}', N'{"UserId":1,"LoginId":"admin","LoginPassword":"wTGXfQWcGaBfZJavKzulTQ==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-12","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:50:04.510","ModifiedBy":1}', N'Update', N'10', CAST(N'2023-06-26T19:50:04.510' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (104, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:44:40.980' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (105, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:45:00.110' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (106, 0, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:46:32.230' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (107, 1, N'', N'', N'Profile Image Chnage', N'8', CAST(N'2023-08-02T20:47:16.160' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (128, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T12:55:45.310' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (44, 0, N'{"UserId":1,"LoginId":"admin","LoginPassword":"wTGXfQWcGaBfZJavKzulTQ==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-12","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:50:04.510","ModifiedBy":1}', N'{"UserId":1,"LoginId":"admin","LoginPassword":"wTGXfQWcGaBfZJavKzulTQ==","FirstName":"Admin","LastName":"Admin","EmailId":"Admin@gmail.com","MobileNumber":"9982567732","AccountExpiredDate":"2033-06-12","RoleId":1,"UserTypeId":1,"DataStatus":1,"CreatedDate":"2023-06-16T01:10:15.223","CreatedBy":0,"ModifiedDate":"2023-06-26T19:50:04.503","ModifiedBy":1}', N'Update', N'10', CAST(N'2023-06-26T19:50:04.503' AS DateTime))
 GO
@@ -1822,6 +2197,14 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (69, 0, NULL, NULL, N'VIDS- Modified', N'29', CAST(N'2023-07-26T17:14:51.753' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (129, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T12:55:56.887' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (131, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T12:59:20.257' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (133, 0, NULL, NULL, N'VSDS- Created', N'24', CAST(N'2023-08-06T10:42:35.903' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (134, 0, NULL, NULL, N'VSDS- Created', N'24', CAST(N'2023-08-06T10:48:11.767' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (54, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-07-03T23:26:54.767","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-07-03T23:27:32.387","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-07-03T23:27:32.387' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (55, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-07-03T23:27:32.387","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-07-03T23:28:07.573","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-07-03T23:28:07.573' AS DateTime))
@@ -1835,6 +2218,8 @@ GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (72, 0, NULL, NULL, N'VIDS- Modified', N'30', CAST(N'2023-07-28T15:35:43.400' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (93, 0, N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"1","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-26","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:16:13.847","ModifiedBy":0}', N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"VIDS","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-25","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:45:41.280","ModifiedBy":3}', N'Update', N'10', CAST(N'2023-08-01T15:45:41.280' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (108, 0, NULL, N'{"RoleId":3,"RoleName":"","DataStatus":0,"CreatedDate":"2023-08-03T00:10:21.003","CreatedBy":0,"ModifiedDate":"2023-08-03T00:10:21","ModifiedBy":0}', N'Insert', N'7', CAST(N'2023-08-03T00:10:21.003' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (57, 0, NULL, N'{"IncidentId":"TMCS-202307191622512330","IncidentCategoryId":6,"PriorityId":0,"IncidentDescription":"test","IncidentImagePath":"\\IMS\\IncidentImage\\19Jul2023\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByVMSId":0,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"ProcessPercentage":0.00,"SendStatus":0,"IncidentStatusId":1,"CreatedDate":"2023-07-19T16:20:29.860","CreatedBy":0,"ModifiedDate":"2023-07-19T16:22:51.250","ModifiedBy":0}', N'Insert', N'26', CAST(N'2023-07-19T16:20:29.860' AS DateTime))
 GO
@@ -1852,6 +2237,8 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (92, 0, NULL, NULL, N'Permission Modified', N'9', CAST(N'2023-08-01T15:45:23.890' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (109, 0, NULL, N'{"TotalLane":4,"IsATCCIndependently":true,"ATCCByVSDS":false,"ATCCByVIDS":false,"trafficCount":500,"trafficByTime":10,"DataStatus":1,"CreatedDate":"2023-08-03T00:13:22.633","CreatedBy":0,"ModifiedDate":"2023-08-03T00:13:22.530","ModifiedBy":0}', N'Insert', N'0', CAST(N'2023-08-03T00:13:22.633' AS DateTime))
+GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (61, 0, NULL, N'{"IncidentId":"TMCS-202307201622512330","IncidentCategoryId":6,"PriorityId":1,"IncidentDescription":"test","IncidentImagePath":"\\IMS\\19Jul2023\\IncidentImage\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByVMSId":0,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"AssignedTo":2,"ProcessPercentage":0.00,"IncidentStatusId":4,"CreatedDate":"2023-07-20T13:27:10.990","CreatedBy":0,"ModifiedDate":"2023-07-20T13:29:34.580","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false},{"IncidentId":"TMCS-202307201622512330","IncidentCategoryId":0,"PriorityId":0,"IncidentDescription":"","IncidentImagePath":"","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":0,"ChainageNumber":0.000,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"","VehicleClassId":0,"SourceSystemId":0,"EquipmentId":0,"NearByVMSId":0,"NearByPTZId":48,"IncidentGeneratedByTypeId":0,"IncidentGeneratedById":0,"AssignedTo":0,"ProcessPercentage":0.00,"IncidentStatusId":0,"CreatedDate":"2023-07-20T18:12:38.370","CreatedBy":0,"ModifiedDate":"2023-07-20T18:15:01.733","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false}', N'Insert', N'26', CAST(N'2023-07-20T18:12:38.370' AS DateTime))
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (68, 0, NULL, NULL, N'VIDS- Created', N'29', CAST(N'2023-07-26T17:14:48.157' AS DateTime))
@@ -1860,35 +2247,115 @@ INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentCo
 GO
 INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (91, 0, NULL, N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"1","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-26","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:16:13.847","ModifiedBy":0}', N'Insert', N'10', CAST(N'2023-08-01T15:13:37.257' AS DateTime))
 GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (95, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-06-25T15:07:22.443","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-08-02T11:57:46.100","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-08-02T11:57:46.100' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (110, 0, N'{"TotalLane":4,"IsATCCIndependently":true,"ATCCByVSDS":false,"ATCCByVIDS":false,"trafficCount":500,"trafficByTime":10,"DataStatus":1,"CreatedDate":"2023-08-03T00:13:22.633","CreatedBy":0,"ModifiedDate":"2023-08-03T00:13:22.530","ModifiedBy":0}', N'{"TotalLane":4,"IsATCCIndependently":false,"ATCCByVSDS":true,"ATCCByVIDS":true,"trafficCount":10,"trafficByTime":1,"DataStatus":1,"CreatedDate":"2023-08-03T00:13:22.633","CreatedBy":0,"ModifiedDate":"2023-08-03T00:14:03.300","ModifiedBy":0}', N'Update', N'0', CAST(N'2023-08-03T00:14:03.300' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (119, 0, NULL, NULL, N'Permission Modified', N'7', CAST(N'2023-08-03T10:49:36.387' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (121, 0, NULL, NULL, N'VIDS- Modified', N'17', CAST(N'2023-08-03T10:50:04.213' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (122, 0, NULL, NULL, NULL, N'0', CAST(N'2023-08-03T10:50:10.800' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (124, 0, NULL, NULL, N'Accepted', N'26', CAST(N'2023-08-03T11:18:16.777' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (125, 0, NULL, NULL, N'Re-assigned To', N'26', CAST(N'2023-08-03T11:24:12.650' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (126, 0, NULL, NULL, N'Closed', N'26', CAST(N'2023-08-03T11:24:36.693' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (111, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-07-03T23:29:20.043","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-08-03T10:27:21.667","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-08-03T10:27:21.667' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (112, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-08-03T10:27:21.667","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-08-03T10:30:57.073","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-08-03T10:30:57.073' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (113, 0, N'{"ControlRoomId":1,"ControlRoomName":"CR-1","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-08-03T10:30:57.073","ModifiedBy":0}', N'{"ControlRoomId":1,"ControlRoomName":"TMC-Main","ChainageNumber":1.000,"Latitude":0.000000,"Longitude":0.000000,"DirectionId":1,"DataStatus":1,"CreatedDate":"2023-06-17T06:20:12.823","CreatedBy":0,"ModifiedDate":"2023-08-03T10:32:33.273","ModifiedBy":0}', N'Update', N'3', CAST(N'2023-08-03T10:32:33.273' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (114, 0, N'{"PackageId":1,"ControlRoomId":1,"PackageName":"PKG-1","StartChainageNumber":0.000,"EndChainageNumber":100.000,"StartLatitude":0.000000,"StartLongitude":0.000000,"EndLatitude":0.000000,"EndLongitude":0.000000,"DataStatus":1,"CreatedDate":"2023-06-20T15:51:12.060","CreatedBy":0,"ModifiedDate":"2023-06-24T13:01:57.797","ModifiedBy":0}', N'{"PackageId":1,"ControlRoomId":1,"PackageName":"PKG-01","StartChainageNumber":0.000,"EndChainageNumber":100.000,"StartLatitude":0.000000,"StartLongitude":0.000000,"EndLatitude":0.000000,"EndLongitude":0.000000,"DataStatus":1,"CreatedDate":"2023-06-20T15:51:12.060","CreatedBy":0,"ModifiedDate":"2023-08-03T10:47:32.820","ModifiedBy":0}', N'Update', N'4', CAST(N'2023-08-03T10:47:32.820' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (116, 0, N'{"ClassId":9,"VehicleClassId":8,"VehicleClassName":"Oversized","VehicleClassIcon":"fas fa-truck-monster","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-02-06T19:04:09.470","CreatedBy":0,"ModifiedDate":"2022-09-17T12:16:46.800","ModifiedBy":1}', N'{"ClassId":9,"VehicleClassId":8,"VehicleClassName":"Oversized","VehicleClassIcon":"fas fa-truck-monster","AllowedSpeed":70.00,"DataStatus":1,"CreatedDate":"2022-02-06T19:04:09.470","CreatedBy":0,"ModifiedDate":"2023-08-03T10:48:31.307","ModifiedBy":0}', N'Update', N'6', CAST(N'2023-08-03T10:48:31.307' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (117, 0, N'{"ClassId":9,"VehicleClassId":8,"VehicleClassName":"Oversized","VehicleClassIcon":"fas fa-truck-monster","AllowedSpeed":70.00,"DataStatus":1,"CreatedDate":"2022-02-06T19:04:09.470","CreatedBy":0,"ModifiedDate":"2023-08-03T10:48:31.307","ModifiedBy":0}', N'{"ClassId":9,"VehicleClassId":8,"VehicleClassName":"Oversized","VehicleClassIcon":"fas fa-truck-monster","AllowedSpeed":80.00,"DataStatus":1,"CreatedDate":"2022-02-06T19:04:09.470","CreatedBy":0,"ModifiedDate":"2023-08-03T10:49:07.670","ModifiedBy":0}', N'Update', N'6', CAST(N'2023-08-03T10:49:07.670' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (115, 0, N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"3","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-08-02T11:57:46.100","ModifiedBy":0}', N'{"EquipmentId":48,"PackageId":1,"EquipmentTypeId":1,"SystemId":16,"EquipmentName":"PTZ-123","DirectionId":1,"ProtocolTypeId":1,"IpAddress":"192.168.1.1","PortNumber":80,"LoginId":"a","Password":"a","ChainageNumber":2.000,"Latitude":0.000000,"Longitude":1.000000,"MacAddress":"4","ModelNumber":"5","SerialNumber":"6","ManufacturerDetail":"7","VendorDetail":"8","ManufacturerDate":"2023-06-28","PurchageDate":"2023-06-30","WarrantyExpireDate":"2023-06-30","OnLineStatus":0,"DataStatus":1,"CreatedDate":"2023-06-22T08:39:25.650","CreatedBy":0,"ModifiedDate":"2023-08-03T10:48:09.213","ModifiedBy":0}', N'Update', N'5', CAST(N'2023-08-03T10:48:09.213' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (118, 0, N'{"RoleId":3,"RoleName":"","DataStatus":0,"CreatedDate":"2023-08-03T00:10:21.003","CreatedBy":0,"ModifiedDate":"2023-08-03T00:10:21","ModifiedBy":0}', N'{"RoleId":3,"RoleName":"Test","DataStatus":1,"CreatedDate":"2023-08-03T00:10:21.003","CreatedBy":0,"ModifiedDate":"2023-08-03T10:49:29.317","ModifiedBy":0}', N'Update', N'7', CAST(N'2023-08-03T10:49:29.317' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (120, 0, N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"User","LastName":"VIDS","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-25","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-01T15:45:41.280","ModifiedBy":3}', N'{"UserId":3,"LoginId":"user1","LoginPassword":"EbWS3\/EHBvt8Qg7+RlryTg==","FirstName":"Operator-1","LastName":"VIDS","EmailId":"abc@g.com","MobileNumber":"128909870909","AccountExpiredDate":"2029-12-24","RoleId":2,"UserTypeId":3,"DataStatus":1,"CreatedDate":"2023-08-01T15:13:37.257","CreatedBy":0,"ModifiedDate":"2023-08-03T10:49:58.207","ModifiedBy":3}', N'Update', N'8', CAST(N'2023-08-03T10:49:58.207' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (130, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T12:57:16.133' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (123, 0, N'{"IncidentId":"TMCS-202307191622512330","IncidentCategoryId":6,"PriorityId":1,"IncidentDescription":"test11","IncidentImagePath":"\\IMS\\19Jul2023\\IncidentImage\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByPTZId":7,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"AssignedToId":0,"IncidentStatusId":1,"CreatedDate":"2023-07-19T16:20:29.860","CreatedBy":0,"ModifiedDate":"2023-08-03T11:17:23.920","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false}', N'{"IncidentId":"TMCS-202307191622512330","IncidentCategoryId":6,"PriorityId":1,"IncidentDescription":"test","IncidentImagePath":"\\IMS\\19Jul2023\\IncidentImage\\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg","IncidentVideoPath":"","IncidentAudioPath":"","DirectionId":1,"ChainageNumber":213.500,"Latitude":0.000000,"Longitude":0.000000,"VehiclePlateNumber":"DL7CS7898","VehicleClassId":1,"SourceSystemId":3,"EquipmentId":7,"NearByPTZId":0,"IncidentGeneratedByTypeId":3,"IncidentGeneratedById":0,"IncidentStatusId":1,"CreatedDate":"2023-07-19T16:20:29.860","CreatedBy":0,"ModifiedDate":"2023-07-19T16:22:51.250","ModifiedBy":0,"DataSendStatus":false,"MediaSendStatus":false}', N'Update', N'26', CAST(N'2023-08-03T11:17:23.920' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (127, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T12:54:26.593' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (132, 0, NULL, NULL, N'Modified', N'3', CAST(N'2023-08-05T13:02:58.543' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (135, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:53:00.980' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (136, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:53:07.603' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (137, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:53:14.270' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (138, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:54:26.340' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (139, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:55:36.163' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (140, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:56:11.453' AS DateTime))
+GO
+INSERT [dbo].[tbl_ActivityLog] ([ActivityId], [UserId], [PrevColumn], [CurrentColumn], [ActionId], [MenuId], [CreatedDate]) VALUES (141, 0, NULL, NULL, N'VSDS- Modified', N'24', CAST(N'2023-08-06T10:57:48.603' AS DateTime))
+GO
 SET IDENTITY_INSERT [dbo].[tbl_ActivityLog] OFF
 GO
 SET IDENTITY_INSERT [dbo].[tbl_ControlRoomMaster] ON 
 GO
-INSERT [dbo].[tbl_ControlRoomMaster] ([ControlRoomId], [ControlRoomName], [ChainageNumber], [Latitude], [Longitude], [DirectionId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'CR-1', CAST(1.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), 1, 1, CAST(N'2023-06-17T06:20:12.823' AS DateTime), 0, CAST(N'2023-07-03T23:29:20.043' AS DateTime), 0)
+INSERT [dbo].[tbl_ControlRoomMaster] ([ControlRoomId], [ControlRoomName], [ChainageNumber], [Latitude], [Longitude], [DirectionId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'TMC-Main', CAST(1.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), 1, 1, CAST(N'2023-06-17T06:20:12.823' AS DateTime), 0, CAST(N'2023-08-03T10:32:33.273' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_ControlRoomMaster] ([ControlRoomId], [ControlRoomName], [ChainageNumber], [Latitude], [Longitude], [DirectionId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'CR2', NULL, NULL, NULL, NULL, 1, CAST(N'2023-06-19T23:15:11.700' AS DateTime), 0, CAST(N'2023-06-19T23:15:11.717' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_ControlRoomMaster] OFF
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 12, 0, 0, 1, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 12, 0, 0, 0, 1, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 11, 12, 1, 2, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 11, 12, 1, 0, 2, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 14, 0, 0, 3, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 14, 0, 0, 0, 3, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 13, 14, 1, 4, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 13, 14, 1, 0, 4, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 16, 0, 0, 5, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 28, 16, 0, 0, 0, 5, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 15, 16, 1, 6, 1, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0, CAST(N'2023-07-26T17:14:51.753' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, 25, 15, 16, 1, 0, 6, 1, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0, CAST(N'2023-08-03T10:50:04.213' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 28, 75, 0, 0, 0, 1, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 17, 73, 75, 0, 0, 2, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 3, 65, 75, 0, 0, 3, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 5, 69, 75, 0, 0, 4, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 26, 51, 75, 0, 1, 5, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 26, 53, 75, 0, 2, 6, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 26, 55, 75, 0, 3, 7, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 26, 49, 75, 0, 4, 8, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 7, 63, 75, 0, 1, 9, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 7, 57, 75, 0, 2, 10, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 7, 59, 75, 0, 3, 11, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentConfig] ([SystemId], [EquipmentTypeId], [EquipmentId], [ParentId], [PositionId], [LaneNumberId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 7, 61, 75, 0, 4, 12, 1, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0, CAST(N'2023-08-06T10:57:48.603' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_EquipmentDetails] ON 
 GO
 INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 1, 35, 16, N'Firewall / Router', 0, NULL, N'172.16.8.1', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, 17, 16, N'Fiber Swltch', 0, NULL, N'172.16.8.3', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, 28, 16, N'Fiber Swltch', 0, NULL, N'172.16.8.3', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 1, 17, 16, N'Copper Switch', 0, NULL, N'172.16.8.4', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 1, 28, 16, N'Copper Switch', 0, NULL, N'172.16.8.4', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, 1, 34, 16, N'NVR', 0, NULL, N'172.16.8.6', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
 GO
@@ -1978,7 +2445,63 @@ INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeI
 GO
 INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (47, 1, 16, 16, N'Workstation3', 0, NULL, N'172.16.8.208', 80, N'Admin', N'dZ!kp5Gc', CAST(232.600 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0, CAST(N'2023-06-19T22:52:27.450' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (48, 1, 1, 16, N'3', 1, 1, N'192.168.1.1', 80, N'a', N'a', CAST(2.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(1.000000 AS Decimal(9, 6)), N'4', N'5', N'6', N'7', N'8', CAST(N'2023-06-28' AS Date), CAST(N'2023-06-30' AS Date), CAST(N'2023-06-30' AS Date), 0, 1, CAST(N'2023-06-22T08:39:25.650' AS DateTime), 0, CAST(N'2023-06-25T15:07:22.443' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (48, 1, 1, 16, N'PTZ-123', 1, 1, N'192.168.1.1', 80, N'a', N'a', CAST(2.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(1.000000 AS Decimal(9, 6)), N'4', N'5', N'6', N'7', N'8', CAST(N'2023-06-28' AS Date), CAST(N'2023-06-30' AS Date), CAST(N'2023-06-30' AS Date), 0, 1, CAST(N'2023-06-22T08:39:25.650' AS DateTime), 0, CAST(N'2023-08-03T10:48:09.213' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (49, 1, 26, 8, N'ANPR-Camera_23.900_LHS', 1, NULL, N'10.11.23.61', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (50, 1, 26, 8, N'ANPR-Camera_67.900_LHS', 1, NULL, N'10.12.67.61', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (51, 1, 26, 8, N'ANPR-Camera_23.900_LHS', 1, NULL, N'10.11.23.62', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (52, 1, 26, 8, N'ANPR-Camera_67.900_LHS', 1, NULL, N'10.12.67.62', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (53, 1, 26, 8, N'ANPR-Camera_23.900_LHS', 1, NULL, N'10.11.23.63', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (54, 1, 26, 8, N'ANPR-Camera_67.900_LHS', 1, NULL, N'10.12.67.63', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (55, 1, 26, 8, N'ANPR-Camera_23.900_LHS', 1, NULL, N'10.11.23.64', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (56, 1, 26, 8, N'ANPR-Camera_67.900_LHS', 1, NULL, N'10.12.67.64', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (57, 1, 7, 8, N'Speed-Display  _23.900_LHS', 1, NULL, N'10.11.23.65', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (58, 1, 7, 8, N'Speed-Display  _67.900_LHS', 1, NULL, N'10.12.67.65', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (59, 1, 7, 8, N'Speed-Display  _23.900_LHS', 1, NULL, N'10.11.23.66', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (60, 1, 7, 8, N'Speed-Display  _67.900_LHS', 1, NULL, N'10.12.67.66', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (61, 1, 7, 8, N'Speed-Display  _23.900_LHS', 1, NULL, N'10.11.23.67', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (62, 1, 7, 8, N'Speed-Display  _67.900_LHS', 1, NULL, N'10.12.67.67', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (63, 1, 7, 8, N'Speed-Display  _23.900_LHS', 1, NULL, N'10.11.23.68', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (64, 1, 7, 8, N'Speed-Display  _67.900_LHS', 1, NULL, N'10.12.67.68', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (65, 1, 3, 8, N'LPU  _23.900_LHS', 1, NULL, N'10.11.23.69', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (66, 1, 3, 8, N'LPU  _67.900_LHS', 1, NULL, N'10.12.67.69', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (67, 1, 3, 8, N'LPU  _23.900_LHS', 1, NULL, N'10.11.23.70', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (68, 1, 3, 8, N'LPU  _67.900_LHS', 1, NULL, N'10.12.67.70', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (69, 1, 5, 8, N'Radar  _23.900_LHS', 1, NULL, N'10.11.23.71', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (70, 1, 5, 8, N'Radar  _67.900_LHS', 1, NULL, N'10.12.67.71', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (71, 1, 27, 8, N'Motion-Detection-Camera_23.900_LHS', 1, NULL, N'10.11.23.72', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (72, 1, 27, 8, N'Motion-Detection-Camera_67.900_LHS', 1, NULL, N'10.12.67.72', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (73, 1, 17, 8, N'Network-Switch_23.900_LHS', 1, NULL, N'10.11.23.73', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (74, 1, 17, 8, N'Network-Switch_67.900_LHS', 1, NULL, N'10.12.67.73', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (75, 1, 28, 8, N'Media-Converter_23.900_LHS', 1, NULL, N'10.11.23.60', 8000, NULL, NULL, CAST(23.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_EquipmentDetails] ([EquipmentId], [PackageId], [EquipmentTypeId], [SystemId], [EquipmentName], [DirectionId], [ProtocolTypeId], [IpAddress], [PortNumber], [LoginId], [Password], [ChainageNumber], [Latitude], [Longitude], [MacAddress], [ModelNumber], [SerialNumber], [ManufacturerDetail], [VendorDetail], [ManufacturerDate], [PurchageDate], [WarrantyExpireDate], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (76, 1, 28, 8, N'Media-Converter_67.900_LHS', 1, NULL, N'10.12.67.60', 8000, NULL, NULL, CAST(67.900 AS Decimal(16, 3)), NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0, CAST(N'2023-08-05T17:10:07.090' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_EquipmentDetails] OFF
 GO
@@ -1988,15 +2511,15 @@ INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], 
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'ECB', 1, 1, NULL, 3, 0, CAST(N'2022-01-14T23:14:14.230' AS DateTime), 0, CAST(N'2022-01-14T23:14:14.230' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'LPU', 1, 1, NULL, 2, 0, CAST(N'2022-01-14T23:14:25.050' AS DateTime), 0, CAST(N'2022-01-14T23:14:25.050' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'LPU', 1, 1, NULL, 2, 1, CAST(N'2022-01-14T23:14:25.050' AS DateTime), 0, CAST(N'2022-01-14T23:14:25.050' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'MET', 1, 1, NULL, 3, 1, CAST(N'2022-01-14T23:14:29.773' AS DateTime), 0, CAST(N'2022-01-14T23:14:29.773' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Radar', 1, 1, NULL, 3, 0, CAST(N'2022-01-14T23:14:40.693' AS DateTime), 0, CAST(N'2022-01-14T23:14:40.693' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Radar', 1, 1, NULL, 3, 1, CAST(N'2022-01-14T23:14:40.693' AS DateTime), 0, CAST(N'2022-01-14T23:14:40.693' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'Sensor', 1, 1, NULL, 3, 0, CAST(N'2022-01-14T23:14:46.063' AS DateTime), 0, CAST(N'2022-01-14T23:14:46.063' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Speed Display', 1, 1, NULL, 3, 0, CAST(N'2022-01-14T23:14:51.997' AS DateTime), 0, CAST(N'2022-01-14T23:14:51.997' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Speed Display', 1, 1, NULL, 3, 1, CAST(N'2022-01-14T23:14:51.997' AS DateTime), 0, CAST(N'2022-01-14T23:14:51.997' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'VMS', 1, 1, NULL, 3, 1, CAST(N'2022-01-14T23:14:54.837' AS DateTime), 0, CAST(N'2022-01-14T23:14:54.837' AS DateTime), 0)
 GO
@@ -2034,7 +2557,7 @@ INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], 
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (25, N'VIDS Camera', 1, 1, NULL, 3, 1, CAST(N'2022-04-16T11:36:34.280' AS DateTime), 0, CAST(N'2022-04-16T11:36:34.280' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (26, N'ANPR Camera', 1, 1, NULL, 3, 0, CAST(N'2022-04-16T11:36:43.387' AS DateTime), 0, CAST(N'2022-04-16T11:36:43.387' AS DateTime), 0)
+INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (26, N'ANPR Camera', 1, 1, NULL, 3, 1, CAST(N'2022-04-16T11:36:43.387' AS DateTime), 0, CAST(N'2022-04-16T11:36:43.387' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_EquipmentTypeMaster] ([EquipmentTypeId], [EquipmentTypeName], [EquipmentCategoryTypeId], [EquipmentConnectionTypeId], [EquipmentIconName], [EquipmentLevel], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (27, N'Motion Detection Camera', 1, 1, NULL, 3, 1, CAST(N'2022-04-16T11:37:43.030' AS DateTime), 0, CAST(N'2022-04-16T11:37:43.030' AS DateTime), 0)
 GO
@@ -2112,6 +2635,14 @@ INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [Acti
 GO
 INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [ActionVideoPath], [ActionAudioPath], [AssignedToId], [ActionTakenById], [ActionTakenRemark], [ActionTakenDateTime], [ActionStatusId], [DataSendStatus], [MediaSendStatus]) VALUES (N'MOBI-202307201545456770', N'\IMS\22Jul2023\IncidentImage\MOBI-202307201545456770\84ec4605-c19a-44eb-9fe0-0fbf805e765b.png', N'', N'', 0, 0, N'cc', CAST(N'2023-07-22T14:42:30.547' AS DateTime), 6, 0, 0)
 GO
+INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [ActionVideoPath], [ActionAudioPath], [AssignedToId], [ActionTakenById], [ActionTakenRemark], [ActionTakenDateTime], [ActionStatusId], [DataSendStatus], [MediaSendStatus]) VALUES (N'TMCS-202307191622512330', N'\IMS\19Jul2023\IncidentImage\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg', N'', N'', NULL, 0, N'Incident modified', CAST(N'2023-08-03T11:17:23.920' AS DateTime), 8, 0, 0)
+GO
+INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [ActionVideoPath], [ActionAudioPath], [AssignedToId], [ActionTakenById], [ActionTakenRemark], [ActionTakenDateTime], [ActionStatusId], [DataSendStatus], [MediaSendStatus]) VALUES (N'TMCS-202307201622512330', N'/IMS/03Aug2023/IncidentImage/TMCS-202307201622512330/380f333c-9eb8-40c7-9092-0ade24dd9b92.jpeg', N'', N'', 0, 0, N'test', CAST(N'2023-08-03T11:18:16.777' AS DateTime), 2, 0, 0)
+GO
+INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [ActionVideoPath], [ActionAudioPath], [AssignedToId], [ActionTakenById], [ActionTakenRemark], [ActionTakenDateTime], [ActionStatusId], [DataSendStatus], [MediaSendStatus]) VALUES (N'MOBI-202307201545456770', N'', N'', N'', 2, 0, N'trest', CAST(N'2023-08-03T11:24:12.650' AS DateTime), 5, 0, 0)
+GO
+INSERT [dbo].[tbl_IncidentActionHistory] ([IncidentId], [ActionImagePath], [ActionVideoPath], [ActionAudioPath], [AssignedToId], [ActionTakenById], [ActionTakenRemark], [ActionTakenDateTime], [ActionStatusId], [DataSendStatus], [MediaSendStatus]) VALUES (N'MOBI-202307201545456770', N'/IMS/03Aug2023/IncidentImage/MOBI-202307201545456770/f2a055be-a8b3-4a0e-9ed4-025688f171b0.png', N'', N'', 0, 0, N'done', CAST(N'2023-08-03T11:24:36.693' AS DateTime), 6, 0, 0)
+GO
 SET IDENTITY_INSERT [dbo].[tbl_IncidentCategoryMaster] ON 
 GO
 INSERT [dbo].[tbl_IncidentCategoryMaster] ([IncidentCategoryId], [IncidentCategoryName], [IncidentCategoryIcon], [PriorityId], [OrderBy], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Accident', N'fas fa-car-crash', 1, 1, 1, CAST(N'2022-02-17T13:24:44.210' AS DateTime), 0, CAST(N'2022-02-17T13:24:44.210' AS DateTime), 0)
@@ -2168,7 +2699,7 @@ INSERT [dbo].[tbl_IncidentCheckListMaster] ([CheckListMasterId], [CategoryId], [
 GO
 SET IDENTITY_INSERT [dbo].[tbl_IncidentCheckListMaster] OFF
 GO
-INSERT [dbo].[tbl_IncidentDetailsHistory] ([IncidentId], [IncidentCategoryId], [PriorityId], [IncidentDescription], [IncidentImagePath], [IncidentVideoPath], [IncidentAudioPath], [DirectionId], [ChainageNumber], [Latitude], [Longitude], [VehiclePlateNumber], [VehicleClassId], [SourceSystemId], [EquipmentId], [NearByPTZId], [IncidentGeneratedByTypeId], [IncidentGeneratedById], [AssignedToId], [IncidentCloseImagePath], [IncidentStatusId], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [DataSendStatus], [MediaSendStatus]) VALUES (N'TMCS-202307191622512330', 6, 1, N'test', N'\IMS\19Jul2023\IncidentImage\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg', N'', N'', 1, CAST(213.500 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), N'DL7CS7898', 1, 3, 7, 0, 3, 0, NULL, NULL, 1, CAST(N'2023-07-19T16:20:29.860' AS DateTime), 0, CAST(N'2023-07-19T16:22:51.250' AS DateTime), 0, 0, 0)
+INSERT [dbo].[tbl_IncidentDetailsHistory] ([IncidentId], [IncidentCategoryId], [PriorityId], [IncidentDescription], [IncidentImagePath], [IncidentVideoPath], [IncidentAudioPath], [DirectionId], [ChainageNumber], [Latitude], [Longitude], [VehiclePlateNumber], [VehicleClassId], [SourceSystemId], [EquipmentId], [NearByPTZId], [IncidentGeneratedByTypeId], [IncidentGeneratedById], [AssignedToId], [IncidentCloseImagePath], [IncidentStatusId], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [DataSendStatus], [MediaSendStatus]) VALUES (N'TMCS-202307191622512330', 6, 1, N'test11', N'\IMS\19Jul2023\IncidentImage\c60c1634-1aff-4540-b4cd-5d972bd96d2e.jpeg', N'', N'', 1, CAST(213.500 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), N'DL7CS7898', 1, 3, 7, 7, 3, 0, 0, NULL, 1, CAST(N'2023-07-19T16:20:29.860' AS DateTime), 0, CAST(N'2023-08-03T11:17:23.920' AS DateTime), 0, 0, 0)
 GO
 INSERT [dbo].[tbl_IncidentDetailsHistory] ([IncidentId], [IncidentCategoryId], [PriorityId], [IncidentDescription], [IncidentImagePath], [IncidentVideoPath], [IncidentAudioPath], [DirectionId], [ChainageNumber], [Latitude], [Longitude], [VehiclePlateNumber], [VehicleClassId], [SourceSystemId], [EquipmentId], [NearByPTZId], [IncidentGeneratedByTypeId], [IncidentGeneratedById], [AssignedToId], [IncidentCloseImagePath], [IncidentStatusId], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [DataSendStatus], [MediaSendStatus]) VALUES (N'VIDS-202307191629333800', 3, 2, N'test2', N'\IMS\19Jul2023\IncidentImage\99f8f709-2677-493e-91ea-e68e02299568.png', N'', N'', 1, CAST(212.300 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), N'', 0, 4, 11, 0, 3, 0, NULL, NULL, 1, CAST(N'2023-07-19T16:27:12.007' AS DateTime), 0, CAST(N'2023-07-19T16:29:33.380' AS DateTime), 0, 0, 0)
 GO
@@ -2385,6 +2916,36 @@ INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], 
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (134, NULL, N'0', 1, NULL, CAST(N'2023-08-01T16:35:46.803' AS DateTime), NULL, CAST(N'2023-08-01T16:35:46.853' AS DateTime))
 GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (144, NULL, N'1', 1, NULL, CAST(N'2023-08-02T20:46:55.943' AS DateTime), NULL, CAST(N'2023-08-02T20:46:55.943' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (145, NULL, N'0', 1, NULL, CAST(N'2023-08-02T20:52:01.497' AS DateTime), NULL, CAST(N'2023-08-02T20:52:01.497' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (146, NULL, N'0', 1, NULL, CAST(N'2023-08-02T20:53:32.993' AS DateTime), NULL, CAST(N'2023-08-02T20:53:32.993' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (147, NULL, N'1', 0, NULL, NULL, NULL, CAST(N'2023-08-02T20:54:53.223' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (148, NULL, N'1', 1, NULL, CAST(N'2023-08-02T20:54:58.127' AS DateTime), NULL, CAST(N'2023-08-02T20:54:58.127' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (149, NULL, N'0', 1, NULL, CAST(N'2023-08-02T20:57:33.187' AS DateTime), NULL, CAST(N'2023-08-02T20:57:33.187' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (150, NULL, N'0', 1, NULL, CAST(N'2023-08-02T23:44:15.270' AS DateTime), NULL, CAST(N'2023-08-02T23:44:15.273' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (159, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-03T13:24:55.507' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (160, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-03T13:24:58.267' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (161, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-03T13:25:00.187' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (162, NULL, N'0', 1, NULL, CAST(N'2023-08-03T13:25:03.593' AS DateTime), NULL, CAST(N'2023-08-03T13:25:03.593' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (164, NULL, N'0', 1, NULL, CAST(N'2023-08-04T16:55:43.157' AS DateTime), NULL, CAST(N'2023-08-04T16:55:43.473' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (165, NULL, N'0', 1, NULL, CAST(N'2023-08-04T16:57:19.597' AS DateTime), NULL, CAST(N'2023-08-04T16:57:19.597' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (166, NULL, N'0', 1, NULL, CAST(N'2023-08-05T11:42:49.933' AS DateTime), NULL, CAST(N'2023-08-05T11:42:49.967' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (169, NULL, N'0', 1, NULL, CAST(N'2023-08-06T10:14:39.590' AS DateTime), NULL, CAST(N'2023-08-06T10:14:40.160' AS DateTime))
+GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (20, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-06-17T00:11:21.150' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (21, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-06-17T00:11:23.430' AS DateTime))
@@ -2420,6 +2981,8 @@ GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (113, NULL, N'0', 1, NULL, CAST(N'2023-07-24T17:20:20.153' AS DateTime), NULL, CAST(N'2023-07-24T17:20:20.157' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (133, NULL, N'0', 1, NULL, CAST(N'2023-08-01T15:27:22.553' AS DateTime), NULL, CAST(N'2023-08-01T15:27:22.593' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (158, NULL, N'0', 1, NULL, CAST(N'2023-08-03T12:33:30.650' AS DateTime), NULL, CAST(N'2023-08-03T12:33:30.650' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (28, NULL, N'0', 1, NULL, CAST(N'2023-06-17T04:20:35.547' AS DateTime), NULL, CAST(N'2023-06-17T04:20:35.547' AS DateTime))
 GO
@@ -2459,6 +3022,16 @@ INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], 
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (93, NULL, N'0', 1, NULL, CAST(N'2023-07-06T18:55:30.820' AS DateTime), NULL, CAST(N'2023-07-06T18:55:30.857' AS DateTime))
 GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (151, NULL, N'0', 1, NULL, CAST(N'2023-08-03T00:01:30.467' AS DateTime), NULL, CAST(N'2023-08-03T00:01:30.490' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (153, NULL, N'0', 1, NULL, CAST(N'2023-08-03T10:15:17.193' AS DateTime), NULL, CAST(N'2023-08-03T10:15:17.233' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (154, NULL, N'0', 1, NULL, CAST(N'2023-08-03T11:39:43.153' AS DateTime), NULL, CAST(N'2023-08-03T11:39:43.153' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (155, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-03T11:54:20.060' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (156, NULL, N'0', 1, NULL, CAST(N'2023-08-03T11:54:26.610' AS DateTime), NULL, CAST(N'2023-08-03T11:54:26.610' AS DateTime))
+GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (89, NULL, N'0', 1, NULL, CAST(N'2023-07-03T22:44:07.450' AS DateTime), NULL, CAST(N'2023-07-03T22:44:07.450' AS DateTime))
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (99, NULL, N'0', 1, NULL, CAST(N'2023-07-15T16:30:46.627' AS DateTime), NULL, CAST(N'2023-07-15T16:30:46.627' AS DateTime))
@@ -2491,81 +3064,259 @@ INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], 
 GO
 INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (132, NULL, N'0', 1, NULL, CAST(N'2023-08-01T13:22:51.337' AS DateTime), NULL, CAST(N'2023-08-01T13:22:51.397' AS DateTime))
 GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (135, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-02T10:26:50.903' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (136, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-02T10:27:06.697' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (137, NULL, N'0', 0, NULL, NULL, NULL, CAST(N'2023-08-02T10:27:57.317' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (138, NULL, N'0', 1, NULL, CAST(N'2023-08-02T10:28:43.500' AS DateTime), NULL, CAST(N'2023-08-02T10:28:43.500' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (139, NULL, N'0', 1, NULL, CAST(N'2023-08-02T12:46:32.837' AS DateTime), NULL, CAST(N'2023-08-02T12:46:32.907' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (140, NULL, N'0', 1, NULL, CAST(N'2023-08-02T16:23:13.040' AS DateTime), NULL, CAST(N'2023-08-02T16:23:13.043' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (141, NULL, N'0', 1, NULL, CAST(N'2023-08-02T19:05:49.293' AS DateTime), NULL, CAST(N'2023-08-02T19:05:49.327' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (142, NULL, N'0', 1, NULL, CAST(N'2023-08-02T20:16:32.717' AS DateTime), NULL, CAST(N'2023-08-02T20:16:32.753' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (143, NULL, N'0', 1, NULL, CAST(N'2023-08-02T20:19:22.663' AS DateTime), NULL, CAST(N'2023-08-02T20:19:22.663' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (152, NULL, N'0', 1, NULL, CAST(N'2023-08-03T00:06:45.690' AS DateTime), NULL, CAST(N'2023-08-03T00:06:45.730' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (157, NULL, N'0', 1, NULL, CAST(N'2023-08-03T12:18:47.207' AS DateTime), NULL, CAST(N'2023-08-03T12:18:47.207' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (163, NULL, N'0', 1, NULL, CAST(N'2023-08-04T15:30:00.813' AS DateTime), NULL, CAST(N'2023-08-04T15:30:00.843' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (167, NULL, N'0', 1, NULL, CAST(N'2023-08-05T13:02:31.493' AS DateTime), NULL, CAST(N'2023-08-05T13:02:31.573' AS DateTime))
+GO
+INSERT [dbo].[tbl_LogingActivity] ([LogingActivityId], [LoginId], [UserTypeId], [LoginStatusId], [IpAddress], [LoginDateTime], [LogoutDateTime], [CreatedDate]) VALUES (168, NULL, N'0', 1, NULL, CAST(N'2023-08-05T14:35:48.910' AS DateTime), NULL, CAST(N'2023-08-05T14:35:48.910' AS DateTime))
+GO
 SET IDENTITY_INSERT [dbo].[tbl_LogingActivity] OFF
 GO
 SET IDENTITY_INSERT [dbo].[tbl_MenuMaster] ON 
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Dashboard', N'dashboard', N'dripicons-home', 1, 1, 0, 0, 1, CAST(N'2021-06-26T13:27:17.443' AS DateTime), 0, CAST(N'2021-06-26T13:27:17.443' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Dashboard', N'dashboard', N'dripicons-home', 1, 1, 0, 16, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Config', N'#', N'fa fa-cog', 1, 2, 0, 0, 1, CAST(N'2021-07-08T11:17:45.390' AS DateTime), 0, CAST(N'2021-07-08T11:17:45.390' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Config', N'#', N'fa fa-cog', 1, 2, 0, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Control Room', N'controlRoom', N'fa fa-compass', 1, 3, 2, 0, 1, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'System Config', N'configSystem', N'mdi mdi-cog-sync', 1, 4, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'Equipment', N'equipment', N'fa fa-laptop', 1, 5, 2, 0, 1, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'Control Room', N'configControlRoom', N'fa fa-compass', 1, 5, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Ganrty', N'gantry', N'pi pi-th-large', 1, 5, 2, 0, 0, CAST(N'2021-06-30T01:35:45.070' AS DateTime), 0, CAST(N'2021-06-30T01:35:45.070' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Package', N'configPackage', N'fa fa-road', 1, 6, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'Ganrty Mapping', N'gantryMapping', N'pi pi-sitemap', 1, 6, 2, 0, 0, CAST(N'2021-06-30T10:13:50.700' AS DateTime), 0, CAST(N'2021-06-30T10:13:50.700' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'Equipment', N'configEquipment', N'fa fa-laptop', 1, 7, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Package', N'package', N'fa fa-road', 1, 4, 2, 0, 1, CAST(N'2021-06-30T12:40:36.387' AS DateTime), 0, CAST(N'2021-06-30T12:40:36.387' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Vehicle Class', N'configVehicleClass', N'fa fa-taxi', 1, 8, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'Vehicle Class', N'vehicleClass', N'fa fa-taxi', 1, 8, 2, 0, 1, CAST(N'2021-06-30T23:01:22.760' AS DateTime), 0, CAST(N'2021-06-30T23:01:22.760' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'Roles', N'configRole', N'fa fa-universal-access', 1, 9, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Roles', N'role', N'fa fa-universal-access', 1, 9, 2, 0, 1, CAST(N'2021-07-01T17:59:14.647' AS DateTime), 0, CAST(N'2021-07-01T17:59:14.647' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Users', N'configUsers', N'fa fa-user', 1, 10, 2, 11, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'Users', N'users', N'fa fa-user', 1, 10, 2, 0, 1, CAST(N'2021-07-01T17:59:32.610' AS DateTime), 0, CAST(N'2021-07-01T17:59:32.610' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'TMCS', N'tmcs', N'mdi mdi-cctv', 1, 11, 0, 5, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'Data Acquisition', N'#', N'fa fa-database', 1, 11, 0, 0, 1, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'ADAS', N'#', N'mdi mdi-rv-truck', 1, 12, 0, 1, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'ADAS', N'adas', N'fa fa-tablet', 1, 12, 11, 0, 0, CAST(N'2021-07-08T11:05:53.747' AS DateTime), 0, CAST(N'2021-07-08T11:05:53.747' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'Equipment Config', N'adasEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 13, 11, 1, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'ATCC', N'atcc', N'fa fa-car', 1, 13, 11, 0, 1, CAST(N'2021-07-04T16:37:17.857' AS DateTime), 0, CAST(N'2021-07-04T16:37:17.857' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'Vehicle View', N'adasVehicleview', N'mdi mdi-truck-delivery', 1, 14, 11, 1, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'ATSC', N'atsc', N'fa fa-lightbulb-o', 1, 14, 11, 0, 0, CAST(N'2021-07-08T11:08:10.570' AS DateTime), 0, CAST(N'2021-07-08T11:08:10.570' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'ECS', N'#', N'mdi mdi-rv-truck', 1, 15, 0, 3, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'ECB', N'ecb', N'fa fa-phone-square', 1, 15, 11, 0, 0, CAST(N'2021-07-03T15:41:28.533' AS DateTime), 0, CAST(N'2021-07-03T15:41:28.533' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'Equipment Config', N'ecsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 16, 14, 3, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'MET', N'met', N'fa fa-cloud', 1, 16, 11, 0, 1, CAST(N'2021-07-02T17:00:07.010' AS DateTime), 0, CAST(N'2021-07-02T17:00:07.010' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'Event History ', N'ecsEventHistroy', N'mdi mdi-database-clock', 1, 17, 14, 3, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'TMCS', N'tmcs', N'fa fa-camera', 1, 17, 11, 0, 0, CAST(N'2021-07-08T11:05:45.300' AS DateTime), 0, CAST(N'2021-07-08T11:05:45.300' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'VIDS', N'#', N'ti-video-camera', 1, 18, 0, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (18, N'VMS', N'vms', N'fa fa-desktop', 1, 18, 11, 0, 1, CAST(N'2021-07-01T23:29:39.947' AS DateTime), 0, CAST(N'2021-07-01T23:29:39.947' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (18, N'Equipment Config', N'vidsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 19, 17, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (19, N'VIDS', N'vids', N'ti-video-camera', 1, 19, 11, 0, 0, CAST(N'2021-07-04T15:45:39.013' AS DateTime), 0, CAST(N'2021-07-04T15:45:39.013' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (19, N'Event Config', N'vidsEventConfig', N'mdi mdi-file-cog-outline', 1, 20, 17, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (20, N'VSDS', N'vsds', N'fa fa-wifi', 1, 20, 11, 0, 0, CAST(N'2021-07-08T11:05:09.717' AS DateTime), 0, CAST(N'2021-07-08T11:05:09.717' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (20, N'Event History', N'vidsEventHistroy', N'mdi mdi-database-clock', 1, 21, 17, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (21, N'SSVDS', N'ssvds', N'pi pi-video', 1, 21, 11, 0, 0, CAST(N'2021-07-08T11:09:00.770' AS DateTime), 0, CAST(N'2021-07-08T11:09:00.770' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (21, N'Un audited', N'vidsValidation', N'mdi mdi-file-clock-outline', 1, 22, 17, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (22, N'Incident', N'incidents', N'fa fa-bug', 1, 22, 11, 0, 0, CAST(N'2021-07-08T11:06:01.840' AS DateTime), 0, CAST(N'2021-07-08T11:06:01.840' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (22, N'Audited', N'vidsValidated', N'mdi mdi-file-check-outline', 1, 23, 17, 6, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (23, N'FMS', N'fms', N'fa fa-battery-quarter', 1, 23, 0, 0, 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (23, N'VSDS', N'#', N'mdi mdi-video-box', 1, 24, 0, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (24, N'Reporting', N'reports', N'fa fa-file', 1, 25, 0, 0, 1, CAST(N'2021-07-08T16:50:02.003' AS DateTime), 0, CAST(N'2021-07-08T16:50:02.003' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (24, N'Equipment Config', N'vsdsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 25, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (25, N'IMS', N'#', N'fa fa-exclamation-triangle', 1, 24, 0, 0, 1, CAST(N'2023-06-25T18:46:34.040' AS DateTime), 0, CAST(N'2023-06-25T18:46:34.040' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (25, N'Event Config', N'vsdsEventConfig', N'mdi mdi-file-cog-outline', 1, 26, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (26, N'Pending', N'pendigIncident', N'fa fa-list-alt', 1, 25, 25, 0, 1, CAST(N'2023-06-25T18:48:43.343' AS DateTime), 0, CAST(N'2023-06-25T18:48:43.343' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (26, N'Lane Config', N'vsdsLaneConfig', N'mdi mdi-highway', 1, 27, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (27, N'Close', N'closeIncident', N'fa fa-check-square', 1, 26, 25, 0, 1, CAST(N'2023-06-25T18:50:11.367' AS DateTime), 0, CAST(N'2023-06-25T18:50:11.367' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (27, N'Event History', N'vsdsEventHistroy', N'mdi mdi-database-clock', 1, 28, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (28, N'VIDS', N'#', N'ti-video-camera', 1, 27, 0, 6, 1, CAST(N'2023-07-24T11:07:04.287' AS DateTime), 0, CAST(N'2023-07-24T11:07:04.287' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (28, N'Un audited', N'vsdsValidation', N'mdi mdi-file-clock-outline', 1, 29, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (29, N'Equipment Config', N'vidsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 28, 28, 6, 1, CAST(N'2023-07-24T11:08:33.750' AS DateTime), 0, CAST(N'2023-07-24T11:08:33.750' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (29, N'Audited', N'vsdsValidated', N'mdi mdi-file-check-outline', 1, 30, 23, 8, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (30, N'Event Config', N'vidsEventConfig', N'mdi mdi-file-cog-outline', 1, 29, 28, 6, 1, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (30, N'ATCC', N'#', N'mdi mdi-video', 1, 31, 0, 2, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (31, N'Event History', N'vidsEventHistroy', N'mdi mdi-database-clock', 1, 30, 28, 6, 1, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (31, N'Event Config', N'atccEventConfig', N'mdi mdi-file-cog-outline', 1, 32, 30, 2, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (32, N'Un audited', N'vidsValidation', N'mdi mdi-file-clock-outline', 1, 31, 28, 6, 1, CAST(N'2023-07-24T11:19:06.777' AS DateTime), 0, CAST(N'2023-07-24T11:19:06.777' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (32, N'Event History', N'atccEventHistroy', N'mdi mdi-database-clock', 1, 33, 30, 2, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (33, N'Audited', N'vidsValidated', N'mdi mdi-file-check-outline', 1, 32, 28, 6, 1, CAST(N'2023-07-24T11:19:11.573' AS DateTime), 0, CAST(N'2023-07-24T11:19:11.573' AS DateTime), 0)
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (33, N'Un audited', N'atccValidation', N'mdi mdi-file-clock-outline', 1, 34, 30, 2, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (34, N'Audited', N'atccValidated', N'mdi mdi-file-check-outline', 1, 35, 30, 2, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (35, N'VMS', N'#', N'mdi mdi-message-reply-text', 1, 36, 0, 7, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (36, N'Equipment Config', N'vmsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 37, 35, 7, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (37, N'Event History ', N'vmsEventHistroy', N'mdi mdi-database-clock', 1, 38, 35, 7, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (38, N'TTMS', N'ttmsEventHistroy', N'mdi mdi-sort-clock-descending-outline', 1, 39, 0, 12, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (39, N'E-Challan', N'#', N'mdi mdi-account-cash', 1, 40, 0, 15, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (40, N'Pending', N'challanPending', N'mdi mdi-circle-slice-1', 1, 41, 39, 15, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (41, N'Closed', N'challanClosed', N'mdi mdi-circle-slice-7', 1, 42, 39, 14, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (42, N'In-Progress', N'imsProgress', N'mdi mdi-circle-slice-5', 1, 43, 39, 15, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (43, N'IMS', N'#', N'fa fa-exclamation-triangle', 1, 44, 0, 10, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (44, N'Pending', N'imsPending', N'mdi mdi-circle-slice-1', 1, 45, 43, 10, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (45, N'In-Progress', N'imsProgress', N'mdi mdi-circle-slice-5', 1, 46, 43, 10, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (46, N'Close', N'imsClosed', N'mdi mdi-circle-slice-7', 1, 47, 43, 10, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (47, N'Weather', N'met', N'mdi mdi-weather-cloudy-alert', 1, 48, 0, 9, 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (48, N'Reporting', N'rmsReports', N'fa fa-file', 1, 49, 0, 13, 1, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0, CAST(N'2023-08-03T11:18:17.357' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (49, N'System Setting', N'#PopUpSystemSetting', N'mdi mdi-cog-sync', 1, 3, 0, 11, 1, CAST(N'2023-08-05T13:04:24.410' AS DateTime), 0, CAST(N'2023-08-05T13:04:24.410' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_MenuMaster] OFF
 GO
+SET IDENTITY_INSERT [dbo].[tbl_MenuMaster_bkp] ON 
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'Dashboard', N'dashboard', N'dripicons-home', 1, 1, 0, 0, 1, CAST(N'2021-06-26T13:27:17.443' AS DateTime), 0, CAST(N'2021-06-26T13:27:17.443' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Config', N'#', N'fa fa-cog', 1, 2, 0, 11, 1, CAST(N'2021-07-08T11:17:45.390' AS DateTime), 0, CAST(N'2021-07-08T11:17:45.390' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Control Room', N'controlRoom', N'fa fa-compass', 1, 3, 2, 11, 1, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'Equipment', N'equipment', N'fa fa-laptop', 1, 5, 2, 11, 1, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0, CAST(N'2021-06-26T13:47:24.660' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'Ganrty', N'gantry', N'pi pi-th-large', 1, 100, 2, 11, 0, CAST(N'2021-06-30T01:35:45.070' AS DateTime), 0, CAST(N'2021-06-30T01:35:45.070' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'Ganrty Mapping', N'gantryMapping', N'pi pi-sitemap', 1, 100, 2, 11, 0, CAST(N'2021-06-30T10:13:50.700' AS DateTime), 0, CAST(N'2021-06-30T10:13:50.700' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'Package', N'package', N'fa fa-road', 1, 4, 2, 11, 1, CAST(N'2021-06-30T12:40:36.387' AS DateTime), 0, CAST(N'2021-06-30T12:40:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'Vehicle Class', N'vehicleClass', N'fa fa-taxi', 1, 6, 2, 11, 1, CAST(N'2021-06-30T23:01:22.760' AS DateTime), 0, CAST(N'2021-06-30T23:01:22.760' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Roles', N'role', N'fa fa-universal-access', 1, 7, 2, 11, 1, CAST(N'2021-07-01T17:59:14.647' AS DateTime), 0, CAST(N'2021-07-01T17:59:14.647' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'Users', N'users', N'fa fa-user', 1, 8, 2, 11, 1, CAST(N'2021-07-01T17:59:32.610' AS DateTime), 0, CAST(N'2021-07-01T17:59:32.610' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'Data Acquisition', N'#', N'fa fa-database', 1, 100, 0, 0, 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'ADAS', N'adas', N'fa fa-tablet', 1, 100, 11, 0, 0, CAST(N'2021-07-08T11:05:53.747' AS DateTime), 0, CAST(N'2021-07-08T11:05:53.747' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'ATCC', N'atcc', N'fa fa-car', 1, 100, 11, 0, 0, CAST(N'2021-07-04T16:37:17.857' AS DateTime), 0, CAST(N'2021-07-04T16:37:17.857' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'ATSC', N'atsc', N'fa fa-lightbulb-o', 1, 100, 11, 0, 0, CAST(N'2021-07-08T11:08:10.570' AS DateTime), 0, CAST(N'2021-07-08T11:08:10.570' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'ECB', N'ecb', N'fa fa-phone-square', 1, 100, 11, 0, 0, CAST(N'2021-07-03T15:41:28.533' AS DateTime), 0, CAST(N'2021-07-03T15:41:28.533' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'Weather', N'met', N'mdi mdi-weather-cloudy-alert', 1, 100, 0, 9, 1, CAST(N'2021-07-02T17:00:07.010' AS DateTime), 0, CAST(N'2021-07-02T17:00:07.010' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'TMCS', N'tmcs', N'mdi mdi-cctv', 1, 100, 0, 5, 1, CAST(N'2021-07-08T11:05:45.300' AS DateTime), 0, CAST(N'2021-07-08T11:05:45.300' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (18, N'VMS', N'vms', N'fa fa-desktop', 1, 100, 11, 0, 0, CAST(N'2021-07-01T23:29:39.947' AS DateTime), 0, CAST(N'2021-07-01T23:29:39.947' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (19, N'VIDS', N'vids', N'ti-video-camera', 1, 100, 11, 0, 0, CAST(N'2021-07-04T15:45:39.013' AS DateTime), 0, CAST(N'2021-07-04T15:45:39.013' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (20, N'VSDS', N'vsds', N'fa fa-wifi', 1, 100, 11, 0, 0, CAST(N'2021-07-08T11:05:09.717' AS DateTime), 0, CAST(N'2021-07-08T11:05:09.717' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (21, N'SSVDS', N'ssvds', N'pi pi-video', 1, 100, 11, 0, 0, CAST(N'2021-07-08T11:09:00.770' AS DateTime), 0, CAST(N'2021-07-08T11:09:00.770' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (22, N'Incident', N'incidents', N'fa fa-bug', 1, 100, 11, 0, 0, CAST(N'2021-07-08T11:06:01.840' AS DateTime), 0, CAST(N'2021-07-08T11:06:01.840' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (23, N'FMS', N'fms', N'fa fa-battery-quarter', 1, 100, 0, 0, 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0, CAST(N'2021-07-08T11:17:49.470' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (24, N'Reporting', N'reports', N'fa fa-file', 1, 100, 0, 13, 1, CAST(N'2021-07-08T16:50:02.003' AS DateTime), 0, CAST(N'2021-07-08T16:50:02.003' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (25, N'IMS', N'#', N'fa fa-exclamation-triangle', 1, 100, 0, 10, 1, CAST(N'2023-06-25T18:46:34.040' AS DateTime), 0, CAST(N'2023-06-25T18:46:34.040' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (26, N'Pending', N'imsPending', N'mdi mdi-circle-slice-1', 1, 100, 25, 10, 1, CAST(N'2023-06-25T18:48:43.343' AS DateTime), 0, CAST(N'2023-06-25T18:48:43.343' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (27, N'Close', N'imsClosed', N'mdi mdi-circle-slice-7', 1, 100, 25, 10, 1, CAST(N'2023-06-25T18:50:11.367' AS DateTime), 0, CAST(N'2023-06-25T18:50:11.367' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (28, N'VIDS', N'#', N'ti-video-camera', 1, 9, 0, 6, 1, CAST(N'2023-07-24T11:07:04.287' AS DateTime), 0, CAST(N'2023-07-24T11:07:04.287' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (29, N'Equipment Config', N'vidsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 10, 28, 6, 1, CAST(N'2023-07-24T11:08:33.750' AS DateTime), 0, CAST(N'2023-07-24T11:08:33.750' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (30, N'Event Config', N'vidsEventConfig', N'mdi mdi-file-cog-outline', 1, 11, 28, 6, 1, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (31, N'Event History', N'vidsEventHistroy', N'mdi mdi-database-clock', 1, 12, 28, 6, 1, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0, CAST(N'2023-07-24T11:11:04.580' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (32, N'Un audited', N'vidsValidation', N'mdi mdi-file-clock-outline', 1, 13, 28, 6, 1, CAST(N'2023-07-24T11:19:06.777' AS DateTime), 0, CAST(N'2023-07-24T11:19:06.777' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (33, N'Audited', N'vidsValidated', N'mdi mdi-file-check-outline', 1, 14, 28, 6, 1, CAST(N'2023-07-24T11:19:11.573' AS DateTime), 0, CAST(N'2023-07-24T11:19:11.573' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (34, N'In-Progress', N'imsProgress', N'mdi mdi-circle-slice-5', 1, 100, 25, 10, 1, CAST(N'2023-08-02T12:33:15.067' AS DateTime), 0, CAST(N'2023-08-02T12:33:15.067' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (35, N'VSDS', N'#', N'mdi mdi-video-box', 1, 15, 0, 8, 1, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (36, N'Event Config', N'vsdsEventConfig', N'mdi mdi-file-cog-outline', 1, 16, 35, 8, 1, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (37, N'Event History', N'vsdsEventHistroy', N'mdi mdi-database-clock', 1, 17, 35, 8, 1, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (38, N'Un audited', N'vsdsValidation', N'mdi mdi-file-clock-outline', 1, 18, 35, 8, 1, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (39, N'Audited', N'vsdsValidated', N'mdi mdi-file-check-outline', 1, 19, 35, 8, 1, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.810' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (40, N'ATCC', N'#', N'mdi mdi-video', 1, 20, 0, 2, 1, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (41, N'Event Config', N'atccEventConfig', N'mdi mdi-file-cog-outline', 1, 21, 40, 2, 1, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (42, N'Event History', N'atccEventHistroy', N'mdi mdi-database-clock', 1, 22, 40, 2, 1, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (43, N'Un audited', N'atccValidation', N'mdi mdi-file-clock-outline', 1, 23, 40, 2, 1, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (44, N'Audited', N'atccValidated', N'mdi mdi-file-check-outline', 1, 24, 40, 2, 1, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0, CAST(N'2023-08-02T16:23:39.823' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (45, N'ADAS', N'#', N'mdi mdi-rv-truck', 1, 25, 0, 1, 1, CAST(N'2023-08-02T16:41:19.727' AS DateTime), 0, CAST(N'2023-08-02T16:41:19.727' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (46, N'Equipment Config', N'adasEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 26, 45, 1, 1, CAST(N'2023-08-02T16:41:19.733' AS DateTime), 0, CAST(N'2023-08-02T16:41:19.733' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (47, N'Vehicle View', N'adasVehicleview', N'mdi mdi-truck-delivery', 1, 27, 45, 1, 1, CAST(N'2023-08-02T16:41:19.737' AS DateTime), 0, CAST(N'2023-08-02T16:41:19.737' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (48, N'ECS', N'#', N'mdi mdi-rv-truck', 1, 28, 0, 3, 1, CAST(N'2023-08-02T16:43:35.940' AS DateTime), 0, CAST(N'2023-08-02T16:43:35.940' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (49, N'Equipment Config', N'ecsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 29, 48, 3, 1, CAST(N'2023-08-02T16:43:35.940' AS DateTime), 0, CAST(N'2023-08-02T16:43:35.940' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (50, N'Event History ', N'ecsEventHistroy', N'mdi mdi-database-clock', 1, 30, 48, 3, 1, CAST(N'2023-08-02T16:43:35.957' AS DateTime), 0, CAST(N'2023-08-02T16:43:35.957' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (51, N'VMS', N'#', N'mdi mdi-message-reply-text', 1, 31, 0, 7, 1, CAST(N'2023-08-02T16:46:07.990' AS DateTime), 0, CAST(N'2023-08-02T16:46:07.990' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (52, N'Equipment Config', N'vmsEquipmentConfig', N'mdi mdi-monitor-dashboard', 1, 31, 51, 7, 1, CAST(N'2023-08-02T16:46:08.083' AS DateTime), 0, CAST(N'2023-08-02T16:46:08.083' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (53, N'Event History ', N'vmsEventHistroy', N'mdi mdi-database-clock', 1, 33, 51, 7, 1, CAST(N'2023-08-02T16:46:08.117' AS DateTime), 0, CAST(N'2023-08-02T16:46:08.117' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (54, N'TTMS', N'ttmsEventHistroy', N'mdi mdi-sort-clock-descending-outline', 1, 34, 0, 12, 1, CAST(N'2023-08-02T16:48:54.150' AS DateTime), 0, CAST(N'2023-08-02T16:48:54.150' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (55, N'Pending', N'challanPending', N'mdi mdi-circle-slice-1', 1, 36, 57, 15, 1, CAST(N'2023-08-02T16:52:46.347' AS DateTime), 0, CAST(N'2023-08-02T16:52:46.347' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (56, N'Closed', N'challanClosed', N'mdi mdi-circle-slice-7', 1, 37, 57, 15, 1, CAST(N'2023-08-02T16:52:46.363' AS DateTime), 0, CAST(N'2023-08-02T16:52:46.363' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_MenuMaster_bkp] ([MenuId], [MenuName], [MenuURL], [MenuIcon], [MennuAccess], [OderBy], [ParentId], [SystemId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (57, N'E-Challan', N'#', N'mdi mdi-account-cash', 1, 35, 0, 15, 1, CAST(N'2023-08-02T16:53:04.570' AS DateTime), 0, CAST(N'2023-08-02T16:53:04.570' AS DateTime), 0)
+GO
+SET IDENTITY_INSERT [dbo].[tbl_MenuMaster_bkp] OFF
+GO
 SET IDENTITY_INSERT [dbo].[tbl_PackageDetails] ON 
 GO
-INSERT [dbo].[tbl_PackageDetails] ([PackageId], [ControlRoomId], [PackageName], [StartChainageNumber], [EndChainageNumber], [StartLatitude], [StartLongitude], [EndLatitude], [EndLongitude], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 1, N'PKG-1', CAST(0.000 AS Decimal(16, 3)), CAST(100.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), 1, CAST(N'2023-06-20T15:51:12.060' AS DateTime), 0, CAST(N'2023-06-24T13:01:57.797' AS DateTime), 0)
+INSERT [dbo].[tbl_PackageDetails] ([PackageId], [ControlRoomId], [PackageName], [StartChainageNumber], [EndChainageNumber], [StartLatitude], [StartLongitude], [EndLatitude], [EndLongitude], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, 1, N'PKG-01', CAST(0.000 AS Decimal(16, 3)), CAST(100.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), 1, CAST(N'2023-06-20T15:51:12.060' AS DateTime), 0, CAST(N'2023-08-03T10:47:32.820' AS DateTime), 0)
 GO
 INSERT [dbo].[tbl_PackageDetails] ([PackageId], [ControlRoomId], [PackageName], [StartChainageNumber], [EndChainageNumber], [StartLatitude], [StartLongitude], [EndLatitude], [EndLongitude], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, N'PKG-2', CAST(100.001 AS Decimal(16, 3)), CAST(200.000 AS Decimal(16, 3)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), CAST(0.000000 AS Decimal(8, 6)), CAST(0.000000 AS Decimal(9, 6)), 1, CAST(N'2023-06-20T15:51:12.060' AS DateTime), 0, CAST(N'2023-06-24T13:01:57.797' AS DateTime), 0)
 GO
@@ -2685,6 +3436,8 @@ INSERT [dbo].[tbl_RoleMaster] ([RoleId], [RoleName], [DataStatus], [CreatedDate]
 GO
 INSERT [dbo].[tbl_RoleMaster] ([RoleId], [RoleName], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'Operator', 1, CAST(N'2023-06-17T05:16:49.577' AS DateTime), 0, CAST(N'2023-06-19T23:15:53.770' AS DateTime), 0)
 GO
+INSERT [dbo].[tbl_RoleMaster] ([RoleId], [RoleName], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'Test', 1, CAST(N'2023-08-03T00:10:21.003' AS DateTime), 0, CAST(N'2023-08-03T10:49:29.317' AS DateTime), 0)
+GO
 SET IDENTITY_INSERT [dbo].[tbl_RoleMaster] OFF
 GO
 INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 1, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
@@ -2761,51 +3514,99 @@ INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [D
 GO
 INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, 33, 1, 1, 1, 1, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0, CAST(N'2023-08-01T17:40:39.860' AS DateTime), 0)
 GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 1, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 2, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 3, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 4, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 5, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 6, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 7, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 8, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 16, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 17, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 18, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 19, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 20, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 21, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 22, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 23, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 24, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 25, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 26, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 40, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 41, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 42, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
+INSERT [dbo].[tbl_RolePermission] ([RoleId], [MenuId], [DataView], [DataAdd], [DataUpdate], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, 44, 1, 0, 0, 1, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0, CAST(N'2023-08-03T10:49:36.387' AS DateTime), 0)
+GO
 SET IDENTITY_INSERT [dbo].[tbl_SystemMaster] ON 
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'ADAS', N'Advance Driver Advisory System', 3039, 3019, N'ADAS.jpg', N'fas fa-truck-pickup', 0, 0, CAST(N'2022-01-14T23:01:30.817' AS DateTime), 0, CAST(N'2022-01-14T23:01:30.817' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'ADAS', N'Advance Driver Advisory System', 3039, 3019, N'ADAS.jpg', N'fas fa-truck-pickup', 0, N'', 0, CAST(N'2022-01-14T23:01:30.817' AS DateTime), 0, CAST(N'2022-01-14T23:01:30.817' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'ATCC', N'Automatic Traffic Counter-cum-Classifier', 3031, 3011, N'ATCC.jpg', N'fas fa-car', 1, 1, CAST(N'2022-01-14T23:01:49.837' AS DateTime), 0, CAST(N'2022-01-14T23:01:49.837' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'ATCC', N'Automatic Traffic Counter-cum-Classifier', 3031, 3011, N'ATCC.jpg', N'fas fa-car', 1, N'1,7', 1, CAST(N'2022-01-14T23:01:49.837' AS DateTime), 0, CAST(N'2022-01-14T23:01:49.837' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'ECS', N'Emergency Calling System', 3034, 3014, N'ECS.jpg', N'fas fa-tty', 1, 1, CAST(N'2022-01-14T23:02:20.130' AS DateTime), 0, CAST(N'2022-01-14T23:02:20.130' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'ECS', N'Emergency Calling System', 3034, 3014, N'ECS.jpg', N'fas fa-tty', 1, N'1', 1, CAST(N'2022-01-14T23:02:20.130' AS DateTime), 0, CAST(N'2022-01-14T23:02:20.130' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'FMS', N'Facility Monitoring System', 3032, 3012, N'NMS.jpg', N'fas fa-network-wired', 0, 0, CAST(N'2022-01-14T23:03:15.580' AS DateTime), 0, CAST(N'2022-01-14T23:03:15.580' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, N'FMS', N'Facility Monitoring System', 3032, 3012, N'NMS.jpg', N'fas fa-network-wired', 0, N'', 0, CAST(N'2022-01-14T23:03:15.580' AS DateTime), 0, CAST(N'2022-01-14T23:03:15.580' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'TMCS', N'Traffic Monitor Camera System', 3035, 3015, N'TMCS.jpg', N'pi pi-video', 0, 1, CAST(N'2022-01-14T23:05:25.100' AS DateTime), 0, CAST(N'2022-01-14T23:05:25.100' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (5, N'TMCS', N'Traffic Monitor Camera System', 3035, 3015, N'TMCS.jpg', N'pi pi-video', 0, N'', 1, CAST(N'2022-01-14T23:05:25.100' AS DateTime), 0, CAST(N'2022-01-14T23:05:25.100' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'VIDS', N'Video Incident Detection System', 3036, 3016, N'VIDS.jpg', N'fas fa-snowplow', 1, 1, CAST(N'2022-01-14T23:05:39.973' AS DateTime), 0, CAST(N'2022-01-14T23:05:39.973' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (6, N'VIDS', N'Video Incident Detection System', 3036, 3016, N'VIDS.jpg', N'fas fa-snowplow', 1, N'13,14', 1, CAST(N'2022-01-14T23:05:39.973' AS DateTime), 0, CAST(N'2022-01-14T23:05:39.973' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'VMS', N'Variable Message Sign', 3037, 3017, N'VMS.png', N'fa fa-television', 1, 1, CAST(N'2022-01-14T23:05:56.100' AS DateTime), 0, CAST(N'2022-01-14T23:05:56.100' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (7, N'VMS', N'Variable Message Sign', 3037, 3017, N'VMS.png', N'fa fa-television', 1, N'', 1, CAST(N'2022-01-14T23:05:56.100' AS DateTime), 0, CAST(N'2022-01-14T23:05:56.100' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'VSDS', N'Vehicle Speed Detection System', 3038, 3018, N'VSDS.jpg', N'fas fa-video', 0, 0, CAST(N'2022-01-14T23:06:14.370' AS DateTime), 0, CAST(N'2022-01-14T23:06:14.370' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, N'VSDS', N'Vehicle Speed Detection System', 3038, 3018, N'VSDS.jpg', N'fas fa-video', 0, N'', 1, CAST(N'2022-01-14T23:06:14.370' AS DateTime), 0, CAST(N'2022-01-14T23:06:14.370' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Weather', N'Weather', 3040, 3020, N'MET.jpg', N'fas fa-poo-storm', 1, 1, CAST(N'2022-01-14T23:06:23.450' AS DateTime), 0, CAST(N'2022-01-14T23:06:23.450' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, N'Weather', N'Weather', 3040, 3020, N'MET.jpg', N'fas fa-poo-storm', 1, N'', 1, CAST(N'2022-01-14T23:06:23.450' AS DateTime), 0, CAST(N'2022-01-14T23:06:23.450' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'IMS', N'Incident Management System', 3033, 3013, N'IMS.jpg', N'fas fa-car-crash', 1, 1, CAST(N'2022-01-14T23:33:26.807' AS DateTime), 0, CAST(N'2022-01-14T23:33:26.807' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (10, N'IMS', N'Incident Management System', 3033, 3013, N'IMS.jpg', N'fas fa-car-crash', 1, N'', 1, CAST(N'2022-01-14T23:33:26.807' AS DateTime), 0, CAST(N'2022-01-14T23:33:26.807' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'Config', N'Configuration', 3021, 3010, N'Config.jpg', N'fa fa-cog', 0, 0, CAST(N'2022-01-25T11:24:28.827' AS DateTime), 0, CAST(N'2022-01-25T11:24:28.827' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (11, N'Config', N'Configuration', 3021, 3010, N'Config.jpg', N'fa fa-cog', 0, N'', 0, CAST(N'2022-01-25T11:24:28.827' AS DateTime), 0, CAST(N'2022-01-25T11:24:28.827' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'TTMS', N'Time Travel Estimation', 3043, 3023, NULL, N'fas fa-map-marked', 0, 0, CAST(N'2022-03-21T13:07:06.753' AS DateTime), 0, CAST(N'2022-03-21T13:07:06.753' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (12, N'TTMS', N'Time Travel Estimation', 3043, 3023, NULL, N'fas fa-map-marked', 0, N'', 0, CAST(N'2022-03-21T13:07:06.753' AS DateTime), 0, CAST(N'2022-03-21T13:07:06.753' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'RMS', N'Report Management System', 3044, NULL, NULL, N'fa fa-files-o', 0, 0, CAST(N'2022-07-04T11:10:53.793' AS DateTime), 0, CAST(N'2022-07-04T11:10:53.793' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (13, N'RMS', N'Report Management System', 3044, NULL, NULL, N'fa fa-files-o', 0, N'', 0, CAST(N'2022-07-04T11:10:53.793' AS DateTime), 0, CAST(N'2022-07-04T11:10:53.793' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'NMS', N'Network Management System', 8060, NULL, N'NMS.jpg', N'fas fa-solid fa-network-wired', 0, 0, CAST(N'2022-07-04T11:20:55.147' AS DateTime), 0, CAST(N'2022-07-04T11:20:55.147' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (14, N'NMS', N'Network Management System', 8060, NULL, N'NMS.jpg', N'fas fa-solid fa-network-wired', 0, N'', 0, CAST(N'2022-07-04T11:20:55.147' AS DateTime), 0, CAST(N'2022-07-04T11:20:55.147' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'Challan', N'NIC Challan', 3045, 3025, N'NMS.jpg', N'fa fa-address-card', 0, 0, CAST(N'2022-07-21T01:44:46.273' AS DateTime), 0, CAST(N'2022-07-21T01:44:46.273' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (15, N'Challan', N'NIC Challan', 3045, 3025, N'NMS.jpg', N'fa fa-address-card', 0, N'', 0, CAST(N'2022-07-21T01:44:46.273' AS DateTime), 0, CAST(N'2022-07-21T01:44:46.273' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'CRS', N'Control Room System', 3031, 3030, NULL, NULL, 0, 1, CAST(N'2023-06-20T10:15:39.893' AS DateTime), 0, CAST(N'2023-06-20T10:15:39.893' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (16, N'CRS', N'Control Room System', 3031, 3030, NULL, NULL, 0, N'', 1, CAST(N'2023-06-20T10:15:39.893' AS DateTime), 0, CAST(N'2023-06-20T10:15:39.893' AS DateTime), 0)
 GO
-INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'MRCS', N'Mobile Radio Communication System', NULL, NULL, NULL, NULL, 0, 1, CAST(N'2023-06-20T10:17:21.870' AS DateTime), 0, CAST(N'2023-06-20T10:17:21.870' AS DateTime), 0)
+INSERT [dbo].[tbl_SystemMaster] ([SystemId], [SystemName], [SystemDescription], [AppPort], [ApiPort], [SystemImage], [SystemIcon], [DashBoard], [ReportIds], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (17, N'MRCS', N'Mobile Radio Communication System', NULL, NULL, NULL, NULL, 0, N'', 1, CAST(N'2023-06-20T10:17:21.870' AS DateTime), 0, CAST(N'2023-06-20T10:17:21.870' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_SystemMaster] OFF
 GO
+INSERT [dbo].[tbl_SystemSetting] ([TotalLane], [IsATCCIndependently], [ATCCByVSDS], [ATCCByVIDS], [trafficCount], [trafficByTime], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (4, 0, 1, 1, 10, 1, 1, CAST(N'2023-08-03T00:13:22.633' AS DateTime), 0, CAST(N'2023-08-03T00:14:03.300' AS DateTime), 0)
+GO
 SET IDENTITY_INSERT [dbo].[tbl_UserMaster] ON 
 GO
-INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'admin', N'ek4e0KyF2CB1xj3nwprPWg==', N'Admin', N'Admin', N'Admin@gmail.com', N'9982567732', CAST(N'2033-06-12' AS Date), 1, 1, 1, CAST(N'2023-06-16T01:10:15.223' AS DateTime), 0, CAST(N'2023-06-26T21:33:56.993' AS DateTime), 1)
+INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [UserProfileImage], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (1, N'admin', N'ek4e0KyF2CB1xj3nwprPWg==', N'Admin', N'Admin', N'Admin@gmail.com', N'9982567732', CAST(N'2033-06-12' AS Date), 1, 1, N'\User\ProfileImage\0d6e31fe-bef9-4d04-8ba6-6ad3d016bcc8.png', 1, CAST(N'2023-06-16T01:10:15.223' AS DateTime), 0, CAST(N'2023-06-26T21:33:56.993' AS DateTime), 1)
 GO
-INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'pt1', N'ek4e0KyF2CB1xj3nwprPWg==', N'Patrolling', N'Team', N'pt1@gmail.com', N'9982567732', CAST(N'2033-06-12' AS Date), 1, 5, 1, CAST(N'2023-06-16T01:10:15.223' AS DateTime), 0, CAST(N'2023-06-26T21:33:56.993' AS DateTime), 1)
+INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [UserProfileImage], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (2, N'pt1', N'ek4e0KyF2CB1xj3nwprPWg==', N'Patrolling', N'Team', N'pt1@gmail.com', N'9982567732', CAST(N'2033-06-12' AS Date), 1, 5, NULL, 1, CAST(N'2023-06-16T01:10:15.223' AS DateTime), 0, CAST(N'2023-06-26T21:33:56.993' AS DateTime), 1)
 GO
-INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'user1', N'EbWS3/EHBvt8Qg7+RlryTg==', N'User', N'VIDS', N'abc@g.com', N'128909870909', CAST(N'2029-12-25' AS Date), 2, 3, 1, CAST(N'2023-08-01T15:13:37.257' AS DateTime), 0, CAST(N'2023-08-01T15:45:41.280' AS DateTime), 3)
+INSERT [dbo].[tbl_UserMaster] ([UserId], [LoginId], [LoginPassword], [FirstName], [LastName], [EmailId], [MobileNumber], [AccountExpiredDate], [RoleId], [UserTypeId], [UserProfileImage], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (3, N'user1', N'EbWS3/EHBvt8Qg7+RlryTg==', N'Operator-1', N'VIDS', N'abc@g.com', N'128909870909', CAST(N'2029-12-24' AS Date), 2, 3, NULL, 1, CAST(N'2023-08-01T15:13:37.257' AS DateTime), 0, CAST(N'2023-08-03T10:49:58.207' AS DateTime), 3)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_UserMaster] OFF
 GO
@@ -2827,7 +3628,7 @@ INSERT [dbo].[tbl_VehicleClass] ([ClassId], [VehicleClassId], [VehicleClassName]
 GO
 INSERT [dbo].[tbl_VehicleClass] ([ClassId], [VehicleClassId], [VehicleClassName], [VehicleClassIcon], [AllowedSpeed], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (8, 7, N'Tractor', N'fas fa-tractor', CAST(80.00 AS Decimal(10, 2)), 1, CAST(N'2022-02-06T19:03:55.950' AS DateTime), 0, CAST(N'2022-09-17T12:16:43.843' AS DateTime), 1)
 GO
-INSERT [dbo].[tbl_VehicleClass] ([ClassId], [VehicleClassId], [VehicleClassName], [VehicleClassIcon], [AllowedSpeed], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, 8, N'Oversized', N'fas fa-truck-monster', CAST(80.00 AS Decimal(10, 2)), 1, CAST(N'2022-02-06T19:04:09.470' AS DateTime), 0, CAST(N'2022-09-17T12:16:46.800' AS DateTime), 1)
+INSERT [dbo].[tbl_VehicleClass] ([ClassId], [VehicleClassId], [VehicleClassName], [VehicleClassIcon], [AllowedSpeed], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy]) VALUES (9, 8, N'Oversized', N'fas fa-truck-monster', CAST(80.00 AS Decimal(10, 2)), 1, CAST(N'2022-02-06T19:04:09.470' AS DateTime), 0, CAST(N'2023-08-03T10:49:07.670' AS DateTime), 0)
 GO
 SET IDENTITY_INSERT [dbo].[tbl_VehicleClass] OFF
 GO
@@ -3263,6 +4064,262 @@ INSERT [dbo].[temp_ImportPermission] ([MenuId], [DataView], [DataAdd], [DataUpda
 GO
 INSERT [dbo].[temp_ImportPermission] ([MenuId], [DataView], [DataAdd], [DataUpdate], [SessionId]) VALUES (24, 1, 0, 0, N'V1JRGGH4LG')
 GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:46:02.0000000' AS DateTime2), N'91d4d114-32e4-445c-b145-f792caf7ca1a', 1, N'UP44AX9192', 3, 79.680000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\91d4d114-32e4-445c-b145-f792caf7ca1a.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\91d4d114-32e4-445c-b145-f792caf7ca1a.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\91d4d114-32e4-445c-b145-f792caf7ca1a.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:45:43.0000000' AS DateTime2), N'75809b1b-9bb7-490b-bee4-7cc46ab6f5f3', 1, N'UP14CF7707', 3, 76.459999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\75809b1b-9bb7-490b-bee4-7cc46ab6f5f3.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\75809b1b-9bb7-490b-bee4-7cc46ab6f5f3.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\75809b1b-9bb7-490b-bee4-7cc46ab6f5f3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:45:32.0000000' AS DateTime2), N'29d2ddb3-15ad-4888-b9b8-a7c77c226d4f', 1, N'UP60AY1845', 3, 88.470001220703125, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\29d2ddb3-15ad-4888-b9b8-a7c77c226d4f.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\29d2ddb3-15ad-4888-b9b8-a7c77c226d4f.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\29d2ddb3-15ad-4888-b9b8-a7c77c226d4f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:45:28.0000000' AS DateTime2), N'781284ae-ff44-4372-a277-88a97bbd5f5d', 1, N'UP16BP6776', 3, 79.760002136230469, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\781284ae-ff44-4372-a277-88a97bbd5f5d.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\781284ae-ff44-4372-a277-88a97bbd5f5d.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\781284ae-ff44-4372-a277-88a97bbd5f5d.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:45:18.0000000' AS DateTime2), N'a02ba6d7-3ce6-4b0a-a22a-558db939f8de', 1, N'UP50BL6264', 3, 74.389999389648438, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\a02ba6d7-3ce6-4b0a-a22a-558db939f8de.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\a02ba6d7-3ce6-4b0a-a22a-558db939f8de.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\a02ba6d7-3ce6-4b0a-a22a-558db939f8de.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:45:14.0000000' AS DateTime2), N'8bf000ce-2c88-4cf1-acfe-0cb7c23ba755', 1, N'XEU3LA4T5865', 4, 58.709999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\8bf000ce-2c88-4cf1-acfe-0cb7c23ba755.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\8bf000ce-2c88-4cf1-acfe-0cb7c23ba755.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\8bf000ce-2c88-4cf1-acfe-0cb7c23ba755.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:45:05.0000000' AS DateTime2), N'0d97da77-c7c2-40b5-8d70-d7557ff25e55', 1, N'UP32KE0315', 3, 84.0999984741211, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\0d97da77-c7c2-40b5-8d70-d7557ff25e55.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\0d97da77-c7c2-40b5-8d70-d7557ff25e55.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\0d97da77-c7c2-40b5-8d70-d7557ff25e55.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:44:58.0000000' AS DateTime2), N'7f31d2d2-29c4-4a09-8069-c65ca0c99b5f', 1, N'UP78GF3669', 3, 81.4000015258789, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\7f31d2d2-29c4-4a09-8069-c65ca0c99b5f.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\7f31d2d2-29c4-4a09-8069-c65ca0c99b5f.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\7f31d2d2-29c4-4a09-8069-c65ca0c99b5f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:44:48.0000000' AS DateTime2), N'90ecd358-b027-4541-a910-534def4b58c6', 1, N'UP33BT4331', 3, 87.8499984741211, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\90ecd358-b027-4541-a910-534def4b58c6.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\90ecd358-b027-4541-a910-534def4b58c6.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\90ecd358-b027-4541-a910-534def4b58c6.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:44:38.0000000' AS DateTime2), N'69643ab2-7572-47ca-b44f-98dfbf9aa2a4', 1, N'UP32LT0944', 3, 93.5199966430664, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\69643ab2-7572-47ca-b44f-98dfbf9aa2a4.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\69643ab2-7572-47ca-b44f-98dfbf9aa2a4.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\69643ab2-7572-47ca-b44f-98dfbf9aa2a4.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:44:16.0000000' AS DateTime2), N'4497847c-172e-4a12-9b85-f630d666aab7', 1, N'UP70BJ1600', 3, 76.430000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\4497847c-172e-4a12-9b85-f630d666aab7.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\4497847c-172e-4a12-9b85-f630d666aab7.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\4497847c-172e-4a12-9b85-f630d666aab7.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:43:33.0000000' AS DateTime2), N'1326fd7e-bb40-4c73-8d31-a5d1b297aa09', 1, N'UP27BJ6590', 3, 77.209999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\1326fd7e-bb40-4c73-8d31-a5d1b297aa09.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\1326fd7e-bb40-4c73-8d31-a5d1b297aa09.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\1326fd7e-bb40-4c73-8d31-a5d1b297aa09.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:43:20.0000000' AS DateTime2), N'892bc1a3-8cae-4a32-be6c-b1246c36ed6b', 1, N'MH12QY9608', 3, 96.220001220703125, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\892bc1a3-8cae-4a32-be6c-b1246c36ed6b.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\892bc1a3-8cae-4a32-be6c-b1246c36ed6b.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\892bc1a3-8cae-4a32-be6c-b1246c36ed6b.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:43:11.0000000' AS DateTime2), N'165927a6-4584-4357-a6c7-64e10e475939', 1, N'UP53EP8576', 3, 88.410003662109375, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\165927a6-4584-4357-a6c7-64e10e475939.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\165927a6-4584-4357-a6c7-64e10e475939.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\165927a6-4584-4357-a6c7-64e10e475939.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:42:59.0000000' AS DateTime2), N'61f6dfe0-ab0a-4fb6-b67e-1a5d9ce47ac2', 1, N'UP65CB6591', 3, 83.709999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\61f6dfe0-ab0a-4fb6-b67e-1a5d9ce47ac2.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\61f6dfe0-ab0a-4fb6-b67e-1a5d9ce47ac2.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\61f6dfe0-ab0a-4fb6-b67e-1a5d9ce47ac2.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:42:53.0000000' AS DateTime2), N'4d0ec1ba-988f-48b4-98d9-b64b100bdc7a', 1, N'UP78HF1576', 3, 76.910003662109375, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\4d0ec1ba-988f-48b4-98d9-b64b100bdc7a.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\4d0ec1ba-988f-48b4-98d9-b64b100bdc7a.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\4d0ec1ba-988f-48b4-98d9-b64b100bdc7a.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:42:51.0000000' AS DateTime2), N'4123d1a3-674a-4fb2-8815-2666d4c4a28e', 1, N'UP16AR7810', 3, 73.660003662109375, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\4123d1a3-674a-4fb2-8815-2666d4c4a28e.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\4123d1a3-674a-4fb2-8815-2666d4c4a28e.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\4123d1a3-674a-4fb2-8815-2666d4c4a28e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:42:39.0000000' AS DateTime2), N'7e9d4b10-8df6-4e6f-8ddd-54c19aa34939', 1, N'UP62BH0001', 3, 76.889999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\7e9d4b10-8df6-4e6f-8ddd-54c19aa34939.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\7e9d4b10-8df6-4e6f-8ddd-54c19aa34939.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\7e9d4b10-8df6-4e6f-8ddd-54c19aa34939.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:42:29.0000000' AS DateTime2), N'b19be58b-a62f-428e-bd1b-8b0afe02d833', 1, N'UP45AE8701', 3, 78.879997253417969, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\b19be58b-a62f-428e-bd1b-8b0afe02d833.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\b19be58b-a62f-428e-bd1b-8b0afe02d833.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\b19be58b-a62f-428e-bd1b-8b0afe02d833.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:42:23.0000000' AS DateTime2), N'ed530f62-c587-4748-8c8d-955a9d2f8e9e', 1, N'UP45R8687', 3, 96.010002136230469, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\ed530f62-c587-4748-8c8d-955a9d2f8e9e.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\ed530f62-c587-4748-8c8d-955a9d2f8e9e.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\ed530f62-c587-4748-8c8d-955a9d2f8e9e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:42:15.0000000' AS DateTime2), N'f70ee2e4-0376-4863-bade-6de698e6aa93', 1, N'WB15AT0666', 5, 52.090000152587891, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\f70ee2e4-0376-4863-bade-6de698e6aa93.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\f70ee2e4-0376-4863-bade-6de698e6aa93.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\f70ee2e4-0376-4863-bade-6de698e6aa93.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:41:54.0000000' AS DateTime2), N'f043fb20-1498-4a75-bcac-29dff74e0731', 1, N'UP32HH7978', 3, 84.2300033569336, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\f043fb20-1498-4a75-bcac-29dff74e0731.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\f043fb20-1498-4a75-bcac-29dff74e0731.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\f043fb20-1498-4a75-bcac-29dff74e0731.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:41:46.0000000' AS DateTime2), N'9b8e65ba-4093-4724-b5aa-5815cb49f493', 1, N'UP24AD3425', 3, 74.790000915527344, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\9b8e65ba-4093-4724-b5aa-5815cb49f493.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\9b8e65ba-4093-4724-b5aa-5815cb49f493.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\9b8e65ba-4093-4724-b5aa-5815cb49f493.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:41:28.0000000' AS DateTime2), N'e5c76144-a51b-4837-b2f0-85a7bdc2d3c0', 1, N'UP32SN3929', 3, 93.629997253417969, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\e5c76144-a51b-4837-b2f0-85a7bdc2d3c0.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\e5c76144-a51b-4837-b2f0-85a7bdc2d3c0.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\e5c76144-a51b-4837-b2f0-85a7bdc2d3c0.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:40:54.0000000' AS DateTime2), N'1b5937ee-9e18-4b64-8131-c7aecc725c35', 1, N'RJ14UC9402', 3, 93.139999389648438, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1b5937ee-9e18-4b64-8131-c7aecc725c35.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1b5937ee-9e18-4b64-8131-c7aecc725c35.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1b5937ee-9e18-4b64-8131-c7aecc725c35.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:40:47.0000000' AS DateTime2), N'105250f7-9f3c-4b58-ab03-63746afe00d3', 1, N'UP50BS3630', 3, 75.830001831054688, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\105250f7-9f3c-4b58-ab03-63746afe00d3.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\105250f7-9f3c-4b58-ab03-63746afe00d3.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\105250f7-9f3c-4b58-ab03-63746afe00d3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:40:27.0000000' AS DateTime2), N'a6e0689b-8a5c-44eb-8025-f686f917f81f', 1, N'UP32JQ3744', 3, 86.610000610351562, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\a6e0689b-8a5c-44eb-8025-f686f917f81f.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\a6e0689b-8a5c-44eb-8025-f686f917f81f.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\a6e0689b-8a5c-44eb-8025-f686f917f81f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:40:26.0000000' AS DateTime2), N'cdd3c135-d3b2-4dff-813c-c0dbd99e8b5e', 1, N'UP32LX5447', 3, 94.209999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\cdd3c135-d3b2-4dff-813c-c0dbd99e8b5e.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\cdd3c135-d3b2-4dff-813c-c0dbd99e8b5e.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\cdd3c135-d3b2-4dff-813c-c0dbd99e8b5e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:40:14.0000000' AS DateTime2), N'fc7b6435-9c39-4b59-a78a-9ecb00c0aa7e', 1, N'UP32KY7444', 3, 91, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\fc7b6435-9c39-4b59-a78a-9ecb00c0aa7e.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\fc7b6435-9c39-4b59-a78a-9ecb00c0aa7e.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\fc7b6435-9c39-4b59-a78a-9ecb00c0aa7e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:40:13.0000000' AS DateTime2), N'4c6317ea-756e-46cf-80f6-32ae213efcf6', 1, N'UP16DJ0622', 3, 95.830001831054688, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\4c6317ea-756e-46cf-80f6-32ae213efcf6.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\4c6317ea-756e-46cf-80f6-32ae213efcf6.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\4c6317ea-756e-46cf-80f6-32ae213efcf6.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:40:11.0000000' AS DateTime2), N'c510aacf-ad47-455f-ba00-8c68d89f5bf4', 1, N'UP32KP7566', 3, 80.069999694824219, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\c510aacf-ad47-455f-ba00-8c68d89f5bf4.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\c510aacf-ad47-455f-ba00-8c68d89f5bf4.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\c510aacf-ad47-455f-ba00-8c68d89f5bf4.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:39:51.0000000' AS DateTime2), N'0364fd2c-889a-49ac-83ac-f9108f44fb43', 1, N'UP62CQ3232', 3, 95.319999694824219, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\0364fd2c-889a-49ac-83ac-f9108f44fb43.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\0364fd2c-889a-49ac-83ac-f9108f44fb43.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\0364fd2c-889a-49ac-83ac-f9108f44fb43.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:39:37.0000000' AS DateTime2), N'75a07f82-93d5-43db-b989-4ef92f03d574', 1, N'UP50BZ6609', 3, 79.459999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\75a07f82-93d5-43db-b989-4ef92f03d574.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\75a07f82-93d5-43db-b989-4ef92f03d574.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\75a07f82-93d5-43db-b989-4ef92f03d574.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:39:20.0000000' AS DateTime2), N'79a22741-101c-4472-9b70-26aeea1c8cf9', 1, N'UP61AM0111', 3, 73.3499984741211, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\79a22741-101c-4472-9b70-26aeea1c8cf9.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\79a22741-101c-4472-9b70-26aeea1c8cf9.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\79a22741-101c-4472-9b70-26aeea1c8cf9.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:39:06.0000000' AS DateTime2), N'c80a48bb-c978-4889-a1c8-b240f160f899', 1, N'UP32KN1059', 3, 97.760002136230469, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\c80a48bb-c978-4889-a1c8-b240f160f899.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\c80a48bb-c978-4889-a1c8-b240f160f899.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\c80a48bb-c978-4889-a1c8-b240f160f899.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:39:00.0000000' AS DateTime2), N'241d1024-4a71-4c3b-9ab8-d71192369892', 1, N'UP50BQ9350', 3, 82.639999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\241d1024-4a71-4c3b-9ab8-d71192369892.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\241d1024-4a71-4c3b-9ab8-d71192369892.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\241d1024-4a71-4c3b-9ab8-d71192369892.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:38:27.0000000' AS DateTime2), N'2f072887-b550-40e2-8f19-a8f59238c3e6', 1, N'UP32JR9990', 3, 86.169998168945312, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\2f072887-b550-40e2-8f19-a8f59238c3e6.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\2f072887-b550-40e2-8f19-a8f59238c3e6.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\2f072887-b550-40e2-8f19-a8f59238c3e6.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:37:40.0000000' AS DateTime2), N'1936f48c-6afa-4197-8818-a858b65c3312', 1, N'UP43AQ4251', 3, 72.989997863769531, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\1936f48c-6afa-4197-8818-a858b65c3312.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\1936f48c-6afa-4197-8818-a858b65c3312.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\1936f48c-6afa-4197-8818-a858b65c3312.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:37:05.0000000' AS DateTime2), N'c507d3dd-8e07-4cec-bdfc-c90776727bbb', 1, N'BR01HA2394', 3, 76.139999389648438, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\c507d3dd-8e07-4cec-bdfc-c90776727bbb.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\c507d3dd-8e07-4cec-bdfc-c90776727bbb.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\c507d3dd-8e07-4cec-bdfc-c90776727bbb.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:36:39.0000000' AS DateTime2), N'1eb704bf-1cb3-4244-9227-97a03e7150fc', 1, N'UP32NB3299', 3, 89.419998168945312, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1eb704bf-1cb3-4244-9227-97a03e7150fc.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1eb704bf-1cb3-4244-9227-97a03e7150fc.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1eb704bf-1cb3-4244-9227-97a03e7150fc.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:36:20.0000000' AS DateTime2), N'3b014bbf-c92d-4fec-b8ed-2f8762463e78', 1, N'DL5EU0366', 3, 87.459999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\3b014bbf-c92d-4fec-b8ed-2f8762463e78.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\3b014bbf-c92d-4fec-b8ed-2f8762463e78.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\3b014bbf-c92d-4fec-b8ed-2f8762463e78.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:36:19.0000000' AS DateTime2), N'a34e3659-5337-4c71-8353-47a382b8ede7', 1, N'UP32LT7172', 3, 97.699996948242188, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\a34e3659-5337-4c71-8353-47a382b8ede7.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\a34e3659-5337-4c71-8353-47a382b8ede7.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\a34e3659-5337-4c71-8353-47a382b8ede7.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:36:08.0000000' AS DateTime2), N'7d0449b1-e1aa-4d60-a31e-8808726ea202', 1, N'UP32JA5566', 3, 82.0199966430664, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\7d0449b1-e1aa-4d60-a31e-8808726ea202.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\7d0449b1-e1aa-4d60-a31e-8808726ea202.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\7d0449b1-e1aa-4d60-a31e-8808726ea202.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:35:47.0000000' AS DateTime2), N'e451f467-44a4-4e2f-b8f2-928f2426c3eb', 1, N'UP50BY4522', 3, 73.199996948242188, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\e451f467-44a4-4e2f-b8f2-928f2426c3eb.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\e451f467-44a4-4e2f-b8f2-928f2426c3eb.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\e451f467-44a4-4e2f-b8f2-928f2426c3eb.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:35:32.0000000' AS DateTime2), N'82976cb8-62ba-44a7-b679-17daa86e12c2', 1, N'UP61BF4349', 3, 83.379997253417969, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\82976cb8-62ba-44a7-b679-17daa86e12c2.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\82976cb8-62ba-44a7-b679-17daa86e12c2.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\82976cb8-62ba-44a7-b679-17daa86e12c2.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:35:23.0000000' AS DateTime2), N'80086184-0d47-481a-a28c-ed80f1942418', 1, N'UP45AT2464', 3, 74.430000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\80086184-0d47-481a-a28c-ed80f1942418.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\80086184-0d47-481a-a28c-ed80f1942418.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\80086184-0d47-481a-a28c-ed80f1942418.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:35:05.0000000' AS DateTime2), N'967d26dd-ae7f-493b-b764-a762839b24d0', 1, N'UP61V6813', 3, 76.199996948242188, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\967d26dd-ae7f-493b-b764-a762839b24d0.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\967d26dd-ae7f-493b-b764-a762839b24d0.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\967d26dd-ae7f-493b-b764-a762839b24d0.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:34:58.0000000' AS DateTime2), N'221dea90-7a15-4196-9877-9a6004ae4729', 1, N'BR24AA1111', 3, 77.300003051757812, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\221dea90-7a15-4196-9877-9a6004ae4729.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\221dea90-7a15-4196-9877-9a6004ae4729.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\221dea90-7a15-4196-9877-9a6004ae4729.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:34:48.0000000' AS DateTime2), N'b821c82c-3c99-401b-97a8-ee7c70baffd3', 1, N'UP50BT7171', 3, 92.489997863769531, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\b821c82c-3c99-401b-97a8-ee7c70baffd3.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\b821c82c-3c99-401b-97a8-ee7c70baffd3.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\b821c82c-3c99-401b-97a8-ee7c70baffd3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:34:43.0000000' AS DateTime2), N'612444f8-a14a-4d0f-af9e-140b802f09e3', 1, N'DL5CV2801', 3, 93.8499984741211, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\612444f8-a14a-4d0f-af9e-140b802f09e3.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\612444f8-a14a-4d0f-af9e-140b802f09e3.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\612444f8-a14a-4d0f-af9e-140b802f09e3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:34:39.0000000' AS DateTime2), N'ba828d54-7369-4e3a-81e0-e9395c18f3a0', 1, N'UP14CS6941', 3, 73.80999755859375, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\ba828d54-7369-4e3a-81e0-e9395c18f3a0.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\ba828d54-7369-4e3a-81e0-e9395c18f3a0.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\ba828d54-7369-4e3a-81e0-e9395c18f3a0.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:34:31.0000000' AS DateTime2), N'06bfff9d-090b-4472-93ba-f50dd175355e', 1, N'UP60BT0860', 3, 96.69000244140625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\06bfff9d-090b-4472-93ba-f50dd175355e.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\06bfff9d-090b-4472-93ba-f50dd175355e.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\06bfff9d-090b-4472-93ba-f50dd175355e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:34:24.0000000' AS DateTime2), N'cb7caf31-3bfc-41fe-91b0-606bf141d24f', 1, N'UP45AA8799', 3, 90.510002136230469, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\cb7caf31-3bfc-41fe-91b0-606bf141d24f.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\cb7caf31-3bfc-41fe-91b0-606bf141d24f.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\cb7caf31-3bfc-41fe-91b0-606bf141d24f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:34:09.0000000' AS DateTime2), N'9c76031f-97e6-4df1-b183-57cbd9bc9c32', 1, N'UP61AT8882', 3, 73.889999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\9c76031f-97e6-4df1-b183-57cbd9bc9c32.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\9c76031f-97e6-4df1-b183-57cbd9bc9c32.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\9c76031f-97e6-4df1-b183-57cbd9bc9c32.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:34:05.0000000' AS DateTime2), N'bdccc745-81fe-45e5-b717-0fc29382412e', 1, N'UP14AU0273', 3, 75.209999084472656, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\bdccc745-81fe-45e5-b717-0fc29382412e.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\bdccc745-81fe-45e5-b717-0fc29382412e.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\bdccc745-81fe-45e5-b717-0fc29382412e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:34:01.0000000' AS DateTime2), N'208a05c8-41a9-49db-97fd-e01c65aeaaa3', 1, N'LDUL7BE467U', 3, 95.2300033569336, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\208a05c8-41a9-49db-97fd-e01c65aeaaa3.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\208a05c8-41a9-49db-97fd-e01c65aeaaa3.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\208a05c8-41a9-49db-97fd-e01c65aeaaa3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:33:55.0000000' AS DateTime2), N'e9f8908d-5d1b-4351-83e0-9fa08f1e3b41', 1, N'UP32NF1556', 3, 90.800003051757812, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\e9f8908d-5d1b-4351-83e0-9fa08f1e3b41.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\e9f8908d-5d1b-4351-83e0-9fa08f1e3b41.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\e9f8908d-5d1b-4351-83e0-9fa08f1e3b41.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:33:47.0000000' AS DateTime2), N'1dde6890-1802-4a15-b1a1-81c90e0ac776', 1, N'UP14AZ2222', 3, 89.589996337890625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1dde6890-1802-4a15-b1a1-81c90e0ac776.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1dde6890-1802-4a15-b1a1-81c90e0ac776.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1dde6890-1802-4a15-b1a1-81c90e0ac776.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:33:42.0000000' AS DateTime2), N'f6d85b6e-e836-481a-a751-ca0c90bde5b8', 1, N'RJ45CK8287', 3, 77.239997863769531, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\f6d85b6e-e836-481a-a751-ca0c90bde5b8.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\f6d85b6e-e836-481a-a751-ca0c90bde5b8.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\f6d85b6e-e836-481a-a751-ca0c90bde5b8.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:33:41.0000000' AS DateTime2), N'e009ae73-5721-425a-b5e2-b48de94c7f2b', 1, N'UP33AV3999', 3, 81.550003051757812, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\e009ae73-5721-425a-b5e2-b48de94c7f2b.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\e009ae73-5721-425a-b5e2-b48de94c7f2b.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\e009ae73-5721-425a-b5e2-b48de94c7f2b.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:33:27.0000000' AS DateTime2), N'0245c76a-4df5-4073-a9c0-a457b913b7f5', 1, N'UP32FT8387', 3, 93.4800033569336, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\0245c76a-4df5-4073-a9c0-a457b913b7f5.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\0245c76a-4df5-4073-a9c0-a457b913b7f5.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\0245c76a-4df5-4073-a9c0-a457b913b7f5.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:33:11.0000000' AS DateTime2), N'16c6ef65-139e-48e6-9e0f-a9e916a9a74a', 1, N'BR33AL687', 3, 73.430000305175781, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\16c6ef65-139e-48e6-9e0f-a9e916a9a74a.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\16c6ef65-139e-48e6-9e0f-a9e916a9a74a.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\16c6ef65-139e-48e6-9e0f-a9e916a9a74a.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:32:58.0000000' AS DateTime2), N'c5218e8c-0912-4315-9ef4-f23c95914d1f', 1, N'RJ45CR8580', 3, 94.180000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\c5218e8c-0912-4315-9ef4-f23c95914d1f.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\c5218e8c-0912-4315-9ef4-f23c95914d1f.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\c5218e8c-0912-4315-9ef4-f23c95914d1f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:32:56.0000000' AS DateTime2), N'4e3939d4-5372-4837-9216-0211a746b887', 1, N'103290UM9W', 3, 97.889999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\4e3939d4-5372-4837-9216-0211a746b887.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\4e3939d4-5372-4837-9216-0211a746b887.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\4e3939d4-5372-4837-9216-0211a746b887.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:32:24.0000000' AS DateTime2), N'9e14c031-2303-4f16-bb7b-98064215add0', 1, N'DD02AQ6039', 3, 91.8499984741211, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\9e14c031-2303-4f16-bb7b-98064215add0.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\9e14c031-2303-4f16-bb7b-98064215add0.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\9e14c031-2303-4f16-bb7b-98064215add0.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:32:00.0000000' AS DateTime2), N'668e3f9b-fbdf-4e61-8dc5-6ce918de7c6b', 1, N'UP32KW8999', 3, 79.620002746582031, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\668e3f9b-fbdf-4e61-8dc5-6ce918de7c6b.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\668e3f9b-fbdf-4e61-8dc5-6ce918de7c6b.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\668e3f9b-fbdf-4e61-8dc5-6ce918de7c6b.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:31:46.0000000' AS DateTime2), N'3aa8dff4-5c0d-4703-b426-dc9a5dd240da', 1, N'UP50AP8538', 3, 77.410003662109375, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\3aa8dff4-5c0d-4703-b426-dc9a5dd240da.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\3aa8dff4-5c0d-4703-b426-dc9a5dd240da.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\3aa8dff4-5c0d-4703-b426-dc9a5dd240da.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:31:37.0000000' AS DateTime2), N'9f291e97-50fa-4d24-a083-4b68a2f84862', 1, N'UP47E744', 3, 86.819999694824219, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\9f291e97-50fa-4d24-a083-4b68a2f84862.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\9f291e97-50fa-4d24-a083-4b68a2f84862.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\9f291e97-50fa-4d24-a083-4b68a2f84862.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:31:36.0000000' AS DateTime2), N'5f0ebdd8-5713-44ac-a313-a497e6001dc4', 1, N'UP42AY99P3', 3, 83.339996337890625, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\5f0ebdd8-5713-44ac-a313-a497e6001dc4.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\5f0ebdd8-5713-44ac-a313-a497e6001dc4.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\5f0ebdd8-5713-44ac-a313-a497e6001dc4.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:31:07.0000000' AS DateTime2), N'a574fd23-6fbc-4e03-9863-835e919492f2', 1, N'UP61X7071', 3, 88.300003051757812, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\a574fd23-6fbc-4e03-9863-835e919492f2.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\a574fd23-6fbc-4e03-9863-835e919492f2.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\a574fd23-6fbc-4e03-9863-835e919492f2.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:30:39.0000000' AS DateTime2), N'fb36e5f5-b423-48dc-a303-b27fb016528f', 1, N'UP65AR2698', 3, 70.1500015258789, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\fb36e5f5-b423-48dc-a303-b27fb016528f.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\fb36e5f5-b423-48dc-a303-b27fb016528f.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\fb36e5f5-b423-48dc-a303-b27fb016528f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:30:18.0000000' AS DateTime2), N'7b086127-f7d6-4474-83c5-e13dddc057fc', 1, N'UP32JF1009', 3, 92.790000915527344, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\7b086127-f7d6-4474-83c5-e13dddc057fc.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\7b086127-f7d6-4474-83c5-e13dddc057fc.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\7b086127-f7d6-4474-83c5-e13dddc057fc.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:30:12.0000000' AS DateTime2), N'fe11707b-620f-4207-80a2-e87a8e23be79', 1, N'UP32MA3599', 3, 84.830001831054688, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\fe11707b-620f-4207-80a2-e87a8e23be79.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\fe11707b-620f-4207-80a2-e87a8e23be79.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\fe11707b-620f-4207-80a2-e87a8e23be79.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:29:35.0000000' AS DateTime2), N'3e099950-aaec-4d8f-8a19-2b5a6d47d6c2', 1, N'UP45AN6462', 3, 82.2699966430664, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\3e099950-aaec-4d8f-8a19-2b5a6d47d6c2.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\3e099950-aaec-4d8f-8a19-2b5a6d47d6c2.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\3e099950-aaec-4d8f-8a19-2b5a6d47d6c2.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:29:02.0000000' AS DateTime2), N'a9ffb994-d55e-49fd-95d7-949e04045153', 1, N'UP32LB9529', 3, 73.139999389648438, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\a9ffb994-d55e-49fd-95d7-949e04045153.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\a9ffb994-d55e-49fd-95d7-949e04045153.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\a9ffb994-d55e-49fd-95d7-949e04045153.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:28:53.0000000' AS DateTime2), N'18706037-e417-436d-9ac6-ad7a04ae16d4', 1, N'UP32MP2905', 3, 71.839996337890625, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\18706037-e417-436d-9ac6-ad7a04ae16d4.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\18706037-e417-436d-9ac6-ad7a04ae16d4.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\18706037-e417-436d-9ac6-ad7a04ae16d4.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:28:26.0000000' AS DateTime2), N'bcad21d1-3809-40c5-bc81-c1ca40815588', 1, N'UP54L2711', 3, 83.4000015258789, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\bcad21d1-3809-40c5-bc81-c1ca40815588.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\bcad21d1-3809-40c5-bc81-c1ca40815588.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\bcad21d1-3809-40c5-bc81-c1ca40815588.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:28:21.0000000' AS DateTime2), N'59c9493d-9b5d-4a35-8e8c-4b6dafdb862e', 1, N'64U3134', 4, 66.1500015258789, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\59c9493d-9b5d-4a35-8e8c-4b6dafdb862e.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\59c9493d-9b5d-4a35-8e8c-4b6dafdb862e.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\59c9493d-9b5d-4a35-8e8c-4b6dafdb862e.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:28:18.0000000' AS DateTime2), N'331cfa28-b773-452b-a590-71da164fd8c8', 1, N'UP50AV8619', 3, 84.989997863769531, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\331cfa28-b773-452b-a590-71da164fd8c8.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\331cfa28-b773-452b-a590-71da164fd8c8.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\331cfa28-b773-452b-a590-71da164fd8c8.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:27:10.0000000' AS DateTime2), N'91c79be1-107a-4f5c-9cbb-b33e3f329597', 1, N'UP62BV3037', 3, 89.2699966430664, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\91c79be1-107a-4f5c-9cbb-b33e3f329597.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\91c79be1-107a-4f5c-9cbb-b33e3f329597.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\91c79be1-107a-4f5c-9cbb-b33e3f329597.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:26:48.0000000' AS DateTime2), N'6ecf5359-7ee2-43c6-8e39-a92edb7aa5dc', 1, N'UP32MZ7116', 3, 81.5199966430664, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\6ecf5359-7ee2-43c6-8e39-a92edb7aa5dc.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\6ecf5359-7ee2-43c6-8e39-a92edb7aa5dc.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\6ecf5359-7ee2-43c6-8e39-a92edb7aa5dc.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:26:44.0000000' AS DateTime2), N'86213530-a172-42c9-86de-153c45d5108f', 1, N'UP50CJ4706', 3, 84.959999084472656, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\86213530-a172-42c9-86de-153c45d5108f.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\86213530-a172-42c9-86de-153c45d5108f.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\86213530-a172-42c9-86de-153c45d5108f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.61', 1, CAST(N'2023-05-08T15:26:31.0000000' AS DateTime2), N'19113146-75ab-4727-ae9e-fe0cf4b3f3a4', 1, N'UP62BQ7444', 3, 71.610000610351562, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\19113146-75ab-4727-ae9e-fe0cf4b3f3a4.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\19113146-75ab-4727-ae9e-fe0cf4b3f3a4.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\19113146-75ab-4727-ae9e-fe0cf4b3f3a4.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:26:29.0000000' AS DateTime2), N'e9d6f9ad-a1ab-4f5f-8bfc-31b29ccc2fc7', 1, N'UP50BZ2762', 3, 88.339996337890625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\e9d6f9ad-a1ab-4f5f-8bfc-31b29ccc2fc7.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\e9d6f9ad-a1ab-4f5f-8bfc-31b29ccc2fc7.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\e9d6f9ad-a1ab-4f5f-8bfc-31b29ccc2fc7.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:26:28.0000000' AS DateTime2), N'57f5ba1d-4cbe-46f5-87eb-5fdc1ab55f62', 1, N'UP32JQ6358', 3, 85.010002136230469, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\57f5ba1d-4cbe-46f5-87eb-5fdc1ab55f62.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\57f5ba1d-4cbe-46f5-87eb-5fdc1ab55f62.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\57f5ba1d-4cbe-46f5-87eb-5fdc1ab55f62.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:25:53.0000000' AS DateTime2), N'2ae8c6f8-22e0-464e-89a0-6cb59211a63b', 1, N'UP50BZ7229', 3, 84.639999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\2ae8c6f8-22e0-464e-89a0-6cb59211a63b.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\2ae8c6f8-22e0-464e-89a0-6cb59211a63b.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\2ae8c6f8-22e0-464e-89a0-6cb59211a63b.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:25:38.0000000' AS DateTime2), N'1cd6db33-7bf1-43c8-98cd-2ce17266ef8c', 1, N'UP14CD4458', 3, 93.050003051757812, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\1cd6db33-7bf1-43c8-98cd-2ce17266ef8c.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\1cd6db33-7bf1-43c8-98cd-2ce17266ef8c.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\1cd6db33-7bf1-43c8-98cd-2ce17266ef8c.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:25:22.0000000' AS DateTime2), N'4f196896-9d6b-4dd5-8659-5dec2606aba0', 1, N'UP32LW4505', 3, 72.69000244140625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\4f196896-9d6b-4dd5-8659-5dec2606aba0.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\4f196896-9d6b-4dd5-8659-5dec2606aba0.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\4f196896-9d6b-4dd5-8659-5dec2606aba0.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:24:50.0000000' AS DateTime2), N'3c224289-c8ed-4a44-bab9-bb163d107e1f', 1, N'UP14EH2461', 3, 99.430000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\3c224289-c8ed-4a44-bab9-bb163d107e1f.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\3c224289-c8ed-4a44-bab9-bb163d107e1f.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\3c224289-c8ed-4a44-bab9-bb163d107e1f.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:24:42.0000000' AS DateTime2), N'1577e8cd-92c4-4601-b14b-a775e48572c5', 1, N'UP32KZ0321', 3, 83.089996337890625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1577e8cd-92c4-4601-b14b-a775e48572c5.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1577e8cd-92c4-4601-b14b-a775e48572c5.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1577e8cd-92c4-4601-b14b-a775e48572c5.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:24:13.0000000' AS DateTime2), N'1a78e769-9f2f-4dd7-a9c6-cb6519aed76a', 1, N'UP50BB1749', 3, 91.489997863769531, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1a78e769-9f2f-4dd7-a9c6-cb6519aed76a.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1a78e769-9f2f-4dd7-a9c6-cb6519aed76a.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1a78e769-9f2f-4dd7-a9c6-cb6519aed76a.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:24:08.0000000' AS DateTime2), N'02f6dd57-2bb4-433b-9368-12d9985945d3', 1, N'UP32LK9889', 3, 84.029998779296875, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\02f6dd57-2bb4-433b-9368-12d9985945d3.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\02f6dd57-2bb4-433b-9368-12d9985945d3.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\02f6dd57-2bb4-433b-9368-12d9985945d3.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:23:29.0000000' AS DateTime2), N'ab43afec-0f07-4d53-a0e2-eae67d7ebe40', 1, N'1222BJ1456', 3, 77.629997253417969, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\ab43afec-0f07-4d53-a0e2-eae67d7ebe40.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\ab43afec-0f07-4d53-a0e2-eae67d7ebe40.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\ab43afec-0f07-4d53-a0e2-eae67d7ebe40.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:23:28.0000000' AS DateTime2), N'1f16535d-330d-49fb-a1c5-49df321e9a14', 1, N'UP60AU6555', 3, 90.930000305175781, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\1f16535d-330d-49fb-a1c5-49df321e9a14.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\1f16535d-330d-49fb-a1c5-49df321e9a14.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\1f16535d-330d-49fb-a1c5-49df321e9a14.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:22:59.0000000' AS DateTime2), N'3e3aa198-e1e6-489c-a315-1a50efde7552', 1, N'UP65EF0593', 3, 76.139999389648438, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\3e3aa198-e1e6-489c-a315-1a50efde7552.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\3e3aa198-e1e6-489c-a315-1a50efde7552.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\3e3aa198-e1e6-489c-a315-1a50efde7552.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:22:28.0000000' AS DateTime2), N'8c3ed6d2-f909-45da-bdb5-fb4e3c690c59', 1, N'UP32NS8767', 3, 76.910003662109375, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\8c3ed6d2-f909-45da-bdb5-fb4e3c690c59.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\8c3ed6d2-f909-45da-bdb5-fb4e3c690c59.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\8c3ed6d2-f909-45da-bdb5-fb4e3c690c59.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.61', 1, CAST(N'2023-05-08T15:21:52.0000000' AS DateTime2), N'd4725d2a-2d9a-4483-a1ea-bef7d21a89da', 1, N'UP32JV8300', 3, 90.279998779296875, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\d4725d2a-2d9a-4483-a1ea-bef7d21a89da.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\d4725d2a-2d9a-4483-a1ea-bef7d21a89da.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\d4725d2a-2d9a-4483-a1ea-bef7d21a89da.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:21:43.0000000' AS DateTime2), N'27720ec0-275e-43dd-935b-308b338cf668', 1, N'UP32NS7587', 3, 92.720001220703125, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\27720ec0-275e-43dd-935b-308b338cf668.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\27720ec0-275e-43dd-935b-308b338cf668.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\27720ec0-275e-43dd-935b-308b338cf668.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.12.67.62', 2, CAST(N'2023-05-08T15:21:39.0000000' AS DateTime2), N'8de6f1a6-0659-4ab5-87c3-a65a7931ac52', 1, N'UP32HU3810', 3, 97.550003051757812, N'\VSDS\VSDS67900LHS\05Aug2023\PlateImage\\8de6f1a6-0659-4ab5-87c3-a65a7931ac52.jpeg', N'\VSDS\VSDS67900LHS\05Aug2023\VehicleImage\\8de6f1a6-0659-4ab5-87c3-a65a7931ac52.jpeg', N'VSDS\VSDS67900LHS\05Aug2023\VehicleVideo\8de6f1a6-0659-4ab5-87c3-a65a7931ac52.mp4')
+GO
+INSERT [dbo].[VSDSData] ([DeviceIP], [LaneNumber], [EventDate], [EventID], [DirectionId], [PlateNumber], [VehicleClassId], [CapturedSpeed], [PlateImageUrl], [VehicleImageUrl], [VehicleVideoUrl]) VALUES (N'10.11.23.62', 2, CAST(N'2023-05-08T15:21:36.0000000' AS DateTime2), N'fb8450a4-07f6-4933-ad3b-1fad03668b7c', 1, N'UP32KE0315', 3, 92.69000244140625, N'\VSDS\VSDS23900LHS\05Aug2023\PlateImage\\fb8450a4-07f6-4933-ad3b-1fad03668b7c.jpeg', N'\VSDS\VSDS23900LHS\05Aug2023\VehicleImage\\fb8450a4-07f6-4933-ad3b-1fad03668b7c.jpeg', N'VSDS\VSDS23900LHS\05Aug2023\VehicleVideo\fb8450a4-07f6-4933-ad3b-1fad03668b7c.mp4')
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1368, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_23.900_LHS', 1, N'Network', 1, N'10.11.23.61', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'3c557be5-c142-4055-b43b-6f3439a30086', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 1, 1, 1, N'27:49.8', 1, N'27:49.8', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1370, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_67.900_LHS', 1, N'Network', 1, N'10.12.67.61', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'f0698e97-0f87-4d02-b65f-4217d93df892', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 1, 1, 1, N'28:08.5', 1, N'28:08.5', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1384, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_23.900_LHS', 1, N'Network', 1, N'10.11.23.62', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'212e4a3c-2b34-4fc5-9e6d-880d9ed5a677', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 2, 1, 1, N'30:17.8', 1, N'30:17.8', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1386, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_67.900_LHS', 1, N'Network', 1, N'10.12.67.62', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'8a300dd1-37aa-4bc7-9f80-a2af2c688cff', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 2, 1, 1, N'30:36.2', 1, N'30:36.2', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1400, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_23.900_LHS', 1, N'Network', 1, N'10.11.23.63', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'977fecb2-3afe-49af-9a1c-09ff65de6f84', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 3, 0, 1, N'32:46.8', 1, N'32:46.8', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1402, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_67.900_LHS', 1, N'Network', 1, N'10.12.67.63', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'd1e5396d-66fd-4815-bd67-65ee962ee79c', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 3, 1, 1, N'33:05.7', 1, N'33:05.7', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1416, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_23.900_LHS', 1, N'Network', 1, N'10.11.23.64', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'6c48fccd-e039-4c6f-8f56-47faea65356b', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 4, 1, 1, N'35:18.8', 1, N'35:18.8', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1418, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 26, N'ANPR Camera', N'ANPR-Camera_67.900_LHS', 1, N'Network', 1, N'10.12.67.64', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'847cfd19-5f09-4b44-93a8-0f32c3720306', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 4, 1, 1, N'35:37.9', 1, N'35:37.9', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1432, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _23.900_LHS', 1, N'Network', 1, N'10.11.23.65', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'9c4962a0-f4d6-44c6-86dc-ddd992a57751', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 1, 1, 1, N'52:05.1', 1, N'52:05.1', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1434, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _67.900_LHS', 1, N'Network', 1, N'10.12.67.65', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'eb7ded48-f78e-4698-bded-172f3fd39aec', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 1, 1, 1, N'52:23.4', 1, N'52:23.4', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1448, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _23.900_LHS', 1, N'Network', 1, N'10.11.23.66', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'bc34fcc1-b68a-4031-8d15-34e10864e532', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 2, 1, 1, N'54:35.0', 1, N'54:35.0', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1450, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _67.900_LHS', 1, N'Network', 1, N'10.12.67.66', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'4aac5133-7fd5-4d23-84a5-d824f13d35c3', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 2, 1, 1, N'54:54.3', 1, N'54:54.3', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1464, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _23.900_LHS', 1, N'Network', 1, N'10.11.23.67', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'57c6e5d0-3fab-4961-91ab-55abbfd96c1f', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 3, 0, 1, N'57:07.4', 1, N'57:07.4', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1466, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _67.900_LHS', 1, N'Network', 1, N'10.12.67.67', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'3f86bb30-926c-436a-852e-7eeaaf9f05e3', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 3, 1, 1, N'57:26.6', 1, N'57:26.6', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1480, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _23.900_LHS', 1, N'Network', 1, N'10.11.23.68', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'12f8ccd0-e86f-43e3-a61b-06514f566abb', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 4, 1, 1, N'59:40.1', 1, N'59:40.1', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1482, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 7, N'Speed Display', N'Speed-Display  _67.900_LHS', 1, N'Network', 1, N'10.12.67.68', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'30e75817-bbc2-4d35-8421-cdb2f3c438c7', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 4, 1, 1, N'59:59.1', 1, N'59:59.1', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1496, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 3, N'LPU', N'LPU  _23.900_LHS', 1, N'Network', 1, N'10.11.23.69', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'edcb2e2d-ce67-4ad9-a94f-5d5ad751f815', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'11:48.6', 1, N'11:48.6', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1498, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 3, N'LPU', N'LPU  _67.900_LHS', 1, N'Network', 1, N'10.12.67.69', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'5075530f-d985-4092-ab7d-27b55c349a8c', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'12:07.4', 1, N'12:07.4', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1512, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 3, N'LPU', N'LPU  _23.900_LHS', 1, N'Network', 1, N'10.11.23.70', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'7373d289-9b3b-4a48-a113-d03c00da4840', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'14:21.0', 1, N'14:21.0', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1514, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 3, N'LPU', N'LPU  _67.900_LHS', 1, N'Network', 1, N'10.12.67.70', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'92172978-7cdc-49eb-bca7-83b2cb3c6245', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'14:40.1', 1, N'14:40.1', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1528, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 5, N'Radar', N'Radar  _23.900_LHS', 1, N'Network', 1, N'10.11.23.71', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'c159b7ec-6f4f-4656-bef6-6d898441b34a', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'16:52.4', 1, N'16:52.4', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1530, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 5, N'Radar', N'Radar  _67.900_LHS', 1, N'Network', 1, N'10.12.67.71', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'e236f62a-5ed1-443c-813a-b229ebb8cf92', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'17:11.4', 1, N'17:11.4', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1544, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 27, N'Motion Detection Camera', N'Motion-Detection-Camera_23.900_LHS', 1, N'Network', 1, N'10.11.23.72', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'8cca777b-eeaf-440f-812a-e8e270cb4931', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'19:24.7', 1, N'19:24.7', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1546, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 27, N'Motion Detection Camera', N'Motion-Detection-Camera_67.900_LHS', 1, N'Network', 1, N'10.12.67.72', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'd61529df-1427-46ea-9a35-2171c47f8c0b', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'19:44.0', 1, N'19:44.0', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1560, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 17, N'Network Switch', N'Network-Switch  _23.900_LHS', 1, N'Network', 1, N'10.11.23.73', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'df1dd22e-c089-4f2b-ad51-0b5b97367a20', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'33:47.6', 1, N'33:47.6', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1562, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 17, N'Network Switch', N'Network-Switch  _67.900_LHS', 1, N'Network', 1, N'10.12.67.73', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'f995e35c-ccc1-4198-920e-8dda639e5ef1', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 0, 1, N'34:05.9', 1, N'34:05.9', 0, N'NULL', 0, NULL, 0, 2)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1576, 8, 1, N'Main Control Room', 390, N'VSDS 23 900 LHS', 23.899999618530273, 1, N'Field Equipment', 28, N'Media Converter', N'Media-Converter_23.900_LHS', 1, N'Network', 1, N'10.11.23.60', 8000, N'admin', N'Scaipl@123', 26.663825988769531, 81.252120971679688, N'75edd644-845b-4d44-a26c-b603976daba8', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 0, 1, N'39:40.4', 1, N'39:40.4', 0, N'NULL', 0, NULL, 0, 1)
+GO
+INSERT [dbo].[vsdsEquipment] ([EntryId], [SystemId], [ControlRoomId], [ControlRoomName], [LocationId], [LocationName], [ChainageNumber], [CategoryId], [CategoryName], [DeviceTypeId], [DeviceTypeName], [DeviceName], [ConnectionTypeId], [ConnectionType], [DirectionId], [IpAddress], [PortNumber], [DeviceLoginId], [DevicePassword], [Latitude], [Longitude], [MACAddress], [ModelNumber], [Manufacturer], [Vendor], [Remark], [PurchageDate], [ManufacturerDate], [WarrantyExpireDate], [LaneNumber], [OnLineStatus], [DataStatus], [CreatedDate], [CreatedBy], [ModifiedDate], [ModifiedBy], [IconName], [PtzCameraId], [PtzPreset], [ResourceId], [PackageId]) VALUES (1578, 8, 1, N'Main Control Room', 392, N'VSDS 67 900 LHS', 67.9000015258789, 1, N'Field Equipment', 28, N'Media Converter', N'Media-Converter_67.900_LHS', 1, N'Network', 1, N'10.12.67.60', 8000, N'admin', N'Scaipl@123', 26.540771484375, 81.6404037475586, N'961de610-aeb5-473f-81d2-66b6973ae90d', N'N/A', N'N/A', N'N/A', N'Ok', CAST(N'2022-02-11' AS Date), CAST(N'2022-01-11' AS Date), CAST(N'2022-12-28' AS Date), 0, 1, 1, N'39:58.7', 1, N'39:58.7', 0, N'NULL', 0, NULL, 0, 2)
+GO
 ALTER TABLE [dbo].[tbl_ATCCEventHistory] ADD  DEFAULT ((0)) FOR [VehicleDirectionId]
 GO
 ALTER TABLE [dbo].[tbl_ATCCEventHistory] ADD  DEFAULT ((0)) FOR [IsWrongDirection]
@@ -3300,6 +4357,8 @@ GO
 ALTER TABLE [dbo].[tbl_EquipmentConfig] ADD  DEFAULT ((0)) FOR [ParentId]
 GO
 ALTER TABLE [dbo].[tbl_EquipmentConfig] ADD  DEFAULT ((0)) FOR [PositionId]
+GO
+ALTER TABLE [dbo].[tbl_EquipmentConfig] ADD  DEFAULT ((0)) FOR [LaneNumberId]
 GO
 ALTER TABLE [dbo].[tbl_EquipmentConfig] ADD  DEFAULT ((0)) FOR [OrderBy]
 GO
@@ -3467,6 +4526,16 @@ ALTER TABLE [dbo].[tbl_MenuMaster] ADD  DEFAULT (getdate()) FOR [ModifiedDate]
 GO
 ALTER TABLE [dbo].[tbl_MenuMaster] ADD  DEFAULT ((0)) FOR [ModifiedBy]
 GO
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] ADD  DEFAULT ((1)) FOR [DataStatus]
+GO
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] ADD  DEFAULT ((0)) FOR [CreatedBy]
+GO
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] ADD  DEFAULT (getdate()) FOR [ModifiedDate]
+GO
+ALTER TABLE [dbo].[tbl_MenuMaster_bkp] ADD  DEFAULT ((0)) FOR [ModifiedBy]
+GO
 ALTER TABLE [dbo].[tbl_PackageDetails] ADD  DEFAULT ((1)) FOR [DataStatus]
 GO
 ALTER TABLE [dbo].[tbl_PackageDetails] ADD  DEFAULT (getdate()) FOR [CreatedDate]
@@ -3528,6 +4597,16 @@ GO
 ALTER TABLE [dbo].[tbl_SystemMaster] ADD  DEFAULT (getdate()) FOR [ModifiedDate]
 GO
 ALTER TABLE [dbo].[tbl_SystemMaster] ADD  DEFAULT ((0)) FOR [ModifiedBy]
+GO
+ALTER TABLE [dbo].[tbl_SystemSetting] ADD  DEFAULT ((1)) FOR [DataStatus]
+GO
+ALTER TABLE [dbo].[tbl_SystemSetting] ADD  DEFAULT (getdate()) FOR [CreatedDate]
+GO
+ALTER TABLE [dbo].[tbl_SystemSetting] ADD  DEFAULT ((0)) FOR [CreatedBy]
+GO
+ALTER TABLE [dbo].[tbl_SystemSetting] ADD  DEFAULT (getdate()) FOR [ModifiedDate]
+GO
+ALTER TABLE [dbo].[tbl_SystemSetting] ADD  DEFAULT ((0)) FOR [ModifiedBy]
 GO
 ALTER TABLE [dbo].[tbl_UserMaster] ADD  DEFAULT ((1)) FOR [DataStatus]
 GO
@@ -3641,7 +4720,7 @@ ALTER TABLE [dbo].[tbl_WeatherEventHistory] ADD  DEFAULT ((0)) FOR [IsAlertRequi
 GO
 ALTER TABLE [dbo].[tbl_WeatherEventHistory] ADD  DEFAULT ((0)) FOR [SendStatus]
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3651,7 +4730,7 @@ AS BEGIN
 	SELECT * FROM tbl_ControlRoomMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3663,7 +4742,7 @@ AS BEGIN
 	WHERE ControlRoomId=@ControlRoomId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ControlRoomInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3749,7 +4828,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigGetBySystemId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3757,16 +4836,17 @@ GO
 CREATE Procedure [dbo].[USP_EquipmentConfigGetBySystemId]
 @SystemId smallint
 AS BEGIN
-	SELECT C.EquipmentId,C.EquipmentTypeId,M.EquipmentTypeName,ChainageNumber,EquipmentName,IpAddress,ParentId,PositionId FROM tbl_EquipmentConfig C 
+	SELECT C.EquipmentId,C.EquipmentTypeId,M.EquipmentTypeName,ChainageNumber,EquipmentName,IpAddress,ParentId,PositionId,C.LaneNumberId,E.DirectionId 
+	FROM tbl_EquipmentConfig C 
 	INNER JOIN tbl_EquipmentDetails E ON C.EquipmentId=E.EquipmentId
 	INNER JOIN tbl_EquipmentTypeMaster M ON C.EquipmentTypeId=M.EquipmentTypeId
 	WHERE C.SystemId=@SystemId ORDER BY OrderBy
 END
 --GO
 --EXEC USP_EquipmentConfigGetBySystemId
---@SystemId=6
+--@SystemId=8
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentConfigInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3784,16 +4864,17 @@ BEGIN
 	DECLARE @MenuId smallint=0;
 	DECLARE @cnt int
 	DECLARE @PositionCount int
+	DECLARE @LaneCount int
 	DECLARE @ActionId varchar(100)
 	CREATE TABLE #Temp(AlertMessage varchar(100))
 	BEGIN TRY  
 		SELECT @MenuId=MenuId FROM tbl_MenuMaster WHERE MenuName ='Equipment Config' AND SystemId=@SystemId
 		SELECT @ActionId=SystemName FROM tbl_SystemMaster WHERE SystemId=@SystemId
 		CREATE TABLE #EquipmentConfig(id bigint identity,SystemId smallint,EquipmentTypeId smallint,EquipmentId bigint,
-		ParentId bigint,PositionId smallint,SessionId varchar(10),ChildCount smallint default 0)
+		ParentId bigint,PositionId smallint,LaneNumberId smallint,SessionId varchar(10),ChildCount smallint default 0,LaneChildCount smallint default 0)
 
-		INSERT INTO #EquipmentConfig(SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,SessionId)
-		SELECT SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,SessionId FROM temp_EquipmentConfig
+		INSERT INTO #EquipmentConfig(SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,LaneNumberId,SessionId)
+		SELECT SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,LaneNumberId,SessionId FROM temp_EquipmentConfig
 		WHERE SessionId=@SessionId
 
 		DELETE FROM temp_EquipmentConfig WHERE SessionId=@SessionId
@@ -3812,6 +4893,13 @@ BEGIN
 			WHERE ParentId<>0 AND PositionId<>0
 			GROUP BY ParentId,PositionId
 		)T
+
+		SELECT @LaneCount=LaneCount FROM 
+		(
+			SELECT ParentId,EquipmentTypeId,LaneNumberId,Count(1) LaneCount FROM #EquipmentConfig
+			WHERE ParentId<>0 AND LaneNumberId<>0
+			GROUP BY ParentId,EquipmentTypeId,LaneNumberId
+		)T
 	
 		IF EXISTS(SELECT 1 FROM #EquipmentConfig WHERE EquipmentTypeId=28 AND ChildCount=0)
 		BEGIN
@@ -3823,12 +4911,24 @@ BEGIN
 			INSERT INTO #Temp(AlertMessage)
 			VALUES('Equipment postion is required!')
 		END
+
+		IF EXISTS(SELECT 1 FROM #EquipmentConfig WHERE EquipmentTypeId IN (7,26) AND LaneNumberId=0)
+		BEGIN
+			INSERT INTO #Temp(AlertMessage)
+			VALUES('Equipment lane is required!')
+		END
+
+
 		IF (ISNULL(@PositionCount,0)>1)
 		BEGIN
 			INSERT INTO #Temp(AlertMessage)
 			VALUES('Equipment postion is must be unique!')
 		END
-		
+		IF (ISNULL(@LaneCount,0)>1)
+		BEGIN
+			INSERT INTO #Temp(AlertMessage)
+			VALUES('Equipment lane is must be unique!')
+		END
 		SELECT @cnt=COUNT(AlertMessage)  FROM #Temp
 			IF(@cnt=0)
 			BEGIN
@@ -3842,8 +4942,8 @@ BEGIN
 					SET @ActionId=@ActionId+'- Created'
 				END
 		
-				INSERT INTO tbl_EquipmentConfig(SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,OrderBy,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
-				SELECT SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,id,@CreatedDate,@CreatedBy,@ModifiedDate,@ModifiedBy 
+				INSERT INTO tbl_EquipmentConfig(SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,LaneNumberId,OrderBy,CreatedDate,CreatedBy,ModifiedDate,ModifiedBy)
+				SELECT SystemId,EquipmentTypeId,EquipmentId,ParentId,PositionId,LaneNumberId,id,@CreatedDate,@CreatedBy,@ModifiedDate,@ModifiedBy 
 				FROM #EquipmentConfig
 				ORDER BY id
 
@@ -3868,7 +4968,7 @@ END
 --@ModifiedDate='26-Jul-2022 11:30:00',
 --@ModifiedBy =0
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3888,7 +4988,46 @@ AS BEGIN
 	INNER JOIN tbl_SystemMaster SM ON ED.SystemId=SM.SystemId AND SM.DataStatus=1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetByFilter]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_EquipmentDetailsGetByFilter]
+@FilterQuery varchar(4000)
+AS BEGIN
+	if(@FilterQuery='')
+	BEGIN
+		SELECT ED.EquipmentId,ED.PackageId,ED.EquipmentTypeId,ED.SystemId,ED.EquipmentName,ED.DirectionId,
+		ED.ProtocolTypeId,ED.IpAddress,ED.PortNumber,ED.LoginId,ED.[Password],ED.ChainageNumber,ED.Latitude,
+		ED.Longitude,ED.MacAddress,ED.ModelNumber,ED.SerialNumber,ED.ManufacturerDetail,ED.VendorDetail,ED.ManufacturerDate,
+		ED.PurchageDate,ED.WarrantyExpireDate,ED.OnLineStatus,ED.DataStatus,ED.CreatedDate,ED.CreatedBy,
+		ED.ModifiedDate,ED.ModifiedBy,CR.ControlRoomId,CR.ControlRoomName,PD.PackageName,ET.EquipmentTypeName,ET.EquipmentIconName,
+		ET.EquipmentCategoryTypeId,ET.EquipmentConnectionTypeId,SM.SystemName,SM.SystemDescription 
+		FROM tbl_EquipmentDetails ED 
+		INNER JOIN tbl_PackageDetails PD ON ED.PackageId=PD.PackageId AND PD.DataStatus=1
+		INNER JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId AND CR.DataStatus=1
+		INNER JOIN tbl_EquipmentTypeMaster ET ON ED.EquipmentTypeId=ET.EquipmentTypeId AND ET.DataStatus=1
+		INNER JOIN tbl_SystemMaster SM ON ED.SystemId=SM.SystemId AND SM.DataStatus=1
+	END
+	ELSE
+	BEGIN
+		EXEC('SELECT ED.EquipmentId,ED.PackageId,ED.EquipmentTypeId,ED.SystemId,ED.EquipmentName,ED.DirectionId,
+		ED.ProtocolTypeId,ED.IpAddress,ED.PortNumber,ED.LoginId,ED.[Password],ED.ChainageNumber,ED.Latitude,
+		ED.Longitude,ED.MacAddress,ED.ModelNumber,ED.SerialNumber,ED.ManufacturerDetail,ED.VendorDetail,ED.ManufacturerDate,
+		ED.PurchageDate,ED.WarrantyExpireDate,ED.OnLineStatus,ED.DataStatus,ED.CreatedDate,ED.CreatedBy,
+		ED.ModifiedDate,ED.ModifiedBy,CR.ControlRoomId,CR.ControlRoomName,PD.PackageName,ET.EquipmentTypeName,ET.EquipmentIconName,
+		ET.EquipmentCategoryTypeId,ET.EquipmentConnectionTypeId,SM.SystemName,SM.SystemDescription 
+		FROM tbl_EquipmentDetails ED 
+		INNER JOIN tbl_PackageDetails PD ON ED.PackageId=PD.PackageId AND PD.DataStatus=1
+		INNER JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId AND CR.DataStatus=1
+		INNER JOIN tbl_EquipmentTypeMaster ET ON ED.EquipmentTypeId=ET.EquipmentTypeId AND ET.DataStatus=1
+		INNER JOIN tbl_SystemMaster SM ON ED.SystemId=SM.SystemId AND SM.DataStatus=1
+			'+@FilterQuery+' ')
+	END
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3910,7 +5049,7 @@ AS BEGIN
 	WHERE ED.EquipmentId=@EquipmentId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsGetBySystemId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -3931,8 +5070,9 @@ AS BEGIN
 	INNER JOIN tbl_SystemMaster SM ON ED.SystemId=SM.SystemId
 	WHERE ED.SystemId=@SystemId AND ED.DataStatus=1
 END
+
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentDetailsInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4051,7 +5191,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EquipmentTypeMasterGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4061,7 +5201,7 @@ AS BEGIN
 	SELECT * FROM tbl_EquipmentTypeMaster ORDER BY EquipmentLevel
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ErrorInfoInsert]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4072,7 +5212,7 @@ AS  INSERT INTO tbl_ErrorInfo(ErrorNumber,ErrorSeverity,ErrorState,ErrorProcedur
 	SELECT ERROR_NUMBER() AS ErrorNumber,ERROR_SEVERITY() AS ErrorSeverity,ERROR_STATE() AS ErrorState,
 	ERROR_PROCEDURE() AS ErrorProcedure,ERROR_LINE() AS ErrorLine ,ERROR_MESSAGE() AS ErrorMessage;  
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4082,7 +5222,7 @@ AS BEGIN
 	SELECT * FROM tbl_EventsTypeMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeMasterGetBySystemId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4094,7 +5234,7 @@ AS BEGIN
 	WHERE SystemId IN (@SystemId,0) 
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_EventsTypeUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4152,7 +5292,7 @@ END
 --@ModifiedDate='26-Jul-2022 11:30:00',
 --@ModifiedBy =0
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionHistorGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4172,7 +5312,7 @@ AS BEGIN
 	ORDER BY ActionTakenDateTime
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentActionInsert]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4220,7 +5360,7 @@ END TRY
 		select * from #Temp;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentCategoryMasterGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4231,7 +5371,7 @@ AS BEGIN
 	ORDER BY OrderBy
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4255,7 +5395,7 @@ AS BEGIN
 	WHERE IncidentId=@IncidentId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsInsert]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4341,7 +5481,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentDetailsUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4425,7 +5565,33 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetByFilter]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_IncidentGetByFilter]
+@FilterQuery varchar(4000)
+AS BEGIN
+	EXEC('SELECT ID.IncidentId,CR.ControlRoomId,CR.ControlRoomName,PD.PackageId,PD.PackageName,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
+	ID.DirectionId,ID.ChainageNumber,ID.Latitude,ID.Longitude,ID.VehiclePlateNumber,ID.VehicleClassId,VC.VehicleClassName,ID.SourceSystemId,SM.SystemName AS SourceSystemName,
+	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,IG.LoginId as IncidentGeneratedByName,
+	ID.AssignedToId,AM.LoginId as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
+	ISM.IncidentStatusIcon,	ISM.IncidentStatusColorCode,ID.CreatedDate,ID.CreatedBy,ID.ModifiedDate,ID.ModifiedBy
+	FROM tbl_IncidentDetailsHistory ID
+	LEFT JOIN tbl_PackageDetails PD ON ID.ChainageNumber>=PD.StartChainageNumber AND ID.ChainageNumber<=PD.EndChainageNumber
+	LEFT JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
+	LEFT JOIN tbl_IncidentStatusMaster ISM ON ID.IncidentStatusId=ISM.IncidentStatusId
+	LEFT JOIN tbl_IncidentCategoryMaster ICM ON ID.IncidentCategoryId=ICM.IncidentCategoryId
+	LEFT JOIN tbl_VehicleClass VC ON ID.VehicleClassId=VC.VehicleClassId
+	LEFT JOIN tbl_EquipmentDetails ED ON ID.EquipmentId=ED.EquipmentId
+	LEFT JOIN tbl_UserMaster IG ON ID.IncidentGeneratedById=IG.UserId
+	LEFT JOIN tbl_UserMaster AM ON ID.AssignedToId=AM.UserId
+	LEFT JOIN tbl_SystemMaster SM ON ID.SourceSystemId=SM.SystemId
+			'+@FilterQuery+' ')
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetClose]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4445,12 +5611,14 @@ AS BEGIN
 		SET @MinDate=ISNULL(@MinDate,GETDATE())
 		SET @MinDate=DATEADD(HOUR,-1*@Hours,@MinDate)
 	END
-	SELECT ID.IncidentId,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
+	SELECT ID.IncidentId,CR.ControlRoomId,CR.ControlRoomName,PD.PackageId,PD.PackageName,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
 	ID.DirectionId,ID.ChainageNumber,ID.Latitude,ID.Longitude,ID.VehiclePlateNumber,ID.VehicleClassId,VC.VehicleClassName,ID.SourceSystemId,SM.SystemName AS SourceSystemName,
-	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,ISNULL(IG.LoginId,'SuperAdmin') as IncidentGeneratedByName,
-	ID.AssignedToId,ISNULL(AM.LoginId,'SuperAdmin') as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
+	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,IG.LoginId as IncidentGeneratedByName,
+	ID.AssignedToId,AM.LoginId as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
 	ISM.IncidentStatusIcon,	ISM.IncidentStatusColorCode,ID.CreatedDate,ID.CreatedBy,ID.ModifiedDate,ID.ModifiedBy
 	FROM tbl_IncidentDetailsHistory ID
+	LEFT JOIN tbl_PackageDetails PD ON ID.ChainageNumber>=PD.StartChainageNumber AND ID.ChainageNumber<=PD.EndChainageNumber
+	LEFT JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
 	LEFT JOIN tbl_IncidentStatusMaster ISM ON ID.IncidentStatusId=ISM.IncidentStatusId
 	LEFT JOIN tbl_IncidentCategoryMaster ICM ON ID.IncidentCategoryId=ICM.IncidentCategoryId
 	LEFT JOIN tbl_VehicleClass VC ON ID.VehicleClassId=VC.VehicleClassId
@@ -4461,7 +5629,7 @@ AS BEGIN
 	WHERE ID.IncidentStatusId IN (6,7) AND ID.CreatedDate>=@MinDate
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetInProgress]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4481,12 +5649,14 @@ AS BEGIN
 		SET @MinDate=ISNULL(@MinDate,GETDATE())
 		SET @MinDate=DATEADD(HOUR,-1*@Hours,@MinDate)
 	END
-	SELECT ID.IncidentId,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
+	SELECT ID.IncidentId,CR.ControlRoomId,CR.ControlRoomName,PD.PackageId,PD.PackageName,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
 	ID.DirectionId,ID.ChainageNumber,ID.Latitude,ID.Longitude,ID.VehiclePlateNumber,ID.VehicleClassId,VC.VehicleClassName,ID.SourceSystemId,SM.SystemName AS SourceSystemName,
-	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,ISNULL(IG.LoginId,'SuperAdmin') as IncidentGeneratedByName,
-	ID.AssignedToId,ISNULL(AM.LoginId,'SuperAdmin') as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
+	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,IG.LoginId as IncidentGeneratedByName,
+	ID.AssignedToId,AM.LoginId as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
 	ISM.IncidentStatusIcon,	ISM.IncidentStatusColorCode,ID.CreatedDate,ID.CreatedBy,ID.ModifiedDate,ID.ModifiedBy
 	FROM tbl_IncidentDetailsHistory ID
+	LEFT JOIN tbl_PackageDetails PD ON ID.ChainageNumber>=PD.StartChainageNumber AND ID.ChainageNumber<=PD.EndChainageNumber
+	LEFT JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
 	LEFT JOIN tbl_IncidentStatusMaster ISM ON ID.IncidentStatusId=ISM.IncidentStatusId
 	LEFT JOIN tbl_IncidentCategoryMaster ICM ON ID.IncidentCategoryId=ICM.IncidentCategoryId
 	LEFT JOIN tbl_VehicleClass VC ON ID.VehicleClassId=VC.VehicleClassId
@@ -4497,7 +5667,7 @@ AS BEGIN
 	WHERE ID.IncidentStatusId NOT IN (1,6,7,8) AND ID.CreatedDate>=@MinDate
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentGetPending]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4517,12 +5687,14 @@ AS BEGIN
 		SET @MinDate=ISNULL(@MinDate,GETDATE())
 		SET @MinDate=DATEADD(HOUR,-1*@Hours,@MinDate)
 	END
-	SELECT ID.IncidentId,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
+	SELECT ID.IncidentId,CR.ControlRoomId,CR.ControlRoomName,PD.PackageId,PD.PackageName,ID.IncidentCategoryId,ICM.IncidentCategoryName,ID.PriorityId,ID.IncidentDescription,ID.IncidentImagePath,ID.IncidentVideoPath,ID.IncidentAudioPath,
 	ID.DirectionId,ID.ChainageNumber,ID.Latitude,ID.Longitude,ID.VehiclePlateNumber,ID.VehicleClassId,VC.VehicleClassName,ID.SourceSystemId,SM.SystemName AS SourceSystemName,
-	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,ISNULL(IG.LoginId,'SuperAdmin') as IncidentGeneratedByName,
-	ID.AssignedToId,ISNULL(AM.LoginId,'SuperAdmin') as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
+	ID.EquipmentId,ED.EquipmentName,ID.NearByPTZId,ID.IncidentGeneratedByTypeId,ID.IncidentGeneratedById,IG.LoginId as IncidentGeneratedByName,
+	ID.AssignedToId,AM.LoginId as AssignedToName,ISM.ProcessPercentage,ID.DataSendStatus,ID.MediaSendStatus,ID.IncidentCloseImagePath,ID.IncidentStatusId,ISM.IncidentStatusName,
 	ISM.IncidentStatusIcon,	ISM.IncidentStatusColorCode,ID.CreatedDate,ID.CreatedBy,ID.ModifiedDate,ID.ModifiedBy
 	FROM tbl_IncidentDetailsHistory ID
+	LEFT JOIN tbl_PackageDetails PD ON ID.ChainageNumber>=PD.StartChainageNumber AND ID.ChainageNumber<=PD.EndChainageNumber
+	LEFT JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
 	LEFT JOIN tbl_IncidentStatusMaster ISM ON ID.IncidentStatusId=ISM.IncidentStatusId
 	LEFT JOIN tbl_IncidentCategoryMaster ICM ON ID.IncidentCategoryId=ICM.IncidentCategoryId
 	LEFT JOIN tbl_VehicleClass VC ON ID.VehicleClassId=VC.VehicleClassId
@@ -4532,8 +5704,10 @@ AS BEGIN
 	LEFT JOIN tbl_SystemMaster SM ON ID.SourceSystemId=SM.SystemId
 	WHERE ID.IncidentStatusId IN (1,8) AND ID.CreatedDate>=@MinDate
 END
+--GO
+--EXEC USP_IncidentGetPending
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentSourceGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4543,7 +5717,7 @@ AS BEGIN
 SELECT * FROM tbl_IncidentSourceMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_IncidentStatusMasterGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4553,7 +5727,7 @@ AS BEGIN
 SELECT * FROM tbl_IncidentStatusMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityInsert]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4577,7 +5751,7 @@ AS BEGIN
 	VALUES(@UserId,@LoginStatusId,@UserTypeId,@LoginDateTime,NULL,@CreatedDate)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_LogingActivityUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4601,7 +5775,7 @@ AS BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MasterDataGetBySystemId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4617,6 +5791,8 @@ AS BEGIN
 	
 	SELECT PackageId,PackageName,ControlRoomId,StartChainageNumber,EndChainageNumber 
 	FROM tbl_PackageDetails WHERE DataStatus=1
+
+	
 	
 	IF(@SystemId=0)
 	BEGIN
@@ -4634,9 +5810,12 @@ AS BEGIN
 			WHERE SystemId=@SystemId AND DataStatus=1
 		) V 
 	END
+
+	SELECT IncidentCategoryId,IncidentCategoryName
+	FROM tbl_IncidentCategoryMaster WHERE DataStatus=1
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4655,7 +5834,7 @@ END
 --@LoginId='admin'
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_MenuGetByRoleId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4675,7 +5854,7 @@ END
 --@RoleId=1
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4687,7 +5866,7 @@ AS BEGIN
 	FROM tbl_PackageDetails PD INNER JOIN tbl_ControlRoomMaster CR ON PD.ControlRoomId=CR.ControlRoomId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4701,7 +5880,7 @@ AS BEGIN
 	WHERE PD.PackageId=@PackageId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_PackageInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4780,7 +5959,59 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetAll]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_ReportMasterGetAll]
+AS BEGIN
+	SELECT * FROM tbl_ReportMaster;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetById]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_ReportMasterGetById]
+@ReportId smallint
+AS BEGIN
+	SELECT * FROM tbl_ReportMaster WHERE ReportId=@ReportId;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetByIds]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE PROCEDURE [dbo].[USP_ReportMasterGetByIds]
+(
+@ReportIds varchar(4000)
+)
+AS BEGIN
+	SELECT * FROM tbl_ReportMaster WHERE ReportId IN (SELECT DataValue from fnc_CommaSeparated(@ReportIds)) AND DataStatus=1
+
+END
+
+--GO 
+--EXEC USP_ReportMasterGetByIds
+--@ReportIds='13,14'
+
+GO
+/****** Object:  StoredProcedure [dbo].[USP_ReportMasterGetByName]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_ReportMasterGetByName]
+@ReportName varchar(100)
+AS BEGIN
+	SELECT * FROM tbl_ReportMaster WHERE ReportName=@ReportName;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_RoleInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4865,7 +6096,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolePermissionInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4902,7 +6133,7 @@ BEGIN
 END
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4917,7 +6148,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4929,7 +6160,7 @@ AS BEGIN
 	FROM tbl_RoleMaster where RoleId=@RoleId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenu]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -4994,7 +6225,7 @@ END
 --EXEC USP_RolesPersmissionGetByRoleId
 --@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByMenuId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5036,7 +6267,7 @@ END
 --EXEC USP_RolesPersmissionGetByRoleId
 --@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_RolesPersmissionGetByRoleId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5064,7 +6295,7 @@ END
 --EXEC USP_RolesPersmissionGetByRoleId
 --@RoleId=1
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5074,7 +6305,7 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5085,7 +6316,7 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster WHERE SystemId=@SystemId
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemGetByName]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5096,7 +6327,128 @@ AS BEGIN
 	SELECT * FROM tbl_SystemMaster WHERE SystemName=@SystemName
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_SystemSettingGet]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_SystemSettingGet]
+AS BEGIN
+ SELECT * FROM tbl_SystemSetting
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemSettingInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_SystemSettingInsertUpdate] 
+@TotalLane smallint,
+@IsATCCIndependently bit,
+@ATCCByVSDS bit,
+@ATCCByVIDS bit,
+@trafficCount smallint,
+@trafficByTime smallint,
+@CDateTime DateTime,
+@UserId bigint
+AS
+BEGIN
+	DECLARE @PVal varchar(4000)
+	DECLARE @CVal varchar(4000)
+	DECLARE @MenuId smallint=0;
+	CREATE TABLE #Temp(AlertMessage varchar(100))
+	DECLARE @cnt int
+	BEGIN TRY
+	SELECT @MenuId=MenuId FROM tbl_MenuMaster WHERE MenuName ='System Setting'
+	SELECT @cnt=COUNT(1)  FROM tbl_SystemSetting
+			IF(@cnt=0)
+			BEGIN
+				insert into tbl_SystemSetting(TotalLane,IsATCCIndependently,ATCCByVSDS,ATCCByVIDS,trafficCount,trafficByTime,CreatedDate,CreatedBy)
+				values(@TotalLane,@IsATCCIndependently,@ATCCByVSDS,@ATCCByVIDS,@trafficCount,@trafficByTime,@CDateTime,@UserId);
+				
+				
+				SET @CVal=(SELECT * FROM tbl_SystemSetting  FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
+				
+				INSERT INTO tbl_ActivityLog(UserId,CurrentColumn,ActionId,MenuId,CreatedDate)
+				VALUES(@UserId,@CVal,'Insert',@MenuId,@CDateTime);
+				
+				INSERT INTO #Temp(AlertMessage)VALUES('success');
+			END
+			ELSE
+			BEGIN
+				SET @PVal=(SELECT * FROM tbl_SystemSetting  FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)
+
+				UPDATE tbl_SystemSetting SET ModifiedDate=@CDateTime,ModifiedBy=@UserId,
+				TotalLane=@TotalLane,IsATCCIndependently=@IsATCCIndependently,ATCCByVSDS=@ATCCByVSDS,ATCCByVIDS=@ATCCByVIDS,
+				trafficCount=@trafficCount,trafficByTime=@trafficByTime
+
+				SET @CVal=(SELECT * FROM tbl_SystemSetting  FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
+
+				INSERT INTO tbl_ActivityLog(UserId,PrevColumn,CurrentColumn,ActionId,MenuId,CreatedDate)
+				VALUES(@UserId,@PVal,@CVal,'Update',@MenuId,@CDateTime);
+
+				INSERT INTO #Temp(AlertMessage)VALUES('success');
+
+			END
+	END TRY  
+	BEGIN CATCH  
+		INSERT INTO #Temp(AlertMessage)VALUES('failed');
+		EXECUTE USP_ErrorInfoInsert;  
+	END CATCH  
+	
+		select * from #Temp;
+END
+
+
+
+GO
+/****** Object:  StoredProcedure [dbo].[USP_SystemUpdate]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_SystemUpdate] 
+@SessionId varchar(20),
+@CreatedDate DateTime,
+@CreatedBy bigint,
+@ModifiedDate DateTime,
+@ModifiedBy bigint
+AS
+BEGIN
+	DECLARE @Datacnt int
+	DECLARE @MenuId smallint=0;
+	DECLARE @cnt int
+	DECLARE @ActionId varchar(100)
+	CREATE TABLE #Temp(AlertMessage varchar(100))
+	BEGIN TRY  
+		
+		SELECT @MenuId=MenuId FROM tbl_MenuMaster WHERE MenuName ='System Config'
+		SET @ActionId='Modified'
+		
+		UPDATE T SET T.DataStatus=V.DataStatus,T.DashBoard=V.DashBoard,T.ReportIds=V.ReportIds 
+		FROM tbl_SystemMaster T INNER JOIN
+		(
+			SELECT SystemId,DataStatus,DashBoard,ReportIds
+			FROM temp_SystemMaster
+		    WHERE SessionId=@SessionId
+		) V ON T.SystemId=V.SystemId
+		
+		DELETE FROM temp_SystemMaster WHERE SessionId=@SessionId
+		UPDATE tbl_SystemMaster SET ReportIds='' WHERE DataStatus=0
+		INSERT INTO tbl_ActivityLog(UserId,ActionId,MenuId,CreatedDate)
+		VALUES(@CreatedBy,@ActionId,@MenuId,@CreatedDate);
+		
+		INSERT INTO #Temp(AlertMessage)VALUES('success');
+	
+	END TRY  
+	BEGIN CATCH  
+		INSERT INTO #Temp(AlertMessage)VALUES('failed');
+		EXECUTE USP_ErrorInfoInsert;  
+	END CATCH  
+		select * from #Temp;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UserGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5104,7 +6456,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_UserGetAll]
 
 AS BEGIN
-	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,UserProfileImage,
 	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
 	FROM tbl_UserMaster U 
 	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
@@ -5114,7 +6466,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetbyId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5122,7 +6474,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_UserGetbyId]
 @UserId bigint
 AS BEGIN
-	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,UserProfileImage,
 	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
 	FROM tbl_UserMaster U 
 	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
@@ -5133,7 +6485,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetBySystemUserTypeId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5142,7 +6494,7 @@ CREATE PROCEDURE [dbo].[USP_UserGetBySystemUserTypeId]
 @UserTypeId smallint,
 @SystemId smallint
 AS BEGIN
-	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,UserProfileImage,
 	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
 	FROM tbl_UserMaster U 
 	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
@@ -5164,7 +6516,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserGetByUserTypeId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5172,7 +6524,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_UserGetByUserTypeId]
 @UserTypeId smallint
 AS BEGIN
-	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,UserProfileImage,
 	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
 	FROM tbl_UserMaster U 
 	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
@@ -5183,7 +6535,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5235,7 +6587,7 @@ BEGIN
 				values(@LoginId,@LoginPassword,@FirstName,@LastName,@EmailId,@MobileNumber,@AccountExpiredDate,@UserTypeId,@RoleId,@DataStatus,@CDateTime,@UserId);
 				SELECT @UserId=@@IDENTITY
 				
-				SET @CVal=(SELECT * FROM tbl_UserMaster WHERE RoleId=@RoleId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
+				SET @CVal=(SELECT * FROM tbl_UserMaster WHERE UserId=@UserId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
 				
 				INSERT INTO tbl_ActivityLog(UserId,CurrentColumn,ActionId,MenuId,CreatedDate)
 				VALUES(@CreatedBy,@CVal,'Insert',@MenuId,@CDateTime);
@@ -5244,14 +6596,14 @@ BEGIN
 			END
 			ELSE
 			BEGIN
-				SET @PVal=(SELECT * FROM tbl_UserMaster WHERE RoleId=@RoleId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)	
+				SET @PVal=(SELECT * FROM tbl_UserMaster WHERE UserId=@UserId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)	
 
 				UPDATE tbl_UserMaster SET DataStatus=@DataStatus,ModifiedDate=@CDateTime,ModifiedBy=@UserId,UserTypeId=@UserTypeId,
 				FirstName=@FirstName,LastName=@LastName,EmailId=@EmailId,MobileNumber=@MobileNumber,AccountExpiredDate=@AccountExpiredDate,RoleId=@RoleId,
 				LoginPassword=@LoginPassword,LoginId=@LoginId
 				WHERE UserId=@UserId
 
-				SET @CVal=(SELECT * FROM tbl_UserMaster WHERE RoleId=@RoleId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
+				SET @CVal=(SELECT * FROM tbl_UserMaster WHERE UserId=@UserId FOR JSON AUTO, WITHOUT_ARRAY_WRAPPER)		
 
 				INSERT INTO tbl_ActivityLog(UserId,PrevColumn,CurrentColumn,ActionId,MenuId,CreatedDate)
 				VALUES(@CreatedBy,@PVal,@CVal,'Update',@MenuId,@CDateTime);
@@ -5287,7 +6639,34 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserProfileChange]    Script Date: 08-08-2023 13:17:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[USP_UserProfileChange]
+@UserId bigint,
+@UserProfileImage varchar(255)
+AS BEGIN
+	DECLARE @MenuId int
+	CREATE TABLE #Temp(AlertMessage varchar(100))
+	SELECT @MenuId=MenuId FROM tbl_MenuMaster WHERE MenuName ='Users'
+	BEGIN TRY
+		UPDATE tbl_UserMaster SET UserProfileImage=@UserProfileImage
+		WHERE UserId=@UserId
+		INSERT INTO tbl_ActivityLog(UserId,PrevColumn,CurrentColumn,ActionId,MenuId,CreatedDate)
+		VALUES(@UserId,'','','Profile Image Chnage',@MenuId,GETDATE());
+		INSERT INTO #Temp(AlertMessage)VALUES('success');
+	END TRY  
+	BEGIN CATCH  
+		INSERT INTO #Temp(AlertMessage)VALUES('failed');
+		EXECUTE USP_ErrorInfoInsert;  
+	END CATCH  
+	
+		select * from #Temp;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[USP_UsersGetByLoginId]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5295,7 +6674,7 @@ GO
 CREATE PROCEDURE [dbo].[USP_UsersGetByLoginId]
 @LoginId varchar(100)
 AS BEGIN
-	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,
+	SELECT U.UserId,U.LoginId,U.LoginPassword,U.FirstName,U.LastName,U.EmailId,UserProfileImage,
 	U.MobileNumber,U.AccountExpiredDate,U.RoleId,ISNULL(R.RoleName,'N/A') RoleName,UserTypeId,U.DataStatus,U.CreatedDate,U.CreatedBy,U.ModifiedDate,U.ModifiedBy 
 	FROM tbl_UserMaster U 
 	LEFT Join tbl_RoleMaster R ON U.RoleId=R.RoleId 
@@ -5306,7 +6685,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_UserUpdatePassword]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5354,7 +6733,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetAll]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5369,7 +6748,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassGetById]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5385,7 +6764,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VehicleClassInsertUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5463,7 +6842,7 @@ END
 
 
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventReviewUpdate]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5520,7 +6899,7 @@ BEGIN
 		select * from #Temp;
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByFilter]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5546,7 +6925,7 @@ AS
 			'+@FilterQuery+' ORDER BY EventStartDate DESC')
 	END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsGetByHours]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5584,7 +6963,7 @@ AS BEGIN
 	ORDER BY EventStartDate DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsHistory]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5614,7 +6993,7 @@ END
 --GO
 --EXEC USP_VIDSEventsHistory
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSEventsReviewedGetByHours]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -5657,7 +7036,7 @@ AS BEGIN
 	ORDER BY EventStartDate DESC
 END
 GO
-/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 01-08-2023 18:18:28 ******/
+/****** Object:  StoredProcedure [dbo].[USP_VIDSPendingReviewEventsGetByHours]    Script Date: 08-08-2023 13:17:44 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
