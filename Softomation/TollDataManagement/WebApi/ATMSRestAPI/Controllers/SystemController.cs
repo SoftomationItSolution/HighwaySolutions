@@ -20,7 +20,10 @@ namespace ATMSRestAPI.Controllers
         [HttpPost]  
         public ActionResult DataBase(DataBaseConfig dataBase)
         {
-            DataBaseConfig.Serialize(dataBase);
+            if (ModelState.IsValid)
+            {
+                DataBaseConfig.Serialize(dataBase);
+            }
             return View(dataBase);
         }
     }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
@@ -32,30 +34,44 @@ namespace Softomation.ATMSSystemLibrary.SystemConfigurations
         #endregion
 
         #region Property
+        [Required]
+        [DisplayName("Database Provider:")]
         public short DataBaseProvider
         {
             get => dataBaseProvider; set => dataBaseProvider = value;
         }
+        [Required]
+        [DisplayName("Database Server:")]
         public string DBServerName
         {
             get => dbServername; set => dbServername = value;
         }
+        [Required]
+        [DisplayName("Database Name:")]
         public string DBName
         {
             get => dbName; set => dbName = value;
         }
+        [Required]
+        [DisplayName("Database Username:")]
         public string DBLogin
         {
             get => dbLogin; set => dbLogin = value;
         }
+        [Required]
+        [DisplayName("Database Password:")]
         public string DBPassword
         {
             get => dbPassword; set => dbPassword = value;
         }
+        [Required]
+        [DisplayName("Database Poolsize:")]
         public string PoolSize
         {
             get => poolSize; set => poolSize = value;
         }
+        [Required]
+        [DisplayName("Database Timeout:")]
         public string Timeout
         {
             get => timeout; set => timeout = value;
