@@ -154,6 +154,10 @@ h6 {
   color: #47b2e4;
 }
 
+.active a{
+    color: #47b2e4 !important;
+}
+
 .navbar .getstarted,
 .navbar .getstarted:focus {
   padding: 8px 20px;

@@ -15,8 +15,8 @@
             <h1 class="logo me-auto"><a>NHAI</a></h1>
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link active" })</li>
-                    <li>@Html.ActionLink("Config", "DataBase", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DataBase" ? "active" : "")">@Html.ActionLink("Config", "DataBase", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
 
                 </ul>
             </nav>

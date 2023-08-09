@@ -11,11 +11,13 @@ namespace ATMSRestAPI.Controllers
         {
             ViewBag.AppVersion = Constants.Version;
             ViewBag.Provider = Constants.AppProvider;
+            ViewBag.Title = "Web API|Home";
             return View();
         }
 
         public ActionResult DataBase()
         {
+            ViewBag.Title = "Web API|Config";
             ViewBag.AppVersion = Constants.Version;
             ViewBag.Provider = Constants.AppProvider;
             DataBaseConfig dataBase = DataBaseConfig.Deserialize();
@@ -25,6 +27,7 @@ namespace ATMSRestAPI.Controllers
         [HttpPost]
         public ActionResult DataBase(DataBaseConfig dataBase)
         {
+            ViewBag.Title = "Web API|Config";
             ViewBag.AppVersion = Constants.Version;
             ViewBag.Provider = Constants.AppProvider;
             if (ModelState.IsValid)
