@@ -49,3 +49,6 @@ Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/
 .vs/HighwaySoluations/v17/fileList.bin
 *.cache
 *.cache
+bin
+obj
+packages
