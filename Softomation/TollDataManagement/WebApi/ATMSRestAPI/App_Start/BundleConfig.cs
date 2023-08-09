@@ -16,7 +16,6 @@ namespace ATMSRestAPI
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/assets/vendor/bootstrap/css/bootstrap.min.css",
                       "~/assets/vendor/bootstrap-icons/bootstrap-icons.css",
-                      "~/assets/vendor/glightbox/css/glightbox.min.css",
                       "~/assets/css/style.css"));
         }
     }
