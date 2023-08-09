@@ -404,7 +404,6 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Microsoft.Web.Infrastructure.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Newtonsoft.Json.dll
-E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Softomation.ATMSSystemLibrary.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Net.Http.Formatting.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Web.Cors.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Web.Helpers.dll
@@ -434,7 +433,6 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Microsoft.Bcl.AsyncInterfaces.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Runtime.CompilerServices.Unsafe.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Microsoft.IdentityModel.Abstractions.dll
-E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Softomation.ATMSSystemLibrary.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\Antlr3.Runtime.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Net.Http.Formatting.xml
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\System.Web.Http.xml
@@ -468,3 +466,5 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.csproj.CopyComplete
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.ATMSSystemLibrary.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.ATMSSystemLibrary.pdb

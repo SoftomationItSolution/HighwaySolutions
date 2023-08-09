@@ -1,6 +1,6 @@
 ﻿using System.Web.Mvc;
-using Softomation.ATMSSystemLibrary;
-using Softomation.ATMSSystemLibrary.SystemConfigurations;
+using HighwaySoluations.Softomation.ATMSSystemLibrary;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations;
 
 namespace ATMSRestAPI.Controllers
 {
