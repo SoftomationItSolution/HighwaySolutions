@@ -45,3 +45,5 @@
 *.config
 .vs/TollDataManagement/config/applicationhost.config
 Softomation/TollDataManagement/WindowsService/PlazaDataSynchronization/obj/Debug/PlazaDataSynchronization.csproj.AssemblyReference.cache
+.vs/HighwaySoluations/v17/.suo
+.vs/HighwaySoluations/v17/fileList.bin
