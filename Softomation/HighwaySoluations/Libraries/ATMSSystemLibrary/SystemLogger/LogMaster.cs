@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using static HighwaySoluations.Softomation.ATMSSystemLibrary.Constants;
+using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger
 {
@@ -113,7 +110,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger
         }
         public static string CreateDirectory(string directoryName)
         {
-            string directory = Constants.driveLetter + ":\\" + Constants.ProjectName + "\\log\\" + directoryName;
+            string directory = SystemConstants.DriveLetter + ":\\" + SystemConstants.ProjectName + "\\log\\" + directoryName;
 
             if (!Directory.Exists(directory))
             {

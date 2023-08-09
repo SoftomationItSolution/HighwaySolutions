@@ -10,7 +10,9 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
-using static HighwaySoluations.Softomation.ATMSSystemLibrary.Constants;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
+using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
@@ -21,14 +23,14 @@ namespace ATMSRestAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BackOfficeController : ApiController
     {
-        const string Provider = Constants.AppProvider;
+        const string Provider = SystemConstants.AppProvider;
         const string APIPath = "Transit360-ATMS";
         ApiResponseIL response = new ApiResponseIL();
         ResponseIL resp = new ResponseIL();
 
         internal static void BackOfficeAPILog(string message)
         {
-            LogMaster.Write(message, Constants.ErrorLogModule.BackOfficeAPI);
+            LogMaster.Write(message, SystemConstants.ErrorLogModule.BackOfficeAPI);
         }
 
         #region Login
@@ -61,7 +63,7 @@ namespace ATMSRestAPI.Controllers
                         activity.LoginStatusId = (Int16)UserLoginStatus.Login;
                         activity.UserTypeId = (Int16)AppUserType.SysAdmin;
                         LogingActivityBL.Insert(activity);
-                        result.LoginId = Constants.Decrypt(login.LoginId);
+                        result.LoginId = SystemConstants.Decrypt(login.LoginId);
                         result.LoginPassword = login.LoginPassword;
                         resp.AlertMessage = "success";
                         response.Message.Add(resp);
@@ -71,9 +73,9 @@ namespace ATMSRestAPI.Controllers
                     else
                     {
                         LogingActivityIL activity = new LogingActivityIL();
-                        login.LoginId = Constants.Encrypt(login.LoginId);
-                        activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
-                        activity.UserTypeId = (Int16)Constants.AppUserType.SysAdmin;
+                        login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                        activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
+                        activity.UserTypeId = (Int16)SystemConstants.AppUserType.SysAdmin;
                         LogingActivityBL.Insert(activity);
                         resp.AlertMessage = "Invalid user credentials";
                         response.Message.Add(resp);
@@ -91,8 +93,8 @@ namespace ATMSRestAPI.Controllers
                         if (string.IsNullOrEmpty(obj.LoginPassword))
                         {
                             LogingActivityIL activity = new LogingActivityIL();
-                            login.LoginId = Constants.Encrypt(login.LoginId);
-                            activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
+                            login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                            activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
                             activity.UserTypeId = obj.UserTypeId;
                             LogingActivityBL.Insert(activity);
                             obj.LoginPassword = "";
@@ -103,13 +105,13 @@ namespace ATMSRestAPI.Controllers
                         }
                         else
                         {
-                            if (login.LoginPassword == Constants.Decrypt(obj.LoginPassword))
+                            if (login.LoginPassword == SystemConstants.Decrypt(obj.LoginPassword))
                             {
                                 if (DateTime.Now > obj.AccountExpiredDate)
                                 {
                                     LogingActivityIL activity = new LogingActivityIL();
-                                    login.LoginId = Constants.Encrypt(login.LoginId);
-                                    activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
+                                    login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                                    activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
                                     activity.UserTypeId = obj.UserTypeId;
                                     LogingActivityBL.Insert(activity);
                                     obj.LoginPassword = "";
@@ -118,11 +120,11 @@ namespace ATMSRestAPI.Controllers
                                     response.ResponseData = null;
                                     return Request.CreateResponse(HttpStatusCode.OK, response);
                                 }
-                                else if (obj.DataStatus != (short)Constants.DataStatusType.Active)
+                                else if (obj.DataStatus != (short)SystemConstants.DataStatusType.Active)
                                 {
                                     LogingActivityIL activity = new LogingActivityIL();
-                                    login.LoginId = Constants.Encrypt(login.LoginId);
-                                    activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
+                                    login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                                    activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
                                     activity.UserTypeId = obj.UserTypeId;
                                     LogingActivityBL.Insert(activity);
                                     obj.LoginPassword = "";
@@ -133,13 +135,13 @@ namespace ATMSRestAPI.Controllers
                                 }
                                 else
                                 {
-                                    AppLoginIL result = (AppLoginIL)Constants.GetToken(login);
+                                    AppLoginIL result = (AppLoginIL)SystemConstants.GetToken(login);
                                     LogingActivityIL activity = new LogingActivityIL();
-                                    login.LoginId = Constants.Encrypt(login.LoginId);
-                                    activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Login;
+                                    login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                                    activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Login;
                                     activity.UserTypeId = obj.UserTypeId;
                                     LogingActivityBL.Insert(activity);
-                                    result.LoginPassword = Constants.Decrypt(obj.LoginPassword);
+                                    result.LoginPassword = SystemConstants.Decrypt(obj.LoginPassword);
                                     obj.LoginPassword = "";
                                     resp.AlertMessage = "success";
                                     result.LoginId = obj.LoginId;
@@ -153,8 +155,8 @@ namespace ATMSRestAPI.Controllers
                             else
                             {
                                 LogingActivityIL activity = new LogingActivityIL();
-                                login.LoginId = Constants.Encrypt(login.LoginId);
-                                activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
+                                login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                                activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
                                 activity.UserTypeId = obj.UserTypeId;
                                 LogingActivityBL.Insert(activity);
                                 obj.LoginPassword = "";
@@ -168,8 +170,8 @@ namespace ATMSRestAPI.Controllers
                     else
                     {
                         LogingActivityIL activity = new LogingActivityIL();
-                        login.LoginId = Constants.Encrypt(login.LoginId);
-                        activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Invalid;
+                        login.LoginId = SystemConstants.Encrypt(login.LoginId);
+                        activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
                         activity.UserTypeId = obj.UserTypeId;
                         LogingActivityBL.Insert(activity);
                         obj.LoginPassword = "";
@@ -195,7 +197,7 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                activity.LoginStatusId = (Int16)Constants.UserLoginStatus.Logout;
+                activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Logout;
                 LogingActivityBL.Update(activity);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
@@ -573,7 +575,7 @@ namespace ATMSRestAPI.Controllers
                 else
                 {
 
-                    if (user.LoginPassword == Constants.Decrypt(users.LoginPassword))
+                    if (user.LoginPassword == SystemConstants.Decrypt(users.LoginPassword))
                     {
                         resp.AlertMessage = "success";
                         response.Message.Add(resp);
@@ -688,7 +690,7 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 UserManagementIL users = UserManagementBL.GetById(UserId);
-                users.LoginPassword = Constants.Decrypt(users.LoginPassword);
+                users.LoginPassword = SystemConstants.Decrypt(users.LoginPassword);
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
                 response.ResponseData = users;

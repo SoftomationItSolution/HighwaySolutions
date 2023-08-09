@@ -146,3 +146,5 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSyst
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSystemLibrary\bin\Debug\HighwaySoluations.Softomation.ATMSSystemLibrary.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSystemLibrary\obj\Debug\HighwaySoluations.Softomation.ATMSSystemLibrary.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSystemLibrary\obj\Debug\HighwaySoluations.Softomation.ATMSSystemLibrary.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSystemLibrary\bin\Debug\HighwaySoluations.Softomation.CommonLibrary.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\ATMSSystemLibrary\bin\Debug\HighwaySoluations.Softomation.CommonLibrary.pdb

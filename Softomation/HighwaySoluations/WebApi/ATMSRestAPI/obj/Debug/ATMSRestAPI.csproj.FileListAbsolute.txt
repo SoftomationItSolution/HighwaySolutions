@@ -468,3 +468,5 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\obj\Debug\ATMSRestAPI.pdb
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.ATMSSystemLibrary.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.ATMSSystemLibrary.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.CommonLibrary.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\WebApi\ATMSRestAPI\bin\HighwaySoluations.Softomation.CommonLibrary.pdb

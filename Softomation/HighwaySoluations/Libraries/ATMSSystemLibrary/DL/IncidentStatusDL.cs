@@ -40,7 +40,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 incidentstatusList = GetAll();
-                return incidentstatusList.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return incidentstatusList.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 imsStatus.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            imsStatus.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)imsStatus.DataStatus);
+            imsStatus.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)imsStatus.DataStatus);
             return imsStatus;
         }
         #endregion

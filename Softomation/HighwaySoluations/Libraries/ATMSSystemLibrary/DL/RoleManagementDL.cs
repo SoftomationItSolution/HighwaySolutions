@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -63,7 +63,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 roleList = GetAll();
-                return roleList.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return roleList.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -118,7 +118,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 role.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            role.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)role.DataStatus);
+            role.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)role.DataStatus);
             role.RolePermission = RolePermissionDL.GetByRoleId(role.RoleId);
 
             return role;

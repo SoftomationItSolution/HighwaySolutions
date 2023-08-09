@@ -1,11 +1,9 @@
-
-
 using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
-namespace Softomation.DMS.Libraries.CommonLibrary.Cryptography
+namespace HighwaySoluations.Softomation.Cryptography
 {
     /// <summary>
     /// Provides various MD5 functions

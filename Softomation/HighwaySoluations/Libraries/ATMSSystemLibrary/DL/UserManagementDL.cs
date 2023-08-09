@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -18,7 +18,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             List<ResponseIL> responses = null;
             try
             {
-                user.LoginPassword = Constants.Encrypt(user.LoginPassword);
+                user.LoginPassword = SystemConstants.Encrypt(user.LoginPassword);
                 string spName = "USP_UserInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, user.UserId, ParameterDirection.Input));
@@ -51,7 +51,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 string spName = "USP_UserUpdatePassword";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, user.UserId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, Constants.Encrypt(user.LoginPassword), ParameterDirection.Input, 200));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, SystemConstants.Encrypt(user.LoginPassword), ParameterDirection.Input, 200));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, user.CreatedBy, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -256,8 +256,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["RoleName"] != DBNull.Value)
                 user.RoleName = Convert.ToString(dr["RoleName"]);
 
-            user.UserTypeName = Enum.GetName(typeof(Constants.AppUserType), (Constants.AppUserType)user.UserTypeId);
-            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)user.DataStatus);
+            user.UserTypeName = Enum.GetName(typeof(SystemConstants.AppUserType), (SystemConstants.AppUserType)user.UserTypeId);
+            user.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)user.DataStatus);
             return user;
         }
         #endregion

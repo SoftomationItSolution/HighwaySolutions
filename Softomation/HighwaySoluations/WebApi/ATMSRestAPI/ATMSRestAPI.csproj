@@ -303,6 +303,10 @@
       <Project>{686b8c11-7ea7-437e-8454-f8598ea29201}</Project>
       <Name>ATMSSystemLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\CommonLibrary\CommonLibrary.csproj">
+      <Project>{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

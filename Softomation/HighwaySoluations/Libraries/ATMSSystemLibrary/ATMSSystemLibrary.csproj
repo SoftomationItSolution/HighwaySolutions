@@ -117,7 +117,7 @@
     <Compile Include="BL\UserManagementBL.cs" />
     <Compile Include="BL\VIDSEventBL.cs" />
     <Compile Include="BL\VIDSReviewedEventBL.cs" />
-    <Compile Include="Constants.cs" />
+    <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
@@ -146,9 +146,6 @@
     <Compile Include="DL\UserManagementDL.cs" />
     <Compile Include="DL\VIDSEventDL.cs" />
     <Compile Include="DL\VIDSReviewedEventDL.cs" />
-    <Compile Include="IL\ApiResponseIL.cs" />
-    <Compile Include="IL\AppLoginIL.cs" />
-    <Compile Include="IL\CommonIL.cs" />
     <Compile Include="IL\ControlRoomIL.cs" />
     <Compile Include="IL\DataFilterIL.cs" />
     <Compile Include="IL\EquipmentConfigIL.cs" />
@@ -161,15 +158,10 @@
     <Compile Include="IL\IncidentSourceIL.cs" />
     <Compile Include="IL\IncidentStatusIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
-    <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\PackageIL.cs" />
     <Compile Include="IL\ReportMasterIL.cs" />
-    <Compile Include="IL\ResponseIL.cs" />
-    <Compile Include="IL\RoleManagementIL.cs" />
-    <Compile Include="IL\RolePermissionIL.cs" />
     <Compile Include="IL\SystemIL.cs" />
     <Compile Include="IL\SystemSettingIL.cs" />
-    <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\VIDSChallanEventIL.cs" />
     <Compile Include="IL\VIDSEventIL.cs" />
@@ -180,6 +172,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+      <Project>{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

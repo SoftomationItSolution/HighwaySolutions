@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
-
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -29,7 +29,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("ReportIds");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
-                string SessionId = Constants.RandomString(10);
+                string SessionId = SystemConstants.RandomString(10);
                 StringBuilder xmlPermission = new StringBuilder();
                 for (int i = 0; i < setup.Count; i++)
                 {
@@ -44,7 +44,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
-                if (Constants.BulkCopy(ImportDataTable, "temp_SystemMaster"))
+                if (SystemConstants.BulkCopy(ImportDataTable, "temp_SystemMaster"))
                 {
                     string spName = "USP_SystemUpdate";
                     DbCommand command = DBAccessor.GetStoredProcCommand(spName);
@@ -91,7 +91,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 smlist = GetAll();
-                return smlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return smlist.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -196,7 +196,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 sm.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            sm.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)sm.DataStatus);
+            sm.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)sm.DataStatus);
             return sm;
         }
         #endregion

@@ -1,9 +1,0 @@
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Release\Softomation.DMS.CommonLibrary.dll
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Release\Softomation.DMS.CommonLibrary.pdb
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Release\Microsoft.Practices.EnterpriseLibrary.Common.dll
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\bin\Release\Microsoft.Practices.EnterpriseLibrary.Data.dll
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Release\CommonLibrary.csproj.AssemblyReference.cache
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Release\CommonLibrary.csproj.CoreCompileInputs.cache
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Release\CommonLibrary.csproj.CopyComplete
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Release\Softomation.DMS.CommonLibrary.dll
-E:\Projects\GitProject\Toll360\TollDataManagement\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Release\Softomation.DMS.CommonLibrary.pdb

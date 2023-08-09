@@ -5,7 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Text;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -26,7 +26,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("DataUpdate");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
-                string SessionId = Constants.RandomString(10);
+                string SessionId = SystemConstants.RandomString(10);
                 StringBuilder xmlPermission = new StringBuilder();
                 for (int i = 0; i < role.RolePermission.Count; i++)
                 {
@@ -38,7 +38,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
-                if (Constants.BulkCopy(ImportDataTable, "temp_ImportPermission"))
+                if (SystemConstants.BulkCopy(ImportDataTable, "temp_ImportPermission"))
                 {
                     string spName = "USP_RolePermissionInsertUpdate";
                     DbCommand command = DBAccessor.GetStoredProcCommand(spName);
@@ -175,7 +175,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 permission.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            permission.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)permission.DataStatus);
+            permission.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)permission.DataStatus);
             return permission;
         }
         #endregion

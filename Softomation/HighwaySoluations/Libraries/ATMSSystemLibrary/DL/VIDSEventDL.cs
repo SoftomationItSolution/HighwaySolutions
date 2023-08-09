@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -124,7 +125,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["EventStartDate"] != DBNull.Value)
             {
                 events.EventStartDate = Convert.ToDateTime(dr["EventStartDate"]);
-                events.EventStartDateStamp = events.EventStartDate.ToString(Constants.DATETIME_FORMAT_Client);
+                events.EventStartDateStamp = events.EventStartDate.ToString(Constants.DateTimeFormatClient);
             }
 
             if (dr["EventEndDate"] != DBNull.Value)
@@ -175,8 +176,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["CreatedDate"] != DBNull.Value)
                 events.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
-            events.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.DirectionId);
-            events.PositionName = Enum.GetName(typeof(Constants.VIDSEquipmentPositionType), (Constants.VIDSEquipmentPositionType)events.PositionId);
+            events.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)events.DirectionId);
+            events.PositionName = Enum.GetName(typeof(SystemConstants.VIDSEquipmentPositionType), (SystemConstants.VIDSEquipmentPositionType)events.PositionId);
             return events;
         }
         #endregion

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -107,7 +108,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["MediaSendStatus"] != DBNull.Value)
                 id.MediaSendStatus = Convert.ToBoolean(dr["MediaSendStatus"]);
 
-            id.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)id.DataStatus);
+            id.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)id.DataStatus);
             return id;
         }
         #endregion

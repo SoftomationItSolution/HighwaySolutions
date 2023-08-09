@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 using System.Web.Script.Serialization;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
-
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
     internal class VIDSReviewedEventDL

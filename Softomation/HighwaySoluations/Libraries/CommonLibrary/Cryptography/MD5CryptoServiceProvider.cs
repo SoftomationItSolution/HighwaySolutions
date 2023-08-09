@@ -1,15 +1,13 @@
 using System;
 using System.Security.Cryptography;
-using System.Text;
-using System.Collections.Generic;
 using System.Linq;
 
 
-namespace Softomation.DMS.Libraries.CommonLibrary.Cryptography
+namespace HighwaySoluations.Softomation.Cryptography
 {
-	/// <summary>
-	/// Provides various MD5 functions
-	/// </summary>
+    /// <summary>
+    /// Provides various MD5 functions
+    /// </summary>
     public class MD5CryptoServiceProvider
     {
         /// <summary>

@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -307,9 +308,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 id.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
             id.ActionHistoryDetails = IncidentActionHistoryDL.GetActionHistory(id.IncidentId);
-            id.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)id.DirectionId);
-            id.IncidentGeneratedByTypeName = Enum.GetName(typeof(Constants.IncidentGeneratedByType), (Constants.IncidentGeneratedByType)id.IncidentGeneratedByTypeId);
-            id.PriorityName = Enum.GetName(typeof(Constants.PriorityType), (Constants.PriorityType)id.PriorityId);
+            id.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)id.DirectionId);
+            id.IncidentGeneratedByTypeName = Enum.GetName(typeof(SystemConstants.IncidentGeneratedByType), (SystemConstants.IncidentGeneratedByType)id.IncidentGeneratedByTypeId);
+            id.PriorityName = Enum.GetName(typeof(SystemConstants.PriorityType), (SystemConstants.PriorityType)id.PriorityId);
             return id;
         }
 

@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -127,7 +128,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 menu.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            menu.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)menu.DataStatus);
+            menu.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)menu.DataStatus);
 
             return menu;
         }

@@ -5,6 +5,7 @@ using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -85,7 +86,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 edlist = GetAll();
-                return edlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return edlist.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -273,11 +274,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ProtocolTypeId"] != DBNull.Value)
                 ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
 
-            ed.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)ed.DataStatus);
-            ed.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)ed.DirectionId);
-            ed.EquipmentCategoryTypeName = Enum.GetName(typeof(Constants.EquipmentCategoryType), (Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
-            ed.EquipmentConnectionTypeName = Enum.GetName(typeof(Constants.EquipmentConnectionType), (Constants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
-            ed.ProtocolTypeName = Enum.GetName(typeof(Constants.ConnectionProtocolType), (Constants.ConnectionProtocolType)ed.ProtocolTypeId);
+            ed.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)ed.DataStatus);
+            ed.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)ed.DirectionId);
+            ed.EquipmentCategoryTypeName = Enum.GetName(typeof(SystemConstants.EquipmentCategoryType), (SystemConstants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
+            ed.EquipmentConnectionTypeName = Enum.GetName(typeof(SystemConstants.EquipmentConnectionType), (SystemConstants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
+            ed.ProtocolTypeName = Enum.GetName(typeof(SystemConstants.ConnectionProtocolType), (SystemConstants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
 

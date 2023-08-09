@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {

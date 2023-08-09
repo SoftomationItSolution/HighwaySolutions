@@ -4,6 +4,8 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
+
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
     internal class ControlRoomDL
@@ -66,7 +68,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 crlist = GetAll();
-                return crlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return crlist.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -133,8 +135,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 cr.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            cr.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)cr.DataStatus);
-            cr.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)cr.DirectionId);
+            cr.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)cr.DataStatus);
+            cr.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)cr.DirectionId);
 
             return cr;
         }

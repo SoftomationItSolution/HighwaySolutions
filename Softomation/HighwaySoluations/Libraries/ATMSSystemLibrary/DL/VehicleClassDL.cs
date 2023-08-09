@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
     internal class VehicleClassDL
@@ -62,7 +63,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 crlist = GetAll();
-                return crlist.FindAll(n => n.DataStatus == (short)Constants.DataStatusType.Active);
+                return crlist.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
             }
             catch (Exception ex)
             {
@@ -125,7 +126,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 user.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            user.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)user.DataStatus);
+            user.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)user.DataStatus);
             return user;
         }
         #endregion

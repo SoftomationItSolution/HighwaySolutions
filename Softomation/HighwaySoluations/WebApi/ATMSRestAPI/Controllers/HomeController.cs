@@ -9,8 +9,8 @@ namespace ATMSRestAPI.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            ViewBag.AppVersion = Constants.Version;
-            ViewBag.Provider = Constants.AppProvider;
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = SystemConstants.AppProvider;
             ViewBag.Title = "Web API|Home";
             return View();
         }
@@ -18,8 +18,8 @@ namespace ATMSRestAPI.Controllers
         public ActionResult DataBase()
         {
             ViewBag.Title = "Web API|Config";
-            ViewBag.AppVersion = Constants.Version;
-            ViewBag.Provider = Constants.AppProvider;
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = SystemConstants.AppProvider;
             DataBaseConfig dataBase = DataBaseConfig.Deserialize();
             return View(dataBase);
         }
@@ -28,8 +28,8 @@ namespace ATMSRestAPI.Controllers
         public ActionResult DataBase(DataBaseConfig dataBase)
         {
             ViewBag.Title = "Web API|Config";
-            ViewBag.AppVersion = Constants.Version;
-            ViewBag.Provider = Constants.AppProvider;
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = SystemConstants.AppProvider;
             if (ModelState.IsValid)
             {
                 DataBaseConfig.Serialize(dataBase);
