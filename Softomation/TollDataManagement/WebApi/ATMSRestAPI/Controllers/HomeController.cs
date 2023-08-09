@@ -1,25 +1,32 @@
 ﻿using System.Web.Mvc;
+using Softomation.ATMSSystemLibrary;
 using Softomation.ATMSSystemLibrary.SystemConfigurations;
 
 namespace ATMSRestAPI.Controllers
 {
-    public class SystemController : Controller
+    public class HomeController : Controller
     {
-        // GET: System
+        // GET: Home
         public ActionResult Index()
         {
+            ViewBag.AppVersion = Constants.Version;
+            ViewBag.Provider = Constants.AppProvider;
             return View();
         }
 
         public ActionResult DataBase()
         {
+            ViewBag.AppVersion = Constants.Version;
+            ViewBag.Provider = Constants.AppProvider;
             DataBaseConfig dataBase = DataBaseConfig.Deserialize();
             return View(dataBase);
         }
 
-        [HttpPost]  
+        [HttpPost]
         public ActionResult DataBase(DataBaseConfig dataBase)
         {
+            ViewBag.AppVersion = Constants.Version;
+            ViewBag.Provider = Constants.AppProvider;
             if (ModelState.IsValid)
             {
                 DataBaseConfig.Serialize(dataBase);
