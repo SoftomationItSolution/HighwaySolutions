@@ -1,7 +1,7 @@
 ﻿using System;
-using Softomation.ATMSSystemLibrary.SystemConfigurations;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations;
 
-namespace Softomation.ATMSSystemLibrary.DBA
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DBA
 {
     public class DBSelector
     {

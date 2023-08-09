@@ -1,8 +1,8 @@
 ﻿using System;
-using Softomation.ATMSSystemLibrary.DL;
-using Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 
-namespace Softomation.ATMSSystemLibrary.BL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
     public class DataFilterBL
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
     public class SystemIL : CommonIL
     {

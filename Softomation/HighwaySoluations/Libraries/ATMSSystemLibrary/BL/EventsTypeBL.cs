@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Softomation.ATMSSystemLibrary.IL;
-using Softomation.ATMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
 using System.Data.Common;
 using System.Data;
 
-namespace Softomation.ATMSSystemLibrary.BL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
     public class EventsTypeBL
     {

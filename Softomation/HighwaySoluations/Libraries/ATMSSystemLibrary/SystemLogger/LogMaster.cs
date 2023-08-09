@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using static Softomation.ATMSSystemLibrary.Constants;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.Constants;
 
-namespace Softomation.ATMSSystemLibrary.SystemLogger
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger
 {
     public class LogMaster
     {
@@ -15,11 +15,6 @@ namespace Softomation.ATMSSystemLibrary.SystemLogger
         {
 
         }
-
-        
-
-       
-
         /// <summary>
         /// Write message to log file.
         /// </summary>

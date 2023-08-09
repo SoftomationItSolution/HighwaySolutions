@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
     public class IncidentActionHistoryIL : CommonIL
     {

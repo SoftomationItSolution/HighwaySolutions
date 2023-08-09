@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
-using Softomation.ATMSSystemLibrary.DBA;
-using Softomation.ATMSSystemLibrary.IL;
-using static Softomation.ATMSSystemLibrary.Constants;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.Constants;
 
-namespace Softomation.ATMSSystemLibrary.DL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
     internal class EquipmentConfigDL
     {

@@ -6,7 +6,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Web.Script.Serialization;
 
-namespace Softomation.ATMSSystemLibrary.SystemConfigurations
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
 {
     public class DataBaseConfig
     {

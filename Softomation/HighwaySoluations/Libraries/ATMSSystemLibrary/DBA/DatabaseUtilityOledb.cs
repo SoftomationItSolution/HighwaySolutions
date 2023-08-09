@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.OleDb;
 
-namespace Softomation.ATMSSystemLibrary.DBA
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DBA
 {
     public class DatabaseUtilityOledb
     {

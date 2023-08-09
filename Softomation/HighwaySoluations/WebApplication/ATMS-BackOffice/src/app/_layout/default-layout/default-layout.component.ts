@@ -224,8 +224,9 @@ export class DefaultLayoutComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '386px';
+    dialogConfig.width = '55%';
+    //dialogConfig.height = '386px';
+    //dialogConfig.height = '410px';
     const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
   }
   alOpen() {

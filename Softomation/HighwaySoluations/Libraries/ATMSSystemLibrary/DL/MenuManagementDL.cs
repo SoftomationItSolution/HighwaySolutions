@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
-using Softomation.ATMSSystemLibrary.DBA;
-using Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 
-namespace Softomation.ATMSSystemLibrary.DL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
     internal class MenuManagementDL
     {

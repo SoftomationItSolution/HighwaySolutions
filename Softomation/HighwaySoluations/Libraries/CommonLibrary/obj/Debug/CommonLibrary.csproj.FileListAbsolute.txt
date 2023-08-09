@@ -59,3 +59,12 @@ E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\Libraries\CommonL
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CopyComplete
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.dll
 E:\Projects\Experiment\ATMS\1_0\Softomation\TollDataManagement\Libraries\CommonLibrary\obj\Debug\Softomation.DMS.CommonLibrary.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Data.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.AssemblyReference.cache
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CoreCompileInputs.cache
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CopyComplete
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\HighwaySoluations.Softomation.CommonLibrary.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\HighwaySoluations.Softomation.CommonLibrary.pdb
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\HighwaySoluations.Softomation.CommonLibrary.dll
+E:\Projects\Experiment\ATMS\1_0\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\HighwaySoluations.Softomation.CommonLibrary.pdb

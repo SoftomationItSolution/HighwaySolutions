@@ -8,10 +8,10 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.IdentityModel.Tokens;
-using Softomation.ATMSSystemLibrary.DBA;
-using Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 
-namespace Softomation.ATMSSystemLibrary
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary
 {
     public class Constants
     {

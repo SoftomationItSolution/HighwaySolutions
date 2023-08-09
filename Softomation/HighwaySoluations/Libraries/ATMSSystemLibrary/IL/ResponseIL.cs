@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
     public class ResponseIL
     {

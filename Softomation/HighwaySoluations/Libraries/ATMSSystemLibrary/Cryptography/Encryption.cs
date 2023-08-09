@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.IO;
 
-namespace Softomation.ATMSSystemLibrary.Cryptography
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.Cryptography
 {
     /// <summary>
     /// Provides various MD5 functions

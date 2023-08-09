@@ -1,9 +1,9 @@
-﻿using Softomation.ATMSSystemLibrary.DL;
-using Softomation.ATMSSystemLibrary.IL;
+﻿using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using System;
 using System.Collections.Generic;
 
-namespace Softomation.ATMSSystemLibrary.BL
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
     public class VIDSEventBL
     {

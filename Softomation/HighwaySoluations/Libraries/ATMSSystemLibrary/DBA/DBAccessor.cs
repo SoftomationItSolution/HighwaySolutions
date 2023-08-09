@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Data.Common;
 using System.Data;
-using Softomation.ATMSSystemLibrary.SystemLogger;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
 
-namespace Softomation.ATMSSystemLibrary.DBA
+namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DBA
 {
     public class DBAccessor
     {
