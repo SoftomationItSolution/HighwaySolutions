@@ -1,8 +1,0 @@
-Avc Class Id,Avc Class Name,Avc Class Description,Axle Count(Min),Axle Count(Max),Vehicle Height(Min),Vehicle Height(Max),Vehicle Width(Min),Vehicle Width(Max),Vehicle Length(Min),Vehicle Length(Max)
-1,Car,,1,1,0,0,0,0,0,0
-2,LCV,Test,1,1,0,0,0,0,0,0
-3,Truck,,2,2,0,0,0,0,0,0
-4,Bus,,2,2,0,0,0,0,0,0
-5,MAV,,3,3,0,0,0,0,0,0
-6,MAV 4-6,,4,6,0,0,0,0,0,0
-7,MAV 7-Above,,7,20,0,0,0,0,0,0

@@ -1,6 +1,0 @@
-namespace TollSolutionsAPI.Areas.HelpPage.ModelDescriptions
-{
-    public class SimpleTypeModelDescription : ModelDescription
-    {
-    }
-}
