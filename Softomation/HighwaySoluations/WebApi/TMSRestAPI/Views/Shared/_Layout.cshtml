@@ -1,36 +1,39 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
     @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+
 </head>
 <body>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
-        <div class="container">
-            @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" title="Toggle navigation" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-link" })</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center">
+            <h1 class="logo me-auto"><a>NHAI</a></h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DataBase" ? "active" : "")">@Html.ActionLink("Config", "DataBase", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+
                 </ul>
+            </nav>
+        </div>
+    </header>
+    <main id="main">
+        @RenderBody()
+    </main>
+    <footer id="footer" class="theam-bg">
+        <div class="container footer-bottom clearfix">
+            <div class="credits">
+                <p>&copy; @DateTime.Now.Year- @ViewBag.Provider (V:@ViewBag.AppVersion)</p>
             </div>
         </div>
-    </nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
-    </div>
+    </footer>
+
+    <div id="preloader"></div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

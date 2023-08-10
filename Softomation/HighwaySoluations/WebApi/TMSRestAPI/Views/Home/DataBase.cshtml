@@ -1,0 +1,108 @@
+﻿@model Softomation.ATMSSystemLibrary.SystemConfigurations.DataBaseConfig
+@{
+   
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            @using (Html.BeginForm("DataBase", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <h2>Data-base Config</h2>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DataBaseProvider, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.DropDownListFor(m => m.DataBaseProvider, new List<SelectListItem>
+                          { new SelectListItem{Text="Oracle Server", Value="1"},
+                            new SelectListItem{Text="Sql Server", Value="2"},
+                            new SelectListItem{Text="Post Gray Server", Value="3"},
+                            new SelectListItem{Text="My Sql Server", Value="4"}
+                               }, "Please select provider", new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.DataBaseProvider, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DBServerName, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DBServerName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DBServerName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DBName, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DBName, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DBName, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DBLogin, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DBLogin, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DBLogin, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DBPassword, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DBPassword, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.DBPassword, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.PoolSize, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.PoolSize, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.PoolSize, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.Timeout, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.Timeout, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Timeout, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offset-md-10 col-md-2">
+                                <input type="submit" value="Submit" class="btn btn-default btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
