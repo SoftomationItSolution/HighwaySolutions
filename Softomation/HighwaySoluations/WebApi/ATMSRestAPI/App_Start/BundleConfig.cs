@@ -10,13 +10,13 @@ namespace ATMSRestAPI
                         "~/Scripts/jquery-{version}.js"));
          
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
-                      "~/assets/js/main.js"));
+                      "~/Scripts/js/bootstrap.bundle.min.js",
+                      "~/Scripts/main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/assets/vendor/bootstrap/css/bootstrap.min.css",
                       "~/assets/vendor/bootstrap-icons/bootstrap-icons.css",
-                      "~/assets/css/style.css"));
+                      "~/Content/style.css"));
         }
     }
 }

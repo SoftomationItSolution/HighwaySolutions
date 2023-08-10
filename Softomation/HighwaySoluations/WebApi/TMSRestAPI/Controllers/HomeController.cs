@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using HighwaySoluations.Softomation.TMSSystemLibrary;
+using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 
 namespace TMSRestAPI.Controllers
 {
@@ -10,21 +8,32 @@ namespace TMSRestAPI.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = HighwaySoluations.Softomation.CommonLibrary.Constants.AppProvider;
+            ViewBag.Title = "Web API|Home";
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult DataBase()
         {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
+            ViewBag.Title = "Web API|Config";
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = HighwaySoluations.Softomation.CommonLibrary.Constants.AppProvider;
+            DataBaseConfig dataBase = DataBaseConfig.Deserialize();
+            return View(dataBase);
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult DataBase(DataBaseConfig dataBase)
         {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            ViewBag.Title = "Web API|Config";
+            ViewBag.AppVersion = SystemConstants.Version;
+            ViewBag.Provider = HighwaySoluations.Softomation.CommonLibrary.Constants.AppProvider;
+            if (ModelState.IsValid)
+            {
+                DataBaseConfig.Serialize(dataBase);
+            }
+            return View(dataBase);
         }
     }
 }

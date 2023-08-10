@@ -117,7 +117,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\css\style.css" />
+    <Content Include="Content\style.css" />
     <Content Include="assets\img\apple-touch-icon.png" />
     <Content Include="assets\img\clients\client-1.png" />
     <Content Include="assets\img\clients\client-2.png" />
@@ -146,7 +146,7 @@
     <Content Include="assets\img\team\team-3.jpg" />
     <Content Include="assets\img\team\team-4.jpg" />
     <Content Include="assets\img\why-us.png" />
-    <Content Include="assets\js\main.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="assets\scss\Readme.txt" />
     <Content Include="assets\vendor\aos\aos.cjs.js" />
     <Content Include="assets\vendor\aos\aos.css" />
@@ -171,7 +171,7 @@
     <Content Include="assets\vendor\bootstrap\css\bootstrap.rtl.css" />
     <Content Include="assets\vendor\bootstrap\css\bootstrap.rtl.min.css" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.bundle.js" />
-    <Content Include="assets\vendor\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.esm.js" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.esm.min.js" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.js" />
@@ -233,7 +233,7 @@
     <Content Include="assets\vendor\bootstrap\css\bootstrap.rtl.css.map" />
     <Content Include="assets\vendor\bootstrap\css\bootstrap.rtl.min.css.map" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.bundle.js.map" />
-    <Content Include="assets\vendor\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.esm.js.map" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.esm.min.js.map" />
     <Content Include="assets\vendor\bootstrap\js\bootstrap.js.map" />
@@ -297,6 +297,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="assets\css\" />
+    <Folder Include="assets\js\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\ATMSSystemLibrary\ATMSSystemLibrary.csproj">
