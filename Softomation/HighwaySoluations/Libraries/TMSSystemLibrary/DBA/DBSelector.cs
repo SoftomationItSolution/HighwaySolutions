@@ -12,7 +12,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DBA
         //Database object
         private Microsoft.Practices.EnterpriseLibrary.Data.Database database;
 
-        private DBSelector(Constants.DataBaseProvider provider)
+        private DBSelector(SystemConstants.DataBaseProvider provider)
         {
             SelectDataBase(provider);
         }
@@ -33,7 +33,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DBA
             {
                 if (instance == null)
                 {
-                    instance = new DBSelector(Constants.DataBaseProvider.SqlServer);
+                    instance = new DBSelector(SystemConstants.DataBaseProvider.SqlServer);
                 }
                 return instance;
             }
@@ -46,21 +46,21 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DBA
         /// 3. DB2
         /// </summary>
         /// <returns></returns>
-        public void SelectDataBase(Constants.DataBaseProvider provider)
+        public void SelectDataBase(SystemConstants.DataBaseProvider provider)
         {
             try
             {
                 string connString = string.Empty;
                 DataBaseConfig dbConfig = DataBaseConfig.Deserialize();
                 //string plainText = Constants.Decrypt(dbConfig.DBPassword);
-                if (provider == Constants.DataBaseProvider.Oracle)
+                if (provider == SystemConstants.DataBaseProvider.Oracle)
                 {
                     #region Oracle
                     connString = "Data Source = " + dbConfig.DBServerName + ";User ID=" + dbConfig.DBLogin + "; Password = " + dbConfig.DBPassword + ";Unicode=True";
                     this.database = new Microsoft.Practices.EnterpriseLibrary.Data.Oracle.OracleDatabase(connString);
                     #endregion
                 }
-                else if (provider == Constants.DataBaseProvider.SqlServer)
+                else if (provider == SystemConstants.DataBaseProvider.SqlServer)
                 {
                     #region SQL Server
                     connString = @"Data Source=" + dbConfig.DBServerName + "; Initial Catalog=" + dbConfig.DBName + "; Max Pool size=" + dbConfig.PoolSize + "; Connection Timeout=" + dbConfig.Timeout + "; pooling=yes; Persist Security Info=True; User ID=" + dbConfig.DBLogin + "; Password=" + dbConfig.DBPassword + ";";

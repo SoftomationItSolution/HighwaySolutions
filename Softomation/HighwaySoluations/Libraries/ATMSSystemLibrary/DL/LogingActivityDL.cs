@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {

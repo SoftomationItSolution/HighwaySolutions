@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMSSystemLibrary", "Softom
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMSSystemLibrary", "Softomation\HighwaySoluations\Libraries\TMSSystemLibrary\TMSSystemLibrary.csproj", "{C660559B-6683-4976-A72D-DE9D3F615355}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMSRestAPI", "Softomation\HighwaySoluations\WebApi\TMSRestAPI\TMSRestAPI.csproj", "{2D37C2B3-EC1C-4479-9144-333BDC6F40D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{C660559B-6683-4976-A72D-DE9D3F615355}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C660559B-6683-4976-A72D-DE9D3F615355}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C660559B-6683-4976-A72D-DE9D3F615355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -69,6 +75,7 @@ Global
 		{FE3FAC7F-1923-4B51-9F89-4AA72921B5BC} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
 		{686B8C11-7EA7-437E-8454-F8598EA29201} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
 		{C660559B-6683-4976-A72D-DE9D3F615355} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
+		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

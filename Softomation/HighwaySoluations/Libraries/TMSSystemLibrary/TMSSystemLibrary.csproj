@@ -93,26 +93,37 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
+    <Compile Include="BL\LogingActivityBL.cs" />
+    <Compile Include="BL\MenuManagementBL.cs" />
+    <Compile Include="BL\RoleManagementBL.cs" />
+    <Compile Include="BL\RolePermissionBL.cs" />
+    <Compile Include="BL\UserManagementBL.cs" />
+    <Compile Include="DL\LogingActivityDL.cs" />
+    <Compile Include="DL\MenuManagementDL.cs" />
+    <Compile Include="DL\RoleManagementDL.cs" />
+    <Compile Include="DL\RolePermissionDL.cs" />
+    <Compile Include="DL\UserManagementDL.cs" />
+    <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
     <Compile Include="DBA\DatabaseUtilityOledb.cs" />
     <Compile Include="DBA\DBAccessor.cs" />
     <Compile Include="DBA\DBSelector.cs" />
-    <Compile Include="IL\ApiResponseIL.cs" />
-    <Compile Include="IL\AppLoginIL.cs" />
-    <Compile Include="IL\CommonIL.cs" />
-    <Compile Include="IL\MenuManagementIL.cs" />
-    <Compile Include="IL\ResponseIL.cs" />
-    <Compile Include="IL\RoleManagementIL.cs" />
-    <Compile Include="IL\RolePermissionIL.cs" />
-    <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SystemConfigurations\DataBaseConfig.cs" />
     <Compile Include="SystemLogger\LogMaster.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
+      <Project>{2ea5a765-e6ea-4574-89e2-c7c6529e8ee4}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IL\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

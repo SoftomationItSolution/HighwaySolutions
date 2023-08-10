@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 using System.Threading;
-using static HighwaySoluations.Softomation.TMSSystemLibrary.Constants;
+using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger
 {
@@ -110,7 +110,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger
         }
         public static string CreateDirectory(string directoryName)
         {
-            string directory = Constants.driveLetter + ":\\" + Constants.ProjectName + "\\log\\" + directoryName;
+            string directory = SystemConstants.DriveLetter + ":\\" + SystemConstants.ProjectName + "\\log\\" + directoryName;
 
             if (!Directory.Exists(directory))
             {

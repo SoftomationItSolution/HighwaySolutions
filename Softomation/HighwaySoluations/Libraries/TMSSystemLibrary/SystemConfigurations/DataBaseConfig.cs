@@ -88,10 +88,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 try
                 {
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                    config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(Constants.ProjectConfigDirectory + "DBConfiguration.json"));
+                    config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
                     try
                     {
-                        config.DBPassword = Constants.Decrypt(config.DBPassword);
+                        config.DBPassword = SystemConstants.Decrypt(config.DBPassword);
                     }
                     catch (Exception)
                     {
@@ -117,18 +117,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             {
                 try
                 {
-                    config.DBPassword = Constants.Encrypt(config.DBPassword);
+                    config.DBPassword = SystemConstants.Encrypt(config.DBPassword);
                     var jsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
-                    if (File.Exists(Constants.ProjectConfigDirectory + "DBConfiguration.json"))
+                    if (File.Exists(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"))
                     {
-                        File.Delete(Constants.ProjectConfigDirectory + "DBConfiguration.json");
+                        File.Delete(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json");
                     }
                     else
                     {
-                        Directory.CreateDirectory(Constants.ProjectConfigDirectory);
+                        Directory.CreateDirectory(SystemConstants.ProjectConfigDirectory);
                     }
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                    File.WriteAllText(Constants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
+                    File.WriteAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
                     i = 10;
                     result = true;
                     break;
