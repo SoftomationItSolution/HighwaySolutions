@@ -23,14 +23,14 @@ namespace ATMSRestAPI.Controllers
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class BackOfficeController : ApiController
     {
-        const string Provider = SystemConstants.AppProvider;
-        const string APIPath = "Transit360-ATMS";
+        const string Provider = AppProvider;
+        const string APIPath = "FastTrackHighway-ATMS";
         ApiResponseIL response = new ApiResponseIL();
         ResponseIL resp = new ResponseIL();
 
         internal static void BackOfficeAPILog(string message)
         {
-            LogMaster.Write(message, SystemConstants.ErrorLogModule.BackOfficeAPI);
+            LogMaster.Write(message, ErrorLogModule.BackOfficeAPI);
         }
 
         #region Login

@@ -23,7 +23,7 @@ namespace TMSRestAPI.Controllers
 
         internal static void BackOfficeAPILog(string message)
         {
-            LogMaster.Write(message, SystemConstants.ErrorLogModule.BackOfficeAPI);
+            LogMaster.Write(message, ErrorLogModule.BackOfficeAPI);
         }
 
         #region Login
