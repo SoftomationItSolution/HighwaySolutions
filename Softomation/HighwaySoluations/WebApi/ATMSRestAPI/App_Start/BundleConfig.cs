@@ -14,8 +14,8 @@ namespace ATMSRestAPI
                       "~/Scripts/main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/assets/vendor/bootstrap/css/bootstrap.min.css",
-                      "~/assets/vendor/bootstrap-icons/bootstrap-icons.css",
+                      "~/Content/bootstrap/bootstrap.min.css",
+                      "~/Content/bootstrap-icons/bootstrap-icons.css",
                       "~/Content/style.css"));
         }
     }
