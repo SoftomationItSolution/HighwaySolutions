@@ -17,8 +17,9 @@ namespace TMSRestAPI.Controllers
         public ActionResult DataBase()
         {
             ViewBag.Title = "Web API|Config";
+            ViewBag.Status = "Load";
             ViewBag.AppVersion = SystemConstants.Version;
-            ViewBag.Provider = HighwaySoluations.Softomation.CommonLibrary.Constants.AppProvider;
+            ViewBag.Provider = SystemConstants.AppProvider;
             DataBaseConfig dataBase = DataBaseConfig.Deserialize();
             return View(dataBase);
         }
@@ -28,10 +29,12 @@ namespace TMSRestAPI.Controllers
         {
             ViewBag.Title = "Web API|Config";
             ViewBag.AppVersion = SystemConstants.Version;
-            ViewBag.Provider = HighwaySoluations.Softomation.CommonLibrary.Constants.AppProvider;
+            ViewBag.Provider = SystemConstants.AppProvider;
+            ViewBag.Status = "failed";
             if (ModelState.IsValid)
             {
                 DataBaseConfig.Serialize(dataBase);
+                ViewBag.Status = "success";
             }
             return View(dataBase);
         }

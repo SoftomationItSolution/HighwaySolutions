@@ -11,13 +11,13 @@ namespace TMSRestAPI
             //            "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/js/bootstrap.bundle.min.js",
-                      "~/assets/js/main.js"));
+                     "~/Scripts/bootstrap/js/bootstrap.bundle.min.js",
+                     "~/Scripts/main.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/assets/vendor/bootstrap/bootstrap.min.css",
-                      "~/assets/vendor/bootstrap-icons/bootstrap-icons.css",
-                      "~/assets/css/style.css"));
+                      "~/Scripts/bootstrap/css/bootstrap.min.css",
+                      "~/Scripts/bootstrap-icons/bootstrap-icons.css",
+                      "~/Content/style.css"));
         }
     }
 }

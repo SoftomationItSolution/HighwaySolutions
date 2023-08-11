@@ -1,9 +1,17 @@
 ﻿@model HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations.DataBaseConfig
 @{
-   
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+@if (ViewBag.Status != "Load")
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Status");
+            //$('.alert').alert()
+        };
+    </script>
+}
 <section id="hero" class="d-flex align-items-center">
     <div class="container">
         <div class="row">
@@ -25,8 +33,9 @@
                             new SelectListItem{Text="Post Gray Server", Value="3"},
                             new SelectListItem{Text="My Sql Server", Value="4"}
                                }, "Please select provider", new { @class = "form-control" })
-                                    @Html.ValidationMessageFor(model => model.DataBaseProvider, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.DataBaseProvider, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -34,8 +43,9 @@
                                 @Html.LabelFor(model => model.DBServerName, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.DBServerName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DBServerName, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.DBServerName, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                     </div>
@@ -45,8 +55,9 @@
                                 @Html.LabelFor(model => model.DBName, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.DBName, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DBName, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.DBName, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -54,8 +65,9 @@
                                 @Html.LabelFor(model => model.DBLogin, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.DBLogin, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DBLogin, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.DBLogin, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                     </div>
@@ -65,8 +77,9 @@
                                 @Html.LabelFor(model => model.DBPassword, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.DBPassword, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.DBPassword, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.DBPassword, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -74,8 +87,9 @@
                                 @Html.LabelFor(model => model.PoolSize, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.PoolSize, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.PoolSize, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.PoolSize, "", new { @class = "text-danger col-md-12" })
                             </div>
 
                         </div>
@@ -87,8 +101,9 @@
                                 @Html.LabelFor(model => model.Timeout, htmlAttributes: new { @class = "control-label col-md-6" })
                                 <div class="col-md-6">
                                     @Html.EditorFor(model => model.Timeout, new { htmlAttributes = new { @class = "form-control" } })
-                                    @Html.ValidationMessageFor(model => model.Timeout, "", new { @class = "text-danger" })
+
                                 </div>
+                                @Html.ValidationMessageFor(model => model.Timeout, "", new { @class = "text-danger col-md-12" })
                             </div>
                         </div>
                     </div>
@@ -103,6 +118,7 @@
                 </div>
             }
         </div>
+       
     </div>
 </section>
 
