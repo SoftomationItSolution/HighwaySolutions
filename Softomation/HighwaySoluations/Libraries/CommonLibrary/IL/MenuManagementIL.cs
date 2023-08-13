@@ -10,7 +10,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
         String menuIcon;
         Int64 parentId;
         Int16 systemId;
-        Int16 mennuAccess;
         Int16 oderBy;
         Int16 childCount;
         public MenuManagementIL()
@@ -21,7 +20,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             this.menuIcon = String.Empty;
             this.parentId = 0;
             this.systemId = 0;
-            this.mennuAccess = 0;
             this.oderBy = 0;
             this.childCount = 0;
         }
@@ -101,18 +99,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             }
         }
 
-        public Int16 MennuAccess
-        {
-            get
-            {
-                return mennuAccess;
-            }
-
-            set
-            {
-                mennuAccess = value;
-            }
-        }
+        
 
         public Int16 OderBy
         {

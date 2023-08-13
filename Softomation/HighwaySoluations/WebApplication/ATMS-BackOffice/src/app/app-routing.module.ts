@@ -2,11 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
-
-// const routes: Routes = [
-//   { path: '', component: LoginComponent }
-// ];
-
 const routes: Routes =[
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
@@ -27,10 +22,7 @@ const routes: Routes =[
   // { path: '**', component: Page404Component },
 ];
 
-// @NgModule({
-//   imports: [RouterModule.forRoot(routes)],
-//   exports: [RouterModule]
-// })
+
 
 @NgModule({
   imports: [

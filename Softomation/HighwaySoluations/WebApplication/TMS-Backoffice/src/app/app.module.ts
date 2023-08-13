@@ -36,6 +36,12 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
+import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
+import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
+import { SnakbarComponent } from './pages/snakbar/snakbar.component';
+import { LoginComponent } from './pages/login/login.component';
+import { MediaViewComponent } from './pages/media-view/media-view.component';
+
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
     dateInput: 'DD-MMM-YYYY',
@@ -60,7 +66,12 @@ export const MY_CUSTOM_FORMATS = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    SerchFilterPipe,
+    DefaultLayoutComponent,
+    SnakbarComponent,
+    MediaViewComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

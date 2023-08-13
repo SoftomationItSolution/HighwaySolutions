@@ -97,7 +97,6 @@ D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Librarie
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\System.Text.Json.xml
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\System.Threading.Tasks.Extensions.xml
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\bin\Debug\System.ValueTuple.xml
-D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.AssemblyReference.cache
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CoreCompileInputs.cache
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\CommonLibrary.csproj.CopyComplete
 D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySoluations\Libraries\CommonLibrary\obj\Debug\HighwaySoluations.Softomation.CommonLibrary.dll

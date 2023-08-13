@@ -12,20 +12,20 @@
                                         <div class="px-2 py-3">
                                             <div class="">
                                                 <h5 class="text-primary mb-2 mt-4 login-title">Login</h5>
-                                                <p class="text-muted">Sign in to continue to ATMS.</p>
+                                                <p class="text-muted">Sign in to continue to TMS.</p>
                                             </div>
                                             <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()"
                                                 class="form-horizontal mt-4 pt-2">
                                                 <div class="mb-3">
                                                     <div class="input-group grouplist-border">
-                                                        <i class="fas fa-user-circle user-icon-login"></i>
+                                                        <i class="mdi mdi-account user-icon-login"></i>
                                                         <input type="text" class="form-control"
                                                             placeholder="Enter Name Here" formControlName="UserName">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group grouplist-border">
-                                                        <i class="fas fa-key user-icon-login"></i>
+                                                        <i class="mdi mdi-account-key user-icon-login"></i>
                                                         <input type="password" class="form-control"
                                                             placeholder="Enter password Here" formControlName="Password">
                                                     </div>
@@ -66,7 +66,7 @@
                 </div>
                 <div class="row">
                     <div class="mt-5 text-center text-white">
-                        <p>© {{CurrentYear}} ATMS System.
+                        <p>© {{CurrentYear}} TMS System.
                         </p>
                     </div>
                 </div>

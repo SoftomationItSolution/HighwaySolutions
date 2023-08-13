@@ -110,9 +110,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["SystemId"] != DBNull.Value)
                 menu.SystemId = Convert.ToInt16(dr["SystemId"]);
 
-            if (dr["MennuAccess"] != DBNull.Value)
-                menu.MennuAccess = Convert.ToInt16(dr["MennuAccess"]);
-
             if (dr["OderBy"] != DBNull.Value)
                 menu.OderBy = Convert.ToInt16(dr["OderBy"]);
 

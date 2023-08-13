@@ -1,0 +1,23 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div *ngFor="let data of finalData" [ngClass]="className" style="overflow: hidden;">
+                <img src="" [src]="data.path" *ngIf="data.type=='image'" style="max-height: 365px;min-height: 150px;"/>
+                <audio *ngIf="data.type=='audio'">
+                    <source [src]="data.path" type="audio/mpeg">
+                </audio>
+                <video width="320" height="240" controls *ngIf="data.type=='video'">
+                    <source [src]="data.path" type="video/mp4">
+                    <source [src]="data.path" type="video/ogg">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
