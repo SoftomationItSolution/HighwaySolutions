@@ -1,0 +1,213 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div id="accordion" class="data-filter">
+                    <div class="card-header">
+                        <div class="dropdown d-inline-block">
+                            <h5 class="mb-0">
+                                <a href="javascript:void(0);" class="mb-2" >
+                                    <i class="fa fa-chevron-circle-up filter-icon-class" id="datafilterIcon"></i>
+                                </a>
+                                <span class="rc">Reporting</span>
+                                <!-- :{{TotalCount}} (click)="ExColl($event)"-->
+                            </h5>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <form [formGroup]="FilterDetailsForm">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="StartDateTime">Start Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control"
+                                                formControlName="StartDateTime" [readonlyInput]="true"
+                                                dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="EndDateTime">End Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control" formControlName="EndDateTime"
+                                                [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="ControlRoomFilterList">Control Room</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ControlRoomFilterList"
+                                                inputId="ControlRoomFilterList" [options]="ControlRoomData"
+                                                (onChange)="FillPackages()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Control Room">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="PackageFilterList">Package</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PackageFilterList"
+                                                inputId="PackageFilterList" [options]="PackageFilter"
+                                                (onChange)="FillChainage()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Package">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="ChainageFilterList">Chainage</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ChainageFilterList"
+                                                inputId="ChainageFilterList" [options]="ChainageFilter"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="DirectionFilterList">Direction</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="DirectionFilterList"
+                                                inputId="DirectionFilterList" [options]="DirectionList"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="DataId">System</label>
+                                            <p-dropdown appendTo="body" formControlName="SystemId" inputId="DataId"
+                                                [options]="SystemData" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Select" class="form-control select2"
+                                                (onChange)="GetMasterReportData()"></p-dropdown>
+                                            <!-- <small class="p-error"
+                                                *ngIf="submitted && LocationDetailsForm.hasError('required','SystemId')">System must
+                                                be selected.</small> -->
+                                        </div>
+                                        <div class="col-md-3" *ngIf="FilterDetailsForm.value.SystemId === 6">
+                                            <label for="PositionFilterList">Camera View</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PositionFilterList"
+                                                inputId="PositionFilterList" [options]="PositionList"
+                                                optionLabel="DataName" optionValue="DataValue"
+                                                placeholder="Camera View">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3" *ngIf="FilterDetailsForm.value.SystemId === 6">
+                                            <label for="EventFilterList">Event Type</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
+                                                inputId="EventFilterList" [options]="EventData"
+                                                optionLabel="EventTypeName" optionValue="EventTypeId"
+                                                placeholder="Event Type">
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search" (click)="SearchEntry()">
+                                        <i class="mdi mdi-feature-search-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <form [formGroup]="ReportForm">
+                    <ng-template matStepLabel>Assets</ng-template>
+                    <div class="form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="ControlRoomId">Control Room</label>
+                                <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ControlRoomId" placeholder="Select Control Room" class="form-control select2"
+                                    [style]="{'width':'100%'}" (onChange)="ControlChnage($event.value)"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ControlRoomId')">Control
+                                    Room is
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="PackageId">Package</label>
+                                <p-dropdown appendTo="body" formControlName="PackageId" inputId="PackageId"
+                                    [options]="PackageFilter" optionLabel="PackageName" optionValue="PackageId"
+                                    placeholder="Select Package" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','PackageId')">Package
+                                    must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="StartDate">Start Date</label>
+                                <p-calendar class="form-control" formControlName="StartDate" [showIcon]="true"
+                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','StartDate')">
+                                    Start Date must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="EndDate">End Date</label>
+                                <p-calendar class="form-control" formControlName="EndDate" [showIcon]="true"
+                                    appendTo="body" dateFormat="dd-MM-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','EndDate')">
+                                    End Date must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="DirectionId">Direction</label>
+                                <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId"
+                                    [options]="DirectionList" optionLabel="Name" optionValue="Id" placeholder="Select Direction"
+                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','DirectionId')">Direction
+                                    must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ReportId">Report</label>
+                                <p-dropdown appendTo="body" formControlName="ReportId" inputId="ReportId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ReportId" placeholder="Select Report" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ReportId')">Control
+                                    Room is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="EventTypeId">Event Type</label>
+                                <p-dropdown appendTo="body" formControlName="EventTypeId" inputId="EventTypeId"
+                                    [options]="DirectionList" optionLabel="Name" optionValue="Id" placeholder="Select Event Type"
+                                    class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','EventTypeId')">Event Type
+                                    must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ClassId">Class</label>
+                                <p-dropdown appendTo="body" formControlName="ClassId" inputId="ClassId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ClassId" placeholder="Select Class" class="form-control select2"
+                                    [style]="{'width':'100%'}"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && ReportForm.hasError('required','ClassId')">
+                                    Class is required.</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->

@@ -1,0 +1,70 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">Setting</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <fieldset class="col-md-12">
+                <legend>ATCC</legend>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
+                                    formControlName="IsATCCIndependently"
+                                    (change)="ATCCChanged($event)">
+                                <label class="form-check-label" for="IsATCCIndependently">
+                                    ATCC Independently
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check" style="padding-bottom: 20px;">
+                                <input class="form-check-input" type="checkbox" id="ATCCByVIDS"
+                                    formControlName="ATCCByVIDS"
+                                    [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
+                                <label class="form-check-label" for="ATCCByVIDS">
+                                    ATCC By VIDS
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-check" style="padding-bottom: 20px;">
+                                <input class="form-check-input" type="checkbox" id="ATCCByVSDS"
+                                    formControlName="ATCCByVSDS">
+                                <label class="form-check-label" for="ATCCByVSDS">
+                                    ATCC By VSDS
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </fieldset>
+            <fieldset class="col-md-12">
+                <legend>VSDS</legend>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="TotalLane">Number of Lane in each direction</label>
+                            <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane"
+                                [options]="LaneData" optionLabel="DataName" optionValue="DataId"
+                                placeholder="Select" class="form-control select2"></p-dropdown>
+                            <small class="p-error"
+                                *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
+                                Lane is
+                                required.</small>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

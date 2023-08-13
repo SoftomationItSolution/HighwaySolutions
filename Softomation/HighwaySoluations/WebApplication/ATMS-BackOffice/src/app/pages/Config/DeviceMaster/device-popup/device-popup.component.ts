@@ -15,7 +15,7 @@ import { DataModel } from 'src/app/services/data-model.model';
   styleUrls: ['./device-popup.component.css']
 })
 export class DevicePopupComponent implements OnInit {
-  @ViewChild('stepper') private myStepper: MatStepper;
+  @ViewChild('stepper') private myStepper: MatStepper | undefined;
   PageTitle: any;
   DeviceCommunicationForm!: FormGroup;
   DeviceDetailsForm!: FormGroup;
@@ -235,11 +235,11 @@ export class DevicePopupComponent implements OnInit {
   }
 
   ControlChange(ControlRoomId: any) {
-    this.PackageFilter = this.PackageData.filter(e => e.ControlRoomId === ControlRoomId);
+    this.PackageFilter = this.PackageData.filter((e: { ControlRoomId: any; }) => e.ControlRoomId === ControlRoomId);
   }
 
   EquipmentTypeChnage(EquipmentTypeId: any) {
-    this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === EquipmentTypeId)
+    this.EquipmentTypeFilter = this.EquipmentTypeData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId === EquipmentTypeId)
     if (this.EquipmentTypeFilter.length > 0) {
       this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
     }
@@ -299,7 +299,7 @@ export class DevicePopupComponent implements OnInit {
         this.DeviceCommunicationForm.controls['EquipmentTypeId'].setValue(this.DetailData.EquipmentTypeId);
         this.EquipmentTypeChnage(this.DetailData.EquipmentTypeId)
         this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(this.DetailData.ProtocolTypeId);
-        this.EquipmentTypeFilter = this.EquipmentTypeData.filter(e => e.EquipmentTypeId === this.DetailData.ProtocolTypeId)
+        this.EquipmentTypeFilter = this.EquipmentTypeData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId === this.DetailData.ProtocolTypeId)
         if (this.EquipmentTypeFilter.length > 0) {
           this.ConnectionTypeId = this.EquipmentTypeFilter[0].EquipmentConnectionTypeId
         }
@@ -333,8 +333,11 @@ export class DevicePopupComponent implements OnInit {
   }
 
   goBack() {
-    this.selectedIndex = this.myStepper.selectedIndex;
-    this.myStepper.previous();
+    const myStepper = this.myStepper;
+    if(myStepper==null)
+     return; 
+    this.selectedIndex = myStepper.selectedIndex;
+    myStepper.previous();
     if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
       this.btnMain = "Next"
       this.btn1 = "Previous"
@@ -351,8 +354,11 @@ export class DevicePopupComponent implements OnInit {
 
   goForward(event:any) {
     this.submitted=true;
-    this.myStepper.next();
-    this.selectedIndex = this.myStepper.selectedIndex;
+    const myStepper = this.myStepper;
+    if(myStepper==null)
+     return; 
+     myStepper.next();
+    this.selectedIndex = myStepper.selectedIndex;
     if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
       this.btnMain = "Next"
       this.btn1 = "Previous"

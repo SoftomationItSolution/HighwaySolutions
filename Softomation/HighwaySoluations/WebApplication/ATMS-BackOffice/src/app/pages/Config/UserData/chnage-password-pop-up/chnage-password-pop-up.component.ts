@@ -19,7 +19,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
   notSame = true;
   ErrorData: any;
   LogedUserId;
-  PasswordForm: FormGroup;
+  PasswordForm!: FormGroup;
   hide = true;
   hide1 = true;
   userData:any;
@@ -51,16 +51,19 @@ export class ChnagePasswordPopUpComponent implements OnInit {
 
   UpdatePassword() {
     this.submitted=true;
+    if(this.PasswordForm==null)
+    return
     if (this.PasswordForm.valid) {
       this.spinner.show();
-        const obj = {UserId: this.LogedUserId, LoginPassword: this.PasswordForm.get('CurrentPassword').value};
+        const obj = {UserId: this.LogedUserId, LoginPassword: this.PasswordForm.value.CurrentPassword};
         this.dbServive.UserValidatePassword(obj).subscribe(
           data => {
             let returnMessage = data.Message[0].AlertMessage;
             if (returnMessage == 'success') {
+             
               const obj = {
                 UserId: this.LogedUserId,
-                LoginPassword: this.PasswordForm.get('NewPassword').value,
+                LoginPassword: this.PasswordForm.value.NewPassword,
                 CreatedBy: this.LogedUserId
                 };
               this.dbServive.UserUpdatePassword(obj).subscribe(

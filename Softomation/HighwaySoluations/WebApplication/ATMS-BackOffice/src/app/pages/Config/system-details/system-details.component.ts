@@ -91,7 +91,7 @@ export class SystemDetailsComponent {
       }
     );
   }
-  handleCheck(event, data, type) {
+  handleCheck(event:any, data:any, type:any) {
     if (type == 1) {
       if (!event) {
         for (let i = 0; i < this.SystemDetails.length; i++) {
@@ -115,7 +115,7 @@ export class SystemDetailsComponent {
       }
     }
   }
-  ReportSelection(event,rowData){
+  ReportSelection(event:any,rowData:any){
    // console.log(rowData)
   }
 

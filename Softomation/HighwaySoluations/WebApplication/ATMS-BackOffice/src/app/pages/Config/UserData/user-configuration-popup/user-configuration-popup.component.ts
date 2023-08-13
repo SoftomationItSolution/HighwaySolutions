@@ -23,7 +23,7 @@ export class UserConfigurationPopupComponent implements OnInit {
   RoleData: any;
   UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
   submitted=false;
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData,
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
     private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
       this.LogedUserId = this.dm.getUserId();
     this.UserId = parentData.UserId;

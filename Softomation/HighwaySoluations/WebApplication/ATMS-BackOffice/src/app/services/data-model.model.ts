@@ -123,7 +123,7 @@ export class DataModel {
     await new Promise<void>(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
   }
 
-  async getBase64ImageFromUrl(imageUrl) {
+  async getBase64ImageFromUrl(imageUrl:any) {
     var res = await fetch(imageUrl);
     var blob = await res.blob();
   

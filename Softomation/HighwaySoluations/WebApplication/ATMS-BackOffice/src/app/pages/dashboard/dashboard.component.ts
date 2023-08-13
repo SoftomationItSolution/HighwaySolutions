@@ -28,8 +28,8 @@ export type ChartOptions = {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild("chart") chart: ChartComponent;
-  public chartOptions: Partial<ChartOptions>;
+  @ViewChild("chart") chart: ChartComponent | undefined;
+  public chartOptions: Partial<ChartOptions> | undefined;
   constructor() { }
 
   ngOnInit(): void {

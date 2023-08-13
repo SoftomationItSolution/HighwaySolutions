@@ -1,0 +1,55 @@
+import { Routes } from '@angular/router';
+import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
+import { DashboardComponent } from '../pages/dashboard/dashboard.component';
+import { ControlRoomConfigurationComponent } from '../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
+import { DeviceDataComponent } from '../pages/Config/DeviceMaster/device-data/device-data.component';
+import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
+import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
+import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
+import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
+import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
+import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
+import { ImsProgressComponent } from '../pages/IMS/ims-progress/ims-progress.component';
+import { ImsPendingComponent } from '../pages/IMS/ims-pending/ims-pending.component';
+import { IncidentClosedComponent } from '../pages/IMS/incident-closed/incident-closed.component';
+import { ReportsComponent } from '../pages/reports/reports.component';
+import { VidsEquipmentConfigComponent } from '../pages/VIDS/vids-equipment-config/vids-equipment-config.component';
+import { VidsValidationComponent } from '../pages/VIDS/vids-validation/vids-validation.component';
+import { VidsValidatedComponent } from '../pages/VIDS/vids-validated/vids-validated.component';
+import { VidsIncidentConfigComponent } from '../pages/VIDS/vids-incident-config/vids-incident-config.component';
+import { SystemDetailsComponent } from '../pages/Config/system-details/system-details.component';
+import { VsdsEquipmentConfigComponent } from '../pages/VSDS/vsds-equipment-config/vsds-equipment-config.component';
+import { VsdsIncidentConfigComponent } from '../pages/VSDS/vsds-incident-config/vsds-incident-config.component';
+import { VsdsValidationComponent } from '../pages/VSDS/vsds-validation/vsds-validation.component';
+import { VsdsValidatedComponent } from '../pages/VSDS/vsds-validated/vsds-validated.component';
+import { VsdsLaneConfigComponent } from '../pages/VSDS/vsds-lane-config/vsds-lane-config.component';
+
+
+export const AdminLayoutRoutes: Routes = [
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'configSystem', component: SystemDetailsComponent },
+    { path: 'configControlRoom', component: ControlRoomConfigurationComponent },
+    { path: 'configPackage', component: PackagesDetailsComponent },
+    { path: 'configEquipment', component: DeviceDataComponent },
+    { path: 'configVehicleClass', component: VehicleClassDataComponent },
+    { path: 'configRole', component: RoleConfigurationComponent },
+    { path: 'configUsers', component: UserConfigurationComponent },
+    { path: 'imsPending', component: ImsPendingComponent },
+    { path: 'imsProgress', component: ImsProgressComponent },
+    { path: 'imsClosed', component: IncidentClosedComponent },
+    { path: 'vidsEquipmentConfig', component: VidsEquipmentConfigComponent },
+    { path: 'vidsEventConfig', component: VidsIncidentConfigComponent },
+    { path: 'vidsEventHistroy', component: VidsdataComponent },
+    { path: 'vidsValidation', component: VidsValidationComponent },
+    { path: 'vidsValidated', component: VidsValidatedComponent },
+    { path: 'vsdsEquipmentConfig', component: VsdsEquipmentConfigComponent },
+    { path: 'vsdsEventConfig', component: VsdsIncidentConfigComponent },
+    { path: 'vsdsLaneConfig', component: VsdsLaneConfigComponent },
+    { path: 'vsdsEventHistroy', component: VidsdataComponent },
+    { path: 'vsdsValidation', component: VsdsValidationComponent },
+    { path: 'vsdsValidated', component: VsdsValidatedComponent },
+    { path: 'rmsReports', component: ReportsComponent },
+    { path: '**', component: PageNotFoundComponent },
+    { path: 'unauthorized', component: PageNotFoundComponent },
+ 
+];

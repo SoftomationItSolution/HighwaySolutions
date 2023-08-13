@@ -112,7 +112,7 @@ export class VidsIncidentConfigComponent {
       }
     );
   }
-  handleCheck(event,data,type){
+  handleCheck(event:any,data:any,type:any){
     
     if(!event && type=='EventsRequired'){
       for (let i = 0; i < this.EventTypeList.length; i++) {

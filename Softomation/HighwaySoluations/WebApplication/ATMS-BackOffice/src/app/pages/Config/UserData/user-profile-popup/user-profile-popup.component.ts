@@ -77,7 +77,10 @@ export class UserProfilePopupComponent implements OnInit {
     this.imsgProgress=true;
   }
   imageCropped(event: ImageCroppedEvent) {
-    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl);
+    const objectUrl = event.objectUrl;
+    if(objectUrl==null)
+      return
+    this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(objectUrl);
     this.dm.getBase64ImageFromUrl(event.objectUrl).then(result => this.Base64Value=result).catch(err => console.error(err));
   }
   

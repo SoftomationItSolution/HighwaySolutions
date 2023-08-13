@@ -24,7 +24,7 @@ export class DefaultLayoutComponent implements OnInit {
   MenuList: any;
   currentRoute: string = "dashboard"
   childRoute: string = ""
-  location: Location;
+  location: Location | undefined;
   ParentTitle = "Dashboard"
   ChildTitle = "Dashboard"
   MediaPrefix: any;
@@ -106,8 +106,11 @@ export class DefaultLayoutComponent implements OnInit {
 
   }
 
-  menuED(event: any, m) {
+  menuED(event: any, m:any) {
     const cn = document.getElementById("mid_" + m.MenuId);
+    if(cn==null){
+      return;
+    }
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
@@ -118,7 +121,10 @@ export class DefaultLayoutComponent implements OnInit {
         cn.classList.remove("mm-show")
       else
         cn.classList.add("mm-show")
-      let childClass = cn.querySelector('ul')
+      let childClass = cn.querySelector('ul');
+      if(childClass==null){
+        return
+      }
       if (childClass.classList.contains("mm-show")) {
         childClass.classList.remove("mm-show")
       }
@@ -184,6 +190,9 @@ export class DefaultLayoutComponent implements OnInit {
           const cn = document.getElementById("mid_" + foundObj[0].ParentId)
           if (cn != null) {
             let childClass = cn.querySelector('ul')
+            if(childClass==null){
+              return
+            }
             childClass.classList.add("mm-show")
           }
         }

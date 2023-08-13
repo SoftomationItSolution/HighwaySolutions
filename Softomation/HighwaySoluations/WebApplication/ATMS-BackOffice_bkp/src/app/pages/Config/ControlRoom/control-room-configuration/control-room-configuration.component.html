@@ -1,0 +1,72 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
+                        <i class="mdi mdi-plus me-2"></i> Add Control Room
+                    </a>
+                    <div class="dropdown d-inline-block float-right">
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtableheight">
+                    <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                        styleClass="table table-centered datatable dt-responsive nowrap"
+                        [globalFilterFields]="['ControlRoomName','ChainageNumber','Latitude','Longitude','DirectionName',
+                        'DataStatusName']" scrollHeight="56vh">
+                        <ng-template pTemplate="header" styleClass="thead-light">
+                            <tr>
+                                <th>S. No.</th>
+                                <th pSortableColumn="ControlRoomName">Name <p-sortIcon field="ControlRoomName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="ChainageNumber">Chainage <p-sortIcon field="ChainageNumber"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="Latitude">Latitude <p-sortIcon field="Latitude"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="Longitude">Longitude <p-sortIcon field="Longitude"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="DirectionName">Direction <p-sortIcon field="DirectionName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                        field="DataStatusName"></p-sortIcon>
+                                </th>
+                                <th style="text-align: center;">Action</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{rowData.ControlRoomName}}</td>
+                                <td>{{rowData.ChainageNumber}}</td>
+                                <td>{{rowData.Latitude}}</td>
+                                <td>{{rowData.Longitude}}</td>
+                                <td>{{rowData.DirectionName}}</td>
+                                <td>{{rowData.DataStatusName}}</td>
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                        class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="mdi mdi-pencil font-size-18"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+        <!-- <nav aria-label="Page navigation example" class="float-right">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav> -->
+    </div>
+</div>

@@ -276,7 +276,7 @@ export class VidsEquipmentConfigComponent implements OnInit {
     console.log(this.FillFinalData)
   }
 
-  childExCol(event) {
+  childExCol(event:any) {
     event.target.parentNode.querySelector(".nested").classList.toggle("nested-active")
     event.target.classList.toggle("parentNode-down")
   }

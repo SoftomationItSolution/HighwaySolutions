@@ -20,7 +20,7 @@ export class DeviceDataComponent implements OnInit {
   PermissionData: any;
   LogedRoleId;
   ConrtolRoomId = 0;
-  TotalCount:0;
+  TotalCount:0 | undefined;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EquipmentTypeData: any;
@@ -35,24 +35,24 @@ export class DeviceDataComponent implements OnInit {
     this.LogedRoleId = this.dm.getRoleId();
   }
   ExColl(event: any) {
-    document.getElementById("collapseOne").classList.toggle("show")
-    if (document.getElementById("datafilterIcon").classList.contains("fa-chevron-circle-up")) {
-      document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-up")
-      document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-down")
-    }
-    else {
-      document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-down")
-      document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-up")
-    }
+    // document.getElementById("collapseOne").classList.toggle("show")
+    // if (document.getElementById("datafilterIcon").classList.contains("fa-chevron-circle-up")) {
+    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-up")
+    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-down")
+    // }
+    // else {
+    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-down")
+    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-up")
+    // }
 
-    if (document.getElementById("tbl").classList.contains("listtablepagging-c")) {
-      document.getElementById("tbl").classList.remove("listtablepagging-c")
-      document.getElementById("tbl").classList.add("listtablepagging")
-    }
-    else {
-      document.getElementById("tbl").classList.remove("listtablepagging")
-      document.getElementById("tbl").classList.add("listtablepagging-c")
-    }
+    // if (document.getElementById("tbl").classList.contains("listtablepagging-c")) {
+    //   document.getElementById("tbl").classList.remove("listtablepagging-c")
+    //   document.getElementById("tbl").classList.add("listtablepagging")
+    // }
+    // else {
+    //   document.getElementById("tbl").classList.remove("listtablepagging")
+    //   document.getElementById("tbl").classList.add("listtablepagging-c")
+    // }
   }
   ngOnInit() {
     this.FilterDetailsForm = new FormGroup({
