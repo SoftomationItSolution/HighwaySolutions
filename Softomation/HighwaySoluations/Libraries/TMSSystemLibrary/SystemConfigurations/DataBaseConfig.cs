@@ -87,16 +87,20 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             {
                 try
                 {
-                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                    config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
-                    try
+                    if (Directory.Exists(SystemConstants.ProjectConfigDirectory))
                     {
-                        config.DBPassword = SystemConstants.Decrypt(config.DBPassword);
+                        JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                        config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
+                        try
+                        {
+                            config.DBPassword = SystemConstants.Decrypt(config.DBPassword);
+                        }
+                        catch (Exception ex)
+                        {
+                        }
+                        i = 10;
+
                     }
-                    catch (Exception)
-                    {
-                    }
-                    i = 10;
                     break;
                 }
                 catch (Exception)
@@ -117,8 +121,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             {
                 try
                 {
-                    config.DBPassword = SystemConstants.Encrypt(config.DBPassword);
-                    var jsonString = JsonSerializer.Serialize(config, new JsonSerializerOptions { WriteIndented = true });
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                    config.DBPassword = CommonLibrary.Constants.Encrypt(config.DBPassword);
+                    var jsonString = json_serializer.Serialize(config);
                     if (File.Exists(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"))
                     {
                         File.Delete(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json");
@@ -127,13 +132,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     {
                         Directory.CreateDirectory(SystemConstants.ProjectConfigDirectory);
                     }
-                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                   
                     File.WriteAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
                     i = 10;
                     result = true;
                     break;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     result = false;
                     i++;
