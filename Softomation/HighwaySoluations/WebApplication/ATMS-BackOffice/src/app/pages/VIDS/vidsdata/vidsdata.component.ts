@@ -21,7 +21,7 @@ export class VidsdataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
@@ -166,24 +166,28 @@ export class VidsdataComponent {
   }
 
   ExColl(event: any) {
-    // document.getElementById("collapseOne").classList.toggle("show")
-    // if (document.getElementById("datafilterIcon").classList.contains("fa-chevron-circle-up")) {
-    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-up")
-    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-down")
-    // }
-    // else {
-    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-down")
-    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-up")
-    // }
+     //document.getElementById("collapseOne").classList.toggle("show")
+      const collapseOne =  document.getElementById("collapseOne")!
+      collapseOne.classList.toggle("show")
+      const datafilterIcon=document.getElementById("datafilterIcon")!
+      const tbl= document.getElementById("tbl")!
+    if (datafilterIcon.classList.contains("fa-chevron-circle-up")) {
+      datafilterIcon.classList.remove("fa-chevron-circle-up")
+      datafilterIcon.classList.add("fa-chevron-circle-down")
+    }
+    else {
+      datafilterIcon.classList.remove("fa-chevron-circle-down")
+      datafilterIcon.classList.add("fa-chevron-circle-up")
+    }
 
-    // if (document.getElementById("tbl").classList.contains("listtablepagging-c")) {
-    //   document.getElementById("tbl").classList.remove("listtablepagging-c")
-    //   document.getElementById("tbl").classList.add("listtablepagging")
-    // }
-    // else {
-    //   document.getElementById("tbl").classList.remove("listtablepagging")
-    //   document.getElementById("tbl").classList.add("listtablepagging-c")
-    // }
+    if (tbl.classList.contains("listtablepagging-c")) {
+      tbl.classList.remove("listtablepagging-c")
+      tbl.classList.add("listtablepagging")
+    }
+    else {
+      tbl.classList.remove("listtablepagging")
+      tbl.classList.add("listtablepagging-c")
+    }
   }
 
   FillPackages() {
@@ -253,7 +257,7 @@ export class VidsdataComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -261,7 +265,7 @@ export class VidsdataComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -269,7 +273,7 @@ export class VidsdataComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
@@ -277,7 +281,7 @@ export class VidsdataComponent {
 
     let PositionFilterList = "0"
     if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PositionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
       if (crData.split(',').length != this.PositionList.length) {
         PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
@@ -285,7 +289,7 @@ export class VidsdataComponent {
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
@@ -293,29 +297,29 @@ export class VidsdataComponent {
 
     let EventFilterList = "0"
     if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData=this.FilterDetailsForm.value.EventFilterList.toString();
+      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
       if (crData.split(',').length != this.EventData.length) {
         EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      PositionFilterList:PositionFilterList,
-      DirectionFilterList:DirectionFilterList,
-      EventFilterList:EventFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      PositionFilterList: PositionFilterList,
+      DirectionFilterList: DirectionFilterList,
+      EventFilterList: EventFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED
     }
     this.spinner.show();
     this.dbService.VIDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -326,7 +330,7 @@ export class VidsdataComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-       
+
       }
     );
 
