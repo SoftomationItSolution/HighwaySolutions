@@ -26,9 +26,12 @@
             ],
             "styles": [
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "node_modules/bootstrap/dist/css/bootstrap.css",
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/@mdi/font/css/materialdesignicons.min.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/icons.min.css",
+              "src/assets/materialIcons/icon.css",
+            
               "src/assets/css/app.min.css",
               "src/styles.css"
             ],

@@ -510,6 +510,10 @@ tr {
     margin-left: 0px !important;
     margin-right: 0px !important;
 }
+
+.modal-footer .btn{
+    margin-right: 10px;
+}
 .btn-close:focus{
     box-shadow:none !important
 }
@@ -1206,7 +1210,7 @@ input[type=radio] {
     }
 
     .listtableheight {
-        height: 74vh !important;
+        height: 73vh !important;
     }
 
     .listtablepagging {
