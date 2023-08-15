@@ -29,7 +29,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("ChallanTypeId");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
-                string SessionId = SystemConstants.RandomString(10);
+                string SessionId = CommonLibrary.Constants.RandomString(10);
                 StringBuilder xmlPermission = new StringBuilder();
                 for (int i = 0; i < types.Count; i++)
                 {

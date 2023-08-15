@@ -35,7 +35,7 @@ export class DefaultLayoutComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {
-      this.ssOpen();
+      this.alOpen();
     }
     if (event.getModifierState && event.getModifierState('CapsLock')) {
       this.capslockOn = true;
@@ -60,7 +60,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.GetSystemMenu()
     let lck = this.dataModel.getLock();
     if (lck == "true") {
-      this.ssOpen();
+      this.alOpen();
     }
   }
   ngAfterViewInit() {

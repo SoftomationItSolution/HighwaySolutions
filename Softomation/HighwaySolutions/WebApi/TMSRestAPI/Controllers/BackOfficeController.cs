@@ -1,15 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Web;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Collections.Generic;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
-using static HighwaySoluations.Softomation.TMSSystemLibrary.SystemConstants;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
+using static HighwaySoluations.Softomation.TMSSystemLibrary.SystemConstants;
+
 
 namespace TMSRestAPI.Controllers
 {
@@ -231,6 +234,438 @@ namespace TMSRestAPI.Controllers
             }
         }
 
+        #endregion
+
+        #region Role Management
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationSetUp")]
+        [HttpPost]
+        public HttpResponseMessage RoleConfigurationSetUp(RoleManagementIL role)
+        {
+            try
+            {
+                response.Message = RoleManagementBL.InsertUpdate(role);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetAll")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetActive")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RoleConfigurationGetById")]
+        [HttpGet]
+        public HttpResponseMessage RoleConfigurationGetById(int RoleId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RoleManagementBL.GetById(RoleId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RoleConfigurationGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByRoleId")]
+        [HttpGet]
+        public HttpResponseMessage RolePermissionGetByRoleId(Int64 RoleId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RolePermissionBL.GetByRoleId(RoleId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionGetByRoleId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RolePermissionGetByMenu")]
+        [HttpPost]
+        public HttpResponseMessage RolePermissionGetByMenu(RolePermissionIL role)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = RolePermissionBL.GetByMenu(role);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionGetByEventId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/RolePermissionSetup")]
+        [HttpPost]
+        public HttpResponseMessage RolePermissionSetup(RoleManagementIL roles)
+        {
+            try
+            {
+                response.Message = RolePermissionBL.ImportData(roles);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in RolePermissionSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region User Management
+        [Route(Provider + "/" + APIPath + "/UserValidatePassword")]
+        [HttpPost]
+        public HttpResponseMessage UserValidatePassword(UserManagementIL user)
+        {
+            try
+            {
+                UserManagementIL users = UserManagementBL.GetById((int)user.UserId);
+                if (users == null || string.IsNullOrEmpty(users.LoginPassword))
+                {
+                    resp.AlertMessage = "User Details not found";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+
+                    if (user.LoginPassword == SystemConstants.Decrypt(users.LoginPassword))
+                    {
+                        resp.AlertMessage = "success";
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
+                    else
+                    {
+                        resp.AlertMessage = "failed";
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserValidatePassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
+        [HttpPost]
+        public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
+        {
+            try
+            {
+                response.Message = UserManagementBL.UpdatePassword(user);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserUpdatePassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationSetUp")]
+        [HttpPost]
+        public HttpResponseMessage UserConfigurationSetUp(UserManagementIL user)
+        {
+            try
+            {
+                if (user.AccountExpiredDate <= DateTime.Now)
+                {
+                    resp.AlertMessage = "Account expired date must be greater than current date!";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    response.Message = UserManagementBL.InsertUpdate(user);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetAll")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetById")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetById(int UserId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetById(UserId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserGetByIdWithPassword")]
+        [HttpGet]
+        public HttpResponseMessage UserGetByIdWithPassword(int UserId)
+        {
+            try
+            {
+                UserManagementIL users = UserManagementBL.GetById(UserId);
+                users.LoginPassword = SystemConstants.Decrypt(users.LoginPassword);
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = users;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserGetByIdWithPassword : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetByUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetByUserType(short UserTypeId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetByUserType(UserTypeId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetByUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserConfigurationGetBySystemUserType")]
+        [HttpGet]
+        public HttpResponseMessage UserConfigurationGetBySystemUserType(short UserTypeId, short SystemId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = UserManagementBL.GetBySystemUserType(UserTypeId, SystemId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserConfigurationGetBySystemUserType : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/UserProfileChange")]
+        [HttpPost]
+        public HttpResponseMessage UserProfileChange(UserManagementIL user)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(user.UserProfileImage))
+                {
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    String FilePath = "\\User\\ProfileImage\\";
+                    FilePath = SaveMediaFiles(user.UserProfileImage, currentPath + FilePath, Guid.NewGuid().ToString(), ".png");
+                    user.UserProfileImage = FilePath.Replace(currentPath, "");
+                    user.UserProfileImage = user.UserProfileImage.Replace("\\", "/");
+                }
+                response.Message = UserManagementBL.UserProfileChange(user);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in UserProfileChange : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region System Integrator
+        [Route(Provider + "/" + APIPath + "/SystemIntegratorGetAll")]
+        [HttpGet]
+        public HttpResponseMessage SystemIntegratorGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemIntegratorBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemIntegratorGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemIntegratorGetActive")]
+        [HttpGet]
+        public HttpResponseMessage SystemIntegratorGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemIntegratorBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemIntegratorGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemIntegratorGetById")]
+        [HttpGet]
+        public HttpResponseMessage SystemIntegratorGetById(short SystemIntegratorId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemIntegratorBL.GetById(SystemIntegratorId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemIntegratorGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemIntegratorInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage SystemIntegratorInsertUpdate(SystemIntegratorIL siManagement)
+        {
+            try
+            {
+                response.Message = SystemIntegratorBL.InsertUpdate(siManagement);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemIntegratorInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
     }
 }

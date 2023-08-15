@@ -41,6 +41,9 @@ import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.
 import { SnakbarComponent } from './pages/snakbar/snakbar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MediaViewComponent } from './pages/media-view/media-view.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { SystemIntegratorMasterComponent } from './pages/configurations/SystemIntegrator/system-integrator-master/system-integrator-master.component';
+import { SystemIntegratorPopupComponent } from './pages/configurations/SystemIntegrator/system-integrator-popup/system-integrator-popup.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -71,7 +74,10 @@ export const MY_CUSTOM_FORMATS = {
     DefaultLayoutComponent,
     SnakbarComponent,
     MediaViewComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent,
+    SystemIntegratorMasterComponent,
+    SystemIntegratorPopupComponent
   ],
   imports: [
     BrowserModule,

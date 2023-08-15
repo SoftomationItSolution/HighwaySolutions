@@ -176,6 +176,11 @@
     <Content Include="Content\NHAIlogo.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\style.css" />
+    <Content Include="EventMedia\User\ProfileImage\0d6e31fe-bef9-4d04-8ba6-6ad3d016bcc8.png" />
+    <Content Include="EventMedia\User\ProfileImage\2abd4fbb-badc-4237-b8d4-730003c4048d.png" />
+    <Content Include="EventMedia\User\ProfileImage\6f055aaf-4f3c-4462-ab58-204ae6b777d7.png" />
+    <Content Include="EventMedia\User\ProfileImage\avatar-7.jpg" />
+    <Content Include="EventMedia\User\ProfileImage\b69cad0f-24e7-444c-991c-fd84c9db4e06.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap-icons\bootstrap-icons.css" />

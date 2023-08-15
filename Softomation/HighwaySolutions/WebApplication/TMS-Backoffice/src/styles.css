@@ -99,7 +99,12 @@
     color: #f68e2b !important
 }
 
-
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #f68e2b;
+    content: ">"!important;
+    font-family: fantasy !important;
+    font-weight: bolder;
+}
 .p-datatable-table tbody,
 tr {
     border-bottom-color: #c3c3c3 !important;
