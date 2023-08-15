@@ -13,7 +13,67 @@
                     <input formControlName="SystemIntegratorName" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System Integrator Name is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System
+                        Integrator Name is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorAddress">System Integrator Address</label>
+                    <input formControlName="SystemIntegratorAddress" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorAddress')">System
+                        Integrator Address is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorEmailId">System Integrator EmailId</label>
+                    <input formControlName="SystemIntegratorEmailId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorEmailId')">System
+                        Integrator Email id is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EmailId')">Vaild
+                        System Integrator Email Id is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorMobileNumber">System Integrator Mobile</label>
+                    <input formControlName="SystemIntegratorMobileNumber" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorMobileNumber')">System
+                        Integrator Mobile Number is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','MobileNumber')">Vaild
+                        Mobile Number
+                        is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LoginId">Login Id</label>
+                    <input formControlName="LoginId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LoginId')">Login
+                        Id is
+                        required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginId')">Vaild
+                        Login Id is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LoginPassword">Login Password</label>
+                    <input formControlName="LoginPassword" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LoginPassword')">Login Password is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginPassword')">Vaild Login
+                        Password is
                         required.</small>
                 </div>
             </div>

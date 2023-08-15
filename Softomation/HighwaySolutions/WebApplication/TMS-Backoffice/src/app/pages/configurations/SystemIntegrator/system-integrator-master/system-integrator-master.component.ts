@@ -81,7 +81,7 @@ export class SystemIntegratorMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '340px';
+      dialogConfig.height = '390px';
       dialogConfig.data = { action: 'Save', SystemIntegratorId: 0 };
       const dialogRef = this.dialog.open(SystemIntegratorPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -104,7 +104,7 @@ export class SystemIntegratorMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '340px';
+      dialogConfig.height = '390px';
       dialogConfig.data = { action: 'Update', SystemIntegratorId: data.SystemIntegratorId };
       const dialogRef = this.dialog.open(SystemIntegratorPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

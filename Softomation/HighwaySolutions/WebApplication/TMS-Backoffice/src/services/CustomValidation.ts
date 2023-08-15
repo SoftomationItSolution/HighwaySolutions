@@ -1,5 +1,4 @@
-import { FormGroup, FormControl, FormGroupDirective, NgForm, ValidatorFn } from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
+import { FormGroup } from '@angular/forms';
 
 
 export const regExps: { [key: string]: RegExp } = {
@@ -17,8 +16,7 @@ export const regExps: { [key: string]: RegExp } = {
     MobileNumber: /^([0|\+[0-9]{1,5})?([7-9][0-9]{9})$/,
     EmailId: /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/,
     Image: /^([a-zA-Z0-9_\-\.]+).*(.png|.PNG|.jpeg|.JPEG|.jpg|.JPG|.gif|.GIF)$/,
-    // RegistrationNumber:/^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/, //India
-    RegistrationNumber: /^[A-Z]{1,2}[0-9]{3,4}[A-Z]{2,3}$/,
+    RegistrationNumber:/^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{4}$/, //India
     IpAddress: /^([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})[.]([0-9]{1,3})$/,
     PortNumber: /^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$/,
     SingleDigit: /\b[1-9]\b/,
@@ -36,18 +34,6 @@ export const regExps: { [key: string]: RegExp } = {
     OnlyDigit: /^(0|[1-9][0-9]*)$/,
     ChainageNumber:/^(\d{1,3}|\d{1,3}\.\d{0,3})$/
  };
-
-// export class ConfirmValidParentMatcher implements ErrorStateMatcher {
-//     isErrorState(control: FormControl, form: FormGroupDirective): boolean {
-//         return control.parent.invalid && control.touched;
-//     }
-//     // notSame:false;
-//     checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-//     const pass = group.get('NewPassword').value;
-//     const confirmPass = group.get('ConfirmPassword').value;
-//     return pass === confirmPass ? null : { notSame: true };
-//   }
-// }
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
