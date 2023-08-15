@@ -3,14 +3,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { SystemIntegratorPopupComponent } from '../system-integrator-popup/system-integrator-popup.component';
+import { VehicleClassPopupComponent } from '../vehicle-class-popup/vehicle-class-popup.component';
 
 @Component({
-  selector: 'app-system-integrator-master',
-  templateUrl: './system-integrator-master.component.html',
-  styleUrls: ['./system-integrator-master.component.css']
+  selector: 'app-vehicle-class-configuration',
+  templateUrl: './vehicle-class-configuration.component.html',
+  styleUrls: ['./vehicle-class-configuration.component.css']
 })
-export class SystemIntegratorMasterComponent implements OnInit {
+export class VehicleClassConfigurationComponent implements OnInit {
   DevicesData: any;
   PermissionData:any;
   ErrorData: any;
@@ -60,7 +60,7 @@ export class SystemIntegratorMasterComponent implements OnInit {
  
   GetAllData() {
     this.spinner.show();
-    this.dbService.SystemIntegratorGetAll().subscribe(
+    this.dbService.VehicleClassGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -79,9 +79,9 @@ export class SystemIntegratorMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '390px';
-      dialogConfig.data = { action: 'Save', SystemIntegratorId: 0 };
-      const dialogRef = this.dialog.open(SystemIntegratorPopupComponent, dialogConfig);
+      dialogConfig.height = '330px';
+      dialogConfig.data = { action: 'Save', VehicleClassId: 0 };
+      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -102,9 +102,9 @@ export class SystemIntegratorMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '390px';
-      dialogConfig.data = { action: 'Update', SystemIntegratorId: data.SystemIntegratorId };
-      const dialogRef = this.dialog.open(SystemIntegratorPopupComponent, dialogConfig);
+      dialogConfig.height = '330px';
+      dialogConfig.data = { action: 'Update', VehicleClassId: data.VehicleClassId };
+      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -118,5 +118,6 @@ export class SystemIntegratorMasterComponent implements OnInit {
       this.dm.openSnackBar(this.ErrorData, false);
     }
   }
-
 }
+
+

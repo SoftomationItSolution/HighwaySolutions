@@ -35,7 +35,7 @@
                         Integrator Email id is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EmailId')">Vaild
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorEmailId')">Vaild
                         System Integrator Email Id is
                         required.</small>
                 </div>
@@ -48,31 +48,31 @@
                         Integrator Mobile Number is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','MobileNumber')">Vaild
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorMobileNumber')">Vaild
                         Mobile Number
                         is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="LoginId">Login Id</label>
-                    <input formControlName="LoginId" type="text" pInputText required autofocus
+                    <label for="SystemIntegratorLoginId">Login Id</label>
+                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText required autofocus
                         class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LoginId')">Login
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
                         Id is
                         required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginId')">Vaild
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginId')">Vaild
                         Login Id is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="LoginPassword">Login Password</label>
-                    <input formControlName="LoginPassword" type="text" pInputText required autofocus
+                    <label for="SystemIntegratorLoginPassword">Login Password</label>
+                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','LoginPassword')">Login Password is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginPassword')">Login Password is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginPassword')">Vaild Login
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginPassword')">Vaild Login
                         Password is
                         required.</small>
                 </div>

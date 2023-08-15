@@ -4,34 +4,40 @@
             <div class="card-body">
                 <div>
                     <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-plus me-2"></i> Add System Integrator
+                        <i class="mdi mdi-plus me-2"></i> Add Plaza
                     </a>
                     <div class="dropdown d-inline-block float-right">
                         <span class="p-input-icon-left">
                             <i class="mdi mdi-text-box-search-outline"></i>
-                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            <input type="text" pInputText class="form-control"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
                         </span>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
-                        [globalFilterFields]="['SystemIntegratorName','SystemIntegratorMobileNumber','SystemIntegratorEmailId','SystemIntegratorAddress',
-                        'DataStatusName']">
+                        [globalFilterFields]="['SystemIntegratorName','PlazaName','PlazaServerIpAddress',
+                        'PlazaZoneId','ChainageName','Latitude','Longitude','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="SystemIntegratorName">Name <p-sortIcon field="SystemIntegratorName"></p-sortIcon>
+                                <th pSortableColumn="SystemIntegratorName">System Integrator <p-sortIcon
+                                        field="SystemIntegratorName"></p-sortIcon></th>
+                                <th pSortableColumn="PlazaName">Plaza Name <p-sortIcon field="PlazaName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="SystemIntegratorMobileNumber">Mobile Number <p-sortIcon field="SystemIntegratorMobileNumber"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="SystemIntegratorEmailId">Email Id <p-sortIcon field="SystemIntegratorEmailId"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="SystemIntegratorAddress">Address <p-sortIcon field="SystemIntegratorAddress"></p-sortIcon>
-                                </th>
+                                <th pSortableColumn="PlazaServerIpAddress">Server IP<p-sortIcon
+                                        field="PlazaServerIpAddress"></p-sortIcon></th>
+                                <th pSortableColumn="PlazaZoneId">Plaza Zone Id<p-sortIcon
+                                        field="PlazaZoneId"></p-sortIcon></th>
+                                <th pSortableColumn="ChainageName">Chainage<p-sortIcon
+                                    field="ChainageName"></p-sortIcon></th>
+                                <th pSortableColumn="Latitude">Latitude<p-sortIcon
+                                    field="Latitude"></p-sortIcon></th> 
+                                <th pSortableColumn="Longitude">Longitude<p-sortIcon
+                                    field="Longitude"></p-sortIcon></th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
-                                        field="DataStatusName"></p-sortIcon>
-                                </th>
+                                        field="DataStatusName"></p-sortIcon></th>
                                 <th style="text-align: center;">Action</th>
                             </tr>
                         </ng-template>
@@ -39,9 +45,12 @@
                             <tr>
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.SystemIntegratorName}}</td>
-                                <td>{{rowData.SystemIntegratorMobileNumber}}</td>
-                                <td>{{rowData.SystemIntegratorEmailId}}</td>
-                                <td>{{rowData.SystemIntegratorAddress}}</td>
+                                <td>{{rowData.PlazaName}}</td>
+                                <td>{{rowData.PlazaServerIpAddress}}</td>
+                                <td>{{rowData.PlazaZoneId}}</td>
+                                <td>{{rowData.ChainageName}}</td>
+                                <td>{{rowData.Latitude}}</td>
+                                <td>{{rowData.Longitude}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

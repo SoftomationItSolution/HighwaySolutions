@@ -44,6 +44,10 @@ import { MediaViewComponent } from './pages/media-view/media-view.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SystemIntegratorMasterComponent } from './pages/configurations/SystemIntegrator/system-integrator-master/system-integrator-master.component';
 import { SystemIntegratorPopupComponent } from './pages/configurations/SystemIntegrator/system-integrator-popup/system-integrator-popup.component';
+import { PlzaConfigurationComponent } from './pages/configurations/Plaza/plza-configuration/plza-configuration.component';
+import { PlzaConfigurationPopupComponent } from './pages/configurations/Plaza/plza-configuration-popup/plza-configuration-popup.component';
+import { VehicleClassConfigurationComponent } from './pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
+import { VehicleClassPopupComponent } from './pages/configurations/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -77,7 +81,11 @@ export const MY_CUSTOM_FORMATS = {
     LoginComponent,
     DashboardComponent,
     SystemIntegratorMasterComponent,
-    SystemIntegratorPopupComponent
+    SystemIntegratorPopupComponent,
+    PlzaConfigurationComponent,
+    PlzaConfigurationPopupComponent,
+    VehicleClassConfigurationComponent,
+    VehicleClassPopupComponent
   ],
   imports: [
     BrowserModule,

@@ -25,10 +25,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorId", DbType.Int16, siSetup.SystemIntegratorId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorName", DbType.String, siSetup.SystemIntegratorName.Trim(), ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorAddress", DbType.String, siSetup.SystemIntegratorAddress.Trim(), ParameterDirection.Input, 100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MobileNumber", DbType.String, siSetup.SystemIntegratorMobileNumber.Trim(), ParameterDirection.Input, 15));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EmailId", DbType.String, siSetup.SystemIntegratorEmailId.Trim(), ParameterDirection.Input, 100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, siSetup.SystemIntegratorLoginId.Trim(), ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, siSetup.SystemIntegratorLoginPassword.Trim(), ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorMobileNumber", DbType.String, siSetup.SystemIntegratorMobileNumber.Trim(), ParameterDirection.Input, 15));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorEmailId", DbType.String, siSetup.SystemIntegratorEmailId.Trim(), ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorLoginId", DbType.String, siSetup.SystemIntegratorLoginId.Trim(), ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemIntegratorLoginPassword", DbType.String, siSetup.SystemIntegratorLoginPassword.Trim(), ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, siSetup.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, siSetup.CreatedBy, ParameterDirection.Input));

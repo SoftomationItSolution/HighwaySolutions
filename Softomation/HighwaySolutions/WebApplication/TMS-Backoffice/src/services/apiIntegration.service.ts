@@ -186,7 +186,7 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region  ControlRoom
+  //#region  System Integrator
   SystemIntegratorGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -200,7 +200,7 @@ export class apiIntegrationService {
   SystemIntegratorGetById(SystemIntegratorId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemIntegratorGetById?SystemIntegrator=' + SystemIntegratorId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemIntegratorGetById?SystemIntegratorId=' + SystemIntegratorId, { headers: headers_object });
   }
   SystemIntegratorInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -209,29 +209,52 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  // //#region  Vehicle Class
-  // VehicleClassGetById(ClassId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?ClassId=' + ClassId, { headers: headers_object });
-  // }
-  // VehicleClassGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: headers_object });
-  // }
+  //#region  Plaza Master
+  PlazaGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PlazaGetAll', { headers: headers_object });
+  }
+  PlazaGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PlazaGetActive', { headers: headers_object });
+  }
+  PlazaGetById(PlazaId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PlazaGetById?PlazaId=' + PlazaId, { headers: headers_object });
+  }
+  PlazaInsertUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PlazaInsertUpdate', data, { headers: headers_object });
+  }
+  //#endregion
 
-  // VehicleClassGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetActive', { headers: headers_object });
-  // }
-  // VehicleClassInsertUpdate(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VehicleClassInsertUpdate', data, { headers: headers_object });
-  // }
-  // //#endregion
+  //#region  Vehicle Class
+  VehicleClassGetById(VehicleClassId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?VehicleClassId=' + VehicleClassId, { headers: headers_object });
+  }
+  VehicleClassGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: headers_object });
+  }
+
+  VehicleClassGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetActive', { headers: headers_object });
+  }
+  VehicleClassInsertUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VehicleClassInsertUpdate', data, { headers: headers_object });
+  }
+  //#endregion
 
   // //#region Equipment Details
   // EquipmentDetailsGetBySystemId(SystemId: any): Observable<any> {
