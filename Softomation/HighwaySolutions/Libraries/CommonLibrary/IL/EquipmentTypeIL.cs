@@ -1,7 +1,6 @@
 ﻿using System;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.CommonLibrary.IL
 {
     public class EquipmentTypeIL : CommonIL
     {
@@ -36,7 +35,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 equipmentTypeId = value;
             }
         }
-        
+
         public String EquipmentTypeName
         {
             get

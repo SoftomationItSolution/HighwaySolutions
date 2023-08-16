@@ -101,6 +101,8 @@
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />
+    <Compile Include="IL\EquipmentManufactureIL.cs" />
+    <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />

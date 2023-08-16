@@ -1,35 +1,27 @@
 ﻿using System;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class EquipmentDetailsIL : EquipmentTypeIL
     {
         Int64 equipmentId;
-        Int16 packageId;
-        String packageName;
-        Int16 controlRoomId;
-        String controlRoomName;
-        Int16 systemId;
-        String systemName;
+        Int16 plazaId;
+        String plazaName;
+        Int16 laneId;
+        Int16 laneNumber;
         String equipmentName;
-        Int16 directionId;
-        String directionName;
         Int16 protocolTypeId;
         String protocolTypeName;
         String ipAddress;
         Int64 portNumber;
         String loginId;
         String password;
-        Decimal chainageNumber;
-        String chainageName;
-        Decimal latitude;
-        Decimal longitude;
+        Int32 manufactureId;
+        String manufactureName;
         String macAddress;
         String modelNumber;
         String serialNumber;
-        String manufacturer;
-        String vendorDetail;
         DateTime manufacturerDate;
         DateTime purchageDate;
         DateTime warrantyExpireDate;
@@ -38,30 +30,22 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         public EquipmentDetailsIL()
         {
             equipmentId = 0;
-            packageId = 0;
-            packageName = string.Empty;
-            controlRoomId = 0;
-            controlRoomName = string.Empty;
-            systemId = 0;
-            systemName = string.Empty;
+            plazaId = 0;
+            plazaName = string.Empty;
+            laneId = 0;
+            laneNumber = 0;
             equipmentName = string.Empty;
-            directionId = 0;
-            directionName = string.Empty;
             protocolTypeId = 0;
             protocolTypeName = string.Empty;
             ipAddress = string.Empty;
             portNumber = 0;
             loginId = string.Empty;
             password = string.Empty;
-            chainageNumber = 0;
-            chainageName = string.Empty;
-            latitude = 0;
-            longitude = 0;
             macAddress = string.Empty;
             modelNumber = string.Empty;
             serialNumber = string.Empty;
-            manufacturer = string.Empty;
-            vendorDetail = string.Empty;
+            manufactureId = 0;
+            manufactureName = string.Empty;
             manufacturerDate = DateTime.Now;
             purchageDate = DateTime.Now;
             warrantyExpireDate = DateTime.Now;
@@ -80,76 +64,52 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
-        public Int16 PackageId
+        public Int16 PlazaId
         {
             get
             {
-                return packageId;
+                return plazaId;
             }
 
             set
             {
-                packageId = value;
+                plazaId = value;
             }
         }
-        public String PackageName
+        public String PlazaName
         {
             get
             {
-                return packageName;
+                return plazaName;
             }
 
             set
             {
-                packageName = value;
+                plazaName = value;
             }
         }
-        public Int16 ControlRoomId
+        public Int16 LaneId
         {
             get
             {
-                return controlRoomId;
+                return laneId;
             }
 
             set
             {
-                controlRoomId = value;
+                laneId = value;
             }
         }
-        public String ControlRoomName
+        public Int16 LaneNumber
         {
             get
             {
-                return controlRoomName;
+                return laneNumber;
             }
 
             set
             {
-                controlRoomName = value;
-            }
-        }
-        public Int16 SystemId
-        {
-            get
-            {
-                return systemId;
-            }
-
-            set
-            {
-                systemId = value;
-            }
-        }
-        public String SystemName
-        {
-            get
-            {
-                return systemName;
-            }
-
-            set
-            {
-                systemName = value;
+                laneNumber = value;
             }
         }
         public String EquipmentName
@@ -162,30 +122,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 equipmentName = value;
-            }
-        }
-        public Int16 DirectionId
-        {
-            get
-            {
-                return directionId;
-            }
-
-            set
-            {
-                directionId = value;
-            }
-        }
-        public String DirectionName
-        {
-            get
-            {
-                return directionName;
-            }
-
-            set
-            {
-                directionName = value;
             }
         }
         public Int16 ProtocolTypeId
@@ -260,54 +196,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 password = value;
             }
         }
-        public Decimal ChainageNumber
-        {
-            get
-            {
-                return chainageNumber;
-            }
-
-            set
-            {
-                chainageNumber = value;
-            }
-        }
-        public String ChainageName
-        {
-            get
-            {
-                return chainageName;
-            }
-
-            set
-            {
-                chainageName = value;
-            }
-        }
-        public Decimal Latitude
-        {
-            get
-            {
-                return latitude;
-            }
-
-            set
-            {
-                latitude = value;
-            }
-        }
-        public Decimal Longitude
-        {
-            get
-            {
-                return longitude;
-            }
-
-            set
-            {
-                longitude = value;
-            }
-        }
         public String MacAddress
         {
             get
@@ -344,28 +232,28 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 serialNumber = value;
             }
         }
-        public String ManufacturerDetail
+        public Int32 ManufactureId
         {
             get
             {
-                return manufacturer;
+                return manufactureId;
             }
 
             set
             {
-                manufacturer = value;
+                manufactureId = value;
             }
         }
-        public String VendorDetail
+        public String ManufactureName
         {
             get
             {
-                return vendorDetail;
+                return manufactureName;
             }
 
             set
             {
-                vendorDetail = value;
+                manufactureName = value;
             }
         }
         public DateTime ManufacturerDate

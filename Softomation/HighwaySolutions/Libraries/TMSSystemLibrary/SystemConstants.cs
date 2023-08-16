@@ -17,18 +17,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         public static string Version = "1.0.0.1";
         #endregion
 
-       
-
         #region Date Time
         public static string dateTimeFormat24HFileFormat = "MM/dd/yyyyHH:mm:ss";
         public static string dateTimeFormatQualixFormat = "yyyy-MM-ddTHH:mm:ss";
         public static string dateTimeFormatTxnFormat = "yyyy-MM-ddTHH:mm:ss.ffff";
         #endregion
 
-        
-
         #region Enum
-        
         public enum AppUserType
         {
             SysAdmin = 0,
@@ -37,6 +32,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
             Operater = 3,
             Commuters = 4,
             PetrollingTeam = 5
+        }
+
+        public enum LaneType
+        {
+            Normal = 0,
+            Entry = 1,
+            Exit = 2
         }
         #endregion
 

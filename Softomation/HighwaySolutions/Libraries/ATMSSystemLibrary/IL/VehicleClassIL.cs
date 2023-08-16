@@ -20,10 +20,25 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             allowedSpeed = 0;
         }
 
-        public short ClassId { get => classId; set => classId = value; }
-        public short VehicleClassId { get => vehicleClassId; set => vehicleClassId = value; }
-        public string VehicleClassName { get => vehicleClassName; set => vehicleClassName = value; }
-        public string VehicleClassIcon { get => vehicleClassIcon; set => vehicleClassIcon = value; }
-        public decimal AllowedSpeed { get => allowedSpeed; set => allowedSpeed = value; }
+        public short ClassId
+        {
+            get => classId; set => classId = value;
+        }
+        public short VehicleClassId
+        {
+            get => vehicleClassId; set => vehicleClassId = value;
+        }
+        public string VehicleClassName
+        {
+            get => vehicleClassName; set => vehicleClassName = value;
+        }
+        public string VehicleClassIcon
+        {
+            get => vehicleClassIcon; set => vehicleClassIcon = value;
+        }
+        public decimal AllowedSpeed
+        {
+            get => allowedSpeed; set => allowedSpeed = value;
+        }
     }
 }

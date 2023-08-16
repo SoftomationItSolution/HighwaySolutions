@@ -3,15 +3,15 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { PlzaConfigurationPopupComponent } from '../plza-configuration-popup/plza-configuration-popup.component';
+import { EquipmentManufacturePopupComponent } from '../equipment-manufacture-popup/equipment-manufacture-popup.component';
 
 
 @Component({
-  selector: 'app-plza-configuration',
-  templateUrl: './plza-configuration.component.html',
-  styleUrls: ['./plza-configuration.component.css']
+  selector: 'app-equipment-manufacture-master',
+  templateUrl: './equipment-manufacture-master.component.html',
+  styleUrls: ['./equipment-manufacture-master.component.css']
 })
-export class PlzaConfigurationComponent implements OnInit {
+export class EquipmentManufactureMasterComponent implements OnInit {
   DevicesData: any;
   PermissionData:any;
   ErrorData: any;
@@ -61,7 +61,7 @@ export class PlzaConfigurationComponent implements OnInit {
  
   GetAllData() {
     this.spinner.show();
-    this.dbService.PlazaGetAll().subscribe(
+    this.dbService.EquipmentManufactureGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -80,9 +80,9 @@ export class PlzaConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '458px';
-      dialogConfig.data = { action: 'Save', PlazaId: 0 };
-      const dialogRef = this.dialog.open(PlzaConfigurationPopupComponent, dialogConfig);
+      dialogConfig.height = '329px';
+      dialogConfig.data = { action: 'Save', EquipmentManufactureId: 0 };
+      const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -103,9 +103,9 @@ export class PlzaConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '458px';
-      dialogConfig.data = { action: 'Update', PlazaId: data.PlazaId };
-      const dialogRef = this.dialog.open(PlzaConfigurationPopupComponent, dialogConfig);
+      dialogConfig.height = '329px';
+      dialogConfig.data = { action: 'Update', EquipmentManufactureId: data.EquipmentManufactureId };
+      const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -119,4 +119,5 @@ export class PlzaConfigurationComponent implements OnInit {
       this.dm.openSnackBar(this.ErrorData, false);
     }
   }
+
 }

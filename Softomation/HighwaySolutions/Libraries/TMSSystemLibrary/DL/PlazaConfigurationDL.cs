@@ -155,6 +155,26 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return plaza;
         }
+        internal static PlazaConfigurationIL GetByIpAddress(string IpAddress)
+        {
+            DataTable dt = new DataTable();
+            PlazaConfigurationIL plaza = new PlazaConfigurationIL();
+            try
+            {
+                string spName = "USP_PlazaGetbyIpAddress";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaServerIpAddress", DbType.String, IpAddress, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    plaza = CreateObjectFromDataRow(dr);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return plaza;
+        }
         #endregion
 
         #region Helper Methods

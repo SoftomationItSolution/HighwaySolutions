@@ -1,56 +1,64 @@
 ﻿using System;
 using System.Collections.Generic;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class VehicleClassBL
+    public class EquipmentDetailsBL
     {
-        public static List<ResponseIL> InsertUpdate(VehicleClassIL vc)
+        public static List<ResponseIL> InsertUpdate(EquipmentDetailsIL ed)
         {
+
             try
             {
-                return VehicleClassDL.InsertUpdate(vc);
+                return EquipmentDetailsDL.InsertUpdate(ed);
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
         }
-        public static List<VehicleClassIL> GetAll()
+        public static List<EquipmentDetailsIL> GetAll()
         {
             try
             {
-                return VehicleClassDL.GetAll();
+                return EquipmentDetailsDL.GetAll();
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
+
         }
-        public static List<VehicleClassIL> GetActive()
+        public static List<EquipmentDetailsIL> GetActive()
         {
             try
             {
-                return VehicleClassDL.GetActive();
+                return EquipmentDetailsDL.GetActive();
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
+
         }
-        public static VehicleClassIL GetById(int ClassId)
+        public static EquipmentDetailsIL GetById(int EquipmentId)
         {
             try
             {
-                return VehicleClassDL.GetById(ClassId);
+                return EquipmentDetailsDL.GetById(EquipmentId);
             }
             catch (Exception ex)
             {
+
                 throw ex;
             }
+
         }
     }
 }

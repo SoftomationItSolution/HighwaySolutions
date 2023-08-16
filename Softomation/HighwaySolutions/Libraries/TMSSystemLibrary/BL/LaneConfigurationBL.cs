@@ -6,13 +6,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class PlazaConfigurationBL
+   public class LaneConfigurationBL
     {
-        public static List<ResponseIL> InsertUpdate(PlazaConfigurationIL plaza)
+        public static List<ResponseIL> InsertUpdate(LaneConfigurationIL plaza)
         {
             try
             {
-                return PlazaConfigurationDL.InsertUpdate(plaza);
+                return LaneConfigurationDL.InsertUpdate(plaza);
             }
             catch (Exception ex)
             {
@@ -21,23 +21,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static bool DataMerge(List<PlazaConfigurationIL> plazaList)
+        public static List<LaneConfigurationIL> GetAll()
         {
             try
             {
-                return PlazaConfigurationDL.DataMerge(plazaList);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-        public static List<PlazaConfigurationIL> GetAll()
-        {
-            try
-            {
-                return PlazaConfigurationDL.GetAll();
+                return LaneConfigurationDL.GetAll();
             }
             catch (Exception ex)
             {
@@ -46,11 +34,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static List<PlazaConfigurationIL> GetActive()
+        public static List<LaneConfigurationIL> GetActive()
         {
             try
             {
-                return PlazaConfigurationDL.GetActive();
+                return LaneConfigurationDL.GetActive();
             }
             catch (Exception ex)
             {
@@ -59,11 +47,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static PlazaConfigurationIL GetById(short PlazaId)
+        public static LaneConfigurationIL GetById(short PlazaId)
         {
             try
             {
-                return PlazaConfigurationDL.GetById(PlazaId);
+                return LaneConfigurationDL.GetById(PlazaId);
             }
             catch (Exception ex)
             {
@@ -72,11 +60,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static PlazaConfigurationIL GetByIpAddress(string IpAddress)
+        public static LaneConfigurationIL GetByIpAddress(string IpAddress)
         {
             try
             {
-                return PlazaConfigurationDL.GetByIpAddress(IpAddress);
+                return LaneConfigurationDL.GetByIpAddress(IpAddress);
             }
             catch (Exception ex)
             {

@@ -1,0 +1,69 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="PlazaId">Plaza</label>
+                    <p-dropdown appendTo="body" formControlName="PlazaId" inputId="PlazaId"
+                        [options]="PlazaList" optionLabel="PlazaName" optionValue="PlazaId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','PlazaId')">Plaza is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneNumber">Lane Number</label>
+                    <p-dropdown appendTo="body" formControlName="LaneNumber" inputId="LaneNumber"
+                        [options]="LaneNumberList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneNumber')">Lane Number is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneTypeId">Lane Type</label>
+                    <p-dropdown appendTo="body" formControlName="LaneTypeId" inputId="LaneTypeId"
+                        [options]="LaneTypeList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneTypeId')">Lane Type is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneDirectionId">Lane Direction</label>
+                    <p-dropdown appendTo="body" formControlName="LaneDirectionId" inputId="LaneDirectionId"
+                        [options]="LaneDirectionList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneDirectionId')">Lane Direction is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneSystemIpAddress">Lane System IP</label>
+                    <input formControlName="LaneSystemIpAddress" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LaneSystemIpAddress')">Lane System IP is required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LaneSystemIpAddress')">Valid Lane System IP.</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

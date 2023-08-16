@@ -1,0 +1,69 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="EquipmentManufactureName">Equipment Manufacture Name</label>
+                    <input formControlName="EquipmentManufactureName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureName')">Equipment Manufacture Name is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="EquipmentManufactureAddress">Equipment Manufacture Address</label>
+                    <input formControlName="EquipmentManufactureAddress" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureAddress')">Equipment Manufacture Address is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="EquipmentManufactureEmailId">Equipment Manufacture EmailId</label>
+                    <input formControlName="EquipmentManufactureEmailId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureEmailId')">Equipment Manufacture Email id is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EquipmentManufactureEmailId')">Vaild
+                        Equipment Manufacture Email Id is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="EquipmentManufactureMobileNumber">Equipment Manufacture Mobile</label>
+                    <input formControlName="EquipmentManufactureMobileNumber" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureMobileNumber')">Equipment Manufacture Mobile Number is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EquipmentManufactureMobileNumber')">Vaild
+                        Equipment Manufacture Mobile Number
+                        is
+                        required.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
     internal class EquipmentTypeDL
     {
@@ -86,7 +86,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ed.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
             ed.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)ed.DataStatus);
-           
+
             ed.EquipmentCategoryTypeName = Enum.GetName(typeof(SystemConstants.EquipmentCategoryType), (SystemConstants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
             ed.EquipmentConnectionTypeName = Enum.GetName(typeof(SystemConstants.EquipmentConnectionType), (SystemConstants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
             return ed;

@@ -23,7 +23,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 string spName = "USP_VehicleClassInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int64, data.VehicleClassId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassName", DbType.String, data.VehicleClassName, ParameterDirection.Input, 20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassName", DbType.String, data.VehicleClassName, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassDescription", DbType.String, data.VehicleClassDescription, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PermissibleWeight", DbType.Decimal, data.PermissibleWeight, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, data.DataStatus, ParameterDirection.Input));

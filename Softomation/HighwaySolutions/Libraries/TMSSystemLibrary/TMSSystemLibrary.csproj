@@ -93,6 +93,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\EquipmentDetailsBL.cs" />
+    <Compile Include="BL\EquipmentManufactureBL.cs" />
+    <Compile Include="BL\EquipmentTypeBL.cs" />
+    <Compile Include="BL\LaneConfigurationBL.cs" />
     <Compile Include="BL\LogingActivityBL.cs" />
     <Compile Include="BL\MenuManagementBL.cs" />
     <Compile Include="BL\PlazaConfigurationBL.cs" />
@@ -101,6 +105,10 @@
     <Compile Include="BL\SystemIntegratorBL.cs" />
     <Compile Include="BL\UserManagementBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
+    <Compile Include="DL\EquipmentDetailsDL.cs" />
+    <Compile Include="DL\EquipmentManufactureDL.cs" />
+    <Compile Include="DL\EquipmentTypeDL.cs" />
+    <Compile Include="DL\LaneConfigurationDL.cs" />
     <Compile Include="DL\LogingActivityDL.cs" />
     <Compile Include="DL\MenuManagementDL.cs" />
     <Compile Include="DL\PlazaConfigurationDL.cs" />
@@ -109,6 +117,8 @@
     <Compile Include="DL\SystemIntegratorDL.cs" />
     <Compile Include="DL\UserManagementDL.cs" />
     <Compile Include="DL\VehicleClassDL.cs" />
+    <Compile Include="IL\EquipmentDetailsIL.cs" />
+    <Compile Include="IL\LaneConfigurationIL.cs" />
     <Compile Include="IL\PlazaConfigurationIL.cs" />
     <Compile Include="IL\SystemIntegratorIL.cs" />
     <Compile Include="SystemConstants.cs" />

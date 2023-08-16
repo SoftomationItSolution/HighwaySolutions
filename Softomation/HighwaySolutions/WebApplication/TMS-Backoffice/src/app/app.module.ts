@@ -46,6 +46,10 @@ import { SystemIntegratorMasterComponent } from './pages/configurations/SystemIn
 import { SystemIntegratorPopupComponent } from './pages/configurations/SystemIntegrator/system-integrator-popup/system-integrator-popup.component';
 import { PlzaConfigurationComponent } from './pages/configurations/Plaza/plza-configuration/plza-configuration.component';
 import { PlzaConfigurationPopupComponent } from './pages/configurations/Plaza/plza-configuration-popup/plza-configuration-popup.component';
+import { LaneConfigurationComponent } from './pages/configurations/Lane/lane-configuration/lane-configuration.component';
+import { LaneConfigurationPopupComponent } from './pages/configurations/Lane/lane-configuration-popup/lane-configuration-popup.component';
+import { EquipmentManufactureMasterComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
+import { EquipmentManufacturePopupComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-popup/equipment-manufacture-popup.component';
 import { VehicleClassConfigurationComponent } from './pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
 import { VehicleClassPopupComponent } from './pages/configurations/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
 
@@ -84,6 +88,10 @@ export const MY_CUSTOM_FORMATS = {
     SystemIntegratorPopupComponent,
     PlzaConfigurationComponent,
     PlzaConfigurationPopupComponent,
+    LaneConfigurationComponent,
+    LaneConfigurationPopupComponent,
+    EquipmentManufactureMasterComponent,    
+    EquipmentManufacturePopupComponent,
     VehicleClassConfigurationComponent,
     VehicleClassPopupComponent
   ],

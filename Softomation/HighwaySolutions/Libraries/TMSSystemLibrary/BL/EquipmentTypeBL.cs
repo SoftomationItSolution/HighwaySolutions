@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
     public class EquipmentTypeBL
     {

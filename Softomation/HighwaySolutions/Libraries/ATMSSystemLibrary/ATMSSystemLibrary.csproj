@@ -118,6 +118,7 @@
     <Compile Include="BL\VehicleClassIL.cs" />
     <Compile Include="BL\VIDSEventBL.cs" />
     <Compile Include="BL\VIDSReviewedEventBL.cs" />
+    <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
@@ -151,7 +152,6 @@
     <Compile Include="IL\DataFilterIL.cs" />
     <Compile Include="IL\EquipmentConfigIL.cs" />
     <Compile Include="IL\EquipmentDetailsIL.cs" />
-    <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\EventsTypeIL.cs" />
     <Compile Include="IL\IncidentActionHistoryIL.cs" />
     <Compile Include="IL\IncidentCategoryIL.cs" />
@@ -162,7 +162,6 @@
     <Compile Include="IL\ReportMasterIL.cs" />
     <Compile Include="IL\SystemIL.cs" />
     <Compile Include="IL\SystemSettingIL.cs" />
-    <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\VIDSChallanEventIL.cs" />
     <Compile Include="IL\VIDSEventIL.cs" />
     <Compile Include="IL\VIDSReviewedEventIL.cs" />

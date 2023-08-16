@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
-
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
     internal class EquipmentDetailsDL
     {
@@ -23,24 +22,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 string spName = "USP_EquipmentDetailsInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ed.EquipmentId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageId", DbType.Int16, ed.PackageId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, ed.SystemId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaId", DbType.Int16, ed.PlazaId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneId", DbType.Int16, ed.LaneId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentTypeId", DbType.Int16, ed.EquipmentTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ProtocolTypeId", DbType.Int16, ed.ProtocolTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentName", DbType.String, ed.EquipmentName.Trim(), ParameterDirection.Input, 200));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, ed.DirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IpAddress", DbType.String, ed.IpAddress, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PortNumber", DbType.Int64, ed.PortNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, ed.LoginId, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Password", DbType.String, ed.Password, ParameterDirection.Input, 50));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ed.ChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ed.Latitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ed.Longitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input, 100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDetail", DbType.String, ed.ManufacturerDetail, ParameterDirection.Input, 100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VendorDetail", DbType.String, ed.VendorDetail, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureId", DbType.String, ed.ManufactureId, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufacturerDate", DbType.Date, ed.ManufacturerDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PurchageDate", DbType.Date, ed.PurchageDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WarrantyExpireDate", DbType.Date, ed.WarrantyExpireDate, ParameterDirection.Input));
@@ -93,27 +87,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
         }
 
-        internal static List<EquipmentDetailsIL> GetByFilter(DataFilterIL data)
-        {
-            DataTable dt = new DataTable();
-            List<EquipmentDetailsIL> eds = new List<EquipmentDetailsIL>();
-            try
-            {
-                string spName = "USP_EquipmentDetailsGetByFilter";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    eds.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return eds;
-        }
-
         internal static EquipmentDetailsIL GetById(Int32 EquipmentId)
         {
             DataTable dt = new DataTable();
@@ -134,27 +107,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return edData;
         }
-
-        internal static List<EquipmentDetailsIL> GetBySystemId(Int16 SystemId)
-        {
-            DataTable dt = new DataTable();
-            List<EquipmentDetailsIL> edData = new List<EquipmentDetailsIL>();
-            try
-            {
-                string spName = "USP_EquipmentDetailsGetBySystemId";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    edData.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return edData;
-        }
         #endregion
 
         #region Helper Methods
@@ -165,29 +117,20 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["EquipmentId"] != DBNull.Value)
                 ed.EquipmentId = Convert.ToInt64(dr["EquipmentId"]);
 
-            if (dr["ControlRoomId"] != DBNull.Value)
-                ed.ControlRoomId = Convert.ToInt16(dr["ControlRoomId"]);
+            if (dr["PlazaId"] != DBNull.Value)
+                ed.PlazaId = Convert.ToInt16(dr["PlazaId"]);
 
-            if (dr["ControlRoomName"] != DBNull.Value)
-                ed.ControlRoomName = Convert.ToString(dr["ControlRoomName"]);
+            if (dr["PlazaName"] != DBNull.Value)
+                ed.PlazaName = Convert.ToString(dr["PlazaName"]);
 
-            if (dr["PackageId"] != DBNull.Value)
-                ed.PackageId = Convert.ToInt16(dr["PackageId"]);
+            if (dr["LaneId"] != DBNull.Value)
+                ed.LaneId = Convert.ToInt16(dr["LaneId"]);
 
-            if (dr["PackageName"] != DBNull.Value)
-                ed.PackageName = Convert.ToString(dr["PackageName"]);
-
-            if (dr["SystemId"] != DBNull.Value)
-                ed.SystemId = Convert.ToInt16(dr["SystemId"]);
-
-            if (dr["SystemName"] != DBNull.Value)
-                ed.SystemName = Convert.ToString(dr["SystemName"]);
+            if (dr["LaneNumber"] != DBNull.Value)
+                ed.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
 
             if (dr["EquipmentName"] != DBNull.Value)
                 ed.EquipmentName = Convert.ToString(dr["EquipmentName"]);
-
-            if (dr["DirectionId"] != DBNull.Value)
-                ed.DirectionId = Convert.ToInt16(dr["DirectionId"]);
 
             if (dr["IpAddress"] != DBNull.Value)
                 ed.IpAddress = Convert.ToString(dr["IpAddress"]);
@@ -201,18 +144,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["Password"] != DBNull.Value)
                 ed.Password = Convert.ToString(dr["Password"]);
 
-            if (dr["ChainageNumber"] != DBNull.Value)
-            {
-                ed.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-                ed.ChainageName = ed.ChainageNumber.ToString().Replace(".", "+");
-            }
-
-            if (dr["Latitude"] != DBNull.Value)
-                ed.Latitude = Convert.ToDecimal(dr["Latitude"]);
-
-            if (dr["Longitude"] != DBNull.Value)
-                ed.Longitude = Convert.ToDecimal(dr["Longitude"]);
-
             if (dr["MacAddress"] != DBNull.Value)
                 ed.MacAddress = Convert.ToString(dr["MacAddress"]);
 
@@ -222,11 +153,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["SerialNumber"] != DBNull.Value)
                 ed.SerialNumber = Convert.ToString(dr["SerialNumber"]);
 
-            if (dr["ManufacturerDetail"] != DBNull.Value)
-                ed.ManufacturerDetail = Convert.ToString(dr["ManufacturerDetail"]);
+            if (dr["ManufactureId"] != DBNull.Value)
+                ed.ManufactureId = Convert.ToInt16(dr["ManufactureId"]);
 
-            if (dr["VendorDetail"] != DBNull.Value)
-                ed.VendorDetail = Convert.ToString(dr["VendorDetail"]);
+            if (dr["ManufactureName"] != DBNull.Value)
+                ed.ManufactureName = Convert.ToString(dr["ManufactureName"]);
 
             if (dr["ManufacturerDate"] != DBNull.Value)
                 ed.ManufacturerDate = Convert.ToDateTime(dr["ManufacturerDate"]);
@@ -273,15 +204,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ProtocolTypeId"] != DBNull.Value)
                 ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
 
-            ed.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)ed.DataStatus);
-            ed.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)ed.DirectionId);
-            ed.EquipmentCategoryTypeName = Enum.GetName(typeof(SystemConstants.EquipmentCategoryType), (SystemConstants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
-            ed.EquipmentConnectionTypeName = Enum.GetName(typeof(SystemConstants.EquipmentConnectionType), (SystemConstants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
-            ed.ProtocolTypeName = Enum.GetName(typeof(SystemConstants.ConnectionProtocolType), (SystemConstants.ConnectionProtocolType)ed.ProtocolTypeId);
+            ed.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)ed.DataStatus);
+            ed.EquipmentCategoryTypeName = Enum.GetName(typeof(CommonLibrary.Constants.EquipmentCategoryType), (CommonLibrary.Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);
+            ed.EquipmentConnectionTypeName = Enum.GetName(typeof(CommonLibrary.Constants.EquipmentConnectionType), (CommonLibrary.Constants.EquipmentConnectionType)ed.EquipmentConnectionTypeId);
+            ed.ProtocolTypeName = Enum.GetName(typeof(CommonLibrary.Constants.ConnectionProtocolType), (CommonLibrary.Constants.ConnectionProtocolType)ed.ProtocolTypeId);
             return ed;
         }
-
-       
         #endregion
     }
 }
