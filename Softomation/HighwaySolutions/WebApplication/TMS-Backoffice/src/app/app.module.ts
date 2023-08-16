@@ -50,6 +50,8 @@ import { LaneConfigurationComponent } from './pages/configurations/Lane/lane-con
 import { LaneConfigurationPopupComponent } from './pages/configurations/Lane/lane-configuration-popup/lane-configuration-popup.component';
 import { EquipmentManufactureMasterComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
 import { EquipmentManufacturePopupComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-popup/equipment-manufacture-popup.component';
+import { EquipmentMasterComponent } from './pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
+import { EquipmentMasterPopupComponent } from './pages/configurations/EquipmentMaster/equipment-master-popup/equipment-master-popup.component';
 import { VehicleClassConfigurationComponent } from './pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
 import { VehicleClassPopupComponent } from './pages/configurations/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
 
@@ -92,6 +94,8 @@ export const MY_CUSTOM_FORMATS = {
     LaneConfigurationPopupComponent,
     EquipmentManufactureMasterComponent,    
     EquipmentManufacturePopupComponent,
+    EquipmentMasterComponent,
+    EquipmentMasterPopupComponent,
     VehicleClassConfigurationComponent,
     VehicleClassPopupComponent
   ],

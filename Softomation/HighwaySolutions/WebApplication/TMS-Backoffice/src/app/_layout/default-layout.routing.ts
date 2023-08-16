@@ -6,6 +6,7 @@ import { PlzaConfigurationComponent } from '../pages/configurations/Plaza/plza-c
 import { LaneConfigurationComponent } from '../pages/configurations/Lane/lane-configuration/lane-configuration.component';
 import { EquipmentManufactureMasterComponent } from '../pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
 import { VehicleClassConfigurationComponent } from '../pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
+import { EquipmentMasterComponent } from '../pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -13,6 +14,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'plazaMaster', component: PlzaConfigurationComponent },
     { path: 'laneMaster', component: LaneConfigurationComponent },
     { path: 'equipmentManufacture', component: EquipmentManufactureMasterComponent },
+    { path: 'equipmentMaster', component: EquipmentMasterComponent },
     { path: 'vehicleClass', component: VehicleClassConfigurationComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

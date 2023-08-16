@@ -1,0 +1,301 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <mat-stepper linear #stepper>
+            <mat-step [stepControl]="LocationDetailsForm" [editable]="isEditable">
+                <form [formGroup]="LocationDetailsForm">
+                    <ng-template matStepLabel>Location</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="ControlRoomId">Control Room</label>
+                                <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
+                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
+                                    optionValue="ControlRoomId" placeholder="Select" class="form-control select2"
+                                    (onChange)="ControlChange($event.value)"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ControlRoomId')">Control
+                                    Room is
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="PackageId">Package</label>
+                                <p-dropdown appendTo="body" formControlName="PackageId" inputId="PackageId"
+                                    [options]="PackageFilter" optionLabel="PackageName" optionValue="PackageId"
+                                    placeholder="Select" class="form-control select2"
+                                    ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','PackageId')">Package
+                                    must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="SystemId">System</label>
+                                <p-dropdown appendTo="body" formControlName="SystemId" inputId="SystemId"
+                                    [options]="SystemTypeData" optionLabel="SystemName" optionValue="SystemId"
+                                    placeholder="Select" class="form-control select2"
+                                    ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','SystemId')">System must
+                                    be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="DirectionId">Direction</label>
+                                <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId"
+                                    [options]="DirectionList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','DirectionId')">Direction
+                                    must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="Latitude">Latitude</label>
+                                <input formControlName="Latitude" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','Latitude')">Latitude
+                                    is required.</small>
+                                <small class="p-error" *ngIf="LocationDetailsForm.hasError('pattern','Latitude')">Valid
+                                    Latitude is
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="Longitude">Longitude</label>
+                                <input formControlName="Longitude" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','Longitude')">Longitude
+                                    is
+                                    required.</small>
+                                <small class="p-error" *ngIf="LocationDetailsForm.hasError('pattern','Longitude')">Valid
+                                    Longitude is
+                                    required.</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="Ip">Chainage</label>
+                                <input formControlName="ChainageNumber" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ChainageNumber')">Chainage
+                                    Number
+                                    is required.</small>
+                                <small class="p-error"
+                                    *ngIf="LocationDetailsForm.hasError('pattern','ChainageNumber')">Valid Chainage
+                                    Number is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="EquipmentName">Equipment Name</label>
+                                <input formControlName="EquipmentName" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','EquipmentName')">Equipment
+                                    Name
+                                    is required.</small>
+
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
+                <form [formGroup]="DeviceDetailsForm">
+                    <ng-template matStepLabel>Assets</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="MacAddress">Mac-Address</label>
+                                <input formControlName="MacAddress" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','MacAddress')">Mac-Address
+                                    is required.</small>
+                                <small class="p-error" *ngIf="DeviceDetailsForm.hasError('pattern','MacAddress')">Valid
+                                    Mac-Address is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ModelNumber">Model Number</label>
+                                <input formControlName="ModelNumber" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','ModelNumber')">Model
+                                    Number
+                                    is required.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="SerialNumber">Serial Number</label>
+                                <input formControlName="SerialNumber" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','SerialNumber')">Serial
+                                    Number
+                                    is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ManufacturerDetail">Manufacturer Detail</label>
+                                <input formControlName="ManufacturerDetail" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','ManufacturerDetail')">Manufacturer
+                                    Detail
+                                    is required.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="VendorDetail">Vendor Detail</label>
+                                <input formControlName="VendorDetail" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','VendorDetail')">Vendor
+                                    Detail
+                                    is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ManufacturerDate">Manufacturer Date</label>
+                                <p-calendar class="form-control custom-cal" formControlName="ManufacturerDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','ManufacturerDate')">Manufacturer
+                                    Date must be selected.</small>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="PurchageDate">Purchage Date</label>
+                                <p-calendar class="form-control custom-cal" formControlName="PurchageDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','PurchageDate')">Purchage
+                                    Date must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="WarrantyExpireDate">Warranty Expire Date</label>
+                                <p-calendar class="form-control custom-cal" formControlName="WarrantyExpireDate"
+                                    [showIcon]="true" appendTo="body" dateFormat="dd-M-yy"></p-calendar>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','WarrantyExpireDate')">Account
+                                    Date must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="formCheck2"
+                                        formControlName="DataStatus">
+                                    <label class="form-check-label" for="formCheck2">
+                                        Status
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="DeviceCommunicationForm" [editable]="isEditable">
+                <form [formGroup]="DeviceCommunicationForm">
+                    <ng-template matStepLabel>Connection</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="EquipmentTypeId">Equipment Type</label>
+                                <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
+                                    [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
+                                    optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
+                                    ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
+                                    Type must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ProtocolTypeId">Protocol Type</label>
+                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
+                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
+                                    Type must be selected.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                                <label class="form-label" for="IpAddress">IP-Address</label>
+                                <input formControlName="IpAddress" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','IpAddress')">IP-Address
+                                    must be required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','IpAddress')">Vaild
+                                    IP-Address must be required.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                                <label class="form-label" for="PortNumber">Port Number</label>
+                                <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','PortNumber')">Port
+                                    Number
+                                    must be required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','PortNumber')">Vaild
+                                    Port Number must be required.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                                <label class="form-label" for="ComPort">Com Port</label>
+                                <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
+                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
+                                    Port must be selected.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                                <label class="form-label" for="BaudRate">Baud Rate</label>
+                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
+                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                                    class="form-control select2" ></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
+                                    must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="LoginId">Login Id</label>
+                                <input formControlName="LoginId" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginId')">Login Id
+                                    must be required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="Password">Password</label>
+                                <input formControlName="Password" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','Password')">Password
+                                    must be required.</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-stepper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="goBack()" *ngIf="selectedIndex>0">{{btn1}}</button>
+        <button type="button" class="btn btn-success" (click)="goForward($event)">{{btnMain}}</button>
+    </div>
+</div>
