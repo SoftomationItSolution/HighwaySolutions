@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="javascript:void(0);" (click)="SaveDetails()" class="btn btn-success mb-2">
+                        <i class="mdi mdi-content-save-all-outline me-2"></i> Save changes
+                    </a>
+                    <div class="dropdown d-inline-block float-right">
+                        <span class="p-input-icon-left">
+                            <i class="mdi mdi-text-box-search-outline"></i>
+                            <input type="text" pInputText class="form-control"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtableheight listtablepadding">
+                    <p-table #dt [value]="DevicesData" styleClass="p-datatable-gridlines" columnResizeMode="expand"
+                        columnResizeMode="expand" dataKey="EntryId" editMode="row" [rowHover]="true" [scrollable]="true"
+                        [style]="{'min-width':'1100px'}" [scrollHeight]="'calc(100vh - 110px)'"
+                        styleClass="p-datatable-striped p-datatable-gridlines"
+                        [globalFilterFields]="['JourneyName','ClassName','SubClassName','TransactionTypeName']">
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                                <i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+                                <input type="text" pInputText size="50" placeholder="Filter"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" style="width:auto">
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>S. No.</th>
+                                <th pSortableColumn="TransactionTypeName">Transaction Type <p-sortIcon
+                                        field="TransactionTypeName">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="ClassName">Class Name <p-sortIcon field="ClassName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="TollFare">Toll Fare <p-sortIcon field="TollFare"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="PenaltyFare">Penalty Fare(With OverWeight) <p-sortIcon
+                                        field="PenaltyFare">
+                                    </p-sortIcon>
+                                </th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($any($event.target).value, 'TransactionTypeName', 'contains')"
+                                        placeholder="Search by Transaction" class="p-column-filter">
+                                </th>
+                                <th>
+                                    <input pInputText type="text"
+                                        (input)="dt.filter($any($event.target).value, 'ClassName', 'contains')"
+                                        placeholder="Search by Class" class="p-column-filter">
+                                </th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing"
+                            let-ri="rowIndex">
+                            <tr style="font-size: 10px;" [pEditableRow]="rowData">
+                                <td>{{ri+1}}</td>
+                                <td>{{rowData.TransactionTypeName}}</td>
+                                <td>{{rowData.ClassName}}</td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <input inputNumber type="number" [(ngModel)]="rowData.TollFare">
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            &#8377; {{rowData.TollFare==null?0:rowData.TollFare}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber [(ngModel)]="rowData.PenaltyFare" prefix="&#8377; "
+                                                mode="decimal">
+                                            </p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            &#8377; {{rowData.PenaltyFare}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

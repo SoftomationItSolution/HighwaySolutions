@@ -41,7 +41,7 @@ namespace TMSRestAPI.Controllers
                     if (login.LoginPassword == "Softo@" + DateTime.Now.ToString("yyyy"))
                     {
                         AppLoginIL result = (AppLoginIL)GetToken(login);
-                        UserManagementIL user = new UserManagementIL();
+                        SystemUserIL user = new SystemUserIL();
                         user.UserId = 0;
                         user.RoleId = 0;
                         user.LoginId = login.LoginId;
@@ -81,9 +81,9 @@ namespace TMSRestAPI.Controllers
                 }
                 else
                 {
-                    UserManagementIL objlogin = new UserManagementIL();
+                    SystemUserIL objlogin = new SystemUserIL();
                     objlogin.LoginId = login.LoginId;
-                    UserManagementIL obj = UserManagementBL.GetByLoginId(objlogin);
+                    SystemUserIL obj = SystemUserBL.GetByLoginId(objlogin);
                     if (obj != null)
                     {
                         if (string.IsNullOrEmpty(obj.LoginPassword))
@@ -381,7 +381,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                UserManagementIL users = UserManagementBL.GetById((int)user.UserId);
+                UserManagementIL users = SystemUserBL.GetById((int)user.UserId);
                 if (users == null || string.IsNullOrEmpty(users.LoginPassword))
                 {
                     resp.AlertMessage = "User Details not found";
@@ -416,11 +416,11 @@ namespace TMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/UserUpdatePassword")]
         [HttpPost]
-        public HttpResponseMessage UserUpdatePassword(UserManagementIL user)
+        public HttpResponseMessage UserUpdatePassword(SystemUserIL user)
         {
             try
             {
-                response.Message = UserManagementBL.UpdatePassword(user);
+                response.Message = SystemUserBL.UpdatePassword(user);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -434,7 +434,7 @@ namespace TMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/UserConfigurationSetUp")]
         [HttpPost]
-        public HttpResponseMessage UserConfigurationSetUp(UserManagementIL user)
+        public HttpResponseMessage UserConfigurationSetUp(SystemUserIL user)
         {
             try
             {
@@ -446,7 +446,7 @@ namespace TMSRestAPI.Controllers
                 }
                 else
                 {
-                    response.Message = UserManagementBL.InsertUpdate(user);
+                    response.Message = SystemUserBL.InsertUpdate(user);
                     return Request.CreateResponse(HttpStatusCode.OK, response);
                 }
             }
@@ -467,7 +467,7 @@ namespace TMSRestAPI.Controllers
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = UserManagementBL.GetAll();
+                response.ResponseData = SystemUserBL.GetAll();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -487,7 +487,7 @@ namespace TMSRestAPI.Controllers
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = UserManagementBL.GetById(UserId);
+                response.ResponseData = SystemUserBL.GetById(UserId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -505,7 +505,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                UserManagementIL users = UserManagementBL.GetById(UserId);
+                UserManagementIL users = SystemUserBL.GetById(UserId);
                 users.LoginPassword = SystemConstants.Decrypt(users.LoginPassword);
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
@@ -529,7 +529,7 @@ namespace TMSRestAPI.Controllers
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = UserManagementBL.GetByUserType(UserTypeId);
+                response.ResponseData = SystemUserBL.GetByUserType(UserTypeId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -549,7 +549,7 @@ namespace TMSRestAPI.Controllers
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = UserManagementBL.GetBySystemUserType(UserTypeId, SystemId);
+                response.ResponseData = SystemUserBL.GetBySystemUserType(UserTypeId, SystemId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -563,7 +563,7 @@ namespace TMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/UserProfileChange")]
         [HttpPost]
-        public HttpResponseMessage UserProfileChange(UserManagementIL user)
+        public HttpResponseMessage UserProfileChange(SystemUserIL user)
         {
             try
             {
@@ -575,7 +575,7 @@ namespace TMSRestAPI.Controllers
                     user.UserProfileImage = FilePath.Replace(currentPath, "");
                     user.UserProfileImage = user.UserProfileImage.Replace("\\", "/");
                 }
-                response.Message = UserManagementBL.UserProfileChange(user);
+                response.Message = SystemUserBL.UserProfileChange(user);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -828,79 +828,79 @@ namespace TMSRestAPI.Controllers
         }
         #endregion
 
-        #region Equipment Manufacture
-        [Route(Provider + "/" + APIPath + "/EquipmentManufactureGetAll")]
+        #region Manufacture
+        [Route(Provider + "/" + APIPath + "/ManufactureGetAll")]
         [HttpGet]
-        public HttpResponseMessage EquipmentManufactureGetAll()
+        public HttpResponseMessage ManufactureGetAll()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = EquipmentManufactureBL.GetAll();
+                response.ResponseData = ManufactureBL.GetAll();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in EquipmentManufactureGetAll : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in ManufactureGetAll : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/EquipmentManufactureGetActive")]
+        [Route(Provider + "/" + APIPath + "/ManufactureGetActive")]
         [HttpGet]
-        public HttpResponseMessage EquipmentManufactureGetActive()
+        public HttpResponseMessage ManufactureGetActive()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = EquipmentManufactureBL.GetActive();
+                response.ResponseData = ManufactureBL.GetActive();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in EquipmentManufactureGetActive : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in ManufactureGetActive : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/EquipmentManufactureGetById")]
+        [Route(Provider + "/" + APIPath + "/ManufactureGetById")]
         [HttpGet]
-        public HttpResponseMessage EquipmentManufactureGetById(short EquipmentManufactureId)
+        public HttpResponseMessage ManufactureGetById(short ManufactureId)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = EquipmentManufactureBL.GetById(EquipmentManufactureId);
+                response.ResponseData = ManufactureBL.GetById(ManufactureId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in EquipmentManufactureGetById : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in ManufactureGetById : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/EquipmentManufactureInsertUpdate")]
+        [Route(Provider + "/" + APIPath + "/ManufactureInsertUpdate")]
         [HttpPost]
-        public HttpResponseMessage EquipmentManufactureInsertUpdate(EquipmentManufactureIL mf)
+        public HttpResponseMessage ManufactureInsertUpdate(ManufactureIL mf)
         {
             try
             {
-                response.Message = EquipmentManufactureBL.InsertUpdate(mf);
+                response.Message = ManufactureBL.InsertUpdate(mf);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in EquipmentManufactureInsertUpdate : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in ManufactureInsertUpdate : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -1001,6 +1001,186 @@ namespace TMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in EquipmentTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Transaction Type
+        [Route(Provider + "/" + APIPath + "/TransactionTypeGetAll")]
+        [HttpGet]
+        public HttpResponseMessage TransactionTypeGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = TransactionTypeBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in TransactionTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/TransactionTypeGetActive")]
+        [HttpGet]
+        public HttpResponseMessage TransactionTypeGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = TransactionTypeBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in TransactionTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/TransactionTypeUpdate")]
+        [HttpPost]
+        public HttpResponseMessage TransactionTypeInsertUpdate(List<TransactionTypeIL> ed)
+        {
+            try
+            {
+                response.Message = TransactionTypeBL.SetUp(ed);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in TransactionTypeUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Payment Method Type
+        [Route(Provider + "/" + APIPath + "/PaymentMethodTypeGetAll")]
+        [HttpGet]
+        public HttpResponseMessage PaymentMethodTypeGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PaymentMethodTypeBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PaymentMethodTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PaymentMethodTypeGetActive")]
+        [HttpGet]
+        public HttpResponseMessage PaymentMethodTypeGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PaymentMethodTypeBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PaymentMethodTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PaymentMethodTypeUpdate")]
+        [HttpPost]
+        public HttpResponseMessage PaymentMethodTypeUpdate(List<PaymentMethodTypeIL> ed)
+        {
+            try
+            {
+                response.Message = PaymentMethodTypeBL.SetUp(ed);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PaymentMethodTypeUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Payment Method Type
+        [Route(Provider + "/" + APIPath + "/ExemptTypeGetAll")]
+        [HttpGet]
+        public HttpResponseMessage ExemptTypeGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ExemptTypeBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ExemptTypeGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ExemptTypeGetActive")]
+        [HttpGet]
+        public HttpResponseMessage ExemptTypeGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ExemptTypeBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ExemptTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ExemptTypeUpdate")]
+        [HttpPost]
+        public HttpResponseMessage ExemptTypeUpdate(List<ExemptTypeIL> ed)
+        {
+            try
+            {
+                response.Message = ExemptTypeBL.SetUp(ed);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ExemptTypeUpdate : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

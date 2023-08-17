@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class EquipmentManufactureDL
+    internal class ManufactureDL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_EquipmentManufactureDetails";
+        static string tableName = "tbl_ManufactureDetails";
         #endregion
 
-        internal static List<ResponseIL> InsertUpdate(EquipmentManufactureIL eqMF)
+        internal static List<ResponseIL> InsertUpdate(ManufactureIL eqMF)
         {
             List<ResponseIL> responses = null;
             try
             {
-                string spName = "USP_EquipmentManufactureInsertUpdate";
+                string spName = "USP_ManufactureInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureId", DbType.Int16, eqMF.EquipmentManufactureId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureName", DbType.String, eqMF.EquipmentManufactureName, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureAddress", DbType.String, eqMF.EquipmentManufactureAddress, ParameterDirection.Input,255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureEmailId", DbType.String, eqMF.EquipmentManufactureEmailId, ParameterDirection.Input,100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureMobile", DbType.String, eqMF.EquipmentManufactureMobileNumber, ParameterDirection.Input,20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureId", DbType.Int16, eqMF.ManufactureId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureName", DbType.String, eqMF.ManufactureName, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureAddress", DbType.String, eqMF.ManufactureAddress, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureEmailId", DbType.String, eqMF.ManufactureEmailId, ParameterDirection.Input,100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureMobileNumber", DbType.String, eqMF.ManufactureMobileNumber, ParameterDirection.Input,20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, eqMF.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, eqMF.CreatedBy, ParameterDirection.Input));
@@ -43,13 +42,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
         }
 
         #region Get Methods
-        internal static List<EquipmentManufactureIL> GetAll()
+        internal static List<ManufactureIL> GetAll()
         {
             DataTable dt = new DataTable();
-            List<EquipmentManufactureIL> eqMFList = new List<EquipmentManufactureIL>();
+            List<ManufactureIL> eqMFList = new List<ManufactureIL>();
             try
             {
-                string spName = "USP_EquipmentManufactureGetAll";
+                string spName = "USP_ManufactureGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -63,10 +62,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             return eqMFList;
 
         }
-        internal static List<EquipmentManufactureIL> GetActive()
+        internal static List<ManufactureIL> GetActive()
         {
             DataTable dt = new DataTable();
-            List<EquipmentManufactureIL> eqMFList = new List<EquipmentManufactureIL>();
+            List<ManufactureIL> eqMFList = new List<ManufactureIL>();
             try
             {
                 eqMFList = GetAll();
@@ -78,15 +77,15 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 throw ex;
             }
         }
-        internal static EquipmentManufactureIL GetById(short EquipmentManufactureId)
+        internal static ManufactureIL GetById(short ManufactureId)
         {
             DataTable dt = new DataTable();
-            EquipmentManufactureIL eqM = new EquipmentManufactureIL();
+            ManufactureIL eqM = new ManufactureIL();
             try
             {
-                string spName = "USP_EquipmentManufactureGetbyId";
+                string spName = "USP_ManufactureGetbyId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentManufactureId", DbType.Int32, EquipmentManufactureId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ManufactureId", DbType.Int32, ManufactureId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     eqM = CreateObjectFromDataRow(dr);
@@ -101,24 +100,24 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
         #endregion
 
         #region Helper Methods
-        private static EquipmentManufactureIL CreateObjectFromDataRow(DataRow dr)
+        private static ManufactureIL CreateObjectFromDataRow(DataRow dr)
         {
-            EquipmentManufactureIL eqM = new EquipmentManufactureIL();
+            ManufactureIL eqM = new ManufactureIL();
 
-            if (dr["EquipmentManufactureId"] != DBNull.Value)
-                eqM.EquipmentManufactureId = Convert.ToInt16(dr["EquipmentManufactureId"]);
+            if (dr["ManufactureId"] != DBNull.Value)
+                eqM.ManufactureId = Convert.ToInt16(dr["ManufactureId"]);
 
-            if (dr["EquipmentManufactureName"] != DBNull.Value)
-                eqM.EquipmentManufactureName = Convert.ToString(dr["EquipmentManufactureName"]);
+            if (dr["ManufactureName"] != DBNull.Value)
+                eqM.ManufactureName = Convert.ToString(dr["ManufactureName"]);
 
-            if (dr["EquipmentManufactureAddress"] != DBNull.Value)
-                eqM.EquipmentManufactureAddress = Convert.ToString(dr["EquipmentManufactureAddress"]);
+            if (dr["ManufactureAddress"] != DBNull.Value)
+                eqM.ManufactureAddress = Convert.ToString(dr["ManufactureAddress"]);
 
-            if (dr["EquipmentManufactureEmailId"] != DBNull.Value)
-                eqM.EquipmentManufactureEmailId = Convert.ToString(dr["EquipmentManufactureEmailId"]);
+            if (dr["ManufactureEmailId"] != DBNull.Value)
+                eqM.ManufactureEmailId = Convert.ToString(dr["ManufactureEmailId"]);
 
-            if (dr["EquipmentManufactureMobile"] != DBNull.Value)
-                eqM.EquipmentManufactureMobileNumber = Convert.ToString(dr["EquipmentManufactureMobile"]);
+            if (dr["ManufactureMobileNumber"] != DBNull.Value)
+                eqM.ManufactureMobileNumber = Convert.ToString(dr["ManufactureMobileNumber"]);
 
             if (dr["CreatedDate"] != DBNull.Value)
                 eqM.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);

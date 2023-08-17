@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class UserManagementBL
+    public class SystemUserBL
     {
-        public static List<ResponseIL> InsertUpdate(UserManagementIL user)
+        public static List<ResponseIL> InsertUpdate(SystemUserIL user)
         {
             try
             {
                
-                return UserManagementDL.InsertUpdate(user);
+                return SystemUserDL.InsertUpdate(user);
             }
             catch (Exception ex)
             {
@@ -21,74 +22,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static List<ResponseIL> UpdatePassword(UserManagementIL user)
+        public static List<ResponseIL> UpdatePassword(SystemUserIL user)
         {
             try
             {
-                return UserManagementDL.UpdatePassword(user);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
-
-        public static List<ResponseIL> UserProfileChange(UserManagementIL user)
-        {
-            try
-            {
-                return UserManagementDL.UserProfileChange(user);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public static List<UserManagementIL> GetAll()
-        {
-            try
-            {
-                return UserManagementDL.GetAll();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public static List<UserManagementIL> GetActive()
-        {
-            try
-            {
-                return UserManagementDL.GetActive();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
-        public static UserManagementIL GetById(int EntryId)
-        {
-            try
-            {
-                return UserManagementDL.GetById(EntryId);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
-        public static UserManagementIL GetByLoginId(UserManagementIL login)
-        {
-            try
-            {
-                return UserManagementDL.GetByLoginId(login);
+                return SystemUserDL.UpdatePassword(user);
             }
             catch (Exception ex)
             {
@@ -98,22 +36,85 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 
         }
 
-        public static List<UserManagementIL> GetByUserType(short UserTypeId)
+        public static List<ResponseIL> UserProfileChange(SystemUserIL user)
         {
             try
             {
-                return UserManagementDL.GetByUserType(UserTypeId);
+                return SystemUserDL.UserProfileChange(user);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<UserManagementIL> GetBySystemUserType(short UserTypeId, short SystemId)
+
+        public static List<SystemUserIL> GetAll()
         {
             try
             {
-                return UserManagementDL.GetBySystemUserType(UserTypeId, SystemId);
+                return SystemUserDL.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<SystemUserIL> GetActive()
+        {
+            try
+            {
+                return SystemUserDL.GetActive();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static SystemUserIL GetById(int EntryId)
+        {
+            try
+            {
+                return SystemUserDL.GetById(EntryId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static SystemUserIL GetByLoginId(SystemUserIL login)
+        {
+            try
+            {
+                return SystemUserDL.GetByLoginId(login);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public static List<SystemUserIL> GetByUserType(short UserTypeId)
+        {
+            try
+            {
+                return SystemUserDL.GetByUserType(UserTypeId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static List<SystemUserIL> GetBySystemUserType(short UserTypeId, short SystemId)
+        {
+            try
+            {
+                return SystemUserDL.GetBySystemUserType(UserTypeId, SystemId);
             }
             catch (Exception ex)
             {

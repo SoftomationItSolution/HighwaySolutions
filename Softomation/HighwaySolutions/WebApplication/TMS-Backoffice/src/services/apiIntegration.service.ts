@@ -147,10 +147,10 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId, { headers: headers_object });
   }
 
-  UserConfigurationGetBySystemUserType(UserTypeId: any,SystemId:any): Observable<any> {
+  UserConfigurationGetBySystemUserType(UserTypeId: any, SystemId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId+'&SystemId='+SystemId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId + '&SystemId=' + SystemId, { headers: headers_object });
   }
 
   UserGetByIdWithPassword(UserId: any): Observable<any> {
@@ -255,26 +255,26 @@ export class apiIntegrationService {
   }
   //#endregion
 
-   //#region Equipment Manufacture
-   EquipmentManufactureGetAll(): Observable<any> {
+  //#region Equipment Manufacture
+  EquipmentManufactureGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentManufactureGetAll', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetAll', { headers: headers_object });
   }
   EquipmentManufactureGetActive(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentManufactureGetActive', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetActive', { headers: headers_object });
   }
-  EquipmentManufactureGetById(EquipmentManufactureId: any): Observable<any> {
+  EquipmentManufactureGetById(ManufactureId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentManufactureGetById?EquipmentManufactureId=' + EquipmentManufactureId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetById?ManufactureId=' + ManufactureId, { headers: headers_object });
   }
   EquipmentManufactureInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentManufactureInsertUpdate', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ManufactureInsertUpdate', data, { headers: headers_object });
   }
   //#endregion
 
@@ -308,6 +308,62 @@ export class apiIntegrationService {
   }
   //#endregion
 
+  //#region Transection Type
+  TransactionTypeGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/TransactionTypeGetAll', { headers: headers_object });
+  }
+
+  TransactionTypeGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/TransactionTypeGetActive', { headers: headers_object });
+  }
+  TransactionTypeUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/TransactionTypeUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region Payment Method Type
+  PaymentMethodTypeGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PaymentMethodTypeGetAll', { headers: headers_object });
+  }
+
+  PaymentMethodTypeGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PaymentMethodTypeGetActive', { headers: headers_object });
+  }
+  PaymentMethodTypeUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PaymentMethodTypeUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region Exempt Method Type
+  ExemptTypeGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ExemptTypeGetAll', { headers: headers_object });
+  }
+
+  ExemptTypeGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ExemptTypeGetActive', { headers: headers_object });
+  }
+  ExemptTypeUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ExemptTypeUpdate', data, { headers: headers_object });
+  }
+  //#endregion
 
   //#region  Vehicle Class
   VehicleClassGetById(VehicleClassId: any): Observable<any> {
@@ -606,19 +662,19 @@ export class apiIntegrationService {
   //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
   // }
-  
+
   // VIDSPendingReviewGetByHours(Hours: any): Observable<any> {
   //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
   // }
- 
+
   // VIDSEventsGetByFilter(data: any): Observable<any> {
   //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
   //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
   // }
- 
+
   // VIDSEventReviewed(data: any): Observable<any> {
   //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');

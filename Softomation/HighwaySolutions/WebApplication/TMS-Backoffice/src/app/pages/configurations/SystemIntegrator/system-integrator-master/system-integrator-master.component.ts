@@ -118,5 +118,4 @@ export class SystemIntegratorMasterComponent implements OnInit {
       this.dm.openSnackBar(this.ErrorData, false);
     }
   }
-
 }

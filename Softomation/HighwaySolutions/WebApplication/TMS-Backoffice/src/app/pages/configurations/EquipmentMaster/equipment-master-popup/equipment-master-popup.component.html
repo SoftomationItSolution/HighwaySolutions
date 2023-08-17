@@ -13,47 +13,23 @@
                     <div class="equipment-form-data">
                         <div class="row">
                             <div class="col-md-6">
-                                <label for="ControlRoomId">Control Room</label>
-                                <p-dropdown appendTo="body" formControlName="ControlRoomId" inputId="ControlRoomId"
-                                    [options]="ControlRoomData" optionLabel="ControlRoomName"
-                                    optionValue="ControlRoomId" placeholder="Select" class="form-control select2"
-                                    (onChange)="ControlChange($event.value)"></p-dropdown>
+                                <label for="PlazaId">Plaza</label>
+                                <p-dropdown appendTo="body" formControlName="PlazaId" inputId="PlazaId"
+                                    [options]="PlazaList" optionLabel="PlazaName" optionValue="PlazaId"
+                                    placeholder="Select" class="form-control select2"
+                                    (onChange)="PlazaChange($event.value)"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ControlRoomId')">Control
-                                    Room is
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','PlazaId')">Plaza is
                                     required.</small>
                             </div>
                             <div class="col-md-6">
-                                <label for="PackageId">Package</label>
-                                <p-dropdown appendTo="body" formControlName="PackageId" inputId="PackageId"
-                                    [options]="PackageFilter" optionLabel="PackageName" optionValue="PackageId"
-                                    placeholder="Select" class="form-control select2"
-                                    ></p-dropdown>
+                                <label for="LaneId">Lane</label>
+                                <p-dropdown appendTo="body" formControlName="LaneId" inputId="LaneId"
+                                    [options]="LaneFilter" optionLabel="LaneNumber" optionValue="LaneId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && LocationDetailsForm.hasError('required','PackageId')">Package
-                                    must be selected.</small>
-                            </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="SystemId">System</label>
-                                <p-dropdown appendTo="body" formControlName="SystemId" inputId="SystemId"
-                                    [options]="SystemTypeData" optionLabel="SystemName" optionValue="SystemId"
-                                    placeholder="Select" class="form-control select2"
-                                    ></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && LocationDetailsForm.hasError('required','SystemId')">System must
-                                    be selected.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="DirectionId">Direction</label>
-                                <p-dropdown appendTo="body" formControlName="DirectionId" inputId="DirectionId"
-                                    [options]="DirectionList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                    class="form-control select2" ></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && LocationDetailsForm.hasError('required','DirectionId')">Direction
-                                    must be selected.</small>
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','LaneId')">Lane is
+                                    required.</small>
                             </div>
                         </div>
                         <div class="clearfix"></div>
@@ -147,26 +123,20 @@
                                     is required.</small>
                             </div>
                             <div class="col-md-6">
-                                <label for="ManufacturerDetail">Manufacturer Detail</label>
-                                <input formControlName="ManufacturerDetail" type="text" pInputText required
-                                    autocomplete="off" class="form-control" />
+                                <label for="ManufactureId">Manufacturer</label>
+                                <p-dropdown appendTo="body" formControlName="ManufactureId" inputId="ManufactureId"
+                                    [options]="ManufactureList" optionLabel="ManufactureName"
+                                    optionValue="ManufactureId" placeholder="Select"
+                                    class="form-control select2"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','ManufacturerDetail')">Manufacturer
-                                    Detail
-                                    is required.</small>
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ManufactureId')">Manufacturer
+                                    is
+                                    required.</small>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="VendorDetail">Vendor Detail</label>
-                                <input formControlName="VendorDetail" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceDetailsForm.hasError('required','VendorDetail')">Vendor
-                                    Detail
-                                    is required.</small>
-                            </div>
+
                             <div class="col-md-6">
                                 <label for="ManufacturerDate">Manufacturer Date</label>
                                 <p-calendar class="form-control custom-cal" formControlName="ManufacturerDate"
@@ -175,9 +145,6 @@
                                     *ngIf="submitted && DeviceDetailsForm.hasError('required','ManufacturerDate')">Manufacturer
                                     Date must be selected.</small>
                             </div>
-                        </div>
-                        <div class="clearfix"></div>
-                        <div class="row">
                             <div class="col-md-6">
                                 <label for="PurchageDate">Purchage Date</label>
                                 <p-calendar class="form-control custom-cal" formControlName="PurchageDate"
@@ -186,6 +153,9 @@
                                     *ngIf="submitted && DeviceDetailsForm.hasError('required','PurchageDate')">Purchage
                                     Date must be selected.</small>
                             </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <label for="WarrantyExpireDate">Warranty Expire Date</label>
                                 <p-calendar class="form-control custom-cal" formControlName="WarrantyExpireDate"
@@ -217,7 +187,7 @@
                                 <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
                                     [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
                                     optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
-                                    ></p-dropdown>
+                                    (onChange)="EquipmentTypeChnage($event.value)"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
                                     Type must be selected.</small>
@@ -225,8 +195,8 @@
                             <div class="col-md-6">
                                 <label for="ProtocolTypeId">Protocol Type</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                    class="form-control select2" ></p-dropdown>
+                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
                                     Type must be selected.</small>
@@ -257,8 +227,8 @@
                             <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                                 <label class="form-label" for="ComPort">Com Port</label>
                                 <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
-                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                    class="form-control select2" ></p-dropdown>
+                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
                                     Port must be selected.</small>
@@ -266,8 +236,8 @@
                             <div class="col-md-6" *ngIf="ConnectionTypeId===2">
                                 <label class="form-label" for="BaudRate">Baud Rate</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                    class="form-control select2" ></p-dropdown>
+                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
                                     must be selected.</small>
@@ -281,11 +251,11 @@
                                     must be required.</small>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="Password">Password</label>
-                                <input formControlName="Password" type="text" pInputText required autocomplete="off"
+                                <label class="form-label" for="LoginPassword">Password</label>
+                                <input formControlName="LoginPassword" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
                                 <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','Password')">Password
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginPassword')">Password
                                     must be required.</small>
                             </div>
                         </div>

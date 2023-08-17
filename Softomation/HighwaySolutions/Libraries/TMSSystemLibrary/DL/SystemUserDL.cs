@@ -4,16 +4,17 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class UserManagementDL
+    internal class SystemUserDL
     {
         #region Global Varialble
         static DataTable dt;
         static string tableName = "tbl_UserMaster";
         #endregion
-        internal static List<ResponseIL> InsertUpdate(UserManagementIL user)
+        internal static List<ResponseIL> InsertUpdate(SystemUserIL user)
         {
             List<ResponseIL> responses = null;
             try
@@ -29,6 +30,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EmailId", DbType.String, user.EmailId.Trim(), ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MobileNumber", DbType.String, user.MobileNumber.Trim(), ParameterDirection.Input, 30));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AccountExpiredDate", DbType.Date, user.AccountExpiredDate, ParameterDirection.Input, 30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaId", DbType.Int32, user.PlazaId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserTypeId", DbType.Int32, user.UserTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RoleId", DbType.Int32, user.RoleId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, user.DataStatus, ParameterDirection.Input));
@@ -43,7 +45,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return responses;
         }
-        internal static List<ResponseIL> UpdatePassword(UserManagementIL user)
+        internal static List<ResponseIL> UpdatePassword(SystemUserIL user)
         {
             List<ResponseIL> responses = null;
             try
@@ -63,7 +65,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return responses;
         }
-        internal static List<ResponseIL> UserProfileChange(UserManagementIL user)
+        internal static List<ResponseIL> UserProfileChange(SystemUserIL user)
         {
             List<ResponseIL> responses = null;
             try
@@ -82,10 +84,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             return responses;
         }
         #region Get Methods
-        internal static List<UserManagementIL> GetAll()
+        internal static List<SystemUserIL> GetAll()
         {
             DataTable dt = new DataTable();
-            List<UserManagementIL> users = new List<UserManagementIL>();
+            List<SystemUserIL> users = new List<SystemUserIL>();
             try
             {
                 string spName = "USP_UserGetAll";
@@ -100,9 +102,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return users;
         }
-        internal static List<UserManagementIL> GetActive()
+        internal static List<SystemUserIL> GetActive()
         {
-            List<UserManagementIL> usersList = new List<UserManagementIL>();
+            List<SystemUserIL> usersList = new List<SystemUserIL>();
             try
             {
                 usersList = GetAll();
@@ -114,10 +116,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
 
         }
-        internal static UserManagementIL GetById(Int32 UserId)
+        internal static SystemUserIL GetById(Int32 UserId)
         {
             DataTable dt = new DataTable();
-            UserManagementIL user = new UserManagementIL();
+            SystemUserIL user = new SystemUserIL();
             try
             {
                 string spName = "USP_UserGetbyId";
@@ -133,10 +135,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return user;
         }
-        internal static UserManagementIL GetByLoginId(UserManagementIL login)
+        internal static SystemUserIL GetByLoginId(SystemUserIL login)
         {
             DataTable dt = new DataTable();
-            UserManagementIL account = new UserManagementIL();
+            SystemUserIL account = new SystemUserIL();
             try
             {
                 string spName = "USP_UsersGetByLoginId";
@@ -153,10 +155,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             return account;
         }
 
-        internal static List<UserManagementIL> GetByUserType(short UserTypeId)
+        internal static List<SystemUserIL> GetByUserType(short UserTypeId)
         {
             DataTable dt = new DataTable();
-            List<UserManagementIL> users = new List<UserManagementIL>();
+            List<SystemUserIL> users = new List<SystemUserIL>();
             try
             {
                 string spName = "USP_UserGetByUserTypeId";
@@ -173,10 +175,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             return users;
         }
 
-        internal static List<UserManagementIL> GetBySystemUserType(short UserTypeId, short SystemId)
+        internal static List<SystemUserIL> GetBySystemUserType(short UserTypeId, short SystemId)
         {
             DataTable dt = new DataTable();
-            List<UserManagementIL> users = new List<UserManagementIL>();
+            List<SystemUserIL> users = new List<SystemUserIL>();
             try
             {
                 string spName = "USP_UserGetBySystemUserTypeId";
@@ -196,9 +198,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
         #endregion
 
         #region Helper Methods
-        private static UserManagementIL CreateObjectFromDataRow(DataRow dr)
+        private static SystemUserIL CreateObjectFromDataRow(DataRow dr)
         {
-            UserManagementIL user = new UserManagementIL();
+            SystemUserIL user = new SystemUserIL();
 
             if (dr["UserId"] != DBNull.Value)
                 user.UserId = Convert.ToInt64(dr["UserId"]);
@@ -224,9 +226,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["MobileNumber"] != DBNull.Value)
                 user.MobileNumber = Convert.ToString(dr["MobileNumber"]);
 
-            if (dr["RoleId"] != DBNull.Value)
-                user.RoleId = Convert.ToInt32(dr["RoleId"]);
-
             if (dr["UserTypeId"] != DBNull.Value)
                 user.UserTypeId = Convert.ToInt16(dr["UserTypeId"]);
 
@@ -234,9 +233,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 user.UserProfileImage = Convert.ToString(dr["UserProfileImage"]);
             else
                 user.UserProfileImage = "/User/ProfileImage/avatar-7.jpg";
+            
+            if (dr["RoleId"] != DBNull.Value)
+                user.RoleId = Convert.ToInt32(dr["RoleId"]);
 
             if (dr["RoleName"] != DBNull.Value)
                 user.RoleName = Convert.ToString(dr["RoleName"]);
+
+            if (dr["PlazaId"] != DBNull.Value)
+                user.PlazaId = Convert.ToInt16(dr["PlazaId"]);
+
+            if (dr["PlazaName"] != DBNull.Value)
+                user.PlazaName = Convert.ToString(dr["PlazaName"]);
 
             if (dr["CreatedDate"] != DBNull.Value)
                 user.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);

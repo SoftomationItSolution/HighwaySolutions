@@ -16,7 +16,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String ipAddress;
         Int64 portNumber;
         String loginId;
-        String password;
+        String loginPassword;
         Int32 manufactureId;
         String manufactureName;
         String macAddress;
@@ -40,7 +40,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             ipAddress = string.Empty;
             portNumber = 0;
             loginId = string.Empty;
-            password = string.Empty;
+            loginPassword = string.Empty;
             macAddress = string.Empty;
             modelNumber = string.Empty;
             serialNumber = string.Empty;
@@ -184,16 +184,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 loginId = value;
             }
         }
-        public String Password
+        public String LoginPassword
         {
             get
             {
-                return password;
+                return loginPassword;
             }
 
             set
             {
-                password = value;
+                loginPassword = value;
             }
         }
         public String MacAddress

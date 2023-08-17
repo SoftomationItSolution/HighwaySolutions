@@ -7,13 +7,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class EquipmentManufactureBL
+    public class ManufactureBL
     {
-        public static List<ResponseIL> InsertUpdate(EquipmentManufactureIL eqMF)
+        public static List<ResponseIL> InsertUpdate(ManufactureIL eqMF)
         {
             try
             {
-                return EquipmentManufactureDL.InsertUpdate(eqMF);
+                return ManufactureDL.InsertUpdate(eqMF);
             }
             catch (Exception ex)
             {
@@ -22,11 +22,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static List<EquipmentManufactureIL> GetAll()
+        public static List<ManufactureIL> GetAll()
         {
             try
             {
-                return EquipmentManufactureDL.GetAll();
+                return ManufactureDL.GetAll();
             }
             catch (Exception ex)
             {
@@ -35,11 +35,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static List<EquipmentManufactureIL> GetActive()
+        public static List<ManufactureIL> GetActive()
         {
             try
             {
-                return EquipmentManufactureDL.GetActive();
+                return ManufactureDL.GetActive();
             }
             catch (Exception ex)
             {
@@ -48,11 +48,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static EquipmentManufactureIL GetById(short EquipmentManufactureId)
+        public static ManufactureIL GetById(short ManufactureId)
         {
             try
             {
-                return EquipmentManufactureDL.GetById(EquipmentManufactureId);
+                return ManufactureDL.GetById(ManufactureId);
             }
             catch (Exception ex)
             {

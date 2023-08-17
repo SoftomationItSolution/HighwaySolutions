@@ -9,45 +9,42 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="EquipmentManufactureName">Equipment Manufacture Name</label>
-                    <input formControlName="EquipmentManufactureName" type="text" pInputText required autofocus
+                    <label for="ManufactureName">Manufacture Name</label>
+                    <input formControlName="ManufactureName" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureName')">Equipment Manufacture Name is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureName')">Manufacture Name is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="EquipmentManufactureAddress">Equipment Manufacture Address</label>
-                    <input formControlName="EquipmentManufactureAddress" type="text" pInputText required autofocus
+                    <label for="ManufactureAddress">Manufacture Address</label>
+                    <input formControlName="ManufactureAddress" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureAddress')">Equipment Manufacture Address is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureAddress')">Manufacture Address is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="EquipmentManufactureEmailId">Equipment Manufacture EmailId</label>
-                    <input formControlName="EquipmentManufactureEmailId" type="text" pInputText required autofocus
+                    <label for="ManufactureEmailId">Manufacture EmailId</label>
+                    <input formControlName="ManufactureEmailId" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureEmailId')">Equipment Manufacture Email id is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureEmailId')">Manufacture Email id is
                         required.</small>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('pattern','EquipmentManufactureEmailId')">Vaild
-                        Equipment Manufacture Email Id is
-                        required.</small>
+                        Manufacture Email Id is required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="EquipmentManufactureMobileNumber">Equipment Manufacture Mobile</label>
-                    <input formControlName="EquipmentManufactureMobileNumber" type="text" pInputText required autofocus
+                    <label for="ManufactureMobileNumber">Manufacture Mobile</label>
+                    <input formControlName="ManufactureMobileNumber" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentManufactureMobileNumber')">Equipment Manufacture Mobile Number is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureMobileNumber')">Manufacture Mobile Number is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EquipmentManufactureMobileNumber')">Vaild
-                        Equipment Manufacture Mobile Number
-                        is
-                        required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','ManufactureMobileNumber')">Vaild
+                        Manufacture Mobile Number is required.</small>
                 </div>
             </div>
             <div class="row">

@@ -15,7 +15,7 @@ export class EquipmentManufacturePopupComponent implements OnInit {
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  EquipmentManufactureId: number = 0;
+  ManufactureId: number = 0;
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
@@ -23,20 +23,20 @@ export class EquipmentManufacturePopupComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<EquipmentManufacturePopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();
-    this.EquipmentManufactureId = parentData.EquipmentManufactureId;
+    this.ManufactureId = parentData.ManufactureId;
   }
 
   ngOnInit(): void {
     this.PageTitle = "Create System Integrator Details";
     this.DataDetailsForm = new FormGroup({
-      EquipmentManufactureId: new FormControl(this.EquipmentManufactureId, [Validators.required]),
-      EquipmentManufactureName: new FormControl('', [Validators.required, Validators.pattern(regExps["AlphaNumericSingleSpace"])]),
-      EquipmentManufactureEmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
-      EquipmentManufactureMobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
-      EquipmentManufactureAddress: new FormControl('', [Validators.required]),
+      ManufactureId: new FormControl(this.ManufactureId, [Validators.required]),
+      ManufactureName: new FormControl('', [Validators.required, Validators.pattern(regExps["AlphaNumericSingleSpace"])]),
+      ManufactureEmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
+      ManufactureMobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
+      ManufactureAddress: new FormControl('', [Validators.required]),
       DataStatus: new FormControl(true),
     });
-    if (this.EquipmentManufactureId > 0) {
+    if (this.ManufactureId > 0) {
       this.PageTitle = "Update System Integrator Details";
       this.DetailsbyId();
     }
@@ -44,17 +44,17 @@ export class EquipmentManufacturePopupComponent implements OnInit {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.EquipmentManufactureGetById(this.EquipmentManufactureId).subscribe(
+    this.dbService.EquipmentManufactureGetById(this.ManufactureId).subscribe(
       data => {
         this.spinner.hide();
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
-          this.DataDetailsForm.controls['EquipmentManufactureId'].setValue(DetailData.EquipmentManufactureId);
-          this.DataDetailsForm.controls['EquipmentManufactureName'].setValue(DetailData.EquipmentManufactureName);
-          this.DataDetailsForm.controls['EquipmentManufactureAddress'].setValue(DetailData.EquipmentManufactureAddress);
-          this.DataDetailsForm.controls['EquipmentManufactureMobileNumber'].setValue(DetailData.EquipmentManufactureMobileNumber);
-          this.DataDetailsForm.controls['EquipmentManufactureEmailId'].setValue(DetailData.EquipmentManufactureEmailId);
+          this.DataDetailsForm.controls['ManufactureId'].setValue(DetailData.ManufactureId);
+          this.DataDetailsForm.controls['ManufactureName'].setValue(DetailData.ManufactureName);
+          this.DataDetailsForm.controls['ManufactureAddress'].setValue(DetailData.ManufactureAddress);
+          this.DataDetailsForm.controls['ManufactureMobileNumber'].setValue(DetailData.ManufactureMobileNumber);
+          this.DataDetailsForm.controls['ManufactureEmailId'].setValue(DetailData.ManufactureEmailId);
           if (DetailData.DataStatus == 1)
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
           else
@@ -82,11 +82,11 @@ export class EquipmentManufacturePopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      EquipmentManufactureId: this.EquipmentManufactureId,
-      EquipmentManufactureName: this.DataDetailsForm.value.EquipmentManufactureName,
-      EquipmentManufactureAddress: this.DataDetailsForm.value.EquipmentManufactureAddress,
-      EquipmentManufactureMobileNumber: this.DataDetailsForm.value.EquipmentManufactureMobileNumber,
-      EquipmentManufactureEmailId: this.DataDetailsForm.value.EquipmentManufactureEmailId,
+      ManufactureId: this.ManufactureId,
+      ManufactureName: this.DataDetailsForm.value.ManufactureName,
+      ManufactureAddress: this.DataDetailsForm.value.ManufactureAddress,
+      ManufactureMobileNumber: this.DataDetailsForm.value.ManufactureMobileNumber,
+      ManufactureEmailId: this.DataDetailsForm.value.ManufactureEmailId,
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId

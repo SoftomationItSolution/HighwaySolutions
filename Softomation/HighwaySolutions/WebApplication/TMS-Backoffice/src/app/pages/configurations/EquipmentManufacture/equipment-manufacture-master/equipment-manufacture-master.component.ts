@@ -81,7 +81,7 @@ export class EquipmentManufactureMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '329px';
-      dialogConfig.data = { action: 'Save', EquipmentManufactureId: 0 };
+      dialogConfig.data = { action: 'Save', ManufactureId: 0 };
       const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -104,7 +104,7 @@ export class EquipmentManufactureMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '329px';
-      dialogConfig.data = { action: 'Update', EquipmentManufactureId: data.EquipmentManufactureId };
+      dialogConfig.data = { action: 'Update', ManufactureId: data.ManufactureId };
       const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

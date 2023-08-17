@@ -30,7 +30,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IpAddress", DbType.String, ed.IpAddress, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PortNumber", DbType.Int64, ed.PortNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, ed.LoginId, ParameterDirection.Input, 50));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Password", DbType.String, ed.Password, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginPassword", DbType.String, ed.LoginPassword, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input, 100));
@@ -39,8 +39,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PurchageDate", DbType.Date, ed.PurchageDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WarrantyExpireDate", DbType.Date, ed.WarrantyExpireDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, ed.DataStatus, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, ed.CreatedBy, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ed.CreatedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, ed.ModifiedBy, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
             }
@@ -141,8 +143,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["LoginId"] != DBNull.Value)
                 ed.LoginId = Convert.ToString(dr["LoginId"]);
 
-            if (dr["Password"] != DBNull.Value)
-                ed.Password = Convert.ToString(dr["Password"]);
+            if (dr["LoginPassword"] != DBNull.Value)
+                ed.LoginPassword = Convert.ToString(dr["LoginPassword"]);
 
             if (dr["MacAddress"] != DBNull.Value)
                 ed.MacAddress = Convert.ToString(dr["MacAddress"]);
@@ -168,6 +170,24 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["WarrantyExpireDate"] != DBNull.Value)
                 ed.WarrantyExpireDate = Convert.ToDateTime(dr["WarrantyExpireDate"]);
 
+            if (dr["EquipmentTypeId"] != DBNull.Value)
+                ed.EquipmentTypeId = Convert.ToInt16(dr["EquipmentTypeId"]);
+
+            if (dr["EquipmentTypeName"] != DBNull.Value)
+                ed.EquipmentTypeName = Convert.ToString(dr["EquipmentTypeName"]);
+
+            if (dr["EquipmentCategoryTypeId"] != DBNull.Value)
+                ed.EquipmentCategoryTypeId = Convert.ToInt16(dr["EquipmentCategoryTypeId"]);
+
+            if (dr["EquipmentConnectionTypeId"] != DBNull.Value)
+                ed.EquipmentConnectionTypeId = Convert.ToInt16(dr["EquipmentConnectionTypeId"]);
+
+            if (dr["EquipmentIconName"] != DBNull.Value)
+                ed.EquipmentIconName = Convert.ToString(dr["EquipmentIconName"]);
+
+            if (dr["ProtocolTypeId"] != DBNull.Value)
+                ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
+
             if (dr["OnLineStatus"] != DBNull.Value)
                 ed.OnLineStatus = Convert.ToBoolean(dr["OnLineStatus"]);
 
@@ -186,23 +206,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["ModifiedBy"] != DBNull.Value)
                 ed.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
 
-            if (dr["EquipmentTypeId"] != DBNull.Value)
-                ed.EquipmentTypeId = Convert.ToInt16(dr["EquipmentTypeId"]);
-
-            if (dr["EquipmentTypeName"] != DBNull.Value)
-                ed.EquipmentTypeName = Convert.ToString(dr["EquipmentTypeName"]);
-
-            if (dr["EquipmentCategoryTypeId"] != DBNull.Value)
-                ed.EquipmentCategoryTypeId = Convert.ToInt16(dr["EquipmentCategoryTypeId"]);
-
-            if (dr["EquipmentConnectionTypeId"] != DBNull.Value)
-                ed.EquipmentConnectionTypeId = Convert.ToInt16(dr["EquipmentConnectionTypeId"]);
-
-            if (dr["EquipmentIconName"] != DBNull.Value)
-                ed.EquipmentIconName = Convert.ToString(dr["EquipmentIconName"]);
-
-            if (dr["ProtocolTypeId"] != DBNull.Value)
-                ed.ProtocolTypeId = Convert.ToInt16(dr["ProtocolTypeId"]);
+            
 
             ed.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)ed.DataStatus);
             ed.EquipmentCategoryTypeName = Enum.GetName(typeof(CommonLibrary.Constants.EquipmentCategoryType), (CommonLibrary.Constants.EquipmentCategoryType)ed.EquipmentCategoryTypeId);

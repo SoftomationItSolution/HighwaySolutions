@@ -7,6 +7,12 @@ import { LaneConfigurationComponent } from '../pages/configurations/Lane/lane-co
 import { EquipmentManufactureMasterComponent } from '../pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
 import { VehicleClassConfigurationComponent } from '../pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
 import { EquipmentMasterComponent } from '../pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
+import { TransectionTypeComponent } from '../pages/configurations/TransactionTypeMaster/transection-type.component';
+import { PaymentTypeComponent } from '../pages/configurations/PaymentTypeMaster/payment-type.component';
+import { ExemptTypeComponent } from '../pages/configurations/ExemptTypeMaster/exempt-type.component';
+import { RoleConfigurationComponent } from '../pages/configurations/RoleData/role-configuration/role-configuration.component';
+import { UserConfigurationComponent } from '../pages/configurations/UserData/user-configuration/user-configuration.component';
+import { FareConfigurationComponent } from '../pages/configurations/FareConfiguration/fare-configuration.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -16,6 +22,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'equipmentManufacture', component: EquipmentManufactureMasterComponent },
     { path: 'equipmentMaster', component: EquipmentMasterComponent },
     { path: 'vehicleClass', component: VehicleClassConfigurationComponent },
+    { path: 'transactionType', component: TransectionTypeComponent },
+    { path: 'paymentMethod', component: PaymentTypeComponent },
+    { path: 'ExemptType', component: ExemptTypeComponent },
+    { path: 'fareMapping', component: FareConfigurationComponent },
+    { path: 'role', component: RoleConfigurationComponent },
+    { path: 'user', component: UserConfigurationComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

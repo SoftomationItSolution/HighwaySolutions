@@ -32,6 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -54,6 +55,18 @@ import { EquipmentMasterComponent } from './pages/configurations/EquipmentMaster
 import { EquipmentMasterPopupComponent } from './pages/configurations/EquipmentMaster/equipment-master-popup/equipment-master-popup.component';
 import { VehicleClassConfigurationComponent } from './pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
 import { VehicleClassPopupComponent } from './pages/configurations/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
+import { TransectionTypeComponent } from './pages/configurations/TransactionTypeMaster/transection-type.component';
+import { PaymentTypeComponent } from './pages/configurations/PaymentTypeMaster/payment-type.component';
+import { ExemptTypeComponent } from './pages/configurations/ExemptTypeMaster/exempt-type.component';
+import { RoleConfigurationComponent } from './pages/configurations/RoleData/role-configuration/role-configuration.component';
+import { RoleConfigurationPopupComponent } from './pages/configurations/RoleData/role-configuration-popup/role-configuration-popup.component';
+import { RolePermissionPopupComponent } from './pages/configurations/RoleData/role-permission-popup/role-permission-popup.component';
+import { UserConfigurationComponent } from './pages/configurations/UserData/user-configuration/user-configuration.component';
+import { UserConfigurationPopupComponent } from './pages/configurations/UserData/user-configuration-popup/user-configuration-popup.component';
+import { ChnagePasswordPopUpComponent } from './pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
+import { UserProfilePopupComponent } from './pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
+import { FareConfigurationComponent } from './pages/configurations/FareConfiguration/fare-configuration.component';
+
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -97,7 +110,18 @@ export const MY_CUSTOM_FORMATS = {
     EquipmentMasterComponent,
     EquipmentMasterPopupComponent,
     VehicleClassConfigurationComponent,
-    VehicleClassPopupComponent
+    VehicleClassPopupComponent,
+    TransectionTypeComponent,
+    PaymentTypeComponent,
+    ExemptTypeComponent,
+    RoleConfigurationComponent,
+    RoleConfigurationPopupComponent,
+    RolePermissionPopupComponent,
+    UserConfigurationComponent,
+    UserConfigurationPopupComponent,
+    ChnagePasswordPopUpComponent,
+    UserProfilePopupComponent,
+    FareConfigurationComponent
   ],
   imports: [
     BrowserModule,
@@ -126,7 +150,8 @@ export const MY_CUSTOM_FORMATS = {
     TabViewModule,
     DragDropModule,
     MultiSelectModule,
-
+    
+    MatIconModule,
     MatRippleModule,
     MatSnackBarModule,
     MatDialogModule,
