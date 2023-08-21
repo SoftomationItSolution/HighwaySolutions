@@ -16,6 +16,7 @@
                 <div class="table-responsive mt-3 listtableheight listtablepadding">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
+                        selectionMode="single" 
                         [globalFilterFields]="['PaymentTypeName','TransactionTypeName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
@@ -29,7 +30,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
+                            <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.PaymentTypeName}}</td>
                                 <td>{{rowData.TransactionTypeName}}</td>

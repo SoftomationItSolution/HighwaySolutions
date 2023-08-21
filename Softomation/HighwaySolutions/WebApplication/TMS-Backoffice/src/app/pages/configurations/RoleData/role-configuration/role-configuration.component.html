@@ -17,7 +17,8 @@
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
-                        [globalFilterFields]="['RoleName','DataStatusName']" scrollHeight="56vh">
+                        selectionMode="single" 
+                        [globalFilterFields]="['RoleName','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
@@ -31,7 +32,7 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
+                            <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.RoleName}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
@@ -55,14 +56,5 @@
                 </div>
             </div>
         </div>
-        <!-- <nav aria-label="Page navigation example" class="float-right">
-            <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-            </ul>
-        </nav> -->
     </div>
 </div>

@@ -2,29 +2,34 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <div>
-                    <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-plus me-2"></i> Add Vehicle Class
-                    </a>
-                    <div class="dropdown d-inline-block float-right">
-                        <span class="p-input-icon-left">
-                            <i class="mdi mdi-text-box-search-outline"></i>
-                            <input type="text" pInputText class="form-control" (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
-                        </span>
+                <div class="row">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="mdi mdi-text-box-search-outline"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
-                        styleClass="table table-centered datatable dt-responsive nowrap"
-                        [globalFilterFields]="['VehicleClassName','VehicleClassDescription','PermissibleWeight','DataStatusName']">
+                        styleClass="table table-centered datatable dt-responsive nowrap" selectionMode="single"
+                        [globalFilterFields]="['FasTagVehicleClassName','FasTagVehicleClassDescription','PermissibleWeight','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
-                                <th>S. No.</th>
-                                <th pSortableColumn="VehicleClassName">Name <p-sortIcon field="VehicleClassName"></p-sortIcon>
+                                <th pSortableColumn="FasTagVehicleClassId">Id <p-sortIcon field="FasTagVehicleClassId"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="VehicleClassDescription">Description <p-sortIcon field="VehicleClassDescription"></p-sortIcon>
+                                <th pSortableColumn="FasTagVehicleClassName">Name <p-sortIcon
+                                        field="FasTagVehicleClassName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="PermissibleWeight">Permissible Weight <p-sortIcon field="PermissibleWeight"></p-sortIcon>
+                                <th pSortableColumn="FasTagVehicleClassDescription">Description <p-sortIcon
+                                        field="FasTagVehicleClassDescription"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="PermissibleWeight">Permissible Weight <p-sortIcon
+                                        field="PermissibleWeight"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
@@ -33,10 +38,10 @@
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{i+1}}</td>
-                                <td>{{rowData.VehicleClassName}}</td>
-                                <td>{{rowData.VehicleClassDescription}}</td>
+                            <tr [pSelectableRow]="rowData">
+                                <td>{{rowData.FasTagVehicleClassId}}</td>
+                                <td>{{rowData.FasTagVehicleClassName}}</td>
+                                <td>{{rowData.FasTagVehicleClassDescription}}</td>
                                 <td>{{rowData.PermissibleWeight}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">

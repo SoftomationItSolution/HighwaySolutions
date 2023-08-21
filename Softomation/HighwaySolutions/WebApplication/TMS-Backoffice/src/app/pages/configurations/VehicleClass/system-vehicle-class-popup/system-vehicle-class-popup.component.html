@@ -9,19 +9,21 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="VehicleClassName">Vehicle Class Name</label>
-                    <input formControlName="VehicleClassName" type="text" pInputText required autofocus
+                    <label for="SystemVehicleClassName">System Vehicle Class Name</label>
+                    <input formControlName="SystemVehicleClassName" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','VehicleClassName')">Vehicle Class Name is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemVehicleClassName')">System
+                        Vehicle Class Name is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="VehicleClassDescription">Vehicle Description</label>
-                    <input formControlName="VehicleClassDescription" type="text" pInputText required autofocus
+                    <label for="SystemVehicleClassDescription">System Vehicle Description</label>
+                    <input formControlName="SystemVehicleClassDescription" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','VehicleClassDescription')">Vehicle Description is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemVehicleClassDescription')">System
+                        Vehicle Description is
                         required.</small>
                 </div>
                 <div class="col-md-6">
@@ -29,12 +31,24 @@
                     <input formControlName="PermissibleWeight" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','PermissibleWeight')">Permissible Weight is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','PermissibleWeight')">Permissible Weight
+                        is
                         required.</small>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('pattern','PermissibleWeight')">Vaild
                         Permissible Weight is
                         required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemSubClassIdList">Sub Class</label>
+                    <p-multiSelect appendTo="body" class="form-control select2"
+                        formControlName="SystemSubClassIdList" inputId="SystemSubClassIdList" [options]="FasTagVehicleClassList"
+                        optionLabel="FasTagVehicleClassName" optionValue="FasTagVehicleClassId" placeholder="Sub Class" [style]="{'width':'100%'}">
+                    </p-multiSelect>
+                    <small class="p-error"
+                    *ngIf="submitted && DataDetailsForm.hasError('required','SystemSubClassIdList')">Sub Class
+                    is
+                    required.</small>
                 </div>
                 <div class="col-md-6">
                     <div class="form-check">
@@ -45,7 +59,7 @@
                     </div>
                 </div>
             </div>
-          
+
         </form>
     </div>
     <div class="modal-footer">

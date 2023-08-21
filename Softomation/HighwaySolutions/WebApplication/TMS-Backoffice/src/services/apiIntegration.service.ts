@@ -365,27 +365,65 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region  Vehicle Class
-  VehicleClassGetById(VehicleClassId: any): Observable<any> {
+  //#region FasTag  Vehicle Class
+  FasTagVehicleClassGetById(FasTagVehicleClassId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?VehicleClassId=' + VehicleClassId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagVehicleClassGetById?FasTagVehicleClassId=' + FasTagVehicleClassId, { headers: headers_object });
   }
-  VehicleClassGetAll(): Observable<any> {
+  FasTagVehicleClassGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetAll', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagVehicleClassGetAll', { headers: headers_object });
   }
 
-  VehicleClassGetActive(): Observable<any> {
+  FasTagVehicleClassGetActive(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetActive', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagVehicleClassGetActive', { headers: headers_object });
   }
-  VehicleClassInsertUpdate(data: {}): Observable<any> {
+  FasTagVehicleClassInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VehicleClassInsertUpdate', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FasTagVehicleClassInsertUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region System Vehicle Class
+  SystemVehicleClassGetById(SystemVehicleClassId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemVehicleClassGetById?SystemVehicleClassId=' + SystemVehicleClassId, { headers: headers_object });
+  }
+  SystemVehicleClassGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemVehicleClassGetAll', { headers: headers_object });
+  }
+
+  SystemVehicleClassGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemVehicleClassGetActive', { headers: headers_object });
+  }
+  SystemVehicleClassInsertUpdate(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemVehicleClassInsertUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region  Vehicle Class
+  TollFareGetByEffectedFrom(EffectedFrom: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/TollFareGetByEffectedFrom?EffectedFrom=' + EffectedFrom, { headers: headers_object });
+  }
+  
+  TollFareSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/TollFareSetUp', data, { headers: headers_object });
   }
   //#endregion
 

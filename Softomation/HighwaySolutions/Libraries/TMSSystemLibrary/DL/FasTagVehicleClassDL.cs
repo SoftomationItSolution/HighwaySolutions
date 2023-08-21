@@ -8,23 +8,23 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class VehicleClassDL
+    internal class FasTagVehicleClassDL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_VehicleClass";
+        static string tableName = "tbl_FasTagVehicleClass";
         #endregion
 
-        internal static List<ResponseIL> InsertUpdate(VehicleClassIL data)
+        internal static List<ResponseIL> InsertUpdate(FasTagVehicleClassIL data)
         {
             List<ResponseIL> responses = null;
             try
             {
-                string spName = "USP_VehicleClassInsertUpdate";
+                string spName = "USP_FasTagVehicleClassInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int64, data.VehicleClassId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassName", DbType.String, data.VehicleClassName, ParameterDirection.Input, 100));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassDescription", DbType.String, data.VehicleClassDescription, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FasTagVehicleClassId", DbType.Int64, data.FasTagVehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FasTagVehicleClassName", DbType.String, data.FasTagVehicleClassName, ParameterDirection.Input, 100));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FasTagVehicleClassDescription", DbType.String, data.FasTagVehicleClassDescription, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PermissibleWeight", DbType.Decimal, data.PermissibleWeight, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, data.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -42,13 +42,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
         }
 
         #region Get Methods
-        internal static List<VehicleClassIL> GetAll()
+        internal static List<FasTagVehicleClassIL> GetAll()
         {
             DataTable dt = new DataTable();
-            List<VehicleClassIL> crs = new List<VehicleClassIL>();
+            List<FasTagVehicleClassIL> crs = new List<FasTagVehicleClassIL>();
             try
             {
-                string spName = "USP_VehicleClassGetAll";
+                string spName = "USP_FasTagVehicleClassGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -60,9 +60,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return crs;
         }
-        internal static List<VehicleClassIL> GetActive()
+        internal static List<FasTagVehicleClassIL> GetActive()
         {
-            List<VehicleClassIL> crlist = new List<VehicleClassIL>();
+            List<FasTagVehicleClassIL> crlist = new List<FasTagVehicleClassIL>();
             try
             {
                 crlist = GetAll();
@@ -73,15 +73,15 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 throw ex;
             }
         }
-        internal static VehicleClassIL GetById(short VehicleClassId)
+        internal static FasTagVehicleClassIL GetById(short FasTagVehicleClassId)
         {
             DataTable dt = new DataTable();
-            VehicleClassIL crData = new VehicleClassIL();
+            FasTagVehicleClassIL crData = new FasTagVehicleClassIL();
             try
             {
-                string spName = "USP_VehicleClassGetById";
+                string spName = "USP_FasTagVehicleClassGetById";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, VehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FasTagVehicleClassId", DbType.Int16, FasTagVehicleClassId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     crData = CreateObjectFromDataRow(dr);
@@ -92,21 +92,41 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return crData;
         }
+
+        internal static List<FasTagVehicleClassIL> GetByIds(string FasTagVehicleClassIds)
+        {
+            DataTable dt = new DataTable();
+            List<FasTagVehicleClassIL> crs = new List<FasTagVehicleClassIL>();
+            try
+            {
+                string spName = "USP_FasTagVehicleClassGetByIds";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FasTagVehicleClassIds", DbType.String, FasTagVehicleClassIds, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    crs.Add(CreateObjectFromDataRow(dr));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return crs;
+        }
         #endregion
 
         #region Helper Methods
-        private static VehicleClassIL CreateObjectFromDataRow(DataRow dr)
+        private static FasTagVehicleClassIL CreateObjectFromDataRow(DataRow dr)
         {
-            VehicleClassIL user = new VehicleClassIL();
+            FasTagVehicleClassIL user = new FasTagVehicleClassIL();
 
-            if (dr["VehicleClassId"] != DBNull.Value)
-                user.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
+            if (dr["FasTagVehicleClassId"] != DBNull.Value)
+                user.FasTagVehicleClassId = Convert.ToInt16(dr["FasTagVehicleClassId"]);
 
-            if (dr["VehicleClassName"] != DBNull.Value)
-                user.VehicleClassName = Convert.ToString(dr["VehicleClassName"]);
+            if (dr["FasTagVehicleClassName"] != DBNull.Value)
+                user.FasTagVehicleClassName = Convert.ToString(dr["FasTagVehicleClassName"]);
 
-            if (dr["VehicleClassDescription"] != DBNull.Value)
-                user.VehicleClassDescription = Convert.ToString(dr["VehicleClassDescription"]);
+            if (dr["FasTagVehicleClassDescription"] != DBNull.Value)
+                user.FasTagVehicleClassDescription = Convert.ToString(dr["FasTagVehicleClassDescription"]);
 
             if (dr["PermissibleWeight"] != DBNull.Value)
                 user.PermissibleWeight = Convert.ToDecimal(dr["PermissibleWeight"]);

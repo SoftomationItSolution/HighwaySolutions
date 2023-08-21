@@ -3,14 +3,14 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { VehicleClassPopupComponent } from '../vehicle-class-popup/vehicle-class-popup.component';
+import { FastagVehicleClassPopupComponent } from '../fastag-vehicle-class-popup/fastag-vehicle-class-popup.component';
 
 @Component({
-  selector: 'app-vehicle-class-configuration',
-  templateUrl: './vehicle-class-configuration.component.html',
-  styleUrls: ['./vehicle-class-configuration.component.css']
+  selector: 'app-fastag-vehicle-class',
+  templateUrl: './fastag-vehicle-class.component.html',
+  styleUrls: ['./fastag-vehicle-class.component.css']
 })
-export class VehicleClassConfigurationComponent implements OnInit {
+export class FastagVehicleClassComponent implements OnInit {
   DevicesData: any;
   PermissionData:any;
   ErrorData: any;
@@ -60,7 +60,7 @@ export class VehicleClassConfigurationComponent implements OnInit {
  
   GetAllData() {
     this.spinner.show();
-    this.dbService.VehicleClassGetAll().subscribe(
+    this.dbService.FasTagVehicleClassGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -80,8 +80,8 @@ export class VehicleClassConfigurationComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '330px';
-      dialogConfig.data = { action: 'Save', VehicleClassId: 0 };
-      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      dialogConfig.data = { action: 'Save', FasTagVehicleClassId: 0 };
+      const dialogRef = this.dialog.open(FastagVehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -103,8 +103,8 @@ export class VehicleClassConfigurationComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '330px';
-      dialogConfig.data = { action: 'Update', VehicleClassId: data.VehicleClassId };
-      const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
+      dialogConfig.data = { action: 'Update', FasTagVehicleClassId: data.FasTagVehicleClassId };
+      const dialogRef = this.dialog.open(FastagVehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {

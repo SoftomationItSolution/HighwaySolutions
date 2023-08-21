@@ -157,7 +157,9 @@ tr {
     border-color: #5369f8;
     color: #fff;
 }
-
+.mr-20{
+    margin-right: 20px;
+}
 .informationStrip {
     opacity: 0.7;
     background-color: #000;
@@ -167,6 +169,20 @@ tr {
     font-size: 11px;
     margin-top: 26px;
     margin-right: -15px;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-top: 2px;
+}
+
+.fare-information-strip {
+    opacity: 0.7;
+    background-color: #000;
+    width: 210px;
+    color: #fff;
+    height: 22px;
+    font-size: 11px;
+    margin-top: 11px;
     word-wrap: break-word;
     white-space: nowrap;
     overflow: hidden;
@@ -339,6 +355,13 @@ small {
     border-color: #011b41 !important;
 }
 
+#permission-table li:nth-child(odd) {
+	background: #f1f1f1 !important;
+}
+
+.p-datatable .p-datatable-tbody > tr:nth-child(odd) {
+	background: #f1f1f1;
+}
 .p-datatable-scrollable-table>.p-datatable-thead {
     background: #fff !important;
 }

@@ -6,46 +6,46 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class VehicleClassBL
+    public class SystemVehicleClassBL
     {
-        public static List<ResponseIL> InsertUpdate(VehicleClassIL data)
+        public static List<ResponseIL> InsertUpdate(SystemVehicleClassIL data)
         {
             try
             {
-                return VehicleClassDL.InsertUpdate(data);
+                return SystemVehicleClassDL.InsertUpdate(data);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<VehicleClassIL> GetAll()
+        public static List<SystemVehicleClassIL> GetAll()
         {
             try
             {
-                return VehicleClassDL.GetAll();
+                return SystemVehicleClassDL.GetAll();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<VehicleClassIL> GetActive()
+        public static List<SystemVehicleClassIL> GetActive()
         {
             try
             {
-                return VehicleClassDL.GetActive();
+                return SystemVehicleClassDL.GetActive();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static VehicleClassIL GetById(short VehicleClassId)
+        public static SystemVehicleClassIL GetById(short SystemVehicleClassId)
         {
             try
             {
-                return VehicleClassDL.GetById(VehicleClassId);
+                return SystemVehicleClassDL.GetById(SystemVehicleClassId);
             }
             catch (Exception ex)
             {

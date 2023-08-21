@@ -1,8 +1,8 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
 
 @Component({
   selector: 'app-fare-configuration',
@@ -18,6 +18,9 @@ export class FareConfigurationComponent implements OnInit {
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
+  EffectiveDate:any;
+  FareData:any;
+  EffectiveFrom:any
   constructor(private spinner: NgxSpinnerService,private dm: DataModel,
     private dbService: apiIntegrationService,public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -52,47 +55,60 @@ export class FareConfigurationComponent implements OnInit {
       }
     );
   }
-  ngOnInit(): void {
 
+  ngOnInit(): void {
+    this.EffectiveDate=new Date();
+    this.GetAllData();
   }
 
   GetAllData() {
-    // this.spinner.show();
-    // let StartDate =this.datepipe.transform(this.effectiveDate, 'dd-MMM-yyyy')
-    // const Obj = {
-    //   EffectiveDate: StartDate
-    // }
-    // this.dbService.FareGetAllByDate(Obj).subscribe(
-    //   data => {
-    //     this.spinner.hide();
-    //     this.DevicesData = data.ResponseData;
-    //     this.FareData = this.DevicesData.FareDetails;
-    //     var EffectiveDate=new Date(this.DevicesData.EffectiveDate);
-    //     var LEffectiveDate=new Date(this.DevicesData.LastEffectiveDate);
-    //     let latest_date =this.datepipe.transform(EffectiveDate, 'yyyy-MM-dd');
-    //     let old_date =this.datepipe.transform(LEffectiveDate, 'yyyy-MM-dd');
-    //     if(this.FareData.length>0){
-    //       if(latest_date!=old_date){
-    //         this.effectiveDate=LEffectiveDate;
-    //       }
-    //       this.effectiveDate=LEffectiveDate;
-    //     }
-    //     else{
-    //       this.ErrorData = [{ AlertMessage: "Configure the vehicle classes." }];
-    //       this.emitService.openSnackBar(this.ErrorData, false);
-    //        this.effectiveDate = new Date();
-    //     }
-        
-    //   },
-    //   (error) => {
-    //     this.spinner.hide();
-    //     this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-    //     this.emitService.openSnackBar(this.ErrorData, false);
-    //   }
-    // );
+    this.spinner.show();
+    let StartDate =this.datepipe.transform(this.EffectiveDate, 'dd-MMM-yyyy')
+    this.dbService.TollFareGetByEffectedFrom(StartDate).subscribe(
+      data => {
+        this.spinner.hide();
+        this.DevicesData = data.ResponseData;
+        this.FareData = this.DevicesData.TollFareConfigurations;
+        this.EffectiveFrom=this.DevicesData.EffectedFromStamp;
+        if(this.FareData.length==0){
+          this.ErrorData = [{ AlertMessage: "Toll Fare not found." }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   SaveDetails(){
-    
+    this.spinner.show();
+    this.DevicesData.EffectedFrom=this.EffectiveDate;
+    this.DevicesData.EffectedFromStamp=this.datepipe.transform(this.EffectiveDate, 'dd-MMM-yyyy');
+    this.dbService.TollFareSetUp(this.DevicesData).subscribe(
+      data => {
+        this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage.indexOf('success')>-1) {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 }

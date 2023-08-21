@@ -1128,7 +1128,7 @@ namespace TMSRestAPI.Controllers
         }
         #endregion
 
-        #region Payment Method Type
+        #region Exempt Method Type
         [Route(Provider + "/" + APIPath + "/ExemptTypeGetAll")]
         [HttpGet]
         public HttpResponseMessage ExemptTypeGetAll()
@@ -1189,78 +1189,209 @@ namespace TMSRestAPI.Controllers
         #endregion
 
         #region Vehicle Class
-        [Route(Provider + "/" + APIPath + "/VehicleClassGetAll")]
+        #region FasTag Vehicle Class
+        [Route(Provider + "/" + APIPath + "/FasTagVehicleClassGetAll")]
         [HttpGet]
-        public HttpResponseMessage VehicleClassGetAll()
+        public HttpResponseMessage FasTagVehicleClassGetAll()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VehicleClassBL.GetAll();
+                response.ResponseData = FasTagVehicleClassBL.GetAll();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in VehicleClassGetAll : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in FasTagVehicleClassGetAll : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/VehicleClassGetActive")]
+        [Route(Provider + "/" + APIPath + "/FasTagVehicleClassGetActive")]
         [HttpGet]
-        public HttpResponseMessage VehicleClassGetActive()
+        public HttpResponseMessage FasTagVehicleClassGetActive()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VehicleClassBL.GetActive();
+                response.ResponseData = FasTagVehicleClassBL.GetActive();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in VehicleClassGetActive : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in FasTagVehicleClassGetActive : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/VehicleClassGetById")]
+        [Route(Provider + "/" + APIPath + "/FasTagVehicleClassGetById")]
         [HttpGet]
-        public HttpResponseMessage VehicleClassGetById(short VehicleClassId)
+        public HttpResponseMessage FasTagVehicleClassGetById(short FasTagVehicleClassId)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VehicleClassBL.GetById(VehicleClassId);
+                response.ResponseData = FasTagVehicleClassBL.GetById(FasTagVehicleClassId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in VehicleClassGetById : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in FasTagVehicleClassGetById : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/VehicleClassInsertUpdate")]
+        [Route(Provider + "/" + APIPath + "/FasTagVehicleClassInsertUpdate")]
         [HttpPost]
-        public HttpResponseMessage VehicleClassInsertUpdate(VehicleClassIL vc)
+        public HttpResponseMessage FasTagVehicleClassInsertUpdate(FasTagVehicleClassIL vc)
         {
             try
             {
-                response.Message = VehicleClassBL.InsertUpdate(vc);
+                response.Message = FasTagVehicleClassBL.InsertUpdate(vc);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in VehicleClassInsertUpdate : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in FasTagVehicleClassInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+        #region System Vehicle Class
+        [Route(Provider + "/" + APIPath + "/SystemVehicleClassGetAll")]
+        [HttpGet]
+        public HttpResponseMessage SystemVehicleClassGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemVehicleClassBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemVehicleClassGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemVehicleClassGetActive")]
+        [HttpGet]
+        public HttpResponseMessage SystemVehicleClassGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemVehicleClassBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemVehicleClassGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemVehicleClassGetById")]
+        [HttpGet]
+        public HttpResponseMessage SystemVehicleClassGetById(short SystemVehicleClassId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemVehicleClassBL.GetById(SystemVehicleClassId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemVehicleClassGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemVehicleClassInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage SystemVehicleClassInsertUpdate(SystemVehicleClassIL vc)
+        {
+            try
+            {
+                response.Message = SystemVehicleClassBL.InsertUpdate(vc);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemVehicleClassInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Toll Fare
+        [Route(Provider + "/" + APIPath + "/TollFareGetByEffectedFrom")]
+        [HttpGet]
+        public HttpResponseMessage GetByEffectedFrom(string EffectedFrom)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = TollFareBL.GetByEffectedFrom(EffectedFrom);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in TollFareGetByEffectedFrom : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/TollFareSetUp")]
+        [HttpPost]
+        public HttpResponseMessage TollFareSetUp(TollFareIL tollFare)
+        {
+            try
+            {
+                tollFare.EffectedFrom = Convert.ToDateTime(tollFare.EffectedFromStamp);
+                if (DateTime.Now > tollFare.EffectedFrom)
+                {
+                    resp.AlertMessage = "Effected From must be future date!";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    response.Message = TollFareBL.SetUp(tollFare);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in TollFareSetUp : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

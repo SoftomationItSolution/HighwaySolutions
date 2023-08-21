@@ -8,51 +8,69 @@ import { DataModel } from 'src/services/data-model.model';
 
 
 @Component({
-  selector: 'app-vehicle-class-popup',
-  templateUrl: './vehicle-class-popup.component.html',
-  styleUrls: ['./vehicle-class-popup.component.css']
+  selector: 'app-system-vehicle-class-popup',
+  templateUrl: './system-vehicle-class-popup.component.html',
+  styleUrls: ['./system-vehicle-class-popup.component.css']
 })
-export class VehicleClassPopupComponent implements OnInit {
+export class SystemVehicleClassPopupComponent implements OnInit {
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  VehicleClassId: number = 0;
+  SystemVehicleClassId: number = 0;
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
   ErrorData: any;
-  constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<VehicleClassPopupComponent>,
+  FasTagVehicleClassList:any;
+  constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<SystemVehicleClassPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();
-    this.VehicleClassId = parentData.VehicleClassId;
+    this.SystemVehicleClassId = parentData.SystemVehicleClassId;
   }
   ngOnInit(): void {
     this.PageTitle = "Create Vehicle Class Details";
-
     this.DataDetailsForm = new FormGroup({
-      VehicleClassName: new FormControl('', [Validators.required]),
-      VehicleClassDescription: new FormControl('', [Validators.required]),
+      SystemVehicleClassName: new FormControl('', [Validators.required]),
+      SystemVehicleClassDescription: new FormControl('', [Validators.required]),
+      SystemSubClassIdList: new FormControl('', [Validators.required]),
       PermissibleWeight: new FormControl('', [Validators.required, Validators.pattern(regExps['DecimalThreeDigit'])]),
       DataStatus: new FormControl(true),
     });
+    this.GetActiveClass();
+    
+  }
 
-    if (this.VehicleClassId > 0) {
-      this.PageTitle = "Update Vehicle Class Details";
-      this.DetailsbyId();
-    }
+  GetActiveClass(){
+    this.spinner.show();
+    this.dbService.FasTagVehicleClassGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        this.FasTagVehicleClassList = data.ResponseData;
+        if (this.SystemVehicleClassId > 0) {
+          this.PageTitle = "Update Vehicle Class Details";
+          this.DetailsbyId();
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.VehicleClassGetById(this.VehicleClassId).subscribe(
+    this.dbService.SystemVehicleClassGetById(this.SystemVehicleClassId).subscribe(
       data => {
         this.spinner.hide();
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
-          this.DataDetailsForm.controls['VehicleClassName'].setValue(DetailData.VehicleClassName);
-          this.DataDetailsForm.controls['VehicleClassDescription'].setValue(DetailData.VehicleClassDescription);
+          this.DataDetailsForm.controls['SystemVehicleClassName'].setValue(DetailData.SystemVehicleClassName);
+          this.DataDetailsForm.controls['SystemVehicleClassDescription'].setValue(DetailData.SystemVehicleClassDescription);
           this.DataDetailsForm.controls['PermissibleWeight'].setValue(DetailData.PermissibleWeight);
+          this.DataDetailsForm.controls['SystemSubClassIdList'].setValue(DetailData.SystemSubClassIdList);
           if (DetailData.DataStatus == 1)
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
           else
@@ -79,16 +97,17 @@ export class VehicleClassPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      VehicleClassId: this.VehicleClassId,
-      VehicleClassName: this.DataDetailsForm.value.VehicleClassName,
-      VehicleClassDescription: this.DataDetailsForm.value.VehicleClassDescription,
+      SystemVehicleClassId: this.SystemVehicleClassId,
+      SystemVehicleClassName: this.DataDetailsForm.value.SystemVehicleClassName,
+      SystemVehicleClassDescription: this.DataDetailsForm.value.SystemVehicleClassDescription,
       PermissibleWeight: this.DataDetailsForm.value.PermissibleWeight,
+      SystemVehicleClassIds: this.DataDetailsForm.value.SystemSubClassIdList.toString(),
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
     }
     this.spinner.show();
-    this.dbService.VehicleClassInsertUpdate(Obj).subscribe(
+    this.dbService.SystemVehicleClassInsertUpdate(Obj).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;
@@ -104,7 +123,7 @@ export class VehicleClassPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = [{ AlertMessage: error.error }];
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

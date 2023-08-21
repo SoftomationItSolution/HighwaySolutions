@@ -31,6 +31,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         #endregion
 
         #region Date Time
+        public static string DateFormat= "dd-MMM-yyyy";
         public static string DateTimeFormatClient = "dd-MMM-yyyy HH:mm:ss";
         public static string DateTimeFormatJson = "dd-MMM-yyyy HH:mm:ss.fff";
         public static string DateTimeFormat12H = "yyyy-MM-dd hh:mm:ss.fff";

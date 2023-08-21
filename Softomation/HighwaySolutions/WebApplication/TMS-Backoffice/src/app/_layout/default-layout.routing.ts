@@ -5,7 +5,8 @@ import { SystemIntegratorMasterComponent } from '../pages/configurations/SystemI
 import { PlzaConfigurationComponent } from '../pages/configurations/Plaza/plza-configuration/plza-configuration.component';
 import { LaneConfigurationComponent } from '../pages/configurations/Lane/lane-configuration/lane-configuration.component';
 import { EquipmentManufactureMasterComponent } from '../pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
-import { VehicleClassConfigurationComponent } from '../pages/configurations/VehicleClass/vehicle-class-configuration/vehicle-class-configuration.component';
+import { FastagVehicleClassComponent } from '../pages/configurations/VehicleClass/fastag-vehicle-class/fastag-vehicle-class.component';
+import { SystemVehicleClassComponent } from '../pages/configurations/VehicleClass/system-vehicle-class/system-vehicle-class.component';
 import { EquipmentMasterComponent } from '../pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
 import { TransectionTypeComponent } from '../pages/configurations/TransactionTypeMaster/transection-type.component';
 import { PaymentTypeComponent } from '../pages/configurations/PaymentTypeMaster/payment-type.component';
@@ -21,11 +22,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'laneMaster', component: LaneConfigurationComponent },
     { path: 'equipmentManufacture', component: EquipmentManufactureMasterComponent },
     { path: 'equipmentMaster', component: EquipmentMasterComponent },
-    { path: 'vehicleClass', component: VehicleClassConfigurationComponent },
+    { path: 'fasTagVehicleClass', component: FastagVehicleClassComponent },
+    { path: 'systemVehicleClass', component: SystemVehicleClassComponent },
     { path: 'transactionType', component: TransectionTypeComponent },
     { path: 'paymentMethod', component: PaymentTypeComponent },
     { path: 'ExemptType', component: ExemptTypeComponent },
-    { path: 'fareMapping', component: FareConfigurationComponent },
+    { path: 'tollFare', component: FareConfigurationComponent },
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'user', component: UserConfigurationComponent },
     { path: '**', component: PageNotFoundComponent },
