@@ -24,7 +24,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String assignedByLoginId;
         Int64 assignedTo;
         String assignedToLoginId;
-        List<DenominationIL> denominationCount;
+        List<FloatProcessDenominationIL> floatProcessDenominationList;
         public FloatProcessIL()
         {
             floatProcessId = 0;
@@ -45,7 +45,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             assignedByLoginId = string.Empty;
             assignedTo = 0;
             assignedToLoginId = string.Empty;
-            denominationCount = new List<DenominationIL>();
+            floatProcessDenominationList = new List<FloatProcessDenominationIL>();
         }
 
         public Int64 FloatProcessId
@@ -264,16 +264,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 assignedToLoginId = value;
             }
         }
-        public List<DenominationIL> DenominationCount
+        public List<FloatProcessDenominationIL> FloatProcessDenominationList
         {
             get
             {
-                return denominationCount;
+                return floatProcessDenominationList;
             }
 
             set
             {
-                denominationCount = value;
+                floatProcessDenominationList = value;
             }
         }
     }

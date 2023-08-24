@@ -81,7 +81,7 @@ export class UserConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '473px';
+      dialogConfig.height = '531px';
       dialogConfig.data = { action: 'Save', UserId: 0 };
       const dialogRef = this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -103,7 +103,7 @@ export class UserConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '473px';
+      dialogConfig.height = '531px';
       dialogConfig.data = { action: 'Update', UserId: data.UserId };
       const dialogRef = this.dialog.open(UserConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

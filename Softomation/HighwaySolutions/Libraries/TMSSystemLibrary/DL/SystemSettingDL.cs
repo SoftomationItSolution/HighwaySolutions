@@ -23,13 +23,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             {
                 string spName = "USP_SystemSettingInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DefaultPlazaId", DbType.Int16, setting.DefaultPlazaId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TollingTypeId", DbType.Int16, setting.TollingTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AllotmentDays", DbType.Int16, setting.AllotmentDays, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CashPenalty", DbType.Boolean, setting.CashPenalty, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginAccess", DbType.Boolean, setting.LoginAccess, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ExemptAccess", DbType.Boolean, setting.ExemptAccess, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FleetAccess", DbType.Boolean, setting.FleetAccess, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@OpeningBalance", DbType.Decimal, setting.OpeningBalance, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClosingBalance", DbType.Decimal, setting.ClosingBalance, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, setting.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, setting.CreatedBy, ParameterDirection.Input));
@@ -68,6 +69,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
         private static SystemSettingIL CreateObjectFromDataRow(DataRow dr)
         {
             SystemSettingIL setting = new SystemSettingIL();
+
+            if (dr["DefaultPlazaId"] != DBNull.Value)
+                setting.DefaultPlazaId = Convert.ToInt16(dr["DefaultPlazaId"]);
+
+            if (dr["TollingTypeId"] != DBNull.Value)
+                setting.TollingTypeId = Convert.ToInt16(dr["TollingTypeId"]);
+
             if (dr["AllotmentDays"] != DBNull.Value)
                 setting.AllotmentDays = Convert.ToInt16(dr["AllotmentDays"]);
 

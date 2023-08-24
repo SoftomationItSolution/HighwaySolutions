@@ -101,10 +101,11 @@
 
 .breadcrumb-item+.breadcrumb-item::before {
     color: #f68e2b;
-    content: ">"!important;
+    content: ">" !important;
     font-family: fantasy !important;
     font-weight: bolder;
 }
+
 .p-datatable-table tbody,
 tr {
     border-bottom-color: #c3c3c3 !important;
@@ -157,9 +158,11 @@ tr {
     border-color: #5369f8;
     color: #fff;
 }
-.mr-20{
+
+.mr-20 {
     margin-right: 20px;
 }
+
 .informationStrip {
     opacity: 0.7;
     background-color: #000;
@@ -356,12 +359,13 @@ small {
 }
 
 #permission-table li:nth-child(odd) {
-	background: #f1f1f1 !important;
+    background: #f1f1f1 !important;
 }
 
-.p-datatable .p-datatable-tbody > tr:nth-child(odd) {
-	background: #f1f1f1;
+.p-datatable .p-datatable-tbody>tr:nth-child(odd) {
+    background: #f1f1f1;
 }
+
 .p-datatable-scrollable-table>.p-datatable-thead {
     background: #fff !important;
 }
@@ -450,6 +454,11 @@ tr {
     font-weight: 600;
 }
 
+.tbl-popup .p-datatable-wrapper {
+    max-height: 27vh !important;
+    min-height: 27vh !important;
+}
+
 .p-datatable-wrapper {
     max-height: 56vh !important;
     min-height: 56vh !important;
@@ -514,6 +523,8 @@ tr {
 
 .vertical-menu {
     top: 55px !important;
+    overflow-x: auto;
+
 }
 
 .page-content {
@@ -523,9 +534,11 @@ tr {
 .ims-tab {
     height: 60vh !important
 }
+
 .setting-tab {
     height: 60vh !important
 }
+
 .footer {
     height: 30px !important;
     padding: 8px calc(24px / 2) !important;
@@ -1053,7 +1066,8 @@ input[type=radio] {
 .p-button .p-button-icon-left {
     margin-right: 0.5rem;
 }
-.no-border{
+
+.no-border {
     border: none !important;
 }
 
@@ -1089,9 +1103,11 @@ input[type=radio] {
     .ims-tab {
         height: 56vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1141,9 +1157,11 @@ input[type=radio] {
     .ims-tab {
         height: 60vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1192,9 +1210,11 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1251,9 +1271,11 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
+
     .setting-tab {
         height: 71vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;

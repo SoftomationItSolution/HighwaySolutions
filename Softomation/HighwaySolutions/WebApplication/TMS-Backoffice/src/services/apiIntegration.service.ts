@@ -263,6 +263,11 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetById?LaneId=' + LaneId, { headers: headers_object });
   }
+  LaneGetByPlazaId(PlazaId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetByPlazaId?PlazaId=' + PlazaId, { headers: headers_object });
+  }
   LaneInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -439,6 +444,40 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/TollFareSetUp', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region Shift Timming
+  GetShiftTimining(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetShiftTimining', { headers: headers_object });
+  }
+  //#endregion
+
+  //#region Float Process 
+  DenominationGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/DenominationGetActive', { headers: headers_object });
+  }
+
+  FloatProcessGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FloatProcessGetAll', { headers: headers_object });
+  }
+
+  FloatProcessGetById(FloatProcessId:any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FloatProcessGetById?FloatProcessId='+FloatProcessId, { headers: headers_object });
+  }
+
+  FloatProcessSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FloatProcessSetUp', data, { headers: headers_object });
   }
   //#endregion
 

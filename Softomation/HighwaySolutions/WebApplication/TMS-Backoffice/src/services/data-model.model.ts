@@ -18,7 +18,7 @@ export class DataModel {
     localStorage.removeItem("Toll360Token");
     localStorage.removeItem("Toll360UserData");
   }
-  
+
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
@@ -44,7 +44,7 @@ export class DataModel {
   setDataAPI(path: string) {
     return localStorage.setItem('Toll360API', path);
   }
-  
+
   getDataAPI() {
     return localStorage.getItem('Toll360API');
   }
@@ -70,15 +70,39 @@ export class DataModel {
   getTokenVale() {
     return localStorage.getItem('Toll360Token');
   }
-
+  setSSData(token: string) {
+    return localStorage.setItem('Toll360SS', token);
+  }
+  getSSData() {
+    var result = localStorage.getItem('Toll360SS');
+    if (result != undefined)
+      return JSON.parse(result);
+    else
+      return null;
+  }
   setUserData(token: string) {
     return localStorage.setItem('Toll360UserData', token);
   }
-
+  getUserData() {
+    var result = localStorage.getItem('Toll360UserData');
+    if (result != undefined)
+      return JSON.parse(result);
+    else
+      return null;
+  }
   getUserId() {
     let result = this.getUserData();
     if (result != null)
       return result.UserId;
+    else
+      return -1
+
+  }
+
+  getDefaultPlazaId() {
+    let result = this.getSSData();
+    if (result != null)
+      return result.DefaultPlazaId;
     else
       return -1
   }
@@ -89,14 +113,6 @@ export class DataModel {
       return result.RoleId;
     else
       return -1
-  }
-
-  getUserData() {
-    var result = localStorage.getItem('Toll360UserData');
-    if (result != undefined)
-      return JSON.parse(result);
-    else
-      return null;
   }
 
   openSnackBar(message: any, success: boolean) {
@@ -124,17 +140,17 @@ export class DataModel {
     await new Promise<void>(resolve => setTimeout(() => resolve(), ms)).then(() => console.log("fired"));
   }
 
-  async getBase64ImageFromUrl(imageUrl:any) {
+  async getBase64ImageFromUrl(imageUrl: any) {
     var res = await fetch(imageUrl);
     var blob = await res.blob();
-  
+
     return new Promise((resolve, reject) => {
-      var reader  = new FileReader();
+      var reader = new FileReader();
       reader.addEventListener("load", function () {
         resolve(reader.result);
 
       }, false);
-  
+
       reader.onerror = () => {
         return reject(this);
       };

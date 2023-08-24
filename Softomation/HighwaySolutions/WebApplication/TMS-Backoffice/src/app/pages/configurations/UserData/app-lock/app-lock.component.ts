@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
-import { DataModel } from 'src/app/services/data-model.model';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { DataModel } from 'src/services/data-model.model';
+
 
 @Component({
   selector: 'app-app-lock',

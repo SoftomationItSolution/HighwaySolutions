@@ -61,7 +61,7 @@ export class FloatProcessMasterComponent implements OnInit {
  
   GetAllData() {
     this.spinner.show();
-    this.dbService.SystemIntegratorGetAll().subscribe(
+    this.dbService.FloatProcessGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -80,8 +80,8 @@ export class FloatProcessMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '390px';
-      dialogConfig.data = { action: 'Save', SystemIntegratorId: 0 };
+      dialogConfig.height = '401px';
+      dialogConfig.data = { action: 'Save', FloatProcessId: 0 };
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -103,8 +103,8 @@ export class FloatProcessMasterComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '390px';
-      dialogConfig.data = { action: 'Update', SystemIntegratorId: data.SystemIntegratorId };
+      dialogConfig.height = '401px';
+      dialogConfig.data = { action: 'Update', FloatProcessId: data.FloatProcessId };
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

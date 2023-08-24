@@ -8,86 +8,73 @@
     <div class="modal-body ">
         <form [formGroup]="DataDetailsForm">
             <div class="row">
-                <div class="col-md-6">
-                    <label for="SystemIntegratorName">System Integrator Name</label>
-                    <input formControlName="SystemIntegratorName" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System
-                        Integrator Name is
-                        required.</small>
+                <div class="col-md-3">
+                    <label class="form-label" for="LaneId">Lane</label>
+                    <p-dropdown appendTo="body" formControlName="LaneId" inputId="LaneId" [options]="LaneList"
+                        optionLabel="LaneName" optionValue="LaneId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LaneId')">Lane must
+                        be selected.</small>
                 </div>
-                <div class="col-md-6">
-                    <label for="SystemIntegratorAddress">System Integrator Address</label>
-                    <input formControlName="SystemIntegratorAddress" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorAddress')">System
-                        Integrator Address is
-                        required.</small>
+                <div class="col-md-3">
+                    <label class="form-label" for="ShiftId">Shift</label>
+                    <p-dropdown appendTo="body" formControlName="ShiftId" inputId="ShiftId" [options]="ShiftTimmingList"
+                        optionLabel="ShiftNumber" optionValue="ShiftId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ShiftId')">Shift
+                        must be selected.</small>
                 </div>
-                <div class="col-md-6">
-                    <label for="SystemIntegratorEmailId">System Integrator EmailId</label>
-                    <input formControlName="SystemIntegratorEmailId" type="text" pInputText required autofocus
-                        class="form-control" />
+                <div class="col-md-3">
+                    <label for="TransactionDateStamp">Shift Date</label>
+                    <p-calendar class="form-control custom-cal" formControlName="TransactionDateStamp" [showIcon]="true"
+                        appendTo="body" dateFormat="dd-M-yy"></p-calendar>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorEmailId')">System
-                        Integrator Email id is
-                        required.</small>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorEmailId')">Vaild
-                        System Integrator Email Id is
-                        required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('required','TransactionDateStamp')">Shift Date must be selected.</small>
                 </div>
-                <div class="col-md-6">
-                    <label for="SystemIntegratorMobileNumber">System Integrator Mobile</label>
-                    <input formControlName="SystemIntegratorMobileNumber" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorMobileNumber')">System
-                        Integrator Mobile Number is
-                        required.</small>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorMobileNumber')">Vaild
-                        Mobile Number
-                        is
-                        required.</small>
+                <div class="col-md-3">
+                    <label class="form-label" for="AssignedTo">Assigne</label>
+                    <p-dropdown appendTo="body" formControlName="AssignedTo" inputId="AssignedTo" [options]="TCList"
+                        optionLabel="LoginId" optionValue="UserId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','AssignedTo')">Assigne
+                        must be selected.</small>
                 </div>
-                <div class="col-md-6">
-                    <label for="SystemIntegratorLoginId">Login Id</label>
-                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
-                        Id is
-                        required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginId')">Vaild
-                        Login Id is
-                        required.</small>
-                </div>
-                <div class="col-md-6">
-                    <label for="SystemIntegratorLoginPassword">Login Password</label>
-                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginPassword')">Login Password is
-                        required.</small>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginPassword')">Vaild Login
-                        Password is
-                        required.</small>
-                </div>
+
             </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
-                        <label class="form-check-label" for="formCheck2">
-                            Status
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <div class="clearfix"></div>
         </form>
+        <div class="table-responsive tbl-popup">
+            <p-table #dt [value]="DenominationData" styleClass="p-datatable-gridlines" dataKey="DenominationId" editMode="row" [rowHover]="true" styleClass="p-datatable-gridlines">
+                <ng-template pTemplate="header" styleClass="thead-light">
+                    <tr>
+                        <th>Type</th>
+                        <th>Count</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-editing="editing" let-ri="rowIndex">
+                    <tr style="font-size: 10px;" [pEditableRow]="rowData">
+                        <td style="width: 100px;"> &#8377; {{rowData.DenominationValue}}</td>
+                        <td pEditableColumn style="width: 100px;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <input pInputText type="number" [(ngModel)]="rowData.DenominationCount" min="0" (ngModelChange)="CalculateAmount()">
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    {{rowData.DenominationCount}}
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </tr>
+                    
+                </ng-template>
+                <ng-template pTemplate="footer">
+                    <tr>
+                        <td>Total (&#8377;)</td>
+                        <td>{{AmountAlloted}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>

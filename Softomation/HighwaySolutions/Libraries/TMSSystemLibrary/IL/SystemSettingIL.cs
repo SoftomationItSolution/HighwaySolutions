@@ -5,6 +5,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class SystemSettingIL : CommonIL
     {
+        Int16 defaultPlazaId;
+        Int16 tollingTypeId;
         Int16 allotmentDays;
         Boolean cashPenalty;
         Boolean loginAccess;
@@ -13,10 +15,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         Decimal openingBalance;
         Decimal closingBalance;
 
-
-
         public SystemSettingIL()
         {
+            this.defaultPlazaId = 1;
+            this.tollingTypeId = 1;
             this.allotmentDays = 4;
             this.cashPenalty = true;
             this.loginAccess = false;
@@ -24,6 +26,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             this.fleetAccess = false;
             this.openingBalance = 0;
             this.closingBalance = 0;
+        }
+        public short DefaultPlazaId
+        {
+            get => defaultPlazaId; set => defaultPlazaId = value;
+        }
+        public short TollingTypeId
+        {
+            get => tollingTypeId; set => tollingTypeId = value;
         }
         public short AllotmentDays
         {
@@ -45,12 +55,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => fleetAccess; set => fleetAccess = value;
         }
-
         public Decimal OpeningBalance
         {
             get => openingBalance; set => openingBalance = value;
         }
-
         public Decimal ClosingBalance
         {
             get => closingBalance; set => closingBalance = value;

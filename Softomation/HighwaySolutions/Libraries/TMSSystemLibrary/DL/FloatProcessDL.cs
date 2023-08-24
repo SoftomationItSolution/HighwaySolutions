@@ -28,13 +28,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 DataRow row;
                 string SessionId = CommonLibrary.Constants.RandomString(10);
                 StringBuilder xmlPermission = new StringBuilder();
-                foreach (DenominationIL item in types.DenominationCount)
+                foreach (FloatProcessDenominationIL item in types.FloatProcessDenominationList)
                 {
                     row = ImportDataTable.NewRow();
                     row["DenominationId"] = item.DenominationId;
                     row["DenominationValue"] = item.DenominationValue;
                     row["DenominationCount"] = item.DenominationCount;
                     row["SessionId"] = SessionId;
+                    ImportDataTable.Rows.Add(row);
 
                 }
                 if (SystemConstants.BulkCopy(ImportDataTable, "temp_DenominationDetails"))
@@ -75,7 +76,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             List<FloatProcessIL> eds = new List<FloatProcessIL>();
             try
             {
-                string spName = "USP_DenominationGetAll";
+                string spName = "USP_FloatProcessGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -101,6 +102,26 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             {
                 throw ex;
             }
+        }
+
+        internal static FloatProcessIL GetById(Int64 FloatProcessId)
+        {
+            DataTable dt = new DataTable();
+            FloatProcessIL floatProcess = new FloatProcessIL();
+            try
+            {
+                string spName = "USP_FloatProcessGetById";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FloatProcessId", DbType.Int64, FloatProcessId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    floatProcess = CreateObjectFromDataRow(dr);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return floatProcess;
         }
         #endregion
 
@@ -148,7 +169,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 dm.FloatTransactionTypeName = Convert.ToString(dr["FloatTransactionTypeName"]);
 
             if (dr["TransactionDate"] != DBNull.Value)
+            {
                 dm.TransactionDate = Convert.ToDateTime(dr["TransactionDate"]);
+                dm.TransactionDateStamp = dm.TransactionDate.ToString(CommonLibrary.Constants.DateFormat);
+            }
 
             if (dr["TransactionAmount"] != DBNull.Value)
                 dm.TransactionAmount = Convert.ToDecimal(dr["TransactionAmount"]);
@@ -182,7 +206,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["ModifiedBy"] != DBNull.Value)
                 dm.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
-
+            dm.FloatProcessDenominationList = FloatProcessDenominationDL.GetById(dm.FloatProcessId);
             dm.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)dm.DataStatus);
             return dm;
         }

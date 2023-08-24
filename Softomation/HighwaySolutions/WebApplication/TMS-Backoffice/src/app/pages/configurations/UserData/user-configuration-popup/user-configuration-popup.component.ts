@@ -22,7 +22,7 @@ export class UserConfigurationPopupComponent implements OnInit {
   ErrorData: any;
   DetailData: any;
   RoleData: any;
-  UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
+  UserTypeList = [{ DataId: 1, DataName: 'Administrator' }, { DataId: 2, DataName: 'Manager' }, { DataId: 3, DataName: 'Auditor' }, { DataId: 4, DataName: 'Toll Collector' }, { DataId: 5, DataName: 'Maintenance' }];
   PlazaList:any;
   submitted=false;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
@@ -64,6 +64,9 @@ export class UserConfigurationPopupComponent implements OnInit {
         Validators.pattern(regExps['Password'])
       ]),
       PlazaId: new FormControl('', [
+        Validators.required
+      ]),
+      UserTypeId: new FormControl('', [
         Validators.required
       ]),
       DataStatus: new FormControl(true),
@@ -137,6 +140,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.DataDetailsForm.controls['LastName'].setValue(this.DetailData.LastName);
         this.DataDetailsForm.controls['AccountExpiredDate'].setValue(new Date(this.DetailData.AccountExpiredDate));
         this.DataDetailsForm.controls['PlazaId'].setValue(this.DetailData.PlazaId);
+        this.DataDetailsForm.controls['UserTypeId'].setValue(this.DetailData.UserTypeId);
       },
       (error) => {
         this.spinner.hide();
@@ -161,7 +165,6 @@ export class UserConfigurationPopupComponent implements OnInit {
     this.submitted = true;
     this.DataDetailsForm.errors;
     if (this.DataDetailsForm.valid == true) {
-
       const Obj = {
         UserId: this.UserId,
         LoginId: this.DataDetailsForm.value.LoginId,
@@ -173,8 +176,10 @@ export class UserConfigurationPopupComponent implements OnInit {
         PlazaId: this.DataDetailsForm.value.PlazaId,
         AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
         RoleId: this.DataDetailsForm.value.RoleId,
+        UserTypeId: this.DataDetailsForm.value.UserTypeId,
         DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
-        CreatedBy: this.LogedUserId
+        CreatedBy: this.LogedUserId,
+        ModifiedBy: this.LogedUserId
       };
       this.spinner.show();
       this.dbService.UserConfigurationSetUp(Obj).subscribe(

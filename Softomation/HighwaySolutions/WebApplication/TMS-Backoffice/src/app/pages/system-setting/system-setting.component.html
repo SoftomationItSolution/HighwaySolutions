@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">Setting</h5>
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">System Setting</h5>
         <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
             <i class="mdi mdi-close me-2"></i>
         </button>
@@ -8,7 +8,34 @@
     <div class="modal-body ">
         <form [formGroup]="DataDetailsForm">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <label class="form-label" for="DefaultPlazaId">Default Plaza</label>
+                    <p-dropdown appendTo="body" formControlName="DefaultPlazaId" inputId="DefaultPlazaId"
+                        [options]="PlazaData" optionLabel="PlazaName" optionValue="PlazaId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','DefaultPlazaId')">Default Plaza must be
+                        selected.</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="TollingTypeId">Tolling Type</label>
+                    <p-dropdown appendTo="body" formControlName="TollingTypeId" inputId="TollingTypeId"
+                        [options]="TollingTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','TollingTypeId')">Tolling Type must be
+                        selected.</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="AllotmentDays">Allotment Days</label>
+                    <p-dropdown appendTo="body" formControlName="AllotmentDays" inputId="AllotmentDays"
+                        [options]="AllotmentDaysList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','AllotmentDays')">Allotment Days must be
+                        selected.</small>
+                </div>
+                <div class="col-md-6">
                     <label class="form-label" for="OpeningBalance">Opening Balance</label>
                     <input formControlName="OpeningBalance" type="text" pInputText required autocomplete="off"
                         class="form-control" />
@@ -18,26 +45,6 @@
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('pattern','OpeningBalance')">Vaild >Opening Balance
                         must be required.</small>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="ClosingBalance">Closing Balance</label>
-                    <input formControlName="ClosingBalance" type="text" pInputText required autocomplete="off"
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ClosingBalance')">Closing Balance must
-                        be required.</small>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','ClosingBalance')">Vaild >Closing Balance
-                        must be required.</small>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label" for="AllotmentDays">Allotment Days</label>
-                    <p-dropdown appendTo="body" formControlName="AllotmentDays" inputId="AllotmentDays"
-                        [options]="AllotmentDaysList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                        class="form-control select2"></p-dropdown>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','AllotmentDays')">Allotment Days must be
-                        selected.</small>
                 </div>
                 <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
@@ -72,7 +79,7 @@
                         </label>
                     </div>
                 </div>
-              
+
             </div>
 
         </form>

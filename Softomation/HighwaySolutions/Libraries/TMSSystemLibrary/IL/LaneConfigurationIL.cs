@@ -7,6 +7,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
     {
         Int16 laneId;
         Int16 laneNumber;
+        String laneName;
         Int16 laneTypeId;
         String laneTypeName;
         Int16 laneDirectionId;
@@ -18,6 +19,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             this.laneId = 0;
             this.laneNumber = 0;
+            this.laneName = string.Empty;
             this.laneTypeId = 0;
             this.laneTypeName = string.Empty;
             this.laneDirectionId = 0;
@@ -32,6 +34,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         public short LaneNumber
         {
             get => laneNumber; set => laneNumber = value;
+        }
+        public string LaneName
+        {
+            get => laneName; set => laneName = value;
         }
         public short LaneTypeId
         {

@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
@@ -125,7 +125,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             List<LaneConfigurationIL> lanes = new List<LaneConfigurationIL>();
             try
             {
-                string spName = "USP_LaneGetAll";
+                string spName = "USP_LaneGetbyPlazaId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaId", DbType.Int32, PlazaId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -148,7 +148,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             LaneConfigurationIL lane = new LaneConfigurationIL();
 
             if (dr["LaneId"] != DBNull.Value)
+            {
                 lane.LaneId = Convert.ToInt16(dr["LaneId"]);
+                lane.LaneName = "Lane-" + Convert.ToString(dr["LaneId"]);
+            }
 
             if (dr["PlazaId"] != DBNull.Value)
                 lane.PlazaId = Convert.ToInt16(dr["PlazaId"]);

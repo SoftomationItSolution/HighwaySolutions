@@ -57,6 +57,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["TotalAmount"] != DBNull.Value)
                 dm.TotalAmount = Convert.ToDecimal(dr["TotalAmount"]);
             
+           
             return dm;
         }
         #endregion

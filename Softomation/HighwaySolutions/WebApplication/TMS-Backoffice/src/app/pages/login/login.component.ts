@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
           this.dataModel.setLoggedIn(true);
           this.dataModel.setTokenVale(data.ResponseData.AccessToken);
           this.dataModel.setUserData(JSON.stringify(data.ResponseData.UserData));
-          this.router.navigate(['/dashboard']);
+          this.GetSystemSetting();
         } else {
           this.ErrorData = data.Message;
           this.dataModel.openSnackBar(this.ErrorData, false);
@@ -61,7 +61,22 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-
-
+  GetSystemSetting() {
+    this.api.SystemSettingGet().subscribe(
+      data => {
+        this.dataModel.setSSData(JSON.stringify(data.ResponseData));
+        this.router.navigate(['/dashboard']);
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dataModel.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dataModel.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
 }

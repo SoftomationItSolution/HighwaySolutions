@@ -848,6 +848,26 @@ namespace TMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/LaneGetByPlazaId")]
+        [HttpGet]
+        public HttpResponseMessage LaneGetByPlazaId(short PlazaId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = LaneConfigurationBL.GetByPlazaId(PlazaId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in LaneGetByPlazaId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/LaneInsertUpdate")]
         [HttpPost]
         public HttpResponseMessage LaneInsertUpdate(LaneConfigurationIL plaza)
@@ -1483,6 +1503,28 @@ namespace TMSRestAPI.Controllers
         }
         #endregion
 
+        #region Shift Timining 
+        [Route(Provider + "/" + APIPath + "/GetShiftTimining")]
+        [HttpGet]
+        public HttpResponseMessage GetShiftTimining()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ShiftTiminingBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetShiftTimining : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region Float Process
         [Route(Provider + "/" + APIPath + "/FloatProcessGetAll")]
         [HttpGet]
@@ -1503,6 +1545,25 @@ namespace TMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        [Route(Provider + "/" + APIPath + "/FloatProcessGetById")]
+        [HttpGet]
+        public HttpResponseMessage FloatProcessGetById(Int64 FloatProcessId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = FloatProcessBL.GetById(FloatProcessId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FloatProcessGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
         [Route(Provider + "/" + APIPath + "/FloatProcessSetUp")]
         [HttpPost]
@@ -1510,10 +1571,47 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                resp.AlertMessage = "success";
-                response.Message.Add(resp);
-                response.ResponseData = FloatProcessBL.InsertUpdate(floatProcess);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
+                bool process = true;
+                floatProcess.TransactionDate = Convert.ToDateTime(floatProcess.TransactionDateStamp);
+                ShiftTiminingIL shift = ShiftTiminingBL.GetById(floatProcess.ShiftId);
+                SystemSettingIL system = SystemSettingBL.Get();
+                string ShiftEndDateTime = floatProcess.TransactionDateStamp + " " + shift.EndTimming;
+                string ShiftStartDateTime = floatProcess.TransactionDateStamp + " " + shift.StartTimmng;
+                DateTime MaxAllowedTime = DateTime.Now.AddDays(system.AllotmentDays);
+                if (floatProcess.FloatTransactionTypeId == 3)
+                {
+                    if (DateTime.Now > Convert.ToDateTime(ShiftEndDateTime))
+                    {
+                        process = false;
+                        resp.AlertMessage = "Float can not assign for this shift.";
+                        response.Message.Add(resp);
+                    }
+                    else if (Convert.ToDateTime(ShiftStartDateTime) > MaxAllowedTime)
+                    {
+                        process = false;
+                        resp.AlertMessage = "Float can not assign for this future shift.";
+                        response.Message.Add(resp);
+                    }
+                }
+                //else if (cf.TransactionType == 4)
+                //{
+                //    if (Convert.ToDateTime(ShiftStartDateTime) > DateTime.Now || Convert.ToDateTime(ShiftEndDateTime) < DateTime.Now)
+                //    {
+                //        process = false;
+                //        objresponse.AlertMessage = "Mid Declaration cannot allowed for this shift";
+                //        responseMessage.Add(objresponse);
+                //        response.Message = responseMessage;
+                //    }
+                //}
+                if (process)
+                {
+                    response.Message = FloatProcessBL.InsertUpdate(floatProcess);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
             }
             catch (Exception ex)
             {

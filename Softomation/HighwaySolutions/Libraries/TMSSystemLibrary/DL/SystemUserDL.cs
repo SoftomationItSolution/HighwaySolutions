@@ -264,8 +264,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["RoleName"] != DBNull.Value)
                 user.RoleName = Convert.ToString(dr["RoleName"]);
 
-            user.UserTypeName = Enum.GetName(typeof(SystemConstants.AppUserType), (SystemConstants.AppUserType)user.UserTypeId);
-            user.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)user.DataStatus);
+            user.UserTypeName = CommonLibrary.Constants.SplitCamelCase(Enum.GetName(typeof(SystemConstants.AppUserType), (SystemConstants.AppUserType)user.UserTypeId));
+            user.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)user.DataStatus);
             return user;
         }
         #endregion

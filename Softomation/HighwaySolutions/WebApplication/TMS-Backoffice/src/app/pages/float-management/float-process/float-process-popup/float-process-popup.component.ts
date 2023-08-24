@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -15,54 +16,114 @@ export class FloatProcessPopupComponent implements OnInit {
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  SystemIntegratorId: number = 0;
+  FloatProcessId: number = 0;
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
   ErrorData: any;
+  TCList: any;
+  LaneList: any;
+  ShiftTimmingList: any;
+  DefaultPlazaId = 0;
+  DenominationData: any;
+  AmountAlloted=0;
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<FloatProcessPopupComponent>,
-    public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
+    public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,public datepipe: DatePipe,) {
     this.LogedUserId = this.dm.getUserId();
-    this.SystemIntegratorId = parentData.SystemIntegratorId;
+    this.FloatProcessId = parentData.FloatProcessId;
+    this.DefaultPlazaId = this.dm.getDefaultPlazaId();
   }
 
   ngOnInit(): void {
-    this.PageTitle = "Create System Integrator Details";
+    this.PageTitle = "New Float Process";
     this.DataDetailsForm = new FormGroup({
-      SystemIntegratorId: new FormControl(this.SystemIntegratorId, [Validators.required]),
-      SystemIntegratorName: new FormControl('', [Validators.required, Validators.pattern(regExps["AlphaNumericSingleSpace"])]),
-      SystemIntegratorEmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
-      SystemIntegratorMobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
-      SystemIntegratorAddress: new FormControl('', [Validators.required]),
-      SystemIntegratorLoginId: new FormControl('', [Validators.required, Validators.pattern(regExps['LoginId'])]),
-      SystemIntegratorLoginPassword: new FormControl('', [Validators.required, Validators.pattern(regExps['Password'])]),
-      DataStatus: new FormControl(true),
+      LaneId: new FormControl('', [Validators.required]),
+      ShiftId: new FormControl('', [Validators.required]),
+      TransactionDateStamp: new FormControl('', [Validators.required]),
+      AssignedTo: new FormControl('', [Validators.required]),
+
     });
-    if (this.SystemIntegratorId > 0) {
-      this.PageTitle = "Update System Integrator Details";
-      this.DetailsbyId();
-    }
+    this.GetLaneList();
+   
+  }
+
+  GetLaneList() {
+    this.spinner.show();
+    this.dbService.LaneGetByPlazaId(this.DefaultPlazaId).subscribe(
+      data => {
+        this.LaneList = data.ResponseData;
+        this.GetTCList();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetTCList() {
+    
+    this.dbService.UserConfigurationGetByUserType(4).subscribe(
+      data => {
+        this.TCList = data.ResponseData;
+        this.GetShiftTimining();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetShiftTimining() {
+    this.dbService.GetShiftTimining().subscribe(
+      data => {
+        this.ShiftTimmingList = data.ResponseData;
+        if (this.FloatProcessId > 0) {
+          this.PageTitle = "Update Float Process";
+          this.DetailsbyId();
+        }
+        else
+          this.DenominationGetActive();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  DenominationGetActive() {
+    this.dbService.DenominationGetActive().subscribe(
+      data => {
+        this.DenominationData = data.ResponseData;
+        this.spinner.show();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   DetailsbyId() {
-    this.spinner.show();
-    this.dbService.SystemIntegratorGetById(this.SystemIntegratorId).subscribe(
+    this.dbService.FloatProcessGetById(this.FloatProcessId).subscribe(
       data => {
         this.spinner.hide();
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
-          this.DataDetailsForm.controls['SystemIntegratorId'].setValue(DetailData.SystemIntegratorId);
-          this.DataDetailsForm.controls['SystemIntegratorName'].setValue(DetailData.SystemIntegratorName);
-          this.DataDetailsForm.controls['SystemIntegratorAddress'].setValue(DetailData.SystemIntegratorAddress);
-          this.DataDetailsForm.controls['SystemIntegratorMobileNumber'].setValue(DetailData.SystemIntegratorMobileNumber);
-          this.DataDetailsForm.controls['SystemIntegratorEmailId'].setValue(DetailData.SystemIntegratorEmailId);
-          this.DataDetailsForm.controls['SystemIntegratorLoginId'].setValue(DetailData.SystemIntegratorLoginId);
-          this.DataDetailsForm.controls['SystemIntegratorLoginPassword'].setValue(DetailData.SystemIntegratorLoginPassword);
-          if (DetailData.DataStatus == 1)
-            this.DataDetailsForm.controls['DataStatus'].setValue(true);
-          else
-            this.DataDetailsForm.controls['DataStatus'].setValue(false);
+          this.DenominationData=DetailData.FloatProcessDenominationList;
+          this.AmountAlloted=DetailData.TransactionAmount;
+          this.DataDetailsForm.controls['LaneId'].setValue(DetailData.LaneId);
+          this.DataDetailsForm.controls['ShiftId'].setValue(DetailData.ShiftId);
+          this.DataDetailsForm.controls['AssignedTo'].setValue(DetailData.AssignedTo);
+          this.DataDetailsForm.controls['TransactionDateStamp'].setValue(new Date(DetailData.TransactionDateStamp));
+        
         }
         else {
           this.ClosePoup();
@@ -78,6 +139,14 @@ export class FloatProcessPopupComponent implements OnInit {
     );
   }
 
+  CalculateAmount() {
+    let total: number = 0;
+    for (let index = 0; index < this.DenominationData.length; index++) {
+      total = total + ((this.DenominationData[index].DenominationValue) * (this.DenominationData[index].DenominationCount))
+    }
+    this.AmountAlloted = total;
+  }
+
   ClosePoup() { this.Dialogref.close(false); }
 
   SaveDetails() {
@@ -86,19 +155,22 @@ export class FloatProcessPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      SystemIntegratorId: this.SystemIntegratorId,
-      SystemIntegratorName: this.DataDetailsForm.value.SystemIntegratorName,
-      SystemIntegratorAddress: this.DataDetailsForm.value.SystemIntegratorAddress,
-      SystemIntegratorMobileNumber: this.DataDetailsForm.value.SystemIntegratorMobileNumber,
-      SystemIntegratorEmailId: this.DataDetailsForm.value.SystemIntegratorEmailId,
-      SystemIntegratorLoginId: this.DataDetailsForm.value.SystemIntegratorLoginId,
-      SystemIntegratorLoginPassword: this.DataDetailsForm.value.SystemIntegratorLoginPassword,
-      DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
+      FloatProcessId: this.FloatProcessId,
+      PlazaId: this.DefaultPlazaId,
+      TransactionAmount: this.AmountAlloted,
+      AssignedBy:this.LogedUserId,
+      LaneId: this.DataDetailsForm.value.LaneId,
+      ShiftId: this.DataDetailsForm.value.ShiftId,
+      AssignedTo: this.DataDetailsForm.value.AssignedTo,
+      TransactionDateStamp:this.datepipe.transform(this.DataDetailsForm.value.TransactionDateStamp, 'dd-MMM-yyyy'),
+      FloatProcessDenominationList:this.DenominationData,
+      FloatTransactionTypeId:3,
+      DataStatus: 1,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
     }
     this.spinner.show();
-    this.dbService.SystemIntegratorInsertUpdate(Obj).subscribe(
+    this.dbService.FloatProcessSetUp(Obj).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;

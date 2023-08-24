@@ -47,11 +47,24 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
 
         }
-        public static LaneConfigurationIL GetById(short PlazaId)
+        public static LaneConfigurationIL GetById(short LaneId)
         {
             try
             {
-                return LaneConfigurationDL.GetById(PlazaId);
+                return LaneConfigurationDL.GetById(LaneId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+        public static List<LaneConfigurationIL> GetByPlazaId(short PlazaId)
+        {
+            try
+            {
+                return LaneConfigurationDL.GetByPlazaId(PlazaId);
             }
             catch (Exception ex)
             {
@@ -71,7 +84,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 
                 throw ex;
             }
-
         }
     }
 }

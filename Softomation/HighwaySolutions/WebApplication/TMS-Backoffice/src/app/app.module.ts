@@ -72,6 +72,7 @@ import { DenominationPoupComponent } from './pages/float-management/denomination
 import { SystemSettingComponent } from './pages/system-setting/system-setting.component';
 import { FloatProcessMasterComponent } from './pages/float-management/float-process/float-process-master/float-process-master.component';
 import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
+import { AppLockComponent } from './pages/configurations/UserData/app-lock/app-lock.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -133,7 +134,8 @@ export const MY_CUSTOM_FORMATS = {
     DenominationPoupComponent,
     SystemSettingComponent,
     FloatProcessMasterComponent,
-    FloatProcessPopupComponent
+    FloatProcessPopupComponent,
+    AppLockComponent
   ],
   imports: [
     BrowserModule,

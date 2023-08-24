@@ -107,6 +107,7 @@
     <Compile Include="BL\PlazaConfigurationBL.cs" />
     <Compile Include="BL\RoleManagementBL.cs" />
     <Compile Include="BL\RolePermissionBL.cs" />
+    <Compile Include="BL\ShiftTiminingBL.cs" />
     <Compile Include="BL\SystemIntegratorBL.cs" />
     <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\TollFareBL.cs" />
@@ -129,6 +130,7 @@
     <Compile Include="DL\PlazaConfigurationDL.cs" />
     <Compile Include="DL\RoleManagementDL.cs" />
     <Compile Include="DL\RolePermissionDL.cs" />
+    <Compile Include="DL\ShiftTiminingDL.cs" />
     <Compile Include="DL\SystemIntegratorDL.cs" />
     <Compile Include="DL\SystemSettingDL.cs" />
     <Compile Include="DL\TollFareConfigurationDL.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="IL\FloatProcessDenominationIL.cs" />
     <Compile Include="IL\FloatProcessIL.cs" />
     <Compile Include="IL\FloatTransactionsTypeIL.cs" />
+    <Compile Include="IL\ShiftTiminingIL.cs" />
     <Compile Include="IL\SystemSettingIL.cs" />
     <Compile Include="IL\SystemVehicleClassIL.cs" />
     <Compile Include="IL\TollFareConfigurationIL.cs" />

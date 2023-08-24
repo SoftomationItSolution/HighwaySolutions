@@ -1,29 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
-using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class FloatProcessBL
+    public class ShiftTiminingBL
     {
-        public static List<ResponseIL> InsertUpdate(FloatProcessIL fp)
+        public static List<ShiftTiminingIL> GetAll()
         {
             try
             {
-                return FloatProcessDL.InsertUpdate(fp);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public static List<FloatProcessIL> GetAll()
-        {
-            try
-            {
-                return FloatProcessDL.GetAll();
+                return ShiftTiminingDL.GetAll();
             }
             catch (Exception ex)
             {
@@ -31,11 +19,23 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
         }
 
-        public static FloatProcessIL GetById(Int64 FloatProcessId)
+        public static List<ShiftTiminingIL> GetActive()
         {
             try
             {
-                return FloatProcessDL.GetById(FloatProcessId);
+                return ShiftTiminingDL.GetActive();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static ShiftTiminingIL GetById(Int16 shiftId)
+        {
+            try
+            {
+                return ShiftTiminingDL.GetById(shiftId);
             }
             catch (Exception ex)
             {

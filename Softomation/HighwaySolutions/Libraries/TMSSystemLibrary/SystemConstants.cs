@@ -24,14 +24,22 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         #endregion
 
         #region Enum
+
+        public enum TollingType
+        {
+            Normal = 0,
+            AccessControl = 1,
+            FreeFlow=2
+        }
+
         public enum AppUserType
         {
             SysAdmin = 0,
             Administrator = 1,
-            Enforcement = 2,
-            Operater = 3,
-            Commuters = 4,
-            PetrollingTeam = 5
+            Manager = 2,
+            Auditor = 3,
+            TollCollector = 4,
+            Maintenance = 5
         }
 
         public enum LaneType

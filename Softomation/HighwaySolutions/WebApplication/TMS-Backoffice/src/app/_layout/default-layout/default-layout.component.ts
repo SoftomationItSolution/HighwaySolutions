@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataModel } from 'src/services/data-model.model';
@@ -8,6 +7,7 @@ import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { UserProfilePopupComponent } from 'src/app/pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
 import { ChnagePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { SystemSettingComponent } from 'src/app/pages/system-setting/system-setting.component';
+import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock/app-lock.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -234,23 +234,23 @@ export class DefaultLayoutComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = '55%';
+    dialogConfig.width = '50%';
     const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
   }
   alOpen() {
-    // this.dataModel.setLock("true")
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width = '70%';
-    // dialogConfig.height = '461px';
-    // const dialogRef = this.dialog.open(AppLockComponent, dialogConfig);
-    // dialogRef.afterClosed().subscribe(
-    //   data => {
-    //     if (data) {
-    //       this.dataModel.setLock("false")
-    //     }
-    //   }
-    // );
+    this.dataModel.setLock("true")
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '70%';
+    dialogConfig.height = '461px';
+    const dialogRef = this.dialog.open(AppLockComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.dataModel.setLock("false")
+        }
+      }
+    );
   }
 }
