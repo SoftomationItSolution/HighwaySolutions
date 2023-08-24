@@ -233,7 +233,46 @@ namespace TMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+        #endregion
 
+        #region System Setting
+        [Route(Provider + "/" + APIPath + "/SystemSettingGet")]
+        [HttpGet]
+        public HttpResponseMessage SystemSettingGet()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = SystemSettingBL.Get();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemSettingGet : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/SystemSettingSetup")]
+        [HttpPost]
+        public HttpResponseMessage SystemSettingSetup(SystemSettingIL ss)
+        {
+            try
+            {
+                response.Message = SystemSettingBL.InsertUpdate(ss);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in SystemSettingSetup : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Role Management
@@ -1268,6 +1307,7 @@ namespace TMSRestAPI.Controllers
             }
         }
         #endregion
+
         #region System Vehicle Class
         [Route(Provider + "/" + APIPath + "/SystemVehicleClassGetAll")]
         [HttpGet]
@@ -1392,6 +1432,92 @@ namespace TMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in TollFareSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Denomination Master
+        [Route(Provider + "/" + APIPath + "/DenominationGetActive")]
+        [HttpGet]
+        public HttpResponseMessage DenominationGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DenominationBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in DenominationGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Float Transactions Type Master
+        [Route(Provider + "/" + APIPath + "/FloatTransactionsTypeGetActive")]
+        [HttpGet]
+        public HttpResponseMessage FloatTransactionsTypeGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = FloatTransactionsTypeBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FloatTransactionsTypeGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Float Process
+        [Route(Provider + "/" + APIPath + "/FloatProcessGetAll")]
+        [HttpGet]
+        public HttpResponseMessage FloatProcessGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = FloatProcessBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FloatProcessGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/FloatProcessSetUp")]
+        [HttpPost]
+        public HttpResponseMessage FloatProcessSetUp(FloatProcessIL floatProcess)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = FloatProcessBL.InsertUpdate(floatProcess);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FloatProcessSetUp : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

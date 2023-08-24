@@ -133,6 +133,21 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
   //#endregion
+  
+  //#region System Setting
+  SystemSettingSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemSettingSetUp', data, { headers: headers_object });
+  }
+  SystemSettingGet(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemSettingGet', { headers: headers_object });
+  }
+  //#endregion
 
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {
@@ -413,13 +428,13 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region  Vehicle Class
+  //#region  Toll Fare
   TollFareGetByEffectedFrom(EffectedFrom: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/TollFareGetByEffectedFrom?EffectedFrom=' + EffectedFrom, { headers: headers_object });
   }
-  
+
   TollFareSetUp(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -427,308 +442,4 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  // //#region Equipment Details
-  // EquipmentDetailsGetBySystemId(SystemId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-  // }
-  // EquipmentDetailsGetById(EquipmentId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetById?EquipmentId=' + EquipmentId, { headers: headers_object });
-  // }
-  // EquipmentDetailsGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetAll', { headers: headers_object });
-  // }
-
-  // EquipmentDetailsGetByFilter(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetByFilter', data, { headers: headers_object });
-  // }
-
-  // EquipmentDetailsGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetActive', { headers: headers_object });
-  // }
-  // EquipmentDetailsInsertUpdate(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsInsertUpdate', data, { headers: headers_object });
-  // }
-
-  // EquipmentTypeGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentTypeGetActive', { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  Equipment Config
-  // EquipmentConfigGetBySystemId(SystemId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentConfigGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-  // }
-  // EquipmentConfigSetup(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EquipmentConfigSetup', data, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  Packages
-  // PackagesGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetAll', { headers: headers_object });
-  // }
-  // PackagesSetUp(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/PackageInsertUpdate', data, { headers: headers_object });
-  // }
-  // PackagesGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetActive', { headers: headers_object });
-  // }
-  // PackagesGetById(PackageId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetById?PackageId=' + PackageId, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  System
-  // SystemSetup(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemSetup', data, { headers: headers_object });
-  // }
-  // SystemGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetAll', { headers: headers_object });
-  // }
-  // SystemGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetActive', { headers: headers_object });
-  // }
-  // SystemGetByName(SystemName: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemGetByName?SystemName=' + SystemName, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  System
-  // ReportGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetAll', { headers: headers_object });
-  // }
-  // ReportGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetActive', { headers: headers_object });
-  // }
-  // ReportGetByName(ReportName: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReportGetByName?ReportName=' + ReportName, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  Lane
-  // LaneGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetAll', { headers: headers_object });
-  // }
-  // LaneGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetActive', { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region System Setting
-  // SystemSettingSetUp(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemSettingSetUp', data, { headers: headers_object });
-  // }
-  // SystemSettingGet(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   const token = this.dataModel.getTokenVale();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemSettingGet', { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region Incident Details
-  // IncidentSourceGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentSourceGetActive', { headers: headers_object });
-  // }
-  // IncidentCategoryGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentCategoryGetActive', { headers: headers_object });
-  // }
-
-  // IncidentStatusGetActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IncidentStatusGetActive', { headers: headers_object });
-  // }
-
-  // IncidentCreate(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSInsert', data, { headers: headers_object });
-  // }
-  // IncidentUpdate(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSUpdate', data, { headers: headers_object });
-  // }
-  // IMSGetPending(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetPending?hours=' + data, { headers: headers_object });
-  // }
-  // IMSGetClosed(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetClosed?hours=' + data, { headers: headers_object });
-  // }
-  // IMSGetInProgress(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetInProgress?hours=' + data, { headers: headers_object });
-  // }
-  // IMSGetById(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IMSGetById?IncidentId=' + data, { headers: headers_object });
-  // }
-
-  // IMSActionHistoryInsert(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSActionHistoryInsert', data, { headers: headers_object });
-  // }
-  // IMSGetByFilter(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/IMSGetByFilter', data, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region Check List
-  // MasterCheckListActive(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/MasterCheckListActive', { headers: headers_object });
-  // }
-
-  // CheckListActionApproveByOperator(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListActionApproveByOperator', data, { headers: headers_object });
-  // }
-  // CheckListGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/CheckListGetAll', { headers: headers_object });
-  // }
-
-  // CheckListSetup(data: {}): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/CheckListSetup', data, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  Equipment Config
-  // EventsTypeGetBySystemId(SystemId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EventsTypeGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-  // }
-  // EventsTypeSetup(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/EventsTypeSetup', data, { headers: headers_object });
-  // }
-  // ChalanTypeGetAll(): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ChalanTypeGetAll', { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region Filter Master Data 
-  // FilterMasterGetBySystemId(SystemId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterMasterGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-  // }
-  // FilterReportGetBySystemId(SystemId: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterReportGetBySystemId?SystemId=' + SystemId, { headers: headers_object });
-  // }
-  // //#endregion
-
-  // //#region  VIDS System
-  // VIDSEventsGetByHours(Hours: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
-  // }
-
-  // VIDSPendingReviewGetByHours(Hours: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
-  // }
-
-  // VIDSEventsGetByFilter(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
-  // }
-
-  // VIDSEventReviewed(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventReviewUpdate', data, { headers: headers_object });
-  // }
-
-  // VIDSReviewedEventsGetByHours(Hours: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSReviewedEventsGetByHours?Hours=' + Hours, { headers: headers_object });
-  // }
-
-  // VIDSReviewedEventsGetByFilter(data: any): Observable<any> {
-  //   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  //   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  //   return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSReviewedEventsGetByFilter', data, { headers: headers_object });
-  // }
-  // //#endregion
 }

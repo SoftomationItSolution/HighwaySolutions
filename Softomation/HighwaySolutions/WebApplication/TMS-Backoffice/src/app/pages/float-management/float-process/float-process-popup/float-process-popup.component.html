@@ -1,0 +1,96 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="SystemIntegratorName">System Integrator Name</label>
+                    <input formControlName="SystemIntegratorName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System
+                        Integrator Name is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorAddress">System Integrator Address</label>
+                    <input formControlName="SystemIntegratorAddress" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorAddress')">System
+                        Integrator Address is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorEmailId">System Integrator EmailId</label>
+                    <input formControlName="SystemIntegratorEmailId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorEmailId')">System
+                        Integrator Email id is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorEmailId')">Vaild
+                        System Integrator Email Id is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorMobileNumber">System Integrator Mobile</label>
+                    <input formControlName="SystemIntegratorMobileNumber" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorMobileNumber')">System
+                        Integrator Mobile Number is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorMobileNumber')">Vaild
+                        Mobile Number
+                        is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorLoginId">Login Id</label>
+                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
+                        Id is
+                        required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginId')">Vaild
+                        Login Id is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="SystemIntegratorLoginPassword">Login Password</label>
+                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginPassword')">Login Password is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginPassword')">Vaild Login
+                        Password is
+                        required.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

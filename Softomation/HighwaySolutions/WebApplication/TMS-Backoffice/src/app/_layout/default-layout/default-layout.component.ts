@@ -5,6 +5,9 @@ import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { UserProfilePopupComponent } from 'src/app/pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
+import { ChnagePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
+import { SystemSettingComponent } from 'src/app/pages/system-setting/system-setting.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -201,38 +204,38 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   chOpen() {
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width = '50%';
-    // dialogConfig.height = '349px';
-    // this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '349px';
+    this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
   }
 
   pfOpen() {
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width = '50%';
-    // dialogConfig.height = '480px';
-    // const dialogRef = this.dialog.open(UserProfilePopupComponent, dialogConfig);
-    // dialogRef.afterClosed().subscribe(
-    //   data => {
-    //     if (data) {
-    //       this.userData = this.dataModel.getUserData();
-    //       if (this.userData.UserProfileImage != '') {
-    //         this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
-    //       }
-    //     }
-    //   }
-    // );
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.height = '480px';
+    const dialogRef = this.dialog.open(UserProfilePopupComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.userData = this.dataModel.getUserData();
+          if (this.userData.UserProfileImage != '') {
+            this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
+          }
+        }
+      }
+    );
   }
   ssOpen(){
-    // const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
-    // dialogConfig.width = '55%';
-    // const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '55%';
+    const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
   }
   alOpen() {
     // this.dataModel.setLock("true")

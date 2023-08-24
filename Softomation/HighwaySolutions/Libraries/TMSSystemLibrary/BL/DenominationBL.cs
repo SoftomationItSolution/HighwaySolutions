@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class MenuManagementBL
+    public class DenominationBL
     {
-        public static List<MenuManagementIL> GetAll()
+        public static List<DenominationIL> GetAll()
         {
             try
             {
-                return MenuManagementDL.GetAll();
+                return DenominationDL.GetAll();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
-        public static List<MenuManagementIL> GetByRoleId(int RoleId)
+
+        public static List<DenominationIL> GetActive()
         {
             try
             {
-                return MenuManagementDL.GetByRoleId(RoleId);
+                return DenominationDL.GetActive();
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
     }
 }

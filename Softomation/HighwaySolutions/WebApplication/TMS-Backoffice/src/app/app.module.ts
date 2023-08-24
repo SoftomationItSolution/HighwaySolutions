@@ -68,8 +68,10 @@ import { UserConfigurationPopupComponent } from './pages/configurations/UserData
 import { ChnagePasswordPopUpComponent } from './pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from './pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
 import { FareConfigurationComponent } from './pages/configurations/FareConfiguration/fare-configuration.component';
-
-
+import { DenominationPoupComponent } from './pages/float-management/denomination-poup/denomination-poup.component';
+import { SystemSettingComponent } from './pages/system-setting/system-setting.component';
+import { FloatProcessMasterComponent } from './pages/float-management/float-process/float-process-master/float-process-master.component';
+import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -127,7 +129,11 @@ export const MY_CUSTOM_FORMATS = {
     UserConfigurationPopupComponent,
     ChnagePasswordPopUpComponent,
     UserProfilePopupComponent,
-    FareConfigurationComponent
+    FareConfigurationComponent,
+    DenominationPoupComponent,
+    SystemSettingComponent,
+    FloatProcessMasterComponent,
+    FloatProcessPopupComponent
   ],
   imports: [
     BrowserModule,

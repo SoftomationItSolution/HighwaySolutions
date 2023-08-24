@@ -93,8 +93,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\DenominationBL.cs" />
     <Compile Include="BL\EquipmentDetailsBL.cs" />
     <Compile Include="BL\ExemptTypeBL.cs" />
+    <Compile Include="BL\FloatProcessBL.cs" />
+    <Compile Include="BL\FloatTransactionsTypeBL.cs" />
     <Compile Include="BL\ManufactureBL.cs" />
     <Compile Include="BL\EquipmentTypeBL.cs" />
     <Compile Include="BL\LaneConfigurationBL.cs" />
@@ -105,13 +108,18 @@
     <Compile Include="BL\RoleManagementBL.cs" />
     <Compile Include="BL\RolePermissionBL.cs" />
     <Compile Include="BL\SystemIntegratorBL.cs" />
+    <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\TollFareBL.cs" />
     <Compile Include="BL\TransactionTypeBL.cs" />
     <Compile Include="BL\SystemUserBL.cs" />
     <Compile Include="BL\FasTagVehicleClassBL.cs" />
     <Compile Include="BL\SystemVehicleClassBL.cs" />
+    <Compile Include="DL\DenominationDL.cs" />
     <Compile Include="DL\EquipmentDetailsDL.cs" />
     <Compile Include="DL\ExemptTypeDL.cs" />
+    <Compile Include="DL\FloatProcessDenominationDL.cs" />
+    <Compile Include="DL\FloatProcessDL.cs" />
+    <Compile Include="DL\FloatTransactionsTypeDL.cs" />
     <Compile Include="DL\ManufactureDL.cs" />
     <Compile Include="DL\EquipmentTypeDL.cs" />
     <Compile Include="DL\LaneConfigurationDL.cs" />
@@ -122,12 +130,18 @@
     <Compile Include="DL\RoleManagementDL.cs" />
     <Compile Include="DL\RolePermissionDL.cs" />
     <Compile Include="DL\SystemIntegratorDL.cs" />
+    <Compile Include="DL\SystemSettingDL.cs" />
     <Compile Include="DL\TollFareConfigurationDL.cs" />
     <Compile Include="DL\TollFareDL.cs" />
     <Compile Include="DL\TransactionTypeDL.cs" />
     <Compile Include="DL\SystemUserDL.cs" />
     <Compile Include="DL\FasTagVehicleClassDL.cs" />
     <Compile Include="DL\SystemVehicleClassDL.cs" />
+    <Compile Include="IL\DenominationIL.cs" />
+    <Compile Include="IL\FloatProcessDenominationIL.cs" />
+    <Compile Include="IL\FloatProcessIL.cs" />
+    <Compile Include="IL\FloatTransactionsTypeIL.cs" />
+    <Compile Include="IL\SystemSettingIL.cs" />
     <Compile Include="IL\SystemVehicleClassIL.cs" />
     <Compile Include="IL\TollFareConfigurationIL.cs" />
     <Compile Include="IL\TollFareIL.cs" />
