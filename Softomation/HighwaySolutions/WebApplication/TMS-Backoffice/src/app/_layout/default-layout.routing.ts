@@ -15,6 +15,7 @@ import { RoleConfigurationComponent } from '../pages/configurations/RoleData/rol
 import { UserConfigurationComponent } from '../pages/configurations/UserData/user-configuration/user-configuration.component';
 import { FareConfigurationComponent } from '../pages/configurations/FareConfiguration/fare-configuration.component';
 import { FloatProcessMasterComponent } from '../pages/float-management/float-process/float-process-master/float-process-master.component';
+import { ShiftClearanceDetailsComponent } from '../pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -32,6 +33,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'role', component: RoleConfigurationComponent },
     { path: 'user', component: UserConfigurationComponent },
     { path: 'floatProcess', component: FloatProcessMasterComponent },
+    { path: 'shiftClearance', component: ShiftClearanceDetailsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

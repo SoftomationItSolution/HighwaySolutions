@@ -24,6 +24,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String assignedByLoginId;
         Int64 assignedTo;
         String assignedToLoginId;
+        Int64 laneTransactionCount;
         List<FloatProcessDenominationIL> floatProcessDenominationList;
         public FloatProcessIL()
         {
@@ -45,6 +46,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             assignedByLoginId = string.Empty;
             assignedTo = 0;
             assignedToLoginId = string.Empty;
+            laneTransactionCount = 0;
             floatProcessDenominationList = new List<FloatProcessDenominationIL>();
         }
 
@@ -262,6 +264,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 assignedToLoginId = value;
+            }
+        }
+        public Int64 LaneTransactionCount
+        {
+            get
+            {
+                return laneTransactionCount;
+            }
+
+            set
+            {
+                laneTransactionCount = value;
             }
         }
         public List<FloatProcessDenominationIL> FloatProcessDenominationList

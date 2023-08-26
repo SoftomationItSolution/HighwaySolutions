@@ -73,6 +73,8 @@ import { SystemSettingComponent } from './pages/system-setting/system-setting.co
 import { AppLockComponent } from './pages/configurations/UserData/app-lock/app-lock.component';
 import { FloatProcessMasterComponent } from './pages/float-management/float-process/float-process-master/float-process-master.component';
 import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
+import { ShiftClearanceDetailsComponent } from './pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
+import { ShiftClearanceDetailsPopupComponent } from './pages/float-management/shift-clearance/shift-clearance-details-popup/shift-clearance-details-popup.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -135,7 +137,9 @@ export const MY_CUSTOM_FORMATS = {
     SystemSettingComponent,
     AppLockComponent,
     FloatProcessMasterComponent,
-    FloatProcessPopupComponent
+    FloatProcessPopupComponent,
+    ShiftClearanceDetailsComponent,
+    ShiftClearanceDetailsPopupComponent
   ],
   imports: [
     BrowserModule,

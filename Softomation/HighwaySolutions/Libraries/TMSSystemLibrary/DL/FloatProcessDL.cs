@@ -53,6 +53,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReceiptNumber", DbType.String, types.ReceiptNumber, ParameterDirection.Input, 50));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedBy", DbType.Int64, types.AssignedBy, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AssignedTo", DbType.Int64, types.AssignedTo, ParameterDirection.Input));
+                    command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneTransactionCount", DbType.Int64, types.LaneTransactionCount, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, types.DataStatus, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, types.CreatedBy, ParameterDirection.Input));

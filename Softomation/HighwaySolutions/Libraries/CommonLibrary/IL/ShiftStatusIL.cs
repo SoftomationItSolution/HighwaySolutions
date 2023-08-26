@@ -10,6 +10,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
         DateTime shiftDate;
         String shiftDateStamp;
         Boolean shiftStatus;
+        Int64 laneTransactionCount;
         public ShiftStatusIL()
         {
             shiftStatusId = 0;
@@ -18,6 +19,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             shiftDate = DateTime.MinValue;
             shiftDateStamp = string.Empty;
             shiftStatus = true;
+            laneTransactionCount = 0;
         }
 
         public Int64 ShiftStatusId
@@ -90,6 +92,18 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             set
             {
                 shiftStatus = value;
+            }
+        }
+        public Int64 LaneTransactionCount
+        {
+            get
+            {
+                return laneTransactionCount;
+            }
+
+            set
+            {
+                laneTransactionCount = value;
             }
         }
     }

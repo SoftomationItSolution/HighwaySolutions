@@ -5,35 +5,35 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class ShiftTiminingBL
+    public class ShiftStatusBL
     {
-        public static List<ShiftTiminingIL> GetAll()
+        public static List<ShiftStatusIL> GetAll()
         {
             try
             {
-                return ShiftTiminingDL.GetAll();
+                return ShiftStatusDL.GetAll();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<ShiftTiminingIL> GetActive()
+        public static List<ShiftStatusIL> GetClose()
         {
             try
             {
-                return ShiftTiminingDL.GetActive();
+                return ShiftStatusDL.GetAll();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static ShiftTiminingIL GetById(Int16 shiftId)
+        public static List<ShiftStatusIL> GetOpen()
         {
             try
             {
-                return ShiftTiminingDL.GetById(shiftId);
+                return ShiftStatusDL.GetAll();
             }
             catch (Exception ex)
             {
