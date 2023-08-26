@@ -108,6 +108,8 @@
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />
+    <Compile Include="IL\ShiftStatusIL.cs" />
+    <Compile Include="IL\ShiftTiminingIL.cs" />
     <Compile Include="IL\UserManagementIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

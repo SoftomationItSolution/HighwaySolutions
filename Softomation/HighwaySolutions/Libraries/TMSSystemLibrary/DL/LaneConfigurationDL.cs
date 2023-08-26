@@ -148,10 +148,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             LaneConfigurationIL lane = new LaneConfigurationIL();
 
             if (dr["LaneId"] != DBNull.Value)
-            {
                 lane.LaneId = Convert.ToInt16(dr["LaneId"]);
-                lane.LaneName = "Lane-" + Convert.ToString(dr["LaneId"]);
-            }
 
             if (dr["PlazaId"] != DBNull.Value)
                 lane.PlazaId = Convert.ToInt16(dr["PlazaId"]);
@@ -184,7 +181,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 lane.Longitude = Convert.ToDecimal(dr["Longitude"]);
 
             if (dr["LaneNumber"] != DBNull.Value)
+            {
                 lane.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
+                lane.LaneName = "Lane-" + Convert.ToString(dr["LaneNumber"]);
+            }
 
             if (dr["LaneTypeId"] != DBNull.Value)
                 lane.LaneTypeId = Convert.ToInt16(dr["LaneTypeId"]);

@@ -70,9 +70,9 @@ import { UserProfilePopupComponent } from './pages/configurations/UserData/user-
 import { FareConfigurationComponent } from './pages/configurations/FareConfiguration/fare-configuration.component';
 import { DenominationPoupComponent } from './pages/float-management/denomination-poup/denomination-poup.component';
 import { SystemSettingComponent } from './pages/system-setting/system-setting.component';
+import { AppLockComponent } from './pages/configurations/UserData/app-lock/app-lock.component';
 import { FloatProcessMasterComponent } from './pages/float-management/float-process/float-process-master/float-process-master.component';
 import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
-import { AppLockComponent } from './pages/configurations/UserData/app-lock/app-lock.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -133,9 +133,9 @@ export const MY_CUSTOM_FORMATS = {
     FareConfigurationComponent,
     DenominationPoupComponent,
     SystemSettingComponent,
+    AppLockComponent,
     FloatProcessMasterComponent,
-    FloatProcessPopupComponent,
-    AppLockComponent
+    FloatProcessPopupComponent
   ],
   imports: [
     BrowserModule,

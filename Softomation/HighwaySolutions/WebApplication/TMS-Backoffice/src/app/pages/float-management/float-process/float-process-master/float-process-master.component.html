@@ -3,8 +3,14 @@
         <div class="card">
             <div class="card-body">
                 <div>
-                    <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
+                    <a href="javascript:void(0);" (click)="NewEntry(3)" class="btn btn-success mb-2 mr-2">
                         <i class="mdi mdi-plus me-2"></i> New Float Porcess
+                    </a>
+                    <a href="javascript:void(0);" (click)="NewEntry(4)" class="btn btn-primary mb-2 mr-2">
+                        <i class="mdi mdi-plus me-2"></i> Mid Float Porcess
+                    </a>
+                    <a href="javascript:void(0);" (click)="NewEntry(5)" class="btn btn-secondary mb-2 mr-2">
+                        <i class="mdi mdi-plus me-2"></i> End Float Porcess
                     </a>
                     <div class="dropdown d-inline-block float-right">
                         <span class="p-input-icon-left">
@@ -25,13 +31,13 @@
                                 </th>
                                 <th pSortableColumn="ShiftNumber">Shift<p-sortIcon field="ShiftNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="TransactionDateStamp">Transaction Date<p-sortIcon field="TransactionDateStamp"></p-sortIcon>
+                                <th pSortableColumn="TransactionDateStamp">Date<p-sortIcon field="TransactionDateStamp"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="ShiftTimining">Timining<p-sortIcon field="ShiftTimining"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="FloatTransactionTypeName">Transaction Type<p-sortIcon field="FloatTransactionTypeName"></p-sortIcon>
+                                <th pSortableColumn="FloatTransactionTypeName">Type<p-sortIcon field="FloatTransactionTypeName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="TransactionAmount">Transaction Amount<p-sortIcon field="TransactionAmount"></p-sortIcon>
+                                <th pSortableColumn="TransactionAmount">Amount<p-sortIcon field="TransactionAmount"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="AssignedByLoginId">Assigned By<p-sortIcon field="AssignedByLoginId"></p-sortIcon>
                                 </th>
@@ -49,7 +55,7 @@
                                 <td>{{rowData.TransactionDateStamp}}</td>
                                 <td>{{rowData.ShiftTimining}}</td>
                                 <td>{{rowData.FloatTransactionTypeName}}</td>
-                                <td>{{rowData.TransactionAmount}}</td>
+                                <td class="td-amt">&#8377; {{rowData.TransactionAmount}}</td>
                                 <td>{{rowData.AssignedByLoginId}}</td>
                                 <td>{{rowData.AssignedToLoginId}}</td>
                                 <td>{{rowData.ReceiptNumber}}</td>

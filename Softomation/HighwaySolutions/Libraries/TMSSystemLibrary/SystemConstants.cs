@@ -24,7 +24,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         #endregion
 
         #region Enum
-
         public enum TollingType
         {
             Normal = 0,

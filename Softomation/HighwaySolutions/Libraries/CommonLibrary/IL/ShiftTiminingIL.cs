@@ -1,7 +1,6 @@
 ﻿using System;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.CommonLibrary.IL
 {
     public class ShiftTiminingIL: CommonIL
     {

@@ -1593,16 +1593,15 @@ namespace TMSRestAPI.Controllers
                         response.Message.Add(resp);
                     }
                 }
-                //else if (cf.TransactionType == 4)
-                //{
-                //    if (Convert.ToDateTime(ShiftStartDateTime) > DateTime.Now || Convert.ToDateTime(ShiftEndDateTime) < DateTime.Now)
-                //    {
-                //        process = false;
-                //        objresponse.AlertMessage = "Mid Declaration cannot allowed for this shift";
-                //        responseMessage.Add(objresponse);
-                //        response.Message = responseMessage;
-                //    }
-                //}
+                else if (floatProcess.FloatTransactionTypeId == 4)
+                {
+                    if (Convert.ToDateTime(ShiftStartDateTime) > DateTime.Now || Convert.ToDateTime(ShiftEndDateTime) < DateTime.Now)
+                    {
+                        process = false;
+                        resp.AlertMessage = "Float mid-shift can not process for this shift";
+                        response.Message.Add(resp);
+                    }
+                }
                 if (process)
                 {
                     response.Message = FloatProcessBL.InsertUpdate(floatProcess);

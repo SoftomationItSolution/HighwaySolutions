@@ -13,14 +13,14 @@ import { FloatProcessPopupComponent } from '../float-process-popup/float-process
 })
 export class FloatProcessMasterComponent implements OnInit {
   DevicesData: any;
-  PermissionData:any;
+  PermissionData: any;
   ErrorData: any;
-  LogedRoleId=0;
-  LogedUserId=0;
+  LogedRoleId = 0;
+  LogedUserId = 0;
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
-  constructor(public dialog: MatDialog,private spinner: NgxSpinnerService,private dm: DataModel,
+  constructor(public dialog: MatDialog, private spinner: NgxSpinnerService, private dm: DataModel,
     private dbService: apiIntegrationService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
@@ -57,8 +57,8 @@ export class FloatProcessMasterComponent implements OnInit {
   ngOnInit(): void {
 
   }
- 
- 
+
+
   GetAllData() {
     this.spinner.show();
     this.dbService.FloatProcessGetAll().subscribe(
@@ -74,14 +74,14 @@ export class FloatProcessMasterComponent implements OnInit {
     );
   }
 
-   NewEntry() {
+  NewEntry(FloatTransactionTypeId: any) {
     if (this.DataAdd == 1) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '401px';
-      dialogConfig.data = { action: 'Save', FloatProcessId: 0 };
+      dialogConfig.data = { action: 'Save', FloatProcessId: 0, FloatTransactionTypeId:FloatTransactionTypeId};
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -90,6 +90,7 @@ export class FloatProcessMasterComponent implements OnInit {
           }
         }
       );
+
     }
     else {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
@@ -104,7 +105,7 @@ export class FloatProcessMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '401px';
-      dialogConfig.data = { action: 'Update', FloatProcessId: data.FloatProcessId };
+      dialogConfig.data = { action: 'Update', FloatProcessId: data.FloatProcessId,FloatTransactionTypeId:data.FloatTransactionTypeId };
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

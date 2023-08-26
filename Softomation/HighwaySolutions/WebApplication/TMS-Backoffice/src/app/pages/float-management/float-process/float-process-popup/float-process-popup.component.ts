@@ -26,16 +26,23 @@ export class FloatProcessPopupComponent implements OnInit {
   ShiftTimmingList: any;
   DefaultPlazaId = 0;
   DenominationData: any;
-  AmountAlloted=0;
+  AmountAlloted = 0;
+  FloatTransactionTypeId = 0;
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<FloatProcessPopupComponent>,
-    public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,public datepipe: DatePipe,) {
+    public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel, public datepipe: DatePipe,) {
     this.LogedUserId = this.dm.getUserId();
     this.FloatProcessId = parentData.FloatProcessId;
+    this.FloatTransactionTypeId = parentData.FloatTransactionTypeId;
     this.DefaultPlazaId = this.dm.getDefaultPlazaId();
   }
 
   ngOnInit(): void {
-    this.PageTitle = "New Float Process";
+    if (this.FloatTransactionTypeId == 3)
+      this.PageTitle = "New Float Process";
+    else if (this.FloatTransactionTypeId == 4)
+      this.PageTitle = "New mid-shift Float Process";
+    else if (this.FloatTransactionTypeId == 5)
+      this.PageTitle = "New end-shift Float Process";
     this.DataDetailsForm = new FormGroup({
       LaneId: new FormControl('', [Validators.required]),
       ShiftId: new FormControl('', [Validators.required]),
@@ -44,7 +51,7 @@ export class FloatProcessPopupComponent implements OnInit {
 
     });
     this.GetLaneList();
-   
+
   }
 
   GetLaneList() {
@@ -63,7 +70,7 @@ export class FloatProcessPopupComponent implements OnInit {
   }
 
   GetTCList() {
-    
+
     this.dbService.UserConfigurationGetByUserType(4).subscribe(
       data => {
         this.TCList = data.ResponseData;
@@ -82,7 +89,12 @@ export class FloatProcessPopupComponent implements OnInit {
       data => {
         this.ShiftTimmingList = data.ResponseData;
         if (this.FloatProcessId > 0) {
-          this.PageTitle = "Update Float Process";
+          if (this.FloatTransactionTypeId == 3)
+            this.PageTitle = "Update Float Process";
+          else if (this.FloatTransactionTypeId == 4)
+            this.PageTitle = "Update mid-shift Float Process";
+          else if (this.FloatTransactionTypeId == 5)
+            this.PageTitle = "Update end-shift Float Process";
           this.DetailsbyId();
         }
         else
@@ -117,13 +129,13 @@ export class FloatProcessPopupComponent implements OnInit {
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
-          this.DenominationData=DetailData.FloatProcessDenominationList;
-          this.AmountAlloted=DetailData.TransactionAmount;
+          this.DenominationData = DetailData.FloatProcessDenominationList;
+          this.AmountAlloted = DetailData.TransactionAmount;
           this.DataDetailsForm.controls['LaneId'].setValue(DetailData.LaneId);
           this.DataDetailsForm.controls['ShiftId'].setValue(DetailData.ShiftId);
           this.DataDetailsForm.controls['AssignedTo'].setValue(DetailData.AssignedTo);
           this.DataDetailsForm.controls['TransactionDateStamp'].setValue(new Date(DetailData.TransactionDateStamp));
-        
+
         }
         else {
           this.ClosePoup();
@@ -158,13 +170,13 @@ export class FloatProcessPopupComponent implements OnInit {
       FloatProcessId: this.FloatProcessId,
       PlazaId: this.DefaultPlazaId,
       TransactionAmount: this.AmountAlloted,
-      AssignedBy:this.LogedUserId,
+      AssignedBy: this.LogedUserId,
       LaneId: this.DataDetailsForm.value.LaneId,
       ShiftId: this.DataDetailsForm.value.ShiftId,
       AssignedTo: this.DataDetailsForm.value.AssignedTo,
-      TransactionDateStamp:this.datepipe.transform(this.DataDetailsForm.value.TransactionDateStamp, 'dd-MMM-yyyy'),
-      FloatProcessDenominationList:this.DenominationData,
-      FloatTransactionTypeId:3,
+      TransactionDateStamp: this.datepipe.transform(this.DataDetailsForm.value.TransactionDateStamp, 'dd-MMM-yyyy'),
+      FloatProcessDenominationList: this.DenominationData,
+      FloatTransactionTypeId: this.FloatTransactionTypeId,
       DataStatus: 1,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
