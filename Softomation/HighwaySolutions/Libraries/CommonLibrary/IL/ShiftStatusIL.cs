@@ -11,6 +11,11 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
         String shiftDateStamp;
         Boolean shiftStatus;
         Int64 laneTransactionCount;
+        Decimal floatDeclare;
+        Decimal midDeclare;
+        Decimal endDeclare;
+        Decimal systemDeclare;
+        Decimal differenceAmount;
         public ShiftStatusIL()
         {
             shiftStatusId = 0;
@@ -20,6 +25,11 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             shiftDateStamp = string.Empty;
             shiftStatus = true;
             laneTransactionCount = 0;
+            floatDeclare = 0;
+            midDeclare = 0;
+            endDeclare = 0;
+            systemDeclare = 0;
+            differenceAmount = 0;
         }
 
         public Int64 ShiftStatusId
@@ -104,6 +114,66 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
             set
             {
                 laneTransactionCount = value;
+            }
+        }
+        public Decimal FloatDeclare
+        {
+            get
+            {
+                return floatDeclare;
+            }
+
+            set
+            {
+                floatDeclare = value;
+            }
+        }
+        public Decimal MidDeclare
+        {
+            get
+            {
+                return midDeclare;
+            }
+
+            set
+            {
+                midDeclare = value;
+            }
+        }
+        public Decimal EndDeclare
+        {
+            get
+            {
+                return endDeclare;
+            }
+
+            set
+            {
+                endDeclare = value;
+            }
+        }
+        public Decimal SystemDeclare
+        {
+            get
+            {
+                return systemDeclare;
+            }
+
+            set
+            {
+                systemDeclare = value;
+            }
+        }
+        public Decimal DifferenceAmount
+        {
+            get
+            {
+                return differenceAmount;
+            }
+
+            set
+            {
+                differenceAmount = value;
             }
         }
     }

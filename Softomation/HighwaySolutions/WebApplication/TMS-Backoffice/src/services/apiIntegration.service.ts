@@ -481,4 +481,18 @@ export class apiIntegrationService {
   }
   //#endregion
 
+  //#region Shift Status
+  ShiftStatusGetClose(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ShiftStatusGetClose', { headers: headers_object });
+  }
+
+  ShiftStatusGetOpen(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ShiftStatusGetOpen', { headers: headers_object });
+  }
+  //#endregion
+
 }

@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Text;
 using System.Data;
 using System.Data.Common;
 using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
-using System.Text;
+
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {

@@ -22,7 +22,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
         {
             try
             {
-                return ShiftStatusDL.GetAll();
+                return ShiftStatusDL.GetClose();
             }
             catch (Exception ex)
             {
@@ -33,7 +33,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
         {
             try
             {
-                return ShiftStatusDL.GetAll();
+                return ShiftStatusDL.GetOpen();
             }
             catch (Exception ex)
             {

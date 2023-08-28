@@ -55,7 +55,7 @@
                                 <td>{{rowData.TransactionDateStamp}}</td>
                                 <td>{{rowData.ShiftTimining}}</td>
                                 <td>{{rowData.FloatTransactionTypeName}}</td>
-                                <td class="td-amt">&#8377; {{rowData.TransactionAmount}}</td>
+                                <td class="td-amt">{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
                                 <td>{{rowData.AssignedByLoginId}}</td>
                                 <td>{{rowData.AssignedToLoginId}}</td>
                                 <td>{{rowData.ReceiptNumber}}</td>

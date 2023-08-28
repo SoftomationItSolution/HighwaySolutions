@@ -31,8 +31,9 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
@@ -75,6 +76,7 @@ import { FloatProcessMasterComponent } from './pages/float-management/float-proc
 import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
 import { ShiftClearanceDetailsComponent } from './pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
 import { ShiftClearanceDetailsPopupComponent } from './pages/float-management/shift-clearance/shift-clearance-details-popup/shift-clearance-details-popup.component';
+import { ConfirmationService } from 'primeng/api';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -174,10 +176,12 @@ export const MY_CUSTOM_FORMATS = {
     MatSnackBarModule,
     MatDialogModule,
     MatStepperModule,
+    MatSlideToggleModule,
     NgxSpinnerModule,
     ImageCropperModule 
   ],
   providers: [
+    [ConfirmationService],
     [DatePipe],
     { provide: MAT_DATE_LOCALE, useValue: 'in' }, // you can change useValue
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },

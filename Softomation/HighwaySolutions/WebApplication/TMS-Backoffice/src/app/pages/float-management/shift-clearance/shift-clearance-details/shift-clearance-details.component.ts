@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { FormControl, FormGroup } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-shift-clearance-details',
@@ -11,7 +11,6 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./shift-clearance-details.component.css']
 })
 export class ShiftClearanceDetailsComponent implements OnInit {
-  DataDetailsForm!: FormGroup;
   DevicesData: any;
   PermissionData: any;
   ErrorData: any;
@@ -20,9 +19,10 @@ export class ShiftClearanceDetailsComponent implements OnInit {
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
-  ShiftStstausData=[{Id:1, Name:'Closed'},{Id:3, Name:'Open'},]
+  isChecked=true;
+  ShiftStatus='Open'
   constructor(public dialog: MatDialog, private dbService: apiIntegrationService,private dm: DataModel,
-     private spinner: NgxSpinnerService) {
+     private spinner: NgxSpinnerService,private confirmationService: ConfirmationService,) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
@@ -46,7 +46,7 @@ export class ShiftClearanceDetailsComponent implements OnInit {
         if (this.DataView != 1) {
           this.dm.unauthorized();
         }
-        this.GetAllData();
+        this.GetOpenShift();
       },
       (error) => {
         this.spinner.hide();
@@ -56,29 +56,38 @@ export class ShiftClearanceDetailsComponent implements OnInit {
     );
   }
   ngOnInit(): void {
-    this.DataDetailsForm = new FormGroup({
-      ShiftStatus: new FormControl('', [
-      ]),
-    });
+    
   }
-  
- 
-  GetAllData() {
-    // this.spinner.show();
-    // this.dbService.CashFlowShiftClearanceGetAll().subscribe(
-    //   data => {
-    //     this.spinner.hide();
-    //     this.DevicesData = data.ResponseData;
-        
-    //   },
-    //   (error) => {
-    //     this.spinner.hide();
-    //     this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-    //     this.emitService.openSnackBar(this.ErrorData, false);
-    //   }
-    // );
+  GetOpenShift() {
+    this.ShiftStatus='Open'
+    this.spinner.show();
+    this.dbService.ShiftStatusGetOpen().subscribe(
+      data => {
+        this.spinner.hide();
+        this.DevicesData = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
-  
+  GetCloseShift() {
+    this.ShiftStatus='Close'
+    this.spinner.show();
+    this.dbService.ShiftStatusGetClose().subscribe(
+      data => {
+        this.spinner.hide();
+        this.DevicesData = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
   
   GetCashDeatils(rowData:any){
     // const dialogConfig = new MatDialogConfig();
@@ -87,5 +96,27 @@ export class ShiftClearanceDetailsComponent implements OnInit {
     // dialogConfig.width = "60%";
     // dialogConfig.data = { "action": 'Save', "Data": rowData, "PermissionData": this.PermissionData }
     // this.dialog.open(ClearanceDetailsPopupComponent, dialogConfig);
+  }
+  statusChanged(){
+    if(this.isChecked)
+      this.GetOpenShift();
+    else
+      this.GetCloseShift();
+  }
+
+  onRowEditInit(row:any){
+    if(row.ShiftStatus){
+      const message = 'Are you sure you want to do close this shift';
+      this.confirmationService.confirm({
+        message: message,
+        accept: () => {
+          this.OnSubmit(row);
+        }
+      });
+    }
+  }
+
+  OnSubmit(data:any){
+
   }
 }

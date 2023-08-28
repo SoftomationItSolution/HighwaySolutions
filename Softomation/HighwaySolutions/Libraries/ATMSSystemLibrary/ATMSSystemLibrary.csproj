@@ -170,9 +170,6 @@
     <Compile Include="SystemLogger\LogMaster.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\CommonLibrary\CommonLibrary.csproj">
       <Project>{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}</Project>
       <Name>CommonLibrary</Name>

@@ -106,7 +106,22 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["LaneTransactionCount"] != DBNull.Value)
                 shift.LaneTransactionCount = Convert.ToInt64(dr["LaneTransactionCount"]);
-            
+
+            if (dr["FloatDeclare"] != DBNull.Value)
+                shift.FloatDeclare = Convert.ToDecimal(dr["FloatDeclare"]);
+
+            if (dr["MidDeclare"] != DBNull.Value)
+                shift.MidDeclare = Convert.ToDecimal(dr["MidDeclare"]);
+
+            if (dr["EndDeclare"] != DBNull.Value)
+                shift.EndDeclare = Convert.ToDecimal(dr["EndDeclare"]);
+
+            if (dr["SystemDeclare"] != DBNull.Value)
+                shift.SystemDeclare = Convert.ToDecimal(dr["SystemDeclare"]);
+
+            if (dr["DifferenceAmount"] != DBNull.Value)
+                shift.DifferenceAmount = Convert.ToDecimal(dr["DifferenceAmount"]);
+
             if (dr["CreatedDate"] != DBNull.Value)
                 shift.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
