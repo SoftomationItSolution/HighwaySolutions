@@ -18,14 +18,26 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+   
     this.loginForm = new FormGroup({
       UserName: new FormControl('', [
         Validators.required
       ]),
       Password: new FormControl('', [
         Validators.required
-      ])
+      ]),
+      RememberMe: new FormControl(false),
     });
+
+    const rm=localStorage.getItem('RememberMe');
+    if(rm !== null)
+    {
+      if(rm=="true"){
+        this.loginForm.controls['UserName'].setValue(localStorage.getItem('LoginId'));
+        this.loginForm.controls['RememberMe'].setValue(true);
+      }
+    }
+
     this.api.GetUrl();
   }
 
@@ -33,6 +45,15 @@ export class LoginComponent implements OnInit {
   onLoginSubmit() {
     if (this.loginForm.invalid) {
       return;
+    }
+ 
+    if(this.loginForm.value.RememberMe){
+      localStorage.setItem('LoginId', this.loginForm.value.UserName);
+      localStorage.setItem('RememberMe',this.loginForm.value.RememberMe);
+    }
+    else{
+      localStorage.removeItem('LoginId');
+      localStorage.removeItem('RememberMe');
     }
     this.spinner.show();
     const obj = {
@@ -44,6 +65,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
+         
           this.loginReposnse = data.ResponseData;
           this.dataModel.setLoggedIn(true);
           this.dataModel.setTokenVale(data.ResponseData.AccessToken);
@@ -78,5 +100,9 @@ export class LoginComponent implements OnInit {
         }
       }
     );
+  }
+
+  login(credentials:any) {
+    
   }
 }

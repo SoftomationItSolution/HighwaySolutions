@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Common;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -13,11 +14,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         {
             DataSet ds = new DataSet();
             DataFilterIL dataResult = new DataFilterIL();
-            List<MasterData> SystemData = new List<MasterData>();
-            List<MasterData> ControlData = new List<MasterData>();
-            List<MasterData> PackageData = new List<MasterData>();
-            List<MasterData> ChainageData = new List<MasterData>();
-            List<MasterData> IncidentData = new List<MasterData>();
+            List<MasterDataIL> SystemData = new List<MasterDataIL>();
+            List<MasterDataIL> ControlData = new List<MasterDataIL>();
+            List<MasterDataIL> PackageData = new List<MasterDataIL>();
+            List<MasterDataIL> ChainageData = new List<MasterDataIL>();
+            List<MasterDataIL> IncidentData = new List<MasterDataIL>();
             try
             {
                 string spName = "USP_MasterDataGetBySystemId";
@@ -86,9 +87,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         }
 
         #region Helpler Method
-        private static MasterData CreateObjectForSystem(DataRow dr)
+        private static MasterDataIL CreateObjectForSystem(DataRow dr)
         {
-            MasterData dataFilter = new MasterData();
+            MasterDataIL dataFilter = new MasterDataIL();
             if (dr["SystemId"] != DBNull.Value)
                 dataFilter.DataId = Convert.ToInt16(dr["SystemId"]);
 
@@ -97,9 +98,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-        private static MasterData CreateObjectForControlRoom(DataRow dr)
+        private static MasterDataIL CreateObjectForControlRoom(DataRow dr)
         {
-            MasterData dataFilter = new MasterData();
+            MasterDataIL dataFilter = new MasterDataIL();
             if (dr["ControlRoomId"] != DBNull.Value)
                 dataFilter.DataId = Convert.ToInt16(dr["ControlRoomId"]);
 
@@ -108,9 +109,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-        private static MasterData CreateObjectForPackage(DataRow dr)
+        private static MasterDataIL CreateObjectForPackage(DataRow dr)
         {
-            MasterData dataFilter = new MasterData();
+            MasterDataIL dataFilter = new MasterDataIL();
             if (dr["PackageId"] != DBNull.Value)
                 dataFilter.DataId = Convert.ToInt16(dr["PackageId"]);
 
@@ -128,9 +129,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-        private static MasterData CreateObjectForChainage(DataRow dr)
+        private static MasterDataIL CreateObjectForChainage(DataRow dr)
         {
-            MasterData dataFilter = new MasterData();
+            MasterDataIL dataFilter = new MasterDataIL();
             if (dr["ChainageNumber"] != DBNull.Value)
                 dataFilter.DataValue = Convert.ToDecimal(dr["ChainageNumber"]);
 
@@ -139,9 +140,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             return dataFilter;
         }
-        private static MasterData CreateObjectForIncident(DataRow dr)
+        private static MasterDataIL CreateObjectForIncident(DataRow dr)
         {
-            MasterData dataFilter = new MasterData();
+            MasterDataIL dataFilter = new MasterDataIL();
             if (dr["IncidentCategoryId"] != DBNull.Value)
                 dataFilter.DataId = Convert.ToInt16(dr["IncidentCategoryId"]);
 

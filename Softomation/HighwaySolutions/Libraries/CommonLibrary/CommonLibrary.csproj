@@ -104,6 +104,7 @@
     <Compile Include="IL\ManufactureIL.cs" />
     <Compile Include="IL\EquipmentTypeIL.cs" />
     <Compile Include="IL\LogingActivityIL.cs" />
+    <Compile Include="IL\MasterDataIL.cs" />
     <Compile Include="IL\MenuManagementIL.cs" />
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />

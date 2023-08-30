@@ -77,6 +77,7 @@ import { FloatProcessPopupComponent } from './pages/float-management/float-proce
 import { ShiftClearanceDetailsComponent } from './pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
 import { ShiftClearanceDetailsPopupComponent } from './pages/float-management/shift-clearance/shift-clearance-details-popup/shift-clearance-details-popup.component';
 import { ConfirmationService } from 'primeng/api';
+import { TransactionalDataComponent } from './pages/Transactions/transactional-data/transactional-data.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -141,7 +142,8 @@ export const MY_CUSTOM_FORMATS = {
     FloatProcessMasterComponent,
     FloatProcessPopupComponent,
     ShiftClearanceDetailsComponent,
-    ShiftClearanceDetailsPopupComponent
+    ShiftClearanceDetailsPopupComponent,
+    TransactionalDataComponent
   ],
   imports: [
     BrowserModule,

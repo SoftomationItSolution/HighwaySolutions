@@ -98,6 +98,7 @@
     <Compile Include="BL\ExemptTypeBL.cs" />
     <Compile Include="BL\FloatProcessBL.cs" />
     <Compile Include="BL\FloatTransactionsTypeBL.cs" />
+    <Compile Include="BL\LaneTransactionBL.cs" />
     <Compile Include="BL\ManufactureBL.cs" />
     <Compile Include="BL\EquipmentTypeBL.cs" />
     <Compile Include="BL\LaneConfigurationBL.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="DL\SystemUserDL.cs" />
     <Compile Include="DL\FasTagVehicleClassDL.cs" />
     <Compile Include="DL\SystemVehicleClassDL.cs" />
+    <Compile Include="IL\DataFilterIL.cs" />
     <Compile Include="IL\DenominationIL.cs" />
     <Compile Include="IL\FloatProcessDenominationIL.cs" />
     <Compile Include="IL\FloatProcessIL.cs" />

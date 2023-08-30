@@ -1542,10 +1542,10 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                var typeList = new List<MasterData>();
+                var typeList = new List<MasterDataIL>();
                 foreach (int i in Enum.GetValues(typeof(ChallanType)))
                 {
-                    MasterData t = new MasterData();
+                    MasterDataIL t = new MasterDataIL();
                     t.DataId = i;
                     t.DataName = SplitCamelCase(Enum.GetName(typeof(ChallanType), (ChallanType)i));
                     typeList.Add(t);
@@ -1572,10 +1572,10 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                var typeList = new List<MasterData>();
+                var typeList = new List<MasterDataIL>();
                 foreach (int i in Enum.GetValues(typeof(HighwayLaneNumber)))
                 {
-                    MasterData t = new MasterData();
+                    MasterDataIL t = new MasterDataIL();
                     t.DataId = i;
                     t.DataName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)i));
                     typeList.Add(t);
@@ -1600,10 +1600,10 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                var typeList = new List<MasterData>();
+                var typeList = new List<MasterDataIL>();
                 foreach (int i in Enum.GetValues(typeof(HighwayLaneNumber)))
                 {
-                    MasterData t = new MasterData();
+                    MasterDataIL t = new MasterDataIL();
                     t.DataId = i;
                     t.DataName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)i));
                     typeList.Add(t);

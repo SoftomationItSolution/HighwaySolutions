@@ -40,7 +40,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PaymentTypeId", DbType.Int16, lane.PaymentTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ExemptTypeId", DbType.Int16, lane.ExemptTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ExemptSubTypeId", DbType.Int16, lane.ExemptSubTypeId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ExemptSubTypeId", DbType.Int16, lane.ExemptSubTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReceiptNumber", DbType.String, lane.ReceiptNumber, ParameterDirection.Input,50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SmartCardNumber", DbType.String, lane.SmartCardNumber, ParameterDirection.Input,20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagClassId", DbType.Int16, lane.TagClassId, ParameterDirection.Input));
@@ -100,7 +99,26 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 throw ex;
             }
             return laneList;
+        }
 
+        internal static List<LaneTransactionIL> GetLatest()
+        {
+            DataTable dt = new DataTable();
+            List<LaneTransactionIL> laneList = new List<LaneTransactionIL>();
+            try
+            {
+                string spName = "USP_LaneTransactionGetLatest";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    laneList.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return laneList;
         }
 
         #region Helper Methods
@@ -155,21 +173,39 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 ld.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
+           
+            if (dr["VehicleClassName"] != DBNull.Value)
+                ld.VehicleClassName = Convert.ToString(dr["VehicleClassName"]);
 
             if (dr["VehicleSubClassId"] != DBNull.Value)
                 ld.VehicleSubClassId = Convert.ToInt16(dr["VehicleSubClassId"]);
 
+            if (dr["VehicleSubClassName"] != DBNull.Value)
+                ld.VehicleSubClassName = Convert.ToString(dr["VehicleSubClassName"]);
+
             if (dr["VehicleAvcClassId"] != DBNull.Value)
                 ld.VehicleAvcClassId = Convert.ToInt16(dr["VehicleAvcClassId"]);
+
+            if (dr["VehicleAvcClassName"] != DBNull.Value)
+                ld.VehicleAvcClassName = Convert.ToString(dr["VehicleAvcClassName"]);
 
             if (dr["TransactionTypeId"] != DBNull.Value)
                 ld.TransactionTypeId = Convert.ToInt16(dr["TransactionTypeId"]);
 
+            if (dr["TransactionTypeName"] != DBNull.Value)
+                ld.TransactionTypeName = Convert.ToString(dr["TransactionTypeName"]);
+
             if (dr["PaymentTypeId"] != DBNull.Value)
                 ld.PaymentTypeId = Convert.ToInt16(dr["PaymentTypeId"]);
 
+            if (dr["PaymentTypeName"] != DBNull.Value)
+                ld.PaymentTypeName = Convert.ToString(dr["PaymentTypeName"]);
+
             if (dr["ExemptTypeId"] != DBNull.Value)
                 ld.ExemptTypeId = Convert.ToInt16(dr["ExemptTypeId"]);
+
+            if (dr["ExemptTypeName"] != DBNull.Value)
+                ld.ExemptTypeName = Convert.ToString(dr["ExemptTypeName"]);
 
             if (dr["ExemptSubTypeId"] != DBNull.Value)
                 ld.ExemptSubTypeId = Convert.ToInt16(dr["ExemptSubTypeId"]);
@@ -182,6 +218,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["TagClassId"] != DBNull.Value)
                 ld.TagClassId = Convert.ToInt16(dr["TagClassId"]);
+
+            if (dr["TagClassName"] != DBNull.Value)
+                ld.TagClassName = Convert.ToString(dr["TagClassName"]);
 
             if (dr["TagPlateNumber"] != DBNull.Value)
                 ld.TagPlateNumber = Convert.ToString(dr["TagPlateNumber"]);

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 
-namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
+namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class DataFilterIL
     {
-        Int16 systemId;
         private String systemFilterList;
         private String controlRoomFilterList;
         private String packageFilterList;
@@ -31,7 +30,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 
         public DataFilterIL()
         {
-            this.systemId = 0;
             this.systemFilterList = string.Empty;
             this.controlRoomFilterList = string.Empty;
             this.packageFilterList = string.Empty;
@@ -55,10 +53,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             chainageDataList = new List<MasterDataIL>();
             incidentDataList = new List<MasterDataIL>();
         }
-        public short SystemId
-        {
-            get => systemId; set => systemId = value;
-        }
+
         public string SystemFilterList
         {
             get => systemFilterList; set => systemFilterList = value;
@@ -185,7 +180,4 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
     }
-
-
-    
 }
