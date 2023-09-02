@@ -6,98 +6,105 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class DataFilterIL
     {
-        private String systemFilterList;
-        private String controlRoomFilterList;
-        private String packageFilterList;
-        private String chainageFilterList;
-        private String positionFilterList;
-        private String eventFilterList;
-        private String equipmentTypeFilterList;
-        private String incidentFilterList;
-        private String incidentStatusList;
-        private String directionFilterList;
-        private String priorityFilterList;
+        private String shiftFilterList;
+        private String tCUserFilterList;
+        private String auditerFilterList;
+        private String plazaFilterList;
+        private String laneFilterList;
+        private String transactionTypeFilterList;
+        private String payemntTypeFilterList;
+        private String exemptTypeFilterList;
+        private String vehicleSubClassFilterList;
+        private String vehicleClassFilterList;
         private String reviewedFilterList;
         private String startDateTime;
         private String endDateTime;
+        private String plateNumber;
+        private Int64 transactionId;
         Boolean isReviewedRequired;
         private String filterQuery;
-        private List<MasterDataIL> systemDataList;
-        private List<MasterDataIL> controlRoomDataList;
-        private List<MasterDataIL> packageDataList;
-        private List<MasterDataIL> chainageDataList;
-        private List<MasterDataIL> incidentDataList;
+        private List<MasterDataIL> shiftTiminingList;
+        private List<MasterDataIL> tCMasterList;
+        private List<MasterDataIL> auditerMasterList;
+        private List<MasterDataIL> plazaDataList;
+        private List<MasterDataIL> laneDataList;
+        private List<MasterDataIL> transactionTypeList;
+        private List<MasterDataIL> payemntTypeList;
+        private List<MasterDataIL> exemptTypeList;
+        private List<MasterDataIL> systemClassList;
+        private List<MasterDataIL> systemSubClassList;
 
         public DataFilterIL()
         {
-            this.systemFilterList = string.Empty;
-            this.controlRoomFilterList = string.Empty;
-            this.packageFilterList = string.Empty;
-            this.chainageFilterList = string.Empty;
-            this.positionFilterList = string.Empty;
-            this.equipmentTypeFilterList = string.Empty;
-            this.eventFilterList = string.Empty;
-            this.incidentFilterList = string.Empty;
-            this.incidentStatusList = string.Empty;
-            this.directionFilterList = string.Empty;
-            this.priorityFilterList = string.Empty;
+            this.shiftFilterList = string.Empty;
+            this.tCUserFilterList = string.Empty;
+            this.auditerFilterList = string.Empty;
+            this.plazaFilterList = string.Empty;
+            this.laneFilterList = string.Empty;
+            this.transactionTypeFilterList = string.Empty;
+            this.payemntTypeFilterList = string.Empty;
+            this.exemptTypeFilterList = string.Empty;
+            this.vehicleClassFilterList = string.Empty;
+            this.vehicleSubClassFilterList = string.Empty;
             this.reviewedFilterList = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
+            this.plateNumber = string.Empty;
+            this.transactionId = 0;
             this.isReviewedRequired = false;
             this.filterQuery = string.Empty;
-
-            systemDataList = new List<MasterDataIL>();
-            controlRoomDataList = new List<MasterDataIL>();
-            packageDataList = new List<MasterDataIL>();
-            chainageDataList = new List<MasterDataIL>();
-            incidentDataList = new List<MasterDataIL>();
+           
+            shiftTiminingList = new List<MasterDataIL>();
+            tCMasterList = new List<MasterDataIL>();
+            auditerMasterList = new List<MasterDataIL>();
+            plazaDataList = new List<MasterDataIL>();
+            laneDataList = new List<MasterDataIL>();
+            transactionTypeList = new List<MasterDataIL>();
+            payemntTypeList = new List<MasterDataIL>();
+            exemptTypeList = new List<MasterDataIL>();
+            systemClassList = new List<MasterDataIL>();
+            systemSubClassList = new List<MasterDataIL>();
         }
 
-        public string SystemFilterList
+        public string ShiftFilterList
         {
-            get => systemFilterList; set => systemFilterList = value;
+            get => shiftFilterList; set => shiftFilterList = value;
         }
-        public string ControlRoomFilterList
+        public string TCUserFilterList
         {
-            get => controlRoomFilterList; set => controlRoomFilterList = value;
+            get => tCUserFilterList; set => tCUserFilterList = value;
         }
-        public string PackageFilterList
+        public string AuditerFilterList
         {
-            get => packageFilterList; set => packageFilterList = value;
+            get => auditerFilterList; set => auditerFilterList = value;
         }
-        public string ChainageFilterList
+        public string PlazaFilterList
         {
-            get => chainageFilterList; set => chainageFilterList = value;
+            get => plazaFilterList; set => plazaFilterList = value;
         }
-        public string PositionFilterList
+        public string LaneFilterList
         {
-            get => positionFilterList; set => positionFilterList = value;
+            get => laneFilterList; set => laneFilterList = value;
         }
-        public string EquipmentTypeFilterList
+        public string TransactionTypeFilterList
         {
-            get => equipmentTypeFilterList; set => equipmentTypeFilterList = value;
+            get => transactionTypeFilterList; set => transactionTypeFilterList = value;
         }
-        public string EventFilterList
+        public string PayemntTypeFilterList
         {
-            get => eventFilterList; set => eventFilterList = value;
+            get => payemntTypeFilterList; set => payemntTypeFilterList = value;
         }
-        public string IncidentFilterList
+        public string ExemptTypeFilterList
         {
-            get => incidentFilterList; set => incidentFilterList = value;
+            get => exemptTypeFilterList; set => exemptTypeFilterList = value;
         }
-        public string IncidentStatusList
+        public string VehicleClassFilterList
         {
-            get => incidentStatusList; set => incidentStatusList = value;
+            get => vehicleClassFilterList; set => vehicleClassFilterList = value;
         }
-
-        public string PriorityFilterList
+        public string VehicleSubClassFilterList
         {
-            get => priorityFilterList; set => priorityFilterList = value;
-        }
-        public string DirectionFilterList
-        {
-            get => directionFilterList; set => directionFilterList = value;
+            get => vehicleSubClassFilterList; set => vehicleSubClassFilterList = value;
         }
         public string ReviewedFilterList
         {
@@ -111,6 +118,22 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => endDateTime; set => endDateTime = value;
         }
+        public string PlateNumber
+        {
+            get => plateNumber; set => plateNumber = value;
+        }
+        public Int64 TransactionId
+        {
+            get
+            {
+                return transactionId;
+            }
+
+            set
+            {
+                transactionId = value;
+            }
+        }
         public bool IsReviewedRequired
         {
             get => isReviewedRequired; set => isReviewedRequired = value;
@@ -119,65 +142,127 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => filterQuery; set => filterQuery = value;
         }
-        public List<MasterDataIL> SystemDataList
+        public List<MasterDataIL> ShiftTiminingList
         {
             get
             {
-                return systemDataList;
+                return shiftTiminingList;
             }
 
             set
             {
-                systemDataList = value;
+                shiftTiminingList = value;
             }
         }
-        public List<MasterDataIL> ControlRoomDataList
+        public List<MasterDataIL> TCMasterList
         {
             get
             {
-                return controlRoomDataList;
+                return tCMasterList;
             }
 
             set
             {
-                controlRoomDataList = value;
+                tCMasterList = value;
             }
         }
-        public List<MasterDataIL> PackageDataList
+        public List<MasterDataIL> AuditerMasterList
         {
             get
             {
-                return packageDataList;
+                return auditerMasterList;
             }
 
             set
             {
-                packageDataList = value;
+                auditerMasterList = value;
             }
         }
-        public List<MasterDataIL> ChainageDataList
+        public List<MasterDataIL> PlazaDataList
         {
             get
             {
-                return chainageDataList;
+                return plazaDataList;
             }
 
             set
             {
-                chainageDataList = value;
+                plazaDataList = value;
             }
         }
-        public List<MasterDataIL> IncidentDataList
+        public List<MasterDataIL> LaneDataList
         {
             get
             {
-                return incidentDataList;
+                return laneDataList;
             }
 
             set
             {
-                incidentDataList = value;
+                laneDataList = value;
             }
         }
+        public List<MasterDataIL> TransactionTypeList
+        {
+            get
+            {
+                return transactionTypeList;
+            }
+
+            set
+            {
+                transactionTypeList = value;
+            }
+        }
+        public List<MasterDataIL> PayemntTypeList
+        {
+            get
+            {
+                return payemntTypeList;
+            }
+
+            set
+            {
+                payemntTypeList = value;
+            }
+        }
+        public List<MasterDataIL> ExemptTypeList
+        {
+            get
+            {
+                return exemptTypeList;
+            }
+
+            set
+            {
+                exemptTypeList = value;
+            }
+        }
+        public List<MasterDataIL> SystemClassList
+        {
+            get
+            {
+                return systemClassList;
+            }
+
+            set
+            {
+                systemClassList = value;
+            }
+        }
+        public List<MasterDataIL> SystemSubClassList
+        {
+            get
+            {
+                return systemSubClassList;
+            }
+
+            set
+            {
+                systemSubClassList = value;
+            }
+        }
+
+        
     }
 }

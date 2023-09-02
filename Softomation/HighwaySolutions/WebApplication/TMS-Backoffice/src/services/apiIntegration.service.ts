@@ -494,7 +494,11 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ShiftStatusGetOpen', { headers: headers_object });
   }
   //#endregion
-  
+  FilterMasterGet(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FilterMasterGet', { headers: headers_object });
+  }
   //#region Lane Transactions
   LaneTransactionGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -507,10 +511,15 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetLatest', { headers: headers_object });
   }
+  ReviewPendingGetLatest(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReviewPendingGetLatest', { headers: headers_object });
+  }
   LaneTransactionFilter(FilterData: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionFilter',FilterData, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetByFilter',FilterData, { headers: headers_object });
   }
   //#endregion
 }

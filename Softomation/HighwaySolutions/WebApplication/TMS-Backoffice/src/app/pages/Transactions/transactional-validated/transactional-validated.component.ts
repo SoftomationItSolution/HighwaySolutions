@@ -1,18 +1,18 @@
-import { AfterViewInit, Compiler, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { DataModel } from 'src/services/data-model.model';
-import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Compiler, Component } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { Subscription } from 'rxjs';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { DataModel } from 'src/services/data-model.model';
 
 @Component({
-  selector: 'et-transactional-data',
-  templateUrl: './transactional-data.component.html',
-  styleUrls: ['./transactional-data.component.css']
+  selector: 'app-transactional-validated',
+  templateUrl: './transactional-validated.component.html',
+  styleUrls: ['./transactional-validated.component.css']
 })
-export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TransactionalValidatedComponent {
   subscription!: Subscription;
   FilterDetailsForm!: FormGroup;
   ShiftData: any;
@@ -125,6 +125,7 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
     this.subscription = this.dbService.FilterMasterGet().subscribe(
       data => {
         var MaserData=data.ResponseData;
+        console.log(MaserData)
         this.ShiftData=MaserData.ShiftTiminingList;
         this.LaneUserData=MaserData.TCMasterList;
         this.PlazaDataList=MaserData.PlazaDataList;

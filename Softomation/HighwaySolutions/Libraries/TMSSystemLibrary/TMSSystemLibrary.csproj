@@ -93,6 +93,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BL\DataFilterBL.cs" />
     <Compile Include="BL\DenominationBL.cs" />
     <Compile Include="BL\EquipmentDetailsBL.cs" />
     <Compile Include="BL\ExemptTypeBL.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="BL\SystemUserBL.cs" />
     <Compile Include="BL\FasTagVehicleClassBL.cs" />
     <Compile Include="BL\SystemVehicleClassBL.cs" />
+    <Compile Include="DL\DataFilterDL.cs" />
     <Compile Include="DL\DenominationDL.cs" />
     <Compile Include="DL\EquipmentDetailsDL.cs" />
     <Compile Include="DL\ExemptTypeDL.cs" />

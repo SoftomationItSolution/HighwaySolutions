@@ -72,8 +72,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         Boolean fleetTranscation;
         Int16 fleetCount;
         Boolean transactionStatus;
-        Boolean reveiwedRequired;
-        Boolean reveiwedStatus;
+        Boolean isReviewedRequired;
+        Boolean reviewedStatus;
         DateTime receivedDateTime;
         
 
@@ -146,8 +146,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             this.fleetTranscation = false;
             this.fleetCount = 0;
             this.transactionStatus = false;
-            this.reveiwedRequired = false;
-            this.reveiwedStatus = false;
+            this.isReviewedRequired = false;
+            this.reviewedStatus = false;
             this.receivedDateTime = DateTime.MinValue;
         }
         public long MasterTransactionId
@@ -416,13 +416,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => transactionStatus; set => transactionStatus = value;
         }
-        public bool ReveiwedRequired
+        public bool IsReviewedRequired
         {
-            get => reveiwedRequired; set => reveiwedRequired = value;
+            get => isReviewedRequired; set => isReviewedRequired = value;
         }
-        public bool ReveiwedStatus
+        public bool ReviewedStatus
         {
-            get => reveiwedStatus; set => reveiwedStatus = value;
+            get => reviewedStatus; set => reviewedStatus = value;
         }
         public DateTime ReceivedDateTime
         {

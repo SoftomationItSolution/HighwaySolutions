@@ -1,20 +1,23 @@
-import { AfterViewInit, Compiler, Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { DataModel } from 'src/services/data-model.model';
-import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { Subscription } from 'rxjs';
-import { FormControl, FormGroup } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Compiler, Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { DataModel } from 'src/services/data-model.model';
+
 
 @Component({
-  selector: 'et-transactional-data',
-  templateUrl: './transactional-data.component.html',
-  styleUrls: ['./transactional-data.component.css']
+  selector: 'app-transactional-validation',
+  templateUrl: './transactional-validation.component.html',
+  styleUrls: ['./transactional-validation.component.css'],
+  providers: [ConfirmationService]
 })
-export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TransactionalValidationComponent {
   subscription!: Subscription;
   FilterDetailsForm!: FormGroup;
+  Reviewedform!: FormGroup;
   ShiftData: any;
   LaneUserData: any;
   TransactionTypeData: any;
@@ -40,14 +43,26 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
   ErrorData: any;
   LogedUserId = 0;
   DataAdd: Number = 0;
-  constructor(private _compiler: Compiler, private dbService: apiIntegrationService, private spinner: NgxSpinnerService, private dm: DataModel,
-    public dialog: MatDialog, public datepipe: DatePipe) {
+  MediaPrefix:any;
+  SelectedRow:any;
+  VideoFound=false;
+  SelectedIndex=0;
+  IsReviewedRequired:boolean=true
+  ReviewRequired="Review Required";
+  selectedCategory:any;
+  TransactionTypeId = 0;
+  submitted=false;
+  ClassTypeList = [{ DataId: "0", DataName: "Both" }, { DataId: "1", DataName: "TC" }, { DataId: "2", DataName: "AVC" }, { DataId: "3", DataName: "None" }];
+  constructor(private _compiler: Compiler,private dbService: apiIntegrationService, private dm: DataModel,
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
     this.GetPermissionData();
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
+    var SDDate = this.datepipe.transform(new Date(), 'dd-MMM-yyyy');
     this.FilterDetailsForm = new FormGroup({
       StartDateTime: new FormControl(new Date()),
       EndDateTime: new FormControl(new Date()),
@@ -61,12 +76,15 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       PlateNumber: new FormControl(''),
       TransactionId: new FormControl(''),
     });
+    this.Reviewedform = new FormGroup({
+      ReviewedSubClassId: new FormControl('',[Validators.required]),
+      ReviewedTransactionTypeId: new FormControl('',[Validators.required]),
+      ReviewedRemark: new FormControl('')
+    });
   }
-
   ngAfterViewInit(): void {
     this._compiler.clearCache();
   }
-
   ExColl(event: any) {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
@@ -90,9 +108,13 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       tbl.classList.add("listtablepagging-cf3")
     }
   }
-
+  statusChanged(event:any){
+    if(event)
+     this.ReviewRequired="Review Required";
+    else
+      this.ReviewRequired="All Transaction";
+  }
   GetPermissionData() {
-    this.spinner.show();
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
       MenuUrl: MenuUrl,
@@ -106,12 +128,12 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
-          this.dm.unauthorized();
           this.spinner.hide();
+          this.dm.unauthorized();
         }
-        else
+        else {
           this.GetMasterData();
-
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -141,12 +163,14 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       }
     );
   }
-  
+
   GetDefaultData() {
-    this.subscription = this.dbService.LaneTransactionGetLatest().subscribe(
+    this.subscription = this.dbService.ReviewPendingGetLatest().subscribe(
       data => {
         this.EventHistroyData = data.ResponseData;
         this.TotalTransactionCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
+        this.AutoSelected();
         this.spinner.hide();
       },
       (error) => {
@@ -240,6 +264,7 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
+      IsReviewedRequired:this.IsReviewedRequired,
       ShiftFilterList: ShiftFilterList,
       TCUserFilterList: TCUserFilterList,
       PlazaFilterList: PlazaFilterList,
@@ -259,6 +284,8 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalTransactionCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -294,5 +321,108 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       }]
     }
     this.dm.MediaView(obj);
+  }
+
+  AutoSelected() {
+    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+    this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
+    this.Reviewedform.controls['ReviewedTransactionTypeId'].setValue(this.SelectedRow.TransactionTypeId);
+    this.Reviewedform.controls['ReviewedRemark'].reset();
+    if (this.SelectedRow.EventVideoUrl != "") {
+      this.dm.delay(100).then(any => {
+        this.VideoFound = true;
+      });
+    }
+  }
+
+  onRowSelect(index: number) {
+    this.SelectedIndex = index;
+    this.AutoSelected();
+  }
+
+  SaveEntry() {
+    this.submitted=true;
+    if (this.Reviewedform.invalid) {
+      return;
+    }
+    var Remark = this.Reviewedform.value.ReviewedRemark;
+    if (Remark == undefined || Remark == null || Remark == '') {
+      Remark = ''
+    }
+    if(this.Reviewedform.value.ReviewedSubClassId!=this.SelectedRow.VehicleSubClassId){
+      if(Remark==''){
+        const ErrorData = [{ AlertMessage: "Remark is required." }];
+        this.dm.openSnackBar(ErrorData, false);
+        return;
+      }
+    }
+    if(this.Reviewedform.value.ReviewedSubClassId==this.SelectedRow.VehicleAvcClassId){
+      this.SelectedRow.ReviewedClassCorrectionId=0;
+    }
+    else{
+      this.SelectedRow.ReviewedClassCorrectionId=0;
+    }
+    if(this.Reviewedform.value.TransactionTypeId!=this.SelectedRow.TransactionTypeId){
+      if(Remark==''){
+        const ErrorData = [{ AlertMessage: "Remark is required." }];
+        this.dm.openSnackBar(ErrorData, false);
+        return;
+      }
+    }
+    this.SelectedRow.ReviewedSubClassId= this.Reviewedform.value.ReviewedSubClassId;
+    this.SelectedRow.ReviewedTransactionTypeId= this.Reviewedform.value.ReviewedTransactionTypeId;
+    this.SelectedRow.ReviewedRemark= this.Reviewedform.value.ReviewedRemark;
+    this.SelectedRow.ReviewedById=this.LogedUserId;
+  
+    // this.dbService.VIDSEventReviewed(row).subscribe(
+    //   data => {
+    //     this.spinner.hide();
+    //     const returnMessage = data.Message[0].AlertMessage;
+    //     if (returnMessage == 'success') {
+    //       this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
+    //       this.dm.openSnackBar(this.ErrorData, true);
+    //       this.ProcessNextRecord();
+    //     }
+    //     else {
+    //       this.confirmBox(returnMessage + " Do you want to reload data?")
+    //     }
+    //   },
+    //   (error) => {
+    //     this.spinner.hide();
+    //     this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+    //     this.dm.openSnackBar(this.ErrorData, false);
+    //   }
+    // );
+  }
+
+  ProcessNextRecord() {
+    this.TotalTransactionCount = this.EventHistroyData.length;
+    if (this.TotalTransactionCount > 1) {
+      this.EventHistroyData.splice(this.SelectedIndex, 1);
+    }
+    this.TotalTransactionCount = this.EventHistroyData.length;
+    this.SelectedIndex = 0;
+    this.AutoSelected();
+  }
+
+  confirmBox(msg: string) {
+    this.confirmationService.confirm({
+      message: msg,
+      icon: 'fa fa-exclamation-triangle',
+      accept: () => {
+        this.FilterAllData();
+      },
+      reject: (type: ConfirmEventType) => {
+        this.ProcessNextRecord();
+      }
+    });
+  }
+
+  viewImage() {
+    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
+  }
+
+  TypeChange(value:any){
+
   }
 }

@@ -42,5 +42,30 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static List<LaneTransactionIL> GetUnReviewedLatest()
+        {
+            try
+            {
+                return LaneTransactionDL.GetUnReviewedLatest();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<LaneTransactionIL> GetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return LaneTransactionDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        
     }
 }

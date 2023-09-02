@@ -1724,6 +1724,134 @@ namespace TMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/ReviewPendingGetLatest")]
+        [HttpGet]
+        public HttpResponseMessage ReviewPendingGetLatest()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = LaneTransactionBL.GetUnReviewedLatest();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ReviewPendingGetLatest : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/LaneTransactionGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage LaneTransactionGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=0 AND CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+                }
+                if (data.ShiftFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.ShiftId IN (" + data.ShiftFilterList + ") ";
+                }
+                if (data.TCUserFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.UserId IN (" + data.TCUserFilterList + ") ";
+                }
+                if (data.AuditerFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.ReveiwedBy IN (" + data.AuditerFilterList + ") ";
+                }
+                if (data.PlazaFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.PlazaId IN (" + data.PlazaFilterList + ") ";
+                }
+                if (data.LaneFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.LaneId IN (" + data.LaneFilterList + ") ";
+                }
+                if (data.TransactionTypeFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.TransactionTypeId IN (" + data.TransactionTypeFilterList + ") ";
+                }
+                if (data.VehicleClassFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
+                }
+                if (data.VehicleSubClassFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND L.VehicleSubClassId IN (" + data.VehicleSubClassFilterList + ") ";
+                }
+                if (data.TransactionId > 0)
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = " + data.TransactionId + " OR L.PlazaTransactionId = " + data.TransactionId + " OR L.LaneTransactionId = " + data.TransactionId + ")";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = LaneTransactionBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in LaneTransactionGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region Data Filter Master
+        [Route(Provider + "/" + APIPath + "/FilterMasterGet")]
+        [HttpGet]
+        public HttpResponseMessage FilterMasterGet()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DataFilterBL.Get();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FilterMasterGetBySystemId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [Route(Provider + "/" + APIPath + "/FilterReportGet")]
+        [HttpGet]
+        public HttpResponseMessage FilterReportGet()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = DataFilterBL.GetForReport();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in FilterReportGet : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
     }
 }

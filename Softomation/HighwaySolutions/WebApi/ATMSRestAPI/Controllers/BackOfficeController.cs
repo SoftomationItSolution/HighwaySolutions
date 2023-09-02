@@ -1668,7 +1668,6 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region VIDS Events
-
         [Route(Provider + "/" + APIPath + "/VIDSEventsGetByHours")]
         [HttpGet]
         public HttpResponseMessage VIDSEventsGetByHours(short Hours)

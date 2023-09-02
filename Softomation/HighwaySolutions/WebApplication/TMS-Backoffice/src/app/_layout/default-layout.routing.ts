@@ -17,6 +17,8 @@ import { FareConfigurationComponent } from '../pages/configurations/FareConfigur
 import { FloatProcessMasterComponent } from '../pages/float-management/float-process/float-process-master/float-process-master.component';
 import { ShiftClearanceDetailsComponent } from '../pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
 import { TransactionalDataComponent } from '../pages/Transactions/transactional-data/transactional-data.component';
+import { TransactionalValidationComponent } from '../pages/Transactions/transactional-validation/transactional-validation.component';
+import { TransactionalValidatedComponent } from '../pages/Transactions/transactional-validated/transactional-validated.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -36,6 +38,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'floatProcess', component: FloatProcessMasterComponent },
     { path: 'shiftClearance', component: ShiftClearanceDetailsComponent },
     { path: 'transactionsHistory', component: TransactionalDataComponent },
+    { path: 'Unaudited', component: TransactionalValidationComponent },
+    { path: 'audited', component: TransactionalValidatedComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

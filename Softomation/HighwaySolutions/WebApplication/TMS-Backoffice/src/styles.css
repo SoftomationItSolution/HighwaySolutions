@@ -1085,7 +1085,11 @@ input[type=radio] {
 .p-datatable-resizable-table>.p-datatable-tbody>tr>td{
     border: 1px solid #ccc7c7;
 }
-
+.rr-toggle .mdc-label{
+    color: #fff;
+    font-size: 11px;
+    margin-top: 10px;
+}
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;

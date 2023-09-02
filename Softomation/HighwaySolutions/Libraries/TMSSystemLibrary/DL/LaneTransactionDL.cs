@@ -69,7 +69,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FleetTranscation", DbType.Boolean, lane.FleetTranscation, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FleetCount", DbType.Int16, lane.FleetCount, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionStatus", DbType.Boolean, lane.TransactionStatus, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReveiwedRequired", DbType.Boolean, lane.ReveiwedRequired, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReveiwedRequired", DbType.Boolean, lane.IsReviewedRequired, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReceivedDateTime", DbType.Boolean, lane.ReceivedDateTime, ParameterDirection.Input));
                 DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
@@ -80,6 +80,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return responses;
         }
+
+        
 
         internal static List<LaneTransactionIL> GetAll()
         {
@@ -100,7 +102,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return laneList;
         }
-
         internal static List<LaneTransactionIL> GetLatest()
         {
             DataTable dt = new DataTable();
@@ -120,6 +121,47 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return laneList;
         }
+
+        internal static List<LaneTransactionIL> GetUnReviewedLatest()
+        {
+            DataTable dt = new DataTable();
+            List<LaneTransactionIL> laneList = new List<LaneTransactionIL>();
+            try
+            {
+                string spName = "USP_LaneTransactionUnReviewedGetLatest";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    laneList.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return laneList;
+        }
+        internal static List<LaneTransactionIL> GetByFilter(DataFilterIL data)
+        {
+            DataTable dt = new DataTable();
+            List<LaneTransactionIL> vidsEvents = new List<LaneTransactionIL>();
+            try
+            {
+                string spName = "USP_LaneTransactionGetByFilter";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    vidsEvents.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return vidsEvents;
+        }
+
 
         #region Helper Methods
         private static LaneTransactionIL CreateObjectFromDataRow(DataRow dr)
@@ -306,14 +348,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["TransactionStatus"] != DBNull.Value)
                 ld.TransactionStatus = Convert.ToBoolean(dr["TransactionStatus"]);
 
-            if (dr["ReveiwedRequired"] != DBNull.Value)
-                ld.ReveiwedRequired = Convert.ToBoolean(dr["ReveiwedRequired"]);
+            if (dr["IsReviewedRequired"] != DBNull.Value)
+                ld.IsReviewedRequired = Convert.ToBoolean(dr["IsReviewedRequired"]);
 
-            if (dr["ReveiwedStatus"] != DBNull.Value)
-                ld.ReveiwedStatus = Convert.ToBoolean(dr["ReveiwedStatus"]);
-
-            //if (dr["ReveiwedPlateNumber"] != DBNull.Value)
-            //    ld.ReveiwedPlateNumber = Convert.ToBoolean(dr["ReveiwedPlateNumber"]);
+            if (dr["ReviewedStatus"] != DBNull.Value)
+                ld.ReviewedStatus = Convert.ToBoolean(dr["ReviewedStatus"]);
 
             return ld;
         }
