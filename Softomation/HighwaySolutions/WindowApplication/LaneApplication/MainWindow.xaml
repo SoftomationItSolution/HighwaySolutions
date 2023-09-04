@@ -1,0 +1,209 @@
+﻿<Window x:Class="LaneApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LaneApplication"
+        mc:Ignorable="d"
+        Title="Fast Track Highway-TMS" Height="800" Width="1536" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"  >
+    <!--SizeToContent="WidthAndHeight"-->
+    <Grid Name="RootLayout" Margin="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" ></RowDefinition>
+            <RowDefinition Height="400"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="386" x:Name="RootColMid"/>
+            <ColumnDefinition Width="450"/>
+        </Grid.ColumnDefinitions>
+        <Grid Height="50" Background="#011b41" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+            <Grid Margin="0,0,0,0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="200"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="536" x:Name="RootTopColMid"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="100"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="lblLoginId" Content="Admin" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Agency FB" Grid.Row="0" Grid.Column="0" Height="45" Foreground="White"/>
+                <Label Name="lblShiftId" Content="Shift-1" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20" FontFamily="Agency FB" Grid.Row="0" Grid.Column="1" Height="45" Foreground="White"/>
+                <Label Name="lblLoginTime" Content="Time" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="20" FontFamily="Agency FB" Grid.Row="0" Grid.Column="3" Height="45" Foreground="White"/>
+                <Label Name="lblTimer" Content="Time" HorizontalAlignment="Right" VerticalAlignment="Top" FontSize="20" FontFamily="Agency FB" Grid.Row="0" Grid.Column="4" Height="45" Foreground="White"/>
+                <Button Name="Logout" Background="Transparent" HorizontalAlignment="Right" Margin="0,0,0,0"  BorderBrush="White" Grid.Row="0" Grid.Column="5" Height="30" Click="Logout_Click">
+                    <Image Source="Icons\logout.png"></Image>
+                </Button>
+            </Grid>
+        </Grid>
+        <GroupBox Header="Vehicle Class" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpVehicleClass" VerticalAlignment="Top" Grid.Row="1" Grid.Column="0" BorderBrush="#FF2C92D0">
+            <ListView  Height="250" Name="lvVehicleClass" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvVehicleClass_SelectionChanged">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView >
+                        <GridViewColumn Width="100" x:Name="SystemVehicleClassId" Header="ID" DisplayMemberBinding="{Binding SystemVehicleClassId}"/>
+                        <GridViewColumn Width="200" x:Name="SystemVehicleClassName" Header="Class" DisplayMemberBinding="{Binding SystemVehicleClassName}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Header="Transaction Type" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpTransactionType" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="1" BorderBrush="#FF2C92D0">
+            <ListView Name="lvTransactionType"  Height="250" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvTransactionType_SelectionChanged">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="300" x:Name="TransactionTypeName" Header="Type" DisplayMemberBinding="{Binding TransactionTypeName}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Name="grpCurrentTransaction"  Height="275" Header="Current Transaction" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="150" x:Name="RootColMidO"/>
+                    <ColumnDefinition Width="120" />
+                    <ColumnDefinition Width="150" x:Name="RootColMidT"/>
+                </Grid.ColumnDefinitions>
+                <Label Name="lblVehicleClass" Content="Vehicle Class:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtVehicleClass" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblVehicleSubClass" Content="Sub Class:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtVehicleSubClass" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblVehicleAVCClass" Content="AVC Class:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtVehicleAVCClass" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblTransactionType" Content="Transaction Type:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtTransactionType" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblPaymentType" Content="Payment Type:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtPaymentType" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblExemptType" Content="Exempt Type:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtExemptType" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblReceiptCode" Content="Receipt Code:" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtReceiptCode" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblRFIDTag" Content="RFID Tag:" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtRFIDTag" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblWIMWeight" Content="WIM Weight:" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtWIMWeight" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblTollFare" Content="Toll Fare:" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtTollFare" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblOverweightFare" Content="Overweight:" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtOverweightFare" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblTagPenalityFare" Content="Tag Penality:" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtTagPenalityFare" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="lblTransactionAmount" Content="Amount:" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Label Name="txtTransactionAmount" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
+                <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF2B579A" Foreground="White"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Lane View" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpCamera" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="3" BorderBrush="#FF2C92D0">
+            <Canvas Background="Black" Height="250" Width="430"></Canvas>
+        </GroupBox>
+        <Popup Name="SubClassPopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True">
+            <ListView Name="lvVehicleSubClass" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15"  Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvVehicleSubClass_SelectionChanged">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="80" x:Name="FasTagVehicleClassId" Header="ID" DisplayMemberBinding="{Binding FasTagVehicleClassId}" />
+                        <GridViewColumn Width="200" x:Name="FasTagVehicleClassName" Header="Sub Class" DisplayMemberBinding="{Binding FasTagVehicleClassName}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Popup>
+        <Popup Name="PaymentTypePopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True" >
+            <ListView Name="lvPaymentType" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvPaymentType_SelectionChanged">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="200" x:Name="PaymentTypeName" Header="Payment Type" DisplayMemberBinding="{Binding PaymentTypeName}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Popup>
+        <Popup Name="ExemptTypePopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True">
+            <ListView Name="lvExemptType" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvExemptType_SelectionChanged">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="300" x:Name="ExemptTypeName" Header="Exempt Type" DisplayMemberBinding="{Binding ExemptTypeName}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Popup>
+    </Grid>
+</Window>

@@ -68,6 +68,26 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 throw ex;
             }
         }
+
+        internal static ShiftTiminingIL GetByDateTime(DateTime ShiftDateTime)
+        {
+            DataTable dt = new DataTable();
+            ShiftTiminingIL shifts = new ShiftTiminingIL();
+            try
+            {
+                string spName = "USP_ShiftGetByDateTime";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ShiftDateTime", DbType.DateTime, ShiftDateTime, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    shifts = CreateObjectFromDataRow(dr);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return shifts;
+        }
         #region Helper Methods
         private static ShiftTiminingIL CreateObjectFromDataRow(DataRow dr)
         {

@@ -40,5 +40,17 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+        public static ShiftTiminingIL GetByDateTime(DateTime ShiftDateTime)
+        {
+            try
+            {
+                return ShiftTiminingDL.GetByDateTime(ShiftDateTime);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
