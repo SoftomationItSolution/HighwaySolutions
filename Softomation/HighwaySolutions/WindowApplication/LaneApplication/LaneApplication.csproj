@@ -110,11 +110,8 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\employees-server.png" />
-    <Resource Include="Icons\logout.ico" />
     <Resource Include="Icons\logout.png" />
-    <Resource Include="Icons\projectIcon.ico" />
     <Resource Include="Icons\projectlogo.png" />
-    <Resource Include="Icons\sdk_icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\CommonLibrary\CommonLibrary.csproj">
@@ -152,6 +149,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\avcc-1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\OHLS-OFF.png" />
+    <Resource Include="Icons\OHLS-ON.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

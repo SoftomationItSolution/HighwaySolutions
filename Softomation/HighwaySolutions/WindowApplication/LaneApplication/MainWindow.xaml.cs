@@ -130,6 +130,13 @@ namespace LaneApplication
             avc.ColorCode = "#FF0000";
             hardwares.Add(avc);
 
+            hardwareIL OHLS= new hardwareIL();
+            OHLS.HardwareName = "OHLS";
+            OHLS.ImagePath = "Icons\\OHLS-ON.png";
+            OHLS.ImageData = LoadImage(OHLS.ImagePath);
+            OHLS.ColorCode = "#008000";
+            hardwares.Add(OHLS);
+
             MasterDataThread = new Thread(new ThreadStart(this.MasterDataFuntion));
             MasterDataThread.IsBackground = true;
             MasterDataThread.Start();

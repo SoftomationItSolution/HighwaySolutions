@@ -217,7 +217,7 @@
             <ListView Name="lvHardwareStatus"  Height="120" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="10" HorizontalAlignment="Stretch"/>
+                        <UniformGrid Columns="11" HorizontalAlignment="Stretch"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ListView.ItemTemplate>
