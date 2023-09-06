@@ -109,20 +109,7 @@
     <Resource Include="Icons\NHAI-Black.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\accept-call.png" />
-    <Resource Include="Icons\calling.jpg" />
-    <Resource Include="Icons\calling.png" />
     <Resource Include="Icons\employees-server.png" />
-    <Resource Include="Icons\incomming.gif" />
-    <Resource Include="Icons\logout-1.png" />
-    <Resource Include="Icons\logout-2.png" />
-    <Resource Include="Icons\logout-3.png" />
-    <Resource Include="Icons\logout-4.png" />
-    <Resource Include="Icons\logout-5.png" />
-    <Resource Include="Icons\logout-6.png" />
-    <Resource Include="Icons\logout-7.png" />
-    <Resource Include="Icons\logout-8.png" />
-    <Resource Include="Icons\logout-9.png" />
     <Resource Include="Icons\logout.ico" />
     <Resource Include="Icons\logout.png" />
     <Resource Include="Icons\projectIcon.ico" />
@@ -153,6 +140,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\ufd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\printer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\loop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\avcc-1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

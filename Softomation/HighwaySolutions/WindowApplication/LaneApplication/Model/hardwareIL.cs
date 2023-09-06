@@ -8,6 +8,8 @@ namespace LaneApplication.Model
         private String hardwareName;
         private String imagePath;
         private BitmapImage imageData;
+        private String colorCode;
+
         public String HardwareName
         {
             get
@@ -39,6 +41,17 @@ namespace LaneApplication.Model
             set
             {
                 this.imageData = value;
+            }
+        }
+        public String ColorCode
+        {
+            get
+            {
+                return this.colorCode;
+            }
+            set
+            {
+                this.colorCode = value;
             }
         }
     }

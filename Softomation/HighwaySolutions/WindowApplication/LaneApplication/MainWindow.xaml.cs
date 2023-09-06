@@ -64,25 +64,71 @@ namespace LaneApplication
             bg.HardwareName = "Barrier";
             bg.ImagePath = "Icons\\bariearClose.png";
             bg.ImageData = LoadImage(bg.ImagePath);
+            bg.ColorCode = "#008000";
             hardwares.Add(bg);
 
             hardwareIL rf = new hardwareIL();
             rf.HardwareName = "RFID";
             rf.ImagePath = "Icons\\rfidReader.png";
             rf.ImageData = LoadImage(rf.ImagePath);
+            rf.ColorCode = "#008000";
             hardwares.Add(rf);
 
             hardwareIL ci = new hardwareIL();
-            ci.HardwareName = "Camera";
+            ci.HardwareName = "Front Camera";
             ci.ImagePath = "Icons\\camera.png";
             ci.ImageData = LoadImage(ci.ImagePath);
+            ci.ColorCode = "#FF0000";
             hardwares.Add(ci);
+
+            hardwareIL rci = new hardwareIL();
+            rci.HardwareName = "Rear Camera";
+            rci.ImagePath = "Icons\\camera.png";
+            rci.ImageData = LoadImage(ci.ImagePath);
+            rci.ColorCode = "#FF0000";
+            hardwares.Add(rci);
 
             hardwareIL tl = new hardwareIL();
             tl.HardwareName = "Traffic";
             tl.ImagePath = "Icons\\light.png";
             tl.ImageData = LoadImage(tl.ImagePath);
+            tl.ColorCode = "#FF0000";
             hardwares.Add(tl);
+
+            hardwareIL ufl = new hardwareIL();
+            ufl.HardwareName = "UFD";
+            ufl.ImagePath = "Icons\\ufd.png";
+            ufl.ImageData = LoadImage(ufl.ImagePath);
+            ufl.ColorCode = "#008000";
+            hardwares.Add(ufl);
+
+            hardwareIL pl = new hardwareIL();
+            pl.HardwareName = "Printer";
+            pl.ImagePath = "Icons\\printer.png";
+            pl.ImageData = LoadImage(pl.ImagePath);
+            pl.ColorCode = "#FF0000";
+            hardwares.Add(pl);
+
+            hardwareIL lp = new hardwareIL();
+            lp.HardwareName = "Preseance Loop";
+            lp.ImagePath = "Icons\\loop.png";
+            lp.ImageData = LoadImage(lp.ImagePath);
+            lp.ColorCode = "#008000";
+            hardwares.Add(lp);
+
+            hardwareIL elp = new hardwareIL();
+            elp.HardwareName = "Exit Loop";
+            elp.ImagePath = "Icons\\loop.png";
+            elp.ImageData = LoadImage(lp.ImagePath);
+            elp.ColorCode = "#008000";
+            hardwares.Add(elp);
+
+            hardwareIL avc = new hardwareIL();
+            avc.HardwareName = "AVCC";
+            avc.ImagePath = "Icons\\avcc-1.png";
+            avc.ImageData = LoadImage(avc.ImagePath);
+            avc.ColorCode = "#FF0000";
+            hardwares.Add(avc);
 
             MasterDataThread = new Thread(new ThreadStart(this.MasterDataFuntion));
             MasterDataThread.IsBackground = true;
@@ -169,8 +215,13 @@ namespace LaneApplication
             selectedTransactionType = (TransactionTypeIL)lvTransactionType.SelectedItem;
             selectedPaymentType = null;
             selectedExemptType = null;
+            PaymentTypePopup.IsOpen = false;
+            ExemptTypePopup.IsOpen = false;
+           
             if (selectedTransactionType != null)
             {
+                laneData.PaymentTypeId = 0;
+                laneData.ExemptTypeId = 0;
                 laneData.TransactionTypeId = selectedTransactionType.TransactionTypeId;
                 laneData.TransactionTypeName = selectedTransactionType.TransactionTypeName;
                 Dispatcher.BeginInvoke(new Action(() => {

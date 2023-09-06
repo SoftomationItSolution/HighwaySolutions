@@ -11,7 +11,7 @@
             <RowDefinition Height="50" ></RowDefinition>
             <RowDefinition Height="280"></RowDefinition>
             <RowDefinition Height="400"></RowDefinition>
-            <RowDefinition Height="200*"></RowDefinition>
+            <RowDefinition Height="120*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -56,34 +56,45 @@
                 </ItemsControl.ItemContainerStyle>
                 <ListView.View>
                     <GridView >
-                        <GridViewColumn Width="100" x:Name="SystemVehicleClassId" Header="ID" DisplayMemberBinding="{Binding SystemVehicleClassId}"/>
-                        <GridViewColumn Width="200" x:Name="SystemVehicleClassName" Header="Class" DisplayMemberBinding="{Binding SystemVehicleClassName}" />
+                        <GridViewColumn Width="300" x:Name="SystemVehicleClassName" Header="Vehicle Class" DisplayMemberBinding="{Binding SystemVehicleClassName}" />
                     </GridView>
                 </ListView.View>
             </ListView>
         </GroupBox>
         <GroupBox Header="Transaction Type" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpTransactionType" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="1" BorderBrush="#FF2C92D0">
-            <ListView Name="lvTransactionType"  Height="250" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvTransactionType_SelectionChanged">
-                <ItemsControl.ItemContainerStyle>
-                    <Style>
-                        <Style.Triggers>
-                            <Trigger Property="Control.IsMouseOver" Value="True">
-                                <Setter Property="Control.Background" Value="Gold" />
-                                <Setter Property="Control.Foreground" Value="#FF011B41" />
-                            </Trigger>
-                            <Trigger Property="Selector.IsSelected" Value="True">
-                                <Setter Property="Control.Background" Value="Gold" />
-                                <Setter Property="Control.Foreground" Value="#FF011B41" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ItemsControl.ItemContainerStyle>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="300" x:Name="TransactionTypeName" Header="Type" DisplayMemberBinding="{Binding TransactionTypeName}" />
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Grid Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120" ></RowDefinition>
+                    <RowDefinition Height="140"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListView Name="lvTransactionType" Grid.Row="0" Height="120" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvTransactionType_SelectionChanged">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Control.IsMouseOver" Value="True">
+                                    <Setter Property="Control.Background" Value="Gold" />
+                                    <Setter Property="Control.Foreground" Value="#FF011B41" />
+                                </Trigger>
+                                <Trigger Property="Selector.IsSelected" Value="True">
+                                    <Setter Property="Control.Background" Value="Gold" />
+                                    <Setter Property="Control.Foreground" Value="#FF011B41" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="300" x:Name="TransactionTypeName" Header="Type" DisplayMemberBinding="{Binding TransactionTypeName}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Canvas Grid.Row="1" Background="#FF011B41">
+                    <Button x:Name="btnFleet" Content="Fleet-Start" Background="#FF096822" Height="50" Width="120" Margin="20,5,0,0"/>
+                    <Button x:Name="btnTow" Content="Tow-Start" Background="#FF096822" Height="50" Width="120" Margin="145,5,0,0"/>
+                    <Button x:Name="btnMidDeclare" Content="Mid Declare" Background="#FF096822" Height="50" Width="120" Margin="20,60,0,0"/>
+                    <Button x:Name="btnBleedoff" Content="Bleed off" Background="#FF096822" Height="50" Width="120" Margin="145,60,0,0"/>
+                </Canvas>
+            </Grid>
         </GroupBox>
         <GroupBox Name="grpCurrentTransaction"  Height="275" Header="Current Transaction" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0" >
             <Grid Background="#FF011B41" >
@@ -132,7 +143,9 @@
                 <Label Name="txtTransactionAmount" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
                 <Label Name="lblPlateNumber" Content="Plate Number:" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
                 <TextBox x:Name="txtPlateNumber" Grid.Row="6" Grid.Column="3" Text="UP167C7820"  Height="20"/>
-                <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF0F571A" Foreground="White" Click="btnSubmit_Click"/>
+                <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF096822" Foreground="White" Margin="0,0,20,0" Height="25" Width="100" Click="btnSubmit_Click"/>
+                <Button Name="btnReset" Content="Reset" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FFAD2E18" Foreground="White" Margin="0,0,130,0"  Height="25" Width="100"/>
+
             </Grid>
         </GroupBox>
         <GroupBox Header="Lane View" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpCamera" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="3" BorderBrush="#FF2C92D0">
@@ -201,29 +214,25 @@
             </ListView>
         </GroupBox>
         <GroupBox Header="Hardware Status" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpHardwareStatus" VerticalAlignment="Top" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="#FF2C92D0">
-            <ListView Name="lvHardwareStatus"  Height="200" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single">
-                <!--<ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Background="Transparent" Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>-->
+            <ListView Name="lvHardwareStatus"  Height="120" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <UniformGrid Columns="5" HorizontalAlignment="Stretch"/>
+                        <UniformGrid Columns="10" HorizontalAlignment="Stretch"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
-                            <Image Source="{Binding ImageData}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="160"  Width="100" />
-                            <TextBlock Text="{Binding HardwareName}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                            <Border Height="80" Width="80" Background="{Binding ColorCode}">
+                                <Image Source="{Binding ImageData}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="80"  Width="80"/>
+                            </Border>
+                            <TextBlock Text="{Binding HardwareName}" HorizontalAlignment="Center" VerticalAlignment="Center" Height="20"  Width="80" Foreground="{Binding ColorCode}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <!--<Image Name="ImageViewer1" Height="400" Width="400" />-->
         </GroupBox>
-        <Popup Name="SubClassPopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True">
+        <Popup Name="SubClassPopup"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True" >
             <ListView Name="lvVehicleSubClass" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15"  Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvVehicleSubClass_SelectionChanged">
                 <ItemsControl.ItemContainerStyle>
                     <Style>
@@ -241,7 +250,6 @@
                 </ItemsControl.ItemContainerStyle>
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Width="80" x:Name="FasTagVehicleClassId" Header="ID" DisplayMemberBinding="{Binding FasTagVehicleClassId}" />
                         <GridViewColumn Width="200" x:Name="FasTagVehicleClassName" Header="Sub Class" DisplayMemberBinding="{Binding FasTagVehicleClassName}" />
                     </GridView>
                 </ListView.View>
@@ -270,7 +278,7 @@
                 </ListView.View>
             </ListView>
         </Popup>
-        <Popup Name="ExemptTypePopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True">
+        <Popup Name="ExemptTypePopup"  HorizontalAlignment="Left" VerticalAlignment="Top" Width="220" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True" >
             <ListView Name="lvExemptType" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15"  ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvExemptType_SelectionChanged">
                 <ItemsControl.ItemContainerStyle>
                     <Style>
