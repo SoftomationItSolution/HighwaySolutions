@@ -163,6 +163,7 @@
     <Compile Include="IL\SystemIntegratorIL.cs" />
     <Compile Include="IL\SystemUserIL.cs" />
     <Compile Include="IL\TransactionTypeIL.cs" />
+    <Compile Include="IL\WIMTransactionIL.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />

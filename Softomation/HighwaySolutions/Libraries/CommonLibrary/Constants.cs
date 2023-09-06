@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
@@ -219,6 +220,14 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2").Replace("_", " ");
         }
 
+        public static string CurrecyFromater(Decimal amount)
+        {
+            decimal parsed = decimal.Parse(amount.ToString(), CultureInfo.InvariantCulture);
+            CultureInfo hindi = new CultureInfo("hi-IN");
+            return string.Format(hindi, "{0:c}", parsed);
+        }
+
+        
         #endregion
     }
 }

@@ -78,6 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Model\hardwareIL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -137,6 +138,21 @@
       <Project>{c660559b-6683-4976-a72d-de9d3f615355}</Project>
       <Name>TMSSystemLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\rfidReader.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\light.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\bariearOpen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\bariearClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\camera.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

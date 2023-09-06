@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:LaneApplication"
         mc:Ignorable="d"
         Title="Fast Track Highway-TMS" Height="800" Width="1536" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"  >
-    <!--SizeToContent="WidthAndHeight"-->
     <Grid Name="RootLayout" Margin="0,0,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50" ></RowDefinition>
+            <RowDefinition Height="280"></RowDefinition>
             <RowDefinition Height="400"></RowDefinition>
+            <RowDefinition Height="200*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -84,8 +85,8 @@
                 </ListView.View>
             </ListView>
         </GroupBox>
-        <GroupBox Name="grpCurrentTransaction"  Height="275" Header="Current Transaction" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0">
-            <Grid>
+        <GroupBox Name="grpCurrentTransaction"  Height="275" Header="Current Transaction" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0" >
+            <Grid Background="#FF011B41" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="10" />
                     <RowDefinition Height="30" />
@@ -103,37 +104,124 @@
                     <ColumnDefinition Width="120" />
                     <ColumnDefinition Width="150" x:Name="RootColMidT"/>
                 </Grid.ColumnDefinitions>
-                <Label Name="lblVehicleClass" Content="Vehicle Class:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtVehicleClass" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblVehicleSubClass" Content="Sub Class:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtVehicleSubClass" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblVehicleAVCClass" Content="AVC Class:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtVehicleAVCClass" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblTransactionType" Content="Transaction Type:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtTransactionType" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblPaymentType" Content="Payment Type:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtPaymentType" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblExemptType" Content="Exempt Type:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtExemptType" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblReceiptCode" Content="Receipt Code:" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtReceiptCode" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblRFIDTag" Content="RFID Tag:" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtRFIDTag" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblWIMWeight" Content="WIM Weight:" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtWIMWeight" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblTollFare" Content="Toll Fare:" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtTollFare" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblOverweightFare" Content="Overweight:" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtOverweightFare" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblTagPenalityFare" Content="Tag Penality:" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtTagPenalityFare" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="lblTransactionAmount" Content="Amount:" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Label Name="txtTransactionAmount" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" />
-                <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF2B579A" Foreground="White"/>
+                <Label Name="lblVehicleClass" Content="Vehicle Class:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtVehicleClass" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblVehicleSubClass" Content="Sub Class:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtVehicleSubClass" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblVehicleAVCClass" Content="AVC Class:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtVehicleAVCClass" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblTransactionType" Content="Transaction Type:" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtTransactionType" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblPaymentType" Content="Payment Type:" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtPaymentType" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblExemptType" Content="Exempt Type:" Grid.Row="6" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtExemptType" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblReceiptCode" Content="Receipt Code:" Grid.Row="7" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtReceiptCode" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblRFIDTag" Content="RFID Tag:" Grid.Row="8" Grid.Column="0" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtRFIDTag" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblWIMWeight" Content="WIM Weight:" Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtWIMWeight" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblTollFare" Content="Toll Fare:" Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtTollFare" Grid.Row="2" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblOverweightFare" Content="Overweight:" Grid.Row="3" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtOverweightFare" Grid.Row="3" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblTagPenalityFare" Content="Tag Penality:" Grid.Row="4" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtTagPenalityFare" Grid.Row="4" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblTransactionAmount" Content="Amount:" Grid.Row="5" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="txtTransactionAmount" Grid.Row="5" Grid.Column="3" HorizontalAlignment="Left" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <Label Name="lblPlateNumber" Content="Plate Number:" Grid.Row="6" Grid.Column="2" HorizontalAlignment="Right" VerticalContentAlignment="Top" VerticalAlignment="Top" Foreground="White"/>
+                <TextBox x:Name="txtPlateNumber" Grid.Row="6" Grid.Column="3" Text="UP167C7820"  Height="20"/>
+                <Button Name="btnSubmit" Content="Submit" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FF0F571A" Foreground="White" Click="btnSubmit_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Lane View" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpCamera" VerticalAlignment="Top"  Grid.Row="1" Grid.Column="3" BorderBrush="#FF2C92D0">
             <Canvas Background="Black" Height="250" Width="430"></Canvas>
+        </GroupBox>
+        <GroupBox Header="Wim Data Queue" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpWimDataQueue" VerticalAlignment="Top" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0">
+            <Grid Margin="0,0,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="350" ></RowDefinition>
+                    <RowDefinition Height="50"></RowDefinition>
+                </Grid.RowDefinitions>
+                <ListView Name="lvWimQueue"  Height="350" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvWimQueue_SelectionChanged">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style>
+                            <Style.Triggers>
+                                <Trigger Property="Control.IsMouseOver" Value="True">
+                                    <Setter Property="Control.Background" Value="Gold" />
+                                    <Setter Property="Control.Foreground" Value="#FF011B41" />
+                                </Trigger>
+                                <Trigger Property="Selector.IsSelected" Value="True">
+                                    <Setter Property="Control.Background" Value="Gold" />
+                                    <Setter Property="Control.Foreground" Value="#FF011B41" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="50" x:Name="WimSequenceNumber" Header="S.No." DisplayMemberBinding="{Binding WimSequenceNumber}" />
+                            <GridViewColumn Width="130" x:Name="TotalWeight" Header="Weight" DisplayMemberBinding="{Binding TotalWeight}" />
+                            <GridViewColumn Width="130" x:Name="StaticWeight" Header="Allowed Weight" DisplayMemberBinding="{Binding StaticWeight}" />
+                            <GridViewColumn Width="130" x:Name="IsOverWeight" Header="OverWeight" DisplayMemberBinding="{Binding IsOverWeight}" />
+                            <GridViewColumn Width="130" x:Name="WimClassName" Header="Class" DisplayMemberBinding="{Binding WimClassName}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <Button Name="btnRemoveQueue" Content="Discard from Queue" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FFAD2E18" Foreground="White" Click="btnRemoveQueue_Click"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Recent Transactions" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpRecentTransactions" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0">
+            <ListView Name="lvRecentTransactions"  Height="400" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White">
+                <ItemsControl.ItemContainerStyle>
+                    <Style>
+                        <Style.Triggers>
+                            <Trigger Property="Control.IsMouseOver" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                            <Trigger Property="Selector.IsSelected" Value="True">
+                                <Setter Property="Control.Background" Value="Gold" />
+                                <Setter Property="Control.Foreground" Value="#FF011B41" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="150" x:Name="LaneTransactionId" Header="Transaction" DisplayMemberBinding="{Binding LaneTransactionId}" />
+                        <GridViewColumn Width="150" x:Name="TypeName" Header="Type" DisplayMemberBinding="{Binding TransactionTypeName}" />
+                        <GridViewColumn Width="150" x:Name="VehicleSubClassName" Header="Vehicle Class" DisplayMemberBinding="{Binding VehicleSubClassName}" />
+                        <GridViewColumn Width="150" x:Name="TransactionDateTimeStamp" Header="Date Time" DisplayMemberBinding="{Binding TransactionDateTimeStamp}" />
+                        <GridViewColumn Width="150" x:Name="TransactionAmount" Header="Toll Amount" DisplayMemberBinding="{Binding TransactionAmount}" />
+                        <GridViewColumn Width="150" x:Name="ReceiptNumber" Header="Receipt" DisplayMemberBinding="{Binding ReceiptNumber}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </GroupBox>
+        <GroupBox Header="Hardware Status" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpHardwareStatus" VerticalAlignment="Top" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" BorderBrush="#FF2C92D0">
+            <ListView Name="lvHardwareStatus"  Height="200" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Background="#FF011B41" Foreground="White" SelectionMode="Single">
+                <!--<ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Background="Transparent" Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>-->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="5" HorizontalAlignment="Stretch"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Stretch">
+                            <Image Source="{Binding ImageData}" HorizontalAlignment="Left" VerticalAlignment="Top" Height="160"  Width="100" />
+                            <TextBlock Text="{Binding HardwareName}" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--<Image Name="ImageViewer1" Height="400" Width="400" />-->
         </GroupBox>
         <Popup Name="SubClassPopup" HorizontalAlignment="Left" VerticalAlignment="Top" Width="320" Height="200"  Placement="Center" IsOpen="False" AllowsTransparency="True">
             <ListView Name="lvVehicleSubClass" Margin="0,0,0,0" ItemsSource="{Binding}" VerticalAlignment="Top" FontSize="15"  Background="#FF011B41" Foreground="White" SelectionMode="Single" SelectionChanged="lvVehicleSubClass_SelectionChanged">

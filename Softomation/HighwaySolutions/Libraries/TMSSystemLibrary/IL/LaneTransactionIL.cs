@@ -75,8 +75,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         Boolean isReviewedRequired;
         Boolean reviewedStatus;
         DateTime receivedDateTime;
-        
-
         public LaneTransactionIL()
         {
             this.masterTransactionId = 0;
@@ -234,12 +232,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => vehicleClassId; set => vehicleClassId = value;
         }
-        
         public string VehicleClassName
         {
             get => vehicleClassName; set => vehicleClassName = value;
         }
-
         public short VehicleSubClassId
         {
             get => vehicleSubClassId; set => vehicleSubClassId = value;
