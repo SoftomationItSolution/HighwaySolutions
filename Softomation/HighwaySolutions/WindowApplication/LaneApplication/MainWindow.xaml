@@ -182,7 +182,28 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-                <Button Name="btnRemoveQueue" Content="Discard from Queue" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Background="#FFAD2E18" Foreground="White" Click="btnRemoveQueue_Click"/>
+
+                <Button Name="btnRemoveQueue" Content="Discard from Queue" HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" Height="20" Background="#FFAD2E18" Foreground="White" Click="btnRemoveQueue_Click">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Setter Property="Background" Value="LightBlue" />
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Button}">
+                                        <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FFAD2E18" TargetName="Border" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
         </GroupBox>
         <GroupBox Header="Recent Transactions" FontSize="16" FontFamily="Calibri" HorizontalAlignment="Left" Name="grpRecentTransactions" VerticalAlignment="Top" Grid.Row="2" Grid.Column="2" Grid.ColumnSpan="2" BorderBrush="#FF2C92D0">
