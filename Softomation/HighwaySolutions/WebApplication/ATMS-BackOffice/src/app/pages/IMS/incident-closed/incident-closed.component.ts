@@ -190,24 +190,27 @@ export class IncidentClosedComponent {
   }
 
   ExColl(event: any) {
-    // document.getElementById("collapseOne").classList.toggle("show")
-    // if (document.getElementById("datafilterIcon").classList.contains("fa-chevron-circle-up")) {
-    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-up")
-    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-down")
-    // }
-    // else {
-    //   document.getElementById("datafilterIcon").classList.remove("fa-chevron-circle-down")
-    //   document.getElementById("datafilterIcon").classList.add("fa-chevron-circle-up")
-    // }
+    const collapseOne = document.getElementById("collapseOne")!
+    collapseOne.classList.toggle("show")
+    const datafilterIcon = document.getElementById("datafilterIcon")!
+    const tbl = document.getElementById("tbl")!
+    if (datafilterIcon.classList.contains("mdi-arrow-up-circle")) {
+      datafilterIcon.classList.remove("mdi-arrow-up-circle")
+      datafilterIcon.classList.add("mdi-arrow-down-circle")
+    }
+    else {
+      datafilterIcon.classList.remove("mdi-arrow-down-circle")
+      datafilterIcon.classList.add("mdi-arrow-up-circle")
+    }
 
-    // if (document.getElementById("tbl").classList.contains("listtablepagging-c")) {
-    //   document.getElementById("tbl").classList.remove("listtablepagging-c")
-    //   document.getElementById("tbl").classList.add("listtablepagging")
-    // }
-    // else {
-    //   document.getElementById("tbl").classList.remove("listtablepagging")
-    //   document.getElementById("tbl").classList.add("listtablepagging-c")
-    // }
+    if (tbl.classList.contains("listtablepagging-c")) {
+      tbl.classList.remove("listtablepagging-c")
+      tbl.classList.add("listtablepagging")
+    }
+    else {
+      tbl.classList.remove("listtablepagging")
+      tbl.classList.add("listtablepagging-c")
+    }
   }
 
   FillPackages() {

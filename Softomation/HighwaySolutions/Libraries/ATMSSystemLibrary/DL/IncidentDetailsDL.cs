@@ -91,6 +91,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return responses;
         }
         #endregion
+
         #region Get Methods
         internal static IncidentDetailsIL GetById(String IncidentId)
         {

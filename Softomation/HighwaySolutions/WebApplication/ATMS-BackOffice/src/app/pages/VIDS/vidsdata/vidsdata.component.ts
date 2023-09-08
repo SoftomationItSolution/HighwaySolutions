@@ -166,18 +166,17 @@ export class VidsdataComponent {
   }
 
   ExColl(event: any) {
-     //document.getElementById("collapseOne").classList.toggle("show")
-      const collapseOne =  document.getElementById("collapseOne")!
-      collapseOne.classList.toggle("show")
-      const datafilterIcon=document.getElementById("datafilterIcon")!
-      const tbl= document.getElementById("tbl")!
-    if (datafilterIcon.classList.contains("fa-chevron-circle-up")) {
-      datafilterIcon.classList.remove("fa-chevron-circle-up")
-      datafilterIcon.classList.add("fa-chevron-circle-down")
+    const collapseOne = document.getElementById("collapseOne")!
+    collapseOne.classList.toggle("show")
+    const datafilterIcon = document.getElementById("datafilterIcon")!
+    const tbl = document.getElementById("tbl")!
+    if (datafilterIcon.classList.contains("mdi-arrow-up-circle")) {
+      datafilterIcon.classList.remove("mdi-arrow-up-circle")
+      datafilterIcon.classList.add("mdi-arrow-down-circle")
     }
     else {
-      datafilterIcon.classList.remove("fa-chevron-circle-down")
-      datafilterIcon.classList.add("fa-chevron-circle-up")
+      datafilterIcon.classList.remove("mdi-arrow-down-circle")
+      datafilterIcon.classList.add("mdi-arrow-up-circle")
     }
 
     if (tbl.classList.contains("listtablepagging-c")) {

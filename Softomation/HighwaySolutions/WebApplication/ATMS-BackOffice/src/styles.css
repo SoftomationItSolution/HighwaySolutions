@@ -99,11 +99,17 @@
     color: #f68e2b !important
 }
 
+.breadcrumb-item+.breadcrumb-item::before {
+    color: #f68e2b;
+    content: ">" !important;
+    font-family: fantasy !important;
+    font-weight: bolder;
+}
 
 .p-datatable-table tbody,
 tr {
-    border-bottom-color: #c3c3c3 !important;
-    border-bottom-width: 1px !important;
+    border-width:1px;
+    border-color:#c3c3c3;
 }
 
 
@@ -152,6 +158,12 @@ tr {
     border-color: #5369f8;
     color: #fff;
 }
+.mr-2 {
+    margin-right: 2px;
+}
+.mr-20 {
+    margin-right: 20px;
+}
 
 .informationStrip {
     opacity: 0.7;
@@ -162,6 +174,20 @@ tr {
     font-size: 11px;
     margin-top: 26px;
     margin-right: -15px;
+    word-wrap: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    padding-top: 2px;
+}
+
+.fare-information-strip {
+    opacity: 0.7;
+    background-color: #000;
+    width: 210px;
+    color: #fff;
+    height: 22px;
+    font-size: 11px;
+    margin-top: 11px;
     word-wrap: break-word;
     white-space: nowrap;
     overflow: hidden;
@@ -334,6 +360,14 @@ small {
     border-color: #011b41 !important;
 }
 
+#permission-table li:nth-child(odd) {
+    background: #f1f1f1 !important;
+}
+
+.p-datatable .p-datatable-tbody>tr:nth-child(odd) {
+    background: #f1f1f1;
+}
+
 .p-datatable-scrollable-table>.p-datatable-thead {
     background: #fff !important;
 }
@@ -422,6 +456,11 @@ tr {
     font-weight: 600;
 }
 
+.tbl-popup .p-datatable-wrapper {
+    max-height: 27vh !important;
+    min-height: 27vh !important;
+}
+
 .p-datatable-wrapper {
     max-height: 56vh !important;
     min-height: 56vh !important;
@@ -486,6 +525,8 @@ tr {
 
 .vertical-menu {
     top: 55px !important;
+    overflow-x: auto;
+
 }
 
 .page-content {
@@ -495,31 +536,16 @@ tr {
 .ims-tab {
     height: 60vh !important
 }
+
 .setting-tab {
     height: 60vh !important
 }
+
 .footer {
-    height: 34px !important;
+    height: 30px !important;
     padding: 8px calc(24px / 2) !important;
 }
-.footer .row{
-    margin: 0px !important;
-}
 
-.modal-body .row{
-    margin-left: 0px !important;
-    margin-right: 0px !important;
-}
-
-.modal-footer .btn{
-    margin-right: 10px;
-}
-.btn-close:focus{
-    box-shadow:none !important
-}
-.main-content{
-    height: calc(100% - 85px)!important;
-}
 .listheight {
     width: 100%;
     height: 68vh;
@@ -566,7 +592,7 @@ tr {
     padding: 0;
     overflow-y: auto;
     overflow-x: hidden;
-    height: 59vh;
+    height: 47vh;
 }
 
 .parentNode {
@@ -672,7 +698,9 @@ tr {
 .listtablepagging {
     height: 69vh !important
 }
-
+listtablepagging-f3{
+    height: 69vh !important
+}
 .mat-stepper-horizontal {
     margin-top: 0px;
     height: 367px;
@@ -881,7 +909,14 @@ input[type=radio] {
     max-height: 54vh !important;
     min-height: 54vh !important;
 }
-
+.listtablepagging-f3 .p-datatable-wrapper {
+    max-height: 41vh !important;
+    min-height: 41vh !important;
+}
+.listtablepagging-cf3 .p-datatable-wrapper {
+    max-height: 59vh !important;
+    min-height: 59vh !important;
+}
 .listtablepagging-c .p-datatable-wrapper {
     max-height: 59vh !important;
     min-height: 59vh !important;
@@ -1042,10 +1077,19 @@ input[type=radio] {
 .p-button .p-button-icon-left {
     margin-right: 0.5rem;
 }
-.no-border{
+
+.no-border {
     border: none !important;
 }
 
+.p-datatable-resizable-table>.p-datatable-tbody>tr>td{
+    border: 1px solid #ccc7c7;
+}
+.rr-toggle .mdc-label{
+    color: #fff;
+    font-size: 11px;
+    margin-top: 10px;
+}
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -1069,7 +1113,14 @@ input[type=radio] {
         max-height: 38vh !important;
         min-height: 38vh !important;
     }
-
+    .listtablepagging-f3 .p-datatable-wrapper {
+        max-height: 41vh !important;
+        min-height: 41vh !important;
+    }
+    .listtablepagging-cf3 .p-datatable-wrapper {
+        max-height: 59vh !important;
+        min-height: 59vh !important;
+    }
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
@@ -1078,9 +1129,11 @@ input[type=radio] {
     .ims-tab {
         height: 56vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1088,7 +1141,7 @@ input[type=radio] {
     }
 
     .p-datatable-table tbody tr td {
-        padding: 0px 0px 0px 0px !important;
+        padding: 0px 5px 0px 0px !important;
     }
 }
 
@@ -1115,7 +1168,14 @@ input[type=radio] {
         max-height: 34vh !important;
         min-height: 34vh !important;
     }
-
+    .listtablepagging-f3 .p-datatable-wrapper {
+        max-height: 41vh !important;
+        min-height: 41vh !important;
+    }
+    .listtablepagging-cf3 .p-datatable-wrapper {
+        max-height: 59vh !important;
+        min-height: 59vh !important;
+    }
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
@@ -1130,9 +1190,11 @@ input[type=radio] {
     .ims-tab {
         height: 60vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1140,7 +1202,7 @@ input[type=radio] {
     }
 
     .p-datatable-table tbody tr td {
-        padding: 0px 0px 0px 0px !important;
+        padding: 0px 5px 0px 0px !important;
     }
 
     .listtablepadding .p-datatable-wrapper .p-datatable-table .p-datatable-tbody tr td {
@@ -1172,7 +1234,14 @@ input[type=radio] {
         max-height: 44vh !important;
         min-height: 44vh !important;
     }
-
+    .listtablepagging-f3 .p-datatable-wrapper {
+        max-height: 41vh !important;
+        min-height: 41vh !important;
+    }
+    .listtablepagging-cf3 .p-datatable-wrapper {
+        max-height: 59vh !important;
+        min-height: 59vh !important;
+    }
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 65vh !important;
         min-height: 65vh !important;
@@ -1181,9 +1250,11 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
+
     .setting-tab {
         height: 60vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1191,7 +1262,7 @@ input[type=radio] {
     }
 
     .p-datatable-table tbody tr td {
-        padding: 0px 0px 0px 0px !important;
+        padding: 0px 5px 0px 0px !important;
     }
 }
 
@@ -1210,11 +1281,11 @@ input[type=radio] {
     }
 
     .listtableheight {
-        height: 73vh !important;
+        height: 74vh !important;
     }
 
     .listtablepagging {
-        height: 53vh !important
+        height: 55vh !important
     }
 
     .p-datatable-wrapper {
@@ -1223,13 +1294,20 @@ input[type=radio] {
     }
 
     .listtablepagging .p-datatable-wrapper {
-        max-height: 48vh !important;
-        min-height: 48vh !important;
+        max-height: 51vh !important;
+        min-height: 51vh !important;
     }
-
+    .listtablepagging-f3 .p-datatable-wrapper {
+        max-height: 41vh !important;
+        min-height: 41vh !important;
+    }
+    .listtablepagging-cf3 .p-datatable-wrapper {
+        max-height: 70vh !important;
+        min-height: 70vh !important;
+    }
     .listtablepagging-c .p-datatable-wrapper {
-        max-height: 69vh !important;
-        min-height: 69vh !important;
+        max-height: 71vh !important;
+        min-height: 71vh !important;
     }
 
     .audit-media {
@@ -1240,9 +1318,11 @@ input[type=radio] {
     .ims-tab {
         height: 66vh !important
     }
+
     .setting-tab {
         height: 71vh !important
     }
+
     .p-datatable-table tbody,
     tr {
         font-size: 11px !important;
@@ -1250,7 +1330,7 @@ input[type=radio] {
     }
 
     .p-datatable-table tbody tr td {
-        padding: 0px 0px 0px 0px !important;
+        padding: 0px 5px 0px 0px !important;
     }
 }
 
@@ -1260,4 +1340,8 @@ input[type=radio] {
         text-align: center;
         width: 70px !important;
     }
+}
+.td-amt{
+    text-align: right; 
+    
 }

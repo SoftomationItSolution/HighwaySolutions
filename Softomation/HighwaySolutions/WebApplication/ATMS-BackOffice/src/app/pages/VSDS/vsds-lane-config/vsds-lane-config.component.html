@@ -1,1 +1,60 @@
-<p>vsds-lane-config works!</p>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div>
+                    <a href="javascript:void(0);" (click)="SaveDetails()" class="btn btn-success mb-2">
+                        <i class="mdi mdi-content-save-all-outline me-2"></i> Save changes
+                    </a>
+                    <div class="dropdown d-inline-block float-right">
+                        <span class="p-input-icon-left">
+                            <i class="fa fa-search"></i>
+                            <input type="text" pInputText class="form-control"
+                                (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                        </span>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtableheight listtablepadding">
+                    <p-table #dt [value]="LaneConfigDetails" [rowHover]="true" [scrollable]="true"
+                        [resizableColumns]="true" styleClass="table table-centered datatable dt-responsive nowrap"
+                        [globalFilterFields]="['LaneNumber','AllowedSpeed','DataStatusName']">
+                        <ng-template pTemplate="header" styleClass="thead-light">
+                            <tr>
+                                <th class="bold">S. No.</th>
+                                <th pSortableColumn="LaneNumber">Lane Number <p-sortIcon
+                                        field="LaneNumber"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="AllowedSpeed" style="text-align: center;">Allowed Speed <p-sortIcon
+                                        field="AllowedSpeed"></p-sortIcon>
+                                </th>
+                                <th>Allowed Class </th>
+                                <th pSortableColumn="DataStatusName" style="text-align: center;">Status <p-sortIcon
+                                        field="DataStatusName"></p-sortIcon>
+                                </th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{rowData.LaneNumber}}</td>
+                                <td style="text-align: center;  width:200px;">
+                                    <input class="form-control" type="number" [(ngModel)]="rowData.AllowedSpeed">
+                                </td>
+                                <td>
+                                    <p-multiSelect appendTo="body" class="form-control select2"
+                                        [options]="VehicleClassList" [(ngModel)]="rowData.AllowedClassIdList"
+                                        optionLabel="VehicleClassName" optionValue="ClassId" placeholder="Allowed Class"
+                                        [style]="{'width':'200px'}">
+                                    </p-multiSelect>
+                                </td>
+                                <td style="text-align: center;">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="rowData.DataStatus">
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

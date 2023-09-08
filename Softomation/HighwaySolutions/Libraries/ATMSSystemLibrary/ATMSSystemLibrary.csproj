@@ -118,7 +118,10 @@
     <Compile Include="BL\VehicleClassIL.cs" />
     <Compile Include="BL\VIDSEventBL.cs" />
     <Compile Include="BL\VIDSReviewedEventBL.cs" />
+    <Compile Include="BL\VSDSLaneConfigBL.cs" />
+    <Compile Include="DL\VSDSLaneConfigDL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
+    <Compile Include="IL\VSDSLaneConfigIL.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />

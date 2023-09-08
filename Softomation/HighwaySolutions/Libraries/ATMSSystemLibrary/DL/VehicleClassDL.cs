@@ -89,6 +89,27 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return crData;
         }
+
+        internal static List<VehicleClassIL> GetByIds(String AllowedClassIds)
+        {
+            DataTable dt = new DataTable();
+            List<VehicleClassIL> smData = new List<VehicleClassIL>();
+            try
+            {
+                string spName = "USP_VehicleClassGetByIds";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassIds", DbType.String, AllowedClassIds, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    smData.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return smData;
+        }
         #endregion
 
         #region Helper Methods
@@ -129,6 +150,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             user.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)user.DataStatus);
             return user;
         }
+
+        
         #endregion
     }
 }
