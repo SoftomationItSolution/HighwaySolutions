@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
@@ -10,7 +11,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Boolean aTCCByVIDS;
         Int16 trafficCount;
         Int16 trafficByTime;
-
+        String restrictedVehiclesIds;
+        Int16[] restrictedVehiclesIdList;
+        List<VehicleClassIL> restrictedVehiclesList;
         public SystemSettingIL()
         {
             this.totalLane = 4;
@@ -19,6 +22,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.aTCCByVIDS = false;
             this.trafficCount = 500;
             this.trafficByTime = 10;
+            restrictedVehiclesIds = string.Empty;
+            restrictedVehiclesList = new List<VehicleClassIL>();
         }
 
         public Int16 TotalLane
@@ -33,7 +38,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 totalLane = value;
             }
         }
-
         public Boolean IsATCCIndependently
         {
             get
@@ -46,7 +50,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 isATCCIndependently = value;
             }
         }
-
         public Boolean ATCCByVSDS
         {
             get
@@ -59,7 +62,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 aTCCByVSDS = value;
             }
         }
-
         public Boolean ATCCByVIDS
         {
             get
@@ -72,7 +74,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 aTCCByVIDS = value;
             }
         }
-
         public Int16 TrafficCount
         {
             get
@@ -85,7 +86,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 trafficCount = value;
             }
         }
-
         public Int16 TrafficByTime
         {
             get
@@ -96,6 +96,42 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 trafficByTime = value;
+            }
+        }
+        public String RestrictedVehiclesIds
+        {
+            get
+            {
+                return restrictedVehiclesIds;
+            }
+
+            set
+            {
+                restrictedVehiclesIds = value;
+            }
+        }
+        public Int16[] RestrictedVehiclesIdList
+        {
+            get
+            {
+                return restrictedVehiclesIdList;
+            }
+
+            set
+            {
+                restrictedVehiclesIdList = value;
+            }
+        }
+        public List<VehicleClassIL> RestrictedVehiclesList
+        {
+            get
+            {
+                return restrictedVehiclesList;
+            }
+
+            set
+            {
+                restrictedVehiclesList = value;
             }
         }
     }

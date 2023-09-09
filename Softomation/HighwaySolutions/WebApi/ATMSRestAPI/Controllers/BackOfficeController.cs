@@ -1901,99 +1901,99 @@ namespace ATMSRestAPI.Controllers
         }
 
 
-        //[Route(Provider + "/" + APIPath + "/VSDSEventsGetByHours")]
-        //[HttpGet]
-        //public HttpResponseMessage VSDSEventsGetByHours(short Hours)
-        //{
-        //    try
-        //    {
-        //        resp.AlertMessage = "success";
-        //        response.Message.Add(resp);
-        //        response.ResponseData = VSDSEventBL.GetByHours(Hours);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSEventsGetByHours : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VSDSEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VSDSEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VSDSEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
-        //[Route(Provider + "/" + APIPath + "/VSDSEventsGetByFilter")]
-        //[HttpPost]
-        //public HttpResponseMessage VSDSEventsGetByFilter(DataFilterIL data)
-        //{
-        //    try
-        //    {
-        //        if (data.IsReviewedRequired)
-        //        {
-        //            data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-        //        }
-        //        else
-        //        {
-        //            data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-        //        }
-        //        if (data.ControlRoomFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
-        //        }
-        //        if (data.PackageFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
-        //        }
-        //        if (data.ChainageFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
-        //        }
-        //        if (data.DirectionFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
-        //        }
-        //        if (data.PositionFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
-        //        }
-        //        if (data.EventFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
-        //        }
+        [Route(Provider + "/" + APIPath + "/VSDSEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VSDSEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.EventFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
+                }
 
-        //        resp.AlertMessage = "success";
-        //        response.Message.Add(resp);
-        //        response.ResponseData = VSDSEventBL.GetByFilter(data);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VSDSEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
         #region un audited
-        //[Route(Provider + "/" + APIPath + "/VSDSPendingReviewGetByHours")]
-        //[HttpGet]
-        //public HttpResponseMessage VSDSPendingReviewGetByHours(short Hours)
-        //{
-        //    try
-        //    {
-        //        resp.AlertMessage = "success";
-        //        response.Message.Add(resp);
-        //        response.ResponseData = VSDSEventBL.GetPendingReviewByHours(Hours);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSPendingReviewGetByHours : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VSDSPendingReviewGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VSDSPendingReviewGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VSDSEventBL.GetPendingReviewByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSPendingReviewGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
         //[Route(Provider + "/" + APIPath + "/VSDSEventReviewUpdate")]
         //[HttpPost]

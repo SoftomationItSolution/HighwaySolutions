@@ -103,9 +103,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 lc.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
 
             if (dr["AllowedClassIds"] != DBNull.Value)
-                lc.AllowedClassIds = Convert.ToString(dr["AllowedClassIds"]);
-
-            if (dr["AllowedClassIds"] != DBNull.Value)
             {
                 lc.AllowedClassIds = Convert.ToString(dr["AllowedClassIds"]);
                 if (!string.IsNullOrEmpty(lc.AllowedClassIds))

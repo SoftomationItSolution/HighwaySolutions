@@ -130,7 +130,7 @@ export class VsdsDataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VIDSEventsGetByHours(24).subscribe(
+    this.dbService.VSDSEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -165,7 +165,7 @@ export class VsdsDataComponent {
     this.dm.MediaView(obj);
   }
 
-  ExColl(event: any) {
+  ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!

@@ -1275,7 +1275,11 @@ input[type=radio] {
     .listheight {
         height: 76vh;
     }
-
+    #availableDataList,
+    #FillDataList,
+    #permission-table {
+        height: 65vh;
+    }
     .ccard .card-body {
         height: 68vh;
     }

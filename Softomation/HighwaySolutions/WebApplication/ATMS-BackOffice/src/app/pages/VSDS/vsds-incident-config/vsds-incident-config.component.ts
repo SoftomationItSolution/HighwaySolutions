@@ -98,7 +98,6 @@ export class VsdsIncidentConfigComponent {
     this.dbService.ChalanTypeGetAll().subscribe(
       data => {
         this.ChalanTypeData = data.ResponseData;
-        console.log(this.ChalanTypeData)
       },
       (error) => {
         this.spinner.hide();
@@ -156,6 +155,7 @@ export class VsdsIncidentConfigComponent {
 
   SaveDetails(){
     this.spinner.show();
+    this.EventTypeList[0].SystemId=this.SystemId;
     this.EventTypeList[0].CreatedBy=this.LogedUserId
     this.EventTypeList[0].ModifiedBy=this.LogedUserId
     this.dbService.EventsTypeSetup(this.EventTypeList).subscribe(

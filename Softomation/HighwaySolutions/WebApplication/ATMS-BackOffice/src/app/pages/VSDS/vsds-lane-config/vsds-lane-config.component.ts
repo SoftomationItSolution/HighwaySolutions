@@ -63,7 +63,8 @@ export class VsdsLaneConfigComponent {
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
         this.spinner.hide();
-        this.VehicleClassList= data.ResponseData;
+        let d=data.ResponseData;
+        this.VehicleClassList = d.filter((e: { ClassId: any; }) => e.ClassId != 1);
         this.VSDSLaneConfigGetALL()
       },
       (error) => {
@@ -93,55 +94,16 @@ export class VsdsLaneConfigComponent {
     );
   }
   
-  handleCheck(event:any,data:any,type:any){
-    // if(!event && type=='EventsRequired'){
-    //   for (let i = 0; i < this.EventTypeList.length; i++) {
-    //     const element = this.EventTypeList[i];
-    //     if(element.EventTypeId==data.EventTypeId){
-    //       this.EventTypeList[i].ReviewRequired=event;
-    //       this.EventTypeList[i].ChallanTypeId=0;
-    //       break;
-    //     }
-    //   }
-    // }
-    // else if(event && type=='EventsRequired'){
-    //   for (let i = 0; i < this.EventTypeList.length; i++) {
-    //     const element = this.EventTypeList[i];
-    //     if(element.EventTypeId==data.EventTypeId){
-    //       this.EventTypeList[i].ChallanTypeId=0;
-    //       break;
-    //     }
-    //   }
-    // }
-    // else if(event && type=='ReviewRequired'){
-    //   for (let i = 0; i < this.EventTypeList.length; i++) {
-    //     const element = this.EventTypeList[i];
-    //     if(element.EventTypeId==data.EventTypeId){
-    //       this.EventTypeList[i].EventsRequired=event;
-    //       this.EventTypeList[i].ChallanTypeId=0;
-    //       break;
-    //     }
-    //   }
-    // }
-    // else if(!event && type=='ReviewRequired'){
-    //   for (let i = 0; i < this.EventTypeList.length; i++) {
-    //     const element = this.EventTypeList[i];
-    //     if(element.EventTypeId==data.EventTypeId){
-    //       this.EventTypeList[i].ChallanTypeId=0;
-    //       break;
-    //     }
-    //   }
-    // }
-  }
+ 
 
   SaveDetails(){
     this.spinner.show();
     for (let j = 0; j < this.LaneConfigDetails.length; j++) {
-      this.LaneConfigDetails[j].DataStatus=this.LaneConfigDetails[j].DataStatus == true ? 1 : 2;
-      this.LaneConfigDetails[j].AllowedClassIds=this.LaneConfigDetails[j].AllowedClassIdList.toString();
+      this.LaneConfigDetails[j].CreatedBy=this.LogedUserId
+      this.LaneConfigDetails[j].ModifiedBy=this.LogedUserId
+      if(this.LaneConfigDetails[j].AllowedClassIdList!=null && this.LaneConfigDetails[j].AllowedClassIdList!='')
+       this.LaneConfigDetails[j].AllowedClassIds=this.LaneConfigDetails[j].AllowedClassIdList.toString();
     }
-    this.LaneConfigDetails[0].CreatedBy=this.LogedUserId
-    this.LaneConfigDetails[0].ModifiedBy=this.LogedUserId
     this.dbService.VSDSLaneConfigSetUp(this.LaneConfigDetails).subscribe(
       data => {
         this.spinner.hide();

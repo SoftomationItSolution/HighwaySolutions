@@ -1,26 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
-    internal class VIDSEventDL
+    internal class VSDSEventDL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_VIDSEventsHistory";
+        static string tableName = "tbl_VSDSEventsHistory";
         #endregion
 
-        internal static List<VIDSEventIL> GetByHours(short hours)
+        internal static List<VSDSEventIL> GetByHours(short hours)
         {
-            List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
+            List<VSDSEventIL> vidsEvents = new List<VSDSEventIL>();
             try
             {
-                string spName = "USP_VIDSEventsGetByHours";
+                string spName = "USP_VSDSEventsGetByHours";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Hours", DbType.Int16, hours, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -35,12 +35,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return vidsEvents;
         }
 
-        internal static List<VIDSEventIL> GetPendingReviewByHours(short hours)
+        internal static List<VSDSEventIL> GetPendingReviewByHours(short hours)
         {
-            List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
+            List<VSDSEventIL> vidsEvents = new List<VSDSEventIL>();
             try
             {
-                string spName = "USP_VIDSPendingReviewEventsGetByHours";
+                string spName = "USP_VSDSPendingReviewEventsGetByHours";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Hours", DbType.Int16, hours, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -54,13 +54,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return vidsEvents;
         }
-        internal static List<VIDSEventIL> GetByFilter(DataFilterIL data)
+        internal static List<VSDSEventIL> GetByFilter(DataFilterIL data)
         {
             DataTable dt = new DataTable();
-            List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
+            List<VSDSEventIL> vidsEvents = new List<VSDSEventIL>();
             try
             {
-                string spName = "USP_VIDSEventsGetByFilter";
+                string spName = "USP_VSDSEventsGetByFilter";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -76,9 +76,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         }
 
         #region Helper Methods
-        internal static VIDSEventIL CreateObjectFromDataRow(DataRow dr)
+        internal static VSDSEventIL CreateObjectFromDataRow(DataRow dr)
         {
-            VIDSEventIL events = new VIDSEventIL();
+            VSDSEventIL events = new VSDSEventIL();
 
             if (dr["TransactionId"] != DBNull.Value)
                 events.TransactionId = Convert.ToString(dr["TransactionId"]);
@@ -94,9 +94,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["DirectionId"] != DBNull.Value)
                 events.DirectionId = Convert.ToInt16(dr["DirectionId"]);
-
-            if (dr["PositionId"] != DBNull.Value)
-                events.PositionId = Convert.ToInt16(dr["PositionId"]);
 
             if (dr["PackageId"] != DBNull.Value)
                 events.PackageId = Convert.ToInt16(dr["PackageId"]);
@@ -122,26 +119,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["Longitude"] != DBNull.Value)
                 events.Longitude = Convert.ToDecimal(dr["Longitude"]);
 
-            if (dr["EventStartDate"] != DBNull.Value)
+            if (dr["EventDate"] != DBNull.Value)
             {
-                events.EventStartDate = Convert.ToDateTime(dr["EventStartDate"]);
-                events.EventStartDateStamp = events.EventStartDate.ToString(Constants.DateTimeFormatClient);
+                events.EventDate = Convert.ToDateTime(dr["EventDate"]);
+                events.EventDateStamp = events.EventDate.ToString(Constants.DateTimeFormatClient);
             }
-
-            if (dr["EventEndDate"] != DBNull.Value)
-                events.EventEndDate = Convert.ToDateTime(dr["EventEndDate"]);
-
-            if (dr["EventDuration"] != DBNull.Value)
-                events.EventDuration = Convert.ToInt16(dr["EventDuration"]);
 
             if (dr["LaneNumber"] != DBNull.Value)
             {
                 events.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
                 events.LaneName = "Lane-" + events.LaneNumber.ToString();
             }
-
-            if (dr["VehicleSpeed"] != DBNull.Value)
-                events.VehicleSpeed = Convert.ToDecimal(dr["VehicleSpeed"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 events.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
@@ -155,17 +143,50 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["PlateImageUrl"] != DBNull.Value)
                 events.PlateImageUrl = Convert.ToString(dr["PlateImageUrl"]);
 
-            if (dr["EventImageUrl"] != DBNull.Value)
-                events.EventImageUrl = Convert.ToString(dr["EventImageUrl"]);
+            if (dr["VehicleImageUrl"] != DBNull.Value)
+                events.VehicleImageUrl = Convert.ToString(dr["VehicleImageUrl"]);
 
-            if (dr["EventVideoUrl"] != DBNull.Value)
-                events.EventVideoUrl = Convert.ToString(dr["EventVideoUrl"]);
+            if (dr["VehicleVideoUrl"] != DBNull.Value)
+                events.VehicleVideoUrl = Convert.ToString(dr["VehicleVideoUrl"]);
 
-            if (dr["IncidentStatusId"] != DBNull.Value)
-                events.IncidentStatusId = Convert.ToInt16(dr["IncidentStatusId"]);
+            if (dr["CameraSpeed"] != DBNull.Value)
+                events.CameraSpeed = Convert.ToDecimal(dr["CameraSpeed"]);
 
-            if (dr["IncidentStatusName"] != DBNull.Value)
-                events.IncidentStatusName = Convert.ToString(dr["IncidentStatusName"]);
+            if (dr["RadarSpeed"] != DBNull.Value)
+                events.RadarSpeed = Convert.ToDecimal(dr["RadarSpeed"]);
+
+            if (dr["AllowedSpeed"] != DBNull.Value)
+                events.AllowedSpeed = Convert.ToDecimal(dr["AllowedSpeed"]);
+
+            if (dr["OcrConfidencelevel"] != DBNull.Value)
+                events.OcrConfidencelevel = Convert.ToDecimal(dr["OcrConfidencelevel"]);
+
+            if (dr["ClassConfidencelevel"] != DBNull.Value)
+                events.ClassConfidencelevel = Convert.ToDecimal(dr["ClassConfidencelevel"]);
+
+            if (dr["PlateFontColor"] != DBNull.Value)
+                events.PlateFontColor = Convert.ToString(dr["PlateFontColor"]);
+
+            if (dr["PlateBackColor"] != DBNull.Value)
+                events.PlateBackColor = Convert.ToString(dr["PlateBackColor"]);
+
+            if (dr["VehicleColor"] != DBNull.Value)
+                events.VehicleColor = Convert.ToString(dr["VehicleColor"]);
+
+            if (dr["VehicleDirectionId"] != DBNull.Value)
+                events.VehicleDirectionId = Convert.ToInt16(dr["VehicleDirectionId"]);
+
+            if (dr["IsPlateVisible"] != DBNull.Value)
+                events.IsPlateVisible = Convert.ToBoolean(dr["IsPlateVisible"]);
+
+            if (dr["IsFaultyPlate"] != DBNull.Value)
+                events.IsFaultyPlate = Convert.ToBoolean(dr["IsFaultyPlate"]);
+
+            if (dr["IsStandardPlate"] != DBNull.Value)
+                events.IsStandardPlate = Convert.ToBoolean(dr["IsStandardPlate"]);
+
+            if (dr["IsWrongDirection"] != DBNull.Value)
+                events.IsWrongDirection = Convert.ToBoolean(dr["IsWrongDirection"]);
 
             if (dr["DataSendStatus"] != DBNull.Value)
                 events.DataSendStatus = Convert.ToBoolean(dr["DataSendStatus"]);
@@ -176,8 +197,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["CreatedDate"] != DBNull.Value)
                 events.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
-            events.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)events.DirectionId);
-            events.PositionName = Enum.GetName(typeof(SystemConstants.VIDSEquipmentPositionType), (SystemConstants.VIDSEquipmentPositionType)events.PositionId);
+            events.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.DirectionId);
+            events.VehicleDirectionName = Enum.GetName(typeof(SystemConstants.VehicleDirectionType), (SystemConstants.VehicleDirectionType)events.VehicleDirectionId);
             return events;
         }
         #endregion

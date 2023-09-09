@@ -1,15 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.IdentityModel.Tokens.Jwt;
-using System.IO;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Text.RegularExpressions;
-using Microsoft.IdentityModel.Tokens;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary
@@ -26,6 +18,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
         #endregion
 
         #region Enum
+        public enum VehicleDirectionType
+        {
+            Front = 1,
+            Rear = 2
+        }
         public enum VIDSEquipmentPositionType
         {
             Entry = 1,

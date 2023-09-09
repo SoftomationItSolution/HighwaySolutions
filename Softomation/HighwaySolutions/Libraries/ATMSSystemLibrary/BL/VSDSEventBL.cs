@@ -5,35 +5,35 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class VIDSEventBL
+    public class VSDSEventBL
     {
-        public static List<VIDSEventIL> GetByHours(short hours)
+        public static List<VSDSEventIL> GetByHours(short hours)
         {
             try
             {
-                return VIDSEventDL.GetByHours(hours);
+                return VSDSEventDL.GetByHours(hours);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<VIDSEventIL> GetPendingReviewByHours(short hours)
+        public static List<VSDSEventIL> GetPendingReviewByHours(short hours)
         {
             try
             {
-                return VIDSEventDL.GetPendingReviewByHours(hours);
+                return VSDSEventDL.GetPendingReviewByHours(hours);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<VIDSEventIL> GetByFilter(DataFilterIL data)
+        public static List<VSDSEventIL> GetByFilter(DataFilterIL data)
         {
             try
             {
-                return VIDSEventDL.GetByFilter(data);
+                return VSDSEventDL.GetByFilter(data);
             }
             catch (Exception ex)
             {

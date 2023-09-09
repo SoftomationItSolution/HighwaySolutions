@@ -7,7 +7,6 @@ import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-
 import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
 import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
-import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
 import { ImsProgressComponent } from '../pages/IMS/ims-progress/ims-progress.component';
 import { ImsPendingComponent } from '../pages/IMS/ims-pending/ims-pending.component';
@@ -23,6 +22,7 @@ import { VsdsIncidentConfigComponent } from '../pages/VSDS/vsds-incident-config/
 import { VsdsValidationComponent } from '../pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from '../pages/VSDS/vsds-validated/vsds-validated.component';
 import { VsdsLaneConfigComponent } from '../pages/VSDS/vsds-lane-config/vsds-lane-config.component';
+import { VsdsDataComponent } from '../pages/VSDS/vsds-data/vsds-data.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -45,7 +45,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vsdsEquipmentConfig', component: VsdsEquipmentConfigComponent },
     { path: 'vsdsEventConfig', component: VsdsIncidentConfigComponent },
     { path: 'vsdsLaneConfig', component: VsdsLaneConfigComponent },
-    { path: 'vsdsEventHistroy', component: VidsdataComponent },
+    { path: 'vsdsEventHistroy', component: VsdsDataComponent },
     { path: 'vsdsValidation', component: VsdsValidationComponent },
     { path: 'vsdsValidated', component: VsdsValidatedComponent },
     { path: 'rmsReports', component: ReportsComponent },

@@ -44,23 +44,40 @@
                 </div>
 
             </fieldset>
-            <fieldset class="col-md-12">
-                <legend>VSDS</legend>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label for="TotalLane">Number of Lane in each direction</label>
-                            <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane"
-                                [options]="LaneData" optionLabel="DataName" optionValue="DataId"
-                                placeholder="Select" class="form-control select2"></p-dropdown>
-                            <small class="p-error"
-                                *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
-                                Lane is
-                                required.</small>
+            <div class="row">
+                <fieldset class="col-md-6">
+                    <legend>VSDS</legend>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <label for="TotalLane">Number of Lane in each direction</label>
+                                <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane"
+                                    [options]="LaneData" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DataDetailsForm.hasError('required','TotalLane')">Total
+                                    Lane is
+                                    required.</small>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
+                <fieldset class="col-md-6">
+                    <legend style="width: 50%;">Restricted Vehicles</legend>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="RestrictedVehiclesIds">Select Restricted Vehicles</label>
+                                <p-multiSelect appendTo="body" class="form-control select2"
+                                [options]="VehicleClassList" formControlName="RestrictedVehiclesIds"
+                                optionLabel="VehicleClassName" optionValue="ClassId" placeholder="Restricted Vehicles"
+                                [style]="{'width':'100%'}">
+                            </p-multiSelect>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
         </form>
     </div>
     <div class="modal-footer">

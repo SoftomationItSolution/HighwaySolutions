@@ -549,5 +549,41 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSLaneConfigGetAll', { headers: headers_object });
   }
+
+  VSDSEventsGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+  
+  VSDSPendingReviewGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+ 
+  VSDSEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSEventsGetByFilter', data, { headers: headers_object });
+  }
+ 
+  VSDSEventReviewed(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSEventReviewed', data, { headers: headers_object });
+  }
+
+  VSDSReviewedEventsGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSReviewedEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+
+  VSDSReviewedEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSReviewedEventsGetByFilter', data, { headers: headers_object });
+  }
   //#endregion
 }
