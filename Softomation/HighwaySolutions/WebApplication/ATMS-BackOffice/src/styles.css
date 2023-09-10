@@ -108,8 +108,8 @@
 
 .p-datatable-table tbody,
 tr {
-    border-width:1px;
-    border-color:#c3c3c3;
+    border-width: 1px;
+    border-color: #c3c3c3;
 }
 
 
@@ -158,9 +158,11 @@ tr {
     border-color: #5369f8;
     color: #fff;
 }
+
 .mr-2 {
     margin-right: 2px;
 }
+
 .mr-20 {
     margin-right: 20px;
 }
@@ -698,9 +700,11 @@ tr {
 .listtablepagging {
     height: 69vh !important
 }
-listtablepagging-f3{
+
+listtablepagging-f3 {
     height: 69vh !important
 }
+
 .mat-stepper-horizontal {
     margin-top: 0px;
     height: 367px;
@@ -909,14 +913,17 @@ input[type=radio] {
     max-height: 54vh !important;
     min-height: 54vh !important;
 }
+
 .listtablepagging-f3 .p-datatable-wrapper {
     max-height: 41vh !important;
     min-height: 41vh !important;
 }
+
 .listtablepagging-cf3 .p-datatable-wrapper {
     max-height: 59vh !important;
     min-height: 59vh !important;
 }
+
 .listtablepagging-c .p-datatable-wrapper {
     max-height: 59vh !important;
     min-height: 59vh !important;
@@ -945,6 +952,12 @@ input[type=radio] {
 }
 
 .audit-media {
+    width: 200px;
+    height: 150px;
+    border: 1px solid #000;
+}
+
+.audit-vsds-media {
     width: 200px;
     height: 150px;
     border: 1px solid #000;
@@ -1082,14 +1095,16 @@ input[type=radio] {
     border: none !important;
 }
 
-.p-datatable-resizable-table>.p-datatable-tbody>tr>td{
+.p-datatable-resizable-table>.p-datatable-tbody>tr>td {
     border: 1px solid #ccc7c7;
 }
-.rr-toggle .mdc-label{
+
+.rr-toggle .mdc-label {
     color: #fff;
     font-size: 11px;
     margin-top: 10px;
 }
+
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -1113,14 +1128,17 @@ input[type=radio] {
         max-height: 38vh !important;
         min-height: 38vh !important;
     }
+
     .listtablepagging-f3 .p-datatable-wrapper {
         max-height: 41vh !important;
         min-height: 41vh !important;
     }
+
     .listtablepagging-cf3 .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
     }
+
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
@@ -1168,14 +1186,17 @@ input[type=radio] {
         max-height: 34vh !important;
         min-height: 34vh !important;
     }
+
     .listtablepagging-f3 .p-datatable-wrapper {
         max-height: 41vh !important;
         min-height: 41vh !important;
     }
+
     .listtablepagging-cf3 .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
     }
+
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
@@ -1185,6 +1206,11 @@ input[type=radio] {
         width: 200px;
         height: 150px;
 
+    }
+
+    .audit-vsds-media {
+        width: 200px;
+        height: 150px;
     }
 
     .ims-tab {
@@ -1234,14 +1260,17 @@ input[type=radio] {
         max-height: 44vh !important;
         min-height: 44vh !important;
     }
+
     .listtablepagging-f3 .p-datatable-wrapper {
         max-height: 41vh !important;
         min-height: 41vh !important;
     }
+
     .listtablepagging-cf3 .p-datatable-wrapper {
         max-height: 59vh !important;
         min-height: 59vh !important;
     }
+
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 65vh !important;
         min-height: 65vh !important;
@@ -1275,11 +1304,13 @@ input[type=radio] {
     .listheight {
         height: 76vh;
     }
+
     #availableDataList,
     #FillDataList,
     #permission-table {
         height: 65vh;
     }
+
     .ccard .card-body {
         height: 68vh;
     }
@@ -1301,14 +1332,17 @@ input[type=radio] {
         max-height: 51vh !important;
         min-height: 51vh !important;
     }
+
     .listtablepagging-f3 .p-datatable-wrapper {
         max-height: 41vh !important;
         min-height: 41vh !important;
     }
+
     .listtablepagging-cf3 .p-datatable-wrapper {
         max-height: 70vh !important;
         min-height: 70vh !important;
     }
+
     .listtablepagging-c .p-datatable-wrapper {
         max-height: 71vh !important;
         min-height: 71vh !important;
@@ -1317,6 +1351,11 @@ input[type=radio] {
     .audit-media {
         width: 300px;
         height: 250px;
+    }
+
+    .audit-vsds-media {
+        width: 300px;
+        height: 150px;
     }
 
     .ims-tab {
@@ -1345,7 +1384,8 @@ input[type=radio] {
         width: 70px !important;
     }
 }
-.td-amt{
-    text-align: right; 
-    
+
+.td-amt {
+    text-align: right;
+
 }

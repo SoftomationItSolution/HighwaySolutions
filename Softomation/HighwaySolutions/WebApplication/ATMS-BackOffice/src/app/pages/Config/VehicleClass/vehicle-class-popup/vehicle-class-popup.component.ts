@@ -15,7 +15,7 @@ export class VehicleClassPopupComponent implements OnInit {
   PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  ClassId: number;
+  VehicleClassId: number;
   DataStatus = true;
   LogedUserId;
   ErrorData: any;
@@ -25,28 +25,27 @@ export class VehicleClassPopupComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) parentData: any,private dm: DataModel, public Dialogref: MatDialogRef<VehicleClassPopupComponent>,
     public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
-    this.ClassId = parentData.ClassId;
+    this.VehicleClassId = parentData.VehicleClassId;
   }
   ngOnInit(): void {
     this.PageTitle = 'Create New Vehicle Classification';
     this.DataDetailsForm = new FormGroup({
-      VehicleClassId: new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
+     
       VehicleClassName: new FormControl('', [Validators.required, Validators.pattern(regExps['AlphaNumericSingleSpace'])],),
       AllowedSpeed: new FormControl('', [Validators.required, Validators.pattern(regExps['OnlyDigit'])]),
       DataStatus: new FormControl(true),
     });
-    if (this.ClassId > 0) {
+    if (this.VehicleClassId > 0) {
       this.PageTitle = 'Update Vehicle Classification Details';
       this.DetailsbyId();
     }
   }
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.VehicleClassGetById(this.ClassId).subscribe(
+    this.dbService.VehicleClassGetById(this.VehicleClassId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        this.DataDetailsForm.controls['VehicleClassId'].setValue(this.DetailData.VehicleClassId);
         this.DataDetailsForm.controls['AllowedSpeed'].setValue(this.DetailData.AllowedSpeed);
         this.DataDetailsForm.controls['VehicleClassName'].setValue(this.DetailData.VehicleClassName);
         if (this.DetailData.DataStatus == 1) {
@@ -74,8 +73,7 @@ export class VehicleClassPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      ClassId: this.ClassId,
-      VehicleClassId: this.DataDetailsForm.value.VehicleClassId,
+      VehicleClassId: this.VehicleClassId,
       VehicleClassName: this.DataDetailsForm.value.VehicleClassName,
       AllowedSpeed: this.DataDetailsForm.value.AllowedSpeed,
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,

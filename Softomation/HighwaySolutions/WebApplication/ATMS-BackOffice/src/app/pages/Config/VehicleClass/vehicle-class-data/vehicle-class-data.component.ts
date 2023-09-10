@@ -83,7 +83,7 @@ export class VehicleClassDataComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
-      dialogConfig.data = { action: 'Save', ClassId: -1 };
+      dialogConfig.data = { action: 'Save', VehicleClassId: -1 };
       const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -99,13 +99,13 @@ export class VehicleClassDataComponent implements OnInit {
     }
   }
   onRowEditInit(data: any) {
-    if (this.DataUpdate == 1) {
+    if (this.DataUpdate == 1 && data.VehicleClassId>0) {
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '331px';
-      dialogConfig.data = { action: 'Update', ClassId: data.ClassId };
+      dialogConfig.data = { action: 'Update', VehicleClassId: data.VehicleClassId };
       const dialogRef = this.dialog.open(VehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

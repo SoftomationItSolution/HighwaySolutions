@@ -18,8 +18,9 @@ export class VsdsLaneConfigComponent {
   DataView: Number = 0;
   PermissionData:any;
   ErrorData:any;
-  VehicleClassList:any;
+  VehicleClassList:any=[];
   LaneConfigDetails:any;
+  SystemSettingData:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
@@ -46,14 +47,34 @@ export class VsdsLaneConfigComponent {
           this.dm.unauthorized();
         }
         else{
-          this.GetVehicleClass();
         
+          this.GetSystemSetting();
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetSystemSetting() {
+    this.spinner.show();
+    this.dbService.SystemSettingGet().subscribe(
+      data => {
+        this.spinner.hide();
+        this.SystemSettingData = data.ResponseData;
+        this.GetVehicleClass();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -64,7 +85,19 @@ export class VsdsLaneConfigComponent {
       data => {
         this.spinner.hide();
         let d=data.ResponseData;
-        this.VehicleClassList = d.filter((e: { ClassId: any; }) => e.ClassId != 1);
+        var RestrictedVehiclesIds=this.SystemSettingData.RestrictedVehiclesIdList
+        for (let i = 1; i < d.length; i++) {
+          const element = d[i];
+          var req=true;
+          for (let j = 0; j < RestrictedVehiclesIds.length; j++) {
+            const element1 = RestrictedVehiclesIds[j];
+            if(element.VehicleClassId==element1)
+              req=false;
+          }
+          if(req){
+            this.VehicleClassList.push(element)
+          }
+        }
         this.VSDSLaneConfigGetALL()
       },
       (error) => {

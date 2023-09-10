@@ -975,13 +975,13 @@ namespace ATMSRestAPI.Controllers
 
         [Route(Provider + "/" + APIPath + "/VehicleClassGetById")]
         [HttpGet]
-        public HttpResponseMessage VehicleClassGetById(int ClassId)
+        public HttpResponseMessage VehicleClassGetById(int VehicleClassId)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VehicleClassBL.GetById(ClassId);
+                response.ResponseData = VehicleClassBL.GetById(VehicleClassId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -1929,11 +1929,11 @@ namespace ATMSRestAPI.Controllers
             {
                 if (data.IsReviewedRequired)
                 {
-                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 else
                 {
-                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 if (data.ControlRoomFilterList != "0")
                 {
@@ -1951,13 +1951,21 @@ namespace ATMSRestAPI.Controllers
                 {
                     data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
                 }
-                if (data.PositionFilterList != "0")
+                if (data.LaneFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND H.LaneNumber IN (" + data.LaneFilterList + ") ";
                 }
                 if (data.EventFilterList != "0")
                 {
                     data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
+                }
+                if (data.VehicleClassFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
+                }
+                if (!String.IsNullOrEmpty(data.PlateNumber))
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.PlateNumber LIKE '%" + data.PlateNumber + "%' ";
                 }
 
                 resp.AlertMessage = "success";
@@ -1995,23 +2003,23 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        //[Route(Provider + "/" + APIPath + "/VSDSEventReviewUpdate")]
-        //[HttpPost]
-        //public HttpResponseMessage VSDSEventReviewUpdate(VSDSReviewedEventIL data)
-        //{
-        //    try
-        //    {
-        //        response.Message = VSDSReviewedEventBL.ReviewUpdate(data);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSEventReviewUpdate : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
+        [Route(Provider + "/" + APIPath + "/VSDSEventReviewUpdate")]
+        [HttpPost]
+        public HttpResponseMessage VSDSEventReviewUpdate(VSDSReviewedEventIL data)
+        {
+            try
+            {
+                response.Message = VSDSReviewedEventBL.ReviewUpdate(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventReviewUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region audited

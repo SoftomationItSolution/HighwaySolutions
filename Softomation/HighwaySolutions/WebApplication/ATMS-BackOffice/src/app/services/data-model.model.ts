@@ -110,7 +110,7 @@ export class DataModel {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '60%';
-    dialogConfig.height = '500px';
+    dialogConfig.height = '300px';
     dialogConfig.data = data;
     this.dialog.open(MediaViewComponent, dialogConfig);
   }

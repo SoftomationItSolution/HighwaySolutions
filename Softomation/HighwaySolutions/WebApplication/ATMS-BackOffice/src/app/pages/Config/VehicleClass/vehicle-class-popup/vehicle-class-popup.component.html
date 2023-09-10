@@ -8,15 +8,7 @@
     <div class="modal-body">
         <form [formGroup]="DataDetailsForm">
             <div class="row">
-                <div class="col-md-6">
-                    <label for="VehicleClassId">Vehicle Class Id</label>
-                    <input formControlName="VehicleClassId" type="text" pInputText required autocomplete="off"
-                        class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','VehicleClassId')">Vehicle Class Id is
-                        required.</small>
-                        <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','VehicleClassId')">Valid Vehicle Class Id is required.</small>
-                </div>
+               
                 <div class="col-md-6">
                     <label for="VehicleClassName">Class Name</label>
                     <input formControlName="VehicleClassName" type="text" pInputText required autofocus

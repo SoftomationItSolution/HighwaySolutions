@@ -41,11 +41,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
-        public static VehicleClassIL GetById(int ClassId)
+        public static VehicleClassIL GetById(int VehicleClassId)
         {
             try
             {
-                return VehicleClassDL.GetById(ClassId);
+                return VehicleClassDL.GetById(VehicleClassId);
             }
             catch (Exception ex)
             {

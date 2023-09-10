@@ -5,7 +5,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
     public class VehicleClassIL : CommonIL
     {
-        Int16 classId;
         Int16 vehicleClassId;
         String vehicleClassName;
         String vehicleClassIcon;
@@ -13,17 +12,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 
         public VehicleClassIL()
         {
-            classId = 0;
             vehicleClassId = 0;
             vehicleClassName = string.Empty;
             vehicleClassIcon = string.Empty;
             allowedSpeed = 0;
         }
 
-        public short ClassId
-        {
-            get => classId; set => classId = value;
-        }
+       
         public short VehicleClassId
         {
             get => vehicleClassId; set => vehicleClassId = value;

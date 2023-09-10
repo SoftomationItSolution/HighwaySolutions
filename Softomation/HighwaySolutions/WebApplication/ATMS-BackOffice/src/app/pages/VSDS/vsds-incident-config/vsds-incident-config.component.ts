@@ -80,7 +80,8 @@ export class VsdsIncidentConfigComponent {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
         this.spinner.hide();
-        this.EventTypeList= data.ResponseData;
+        let d=data.ResponseData;
+        this.EventTypeList= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
       },
       (error) => {
         this.spinner.hide();

@@ -118,7 +118,8 @@ export class VidsdataComponent {
   GetEventData() {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
-        this.EventData = data.ResponseData;
+        let d=data.ResponseData;
+        this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
         this.GetEventHistroy();
       },
       (error) => {
@@ -135,6 +136,10 @@ export class VidsdataComponent {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
+        if(this.TotalCount>0){
+          var sd=this.EventHistroyData[this.TotalCount-1].EventStartDateStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
       },
       (error) => {
         this.spinner.hide();

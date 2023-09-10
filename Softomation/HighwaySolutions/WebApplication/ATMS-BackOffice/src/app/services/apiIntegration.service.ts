@@ -210,10 +210,10 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  Vehicle Class
-  VehicleClassGetById(ClassId: any): Observable<any> {
+  VehicleClassGetById(VehicleClassId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?ClassId=' + ClassId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VehicleClassGetById?VehicleClassId=' + VehicleClassId, { headers: headers_object });
   }
   VehicleClassGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -571,7 +571,7 @@ export class apiIntegrationService {
   VSDSEventReviewed(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSEventReviewed', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSEventReviewUpdate', data, { headers: headers_object });
   }
 
   VSDSReviewedEventsGetByHours(Hours: any): Observable<any> {

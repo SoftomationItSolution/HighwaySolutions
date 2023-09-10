@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
-    public class VSDSReviewedEventIL
+    public class VSDSReviewedEventIL: VSDSEventIL
     {
         Boolean isChallanRequired;
         Boolean reviewedStatus;

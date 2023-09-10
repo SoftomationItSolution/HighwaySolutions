@@ -13,12 +13,15 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private String chainageFilterList;
         private String positionFilterList;
         private String eventFilterList;
+        private String vehicleClassFilterList;
         private String equipmentTypeFilterList;
         private String incidentFilterList;
         private String incidentStatusList;
         private String directionFilterList;
+        private String laneFilterList;
         private String priorityFilterList;
         private String reviewedFilterList;
+        private String plateNumber;
         private String startDateTime;
         private String endDateTime;
         Boolean isReviewedRequired;
@@ -39,11 +42,14 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.positionFilterList = string.Empty;
             this.equipmentTypeFilterList = string.Empty;
             this.eventFilterList = string.Empty;
+            this.vehicleClassFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
             this.incidentStatusList = string.Empty;
             this.directionFilterList = string.Empty;
+            this.laneFilterList = string.Empty;
             this.priorityFilterList = string.Empty;
             this.reviewedFilterList = string.Empty;
+            this.plateNumber = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
             this.isReviewedRequired = false;
@@ -87,6 +93,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => eventFilterList; set => eventFilterList = value;
         }
+        public string VehicleClassFilterList
+        {
+            get => vehicleClassFilterList; set => vehicleClassFilterList = value;
+        }
         public string IncidentFilterList
         {
             get => incidentFilterList; set => incidentFilterList = value;
@@ -104,9 +114,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => directionFilterList; set => directionFilterList = value;
         }
+        public string LaneFilterList
+        {
+            get => laneFilterList; set => laneFilterList = value;
+        }
         public string ReviewedFilterList
         {
             get => reviewedFilterList; set => reviewedFilterList = value;
+        }
+        public string PlateNumber
+        {
+            get => plateNumber; set => plateNumber = value;
         }
         public string StartDateTime
         {

@@ -21,8 +21,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_VehicleClassInsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassId", DbType.Int64, data.ClassId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int64, data.VehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, data.VehicleClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassName", DbType.String, data.VehicleClassName, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AllowedSpeed", DbType.Decimal, data.AllowedSpeed, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, data.DataStatus, ParameterDirection.Input));
@@ -70,7 +69,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
         }
-        internal static VehicleClassIL GetById(Int32 ClassId)
+        internal static VehicleClassIL GetById(Int32 VehicleClassId)
         {
             DataTable dt = new DataTable();
             VehicleClassIL crData = new VehicleClassIL();
@@ -78,7 +77,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_VehicleClassGetById";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassId", DbType.Int32, ClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int32, VehicleClassId, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     crData = CreateObjectFromDataRow(dr);
@@ -90,7 +89,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return crData;
         }
 
-        internal static List<VehicleClassIL> GetByIds(String AllowedClassIds)
+        internal static List<VehicleClassIL> GetByIds(String VehicleClassIds)
         {
             DataTable dt = new DataTable();
             List<VehicleClassIL> smData = new List<VehicleClassIL>();
@@ -98,7 +97,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_VehicleClassGetByIds";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassIds", DbType.String, AllowedClassIds, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassIds", DbType.String, VehicleClassIds, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     smData.Add(CreateObjectFromDataRow(dr));
@@ -116,9 +115,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         private static VehicleClassIL CreateObjectFromDataRow(DataRow dr)
         {
             VehicleClassIL user = new VehicleClassIL();
-
-            if (dr["ClassId"] != DBNull.Value)
-                user.ClassId = Convert.ToInt16(dr["ClassId"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 user.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
@@ -147,7 +143,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 user.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            user.DataStatusName = Enum.GetName(typeof(SystemConstants.DataStatusType), (SystemConstants.DataStatusType)user.DataStatus);
+            user.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)user.DataStatus);
             return user;
         }
 

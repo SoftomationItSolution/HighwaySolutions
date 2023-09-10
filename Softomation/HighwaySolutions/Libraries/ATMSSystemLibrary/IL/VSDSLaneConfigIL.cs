@@ -7,6 +7,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     public class VSDSLaneConfigIL : CommonIL
     {
         Int16 laneNumber;
+        String laneName;
         String allowedClassIds;
         Decimal allowedSpeed;
         short[] allowedClassIdList;
@@ -15,6 +16,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         public VSDSLaneConfigIL()
         {
             laneNumber = 0;
+            laneName = String.Empty;
             allowedClassIds = String.Empty;
             allowedSpeed = 0;
             allowedClassList = new List<VehicleClassIL>();
@@ -33,7 +35,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 laneNumber = value;
             }
         }
+        public String LaneName
+        {
+            get
+            {
+                return laneName;
+            }
 
+            set
+            {
+                laneName = value;
+            }
+        }
         public String AllowedClassIds
         {
             get

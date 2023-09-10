@@ -29,7 +29,8 @@ export class VsdsDataComponent {
   PackageFilter: any
   ChainageFilter: any;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  LaneDetailsList:any;
+  VehicleClassDataList:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -44,9 +45,11 @@ export class VsdsDataComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      PositionFilterList: new FormControl(''),
+      LaneFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
       EventFilterList: new FormControl(''),
+      VehicleClassFilterList: new FormControl(''),
+      PlateNumber: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -105,6 +108,33 @@ export class VsdsDataComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
+        
+        this.GetLaneConfig();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetLaneConfig() {
+    this.dbService.VSDSLaneConfigGetAll().subscribe(
+      data => {
+        this.LaneDetailsList = data.ResponseData;
+        this.GetVehicleList();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetVehicleList() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClassDataList = data.ResponseData;
         this.GetEventData();
       },
       (error) => {
@@ -114,11 +144,11 @@ export class VsdsDataComponent {
       }
     );
   }
-
   GetEventData() {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
-        this.EventData = data.ResponseData;
+        let d=data.ResponseData;
+        this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
         this.GetEventHistroy();
       },
       (error) => {
@@ -135,6 +165,10 @@ export class VsdsDataComponent {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
+        if(this.TotalCount>0){
+          var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -149,14 +183,22 @@ export class VsdsDataComponent {
     );
   }
 
+  
+
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "VSDS Event media-(" + TransactionRowData.EventTypeName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.EventImageUrl
+        ImagePath: TransactionRowData.PlateImageUrl,
+        Title:"Plate Image"
+      },
+      {
+        ImagePath: TransactionRowData.VehicleImageUrl,
+        Title:"Vehicle Image"
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.EventVideoUrl
+        VideoPath: TransactionRowData.VehicleVideoUrl,
+        Title:"Vehicle Video"
       }],
       AudioData: [{
         AudioPath: ''
@@ -278,11 +320,11 @@ export class VsdsDataComponent {
       }
     }
 
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+    let LaneFilterList = "0"
+    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
+      let crData=this.FilterDetailsForm.value.LaneFilterList.toString();
+      if (crData.split(',').length != this.LaneDetailsList.length) {
+        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
       }
     }
 
@@ -301,20 +343,30 @@ export class VsdsDataComponent {
         EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
+
+    let VehicleClassFilterList = "0"
+    if (this.FilterDetailsForm.value.VehicleClassFilterList != null && this.FilterDetailsForm.value.VehicleClassFilterList != '') {
+      let crData=this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      if (crData.split(',').length != this.VehicleClassDataList.length) {
+        VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      }
+    }
     let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj= {
       ControlRoomFilterList: ControlRoomFilterList,
       PackageFilterList:PackageFilterList,
       ChainageFilterList:ChainageFilterList,
-      PositionFilterList:PositionFilterList,
+      LaneFilterList:LaneFilterList,
       DirectionFilterList:DirectionFilterList,
       EventFilterList:EventFilterList,
+      PlateNumber:this.FilterDetailsForm.value.PlateNumber,
+      VehicleClassFilterList:VehicleClassFilterList,
       StartDateTime:SD,
       EndDateTime:ED
     }
     this.spinner.show();
-    this.dbService.VIDSEventsGetByFilter(obj).subscribe(
+    this.dbService.VSDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;    
@@ -322,13 +374,8 @@ export class VsdsDataComponent {
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
        
       }
     );

@@ -20,7 +20,8 @@ export class MediaViewComponent {
       if (parentData.AudioData[i].AudioPath != '') {
         var obj = {
           type: "audio",
-          path: MediaPrefix+parentData.AudioData[i].AudioPath
+          path: MediaPrefix+parentData.AudioData[i].AudioPath,
+          title:MediaPrefix+parentData.AudioData[i].Title
         }
         this.finalData.push(obj)
       }
@@ -29,7 +30,8 @@ export class MediaViewComponent {
       if (parentData.ImageData[i].ImagePath != ''){
         var obj1 = {
           type: "image",
-          path: MediaPrefix+parentData.ImageData[i].ImagePath
+          path: MediaPrefix+parentData.ImageData[i].ImagePath,
+          title:MediaPrefix+parentData.ImageData[i].Title
         }
         this.finalData.push(obj1)
       }
@@ -38,7 +40,8 @@ export class MediaViewComponent {
       if (parentData.VideoData[i].VideoPath != ''){
         var obj2 = {
           type: "video",
-          path: MediaPrefix+parentData.VideoData[i].VideoPath
+          path: MediaPrefix+parentData.VideoData[i].VideoPath,
+          title:MediaPrefix+parentData.VideoData[i].Title
         }
         this.finalData.push(obj2)
       }

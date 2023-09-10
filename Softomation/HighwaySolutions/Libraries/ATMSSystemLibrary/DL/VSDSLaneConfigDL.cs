@@ -98,10 +98,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         private static VSDSLaneConfigIL CreateObjectFromDataRow(DataRow dr)
         {
             VSDSLaneConfigIL lc = new VSDSLaneConfigIL();
-
             if (dr["LaneNumber"] != DBNull.Value)
+            {
                 lc.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
-
+                lc.LaneName = "Lane-" + lc.LaneNumber.ToString();
+            }
             if (dr["AllowedClassIds"] != DBNull.Value)
             {
                 lc.AllowedClassIds = Convert.ToString(dr["AllowedClassIds"]);
@@ -111,7 +112,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     lc.AllowedClassList = VehicleClassDL.GetByIds(lc.AllowedClassIds);
                 }
             }
-
             if (dr["AllowedSpeed"] != DBNull.Value)
                 lc.AllowedSpeed = Convert.ToDecimal(dr["AllowedSpeed"]);
 

@@ -120,8 +120,10 @@
     <Compile Include="BL\VIDSReviewedEventBL.cs" />
     <Compile Include="BL\VSDSEventBL.cs" />
     <Compile Include="BL\VSDSLaneConfigBL.cs" />
+    <Compile Include="BL\VSDSReviewedEventBL.cs" />
     <Compile Include="DL\VSDSEventDL.cs" />
     <Compile Include="DL\VSDSLaneConfigDL.cs" />
+    <Compile Include="DL\VSDSReviewedEventDL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\VSDSEventIL.cs" />
     <Compile Include="IL\VSDSLaneConfigIL.cs" />
