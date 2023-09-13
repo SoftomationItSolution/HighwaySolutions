@@ -9,16 +9,23 @@ import { MediaViewComponent } from "src/app/pages/media-view/media-view.componen
   providedIn: 'root'
 })
 export class DataModel {
+  PageRefreshJson={Pagerefreshvalue:false,MenuId:0};
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
+  PageRefresh = new EventEmitter<any>();
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) { }
   clearStorage() {
     localStorage.removeItem("Toll360loggedIn");
     localStorage.removeItem("Toll360Token");
     localStorage.removeItem("Toll360UserData");
   }
-
+  setPageRefresh(value:boolean,MenuId:number)
+  {
+    this.PageRefreshJson.Pagerefreshvalue = value;
+    this.PageRefreshJson.MenuId = MenuId;
+    this.PageRefresh.emit(this.PageRefreshJson);
+  }
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {

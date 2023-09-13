@@ -39,7 +39,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
-import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
+import { DefaultLayoutComponent } from './_layout/default-layout/DefaultLayoutComponent';
 import { SnakbarComponent } from './pages/snakbar/snakbar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MediaViewComponent } from './pages/media-view/media-view.component';
@@ -80,6 +80,8 @@ import { ConfirmationService } from 'primeng/api';
 import { TransactionalDataComponent } from './pages/Transactions/transactional-data/transactional-data.component';
 import { TransactionalValidationComponent } from './pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from './pages/Transactions/transactional-validated/transactional-validated.component';
+import { ReportMasterComponent } from './pages/report-master/report-master.component';
+//import { ReportMasterComponent } from './pages/report-master/report-master.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -146,7 +148,8 @@ export const MY_CUSTOM_FORMATS = {
     ShiftClearanceDetailsPopupComponent,
     TransactionalDataComponent,
     TransactionalValidationComponent,
-    TransactionalValidatedComponent
+    TransactionalValidatedComponent,
+    //ReportMasterComponent
   ],
   imports: [
     BrowserModule,

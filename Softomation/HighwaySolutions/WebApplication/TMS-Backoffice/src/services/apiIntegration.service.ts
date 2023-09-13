@@ -522,4 +522,23 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetByFilter',FilterData, { headers: headers_object });
   }
   //#endregion
+
+  //#region report Category
+GetReportCategory(): Observable<any> {
+  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + 'GetReportCategory', { headers: headers_object });
+}
+GetSubReportCategory(CategoryId:number): Observable<any> {
+  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + 'GetSubReportCategory?CategoryId=' + CategoryId, { headers: headers_object });
+}
+ReportFilter(data: {}): Observable<any> {
+  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + 'ReportFilter', data, { headers: this.header });
+}
+//#endregion
+
 }
