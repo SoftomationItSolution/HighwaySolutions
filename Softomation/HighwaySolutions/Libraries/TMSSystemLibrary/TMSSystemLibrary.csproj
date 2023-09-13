@@ -127,6 +127,7 @@
     <Compile Include="DL\FloatProcessDenominationDL.cs" />
     <Compile Include="DL\FloatProcessDL.cs" />
     <Compile Include="DL\FloatTransactionsTypeDL.cs" />
+    <Compile Include="DL\ICDQueryExceptionDL.cs" />
     <Compile Include="DL\ICDTransactionStatusDL.cs" />
     <Compile Include="DL\ICDResponsePayDL.cs" />
     <Compile Include="DL\LaneTransactionDL.cs" />
