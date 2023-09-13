@@ -58,10 +58,11 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         {
             GeneralLog,
             BackOfficeAPI,
-            BankOfficeAPI,
+            BankAPI,
             EventAPI,
             ServiceMonitor,
             BackOfficeService,
+            BankService,
         }
         public enum DataStatusType
         {

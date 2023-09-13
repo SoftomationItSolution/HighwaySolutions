@@ -34,12 +34,17 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger
                         }
                     case ErrorLogModule.BackOfficeAPI:
                         {
-                            path = CreateDirectory("BackOfficeAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            path = CreateDirectory("WebAPI//BackOfficeAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            break;
+                        }
+                    case ErrorLogModule.BankAPI:
+                        {
+                            path = CreateDirectory("WebAPI//BankAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
                             break;
                         }
                     case ErrorLogModule.EventAPI:
                         {
-                            path = CreateDirectory("EventAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            path = CreateDirectory("WebAPI//EventAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
                             break;
                         }
                     case ErrorLogModule.ServiceMonitor:
@@ -52,7 +57,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger
                             path = CreateDirectory("Services/BackOfficeService//") + dt.ToString("yyyy-MM-dd") + ".log";
                             break;
                         }
-
+                    case ErrorLogModule.BankService:
+                        {
+                            path = CreateDirectory("Services/BankService//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            break;
+                        }
                 }
                 try
                 {

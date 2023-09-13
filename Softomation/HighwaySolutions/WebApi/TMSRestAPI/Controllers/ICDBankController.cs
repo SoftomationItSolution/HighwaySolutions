@@ -29,7 +29,7 @@ namespace TMSRestAPI.Controllers
 
         internal static void BankOfficeAPILog(string message)
         {
-            LogMaster.Write(message, ErrorLogModule.BankOfficeAPI);
+            LogMaster.Write(message, ErrorLogModule.BankAPI);
         }
 
         [Route("Rocket/GetResponsePay")]

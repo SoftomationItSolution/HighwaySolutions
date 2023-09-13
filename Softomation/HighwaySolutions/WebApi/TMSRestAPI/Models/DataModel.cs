@@ -12,7 +12,7 @@ namespace TMSRestAPI.Models
     {
         internal static void BankOfficeAPILog(string message)
         {
-            LogMaster.Write(message, ErrorLogModule.BankOfficeAPI);
+            LogMaster.Write(message, ErrorLogModule.BankAPI);
         }
         public static ICDPaymentResponseIL ReadXMLFile(ICDPaymentResponseIL icd)
         {
