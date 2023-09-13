@@ -12,11 +12,10 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using static HighwaySoluations.Softomation.TMSSystemLibrary.SystemConstants;
-using Newtonsoft.Json;
 using System.IO;
 using System.Text.RegularExpressions;
-using HighwaySoluations.Softomation.CommonLibrary;
 using System.Configuration;
+using Newtonsoft.Json;
 
 namespace TMSRestAPI.Controllers
 {
@@ -1910,7 +1909,7 @@ namespace TMSRestAPI.Controllers
                 //ReportManagementIL rpt = ReportManagementBL.GetById(data.SubCategoryId);
                 FileName = Regex.Replace(data.ReportId.ToString(), @"\s+", "") + "_" + Guid.NewGuid() + ".pdf";
                 #region Save Json File
-                string jsonString = JsonConvert.SerializeObject(data);
+                String jsonString = JsonConvert.SerializeObject(data);
                 string rootpath = HttpContext.Current.Server.MapPath("~/filter/");
                 if (!Directory.Exists(rootpath))
                 {

@@ -10,8 +10,8 @@ using HighwaySoluations.Softomation.TMSSystemLibrary;
 using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
-using Newtonsoft.Json;
 using Rotativa;
+using Newtonsoft.Json;
 
 namespace TMSRestAPI.Controllers
 {
@@ -57,7 +57,7 @@ namespace TMSRestAPI.Controllers
             {
                 string footer = "--footer-right \"Printed on: " + DateTime.Now.ToString("dd-MMM-yyyy HH:mm:ss") + "  Page: [page] of [toPage]\"" + " --footer-line --footer-font-size \"9\" --footer-spacing 6 --footer-font-name \"calibri light\"";
 
-                var filePath = Path.Combine(Server.MapPath("/reports"), FileName);
+                var filePath = Path.Combine(Server.MapPath("/filter"), FileName);
                 FilePath = filePath;
                 //ReportManagementIL rpt = ReportManagementBL.GetById(Id);
                 String CategoryName = Regex.Replace("Report_" + Id.ToString(), @"\s+", "");
