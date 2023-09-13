@@ -99,10 +99,10 @@
     <Compile Include="BL\ExemptTypeBL.cs" />
     <Compile Include="BL\FloatProcessBL.cs" />
     <Compile Include="BL\FloatTransactionsTypeBL.cs" />
+    <Compile Include="BL\ICDQueryExceptionBL.cs" />
     <Compile Include="BL\ICDResponsePayBL.cs" />
-  <Compile Include="BL\ICDTagDetailsBL.cs" />
+    <Compile Include="BL\ICDTagDetailsBL.cs" />
     <Compile Include="BL\ICDTimeResponseBL.cs" />
-
     <Compile Include="BL\ICDTransactionStatusBL.cs" />
     <Compile Include="BL\LaneTransactionBL.cs" />
     <Compile Include="BL\ManufactureBL.cs" />
@@ -131,7 +131,7 @@
     <Compile Include="DL\FloatProcessDL.cs" />
     <Compile Include="DL\FloatTransactionsTypeDL.cs" />
     <Compile Include="DL\ICDQueryExceptionDL.cs" />
- <Compile Include="DL\ICDTagDetailsDL.cs" />
+    <Compile Include="DL\ICDTagDetailsDL.cs" />
     <Compile Include="DL\ICDTimeResponseDL.cs" />
     <Compile Include="DL\ICDTransactionStatusDL.cs" />
     <Compile Include="DL\ICDResponsePayDL.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="IL\ICDHeartBeatResponseIL.cs" />
     <Compile Include="IL\ICDQueryExceptionIL.cs" />
     <Compile Include="IL\ICDResponsePayIL.cs" />
- <Compile Include="IL\ICDTagDetailsIL.cs" />
+    <Compile Include="IL\ICDTagDetailsIL.cs" />
     <Compile Include="IL\ICDTimeResponseIL.cs" />
     <Compile Include="IL\ICDTransactionStatusIL.cs" />
     <Compile Include="IL\LaneTransactionIL.cs" />

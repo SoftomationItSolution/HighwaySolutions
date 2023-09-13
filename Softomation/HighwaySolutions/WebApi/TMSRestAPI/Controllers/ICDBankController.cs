@@ -13,17 +13,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
 namespace TMSRestAPI.Controllers
 {
     public class ICDBankController : ApiController
     {
-<<<<<<< Updated upstream
+
         ResponseDirectoryConfig responseDirectoryConfig = ResponseDirectoryConfig.Deserialize();
         private static bool RemoteCertValidate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslpolicyerrors)
         {
@@ -522,7 +518,7 @@ namespace TMSRestAPI.Controllers
 
         //        }
         //        WriteLog.WriteEventLogToFile("RespCashDetail", "PayResponse cash file " + Cash_msgId + ".xml Accepted successfully.");
-=======
+
         //ResponseDirectoryConfig responseDirectoryConfig = ResponseDirectoryConfig.Deserialize();
         //internal static void BankOfficeAPILog(string message)
         //{
@@ -562,7 +558,7 @@ namespace TMSRestAPI.Controllers
 
         //        }
         //        BankOfficeAPILog("ResponsePay-PayResponse file " + iDC.MsgId + ".xml Accepted successfully.");
->>>>>>> Stashed changes
+
         //        return StatusCode(HttpStatusCode.Accepted);
 
 
@@ -570,13 +566,13 @@ namespace TMSRestAPI.Controllers
         //    }
         //    catch (Exception ex)
         //    {
-<<<<<<< Updated upstream
+
         //        WriteErrorInDatabase.ErrorLog("Error: Get Resp Cash CCH File :" + ex.Message + "-" + ex.StackTrace);
         //        WriteLog.WriteErrorToFile("Error: RespCashDetail " + ex.Message + ex.StackTrace);
-=======
+
         //        BankOfficeAPILog("Error: Get CCH File :" + ex.Message + "-" + ex.StackTrace);
         //        BankOfficeAPILog("Error: ResponsePay " + ex.Message + ex.StackTrace);
->>>>>>> Stashed changes
+
         //        return StatusCode(HttpStatusCode.ExpectationFailed);
         //    }
 
