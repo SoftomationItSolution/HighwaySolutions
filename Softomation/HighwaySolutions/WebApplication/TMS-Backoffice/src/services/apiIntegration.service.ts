@@ -133,7 +133,7 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
   //#endregion
-  
+
   //#region System Setting
   SystemSettingSetUp(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -468,10 +468,10 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FloatProcessGetAll', { headers: headers_object });
   }
 
-  FloatProcessGetById(FloatProcessId:any): Observable<any> {
+  FloatProcessGetById(FloatProcessId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FloatProcessGetById?FloatProcessId='+FloatProcessId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FloatProcessGetById?FloatProcessId=' + FloatProcessId, { headers: headers_object });
   }
 
   FloatProcessSetUp(data: {}): Observable<any> {
@@ -519,26 +519,32 @@ export class apiIntegrationService {
   LaneTransactionFilter(FilterData: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetByFilter',FilterData, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetByFilter', FilterData, { headers: headers_object });
   }
   //#endregion
 
   //#region report Category
-GetReportCategory(): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategory', { headers: headers_object });
-}
-GetSubReportCategory(ReportId:number): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix  + '/GetReportCategoryBYId?ReportId=' + ReportId, { headers: headers_object });
-}
-ReportFilter(): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FilterReportGet', { headers: this.header });
-}
-//#endregion
+  GetReportCategory(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategory', { headers: headers_object });
+  }
+  GetSubReportCategory(ReportId: number): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategoryBYId?ReportId=' + ReportId, { headers: headers_object });
+  }
+  ReportFilter(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FilterReportGet', { headers: this.header });
+  }
+  GetReport(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/GetReport', data, { headers: headers_object });
+  }
+
+  //#endregion
 
 }
