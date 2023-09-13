@@ -6,36 +6,37 @@ using System.Threading.Tasks;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class IDCTransactionStatusIL
+    public class ICDTransactionStatusIL
     {
         string transactionMessageId;
-        string transactionApiCallDatetime;
+        DateTime transactionApiCallDatetime;
         string transactionApiVersion;
         string transactionId;
         string transactionOrganizationId;
         string transactionNote;
         string transactionReferenceId;
         string transactionReferenceURL;
-        string transactionDateTime;
+        DateTime transactionDateTime;
         string transactionType;
         string organizationTransactionId;
         string transactionPlazaId;
-        string transactionResponseTime;
+        DateTime transactionResponseTime;
         string transactionResult;
         string transactionResponseCode;
         string transactionTotalRequestCount;
         string transactionSuccessRequestCount;
-        string transactionCCHTransactionId;
+        string cchTransactionId;
         string transactionLaneId;
         string transactionResultSecond;
         string transactionRequestedErrorCode;
-        string transactionSettlementDate;
-        string transactionReaderDateTime;
+        DateTime transactionSettlementDate;
+        DateTime transactionReaderDateTime;
         string transactionFilePath;
+        string filePath; 
         string fileSaveLocation;
         string fileReadLocation;
         List<CheckTransactionStatus> transactionList;
-        public IDCTransactionStatusIL()
+        public ICDTransactionStatusIL()
         {
             transactionMessageId = string.Empty;
         }
@@ -51,7 +52,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionMessageId = value;
             }
         }
-        public String TransactionApiCallDatetime
+        public DateTime TransactionApiCallDatetime
         {
             get
             {
@@ -135,7 +136,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionReferenceURL = value;
             }
         }
-        public String TransactionDateTime
+        public DateTime TransactionDateTime
         {
             get
             {
@@ -183,7 +184,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionPlazaId = value;
             }
         }
-        public String TransactionResponseTime
+        public DateTime TransactionResponseTime
         {
             get
             {
@@ -243,16 +244,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionSuccessRequestCount = value;
             }
         }
-        public String TransactionCCHTransactionId
+        public String CCHTransactionId
         {
             get
             {
-                return transactionCCHTransactionId;
+                return cchTransactionId;
             }
 
             set
             {
-                transactionCCHTransactionId = value;
+                cchTransactionId = value;
             }
         }
         public String TransactionLaneId
@@ -291,7 +292,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionRequestedErrorCode = value;
             }
         }
-        public String TransactionSettlementDate
+        public DateTime TransactionSettlementDate
         {
             get
             {
@@ -303,7 +304,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionSettlementDate = value;
             }
         }
-        public String TransactionReaderDateTime
+        public DateTime TransactionReaderDateTime
         {
             get
             {
@@ -363,6 +364,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionList = value;
             }
         }
+
+        public String FilePath
+        {
+            get
+            {
+                return filePath;
+            }
+
+            set
+            {
+                filePath = value;
+            }
+        }
     }
 
     public class CheckTransactionStatus
@@ -374,6 +388,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         string transactionFareType;
         string transactionVehicleClass;
         string transactionRegistrationNumber;
+        string transactionReceivedTime;
         string transactionErrorCode;
 
         public CheckTransactionStatus()
@@ -481,6 +496,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 transactionErrorCode = value;
+            }
+        }
+
+        public String TransactionReceivedTime
+        {
+            get
+            {
+                return transactionReceivedTime;
+            }
+
+            set
+            {
+                transactionReceivedTime = value;
             }
         }
     }

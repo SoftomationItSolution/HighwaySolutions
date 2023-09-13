@@ -99,7 +99,8 @@
     <Compile Include="BL\ExemptTypeBL.cs" />
     <Compile Include="BL\FloatProcessBL.cs" />
     <Compile Include="BL\FloatTransactionsTypeBL.cs" />
-    <Compile Include="BL\IDCResponsePayBL.cs" />
+    <Compile Include="BL\ICDResponsePayBL.cs" />
+    <Compile Include="BL\ICDTransactionStatusBL.cs" />
     <Compile Include="BL\LaneTransactionBL.cs" />
     <Compile Include="BL\ManufactureBL.cs" />
     <Compile Include="BL\EquipmentTypeBL.cs" />
@@ -126,7 +127,8 @@
     <Compile Include="DL\FloatProcessDenominationDL.cs" />
     <Compile Include="DL\FloatProcessDL.cs" />
     <Compile Include="DL\FloatTransactionsTypeDL.cs" />
-    <Compile Include="DL\IDCResponsePayDL.cs" />
+    <Compile Include="DL\ICDTransactionStatusDL.cs" />
+    <Compile Include="DL\ICDResponsePayDL.cs" />
     <Compile Include="DL\LaneTransactionDL.cs" />
     <Compile Include="DL\ManufactureDL.cs" />
     <Compile Include="DL\EquipmentTypeDL.cs" />
@@ -152,8 +154,9 @@
     <Compile Include="IL\FloatProcessDenominationIL.cs" />
     <Compile Include="IL\FloatProcessIL.cs" />
     <Compile Include="IL\FloatTransactionsTypeIL.cs" />
-    <Compile Include="IL\IDCResponsePayIL.cs" />
-    <Compile Include="IL\IDCTransactionStatusIL.cs" />
+    <Compile Include="IL\ICDQueryExceptionIL.cs" />
+    <Compile Include="IL\ICDResponsePayIL.cs" />
+    <Compile Include="IL\ICDTransactionStatusIL.cs" />
     <Compile Include="IL\LaneTransactionIL.cs" />
     <Compile Include="IL\SystemSettingIL.cs" />
     <Compile Include="IL\SystemVehicleClassIL.cs" />

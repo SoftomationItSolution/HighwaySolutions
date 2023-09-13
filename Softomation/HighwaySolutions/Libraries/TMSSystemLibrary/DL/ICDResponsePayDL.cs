@@ -8,19 +8,19 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class IDCResponsePayDL
+    internal class ICDResponsePayDL
     {
         #region Global Varialble
        
         static string tableName = "tbl_CCHTollReconciliationDetailRecordICD";
         #endregion
 
-        internal static List<ResponseIL> Insert(IDCResponsePayIL ed)
+        internal static List<ResponseIL> Insert(ICDResponsePayIL ed)
         {
             List<ResponseIL> responses = null;
             try
             {
-                string spName = "USP_EquipmentDetailsInsertUpdate";
+                string spName = "USP_ICDResponsePayInsert";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagId", DbType.String, ed.TagId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClass", DbType.String, ed.VehicleClass, ParameterDirection.Input));
