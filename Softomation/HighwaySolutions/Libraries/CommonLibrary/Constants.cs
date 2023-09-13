@@ -58,6 +58,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         {
             GeneralLog,
             BackOfficeAPI,
+            BankOfficeAPI,
             EventAPI,
             ServiceMonitor,
             BackOfficeService,
@@ -226,8 +227,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             CultureInfo hindi = new CultureInfo("hi-IN");
             return string.Format(hindi, "{0:c}", parsed);
         }
-
-        
         #endregion
     }
 }

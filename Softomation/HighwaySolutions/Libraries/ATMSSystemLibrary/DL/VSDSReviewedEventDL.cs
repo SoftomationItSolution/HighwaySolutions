@@ -25,7 +25,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, data.TransactionId, ParameterDirection.Input, 30));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedPlateNumber", DbType.String, data.ReviewedPlateNumber, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReviewedVehicleClassId", DbType.Int16, data.ReviewedVehicleClassId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventTypeId", DbType.Int16, data.EventTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RadarSpeed", DbType.Decimal, data.RadarSpeed, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneNumber", DbType.Int16, data.LaneName, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedPlateVisible", DbType.Boolean, data.IsReviewedPlateVisible, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedFaultyPlate", DbType.Boolean, data.IsReviewedFaultyPlate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedStandardPlate", DbType.Boolean, data.IsReviewedStandardPlate, ParameterDirection.Input));

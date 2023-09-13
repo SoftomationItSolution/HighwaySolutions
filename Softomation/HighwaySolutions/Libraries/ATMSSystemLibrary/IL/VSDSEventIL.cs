@@ -33,7 +33,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Boolean isStandardPlate;
         Boolean isWrongDirection;
         Boolean isReviewedRequired;
-
+        Boolean isRestiredVehicle;
         public VSDSEventIL()
         {
             this.transactionId = string.Empty;
@@ -65,6 +65,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.isStandardPlate = false;
             this.isWrongDirection = false;
             this.isReviewedRequired = false;
+            this.isRestiredVehicle = false;
         }
 
         public String TransactionId
@@ -425,6 +426,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 isReviewedRequired = value;
+            }
+        }
+        public Boolean IsRestiredVehicle
+        {
+            get
+            {
+                return isRestiredVehicle;
+            }
+
+            set
+            {
+                isRestiredVehicle = value;
             }
         }
     }

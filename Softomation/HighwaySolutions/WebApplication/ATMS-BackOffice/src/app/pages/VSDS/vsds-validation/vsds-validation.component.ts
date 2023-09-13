@@ -450,10 +450,13 @@ export class VsdsValidationComponent {
         TransactionId: this.SelectedRow.TransactionId,
         ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
         ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId,
+        RadarSpeed:this.SelectedRow.RadarSpeed,
+        LaneName:this.SelectedRow.LaneName,
         IsReviewedPlateVisible: this.Reviewedform.value.IsReviewedPlateVisible,
         IsReviewedFaultyPlate: this.Reviewedform.value.IsReviewedFaultyPlate,
         IsReviewedStandardPlate: this.Reviewedform.value.IsReviewedStandardPlate,
         IsReviewedWrongDirection: this.Reviewedform.value.IsReviewedWrongDirection,
+        ReviewedById:this.LogedUserId
       }
       this.dbService.VSDSEventReviewed(obj).subscribe(
         data => {
@@ -506,7 +509,7 @@ export class VsdsValidationComponent {
     });
   }
 
-  viewImage() {
-    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
+  viewImage(path:string) {
+    var myWindow = window.open(this.MediaPrefix + path, "", "width=600");
   }
 }

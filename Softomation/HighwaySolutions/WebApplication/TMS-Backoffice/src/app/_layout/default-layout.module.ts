@@ -9,6 +9,8 @@ import { DataModel } from "src/services/data-model.model";
 // import { UserConfigurationComponent } from "../pages/Config/UserData/user-configuration/user-configuration.component";
 // import { RoleConfigurationPopupComponent } from "../pages/Config/RoleData/role-configuration-popup/role-configuration-popup.component";
 
+
+
 @NgModule({
     imports: [
         RouterModule.forChild(AdminLayoutRoutes),

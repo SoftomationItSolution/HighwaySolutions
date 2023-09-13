@@ -153,11 +153,11 @@
                                 <div class="col-md-6">
                                     <img *ngIf="SelectedRow != null"
                                         src="{{MediaPrefix}}{{SelectedRow.VehicleImageUrl}}" class="audit-vsds-media"
-                                        (dblclick)="viewImage()" />
+                                        (dblclick)="viewImage(SelectedRow.VehicleImageUrl)" />
 
                                     <img *ngIf="SelectedRow != null"
                                         src="{{MediaPrefix}}{{SelectedRow.PlateImageUrl}}" class="audit-vsds-media"
-                                        (dblclick)="viewImage()" />
+                                        (dblclick)="viewImage(SelectedRow.PlateImageUrl)" />
                                 </div>
                                 <div class="col-md-6">
                                     <video class="audit-media" *ngIf="VideoFound" controls [autoplay]="true"
