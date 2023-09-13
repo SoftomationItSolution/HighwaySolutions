@@ -11,11 +11,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         DateTime transactionHeadDateTime;
         string apiVersion;
         string transactionId;
-       
         string note;
         string transactionReferanceId;
         string transactionReferanceUrl;
-
         DateTime transactionDateTime;
         string transactionType;
         string organizationTransactionId;

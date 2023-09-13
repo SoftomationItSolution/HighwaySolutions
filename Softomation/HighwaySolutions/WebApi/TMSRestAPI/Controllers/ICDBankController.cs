@@ -117,7 +117,6 @@ namespace TMSRestAPI.Controllers
                 File.Move(icd.FileSaveLocation, New_FileName);
                 ICDTransactionStatusBL.Insert(icd);
                 BankOfficeAPILog("ChkTransactionStatusResponse-Check Txn status Response file " + icd.TransactionMessageId + ".xml Accepted successfully.");
-
                 return StatusCode(HttpStatusCode.Accepted);
 
             }
@@ -190,7 +189,7 @@ namespace TMSRestAPI.Controllers
                     {
                         BankOfficeAPILog("QueryExceptionResponse-move error " + ex.Message + " " + ex.Source + " " + ex.StackTrace);
                     }
-                    //QueryExceptionListResponsePay_InsertInSql();
+                    ICDQueryExceptionBL.Insert(icd);
                     BankOfficeAPILog("QueryExceptionResponse-Query Exception Response file " + myFile.Name + " Accepted successfully.");
 
                 }
@@ -206,60 +205,49 @@ namespace TMSRestAPI.Controllers
 
         }
 
-        //[Route("Rocket/SyncTimeResponse")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> SyncTimeResponse()
-        //{
-        //    try
-        //    {
-        //        BankOfficeAPILog("SyncTimeResponse-syncTimeResponse  initiated.");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        // XDocument doc = XDocument.Load(@"D:\syncTimeResponse.xml");
-        //        // XDocument doc = XDocument.Load(file.FullName);
-        //        if (sync_FilePath == null || sync_FilePath == "")
-        //        {
-        //            Get_FilePath();
-        //        }
-        //        //sync_MsgID = GetMessegeID(doc);
+        [Route("Rocket/SyncTimeResponse")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> SyncTimeResponse()
+        {
+            try
+            {
+                BankOfficeAPILog("SyncTimeResponse-syncTimeResponse  initiated.");
+                ICDTimeResponseIL icd = new ICDTimeResponseIL();
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                icd.FilePath = responseDirectoryConfig.ResponseSyncTime;
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
+                }
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                }
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("SyncTimeResponse-Sync Time  response File " + icd.MessageId + ".xml saved successfully.");
+                var directory = new DirectoryInfo(icd.FilePath);
+                var myFile = (from f in directory.GetFiles()
+                              orderby f.LastWriteTime descending
+                              select f).First();
+                icd.FileReadLocation = Convert.ToString(myFile);
+                icd = DataModel.ReadXMLFile(icd);
+                string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
+                if (File.Exists(New_FileName))
+                    New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
+                File.Move(icd.FileSaveLocation, New_FileName);
+                ICDTimeResponseBL.Insert(icd);
+                BankOfficeAPILog("SyncTimeResponse-Sync time  Response file " + icd.MessageId + ".xml Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
 
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            sync_MsgID = Convert.ToString(element.Attribute("msgId").Value);
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: syncTimeResponse :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
 
-        //        }
-
-
-        //        if (!Directory.Exists(sync_FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(sync_FilePath));
-        //        }
-
-        //        sync_saveLoc = @"" + sync_FilePath + sync_MsgID + ".xml";
-        //        doc.Save(sync_saveLoc);
-        //        WriteLog.WriteEventLogToFile("SyncTimeResponse", "Sync Time  response File " + sync_MsgID + ".xml saved successfully.");
-        //        var directory = new DirectoryInfo(sync_FilePath);
-        //        var myFile = (from f in directory.GetFiles()
-        //                      orderby f.LastWriteTime descending
-        //                      select f).First();
-        //        sync_ReadFileLocation = Convert.ToString(myFile);
-        //        ReadsyncTimeResponseXMLFile();
-        //        string New_FileName = @"" + sync_FilePath + sync_MsgID + ".xml";
-        //        if (File.Exists(New_FileName))
-        //            New_FileName = @"" + sync_FilePath + sync_MsgID + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
-        //        File.Move(sync_saveLoc, New_FileName);
-        //        syncTimeResponse_InsertInSql();
-        //        BankOfficeAPILog("SyncTimeResponse-Sync time  Response file " + sync_MsgID + ".xml Accepted successfully.");
-        //        return StatusCode(HttpStatusCode.Accepted);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BankOfficeAPILog("Error: syncTimeResponse :" + ex.Message + "-" + ex.StackTrace);
-
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-        //    }
-
-        //}
+        }
 
         //[Route("Rocket/TagDetailsResponse")]
         //[HttpPost]
