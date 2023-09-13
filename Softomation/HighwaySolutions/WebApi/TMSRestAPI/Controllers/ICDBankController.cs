@@ -331,7 +331,7 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                HeartBeatResponse_InsertInSql();
+                //HeartBeatResponse_InsertInSql();
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
 

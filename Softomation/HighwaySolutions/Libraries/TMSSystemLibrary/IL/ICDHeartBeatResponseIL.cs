@@ -233,17 +233,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 fileReadLocation = value;
             }
         }
-        public Boolean IsTagRespoSuccess
-        {
-            get
-            {
-                return isTagRespoSuccess;
-            }
-
-            set
-            {
-                isTagRespoSuccess = value;
-            }
-        }
+        
     }
 }
