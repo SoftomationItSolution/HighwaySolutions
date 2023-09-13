@@ -244,154 +244,104 @@ namespace TMSRestAPI.Controllers
 
         }
 
-        //[Route("Rocket/TagDetailsResponse")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> TagDetailsResponse()
-        //{
-        //    try
-        //    {
-        //        WriteLog.WriteEventLogToFile("TagDetailsResponse", "TagDetailsResponse  initiated.");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+        [Route("Rocket/TagDetailsResponse")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> TagDetailsResponse()
+        {
+            try
+            {
+                ICDTagDetailsIL icd = new ICDTagDetailsIL();
+                BankOfficeAPILog("TagDetailsResponse-TagDetailsResponse  initiated.");
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
 
-        //        // XDocument doc = XDocument.Load(@"E:\Dvelopment\API\Tagstatus\9XTXDILKV13112352052.xml");
+                }
+                icd.FilePath = responseDirectoryConfig.ResponseTagDetails;
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                }
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("TagDetailsResponse-Tag Deatils response file " + icd.MessageId + ".xml saved successfully.");
+                var directory = new DirectoryInfo(icd.FilePath);
+                var myFile = (from f in directory.GetFiles()
+                              orderby f.LastWriteTime descending
+                              select f).First();
+                icd.FileReadLocation = Convert.ToString(myFile);
+                icd = DataModel.ReadXMLFile(icd);
+                string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
+                if (File.Exists(New_FileName))
+                    New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
+                File.Move(icd.FileSaveLocation, New_FileName);
+                if (icd.IsTagRespoSuccess)
+                {
+                    ICDTagDetailsBL.Insert(icd);
+                }
+                else
+                {
+                    BankOfficeAPILog("TagDetailsResponse-Tag Details Response file " + icd.MessageId + ".xml insert Failed");
+                }
+                BankOfficeAPILog("TagDetailsResponse-Tag details Response file " + icd.MessageId + ".xml Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
 
-        //        //TagDetail_MsgID = GetMessegeID(doc);
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: Tag Details Response :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+        }
 
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            TagDetail_MsgID = Convert.ToString(element.Attribute("msgId").Value);
+        [Route("Rocket/HeartBeatResponse")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> HeartBeatResponse()
+        {
+            try
+            {
+                ICDHeartBeatResponseIL icd = new ICDHeartBeatResponseIL();
+                BankOfficeAPILog("HeartBeatResponse-Heart Beat Response initiated.");
+                var content = await Request.Content.ReadAsStringAsync();
+                BankOfficeAPILog("HeartBeatResponse-Going to read response finished " + content.ToString());
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
+                }
+                BankOfficeAPILog("HeartBeatResponse-Going to read the messageid  finished " + icd.MessageId);
+                icd.FilePath = responseDirectoryConfig.ResponseTollPlazaHeartBeat;
+                icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
 
-        //        }
+                }
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + ".xml saved successfully.");
+                var directory = new DirectoryInfo(icd.FilePath);
+                var myFile = (from f in directory.GetFiles()
+                              orderby f.LastWriteTime descending
+                              select f).First();
+                icd.FileReadLocation = Convert.ToString(myFile);
+                icd=DataModel.ReadXMLFile(icd);
+                string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
+                if (File.Exists(New_FileName))
+                    New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
+                File.Move(icd.FileSaveLocation, New_FileName);
+                HeartBeatResponse_InsertInSql();
+                BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
 
-        //        if (TagDetail_FilePath == null || TagDetail_FilePath == "")
-        //        {
-        //            Get_FilePath();
-        //        }
-        //        if (!Directory.Exists(TagDetail_FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(TagDetail_FilePath));
-        //        }
-        //        TagDetail_saveLoc = @"" + TagDetail_FilePath + TagDetail_MsgID + ".xml";
-        //        doc.Save(TagDetail_saveLoc);
-        //        WriteLog.WriteEventLogToFile("TagDetailsResponse", "Tag Deatils response file " + TagDetail_MsgID + ".xml saved successfully.");
-        //        var directory = new DirectoryInfo(TagDetail_FilePath);
-        //        var myFile = (from f in directory.GetFiles()
-        //                      orderby f.LastWriteTime descending
-        //                      select f).First();
-        //        TagDetail_ReadFileLocation = Convert.ToString(myFile);
-        //        ReadTagDetailsXMLFile();
-        //        string New_FileName = @"" + TagDetail_FilePath + TagDetail_MsgID + ".xml";
-        //        if (File.Exists(New_FileName))
-        //            New_FileName = @"" + TagDetail_FilePath + TagDetail_MsgID + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
-        //        File.Move(TagDetail_saveLoc, New_FileName);
-        //        if (IsTagRespoSuccess)
-        //        {
-        //            TagDetailsResponse_InsertInSql();
-        //        }
-        //        else
-        //        {
-        //            WriteLog.WriteEventLogToFile("TagDetailsResponse", "Tag Details Response file " + TagDetail_MsgID + ".xml insert Failed");
-        //        }
-        //        WriteLog.WriteEventLogToFile("TagDetailsResponse", "Tag details Response file " + TagDetail_MsgID + ".xml Accepted successfully.");
-        //        return StatusCode(HttpStatusCode.Accepted);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WriteErrorInDatabase.ErrorLog("Error: Tag Details Response :" + ex.Message + "-" + ex.StackTrace);
-        //        WriteLog.WriteErrorToFile("Error: Tag Details Response: " + ex.Message + ex.StackTrace);
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-        //    }
-
-        //    //string RequriessomeReturn = "Test API Success: Check Tag Details Response";
-        //    //return Ok();//RequriessomeReturn;
-        //}
-
-        //[Route("Rocket/HeartBeatResponse")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> HeartBeatResponse()
-        //{
-        //    try
-        //    {
-
-        //        //#if DEBUG
-        //        //System.Net.ServicePointManager.
-        //        //    ServerCertificateValidationCallback += RemoteCertValidate;
-        //        //#endif
-
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Heart Beat Response initiated.");
-
-
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read response started");
-        //        var content = await Request.Content.ReadAsStringAsync();
-
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read response finished " + content.ToString());
-        //        //return StatusCode(HttpStatusCode.Accepted);
-
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read the xml document started");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read the xml document finished");
-
-        //        //    XDocument doc = XDocument.Load(@"D:\TollplazaHbeatResp.xml");
-        //        // XDocument doc = XDocument.Load(file.FullName);
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read the messageid  started");
-
-        //        //HeartBeat_MsgID = GetMessegeID(doc);
-
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            HeartBeat_MsgID = Convert.ToString(element.Attribute("msgId").Value);
-
-        //        }
-
-
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Going to read the messageid  finished " + HeartBeat_MsgID);
-        //        if (HeartBeat_FilePath == null || HeartBeat_FilePath == "")
-        //        {
-        //            Get_FilePath();
-
-        //        }
-        //        HeartBeat_FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-        //        if (!Directory.Exists(HeartBeat_FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(HeartBeat_FilePath));
-
-        //        }
-        //        HeartBeat_saveLoc = @"" + HeartBeat_FilePath + HeartBeat_MsgID + ".xml";
-        //        doc.Save(HeartBeat_saveLoc);
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Heart Beat Response file " + HeartBeat_MsgID + ".xml saved successfully.");
-        //        var directory = new DirectoryInfo(HeartBeat_FilePath);
-        //        var myFile = (from f in directory.GetFiles()
-        //                      orderby f.LastWriteTime descending
-        //                      select f).First();
-        //        HeartBeat_ReadFileLocation = Convert.ToString(myFile);
-        //        ReadHeartBeatResponseXMLFile();
-        //        string New_FileName = @"" + HeartBeat_FilePath + HeartBeat_MsgID + ".xml";
-        //        if (File.Exists(New_FileName))
-        //            New_FileName = @"" + HeartBeat_FilePath + HeartBeat_MsgID + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
-        //        File.Move(HeartBeat_saveLoc, New_FileName);
-        //        HeartBeatResponse_InsertInSql();
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse", "Heart Beat Response file " + HeartBeat_MsgID + "Accepted successfully.");
-        //        return StatusCode(HttpStatusCode.Accepted);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WriteErrorInDatabase.ErrorLog("Error: Heart Beat Response :" + ex.Message + "-" + ex.StackTrace);
-        //        WriteLog.WriteEventLogToFile("HeartBeatResponse Error: Hear tBeat Response : ", ex.Message + ex.StackTrace);
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-        //    }
-        //    finally
-        //    {
-        //        //#if DEBUG
-        //        //System.Net.ServicePointManager.
-        //        //    ServerCertificateValidationCallback -= RemoteCertValidate;
-        //        //#endif
-        //    }
-
-        //    //string RequriessomeReturn = "Test API Success: Check Heart Beat Response";
-        //    //return Ok();//RequriessomeReturn;
-        //}
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: Heart Beat Response :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+        }
 
         //[Route("Rocket/VoilationAuditDetailsResponse")]
         //[HttpPost]
