@@ -136,7 +136,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     }
                     break;
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     config = new ResponseDirectoryConfig();
                     i++;

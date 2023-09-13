@@ -3,23 +3,15 @@
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDTagDetailsIL
+    public class ICDTagDetailsResponseIL : ICDCommonIL
     {
-        string messageId;
-        string organizationId;
-        DateTime transactionHeadDatetime;
-        string apiVersion;
-        int responseCode;
-        string responseResult;
         int totalRequestCount;
         int successRequestCount;
-        DateTime responseTime;
         string transactionId;
         string transactionOrganizationId;
         string transactionNote;
         string transactionReferenceId;
         string transactionReferenceURL;
-        DateTime transactionDateTime;
         string transactionType;
         int transactionErrorCode;
         string tagId;
@@ -29,92 +21,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         string tagStatus;
         int vehicleErrorCode;
         bool isCommercialVehicle;
-        string filePath;
-        string fileSaveLocation;
-        string fileReadLocation;
         bool isTagRespoSuccess;
-        public ICDTagDetailsIL()
+        public ICDTagDetailsResponseIL()
         {
         }
-
-        public String MessageId
-        {
-            get
-            {
-                return messageId;
-            }
-
-            set
-            {
-                messageId = value;
-            }
-        }
-
-        public String OrganizationId
-        {
-            get
-            {
-                return organizationId;
-            }
-
-            set
-            {
-                organizationId = value;
-            }
-        }
-
-        public DateTime TransactionHeadDatetime
-        {
-            get
-            {
-                return transactionHeadDatetime;
-            }
-
-            set
-            {
-                transactionHeadDatetime = value;
-            }
-        }
-
-        public String ApiVersion
-        {
-            get
-            {
-                return apiVersion;
-            }
-
-            set
-            {
-                apiVersion = value;
-            }
-        }
-
-        public int ResponseCode
-        {
-            get
-            {
-                return responseCode;
-            }
-
-            set
-            {
-                responseCode = value;
-            }
-        }
-
-        public String ResponseResult
-        {
-            get
-            {
-                return responseResult;
-            }
-
-            set
-            {
-                responseResult = value;
-            }
-        }
-
         public int TotalRequestCount
         {
             get
@@ -127,7 +37,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 totalRequestCount = value;
             }
         }
-
         public int SuccessRequestCount
         {
             get
@@ -140,20 +49,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 successRequestCount = value;
             }
         }
-
-        public DateTime ResponseTime
-        {
-            get
-            {
-                return responseTime;
-            }
-
-            set
-            {
-                responseTime = value;
-            }
-        }
-
         public String TransactionId
         {
             get
@@ -166,7 +61,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionId = value;
             }
         }
-
         public String TransactionOrganizationId
         {
             get
@@ -179,7 +73,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionOrganizationId = value;
             }
         }
-
         public String TransactionNote
         {
             get
@@ -192,7 +85,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionNote = value;
             }
         }
-
         public String TransactionReferenceId
         {
             get
@@ -205,7 +97,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionReferenceId = value;
             }
         }
-
         public String TransactionReferenceURL
         {
             get
@@ -218,20 +109,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionReferenceURL = value;
             }
         }
-
-        public DateTime TransactionDateTime
-        {
-            get
-            {
-                return transactionDateTime;
-            }
-
-            set
-            {
-                transactionDateTime = value;
-            }
-        }
-
         public String TransactionType
         {
             get
@@ -244,7 +121,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionType = value;
             }
         }
-
         public int TransactionErrorCode
         {
             get
@@ -257,7 +133,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionErrorCode = value;
             }
         }
-
         public String TagId
         {
             get
@@ -270,7 +145,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 tagId = value;
             }
         }
-
         public String VehicleRegistrationNumber
         {
             get
@@ -283,7 +157,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 vehicleRegistrationNumber = value;
             }
         }
-
         public String TID
         {
             get
@@ -296,7 +169,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 tid = value;
             }
         }
-
         public String TransactionVehicleClass
         {
             get
@@ -309,7 +181,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionVehicleClass = value;
             }
         }
-
         public String TagStatus
         {
             get
@@ -322,7 +193,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 tagStatus = value;
             }
         }
-
         public int VehicleErrorCode
         {
             get
@@ -335,7 +205,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 vehicleErrorCode = value;
             }
         }
-
         public Boolean IsCommercialVehicle
         {
             get
@@ -348,46 +217,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 isCommercialVehicle = value;
             }
         }
-
-        public String FilePath
-        {
-            get
-            {
-                return filePath;
-            }
-
-            set
-            {
-                filePath = value;
-            }
-        }
-
-        public String FileSaveLocation
-        {
-            get
-            {
-                return fileSaveLocation;
-            }
-
-            set
-            {
-                fileSaveLocation = value;
-            }
-        }
-
-        public String FileReadLocation
-        {
-            get
-            {
-                return fileReadLocation;
-            }
-
-            set
-            {
-                fileReadLocation = value;
-            }
-        }
-
         public Boolean IsTagRespoSuccess
         {
             get

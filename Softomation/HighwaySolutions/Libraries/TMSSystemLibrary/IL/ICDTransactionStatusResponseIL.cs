@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDTransactionStatusIL
+    public class ICDTransactionStatusResponseIL : ICDCommonIL
     {
         string transactionMessageId;
         DateTime transactionApiCallDatetime;
@@ -16,7 +16,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         string transactionNote;
         string transactionReferenceId;
         string transactionReferenceURL;
-        DateTime transactionDateTime;
         string transactionType;
         string organizationTransactionId;
         string transactionPlazaId;
@@ -32,11 +31,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         DateTime transactionSettlementDate;
         DateTime transactionReaderDateTime;
         string transactionFilePath;
-        string filePath; 
-        string fileSaveLocation;
-        string fileReadLocation;
         List<CheckTransactionStatus> transactionList;
-        public ICDTransactionStatusIL()
+        public ICDTransactionStatusResponseIL()
         {
             transactionMessageId = string.Empty;
         }
@@ -136,18 +132,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionReferenceURL = value;
             }
         }
-        public DateTime TransactionDateTime
-        {
-            get
-            {
-                return transactionDateTime;
-            }
-
-            set
-            {
-                transactionDateTime = value;
-            }
-        }
+       
         public String TransactionType
         {
             get
@@ -328,30 +313,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionFilePath = value;
             }
         }
-        public String FileSaveLocation
-        {
-            get
-            {
-                return fileSaveLocation;
-            }
-
-            set
-            {
-                fileSaveLocation = value;
-            }
-        }
-        public String FileReadLocation
-        {
-            get
-            {
-                return fileReadLocation;
-            }
-
-            set
-            {
-                fileReadLocation = value;
-            }
-        }
         public List<CheckTransactionStatus> TransactionList
         {
             get
@@ -362,19 +323,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 transactionList = value;
-            }
-        }
-
-        public String FilePath
-        {
-            get
-            {
-                return filePath;
-            }
-
-            set
-            {
-                filePath = value;
             }
         }
     }

@@ -10,13 +10,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class ICDTransactionStatusDL
+    internal class ICDTransactionStatusResponseDL
     {
         #region Global Varialble
         static string tableName = "tbl_ICDTransactionStatus";
         #endregion
 
-        internal static List<ResponseIL> Insert(ICDTransactionStatusIL ed)
+        internal static List<ResponseIL> Insert(ICDTransactionStatusResponseIL ed)
         {
             List<ResponseIL> responses = null;
 

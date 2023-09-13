@@ -6,17 +6,16 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-   public class ICDQueryExceptionBL
+    public class ICDHeartBeatResponseBL
     {
-        public static List<ResponseIL> Insert(ICDQueryExceptionIL ed)
+        public static List<ResponseIL> Insert(ICDHeartBeatResponseIL ed)
         {
             try
             {
-                return ICDQueryExceptionDL.Insert(ed);
+                return ICDHeartBeatResponseDL.Insert(ed);
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

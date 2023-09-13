@@ -10,13 +10,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class ICDTagDetailsDL
+    internal class ICDTagDetailsResponseDL
     {
         #region Global Varialble
         static string tableName = "tbl_ICDTagDetailsResponse";
         #endregion
 
-        internal static List<ResponseIL> Insert(ICDTagDetailsIL ed)
+        internal static List<ResponseIL> Insert(ICDTagDetailsResponseIL ed)
         {
             List<ResponseIL> responses = null;
 
@@ -26,7 +26,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.String, ed.MessageId, ParameterDirection.Input, 35));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@OrganizationId", DbType.String, ed.OrganizationId, ParameterDirection.Input, 4));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionHeadDatetime", DbType.DateTime, ed.TransactionHeadDatetime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionHeadDatetime", DbType.DateTime, ed.TransactionHeadDateTime, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ApiVersion", DbType.String, ed.ApiVersion, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, ed.TransactionId, ParameterDirection.Input, 22));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionNote", DbType.String, ed.TransactionNote, ParameterDirection.Input, 50));

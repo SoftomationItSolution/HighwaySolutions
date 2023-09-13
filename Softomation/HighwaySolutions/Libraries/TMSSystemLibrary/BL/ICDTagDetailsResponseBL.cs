@@ -6,13 +6,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-   public class ICDTransactionStatusBL
+    public class ICDTagDetailsResponseBL
     {
-        public static List<ResponseIL> Insert(ICDTransactionStatusIL ed)
+        public static List<ResponseIL> Insert(ICDTagDetailsResponseIL ed)
         {
             try
             {
-                return ICDTransactionStatusDL.Insert(ed);
+                return ICDTagDetailsResponseDL.Insert(ed);
             }
             catch (Exception ex)
             {

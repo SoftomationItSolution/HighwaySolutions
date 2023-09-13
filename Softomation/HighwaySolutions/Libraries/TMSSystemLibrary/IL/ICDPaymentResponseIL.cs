@@ -2,7 +2,7 @@
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDResponsePayIL
+    public class ICDPaymentResponseIL : ICDCommonIL
     {
         string msgId;
         string plateNumber;
@@ -52,7 +52,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         string refApprovalNum;
         string refErrcode;
         string refRespId;
-        public ICDResponsePayIL()
+        public ICDPaymentResponseIL()
         {
             msgId=string.Empty;
             id = string.Empty;
