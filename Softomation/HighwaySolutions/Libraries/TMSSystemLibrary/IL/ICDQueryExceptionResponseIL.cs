@@ -4,97 +4,25 @@ using System.Collections.Generic;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDQueryExceptionIL
+    public class ICDQueryExceptionResponseIL:ICDCommonIL
     {
-        string messageId;
-        string organizationId;
-        DateTime transactionHeadDateTime;
-        string apiVersion;
-        string transactionId;
         string note;
         string transactionReferanceId;
         string transactionReferanceUrl;
-        DateTime transactionDateTime;
         string transactionType;
         string organizationTransactionId;
         string responseMessageNumber;
         string responseTotalMessage;
-        string responseResult;
-        string responseCode;
         string responseTotalRequestCount;
         string successRequestCount;
-        DateTime responseTime;
         string totalTagsInMessage;
         string totalTagsInResponse;
+        string transactionId;
         List<QueryCheckTransactionStatus> checkTransactionStatusList;
         List<ReadQueryException> readQueryExceptionList;
-        string filePath;
-        string fileSaveLocation;
-        string fileReadLocation;
 
-        public ICDQueryExceptionIL()
+        public ICDQueryExceptionResponseIL()
         {
-        }
-
-        public String MessageId
-        {
-            get
-            {
-                return messageId;
-            }
-
-            set
-            {
-                messageId = value;
-            }
-        }
-        public String OrganizationId
-        {
-            get
-            {
-                return organizationId;
-            }
-
-            set
-            {
-                organizationId = value;
-            }
-        }
-        public String ApiVersion
-        {
-            get
-            {
-                return apiVersion;
-            }
-
-            set
-            {
-                apiVersion = value;
-            }
-        }
-        public String TransactionId
-        {
-            get
-            {
-                return transactionId;
-            }
-
-            set
-            {
-                transactionId = value;
-            }
-        }
-        public DateTime TransactionHeadDateTime
-        {
-            get
-            {
-                return transactionHeadDateTime;
-            }
-
-            set
-            {
-                transactionHeadDateTime = value;
-            }
         }
         public String Note
         {
@@ -130,18 +58,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 transactionReferanceUrl = value;
-            }
-        }
-        public DateTime TransactionDateTime
-        {
-            get
-            {
-                return transactionDateTime;
-            }
-
-            set
-            {
-                transactionDateTime = value;
             }
         }
         public String TransactionType
@@ -192,30 +108,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 responseTotalMessage = value;
             }
         }
-        public String ResponseResult
-        {
-            get
-            {
-                return responseResult;
-            }
-
-            set
-            {
-                responseResult = value;
-            }
-        }
-        public String ResponseCode
-        {
-            get
-            {
-                return responseCode;
-            }
-
-            set
-            {
-                responseCode = value;
-            }
-        }
         public String ResponseTotalRequestCount
         {
             get
@@ -238,18 +130,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 successRequestCount = value;
-            }
-        }
-        public DateTime ResponseTime
-        {
-            get
-            {
-                return responseTime;
-            }
-
-            set
-            {
-                responseTime = value;
             }
         }
         public String TotalTagsInMessage
@@ -288,7 +168,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 checkTransactionStatusList = value;
             }
         }
-
         public List<ReadQueryException> ReadQueryExceptionList
         {
             get
@@ -302,42 +181,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String FilePath
+        public String TransactionId
         {
             get
             {
-                return filePath;
+                return transactionId;
             }
 
             set
             {
-                filePath = value;
-            }
-        }
-
-        public String FileSaveLocation
-        {
-            get
-            {
-                return fileSaveLocation;
-            }
-
-            set
-            {
-                fileSaveLocation = value;
-            }
-        }
-
-        public String FileReadLocation
-        {
-            get
-            {
-                return fileReadLocation;
-            }
-
-            set
-            {
-                fileReadLocation = value;
+                transactionId = value;
             }
         }
     }

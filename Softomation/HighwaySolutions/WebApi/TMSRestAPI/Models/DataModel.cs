@@ -14,7 +14,7 @@ namespace TMSRestAPI.Models
         {
             LogMaster.Write(message, ErrorLogModule.BankOfficeAPI);
         }
-        public static ICDResponsePayIL ReadXMLFile(ICDResponsePayIL icd)
+        public static ICDPaymentResponseIL ReadXMLFile(ICDPaymentResponseIL icd)
         {
             try
             {
@@ -159,13 +159,12 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
-
-        public static ICDTransactionStatusIL ReadXMLFile(ICDTransactionStatusIL icd)
+        public static ICDTransactionStatusResponseIL ReadXMLFile(ICDTransactionStatusResponseIL icd)
         {
             try
             {
                 DataSet dataSet = new DataSet();
-                dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
                 icd.TransactionMessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
                 icd.OrganizationTransactionId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
                 icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
@@ -220,8 +219,7 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
-
-        public static ICDQueryExceptionIL ReadXMLFile(ICDQueryExceptionIL icd, string FilePath)
+        public static ICDQueryExceptionResponseIL ReadXMLFile(ICDQueryExceptionResponseIL icd, string FilePath)
         {
             try
             {
@@ -281,13 +279,12 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
-
         public static ICDTimeResponseIL ReadXMLFile(ICDTimeResponseIL icd)
         {
             try
             {
                 DataSet dataSet = new DataSet();
-                dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
                 icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
                 icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
                 icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
@@ -304,17 +301,16 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
-
-        public static ICDTagDetailsIL ReadXMLFile(ICDTagDetailsIL icd)
+        public static ICDTagDetailsResponseIL ReadXMLFile(ICDTagDetailsResponseIL icd)
         {
             icd.IsTagRespoSuccess = false;
             try
             {
                 DataSet dataSet = new DataSet();
-                dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
                 icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
                 icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
-                icd.TransactionHeadDatetime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                icd.TransactionHeadDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
                 icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
                 icd.TransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["id"]);
                 icd.TransactionNote = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["note"]);
@@ -340,8 +336,7 @@ namespace TMSRestAPI.Models
                     icd.SuccessRequestCount = 0;
                     icd.ResponseTime = DateTime.Now;
                     icd.VehicleErrorCode = 0;
-                    if (!string.IsNullOrEmpty(Convert.ToString(dataSet.Tables["Resp"].Rows[0]["respcode"])))
-                        icd.ResponseCode = Convert.ToInt32(dataSet.Tables["Resp"].Rows[0]["respcode"]);
+                    icd.ResponseCode = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["respcode"]);
                     icd.ResponseResult = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["result"]);
                     if (icd.IsTagRespoSuccess)
                     {
@@ -383,16 +378,15 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
-
         public static ICDHeartBeatResponseIL ReadXMLFile(ICDHeartBeatResponseIL icd)
         {
             try
             {
                 DataSet dataSet = new DataSet();
-                dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
                 icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
                 icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
-                icd.TransactionHeadDatetime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                icd.TransactionHeadDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
                 icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
                 icd.TransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["id"]);
                 icd.TransactionNote = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["note"]);
@@ -412,6 +406,322 @@ namespace TMSRestAPI.Models
                 BankOfficeAPILog("Error: ReadHeartBeatResponseXMLFile :" + ex.Message + "-" + ex.StackTrace);
             }
 
+            return icd;
+        }
+        public static ICDViolationAuditDetailsResponseIL ReadXMLFile(ICDViolationAuditDetailsResponseIL icd)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
+                icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
+                icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
+                icd.TransactionHeadDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
+                icd.TransactionDetails = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["value"]);
+                icd.ImageReviewResult = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["value"]);
+                icd.ResponseCode = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["value"]);
+                if (dataSet.Tables.Contains("Item") && dataSet.Tables["Item"].Rows.Count > 9)
+                {
+                    icd.IsVilatonFileSuccess = true;
+                    icd.PlazaId = Convert.ToString(dataSet.Tables["Item"].Rows[0]["value"]);
+                    icd.ReaderReadTime = Convert.ToDateTime(dataSet.Tables["Item"].Rows[1]["value"]);
+                    icd.TransactionTime = Convert.ToDateTime(dataSet.Tables["Item"].Rows[2]["value"]);
+                    icd.TrasactionId = Convert.ToString(dataSet.Tables["Item"].Rows[3]["value"]);
+                    icd.LaneId = Convert.ToString(dataSet.Tables["Item"].Rows[4]["value"]);
+                    icd.Avc = Convert.ToString(dataSet.Tables["Item"].Rows[5]["value"]);
+                    icd.Mvc = Convert.ToString(dataSet.Tables["Item"].Rows[6]["value"]);
+                    icd.AuditedVC = Convert.ToString(dataSet.Tables["Item"].Rows[7]["value"]);
+                    icd.ViolationAmount = Convert.ToString(dataSet.Tables["Item"].Rows[8]["value"]);
+                    icd.ProcessedAmount = Convert.ToString(dataSet.Tables["Item"].Rows[9]["value"]);
+                    icd.ProcessedDate = Convert.ToDateTime(dataSet.Tables["Item"].Rows[10]["value"]);
+                }
+                BankOfficeAPILog("VoilationAuditResponse-Violation Audit Response file " + icd.MessageId + ".xml read successfully.");
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: ReadVoilationAuditResponseXMLFile :" + ex.Message + "-" + ex.StackTrace);
+            }
+
+            return icd;
+        }
+        public static ICDNotificationResponseIL ReadXMLFile(ICDNotificationResponseIL icd)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                dataSet.ReadXml(@"" + icd.FilePath + icd.ReadFileLocation);
+                if (dataSet.Tables.Contains("Head") && dataSet.Tables["Head"].Rows.Count > 0)
+                {
+                    icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
+                    icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
+                    icd.TransactionHeadDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                    icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
+                }
+                else if (!dataSet.Tables.Contains("Head") && dataSet.Tables["Head"].Rows.Count == 0)
+                {
+                    icd.MessageId = "";
+                    icd.OrganizationId = "";
+                    icd.ApiVersion = "";
+                }
+                if (dataSet.Tables.Contains("Txn") && dataSet.Tables["Txn"].Rows.Count > 0)
+                {
+                    icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Txn"].Rows[0]["ts"]);
+                    icd.TransactionType = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["type"]);
+                    icd.TransactionReferenceURL = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refUrl"]);
+                    icd.TransactionReferenceId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refId"]);
+                    icd.TransactionOrganizationId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["orgTxnId"]);
+                    icd.TransactionNote = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["note"]);
+                    icd.TransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["id"]);
+                }
+                else if (!dataSet.Tables.Contains("Txn") && dataSet.Tables["Txn"].Rows.Count == 0)
+                {
+                    icd.TransactionType = "";
+                    icd.TransactionReferenceURL = "";
+                    icd.TransactionReferenceId = "";
+                    icd.TransactionOrganizationId = "";
+                    icd.TransactionNote = "";
+                    icd.TransactionId = "";
+                }
+                if (dataSet.Tables.Contains("Notify") && dataSet.Tables["Notify"].Rows.Count > 0)
+                {
+                    if (!string.IsNullOrEmpty(Convert.ToString(dataSet.Tables["Notify"].Rows[0]["ts"])))
+                        icd.NotifyDateTime = Convert.ToDateTime(dataSet.Tables["Notify"].Rows[0]["ts"]);
+                    else
+                        icd.NotifyDateTime = DateTime.MinValue;
+                    icd.NotifyResult = Convert.ToString(dataSet.Tables["Notify"].Rows[0]["result"]);
+                    icd.NotifyPlazaId = Convert.ToString(dataSet.Tables["Notify"].Rows[0]["plazaID"]);
+                    icd.NotifyNPCIErrCode = Convert.ToString(dataSet.Tables["Notify"].Rows[0]["NPCIErrCode"]);
+                }
+                else if (!dataSet.Tables.Contains("Notify") || dataSet.Tables["Notify"].Rows.Count == 0)
+                {
+                    icd.NotifyDateTime = DateTime.MinValue;
+                    icd.NotifyResult = "";
+                    icd.NotifyPlazaId = "";
+                    icd.NotifyNPCIErrCode = "";
+                }
+                if (dataSet.Tables.Contains("Vehicle") && dataSet.Tables["Vehicle"].Rows.Count > 0)
+                {
+                    icd.TagId = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["tagID"]);
+                    icd.TID = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["TID"]);
+                }
+                else if (!dataSet.Tables.Contains("Vehicle") || dataSet.Tables["Vehicle"].Rows.Count == 0)
+                {
+                    icd.TagId = "";
+                    icd.TID = "";
+                }
+
+                if (dataSet.Tables.Contains("Detail") && dataSet.Tables["Detail"].Rows.Count > 4)
+                {
+                    icd.IsNotificationFileSuccess = true;
+                    icd.VehicleRegistrationNumber = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["value"]);
+                    icd.TransactionVehicleClass = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["value"]);
+                    icd.IsCommercialVehicle = Convert.ToBoolean(dataSet.Tables["Detail"].Rows[2]["value"]);
+                    icd.Tollfare = Convert.ToDecimal(dataSet.Tables["Detail"].Rows[3]["value"]);
+                    icd.FareType = Convert.ToString(dataSet.Tables["Detail"].Rows[4]["value"]);
+
+                }
+                else if (!dataSet.Tables.Contains("Detail") || dataSet.Tables["Detail"].Rows.Count <= 4)
+                {
+                    icd.IsNotificationFileSuccess = true;
+                    icd.VehicleRegistrationNumber = "";
+                    icd.TransactionVehicleClass = "";
+                    icd.IsCommercialVehicle = false;
+                    icd.Tollfare = 0;
+                    icd.FareType = "";
+                }
+                BankOfficeAPILog("NotificationResponse-NotificationResponse " + icd.MessageId + ".xml read successfully.");
+            }
+            catch (Exception ex)
+            {
+                icd = new ICDNotificationResponseIL();
+                BankOfficeAPILog("Error: ReadNotificationResponseXMLFile :" + ex.Message + "-" + ex.StackTrace);
+            }
+            return icd;
+        }
+        public static ICDCashDetailResponseIL ReadXMLFile(ICDCashDetailResponseIL icd)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                dataSet.ReadXml(icd.FileSaveLocation);
+                icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
+                icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
+                icd.HeadVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
+                icd.TagName = Convert.ToString(dataSet.Tables["Tag"].Rows[0]["name"]);
+                if (Convert.ToString(icd.TagName).Contains("TollCollectorClass"))
+                {
+                    icd.TollCollectorClass = Convert.ToString(dataSet.Tables["Tag"].Rows[0]["Value"]);
+                }
+                else if (Convert.ToString(icd.TagName).Contains("PermissibleWeight"))
+                {
+                    icd.PermissibleWeight = Convert.ToString(dataSet.Tables["Tag"].Rows[0]["Value"]);
+                }
+                else if (Convert.ToString(icd.TagName).Contains("ApplicablePenalty"))
+                {
+                    icd.ApplicablePenalty = Convert.ToString(dataSet.Tables["Tag"].Rows[0]["Value"]);
+                }
+                icd.TagClassSecond = Convert.ToString(dataSet.Tables["Tag"].Rows[1]["name"]);
+                if (Convert.ToString(icd.TagClassSecond).Contains("TollCollectorClass"))
+                {
+                    icd.TollCollectorClassSecond = Convert.ToString(dataSet.Tables["Tag"].Rows[1]["Value"]);
+                }
+                else if (Convert.ToString(icd.TagClassSecond).Contains("PermissibleWeight"))
+                {
+                    icd.PermissibleWeightSecond = Convert.ToString(dataSet.Tables["Tag"].Rows[1]["Value"]);
+                }
+                else if (Convert.ToString(icd.TagClassSecond).Contains("ApplicablePenalty"))
+                {
+                    icd.ApplicablePenaltySecond = Convert.ToString(dataSet.Tables["Tag"].Rows[1]["Value"]);
+                }
+                icd.TagClassThird = Convert.ToString(dataSet.Tables["Tag"].Rows[2]["name"]);
+                if (Convert.ToString(icd.TagClassThird).Contains("TollCollectorClass"))
+                {
+                    icd.TollCollectorClassThird = Convert.ToString(dataSet.Tables["Tag"].Rows[2]["Value"]);
+                }
+
+                else if (Convert.ToString(icd.TagClassThird).Contains("PermissibleWeight"))
+                {
+                    icd.PermissibleWeightThird = Convert.ToString(dataSet.Tables["Tag"].Rows[2]["Value"]);
+                }
+                else if (Convert.ToString(icd.TagClassThird).Contains("ApplicablePenalty"))
+                {
+                    icd.ApplicablePenaltyThird = Convert.ToString(dataSet.Tables["Tag"].Rows[2]["Value"]);
+                }
+
+                icd.TransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["Txn_Id"]);
+                icd.TransactionTxnId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["Id"]);
+                icd.Note = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["Note"]);
+                icd.TransactionOrganizationId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["orgTxnId"]);
+                icd.TransactionReferenceId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refId"]);
+                icd.TransactionReferenceURL = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refUrl"]);
+                icd.TransactionType = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["type"]);
+                icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Txn"].Rows[0]["ts"]);
+                icd.TransactionLibility = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["txnLiability"]); // Temp Declare
+                icd.CCHTransactionId = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["Id"]);
+                icd.EntryTransactionId = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["Id"]);
+                icd.EntryTransactionTime = Convert.ToDateTime(dataSet.Tables["EntryTxn"].Rows[0]["ts"]);
+                icd.EntryReaderReadDateTime = Convert.ToDateTime(dataSet.Tables["EntryTxn"].Rows[0]["tsRead"]);
+                icd.EntryTransactionType = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["type"]);
+                icd.EntryTransactionTxnId = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["Txn_Id"]);
+                icd.ResponseId = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["Resp_Id"]);
+                icd.ResponseFareType = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["fareType"]);
+                icd.PlazaId = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["plazaid"]);
+                icd.ResponseCode = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["respcode"]);
+                icd.ResponseResult = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["result"]);
+                icd.ResponseTime = Convert.ToDateTime(dataSet.Tables["Resp"].Rows[0]["ts"]);
+                try
+                {
+                    if (dataSet.Tables.Contains("Vehicle") && dataSet.Tables["Vehicle"].Rows.Count > 0)
+                    {
+                        icd.TID = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["TID"]);
+                        icd.TagId = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["tagId"]);
+                        icd.ResponseId = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["Resp_Id"]);
+                    }
+                    else
+                    {
+                        icd.TID = "";
+                        icd.TagId = "";
+                        icd.ResponseId = "";
+                    }
+                    if (dataSet.Tables.Count > 17)
+                    {
+                        if (dataSet.Tables["VehicleDetails"] != null)
+                        {
+                            icd.VehicleClassId = Convert.ToString(dataSet.Tables["Vehicle"].Rows[0]["Vehicle_Id"]);
+                            icd.VehicleDetailId = Convert.ToString(dataSet.Tables["VehicleDetails"].Rows[0]["VehicleDetails_Id"]);
+                            icd.VehicleDetailsId = Convert.ToString(dataSet.Tables["VehicleDetails"].Rows[0]["Vehicle_ID"]);
+                            icd.VehicleClass = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["name"]);
+                            if (Convert.ToString(icd.VehicleDetailsName) == "COMVEHICLE")
+                            {
+                                icd.IsCommercialVehicle = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["Value"]) == "T" ? true : false;
+                            }
+                            else if (Convert.ToString(icd.VehicleDetailsName) == "VEHICLECLASS")
+                            {
+                                icd.VehicleClass = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["Value"]);
+                            }
+                            else if (Convert.ToString(icd.VehicleDetailsName) == "REGNUMBER")
+                            {
+                                icd.VehicleNumber = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["Value"]);
+                            }
+                            icd.VehicleDetailsNameSecond = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["name"]);
+                            if (Convert.ToString(icd.VehicleDetailsNameSecond) == "COMVEHICLE")
+                            {
+                                icd.IsCommercialVehicleSecond = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["Value"]) == "T" ? true : false;
+                            }
+                            else if (Convert.ToString(icd.VehicleDetailsNameSecond) == "VEHICLECLASS")
+                            {
+                                icd.VehicleClassSecond = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["Value"]);
+                            }
+                            else if (Convert.ToString(icd.VehicleDetailsNameSecond) == "REGNUMBER")
+                            {
+                                icd.VehicleNumberSecond = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["Value"]);
+                            }
+                            icd.VehicleNumberThird = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["name"]);
+                            if (Convert.ToString(icd.VehicleNumberThird) == "COMVEHICLE")
+                            {
+                                icd.IsCommercialVehicleThird = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["Value"]) == "T" ? true : false;
+                            }
+
+                            else if (Convert.ToString(icd.VehicleNumberThird) == "VEHICLECLASS")
+                            {
+                                icd.VehicleClassThird = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["Value"]);
+                            }
+                            else if (Convert.ToString(icd.VehicleNumberThird) == "REGNUMBER")
+                            {
+                                icd.VehicleNumberThird = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["Value"]);
+                            }
+                            icd.VehicleDetails_Id = Convert.ToString(dataSet.Tables["Detail"].Rows[0]["VehicleDetails_Id"]);
+                            icd.VehicleDetails_IdSecond = Convert.ToString(dataSet.Tables["Detail"].Rows[1]["VehicleDetails_Id"]);
+                            icd.VehicleDetails_IdThird = Convert.ToString(dataSet.Tables["Detail"].Rows[2]["VehicleDetails_Id"]);
+                        }
+                        icd.IsResponseFileSuccess = true;
+                    }
+                    if (dataSet.Tables.Contains("Ref") && dataSet.Tables["Ref"].Rows.Count > 0)
+                    {
+                        icd.RefTollfare = Convert.ToString(dataSet.Tables["Ref"].Rows[0]["Tollfare"]);
+                        icd.RefApprovalNum = Convert.ToString(dataSet.Tables["Ref"].Rows[0]["ApprovalNum"]);
+                        icd.RefErrCode = Convert.ToString(dataSet.Tables["Ref"].Rows[0]["errcode"]);
+                        icd.RefSettCurrency = Convert.ToString(dataSet.Tables["Ref"].Rows[0]["Settcurrency"]);
+                        icd.RefRespId = Convert.ToString(dataSet.Tables["Ref"].Rows[0]["Resp_Id"]);
+
+                    }
+                    else
+                    {
+                        icd.RefApprovalNum = "";
+                        icd.RefErrCode = "";
+                        icd.RefSettCurrency = "INR";
+                        icd.RefRespId = "0";
+                    }
+                    if (string.IsNullOrEmpty(icd.RefTollfare))
+                        icd.RefTollfare = "0.0";
+                    BankOfficeAPILog("RespCashDetail-PayResponse cash file " + icd.MessageId + ".xml read successfully.");
+                    icd.IsResponseFileSuccess = true;
+                }
+                catch (Exception ex)
+                {
+                    icd.IsResponseFileSuccess = false;
+                    BankOfficeAPILog("Error: ReadXMLFile :" + ex.Message + "-" + ex.StackTrace);
+                }
+
+                //if (Cash_ISComvehicle == "F")
+                //{
+                //    Cash_ISComvehicle = "0";
+                //}
+                //else if (Cash_ISComvehicle == "T")
+                //{
+                //    Cash_ISComvehicle = "1";
+                //}
+                //else
+                //{
+                //    Cash_ISComvehicle = "0";
+                //}
+            }
+            catch (Exception ex)
+            {
+                icd.IsResponseFileSuccess = false;
+                BankOfficeAPILog("Error: ReadXMLFile :" + ex.Message + "-" + ex.StackTrace);
+            }
             return icd;
         }
     }

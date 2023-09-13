@@ -11,13 +11,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class ICDQueryExceptionDL
+    internal class ICDQueryExceptionResponseDL
     {
         #region Global Varialble
         static string tableName = "tbl_ICDBlackListTagHeader";
         #endregion
 
-        internal static List<ResponseIL> Insert(ICDQueryExceptionIL ed)
+        internal static List<ResponseIL> Insert(ICDQueryExceptionResponseIL ed)
         {
             List<ResponseIL> responses = null;
 

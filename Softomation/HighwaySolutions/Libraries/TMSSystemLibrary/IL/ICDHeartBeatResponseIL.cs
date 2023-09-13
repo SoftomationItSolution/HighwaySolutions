@@ -6,100 +6,25 @@ using System.Threading.Tasks;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDHeartBeatResponseIL
+    public class ICDHeartBeatResponseIL: ICDCommonIL
     {
-        string messageId;
-        string organizationId;
-        DateTime transactionHeadDatetime;
-        string apiVersion;
-        string responseResult;
-        DateTime responseTime;
         string transactionId;
         string transactionOrganizationId;
         string transactionNote;
         string transactionReferenceId;
         string transactionReferenceURL;
-        DateTime transactionDateTime;
         string transactionType;
         int transactionErrorCode;
-        string filePath;
-        string fileSaveLocation;
-        string fileReadLocation;
+       
         public ICDHeartBeatResponseIL()
         {
-        }
-
-        public String MessageId
-        {
-            get
-            {
-                return messageId;
-            }
-
-            set
-            {
-                messageId = value;
-            }
-        }
-        public String OrganizationId
-        {
-            get
-            {
-                return organizationId;
-            }
-
-            set
-            {
-                organizationId = value;
-            }
-        }
-        public DateTime TransactionHeadDatetime
-        {
-            get
-            {
-                return transactionHeadDatetime;
-            }
-
-            set
-            {
-                transactionHeadDatetime = value;
-            }
-        }
-        public String ApiVersion
-        {
-            get
-            {
-                return apiVersion;
-            }
-
-            set
-            {
-                apiVersion = value;
-            }
-        }
-        public String ResponseResult
-        {
-            get
-            {
-                return responseResult;
-            }
-
-            set
-            {
-                responseResult = value;
-            }
-        }
-        public DateTime ResponseTime
-        {
-            get
-            {
-                return responseTime;
-            }
-
-            set
-            {
-                responseTime = value;
-            }
+            transactionId=string.Empty;
+            transactionOrganizationId = string.Empty;
+            transactionNote = string.Empty;
+            transactionReferenceId = string.Empty;
+            transactionReferenceURL = string.Empty;
+            transactionType = string.Empty;
+            transactionErrorCode = 0;
         }
         public String TransactionId
         {
@@ -161,18 +86,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionReferenceURL = value;
             }
         }
-        public DateTime TransactionDateTime
-        {
-            get
-            {
-                return transactionDateTime;
-            }
-
-            set
-            {
-                transactionDateTime = value;
-            }
-        }
         public String TransactionType
         {
             get
@@ -197,42 +110,5 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionErrorCode = value;
             }
         }
-        public String FilePath
-        {
-            get
-            {
-                return filePath;
-            }
-
-            set
-            {
-                filePath = value;
-            }
-        }
-        public String FileSaveLocation
-        {
-            get
-            {
-                return fileSaveLocation;
-            }
-
-            set
-            {
-                fileSaveLocation = value;
-            }
-        }
-        public String FileReadLocation
-        {
-            get
-            {
-                return fileReadLocation;
-            }
-
-            set
-            {
-                fileReadLocation = value;
-            }
-        }
-        
     }
 }

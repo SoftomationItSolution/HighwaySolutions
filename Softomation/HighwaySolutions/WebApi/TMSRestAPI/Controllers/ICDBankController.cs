@@ -38,7 +38,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                ICDResponsePayIL icd = new ICDResponsePayIL();
+                ICDPaymentResponseIL icd = new ICDPaymentResponseIL();
                 icd.FilePath = responseDirectoryConfig.ResponsePay;
                 BankOfficeAPILog("ResponsePay-PayResponse  initiated.");
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
@@ -58,7 +58,7 @@ namespace TMSRestAPI.Controllers
                 icd = DataModel.ReadXMLFile(icd);
                 if (icd.IsResponseFileSuccess)
                 {
-                    ICDResponsePayBL.Insert(icd);
+                    ICDPaymentResponseBL.Insert(icd);
                 }
                 else
                 {
@@ -81,9 +81,9 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                BankOfficeAPILog("ChkTransactionStatusResponse-CheckTransactionStatusResponsePay  initiated.");
+                BankOfficeAPILog("ChkTransactionStatusResponse-CheckTransactionStatusResponsePay initiated.");
 
-                ICDTransactionStatusIL icd = new ICDTransactionStatusIL();
+                ICDTransactionStatusResponseIL icd = new ICDTransactionStatusResponseIL();
 
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 foreach (XElement element in doc.Descendants("Head"))
@@ -91,7 +91,7 @@ namespace TMSRestAPI.Controllers
                     icd.TransactionMessageId = Convert.ToString(element.Attribute("msgId").Value);
 
                 }
-
+                icd.FilePath = responseDirectoryConfig.ResponseCheckTransaction;
                 icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
                 if (!Directory.Exists(icd.FilePath))
                 {
@@ -105,13 +105,13 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.FileReadLocation = Convert.ToString(myFile);
+                icd.ReadFileLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.TransactionMessageId + ".xml";
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.TransactionMessageId + "_" + DateTime.Now.ToString("ddMMyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                ICDTransactionStatusBL.Insert(icd);
+                ICDTransactionStatusResponseBL.Insert(icd);
                 BankOfficeAPILog("ChkTransactionStatusResponse-Check Txn status Response file " + icd.TransactionMessageId + ".xml Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
 
@@ -132,7 +132,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                ICDQueryExceptionIL icd = new ICDQueryExceptionIL();
+                ICDQueryExceptionResponseIL icd = new ICDQueryExceptionResponseIL();
                 BankOfficeAPILog("QueryExceptionResponse-QueryExceptionListResponsePay  initiated.");
                 BankOfficeAPILog("QueryExceptionResponse-Going to load response data in xml file started");
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
@@ -170,22 +170,22 @@ namespace TMSRestAPI.Controllers
                     var myFile = (from f in directory.GetFiles()
                                   orderby f.CreationTime ascending
                                   select f).First();
-                    icd.FileReadLocation = Convert.ToString(myFile);
-                    icd = DataModel.ReadXMLFile(icd, @"" + icd.FilePath + "Download\\" + icd.FileReadLocation);
+                    icd.ReadFileLocation = Convert.ToString(myFile);
+                    icd = DataModel.ReadXMLFile(icd, @"" + icd.FilePath + "Download\\" + icd.ReadFileLocation);
                     string New_FileName = @"" + ExceptionList_DestFilePath + myFile.Name;
                     try
                     {
                         if (File.Exists(@"" + ExceptionList_OrgFilePath + myFile.Name))
                         {
-                            File.Move(@"" + icd.FilePath + "Download\\" + icd.FileReadLocation, New_FileName);
-                            BankOfficeAPILog("QueryExceptionResponse-File moved successfully from " + @"" + icd.FilePath + "Download\\" + icd.FileReadLocation + "  to " + New_FileName);
+                            File.Move(@"" + icd.FilePath + "Download\\" + icd.ReadFileLocation, New_FileName);
+                            BankOfficeAPILog("QueryExceptionResponse-File moved successfully from " + @"" + icd.FilePath + "Download\\" + icd.ReadFileLocation + "  to " + New_FileName);
                         }
                     }
                     catch (Exception ex)
                     {
                         BankOfficeAPILog("QueryExceptionResponse-move error " + ex.Message + " " + ex.Source + " " + ex.StackTrace);
                     }
-                    ICDQueryExceptionBL.Insert(icd);
+                    ICDQueryExceptionResponseBL.Insert(icd);
                     BankOfficeAPILog("QueryExceptionResponse-Query Exception Response file " + myFile.Name + " Accepted successfully.");
 
                 }
@@ -226,7 +226,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.FileReadLocation = Convert.ToString(myFile);
+                icd.ReadFileLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -251,7 +251,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                ICDTagDetailsIL icd = new ICDTagDetailsIL();
+                ICDTagDetailsResponseIL icd = new ICDTagDetailsResponseIL();
                 BankOfficeAPILog("TagDetailsResponse-TagDetailsResponse  initiated.");
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 foreach (XElement element in doc.Descendants("Head"))
@@ -271,7 +271,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.FileReadLocation = Convert.ToString(myFile);
+                icd.ReadFileLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -279,7 +279,7 @@ namespace TMSRestAPI.Controllers
                 File.Move(icd.FileSaveLocation, New_FileName);
                 if (icd.IsTagRespoSuccess)
                 {
-                    ICDTagDetailsBL.Insert(icd);
+                    ICDTagDetailsResponseBL.Insert(icd);
                 }
                 else
                 {
@@ -307,17 +307,17 @@ namespace TMSRestAPI.Controllers
                 var content = await Request.Content.ReadAsStringAsync();
                 BankOfficeAPILog("HeartBeatResponse-Going to read response finished " + content.ToString());
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                icd.FilePath = responseDirectoryConfig.ResponseTollPlazaHeartBeat;
                 foreach (XElement element in doc.Descendants("Head"))
                 {
                     icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
                 }
                 BankOfficeAPILog("HeartBeatResponse-Going to read the messageid  finished " + icd.MessageId);
-                icd.FilePath = responseDirectoryConfig.ResponseTollPlazaHeartBeat;
+
                 icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
                 if (!Directory.Exists(icd.FilePath))
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
-
                 }
                 icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
                 doc.Save(icd.FileSaveLocation);
@@ -326,13 +326,13 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.FileReadLocation = Convert.ToString(myFile);
-                icd=DataModel.ReadXMLFile(icd);
+                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                //HeartBeatResponse_InsertInSql();
+                ICDHeartBeatResponseBL.Insert(icd);
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
 
@@ -344,240 +344,148 @@ namespace TMSRestAPI.Controllers
             }
         }
 
-        //[Route("Rocket/VoilationAuditDetailsResponse")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> VoilationAuditDetailsResponse()
-        //{
-        //    try
-        //    {
-        //        WriteLog.WriteEventLogToFile("VoilationAuditResponse", "Violation Audit Response initiated.");
+        [Route("Rocket/VoilationAuditDetailsResponse")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> VoilationAuditDetailsResponse()
+        {
+            try
+            {
+                ICDViolationAuditDetailsResponseIL icd = new ICDViolationAuditDetailsResponseIL();
+                BankOfficeAPILog("VoilationAuditResponse-Violation Audit Response initiated.");
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                icd.FilePath = responseDirectoryConfig.ResponseVoilationAuditDetails;
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
+                }
+                icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                }
 
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        //XDocument doc = XDocument.Load(@"E:\Dvelopment\API\ResponseVoilationAuditDetails\VoilationAuditDetailsResponse.xml");
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("VoilationAuditResponse-Violation Audit Response file " + icd.MessageId + ".xml saved successfully.");
 
-        //        if (VoilationAudit_FilePath == null || VoilationAudit_FilePath == "")
-        //        {
-        //            Get_FilePath();
-        //        }
-        //        //VoilationAudit_MsgID = GetMessegeID(doc);
+                var directory = new DirectoryInfo(icd.FilePath);
+                var myFile = (from f in directory.GetFiles()
+                              orderby f.LastWriteTime descending
+                              select f).First();
+                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd = DataModel.ReadXMLFile(icd);
+                string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
+                if (File.Exists(New_FileName))
+                    New_FileName = @"" + icd.FilePath + icd.MessageId + "" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
+                File.Move(icd.FileSaveLocation, New_FileName);
+                if (icd.IsVilatonFileSuccess)
+                {
+                    // VoilationAuditDetailsResponse_InsertInSql(New_FileName);
+                }
+                else
+                {
+                    BankOfficeAPILog("VoilationAuditResponse-VoilationAuditDetailsResponse file " + icd.MessageId + ".xml insert Failed.");
+                }
+                BankOfficeAPILog("VoilationAuditResponse-Voilation Audit details Response file " + icd.MessageId + ".xml Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: VoilationAuditDetailsResponsee :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+        }
 
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            VoilationAudit_MsgID = Convert.ToString(element.Attribute("msgId").Value);
+        [Route("Rocket/NotificationResponse")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> NotificationResponse()
+        {
+            try
+            {
+                ICDNotificationResponseIL icd = new ICDNotificationResponseIL();
+                BankOfficeAPILog("NotificationResponse-NotificationResponse initiated .");
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                icd.FilePath = responseDirectoryConfig.ResponseTollPlazaHeartBeat;
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
+                }
+                icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                }
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("NotificationResponse-Notification Response file " + icd.MessageId + ".xml saved successfully.");
+                var directory = new DirectoryInfo(icd.FilePath);
+                var myFile = (from f in directory.GetFiles()
+                              orderby f.LastWriteTime descending
+                              select f).First();
+                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd = DataModel.ReadXMLFile(icd);
+                string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
+                if (File.Exists(New_FileName))
+                    New_FileName = @"" + icd.FilePath + icd.MessageId + "" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
+                File.Move(icd.FileSaveLocation, New_FileName);
+                if (icd.IsNotificationFileSuccess)
+                {
+                    ICDNotificationResponseBL.Insert(icd);
+                }
+                else
+                {
+                    BankOfficeAPILog("NotificationResponse-NotificationResponse file " + icd.MessageId + ".xml save failed.");
+                }
+                BankOfficeAPILog("NotificationResponse-Notification Response file " + icd.MessageId + ".xml Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: NotificationResponsee :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+        }
 
-        //        }
+        [Route("Rocket/GetRespCashDetail")]
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IHttpActionResult> GetRespCashDetail()
+        {
+            try
+            {
+                ICDCashDetailResponseIL icd = new ICDCashDetailResponseIL();
+                BankOfficeAPILog("RespCashDetail-PayResponse for cash initiated.");
+                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
+                icd.FilePath = responseDirectoryConfig.ResponseTollPlazaHeartBeat;
+                foreach (XElement element in doc.Descendants("Head"))
+                {
+                    icd.MessageId = Convert.ToString(element.Attribute("msgId").Value);
+                }
+                icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
+                if (!Directory.Exists(icd.FilePath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                }
+                icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
+                doc.Save(icd.FileSaveLocation);
+                BankOfficeAPILog("RespCashDetail-PayResponse cash file " + icd.MessageId + ".xml saved successfully.");
+                icd = DataModel.ReadXMLFile(icd);
+                if (icd.IsResponseFileSuccess)
+                {
+                    //CashReadxml_InsertInSql(@"" + icd.FilePath + icd.MessageId + ".xml");
+                }
+                else
+                {
+                    BankOfficeAPILog("RespCashDetail-PayResponse cash file " + icd.MessageId + ".xml not inserted in DB.");
 
-        //        VoilationAudit_FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-        //        if (!Directory.Exists(VoilationAudit_FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(VoilationAudit_FilePath));
-        //        }
-
-        //        VoilationAudit_saveLoc = @"" + VoilationAudit_FilePath + VoilationAudit_MsgID + ".xml";
-        //        doc.Save(VoilationAudit_saveLoc);
-        //        WriteLog.WriteEventLogToFile("VoilationAuditResponse", "Violation Audit Response file " + VoilationAudit_MsgID + ".xml saved successfully.");
-
-        //        var directory = new DirectoryInfo(VoilationAudit_FilePath);
-        //        var myFile = (from f in directory.GetFiles()
-        //                      orderby f.LastWriteTime descending
-        //                      select f).First();
-        //        VoilationAudit_ReadFileLocation = Convert.ToString(myFile);
-        //        ReadVoilationAuditResponseXMLFile();
-        //        string New_FileName = @"" + VoilationAudit_FilePath + VoilationAudit_MsgID + ".xml";
-        //        if (File.Exists(New_FileName))
-        //            New_FileName = @"" + VoilationAudit_FilePath + VoilationAudit_MsgID + "" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
-        //        File.Move(VoilationAudit_saveLoc, New_FileName);
-        //        if (IsVilatonFileSuccess)
-        //        {
-        //            VoilationAuditDetailsResponse_InsertInSql(New_FileName);
-        //        }
-        //        else
-        //        {
-        //            WriteLog.WriteEventLogToFile("VoilationAuditResponse", "VoilationAuditDetailsResponse file " + VoilationAudit_MsgID + ".xml insert Failed.");
-        //        }
-
-        //        WriteLog.WriteEventLogToFile("VoilationAuditResponse", "Voilation Audit details Response file " + VoilationAudit_MsgID + ".xml Accepted successfully.");
-        //        return StatusCode(HttpStatusCode.Accepted);
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WriteErrorInDatabase.ErrorLog("Error: VoilationAuditDetailsResponsee :" + ex.Message + "-" + ex.StackTrace);
-        //        WriteLog.WriteErrorToFile("Error: VoilationAuditDetailsResponse  : " + ex.Message + ex.StackTrace);
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-
-        //    }
-
-        //    //string RequriessomeReturn = "Test API Success: Check Voilation Audit Details Response";
-        //    //return Ok();//RequriessomeReturn;
-        //}
-
-        //[Route("Rocket/NotificationResponse")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> NotificationResponse()
-        //{
-        //    try
-        //    {
-        //        WriteLog.WriteEventLogToFile("NotificationResponse", "NotificationResponse initiated .");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        //XDocument doc = XDocument.Load(@"D:\Notification_Resp.xml");
-
-        //        if (Notification_FilePath == null || Notification_FilePath == "")
-        //        {
-        //            Get_FilePath();
-        //        }
-        //        //Notification_MsgID = GetMessegeID(doc);
-
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            Notification_MsgID = Convert.ToString(element.Attribute("msgId").Value);
-
-        //        }
-
-        //        Notification_FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-        //        if (!Directory.Exists(Notification_FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(Notification_FilePath));
-        //        }
-
-        //        Notification_saveLoc = @"" + Notification_FilePath + Notification_MsgID + ".xml";
-
-        //        doc.Save(Notification_saveLoc);
-        //        WriteLog.WriteEventLogToFile("NotificationResponse", "Notification Response file " + Notification_MsgID + ".xml saved successfully.");
-        //        var directory = new DirectoryInfo(Notification_FilePath);
-        //        var myFile = (from f in directory.GetFiles()
-        //                      orderby f.LastWriteTime descending
-        //                      select f).First();
-        //        Notification_ReadFileLocation = Convert.ToString(myFile);
-        //        NotificationResponseXMLFile();
-        //        string New_FileName = @"" + Notification_FilePath + Notification_MsgID + ".xml";
-        //        if (File.Exists(New_FileName))
-        //            New_FileName = @"" + Notification_FilePath + Notification_MsgID + "" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
-        //        File.Move(Notification_saveLoc, New_FileName);
-        //        if (IsNotificationFileSuccess)
-        //        {
-        //            NotificationResponse_InsertInSql(New_FileName);
-        //        }
-        //        else
-        //        {
-        //            WriteLog.WriteEventLogToFile("NotificationResponse", "NotificationResponse file " + Notification_MsgID + ".xml save failed.");
-        //        }
-        //        WriteLog.WriteEventLogToFile("NotificationResponse", "Notification Response file " + Notification_MsgID + ".xml Accepted successfully.");
-        //        return StatusCode(HttpStatusCode.Accepted);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        WriteErrorInDatabase.ErrorLog("Error: NotificationResponsee :" + ex.Message + "-" + ex.StackTrace);
-        //        WriteLog.WriteErrorToFile("Error: NotificationResponse  : " + ex.Message + ex.StackTrace);
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-
-        //    }
-
-        //    //string RequriessomeReturn = "Test API Success: Check Voilation Audit Details Response";
-        //    //return Ok();//RequriessomeReturn;
-        //}
-
-        //[Route("Rocket/GetRespCashDetail")]
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> GetRespCashDetail()
-        //{
-        //    try
-        //    {
-
-        //        WriteLog.WriteEventLogToFile("RespCashDetail", "PayResponse for cash initiated.");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        //XDocument doc = XDocument.Load(@"F:\XML\4TTIYMBGF751769335.xml");
-        //        if (OtherFilePath == null || OtherFilePath == "")
-        //        {
-        //            Get_FilePath();
-        //        }
-        //        //Cash_msgId = GetMessegeID(doc);
-
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            Cash_msgId = Convert.ToString(element.Attribute("msgId").Value);
-
-        //        }
-
-        //        OtherFilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-        //        if (!Directory.Exists(OtherFilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(OtherFilePath));
-        //        }
-        //        Cash_saveLoc = @"" + OtherFilePath + Cash_msgId + ".xml";
-        //        doc.Save(Cash_saveLoc);
-        //        WriteLog.WriteEventLogToFile("RespCashDetail", "PayResponse cash file " + Cash_msgId + ".xml saved successfully.");
-        //        CashReadXMLFile();
-        //        if (Cash_IsResponseFileSuccess)
-        //        {
-        //            CashReadxml_InsertInSql(@"" + OtherFilePath + Cash_msgId + ".xml");
-        //        }
-        //        else
-        //        {
-        //            WriteLog.WriteEventLogToFile("RespCashDetail", "PayResponse cash file " + Cash_msgId + ".xml not inserted in DB.");
-
-        //        }
-        //        WriteLog.WriteEventLogToFile("RespCashDetail", "PayResponse cash file " + Cash_msgId + ".xml Accepted successfully.");
-
-        //ResponseDirectoryConfig responseDirectoryConfig = ResponseDirectoryConfig.Deserialize();
-        //internal static void BankOfficeAPILog(string message)
-        //{
-        //    LogMaster.Write(message, ErrorLogModule.BankOfficeAPI);
-        //}
-        //[HttpPost]
-        //public async System.Threading.Tasks.Task<IHttpActionResult> GetResponsePay()
-        //{
-        //    try
-        //    {
-        //        IDCResponsePayIL iDC = new IDCResponsePayIL();
-        //        iDC.FilePath = responseDirectoryConfig.ResponsePay;
-        //        BankOfficeAPILog("ResponsePay-PayResponse  initiated.");
-        //        XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-        //        foreach (XElement element in doc.Descendants("Head"))
-        //        {
-        //            iDC.MsgId = Convert.ToString(element.Attribute("msgId").Value);
-
-        //        }
-        //        iDC.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-        //        if (!Directory.Exists(iDC.FilePath))
-        //        {
-        //            Directory.CreateDirectory(Path.GetDirectoryName(iDC.FilePath));
-        //        }
-
-        //        iDC.SaveLoc = @"" + iDC.FilePath + iDC.MsgId + ".xml";
-        //        doc.Save(iDC.SaveLoc);
-        //        BankOfficeAPILog("ResponsePay-PayResponse file " + iDC.MsgId + ".xml saved successfully.");
-        //        iDC = DataModel.ReadXMLFile(iDC);
-        //        if (iDC.IsResponseFileSuccess)
-        //        {
-        //            Readxml_InsertInSql(@"" + FilePath + iDC.MsgId + ".xml");
-        //        }
-        //        else
-        //        {
-        //            BankOfficeAPILog("ResponsePay-PayResponse file " + iDC.MsgId + ".xml not inserted in DB.");
-
-        //        }
-        //        BankOfficeAPILog("ResponsePay-PayResponse file " + iDC.MsgId + ".xml Accepted successfully.");
-
-        //        return StatusCode(HttpStatusCode.Accepted);
-
-
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //        WriteErrorInDatabase.ErrorLog("Error: Get Resp Cash CCH File :" + ex.Message + "-" + ex.StackTrace);
-        //        WriteLog.WriteErrorToFile("Error: RespCashDetail " + ex.Message + ex.StackTrace);
-
-        //        BankOfficeAPILog("Error: Get CCH File :" + ex.Message + "-" + ex.StackTrace);
-        //        BankOfficeAPILog("Error: ResponsePay " + ex.Message + ex.StackTrace);
-
-        //        return StatusCode(HttpStatusCode.ExpectationFailed);
-        //    }
-
-        //    //string RequriessomeReturn = "Test API Success: Get Response Pay";
-        //    //return Ok("202");
-        //}
+                }
+                BankOfficeAPILog("RespCashDetail-PayResponse cash file " + icd.MessageId + ".xml Accepted successfully.");
+                return StatusCode(HttpStatusCode.Accepted);
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: Get Resp Cash CCH File :" + ex.Message + "-" + ex.StackTrace);
+                return StatusCode(HttpStatusCode.ExpectationFailed);
+            }
+        }
     }
 }

@@ -8,14 +8,14 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
-    internal class ICDResponsePayDL
+    internal class ICDPaymentResponseDL
     {
         #region Global Varialble
        
         static string tableName = "tbl_CCHTollReconciliationDetailRecordICD";
         #endregion
 
-        internal static List<ResponseIL> Insert(ICDResponsePayIL ed)
+        internal static List<ResponseIL> Insert(ICDPaymentResponseIL ed)
         {
             List<ResponseIL> responses = null;
             try
