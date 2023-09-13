@@ -8,11 +8,11 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
 using System.Xml.Linq;
-using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
+using TMSRestAPI.Models;
 using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
-using TMSRestAPI.Models;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
 namespace TMSRestAPI.Controllers
@@ -81,6 +81,9 @@ namespace TMSRestAPI.Controllers
             try
             {
                 BankOfficeAPILog("ChkTransactionStatusResponse-CheckTransactionStatusResponsePay  initiated.");
+
+                IDCTransactionStatusIL iDC = new IDCTransactionStatusIL();
+
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 foreach (XElement element in doc.Descendants("Head"))
                 {

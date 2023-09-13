@@ -153,6 +153,7 @@
     <Compile Include="IL\FloatProcessIL.cs" />
     <Compile Include="IL\FloatTransactionsTypeIL.cs" />
     <Compile Include="IL\IDCResponsePayIL.cs" />
+    <Compile Include="IL\IDCTransactionStatusIL.cs" />
     <Compile Include="IL\LaneTransactionIL.cs" />
     <Compile Include="IL\SystemSettingIL.cs" />
     <Compile Include="IL\SystemVehicleClassIL.cs" />

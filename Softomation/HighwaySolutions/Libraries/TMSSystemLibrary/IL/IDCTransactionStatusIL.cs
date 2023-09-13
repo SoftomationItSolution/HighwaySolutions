@@ -8,74 +8,480 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class IDCTransactionStatusIL
     {
+        string transactionMessageId;
+        string transactionApiCallDatetime;
+        string transactionApiVersion;
+        string transactionId;
+        string transactionOrganizationId;
+        string transactionNote;
+        string transactionReferenceId;
+        string transactionReferenceURL;
+        string transactionDateTime;
+        string transactionType;
+        string organizationTransactionId;
+        string transactionPlazaId;
+        string transactionResponseTime;
+        string transactionResult;
+        string transactionResponseCode;
+        string transactionTotalRequestCount;
+        string transactionSuccessRequestCount;
+        string transactionCCHTransactionId;
+        string transactionLaneId;
+        string transactionResultSecond;
+        string transactionRequestedErrorCode;
+        string transactionSettlementDate;
+        string transactionReaderDateTime;
+        string transactionFilePath;
+        string fileSaveLocation;
+        string fileReadLocation;
+        List<CheckTransactionStatus> transactionList;
+        public IDCTransactionStatusIL()
+        {
+            transactionMessageId = string.Empty;
+        }
+        public String TransactionMessageId
+        {
+            get
+            {
+                return transactionMessageId;
+            }
 
-        string ChkTxn_MsgID;
-        string ChkTxn_ApiCallDatetime;
-        string ChkTxn_ApiVersion;
-        string ChkTxn_Txnid;
-        string ChkTxn_OrgId;
-        string ChkTxn_Note;
-        string ChkTxn_TransactionRefID;
-        string ChkTxn_TransactionRefUrl;
-        string ChkTxn_Transaction_DateTime;
-        string ChkTxn_TransactionType;
-        string ChkTxn_OrgTxnId;
-        string ChkTxn_plazaid;
-        string ChkTxn_ResponseTime;
-        string ChkTxn_Result;
-        string ChkTxn_ResponseCode;
-        string ChkTxn_TotalReqCount;
-        string ChkTxn_SuccessReqCount;
-        string ChkTxn_CCHTransactionId;
-        string ChkTxn_laneId;
-        string ChkTxn_Result1;
-        string ChkTxn_RequestedErrorCode;
-        string ChkTxn_SettlementDate;
-        string ChkTxn_ReaderDateTime1;
-        string ChkTxn_FilePath;
-        List<CheckTransactionStatus> txnList;
-        string ChkTxn_saveLoc;
-        string ReadFileLocation;
+            set
+            {
+                transactionMessageId = value;
+            }
+        }
+        public String TransactionApiCallDatetime
+        {
+            get
+            {
+                return transactionApiCallDatetime;
+            }
+
+            set
+            {
+                transactionApiCallDatetime = value;
+            }
+        }
+        public String TransactionApiVersion
+        {
+            get
+            {
+                return transactionApiVersion;
+            }
+
+            set
+            {
+                transactionApiVersion = value;
+            }
+        }
+        public String TransactionId
+        {
+            get
+            {
+                return transactionId;
+            }
+
+            set
+            {
+                transactionId = value;
+            }
+        }
+        public String TransactionOrganizationId
+        {
+            get
+            {
+                return transactionOrganizationId;
+            }
+
+            set
+            {
+                transactionOrganizationId = value;
+            }
+        }
+        public String TransactionNote
+        {
+            get
+            {
+                return transactionNote;
+            }
+
+            set
+            {
+                transactionNote = value;
+            }
+        }
+        public String TransactionReferenceId
+        {
+            get
+            {
+                return transactionReferenceId;
+            }
+
+            set
+            {
+                transactionReferenceId = value;
+            }
+        }
+        public String TransactionReferenceURL
+        {
+            get
+            {
+                return transactionReferenceURL;
+            }
+
+            set
+            {
+                transactionReferenceURL = value;
+            }
+        }
+        public String TransactionDateTime
+        {
+            get
+            {
+                return transactionDateTime;
+            }
+
+            set
+            {
+                transactionDateTime = value;
+            }
+        }
+        public String TransactionType
+        {
+            get
+            {
+                return transactionType;
+            }
+
+            set
+            {
+                transactionType = value;
+            }
+        }
+        public String OrganizationTransactionId
+        {
+            get
+            {
+                return organizationTransactionId;
+            }
+
+            set
+            {
+                organizationTransactionId = value;
+            }
+        }
+        public String TransactionPlazaId
+        {
+            get
+            {
+                return transactionPlazaId;
+            }
+
+            set
+            {
+                transactionPlazaId = value;
+            }
+        }
+        public String TransactionResponseTime
+        {
+            get
+            {
+                return transactionResponseTime;
+            }
+
+            set
+            {
+                transactionResponseTime = value;
+            }
+        }
+        public String TransactionResult
+        {
+            get
+            {
+                return transactionResult;
+            }
+
+            set
+            {
+                transactionResult = value;
+            }
+        }
+        public String TransactionResponseCode
+        {
+            get
+            {
+                return transactionResponseCode;
+            }
+
+            set
+            {
+                transactionResponseCode = value;
+            }
+        }
+        public String TransactionTotalRequestCount
+        {
+            get
+            {
+                return transactionTotalRequestCount;
+            }
+
+            set
+            {
+                transactionTotalRequestCount = value;
+            }
+        }
+        public String TransactionSuccessRequestCount
+        {
+            get
+            {
+                return transactionSuccessRequestCount;
+            }
+
+            set
+            {
+                transactionSuccessRequestCount = value;
+            }
+        }
+        public String TransactionCCHTransactionId
+        {
+            get
+            {
+                return transactionCCHTransactionId;
+            }
+
+            set
+            {
+                transactionCCHTransactionId = value;
+            }
+        }
+        public String TransactionLaneId
+        {
+            get
+            {
+                return transactionLaneId;
+            }
+
+            set
+            {
+                transactionLaneId = value;
+            }
+        }
+        public String TransactionResultSecond
+        {
+            get
+            {
+                return transactionResultSecond;
+            }
+
+            set
+            {
+                transactionResultSecond = value;
+            }
+        }
+        public String TransactionRequestedErrorCode
+        {
+            get
+            {
+                return transactionRequestedErrorCode;
+            }
+
+            set
+            {
+                transactionRequestedErrorCode = value;
+            }
+        }
+        public String TransactionSettlementDate
+        {
+            get
+            {
+                return transactionSettlementDate;
+            }
+
+            set
+            {
+                transactionSettlementDate = value;
+            }
+        }
+        public String TransactionReaderDateTime
+        {
+            get
+            {
+                return transactionReaderDateTime;
+            }
+
+            set
+            {
+                transactionReaderDateTime = value;
+            }
+        }
+        public String TransactionFilePath
+        {
+            get
+            {
+                return transactionFilePath;
+            }
+
+            set
+            {
+                transactionFilePath = value;
+            }
+        }
+        public String FileSaveLocation
+        {
+            get
+            {
+                return fileSaveLocation;
+            }
+
+            set
+            {
+                fileSaveLocation = value;
+            }
+        }
+        public String FileReadLocation
+        {
+            get
+            {
+                return fileReadLocation;
+            }
+
+            set
+            {
+                fileReadLocation = value;
+            }
+        }
+        public List<CheckTransactionStatus> TransactionList
+        {
+            get
+            {
+                return transactionList;
+            }
+
+            set
+            {
+                transactionList = value;
+            }
+        }
     }
 
     public class CheckTransactionStatus
     {
-        public string txnStatus
+        string transactionStatus;
+        string transactionReaderTime;
+        string transactionType;
+        string transactionFare;
+        string transactionFareType;
+        string transactionVehicleClass;
+        string transactionRegistrationNumber;
+        string transactionErrorCode;
+
+        public CheckTransactionStatus()
         {
-            get; set;
-        }
-        public string txnReaderTime
-        {
-            get; set;
-        }
-        public string txnType
-        {
-            get; set;
-        }
-        public string txnRecivedTime
-        {
-            get; set;
-        }
-        public string TollFare
-        {
-            get; set;
-        }
-        public string FareType
-        {
-            get; set;
-        }
-        public string VehicleClass
-        {
-            get; set;
-        }
-        public string RegNumber
-        {
-            get; set;
-        }
-        public string errCode
-        {
-            get; set;
         }
 
+        public String TransactionStatus
+        {
+            get
+            {
+                return transactionStatus;
+            }
+
+            set
+            {
+                transactionStatus = value;
+            }
+        }
+
+        public String TransactionReaderTime
+        {
+            get
+            {
+                return transactionReaderTime;
+            }
+
+            set
+            {
+                transactionReaderTime = value;
+            }
+        }
+
+        public String TransactionType
+        {
+            get
+            {
+                return transactionType;
+            }
+
+            set
+            {
+                transactionType = value;
+            }
+        }
+
+        public String TransactionFare
+        {
+            get
+            {
+                return transactionFare;
+            }
+
+            set
+            {
+                transactionFare = value;
+            }
+        }
+
+        public String TransactionFareType
+        {
+            get
+            {
+                return transactionFareType;
+            }
+
+            set
+            {
+                transactionFareType = value;
+            }
+        }
+
+        public String TransactionVehicleClass
+        {
+            get
+            {
+                return transactionVehicleClass;
+            }
+
+            set
+            {
+                transactionVehicleClass = value;
+            }
+        }
+
+        public String TransactionRegistrationNumber
+        {
+            get
+            {
+                return transactionRegistrationNumber;
+            }
+
+            set
+            {
+                transactionRegistrationNumber = value;
+            }
+        }
+
+        public String TransactionErrorCode
+        {
+            get
+            {
+                return transactionErrorCode;
+            }
+
+            set
+            {
+                transactionErrorCode = value;
+            }
+        }
     }
 }
