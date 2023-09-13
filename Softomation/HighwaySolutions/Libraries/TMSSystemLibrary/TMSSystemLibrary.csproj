@@ -150,6 +150,7 @@
     <Compile Include="DL\SystemUserDL.cs" />
     <Compile Include="DL\FasTagVehicleClassDL.cs" />
     <Compile Include="DL\SystemVehicleClassDL.cs" />
+    <Compile Include="IL\ReportMasterIL.cs" />
     <Compile Include="IL\DataFilterIL.cs" />
     <Compile Include="IL\DenominationIL.cs" />
     <Compile Include="IL\FloatProcessDenominationIL.cs" />

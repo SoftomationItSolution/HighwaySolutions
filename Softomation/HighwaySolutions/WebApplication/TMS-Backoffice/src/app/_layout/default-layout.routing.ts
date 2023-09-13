@@ -41,7 +41,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'transactionsHistory', component: TransactionalDataComponent },
     { path: 'Unaudited', component: TransactionalValidationComponent },
     { path: 'audited', component: TransactionalValidatedComponent },
-    { path: 'report', component: ReportMasterComponent },
+    { path: 'reports', component: ReportMasterComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

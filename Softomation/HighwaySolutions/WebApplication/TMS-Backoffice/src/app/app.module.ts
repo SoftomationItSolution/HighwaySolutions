@@ -81,7 +81,6 @@ import { TransactionalDataComponent } from './pages/Transactions/transactional-d
 import { TransactionalValidationComponent } from './pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from './pages/Transactions/transactional-validated/transactional-validated.component';
 import { ReportMasterComponent } from './pages/report-master/report-master.component';
-//import { ReportMasterComponent } from './pages/report-master/report-master.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -149,7 +148,7 @@ export const MY_CUSTOM_FORMATS = {
     TransactionalDataComponent,
     TransactionalValidationComponent,
     TransactionalValidatedComponent,
-    //ReportMasterComponent
+    ReportMasterComponent
   ],
   imports: [
     BrowserModule,

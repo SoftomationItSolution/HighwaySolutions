@@ -107,6 +107,44 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 string spName = "USP_ReportDataGetBySystemId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 ds = DBAccessor.LoadDataSet(command, "temp");
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dataResult;
+        }
+        internal static List<ReportMasterIL> GetReportCategory()
+        {
+            DataSet ds = new DataSet();
+            List<ReportMasterIL> dataResult = new List<ReportMasterIL>();
+            try
+            {
+                string spName = "USP_ReportCategory";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                ds = DBAccessor.LoadDataSet(command, "temp");
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                    dataResult.Add(CreateObjectForReportMaster(dr));
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dataResult;
+        }
+        internal static List<ReportMasterIL> GetReportCategoryBYId(Int32 ReportId)
+        {
+            DataSet ds = new DataSet();
+            List<ReportMasterIL> dataResult = new List<ReportMasterIL>();
+            try
+            {
+                string spName = "USP_ReportCategoryBYId";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ReportId", DbType.Int32,ReportId, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, "temp");
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                    dataResult.Add(CreateObjectForReportMaster(dr));
             }
             catch (Exception ex)
             {
@@ -115,6 +153,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             return dataResult;
         }
         #region Helpler Method
+        private static ReportMasterIL CreateObjectForReportMaster(DataRow dr)
+        {
+            ReportMasterIL dataFilter = new ReportMasterIL();
+            if (dr["EntryId"] != DBNull.Value)
+            {
+                dataFilter.ReportId = Convert.ToInt16(dr["EntryId"]);
+                dataFilter.ReportName = Convert.ToString(dr["Category"]);
+            }
+            return dataFilter;
+        }
         private static MasterDataIL CreateObjectForShiftTimining(DataRow dr)
         {
             MasterDataIL dataFilter = new MasterDataIL();
