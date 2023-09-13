@@ -33,7 +33,7 @@ export class DefaultLayoutComponent implements OnInit {
   profileImage: any;
   capslockOn = false;
   NotificationHide = false;
-  NotificationTest = "Welcome in command and control application";
+  NotificationTest = "Welcome to Command & Control Center";
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {

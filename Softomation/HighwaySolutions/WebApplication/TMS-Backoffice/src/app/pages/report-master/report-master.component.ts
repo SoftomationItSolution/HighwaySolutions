@@ -245,7 +245,7 @@ export class ReportMasterComponent implements OnInit{
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
-      //IsReviewedRequired:this.IsReviewedRequired,
+      ReportId:this.FilterDetailsForm.value.ReportId,
       ShiftFilterList: ShiftFilterList,
       TCUserFilterList: TCUserFilterList,
       PlazaFilterList: PlazaFilterList,
@@ -260,7 +260,7 @@ export class ReportMasterComponent implements OnInit{
       AuditerFilterList:AuditerFilterList
     }
     this.spinner.show();
-    this.dbService.LaneTransactionFilter(obj).subscribe(
+    this.dbService.GetReport(obj).subscribe(
       data => {
         this.spinner.hide();
       },

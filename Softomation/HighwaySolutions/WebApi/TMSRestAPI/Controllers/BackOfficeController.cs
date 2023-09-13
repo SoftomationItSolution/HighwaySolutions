@@ -12,7 +12,10 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using static HighwaySoluations.Softomation.TMSSystemLibrary.SystemConstants;
-
+using System.IO;
+using System.Text.RegularExpressions;
+using System.Configuration;
+using Newtonsoft.Json;
 
 namespace TMSRestAPI.Controllers
 {
@@ -1887,6 +1890,58 @@ namespace TMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in GetReportCategoryBYId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [Route(Provider + "/" + APIPath + "/GetReport")]
+        [HttpPost]
+        public HttpResponseMessage GetReport(DataFilterIL data)
+        {
+            try
+            {
+                string FileName = string.Empty;
+                string urlAddress = string.Empty;
+                //data.PlazaId = Convert.ToInt16(ConfigurationManager.AppSettings["PlazaId"].ToString());
+                //ReportManagementIL rpt = ReportManagementBL.GetById(data.SubCategoryId);
+                FileName = Regex.Replace(data.ReportId.ToString(), @"\s+", "") + "_" + Guid.NewGuid() + ".pdf";
+                #region Save Json File
+                String jsonString = JsonConvert.SerializeObject(data);
+                string rootpath = HttpContext.Current.Server.MapPath("~/filter/");
+                if (!Directory.Exists(rootpath))
+                {
+                    Directory.CreateDirectory(rootpath);
+                }
+                var filepath = rootpath + FileName.Replace(".pdf", ".json");
+                File.Create(filepath).Dispose();
+                File.WriteAllText(filepath, jsonString);
+                #endregion
+
+                urlAddress = ConfigurationManager.AppSettings["APIUrl"].ToString() + "/Home/FullReports?Id=" + data.ReportId + "&PlazaId=" + ConfigurationManager.AppSettings["PlazaId"].ToString() + "&FileName=" + FileName + "&SessionId=" + FileName;
+
+                var client = new WebClient();
+                client.Headers.Add("User-Agent", "C# console program");
+                string content = client.DownloadString(urlAddress);
+                if (string.IsNullOrEmpty(content))
+                {
+                    resp.AlertMessage = "Something went wrong!";
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+                else
+                {
+                    string FinalPath = ConfigurationManager.AppSettings["APIUrl"].ToString() + "/reports/" + FileName;
+                    resp.AlertMessage = FinalPath;
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.OK, response);
+                }
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetReport : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
