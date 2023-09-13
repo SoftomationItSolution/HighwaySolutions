@@ -281,5 +281,28 @@ namespace TMSRestAPI.Models
             }
             return icd;
         }
+
+        public static ICDTimeResponseIL ReadXMLFile(ICDTimeResponseIL icd)
+        {
+            try
+            {
+                DataSet dataSet = new DataSet();
+                dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
+                icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
+                icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
+                icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
+                icd.ResponseCode = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["respcode"]);
+                icd.ResponseResult = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["result"]);
+                icd.ResponseTime = Convert.ToDateTime(dataSet.Tables["Resp"].Rows[0]["ts"]);
+                icd.ServerDateTime = Convert.ToDateTime(dataSet.Tables["Time"].Rows[0]["ServerTime"]);
+                BankOfficeAPILog("SyncTimeResponse-Sync time response file " + icd.MessageId + ".xml read successfully.");
+            }
+            catch (Exception ex)
+            {
+                BankOfficeAPILog("Error: ReadsyncTimeResponseXMLFile :" + ex.Message + "-" + ex.StackTrace);
+            }
+            return icd;
+        }
     }
 }
