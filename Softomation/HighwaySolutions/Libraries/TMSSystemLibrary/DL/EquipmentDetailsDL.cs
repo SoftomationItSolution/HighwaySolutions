@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.DBA;
+
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 {
     internal class EquipmentDetailsDL

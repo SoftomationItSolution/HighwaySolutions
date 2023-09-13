@@ -5,6 +5,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
     public class IDCResponsePayIL
     {
         string msgId;
+        string plateNumber;
         string id;
         string transcationId;
         string cchTranscationId;
@@ -124,7 +125,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String CCHTranscationId
+        public String CCHTrasactionId
         {
             get
             {
@@ -163,7 +164,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String RefUrlTranscation
+        public String TransactionRefUrl
         {
             get
             {
@@ -189,7 +190,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String TransctionType
+        public String TransactionType
         {
             get
             {
@@ -215,7 +216,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String TransctionLibility
+        public String TransactionLiability
         {
             get
             {
@@ -228,7 +229,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             }
         }
 
-        public String PlazaID
+        public String PlazaId
         {
             get
             {
@@ -695,5 +696,20 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 refRespId = value;
             }
         }
+
+        public String PlateNumber
+        {
+            get
+            {
+                return plateNumber;
+            }
+
+            set
+            {
+                plateNumber = value;
+            }
+        }
+
+        
     }
 }

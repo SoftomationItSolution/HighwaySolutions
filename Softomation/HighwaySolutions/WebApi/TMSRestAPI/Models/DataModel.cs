@@ -27,14 +27,14 @@ namespace TMSRestAPI.Models
                 iDC.OrgTxnId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["orgTxnId"]);
                 iDC.RFIDTranscation = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refId"]);
                 iDC.RefURL = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refUrl"]);
-                iDC.TransctionType = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["type"]);
+                iDC.TransactionType = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["type"]);
                 iDC.RespPayId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["RespPay_Id"]);
                 iDC.TransctionDateTime = Convert.ToDateTime(dataSet.Tables["Txn"].Rows[0]["ts"]);
                 //iDC.TransctionLibility = dataSet.Tables["Txn"].Rows[0]["RespPay_Id"].ToString(); // Temp Declare
-                iDC.CCHTranscationId = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["Id"]);
+                iDC.CCHTrasactionId = Convert.ToString(dataSet.Tables["EntryTxn"].Rows[0]["Id"]);
                 iDC.RespId = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["Resp_Id"]);
                 iDC.ResponseFareType = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["fareType"]);
-                iDC.PlazaID = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["plazaid"]);
+                iDC.PlazaId = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["plazaid"]);
                 iDC.ResponseCode = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["respcode"]);
                 iDC.ResponseResult = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["result"]);
                 iDC.ResponseDateTime = Convert.ToDateTime(dataSet.Tables["Resp"].Rows[0]["ts"]);
