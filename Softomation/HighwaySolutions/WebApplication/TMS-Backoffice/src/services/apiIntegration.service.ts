@@ -527,17 +527,17 @@ export class apiIntegrationService {
 GetReportCategory(): Observable<any> {
   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + 'GetReportCategory', { headers: headers_object });
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategory', { headers: headers_object });
 }
-GetSubReportCategory(CategoryId:number): Observable<any> {
+GetSubReportCategory(ReportId:number): Observable<any> {
   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + 'GetSubReportCategory?CategoryId=' + CategoryId, { headers: headers_object });
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix  + '/GetReportCategoryBYId?ReportId=' + ReportId, { headers: headers_object });
 }
-ReportFilter(data: {}): Observable<any> {
+ReportFilter(): Observable<any> {
   this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
   var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + 'ReportFilter', data, { headers: this.header });
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FilterReportGet', { headers: this.header });
 }
 //#endregion
 

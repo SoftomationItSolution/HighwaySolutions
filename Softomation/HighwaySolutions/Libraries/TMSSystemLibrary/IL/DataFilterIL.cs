@@ -33,7 +33,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         private List<MasterDataIL> exemptTypeList;
         private List<MasterDataIL> systemClassList;
         private List<MasterDataIL> systemSubClassList;
-
+        private Int32 reportId;
         public DataFilterIL()
         {
             this.shiftFilterList = string.Empty;
@@ -64,6 +64,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             exemptTypeList = new List<MasterDataIL>();
             systemClassList = new List<MasterDataIL>();
             systemSubClassList = new List<MasterDataIL>();
+            this.reportId = 0;
         }
 
         public string ShiftFilterList
@@ -262,7 +263,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 systemSubClassList = value;
             }
         }
+        public Int32 ReportId
+        {
+            get
+            {
+                return reportId;
+            }
+            set
+            {
+                reportId = value;
+            }
+        }
 
-        
+
     }
 }

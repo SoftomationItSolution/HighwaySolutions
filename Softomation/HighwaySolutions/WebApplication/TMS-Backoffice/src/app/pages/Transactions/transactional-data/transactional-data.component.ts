@@ -123,7 +123,7 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
 
   GetMasterData() {
     this.subscription = this.dbService.FilterMasterGet().subscribe(
-      data => {
+      (data:any) => {
         var MaserData=data.ResponseData;
         this.ShiftData=MaserData.ShiftTiminingList;
         this.LaneUserData=MaserData.TCMasterList;
