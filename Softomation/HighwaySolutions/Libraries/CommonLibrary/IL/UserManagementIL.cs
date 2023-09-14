@@ -75,6 +75,5 @@ namespace HighwaySoluations.Softomation.CommonLibrary.IL
         {
             get => accountExpiredDate; set => accountExpiredDate = value;
         }
-
     }
 }

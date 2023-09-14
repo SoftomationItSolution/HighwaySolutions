@@ -194,8 +194,10 @@
     <Compile Include="IL\TransactionTypeIL.cs" />
     <Compile Include="IL\WIMTransactionIL.cs" />
     <Compile Include="SystemConfigurations\ICDConfig.cs" />
+    <Compile Include="SystemConfigurations\LaneConfig.cs" />
     <Compile Include="SystemConfigurations\RequestDirectoryConfig.cs" />
     <Compile Include="SystemConfigurations\ResponseDirectoryConfig.cs" />
+    <Compile Include="SystemConfigurations\ServerConfig.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />

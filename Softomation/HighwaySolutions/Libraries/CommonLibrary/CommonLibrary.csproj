@@ -91,6 +91,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
+    <Compile Include="IL\IntegrationResponseIL.cs" />
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
     <Compile Include="IL\CommonIL.cs" />

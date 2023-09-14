@@ -52,3 +52,4 @@ Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/
 bin
 obj
 packages
+*.json

@@ -63,6 +63,8 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             ServiceMonitor,
             BackOfficeService,
             BankService,
+            LaneDataTranService,
+            LaneConfig
         }
         public enum DataStatusType
         {

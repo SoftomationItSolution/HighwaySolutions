@@ -62,6 +62,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger
                             path = CreateDirectory("Services/BankService//") + dt.ToString("yyyy-MM-dd") + ".log";
                             break;
                         }
+                    case ErrorLogModule.LaneDataTranService:
+                        {
+                            path = CreateDirectory("Services/LaneDTService//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            break;
+                        }
+                    case ErrorLogModule.LaneConfig:
+                        {
+                            path = CreateDirectory("WebAPI//LaneConfig//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            break;
+                        }
                 }
                 try
                 {
