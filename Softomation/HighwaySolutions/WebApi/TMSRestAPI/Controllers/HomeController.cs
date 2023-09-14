@@ -60,7 +60,7 @@ namespace TMSRestAPI.Controllers
                 var filePath = Path.Combine(Server.MapPath("/filter"), FileName);
                 FilePath = filePath;
                 //ReportManagementIL rpt = ReportManagementBL.GetById(Id);
-                String CategoryName = Regex.Replace("Report_" + Id.ToString(), @"\s+", "");
+                String CategoryName = Regex.Replace("Report_" + Id, @"\s+", "");
                 ActionAsPdf pdfResult;
                 pdfResult = new ActionAsPdf(CategoryName, new {
                     PlazaId = PlazaId,
@@ -107,41 +107,41 @@ namespace TMSRestAPI.Controllers
             }
             #endregion
             //#region Payment Type
-            //if (filter.PaymentType == "0")
-            //    filter.PaymentType = string.Empty;
-            //else if (filter.PaymentType == "ALL")
-            //    filter.PaymentType = "ALL";
+            //if (filter.PayemntTypeFilterList == "0")
+            //    filter.PayemntTypeFilterList = string.Empty;
+            //else if (filter.PayemntTypeFilterList == "ALL")
+            //    filter.PayemntTypeFilterList = "ALL";
             //else
             //{
-            //    List<PaymentTypeIL> pt = PaymentTypeBL.GetAll();
-            //    string[] subs = filter.PaymentType.Split(',');
-            //    filter.PaymentType = string.Empty;
+            //    List<PaymentMethodTypeIL> pt = PaymentMethodTypeBL.GetAll();
+            //    string[] subs = filter.PayemntTypeFilterList.Split(',');
+            //    filter.PayemntTypeFilterList = string.Empty;
             //    foreach (string item in subs)
             //    {
-            //        PaymentTypeIL result = pt.Find(e => e.EntryId == Convert.ToInt64(item));
-            //        filter.PaymentType = filter.PaymentType + "," + result.PaymentTypeName;
+            //        PaymentMethodTypeIL result = pt.Find(e => e.PaymentTypeId == Convert.ToInt64(item));
+            //        filter.PayemntTypeFilterList = filter.PayemntTypeFilterList + "," + result.PaymentTypeName;
             //    }
-            //    filter.PaymentType = filter.PaymentType.TrimStart(',');
+            //    filter.PayemntTypeFilterList = filter.PayemntTypeFilterList.TrimStart(',');
             //}
             //#endregion
-            //#region Trans Type
-            //if (filter.TranType == "0")
-            //    filter.TranType = string.Empty;
-            //else if (filter.TranType == "ALL")
-            //    filter.TranType = "ALL";
-            //else
-            //{
-            //    List<TransactionTypeIL> pt = TransactionTypeBL.GetAll();
-            //    string[] subs = filter.TranType.Split(',');
-            //    filter.TranType = string.Empty;
-            //    foreach (string item in subs)
-            //    {
-            //        TransactionTypeIL result = pt.Find(e => e.EntryId == Convert.ToInt64(item));
-            //        filter.TranType = filter.TranType + "," + result.TransactionTypeName;
-            //    }
-            //    filter.TranType = filter.TranType.TrimStart(',');
-            //}
-            //#endregion
+            #region Trans Type
+            if (filter.TransactionTypeFilterList == "0")
+                filter.TransactionTypeFilterList = string.Empty;
+            else if (filter.TransactionTypeFilterList == "ALL")
+                filter.TransactionTypeFilterList = "ALL";
+            else
+            {
+                List<TransactionTypeIL> pt = TransactionTypeBL.GetAll();
+                string[] subs = filter.TransactionTypeFilterList.Split(',');
+                filter.TransactionTypeFilterList = string.Empty;
+                foreach (string item in subs)
+                {
+                    TransactionTypeIL result = pt.Find(e => e.TransactionTypeId == Convert.ToInt64(item));
+                    filter.TransactionTypeFilterList = filter.TransactionTypeFilterList + "," + result.TransactionTypeName;
+                }
+                filter.TransactionTypeFilterList = filter.TransactionTypeFilterList.TrimStart(',');
+            }
+            #endregion
             //#region Exempt Type
             //if (filter.ExemptType == "0")
             //    filter.ExemptType = string.Empty;
@@ -160,24 +160,24 @@ namespace TMSRestAPI.Controllers
             //    filter.ExemptType = filter.ExemptType.TrimStart(',');
             //}
             //#endregion
-            //#region Vehicle Class
-            //if (filter.VehicleClass == "0")
-            //    filter.VehicleClass = string.Empty;
-            //else if (filter.VehicleClass == "ALL")
-            //    filter.VehicleClass = "ALL";
-            //else
-            //{
-            //    List<VehicleClassIL> pt = VehicleClassBL.GetActive();
-            //    string[] subs = filter.VehicleClass.Split(',');
-            //    filter.VehicleClass = string.Empty;
-            //    foreach (string item in subs)
-            //    {
-            //        VehicleClassIL result = pt.Find(e => e.ClassId == Convert.ToInt64(item));
-            //        filter.VehicleClass = filter.VehicleClass + "," + result.ClassName;
-            //    }
-            //    filter.VehicleClass = filter.VehicleClass.TrimStart(',');
-            //}
-            //#endregion
+            #region Vehicle Class
+            if (filter.VehicleSubClassFilterList == "0")
+                filter.VehicleSubClassFilterList = string.Empty;
+            else if (filter.VehicleSubClassFilterList == "ALL")
+                filter.VehicleSubClassFilterList = "ALL";
+            else
+            {
+                List<SystemVehicleClassIL> pt = SystemVehicleClassBL.GetActive();
+                string[] subs = filter.VehicleSubClassFilterList.Split(',');
+                filter.VehicleSubClassFilterList = string.Empty;
+                foreach (string item in subs)
+                {
+                    SystemVehicleClassIL result = pt.Find(e => e.SystemVehicleClassId == Convert.ToInt64(item));
+                    filter.VehicleSubClassFilterList = filter.VehicleSubClassFilterList + "," + result.SystemVehicleClassName;
+                }
+                filter.VehicleSubClassFilterList = filter.VehicleSubClassFilterList.TrimStart(',');
+            }
+            #endregion
             //#region Operator
             //if (filter.LaneUser == "0")
             //    filter.LaneUser = string.Empty;
