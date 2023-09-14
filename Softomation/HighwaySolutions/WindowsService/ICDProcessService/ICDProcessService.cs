@@ -9,6 +9,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
@@ -22,6 +23,11 @@ namespace ICDProcessService
         private Queue logQueue = new Queue();
         private Thread loggerThread;
         private volatile Boolean stopLoggerThread = false;
+        #endregion
+
+        #region ICD Config
+        ICDConfig icdConfig;
+        RequestDirectoryConfig requestDirectoryConfig;
         #endregion
         #endregion
         static void Main()
@@ -37,7 +43,7 @@ namespace ICDProcessService
         {
             InitializeComponent();
             //dont forget to comment this line
-            //OnStart(new string[] { "ICDPS" }); //<== only for debugging
+            OnStart(new string[] { "ICDPS" }); //<== only for debugging
         }
 
         protected override void OnStart(string[] args)
@@ -54,6 +60,43 @@ namespace ICDProcessService
             {
                 //LogMessage("Error in starting PDSS logger thread function. PDSS cannot be started. " + ex.ToString());
             }
+
+            #region Onstart multiple call check
+            onstartCheckCount++;
+            if (onstartCheckCount > 1)
+            {
+                LogMessage("Onstart called multiple time so stopping service.");
+                this.Stop();
+                return;
+            }
+            #endregion
+
+            #region icd Config
+            icdConfig = ICDConfig.Deserialize();
+            if (icdConfig == null)
+            {
+                LogMessage("icdConfig is config is missing");
+                this.Stop();
+                return;
+            }
+            else 
+            {
+                if (string.IsNullOrEmpty(icdConfig.ICDVersion)) 
+                {
+                    LogMessage("ICD version is missing from config");
+                    this.Stop();
+                    return;
+                }
+            }
+            requestDirectoryConfig = RequestDirectoryConfig.Deserialize();
+
+            if (icdConfig.ICDVersion == "2.5") 
+            {
+                //_QueryApiInsert = new Thread(RunQueryApiInsert);
+                //_QueryApiInsert.Start();
+            }
+
+            #endregion
         }
 
         protected override void OnStop()

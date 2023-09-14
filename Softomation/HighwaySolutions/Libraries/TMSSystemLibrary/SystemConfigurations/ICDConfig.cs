@@ -5,63 +5,69 @@ using System.Web.Script.Serialization;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
 {
-    public class RequestDirectoryConfig
+    public class ICDConfig
     {
-        string requestPay;
-        string requestCheckTransaction;
-        string requestQueryException;
+        string icdVersion;
+        string bankName;
+        string requestQueryExceptionList;
         string requestSyncTime;
         string requestTagDetails;
+        string requestCheckTransactionStatus;
         string requestTollPlazaHeartBeat;
-        string requestVoilationAuditDetails;
+        string requestPay;
+        string requestViolationAuditDetailAPI;
+        string requestCashApi;
 
-        public RequestDirectoryConfig()
+        public ICDConfig()
         {
-            this.requestPay = string.Empty;
-            this.requestCheckTransaction = string.Empty;
-            this.requestQueryException = string.Empty;
-            this.requestSyncTime = string.Empty;
-            this.requestTagDetails = string.Empty;
-            this.requestTollPlazaHeartBeat = string.Empty;
-            this.requestVoilationAuditDetails = string.Empty;
+            icdVersion = string.Empty;
+            bankName = string.Empty;
+            requestQueryExceptionList = string.Empty;
+            requestSyncTime = string.Empty;
+            requestTagDetails = string.Empty;
+            requestCheckTransactionStatus = string.Empty;
+            requestTollPlazaHeartBeat = string.Empty;
+            requestPay = string.Empty;
+            requestViolationAuditDetailAPI = string.Empty;
+            requestCashApi = string.Empty;
         }
 
-        public String RequestPay
+        public String ICDVersion
         {
             get
             {
-                return requestPay;
+                return icdVersion;
             }
 
             set
             {
-                requestPay = value;
+                icdVersion = value;
             }
         }
 
-        public String RequestCheckTransaction
+        public String BankName
         {
             get
             {
-                return requestCheckTransaction;
+                return bankName;
             }
 
             set
             {
-                requestCheckTransaction = value;
+                bankName = value;
             }
         }
 
-        public String RequestQueryException
+        public String RequestQueryExceptionList
         {
             get
             {
-                return requestQueryException;
+                return requestQueryExceptionList;
             }
 
             set
             {
-                requestQueryException = value;
+                requestQueryExceptionList = value;
             }
         }
 
@@ -91,6 +97,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             }
         }
 
+        public String RequestCheckTransactionStatus
+        {
+            get
+            {
+                return requestCheckTransactionStatus;
+            }
+
+            set
+            {
+                requestCheckTransactionStatus = value;
+            }
+        }
+
         public String RequestTollPlazaHeartBeat
         {
             get
@@ -104,22 +123,48 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             }
         }
 
-        public String RequestVoilationAuditDetails
+        public String RequestPay
         {
             get
             {
-                return requestVoilationAuditDetails;
+                return requestPay;
             }
 
             set
             {
-                requestVoilationAuditDetails = value;
+                requestPay = value;
             }
         }
 
-        public static RequestDirectoryConfig Deserialize()
+        public String RequestViolationAuditDetailAPI
         {
-            RequestDirectoryConfig config = null;
+            get
+            {
+                return requestViolationAuditDetailAPI;
+            }
+
+            set
+            {
+                requestViolationAuditDetailAPI = value;
+            }
+        }
+
+        public String RequestCashApi
+        {
+            get
+            {
+                return requestCashApi;
+            }
+
+            set
+            {
+                requestCashApi = value;
+            }
+        }
+
+        public static ICDConfig Deserialize()
+        {
+            ICDConfig config = null;
             Int16 i = 0;
             while (i < 4)
             {
@@ -128,7 +173,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     if (Directory.Exists(SystemConstants.ProjectConfigDirectory))
                     {
                         JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                        config = json_serializer.Deserialize<RequestDirectoryConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "RequestDirectoryConfig.json"));
+                        config = json_serializer.Deserialize<ICDConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "ICDConfig.json"));
 
                         i = 10;
 
@@ -137,7 +182,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 }
                 catch (Exception ex)
                 {
-                    config = new RequestDirectoryConfig();
+                    config = new ICDConfig();
                     i++;
                     Thread.Sleep(100);
                 }
@@ -145,7 +190,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             return config;
         }
 
-        public static bool Serialize(RequestDirectoryConfig config)
+        public static bool Serialize(ICDConfig config)
         {
             bool result = false;
             Int16 i = 0;
@@ -156,16 +201,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer();
 
                     var jsonString = json_serializer.Serialize(config);
-                    if (File.Exists(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"))
+                    if (File.Exists(SystemConstants.ProjectConfigDirectory + "ICDConfig.json"))
                     {
-                        File.Delete(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json");
+                        File.Delete(SystemConstants.ProjectConfigDirectory + "ICDConfig.json");
                     }
                     else
                     {
                         Directory.CreateDirectory(SystemConstants.ProjectConfigDirectory);
                     }
 
-                    File.WriteAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
+                    File.WriteAllText(SystemConstants.ProjectConfigDirectory + "ICDConfig.json", jsonString);
                     i = 10;
                     result = true;
                     break;

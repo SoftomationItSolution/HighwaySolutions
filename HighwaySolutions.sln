@@ -35,6 +35,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneApplication", "Softomat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICDManualProcess", "Softomation\HighwaySolutions\WindowApplication\ICDManualProcess\ICDManualProcess.csproj", "{626787B9-C509-4CDD-BFE1-C5B859BA9990}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICDProcessService", "Softomation\HighwaySolutions\WindowsService\ICDProcessService\ICDProcessService.csproj", "{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{2D37C2B3-EC1C-4479-9144-333BDC6F40D3} = {D9019CE9-8BB1-4803-A673-70D18CB96E72}
 		{5033B712-81D4-4190-98AE-C7255AE13C62} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
+		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

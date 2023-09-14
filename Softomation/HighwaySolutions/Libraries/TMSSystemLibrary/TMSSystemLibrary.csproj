@@ -193,6 +193,7 @@
     <Compile Include="IL\SystemUserIL.cs" />
     <Compile Include="IL\TransactionTypeIL.cs" />
     <Compile Include="IL\WIMTransactionIL.cs" />
+    <Compile Include="SystemConfigurations\ICDConfig.cs" />
     <Compile Include="SystemConfigurations\RequestDirectoryConfig.cs" />
     <Compile Include="SystemConfigurations\ResponseDirectoryConfig.cs" />
     <Compile Include="SystemConstants.cs" />
