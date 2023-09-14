@@ -4,31 +4,40 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class ICDCommonIL
     {
-        string messageId;
-        string organizationId;
-        string apiVersion;
-        string responseCode;
-        string responseResult;
+        String messageId;
+        String organizationId;
+        String apiVersion;
+        Int32 responseCode;
+        String responseResult;
         DateTime transactionHeadDateTime;
         DateTime transactionDateTime;
         DateTime responseTime;
-        string filePath;
-        string fileSaveLocation;
-        string readFileLocation;
-
+        String filePath;
+        String fileSaveLocation;
+        String fileReadLocation;
+        Int32 errorCode;
+        Boolean messageType;
+        Int16 requestStatusId;
+        String requestStatusName;
+        Boolean isResponseSuccess;
         public ICDCommonIL()
         {
             messageId=string.Empty;
             organizationId = string.Empty;
             apiVersion = string.Empty;
-            responseCode = string.Empty;
+            responseCode = 0;
             responseResult = string.Empty;
             transactionHeadDateTime = DateTime.Now;
             transactionDateTime = DateTime.Now;
             responseTime = DateTime.Now;
             filePath = string.Empty;
             fileSaveLocation = string.Empty;
-            readFileLocation = string.Empty;
+            fileReadLocation = string.Empty;
+            errorCode = 0;
+            messageType = false;
+            requestStatusId = 0;
+            requestStatusName = string.Empty;
+            isResponseSuccess = false;
         }
         public String MessageId
         {
@@ -66,7 +75,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 apiVersion = value;
             }
         }
-        public String ResponseCode
+        public int ResponseCode
         {
             get
             {
@@ -150,16 +159,81 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 fileSaveLocation = value;
             }
         }
-        public String ReadFileLocation
+        public String FileReadLocation
         {
             get
             {
-                return readFileLocation;
+                return fileReadLocation;
             }
 
             set
             {
-                readFileLocation = value;
+                fileReadLocation = value;
+            }
+        }
+
+        public Int32 ErrorCode
+        {
+            get
+            {
+                return errorCode;
+            }
+
+            set
+            {
+                errorCode = value;
+            }
+        }
+
+        public Boolean MessageType
+        {
+            get
+            {
+                return messageType;
+            }
+
+            set
+            {
+                messageType = value;
+            }
+        }
+
+        public Int16 RequestStatusId
+        {
+            get
+            {
+                return requestStatusId;
+            }
+
+            set
+            {
+                requestStatusId = value;
+            }
+        }
+
+        public String RequestStatusName
+        {
+            get
+            {
+                return requestStatusName;
+            }
+
+            set
+            {
+                requestStatusName = value;
+            }
+        }
+
+        public Boolean IsResponseSuccess
+        {
+            get
+            {
+                return isResponseSuccess;
+            }
+
+            set
+            {
+                isResponseSuccess = value;
             }
         }
     }

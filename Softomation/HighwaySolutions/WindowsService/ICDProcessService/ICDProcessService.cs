@@ -9,6 +9,9 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using HighwaySoluations.Softomation.TMSSystemLibrary;
+using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
+using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
@@ -23,6 +26,10 @@ namespace ICDProcessService
         private Queue logQueue = new Queue();
         private Thread loggerThread;
         private volatile Boolean stopLoggerThread = false;
+
+
+        private Thread TagRequestThread;
+        private volatile Boolean stopTagRequest = false;
         #endregion
 
         #region ICD Config
@@ -42,6 +49,8 @@ namespace ICDProcessService
         public ICDProcessService()
         {
             InitializeComponent();
+
+            string dtone = Convert.ToString(DateTime.Now.ToShortDateString());
             //dont forget to comment this line
             OnStart(new string[] { "ICDPS" }); //<== only for debugging
         }
@@ -79,9 +88,9 @@ namespace ICDProcessService
                 this.Stop();
                 return;
             }
-            else 
+            else
             {
-                if (string.IsNullOrEmpty(icdConfig.ICDVersion)) 
+                if (string.IsNullOrEmpty(icdConfig.ICDVersion))
                 {
                     LogMessage("ICD version is missing from config");
                     this.Stop();
@@ -90,10 +99,23 @@ namespace ICDProcessService
             }
             requestDirectoryConfig = RequestDirectoryConfig.Deserialize();
 
-            if (icdConfig.ICDVersion == "2.5") 
+            if (icdConfig.ICDVersion == "2.5")
             {
                 //_QueryApiInsert = new Thread(RunQueryApiInsert);
                 //_QueryApiInsert.Start();
+
+                try
+                {
+                    LogMessage("Starting TagRequestThread thread...");
+                    TagRequestThread = new Thread(new ThreadStart(this.TagRequestThreadFunction));
+                    TagRequestThread.IsBackground = true;
+                    TagRequestThread.Start();
+                    LogMessage("The TagRequestThread has been started.");
+                }
+                catch (Exception)
+                {
+                    //LogMessage("Error in starting PDSS logger thread function. PDSS cannot be started. " + ex.ToString());
+                }
             }
 
             #endregion
@@ -102,6 +124,34 @@ namespace ICDProcessService
         protected override void OnStop()
         {
         }
+
+        #region Tag Request
+        private void TagRequestThreadFunction()
+        {
+            stopLoggerThread = false;
+            while (!stopLoggerThread)
+            {
+                try
+                {
+                    List<ICDTagDetailsIL> data = ICDTagDetailsBL.GetPendingRequest();
+                    foreach (ICDTagDetailsIL item in data)
+                    {
+                        GenerateRequestDetails.GetTagDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestTagDetails);
+                        ICDTagDetailsBL.RequestProcess(item);
+                        Thread.Sleep(50);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("TagRequestThreadFunction: Error " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(50);
+                }
+            }
+        }
+        #endregion
 
         #region Log Methods
         private void LogMessage(String message)

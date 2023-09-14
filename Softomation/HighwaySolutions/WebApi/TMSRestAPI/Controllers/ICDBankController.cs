@@ -14,6 +14,7 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
+using HighwaySoluations.Softomation.TMSSystemLibrary;
 
 namespace TMSRestAPI.Controllers
 {
@@ -105,7 +106,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.TransactionMessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -170,15 +171,15 @@ namespace TMSRestAPI.Controllers
                     var myFile = (from f in directory.GetFiles()
                                   orderby f.CreationTime ascending
                                   select f).First();
-                    icd.ReadFileLocation = Convert.ToString(myFile);
-                    icd = DataModel.ReadXMLFile(icd, @"" + icd.FilePath + "Download\\" + icd.ReadFileLocation);
+                    icd.FileReadLocation = Convert.ToString(myFile);
+                    icd = DataModel.ReadXMLFile(icd, @"" + icd.FilePath + "Download\\" + icd.FileReadLocation);
                     string New_FileName = @"" + ExceptionList_DestFilePath + myFile.Name;
                     try
                     {
                         if (File.Exists(@"" + ExceptionList_OrgFilePath + myFile.Name))
                         {
-                            File.Move(@"" + icd.FilePath + "Download\\" + icd.ReadFileLocation, New_FileName);
-                            BankOfficeAPILog("QueryExceptionResponse-File moved successfully from " + @"" + icd.FilePath + "Download\\" + icd.ReadFileLocation + "  to " + New_FileName);
+                            File.Move(@"" + icd.FilePath + "Download\\" + icd.FileReadLocation, New_FileName);
+                            BankOfficeAPILog("QueryExceptionResponse-File moved successfully from " + @"" + icd.FilePath + "Download\\" + icd.FileReadLocation + "  to " + New_FileName);
                         }
                     }
                     catch (Exception ex)
@@ -226,7 +227,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -251,7 +252,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                ICDTagDetailsResponseIL icd = new ICDTagDetailsResponseIL();
+                ICDTagDetailsIL icd = new ICDTagDetailsIL();
                 BankOfficeAPILog("TagDetailsResponse-TagDetailsResponse  initiated.");
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 foreach (XElement element in doc.Descendants("Head"))
@@ -271,23 +272,16 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                if (icd.IsTagRespoSuccess)
-                {
-                    ICDTagDetailsResponseBL.Insert(icd);
-                }
-                else
-                {
-                    BankOfficeAPILog("TagDetailsResponse-Tag Details Response file " + icd.MessageId + ".xml insert Failed");
-                }
+                icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                ICDTagDetailsBL.RequestProcess(icd);
                 BankOfficeAPILog("TagDetailsResponse-Tag details Response file " + icd.MessageId + ".xml Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
-
             }
             catch (Exception ex)
             {
@@ -326,7 +320,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -372,7 +366,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
@@ -422,7 +416,7 @@ namespace TMSRestAPI.Controllers
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
                               select f).First();
-                icd.ReadFileLocation = Convert.ToString(myFile);
+                icd.FileReadLocation = Convert.ToString(myFile);
                 icd = DataModel.ReadXMLFile(icd);
                 string New_FileName = @"" + icd.FilePath + icd.MessageId + ".xml";
                 if (File.Exists(New_FileName))
