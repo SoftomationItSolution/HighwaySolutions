@@ -8,7 +8,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
     public class ICDConfig
     {
         string icdVersion;
+        string apiVersion;
         string bankName;
+        string orgId;
+        string passPrase;
+        bool certificateValidation;
         string requestQueryExceptionList;
         string requestSyncTime;
         string requestTagDetails;
@@ -21,7 +25,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
         public ICDConfig()
         {
             icdVersion = string.Empty;
+            apiVersion = string.Empty;
             bankName = string.Empty;
+            orgId = string.Empty;
+            passPrase = string.Empty;
+            certificateValidation = false;
             requestQueryExceptionList = string.Empty;
             requestSyncTime = string.Empty;
             requestTagDetails = string.Empty;
@@ -31,7 +39,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             requestViolationAuditDetailAPI = string.Empty;
             requestCashApi = string.Empty;
         }
-
         public String ICDVersion
         {
             get
@@ -44,7 +51,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 icdVersion = value;
             }
         }
+        public String APIVersion
+        {
+            get
+            {
+                return apiVersion;
+            }
 
+            set
+            {
+                apiVersion = value;
+            }
+        }
         public String BankName
         {
             get
@@ -57,7 +75,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 bankName = value;
             }
         }
-
         public String RequestQueryExceptionList
         {
             get
@@ -70,7 +87,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestQueryExceptionList = value;
             }
         }
-
         public String RequestSyncTime
         {
             get
@@ -83,7 +99,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestSyncTime = value;
             }
         }
-
         public String RequestTagDetails
         {
             get
@@ -96,7 +111,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestTagDetails = value;
             }
         }
-
         public String RequestCheckTransactionStatus
         {
             get
@@ -109,7 +123,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestCheckTransactionStatus = value;
             }
         }
-
         public String RequestTollPlazaHeartBeat
         {
             get
@@ -122,7 +135,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestTollPlazaHeartBeat = value;
             }
         }
-
         public String RequestPay
         {
             get
@@ -135,7 +147,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestPay = value;
             }
         }
-
         public String RequestViolationAuditDetailAPI
         {
             get
@@ -148,7 +159,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestViolationAuditDetailAPI = value;
             }
         }
-
         public String RequestCashApi
         {
             get
@@ -161,7 +171,42 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 requestCashApi = value;
             }
         }
+        public String OrgId
+        {
+            get
+            {
+                return orgId;
+            }
 
+            set
+            {
+                orgId = value;
+            }
+        }
+        public String PassPrase
+        {
+            get
+            {
+                return passPrase;
+            }
+
+            set
+            {
+                passPrase = value;
+            }
+        }
+        public Boolean CertificateValidation
+        {
+            get
+            {
+                return certificateValidation;
+            }
+
+            set
+            {
+                certificateValidation = value;
+            }
+        }
         public static ICDConfig Deserialize()
         {
             ICDConfig config = null;
@@ -189,7 +234,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
             }
             return config;
         }
-
         public static bool Serialize(ICDConfig config)
         {
             bool result = false;

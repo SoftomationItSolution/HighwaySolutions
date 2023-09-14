@@ -6,7 +6,7 @@ using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary
 {
-    public class SystemConstants: Constants
+    public class SystemConstants : Constants
     {
         #region Project Config
         public static string DriveLetter = "C";
@@ -21,6 +21,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         public static string dateTimeFormat24HFileFormat = "MM/dd/yyyyHH:mm:ss";
         public static string dateTimeFormatQualixFormat = "yyyy-MM-ddTHH:mm:ss";
         public static string dateTimeFormatTxnFormat = "yyyy-MM-ddTHH:mm:ss.ffff";
+        public static string dateTimeFormatICDFormat = "YYYY-MM-DDThh:mm:ss";
         #endregion
 
         #region Enum
@@ -28,7 +29,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         {
             Normal = 0,
             AccessControl = 1,
-            FreeFlow=2
+            FreeFlow = 2
         }
 
         public enum AppUserType
@@ -47,6 +48,13 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
             Entry = 1,
             Exit = 2
         }
+        public enum ICDRequestStatusType
+        {
+            Generated = 0,
+            Send = 1,
+            Received = 2
+        }
+
         #endregion
 
         #region Methods
@@ -95,5 +103,5 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         #endregion
     }
 
-   
+
 }
