@@ -33,7 +33,7 @@ export class apiIntegrationService {
     returnURL = this.dataModel.getDataAPI();
     if (returnURL == "" || returnURL == null || returnURL == 'null' || returnURL == undefined) {
       var curretURL = (window.location.href).split(':')
-      var currentIP = curretURL[1].replace("//", "");
+      var currentIP = curretURL[1].replace("//", "").replace("/","");
       if (this.ConfigData == null || this.ConfigData == undefined) {
         const promise = new Promise<any>((resolve, reject) => {
           const apiURL = '/assets/GeneralConfiguration.json';
@@ -48,7 +48,12 @@ export class apiIntegrationService {
               this.ApiCallUrl = returnURL;
               this.dataModel.setDataAPI(this.ApiCallUrl)
               let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
-              this.dataModel.setMediaAPI(mediaPath)
+              this.dataModel.setMediaAPI(mediaPath);
+              const obj = {
+                "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "PlazaName": this.ConfigData.PlazaName,
+                "Address": this.ConfigData.Address, "State": this.ConfigData.State, "Pincode": this.ConfigData.Pincode
+              };
+              this.dataModel.setProjectDetails(obj);
               resolve(returnURL);
             },
             error: (err: any) => {

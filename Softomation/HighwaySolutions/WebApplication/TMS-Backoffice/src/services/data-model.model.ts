@@ -9,7 +9,7 @@ import { MediaViewComponent } from "src/app/pages/media-view/media-view.componen
   providedIn: 'root'
 })
 export class DataModel {
-  PageRefreshJson={Pagerefreshvalue:false,MenuId:0};
+  PageRefreshJson = { Pagerefreshvalue: false, MenuId: 0 };
   PageHeading = new EventEmitter<string>();
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
@@ -20,8 +20,7 @@ export class DataModel {
     localStorage.removeItem("Toll360Token");
     localStorage.removeItem("Toll360UserData");
   }
-  setPageRefresh(value:boolean,MenuId:number)
-  {
+  setPageRefresh(value: boolean, MenuId: number) {
     this.PageRefreshJson.Pagerefreshvalue = value;
     this.PageRefreshJson.MenuId = MenuId;
     this.PageRefresh.emit(this.PageRefreshJson);
@@ -103,7 +102,6 @@ export class DataModel {
       return result.UserId;
     else
       return -1
-
   }
 
   getDefaultPlazaId() {
@@ -120,6 +118,17 @@ export class DataModel {
       return result.RoleId;
     else
       return -1
+  }
+
+  setProjectDetails(token: {}) {
+    return localStorage.setItem('Toll360ProjectDetails', JSON.stringify(token));
+  }
+  getProjectDetails() {
+    var result = localStorage.getItem('Toll360ProjectDetails');
+    if (result != undefined)
+      return JSON.parse(result);
+    else
+      return null;
   }
 
   openSnackBar(message: any, success: boolean) {
@@ -172,5 +181,11 @@ export interface ConfigIntrface {
   ApiPort: Number
   ApiAdminPath: string,
   Latitude: Number,
-  Longitude: Number
+  Longitude: Number,
+  RoadName: string,
+  ProjectName: string,
+  PlazaName: string,
+  Address: string,
+  State: string,
+  Pincode: string,
 }
