@@ -10,6 +10,7 @@ import { DataModel } from 'src/services/data-model.model';
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
+  ProjectDetails: any;
   CurrentYear: number = ((new Date()).getFullYear());
   loginForm!: FormGroup;
   ErrorData: any;
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-   
+
     this.loginForm = new FormGroup({
       UserName: new FormControl('', [
         Validators.required
@@ -29,16 +30,16 @@ export class LoginComponent implements OnInit {
       RememberMe: new FormControl(false),
     });
 
-    const rm=localStorage.getItem('RememberMe');
-    if(rm !== null)
-    {
-      if(rm=="true"){
+    const rm = localStorage.getItem('RememberMe');
+    if (rm !== null) {
+      if (rm == "true") {
         this.loginForm.controls['UserName'].setValue(localStorage.getItem('LoginId'));
         this.loginForm.controls['RememberMe'].setValue(true);
       }
     }
 
     this.api.GetUrl();
+    this.ProjectDetails = this.dataModel.getProjectDetails();
   }
 
 
@@ -46,12 +47,12 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
- 
-    if(this.loginForm.value.RememberMe){
+
+    if (this.loginForm.value.RememberMe) {
       localStorage.setItem('LoginId', this.loginForm.value.UserName);
-      localStorage.setItem('RememberMe',this.loginForm.value.RememberMe);
+      localStorage.setItem('RememberMe', this.loginForm.value.RememberMe);
     }
-    else{
+    else {
       localStorage.removeItem('LoginId');
       localStorage.removeItem('RememberMe');
     }
@@ -65,7 +66,7 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
-         
+
           this.loginReposnse = data.ResponseData;
           this.dataModel.setLoggedIn(true);
           this.dataModel.setTokenVale(data.ResponseData.AccessToken);
@@ -102,7 +103,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  login(credentials:any) {
-    
+  login(credentials: any) {
+
   }
 }

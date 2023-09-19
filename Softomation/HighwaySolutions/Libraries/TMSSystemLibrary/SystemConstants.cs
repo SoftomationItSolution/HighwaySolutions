@@ -112,6 +112,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
                 throw ex;
             }
         }
+        public static string ParseJsonResponseObject(string InJsonResponce)
+        {
+            InJsonResponce = InJsonResponce.Replace("\"ResponseMessage\":\"success\"", "");
+            InJsonResponce = InJsonResponce.Replace("{,\"ResponseData\":", "");
+            InJsonResponce = InJsonResponce.TrimEnd('}');
+            return InJsonResponce = InJsonResponce + "}";
+        }
+        public static string ParseJsonForResponseList(string JsonResponce)
+        {
+            JsonResponce = JsonResponce.Replace("\"ResponseMessage\":\"success\"", "");
+            JsonResponce = JsonResponce.Replace("{,\"ResponseData\":", "");
+            return JsonResponce = JsonResponce.TrimEnd('}');
+        }
         #endregion
     }
 

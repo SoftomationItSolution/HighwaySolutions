@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.33927.289
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B88B4B17-BE84-43C7-933A-5E8EB50D408D}"
 EndProject
@@ -36,6 +36,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICDManualProcess", "Softomation\HighwaySolutions\WindowApplication\ICDManualProcess\ICDManualProcess.csproj", "{626787B9-C509-4CDD-BFE1-C5B859BA9990}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICDProcessService", "Softomation\HighwaySolutions\WindowsService\ICDProcessService\ICDProcessService.csproj", "{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneDataTransferService", "Softomation\HighwaySolutions\WindowsService\LaneDataTransferService\LaneDataTransferService.csproj", "{98928B27-7B73-41E1-A21B-C5582180020D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98928B27-7B73-41E1-A21B-C5582180020D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98928B27-7B73-41E1-A21B-C5582180020D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98928B27-7B73-41E1-A21B-C5582180020D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98928B27-7B73-41E1-A21B-C5582180020D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -97,6 +103,7 @@ Global
 		{5033B712-81D4-4190-98AE-C7255AE13C62} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
 		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{98928B27-7B73-41E1-A21B-C5582180020D} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

@@ -5,7 +5,6 @@ import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { FloatProcessPopupComponent } from '../float-process-popup/float-process-popup.component';
 
-
 @Component({
   selector: 'app-float-process-master',
   templateUrl: './float-process-master.component.html',
@@ -81,7 +80,7 @@ export class FloatProcessMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '401px';
-      dialogConfig.data = { action: 'Save', FloatProcessId: 0, FloatTransactionTypeId:FloatTransactionTypeId};
+      dialogConfig.data = { action: 'Save', FloatProcessId: 0, FloatTransactionTypeId: FloatTransactionTypeId };
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -105,7 +104,7 @@ export class FloatProcessMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '401px';
-      dialogConfig.data = { action: 'Update', FloatProcessId: data.FloatProcessId,FloatTransactionTypeId:data.FloatTransactionTypeId };
+      dialogConfig.data = { action: 'Update', FloatProcessId: data.FloatProcessId, FloatTransactionTypeId: data.FloatTransactionTypeId };
       const dialogRef = this.dialog.open(FloatProcessPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

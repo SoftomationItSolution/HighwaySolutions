@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -9,12 +9,12 @@ import { ChnagePasswordPopUpComponent } from 'src/app/pages/configurations/UserD
 import { SystemSettingComponent } from 'src/app/pages/system-setting/system-setting.component';
 import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock/app-lock.component';
 
-
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
 })
-export class DefaultLayoutComponent implements OnInit {
+export class DefaultLayoutComponent implements OnInit, AfterViewInit {
+
   UserData: any;
   public perfectScrollbarConfig = {
     suppressScrollX: true,
@@ -37,7 +37,7 @@ export class DefaultLayoutComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {
-      this.ssOpen();
+      this.alOpen();
     }
     if (event.getModifierState && event.getModifierState('CapsLock')) {
       this.capslockOn = true;
@@ -45,8 +45,6 @@ export class DefaultLayoutComponent implements OnInit {
       this.capslockOn = false;
     }
   }
-
-
 
   constructor(private router: Router, public dataModel: DataModel,
     public api: apiIntegrationService, public dialog: MatDialog) {
@@ -62,7 +60,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.GetSystemMenu();
     let lck = this.dataModel.getLock();
     if (lck == "true") {
-      this.ssOpen();
+      this.alOpen();
     }
   }
   ngAfterViewInit() {

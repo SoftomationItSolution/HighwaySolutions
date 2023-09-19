@@ -20,14 +20,16 @@
                                                     <div class="input-group grouplist-border">
                                                         <i class="mdi mdi-account user-icon-login"></i>
                                                         <input type="text" class="form-control"
-                                                            placeholder="Enter Login id Here" formControlName="UserName">
+                                                            placeholder="Enter Login id Here"
+                                                            formControlName="UserName">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
                                                     <div class="input-group grouplist-border">
                                                         <i class="mdi mdi-account-key user-icon-login"></i>
                                                         <input type="password" class="form-control"
-                                                            placeholder="Enter password Here" formControlName="Password">
+                                                            placeholder="Enter password Here"
+                                                            formControlName="Password">
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
@@ -55,8 +57,13 @@
                                             <img src="assets/images/nhai_tp.png" width="100%" alt="logo">
                                         </div>
                                         <div class="mt-4 text-center">
-                                            <p class="text-muted"><i class="mdi mdi-google-maps me-1"></i> Address
-                                                1<br>, Address 2,<br> City , State - Pincode</p>
+                                            <p class="text-muted"><i class="mdi mdi-google-maps me-1"></i>
+                                                {{ProjectDetails.RoadName}},
+                                                <br>{{ProjectDetails.ProjectName}},
+                                                <br>{{ProjectDetails.PlazaName}},
+                                                <br>{{ProjectDetails.Address}},
+                                                <br>{{ProjectDetails.State}}-{{ProjectDetails.Pincode}},
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
