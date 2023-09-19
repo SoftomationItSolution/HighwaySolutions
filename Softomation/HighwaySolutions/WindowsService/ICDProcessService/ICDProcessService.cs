@@ -30,6 +30,12 @@ namespace ICDProcessService
 
         private Thread TagRequestThread;
         private volatile Boolean stopTagRequest = false;
+
+        private Thread ViolationAuditRequestThread;
+        private volatile Boolean stopViolationAuditRequest = false;
+
+        private Thread SyncTimeRequestThread;
+        private volatile Boolean stopSyncTimeRequest = false;
         #endregion
 
         #region ICD Config
@@ -101,9 +107,6 @@ namespace ICDProcessService
 
             if (icdConfig.ICDVersion == "2.5")
             {
-                //_QueryApiInsert = new Thread(RunQueryApiInsert);
-                //_QueryApiInsert.Start();
-
                 try
                 {
                     LogMessage("Starting TagRequestThread thread...");
@@ -112,12 +115,37 @@ namespace ICDProcessService
                     TagRequestThread.Start();
                     LogMessage("The TagRequestThread has been started.");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    //LogMessage("Error in starting PDSS logger thread function. PDSS cannot be started. " + ex.ToString());
+                    LogMessage("Error in starting TagRequest thread function. " + ex.ToString());
+                }
+
+                try
+                {
+                    LogMessage("Starting SyncTimeRequest thread...");
+                    SyncTimeRequestThread = new Thread(new ThreadStart(this.SyncTimeRequestThreadFunction));
+                    SyncTimeRequestThread.IsBackground = true;
+                    SyncTimeRequestThread.Start();
+                    LogMessage("The SyncTimeRequest has been started.");
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("Error in starting SyncTimeRequest thread function. " + ex.ToString());
+                }
+
+                try
+                {
+                    LogMessage("Starting ViolationAuditRequest thread...");
+                    ViolationAuditRequestThread = new Thread(new ThreadStart(this.ViolationAuditRequestThreadFunction));
+                    ViolationAuditRequestThread.IsBackground = true;
+                    ViolationAuditRequestThread.Start();
+                    LogMessage("The ViolationAuditRequest has been started.");
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("Error in starting ViolationAuditRequest thread function. ICDPS cannot be started. " + ex.ToString());
                 }
             }
-
             #endregion
         }
 
@@ -128,15 +156,15 @@ namespace ICDProcessService
         #region Tag Request
         private void TagRequestThreadFunction()
         {
-            stopLoggerThread = false;
-            while (!stopLoggerThread)
+            stopTagRequest = false;
+            while (!stopTagRequest)
             {
                 try
                 {
                     List<ICDTagDetailsIL> data = ICDTagDetailsBL.GetPendingRequest();
                     foreach (ICDTagDetailsIL item in data)
                     {
-                        GenerateRequestDetails.GetTagDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestTagDetails);
+                        GenerateRequestDetails.ProcessTagDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestTagDetails);
                         ICDTagDetailsBL.RequestProcess(item);
                         Thread.Sleep(50);
                     }
@@ -153,6 +181,61 @@ namespace ICDProcessService
         }
         #endregion
 
+        #region Violation Audit Request
+        private void ViolationAuditRequestThreadFunction()
+        {
+            stopViolationAuditRequest = false;
+            while (!stopViolationAuditRequest)
+            {
+                try
+                {
+                    List<ICDViolationAuditDetailsRequestIL> data = ICDViolationAuditDetailsRequestBL.GetPendingRequest();
+                    foreach (ICDViolationAuditDetailsRequestIL item in data)
+                    {
+                        GenerateRequestDetails.ProcessViolationAuditDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestVoilationAuditDetails);
+                        ICDViolationAuditDetailsRequestBL.RequestProcess(item);
+                        Thread.Sleep(50);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("ViolationAuditRequestThreadFunction: Error " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(50);
+                }
+            }
+        }
+        #endregion
+
+        #region Violation Audit Request
+        private void SyncTimeRequestThreadFunction()
+        {
+            stopSyncTimeRequest = false;
+            while (!stopSyncTimeRequest)
+            {
+                try
+                {
+                    List<ICDSyncTimeDetailsIL> data = ICDSyncTimeDetailsBL.GetPendingRequest();
+                    foreach (ICDSyncTimeDetailsIL item in data)
+                    {
+                        GenerateRequestDetails.ProcessSyncTimeDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestSyncTime);
+                        ICDSyncTimeDetailsBL.RequestProcess(item);
+                        Thread.Sleep(50);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("SyncTimeRequestThreadFunction: Error " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(50);
+                }
+            }
+        }
+        #endregion
         #region Log Methods
         private void LogMessage(String message)
         {

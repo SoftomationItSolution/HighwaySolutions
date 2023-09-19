@@ -6,7 +6,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
     public class ICDTagDetailsIL : ICDCommonIL
     {
         Int32 requestTagId;
-        DateTime requestDateTime;
         String note;
         String refId;
         String refUrl;
@@ -15,7 +14,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String tid;
         Int32 successRequestCount;
         Int32 totalRequestCount;
-        DateTime responseDateTime;
         Int32 transactionErrorCode;
         String vehicleClass;
         Boolean tagStatus;
@@ -25,7 +23,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         public ICDTagDetailsIL()
         {
             requestTagId = 0;
-            requestDateTime = DateTime.Now;
             note = string.Empty;
             refId = string.Empty;
             refUrl = string.Empty;
@@ -34,7 +31,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             tid = string.Empty;
             successRequestCount = 0;
             totalRequestCount = 0;
-            responseDateTime = DateTime.Now;
             transactionErrorCode = 0;
             vehicleClass = string.Empty;
             tagStatus = true;
@@ -54,19 +50,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 requestTagId = value;
             }
         }
-        public DateTime RequestDateTime
-        {
-            get
-            {
-                return requestDateTime;
-            }
-
-            set
-            {
-                requestDateTime = value;
-            }
-        }
-
         public String Note
         {
             get
@@ -79,7 +62,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 note = value;
             }
         }
-
         public String RefId
         {
             get
@@ -92,7 +74,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 refId = value;
             }
         }
-
         public String RefUrl
         {
             get
@@ -165,18 +146,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 totalRequestCount = value;
             }
         }
-        public DateTime ResponseDateTime
-        {
-            get
-            {
-                return responseDateTime;
-            }
-
-            set
-            {
-                responseDateTime = value;
-            }
-        }
+       
         public Int32 TransactionErrorCode
         {
             get

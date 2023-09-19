@@ -4,6 +4,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class ICDCommonIL
     {
+        DateTime requestDateTime;
         String messageId;
         String organizationId;
         String apiVersion;
@@ -11,7 +12,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String responseResult;
         DateTime transactionHeadDateTime;
         DateTime transactionDateTime;
-        DateTime responseTime;
+        DateTime responseDateTime;
         String filePath;
         String fileSaveLocation;
         String fileReadLocation;
@@ -20,16 +21,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         Int16 requestStatusId;
         String requestStatusName;
         Boolean isResponseSuccess;
+        Boolean isSignatureRequired;
         public ICDCommonIL()
         {
-            messageId=string.Empty;
+            requestDateTime = DateTime.Now;
+            messageId =string.Empty;
             organizationId = string.Empty;
             apiVersion = string.Empty;
             responseCode = 0;
             responseResult = string.Empty;
             transactionHeadDateTime = DateTime.Now;
             transactionDateTime = DateTime.Now;
-            responseTime = DateTime.Now;
+            responseDateTime = DateTime.Now;
             filePath = string.Empty;
             fileSaveLocation = string.Empty;
             fileReadLocation = string.Empty;
@@ -38,6 +41,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             requestStatusId = 0;
             requestStatusName = string.Empty;
             isResponseSuccess = false;
+            isSignatureRequired = true;
+        }
+        public DateTime RequestDateTime
+        {
+            get
+            {
+                return requestDateTime;
+            }
+
+            set
+            {
+                requestDateTime = value;
+            }
         }
         public String MessageId
         {
@@ -123,16 +139,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 transactionDateTime = value;
             }
         }
-        public DateTime ResponseTime
+        public DateTime ResponseDateTime
         {
             get
             {
-                return responseTime;
+                return responseDateTime;
             }
 
             set
             {
-                responseTime = value;
+                responseDateTime = value;
             }
         }
         public String FilePath
@@ -171,7 +187,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 fileReadLocation = value;
             }
         }
-
         public Int32 ErrorCode
         {
             get
@@ -184,7 +199,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 errorCode = value;
             }
         }
-
         public Boolean MessageType
         {
             get
@@ -197,7 +211,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 messageType = value;
             }
         }
-
         public Int16 RequestStatusId
         {
             get
@@ -210,7 +223,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 requestStatusId = value;
             }
         }
-
         public String RequestStatusName
         {
             get
@@ -223,7 +235,6 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 requestStatusName = value;
             }
         }
-
         public Boolean IsResponseSuccess
         {
             get
@@ -234,6 +245,19 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 isResponseSuccess = value;
+            }
+        }
+
+        public Boolean IsSignatureRequired
+        {
+            get
+            {
+                return isSignatureRequired;
+            }
+
+            set
+            {
+                isSignatureRequired = value;
             }
         }
     }

@@ -209,7 +209,7 @@ namespace TMSRestAPI.Controllers
             try
             {
                 BankOfficeAPILog("SyncTimeResponse-syncTimeResponse  initiated.");
-                ICDTimeResponseIL icd = new ICDTimeResponseIL();
+                ICDSyncTimeDetailsIL icd = new ICDSyncTimeDetailsIL();
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 icd.FilePath = responseDirectoryConfig.ResponseSyncTime;
                 foreach (XElement element in doc.Descendants("Head"))
@@ -233,7 +233,8 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                ICDTimeResponseBL.Insert(icd);
+                icd.MessageType = true;
+                ICDSyncTimeDetailsBL.RequestProcess(icd);
                 BankOfficeAPILog("SyncTimeResponse-Sync time  Response file " + icd.MessageId + ".xml Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
 
@@ -279,6 +280,7 @@ namespace TMSRestAPI.Controllers
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
                 icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                icd.MessageType = true;
                 ICDTagDetailsBL.RequestProcess(icd);
                 BankOfficeAPILog("TagDetailsResponse-Tag details Response file " + icd.MessageId + ".xml Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
@@ -296,7 +298,7 @@ namespace TMSRestAPI.Controllers
         {
             try
             {
-                ICDHeartBeatResponseIL icd = new ICDHeartBeatResponseIL();
+                ICDHeartBeatDetailsIL icd = new ICDHeartBeatDetailsIL();
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response initiated.");
                 var content = await Request.Content.ReadAsStringAsync();
                 BankOfficeAPILog("HeartBeatResponse-Going to read response finished " + content.ToString());
@@ -326,7 +328,7 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                ICDHeartBeatResponseBL.Insert(icd);
+                ICDHeartBeatDetailsBL.Insert(icd);
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
 
@@ -342,9 +344,9 @@ namespace TMSRestAPI.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IHttpActionResult> VoilationAuditDetailsResponse()
         {
+            ICDViolationAuditDetailsRequestIL icd = new ICDViolationAuditDetailsRequestIL();
             try
             {
-                ICDViolationAuditDetailsResponseIL icd = new ICDViolationAuditDetailsResponseIL();
                 BankOfficeAPILog("VoilationAuditResponse-Violation Audit Response initiated.");
                 XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
                 icd.FilePath = responseDirectoryConfig.ResponseVoilationAuditDetails;
@@ -357,11 +359,9 @@ namespace TMSRestAPI.Controllers
                 {
                     Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
                 }
-
                 icd.FileSaveLocation = @"" + icd.FilePath + icd.MessageId + ".xml";
                 doc.Save(icd.FileSaveLocation);
                 BankOfficeAPILog("VoilationAuditResponse-Violation Audit Response file " + icd.MessageId + ".xml saved successfully.");
-
                 var directory = new DirectoryInfo(icd.FilePath);
                 var myFile = (from f in directory.GetFiles()
                               orderby f.LastWriteTime descending
@@ -372,20 +372,18 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                if (icd.IsVilatonFileSuccess)
-                {
-                    // VoilationAuditDetailsResponse_InsertInSql(New_FileName);
-                }
-                else
-                {
-                    BankOfficeAPILog("VoilationAuditResponse-VoilationAuditDetailsResponse file " + icd.MessageId + ".xml insert Failed.");
-                }
+                icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                icd.MessageType = true;
+                ICDViolationAuditDetailsRequestBL.RequestProcess(icd);
                 BankOfficeAPILog("VoilationAuditResponse-Voilation Audit details Response file " + icd.MessageId + ".xml Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
             }
             catch (Exception ex)
             {
                 BankOfficeAPILog("Error: VoilationAuditDetailsResponsee :" + ex.Message + "-" + ex.StackTrace);
+                icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received_Error;
+                icd.MessageType = true;
+                ICDViolationAuditDetailsRequestBL.RequestProcess(icd);
                 return StatusCode(HttpStatusCode.ExpectationFailed);
             }
         }

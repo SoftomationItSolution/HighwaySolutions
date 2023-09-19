@@ -52,9 +52,34 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         {
             Generated = 0,
             Send = 1,
-            Received = 2
+            Received = 2,
+            Send_Error = 3,
+            Received_Error = 4,
         }
 
+        public enum ICDDirectionType
+        {
+            E = 1,
+            W = 2,
+            N = 3,
+            S = 4
+        }
+        public enum ICDLaneStatusType
+        {
+            OPEN = 1,
+            CLOSE = 2
+        }
+        public enum ICDLaneModeType
+        {
+            Maintenance = 1,
+            Normal = 2
+        }
+        public enum ICDLaneType
+        {
+            Dedicated = 1,
+            Hybrid = 2,
+            Handheld=3
+        }
         #endregion
 
         #region Methods
