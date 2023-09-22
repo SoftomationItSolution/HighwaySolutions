@@ -328,10 +328,12 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                ICDHeartBeatDetailsBL.Insert(icd);
+               
+                icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                icd.MessageType = true;
+                ICDHeartBeatDetailsBL.RequestProcess(icd);
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
-
             }
             catch (Exception ex)
             {

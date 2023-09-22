@@ -8,7 +8,9 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
     public class ICDLaneDetailsIL
     {
-        string laneId;
+        Int16 plazaId;
+        Int16 laneId;
+        string laneNumber;
         Int16 laneDirectionId;
         string laneDirectionName;
         Int16 laneStatusId;
@@ -17,11 +19,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         string laneModeName;
         Int16 laneTypeId;
         string laneTypeName;
-        string readerId;
+        Int64 readerId;
+        string readerName;
 
         public ICDLaneDetailsIL()
         {
-            laneId = string.Empty;
+            plazaId = 0;
+            laneId = 0;
+            laneNumber = string.Empty;
             laneDirectionId = 0;
             laneDirectionName = string.Empty;
             laneStatusId = 0;
@@ -30,9 +35,22 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             laneModeName = string.Empty;
             laneTypeId = 0;
             laneTypeName = string.Empty;
-            readerId = string.Empty;
+            readerId = 0;
+            readerName = string.Empty;
         }
-        public String LaneId
+        public Int16 PlazaId
+        {
+            get
+            {
+                return plazaId;
+            }
+
+            set
+            {
+                plazaId = value;
+            }
+        }
+        public Int16 LaneId
         {
             get
             {
@@ -42,6 +60,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 laneId = value;
+            }
+        }
+        public String LaneNumber
+        {
+            get
+            {
+                return laneNumber;
+            }
+
+            set
+            {
+                laneNumber = value;
             }
         }
         public Int16 LaneDirectionId
@@ -68,7 +98,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 laneDirectionName = value;
             }
         }
-        public String ReaderId
+        public Int64 ReaderId
         {
             get
             {
@@ -78,6 +108,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 readerId = value;
+            }
+        }
+        public String ReaderName
+        {
+            get
+            {
+                return readerName;
+            }
+
+            set
+            {
+                readerName = value;
             }
         }
         public Int16 LaneStatusId

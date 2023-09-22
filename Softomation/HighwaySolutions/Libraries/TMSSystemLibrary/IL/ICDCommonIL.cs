@@ -8,6 +8,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String messageId;
         String organizationId;
         String apiVersion;
+        String icdTransactionId;
         Int32 responseCode;
         String responseResult;
         DateTime transactionHeadDateTime;
@@ -28,6 +29,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             messageId =string.Empty;
             organizationId = string.Empty;
             apiVersion = string.Empty;
+            icdTransactionId = string.Empty;
             responseCode = 0;
             responseResult = string.Empty;
             transactionHeadDateTime = DateTime.Now;
@@ -89,6 +91,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 apiVersion = value;
+            }
+        }
+        public String ICDTransactionId
+        {
+            get
+            {
+                return icdTransactionId;
+            }
+
+            set
+            {
+                icdTransactionId = value;
             }
         }
         public int ResponseCode

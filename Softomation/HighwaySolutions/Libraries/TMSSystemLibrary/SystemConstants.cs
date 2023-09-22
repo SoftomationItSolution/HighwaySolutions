@@ -41,12 +41,39 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
             TollCollector = 4,
             Maintenance = 5
         }
-
         public enum LaneType
+        {
+            Dedicated = 0,
+            Hybrid = 1,
+            Handheld = 2
+        }
+        public enum LaneStatusType
+        {
+            Open = 0,
+            Close = 1
+        }
+        public enum LaneModeType
+        {
+            Maintenance = 0,
+            Normal = 1
+        }
+        public enum LanePointType
         {
             Normal = 0,
             Entry = 1,
             Exit = 2
+        }
+        public enum LanePositionType
+        {
+            LHS = 0,
+            RHS = 1,
+        }
+        public enum LaneDirectionType
+        {
+            East = 1,
+            West = 2,
+            North = 3,
+            South = 4
         }
         public enum ICDRequestStatusType
         {
@@ -56,7 +83,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
             Send_Error = 3,
             Received_Error = 4,
         }
-
+       
         public enum ICDDirectionType
         {
             E = 1,
@@ -78,7 +105,58 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
         {
             Dedicated = 1,
             Hybrid = 2,
-            Handheld=3
+            Handheld = 3
+        }
+
+        public enum ICDRequestPayTxnType
+        {
+            DEBIT = 1,
+            CREDIT = 2,
+            NON_FIN = 3
+        }
+
+        public enum ICDSignAuthType
+        {
+            VALID = 1,
+            INVALID = 2,
+            NOT_VERIFIED = 3
+        }
+        public enum ICDTagVerifiedType
+        {
+            NETC_TAG = 1,
+            NON_NETC_TAG = 2,
+        }
+        public enum ICDVehicleAuthType
+        {
+            YES = 1,
+            NO = 2,
+            UNKNOWN = 3,
+        }
+        public enum ICDTxnStatusType
+        {
+            SUCCESS = 1,
+            FAILED = 2
+        }
+        public enum ICDPriceModeType
+        {
+            DISTANCE = 1,
+            POINT = 2,
+            CUSTOM = 3
+        }
+        public enum ICDPaymentModeType
+        {
+            Tag = 1,
+            Cash = 2,
+            Card = 3,
+            QRCode = 4,
+            Other = 5
+        }
+        public enum ICDFareType
+        {
+            DISCOUNTED = 1,
+            EXEMPTED = 2,
+            FULL = 3,
+            RETURN = 4
         }
         #endregion
 

@@ -24,9 +24,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneId", DbType.Int16, lane.LaneId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaId", DbType.Int16, lane.PlazaId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneName", DbType.String, lane.LaneName, ParameterDirection.Input, 10));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneNumber", DbType.Int16, lane.LaneNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneTypeId", DbType.Int16, lane.LaneTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LanePositionId", DbType.Int16, lane.LanePositionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LanePointId", DbType.Int16, lane.LanePointId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneDirectionId", DbType.Int16, lane.LaneDirectionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneStatusId", DbType.Int16, lane.LaneStatusId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneModeId", DbType.Int16, lane.LaneModeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneSystemIpAddress", DbType.String, lane.LaneSystemIpAddress, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, lane.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -181,16 +186,28 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 lane.Longitude = Convert.ToDecimal(dr["Longitude"]);
 
             if (dr["LaneNumber"] != DBNull.Value)
-            {
                 lane.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
-                lane.LaneName = "Lane-" + Convert.ToString(dr["LaneNumber"]);
-            }
+
+            if (dr["LaneName"] != DBNull.Value)
+                lane.LaneName = Convert.ToString(dr["LaneName"]);
 
             if (dr["LaneTypeId"] != DBNull.Value)
                 lane.LaneTypeId = Convert.ToInt16(dr["LaneTypeId"]);
 
+            if (dr["LanePositionId"] != DBNull.Value)
+                lane.LanePositionId = Convert.ToInt16(dr["LanePositionId"]);
+
+            if (dr["LanePointId"] != DBNull.Value)
+                lane.LanePointId = Convert.ToInt16(dr["LanePointId"]);
+
             if (dr["LaneDirectionId"] != DBNull.Value)
                 lane.LaneDirectionId = Convert.ToInt16(dr["LaneDirectionId"]);
+
+            if (dr["LaneStatusId"] != DBNull.Value)
+                lane.LaneStatusId = Convert.ToInt16(dr["LaneStatusId"]);
+
+            if (dr["LaneModeId"] != DBNull.Value)
+                lane.LaneModeId = Convert.ToInt16(dr["LaneModeId"]);
 
             if (dr["LaneSystemIpAddress"] != DBNull.Value)
                 lane.LaneSystemIpAddress = Convert.ToString(dr["LaneSystemIpAddress"]);
@@ -211,8 +228,12 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 lane.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
             lane.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)lane.DataStatus);
-            lane.LaneDirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)lane.LaneDirectionId);
+            lane.LaneDirectionName = Enum.GetName(typeof(SystemConstants.LaneDirectionType), (SystemConstants.LaneDirectionType)lane.LaneDirectionId);
             lane.LaneTypeName = Enum.GetName(typeof(SystemConstants.LaneType), (SystemConstants.LaneType)lane.LaneTypeId);
+            lane.LanePositionName = Enum.GetName(typeof(SystemConstants.LanePositionType), (SystemConstants.LanePositionType)lane.LanePositionId);
+            lane.LanePointName = Enum.GetName(typeof(SystemConstants.LanePointType), (SystemConstants.LanePointType)lane.LanePointId);
+            lane.LaneStatusName = Enum.GetName(typeof(SystemConstants.LaneStatusType), (SystemConstants.LaneStatusType)lane.LaneStatusId);
+            lane.LaneModeName = Enum.GetName(typeof(SystemConstants.LaneModeType), (SystemConstants.LaneModeType)lane.LaneModeId);
             return lane;
         }
         #endregion

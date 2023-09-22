@@ -29,89 +29,8 @@ namespace ICDProcessService
         {
             LogMaster.Write(message, ErrorLogModule.BankAPI);
         }
-        
 
-        //15.5 Request Tag Details   Page Number-91
-        public static ICDTagDetailsIL ProcessTagDetailsRequest(ICDTagDetailsIL data, ICDConfig config, string RequestTagDetailsPath)
-        {
-            try
-            {
-                DataSet dataSet;
-                string FileName = RequestTagDetailsPath + "\\" + Convert.ToString(data.MessageId) + "_.xml";
-                string SignedFileName = RequestTagDetailsPath + "\\" + Convert.ToString(data.MessageId) + ".xml";
-                string _fname = Convert.ToString(data.MessageId) + ".xml";
-                data.RequestDateTime = DateTime.Now;
-                #region Xml Writer
-                XmlWriter writer = XmlWriter.Create(FileName, GetSettingFile());
-                #region Start Document 
-                writer.WriteStartDocument();
-                #region Root
-                writer.WriteStartElement("etc", "ReqTagDetails", "http://npci.org/etc/schema/");
-                #region Head
-                writer.WriteStartElement("Head");
-                writer.WriteAttributeString("msgId", Convert.ToString(data.MessageId));
-                writer.WriteAttributeString("orgId", Convert.ToString(config.OrgId));
-                writer.WriteAttributeString("ts", data.RequestDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
-                writer.WriteAttributeString("ver", Convert.ToString(config.APIVersion));
-                writer.WriteEndElement();
-                #endregion
-                #region Transaction
-                writer.WriteStartElement("Txn");
-                writer.WriteAttributeString("note", data.Note);
-                writer.WriteAttributeString("refId", data.RefId);
-                writer.WriteAttributeString("refUrl", data.RefUrl);
-                writer.WriteAttributeString("ts", data.TransactionDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
-                writer.WriteAttributeString("type", "FETCH");
-                writer.WriteAttributeString("orgTxnId", "");
-                writer.WriteAttributeString("id", Convert.ToString(data.MessageId));
-                #region Vehicle
-                writer.WriteStartElement("Vehicle");
-                writer.WriteAttributeString("vehicleRegNo", data.VRN);
-                writer.WriteAttributeString("TID", data.TID);
-                writer.WriteAttributeString("tagId", data.TagId);
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-                #endregion
-                #endregion
-                #endregion
-                writer.WriteEndDocument();
-                #endregion
-                writer.Flush();
-                writer.Close();
-                #endregion
-
-                if (data.IsSignatureRequired)
-                {
-                    SignXmlFile(FileName, SignedFileName, config);
-                    dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestTagDetails, RequestTagDetailsPath, _fname);
-                }
-                else
-                {
-                    dataSet = ProcessRequest(FileName, 1000, config, config.RequestTagDetails, RequestTagDetailsPath, _fname);
-                }
-                foreach (DataTable table in dataSet.Tables)
-                {
-                    if (table.TableName.Equals("Detail"))
-                    {
-                        string VEHICLECLASS = table.Rows[0]["value"].ToString();
-                        string REGNUMBER = table.Rows[1]["value"].ToString();
-                        string TAGSTATUS = table.Rows[2]["value"].ToString();
-                        string EXCCODE = table.Rows[3]["value"].ToString();
-                        string TAGID = table.Rows[4]["value"].ToString();
-                        data.TID = table.Rows[5]["value"].ToString();
-                        string COMVEHICLE = table.Rows[6]["value"].ToString();
-                    }
-                };
-                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Send;
-            }
-            catch (Exception ex)
-            {
-                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Generated;
-                throw ex;
-            }
-            return data;
-        }
-        //4.6.1 Request Violation Audit Details  Page Number-27
+        #region 4.6.1 Request Violation Audit Details  Page Number-27
         public static ICDViolationAuditDetailsRequestIL ProcessViolationAuditDetailsRequest(ICDViolationAuditDetailsRequestIL data, ICDConfig config, string RequestViolationAuditDetailsPath)
         {
             try
@@ -299,7 +218,7 @@ namespace ICDProcessService
                     SignXmlFile(FileName, SignedFileName, config);
                     DataSet dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestViolationAuditDetailAPI, RequestViolationAuditDetailsPath, _fname);
                 }
-                else 
+                else
                 {
                     DataSet dataSet = ProcessRequest(FileName, 1000, config, config.RequestViolationAuditDetailAPI, RequestViolationAuditDetailsPath, _fname);
                 }
@@ -312,7 +231,317 @@ namespace ICDProcessService
             }
             return data;
         }
-        //15.7 SyncTime Request Page Number-99
+        #endregion
+
+        #region 15.1 Request Pay Details   Page Number-60
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="TransactionId">TransactionId should be unique for per plaza and transactionId generation logic should be combination of PlazaId + LaneId (Last three digits)+TransactionDateTime.</param>
+        /// <param name="config"></param>
+        /// <param name="RequestPaymentDetailsPath"></param>
+        /// <returns></returns>
+        public static ICDRequestPaymentDetailsIL ProcessReqPayRequest(ICDRequestPaymentDetailsIL data, ICDConfig config, string RequestPaymentDetailsPath)
+        {
+            try
+            {
+                DataSet dataSet;
+                string FileName = RequestPaymentDetailsPath + "\\" + Convert.ToString(data.MessageId) + "_.xml";
+                string SignedFileName = RequestPaymentDetailsPath + "\\" + Convert.ToString(data.MessageId) + ".xml";
+                string _fname = Convert.ToString(data.MessageId) + ".xml";
+                data.RequestDateTime = DateTime.Now;
+                #region Xml Writer
+                XmlWriter writer = XmlWriter.Create(FileName, GetSettingFile());
+                
+                #region Start Document 
+                writer.WriteStartDocument();
+                #region Root
+                writer.WriteStartElement("etc", "ReqPay", "http://npci.org/etc/schema/");
+
+                #region Head
+                writer.WriteStartElement("Head");
+                writer.WriteAttributeString("msgId", Convert.ToString(data.MessageId));
+                writer.WriteAttributeString("orgId", Convert.ToString(config.OrgId));
+                writer.WriteAttributeString("ts", data.RequestDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("ver", Convert.ToString(config.APIVersion));
+                writer.WriteEndElement();
+                #endregion
+
+                #region Meta
+                writer.WriteStartElement("Meta");
+                writer.WriteEndElement();
+                #endregion
+
+                #region Transaction
+                writer.WriteStartElement("Txn");
+                writer.WriteAttributeString("id", data.ICDTransactionId);
+                writer.WriteAttributeString("note", data.Note);
+                writer.WriteAttributeString("orgTxnId", "");
+                writer.WriteAttributeString("refId", data.RefId);
+                writer.WriteAttributeString("refUrl", data.RefUrl);
+                writer.WriteAttributeString("ts", data.TransactionDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("type", data.ICDTransactionTypeName);
+                #region Entry Txn
+                writer.WriteStartElement("EntryTxn");
+                writer.WriteAttributeString("id", data.ICDTransactionId);
+                writer.WriteAttributeString("ts", data.TransactionDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("type", data.ICDTransactionTypeName);
+                writer.WriteAttributeString("tsRead", data.TagReadDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteEndElement();
+                #endregion
+                writer.WriteEndElement();
+                #endregion
+
+                #region Plaza
+                writer.WriteStartElement("Plaza");
+                writer.WriteAttributeString("geoCode", data.PlazaDetail.PlazaGeoCode);
+                writer.WriteAttributeString("id", data.PlazaDetail.PlazaZoneId.ToString());
+                writer.WriteAttributeString("name", data.PlazaDetail.PlazaName);
+                writer.WriteAttributeString("subtype", data.PlazaDetail.PlazaState);
+                writer.WriteAttributeString("type", "Toll");
+
+                #region Entry Plaza
+                writer.WriteStartElement("EntryPlaza");
+                writer.WriteAttributeString("geoCode", data.PlazaDetail.PlazaGeoCode);
+                writer.WriteAttributeString("id", data.PlazaDetail.PlazaZoneId.ToString());
+                writer.WriteAttributeString("name", data.PlazaDetail.PlazaName);
+                writer.WriteAttributeString("subtype", data.PlazaDetail.PlazaState);
+                writer.WriteAttributeString("type", "Toll");
+                writer.WriteEndElement();
+                #endregion
+
+                #region Lane
+                writer.WriteStartElement("Lane");
+                writer.WriteAttributeString("direction", data.LaneDetail.LaneDirectionName);
+                writer.WriteAttributeString("id", data.LaneDetail.LaneNumber);
+                writer.WriteAttributeString("readerId", data.LaneDetail.ReaderName);
+                writer.WriteAttributeString("Status", data.LaneDetail.LaneStatusName);
+                writer.WriteAttributeString("Mode", data.LaneDetail.LaneModeName);
+                writer.WriteAttributeString("laneType", data.LaneDetail.LaneTypeName);
+                writer.WriteAttributeString("ExitGate", "");
+                writer.WriteAttributeString("Floor", "");
+                writer.WriteEndElement();
+                #endregion
+
+                #region Entry Lane
+                writer.WriteStartElement("EntryLane");
+                writer.WriteAttributeString("direction", data.LaneDetail.LaneDirectionName);
+                writer.WriteAttributeString("id", data.LaneDetail.LaneNumber);
+                writer.WriteAttributeString("readerId", data.LaneDetail.ReaderName);
+                writer.WriteAttributeString("Status", data.LaneDetail.LaneStatusName);
+                writer.WriteAttributeString("Mode", data.LaneDetail.LaneModeName);
+                writer.WriteAttributeString("laneType", data.LaneDetail.LaneTypeName);
+                writer.WriteAttributeString("EntryGate", "");
+                writer.WriteAttributeString("Floor", "");
+                writer.WriteEndElement();
+                #endregion
+
+                #region Reader Verification Result
+                writer.WriteStartElement("ReaderVerificationResult");
+                writer.WriteAttributeString("publicKeyCVV", data.PublicKeyCVV);
+                writer.WriteAttributeString("procRestrictionResult", data.ProcRestrictionResult);
+                writer.WriteAttributeString("signAuth", data.SignAuthName);
+                writer.WriteAttributeString("tagVerified", data.TagVerifiedName);
+                writer.WriteAttributeString("ts", data.TransactionDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("txnCounter", data.TransactionCounter.ToString());
+                writer.WriteAttributeString("txnStatus", data.TransactionStatusName);
+                writer.WriteAttributeString("vehicleAuth", data.VehicleAuthName);
+
+                #region Tag User Memory
+                writer.WriteStartElement("TagUserMemory");
+                #region TAG ID
+                writer.WriteStartElement("Detail");
+                writer.WriteAttributeString("name", "TagSignature"); writer.WriteAttributeString("value", data.TagId);
+                writer.WriteEndElement();
+                #endregion
+
+                #region TAG VRN
+                writer.WriteStartElement("Detail");
+                writer.WriteAttributeString("name", "TagVRN");
+                writer.WriteAttributeString("value", data.TagVRN);
+                writer.WriteEndElement();
+                #endregion
+
+                #region TAG Class
+                writer.WriteStartElement("Detail");
+                writer.WriteAttributeString("name", "TagVC");
+                writer.WriteAttributeString("value", data.TagClass);
+                writer.WriteEndElement();
+                #endregion
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+                #region Vehicle
+                writer.WriteStartElement("Vehicle");
+                writer.WriteAttributeString("TID", data.TagId);
+                writer.WriteAttributeString("tagId", data.TagId);
+                writer.WriteAttributeString("staticweight", Convert.ToString(data.StaticWeight));
+                writer.WriteAttributeString("wim", Convert.ToString(data.WimWeight));
+
+                #region Vehicle Details
+                writer.WriteStartElement("VehicleDetails");
+
+                #region Detail-AVC
+                writer.WriteStartElement("Detail");
+                writer.WriteAttributeString("name", "AVC");
+                writer.WriteAttributeString("value", data.AvcClass);
+                writer.WriteEndElement();
+                #endregion
+
+                #region Detail-LP
+                writer.WriteStartElement("Detail");
+                writer.WriteAttributeString("name", "LPNumber");
+                writer.WriteAttributeString("value", data.LicensePlateNumber);
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+                #region Payment
+                writer.WriteStartElement("Payment");
+
+                #region Amount
+                writer.WriteStartElement("Amount");
+                writer.WriteAttributeString("curr", data.RequestCurrency);
+                writer.WriteAttributeString("value", Convert.ToString(data.TollAmount));
+                writer.WriteAttributeString("PriceMode", data.PriceModeName);
+                writer.WriteAttributeString("IsOverWeightCharged", Convert.ToString(data.IsOverWeightCharged));
+                writer.WriteAttributeString("PaymentMode", "Tag");
+
+                #region Overwight Amount
+                writer.WriteStartElement("OverwightAmount");
+                writer.WriteAttributeString("curr", "INR");
+                writer.WriteAttributeString("value", Convert.ToString(data.OverwightAmount));
+                writer.WriteAttributeString("PaymentMode", "Tag");
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+                writer.WriteEndElement();
+                #endregion
+                writer.WriteEndElement();
+                #endregion
+                writer.WriteEndDocument();
+                #endregion
+
+                writer.Flush();
+                writer.Close();
+                #endregion
+
+                if (data.IsSignatureRequired)
+                {
+                    SignXmlFile(FileName, SignedFileName, config);
+                    dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestTagDetails, RequestPaymentDetailsPath, _fname);
+                }
+                else
+                {
+                    dataSet = ProcessRequest(FileName, 1000, config, config.RequestTagDetails, RequestPaymentDetailsPath, _fname);
+                }
+                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Send;
+            }
+            catch (Exception ex)
+            {
+                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Generated;
+                throw ex;
+            }
+            return data;
+        }
+        #endregion
+
+        #region 15.5 Request Tag Details   Page Number-91
+        public static ICDTagDetailsIL ProcessTagDetailsRequest(ICDTagDetailsIL data, ICDConfig config, string RequestTagDetailsPath)
+        {
+            try
+            {
+                DataSet dataSet;
+                string FileName = RequestTagDetailsPath + "\\" + Convert.ToString(data.MessageId) + "_.xml";
+                string SignedFileName = RequestTagDetailsPath + "\\" + Convert.ToString(data.MessageId) + ".xml";
+                string _fname = Convert.ToString(data.MessageId) + ".xml";
+                data.RequestDateTime = DateTime.Now;
+                #region Xml Writer
+                XmlWriter writer = XmlWriter.Create(FileName, GetSettingFile());
+                #region Start Document 
+                writer.WriteStartDocument();
+                #region Root
+                writer.WriteStartElement("etc", "ReqTagDetails", "http://npci.org/etc/schema/");
+                #region Head
+                writer.WriteStartElement("Head");
+                writer.WriteAttributeString("msgId", Convert.ToString(data.MessageId));
+                writer.WriteAttributeString("orgId", Convert.ToString(config.OrgId));
+                writer.WriteAttributeString("ts", data.RequestDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("ver", Convert.ToString(config.APIVersion));
+                writer.WriteEndElement();
+                #endregion
+                #region Transaction
+                writer.WriteStartElement("Txn");
+                writer.WriteAttributeString("note", data.Note);
+                writer.WriteAttributeString("refId", data.RefId);
+                writer.WriteAttributeString("refUrl", data.RefUrl);
+                writer.WriteAttributeString("ts", data.TransactionDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("type", "FETCH");
+                writer.WriteAttributeString("orgTxnId", "");
+                writer.WriteAttributeString("id", Convert.ToString(data.MessageId));
+                #region Vehicle
+                writer.WriteStartElement("Vehicle");
+                writer.WriteAttributeString("vehicleRegNo", data.VRN);
+                writer.WriteAttributeString("TID", data.TID);
+                writer.WriteAttributeString("tagId", data.TagId);
+                writer.WriteEndElement();
+                writer.WriteEndElement();
+                #endregion
+                #endregion
+                #endregion
+                writer.WriteEndDocument();
+                #endregion
+                writer.Flush();
+                writer.Close();
+                #endregion
+
+                if (data.IsSignatureRequired)
+                {
+                    SignXmlFile(FileName, SignedFileName, config);
+                    dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestTagDetails, RequestTagDetailsPath, _fname);
+                }
+                else
+                {
+                    dataSet = ProcessRequest(FileName, 1000, config, config.RequestTagDetails, RequestTagDetailsPath, _fname);
+                }
+                foreach (DataTable table in dataSet.Tables)
+                {
+                    if (table.TableName.Equals("Detail"))
+                    {
+                        string VEHICLECLASS = table.Rows[0]["value"].ToString();
+                        string REGNUMBER = table.Rows[1]["value"].ToString();
+                        string TAGSTATUS = table.Rows[2]["value"].ToString();
+                        string EXCCODE = table.Rows[3]["value"].ToString();
+                        string TAGID = table.Rows[4]["value"].ToString();
+                        data.TID = table.Rows[5]["value"].ToString();
+                        string COMVEHICLE = table.Rows[6]["value"].ToString();
+                    }
+                };
+                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Send;
+            }
+            catch (Exception ex)
+            {
+                data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Generated;
+                throw ex;
+            }
+            return data;
+        }
+        #endregion
+
+        #region 15.7 SyncTime Request Page Number-99
         public static ICDSyncTimeDetailsIL ProcessSyncTimeDetailsRequest(ICDSyncTimeDetailsIL data, ICDConfig config, string RequestSyncTimeDetailsPath)
         {
             try
@@ -360,14 +589,15 @@ namespace ICDProcessService
             }
             return data;
         }
+        #endregion
 
-        //Toll Plaza Heart Beat Page Number-103
-        public static ICDHeartBeatDetailsIL ProcessSyncTimeDetailsRequest(ICDHeartBeatDetailsIL data, ICDConfig config, string RequestSyncTimeDetailsPath)
+        #region 15.9 Toll Plaza Heart Beat Page Number-103
+        public static ICDHeartBeatDetailsIL ProcessHeartBeatDetailsRequest(ICDHeartBeatDetailsIL data, ICDConfig config, string RequestHeartBeatDetailsPath)
         {
             try
             {
-                string FileName = RequestSyncTimeDetailsPath + "\\" + Convert.ToString(data.MessageId) + "_.xml";
-                string SignedFileName = RequestSyncTimeDetailsPath + "\\" + Convert.ToString(data.MessageId) + ".xml";
+                string FileName = RequestHeartBeatDetailsPath + "\\" + Convert.ToString(data.MessageId) + "_.xml";
+                string SignedFileName = RequestHeartBeatDetailsPath + "\\" + Convert.ToString(data.MessageId) + ".xml";
                 string _fname = Convert.ToString(data.MessageId) + ".xml";
                 data.RequestDateTime = DateTime.Now;
                 #region XML Writer
@@ -375,7 +605,7 @@ namespace ICDProcessService
                 #region Start Document
                 writer.WriteStartDocument();
                 #region Root
-                writer.WriteStartElement("etc", "ReqSyncTime", "http://npci.org/etc/schema/");
+                writer.WriteStartElement("etc", "TollplazaHbeatReq", "http://npci.org/etc/schema/");
                 #region Head
                 writer.WriteStartElement("Head");
                 writer.WriteAttributeString("msgId", Convert.ToString(data.MessageId));
@@ -384,6 +614,70 @@ namespace ICDProcessService
                 writer.WriteAttributeString("ver", Convert.ToString(config.APIVersion));
                 writer.WriteEndElement();
                 #endregion
+
+                #region TXN
+                writer.WriteStartElement("Txn");
+                writer.WriteAttributeString("id", data.TransactionId);
+                writer.WriteAttributeString("note", data.Note);
+                writer.WriteAttributeString("refId", data.RefId);
+                writer.WriteAttributeString("refUrl", data.RefUrl);
+                writer.WriteAttributeString("ts", data.RequestDateTime.ToString(SystemConstants.dateTimeFormatICDFormat));
+                writer.WriteAttributeString("type", "Hbt");
+                writer.WriteAttributeString("orgTxnId", data.OrgTransactionId);
+
+                #region Meta
+                writer.WriteStartElement("Meta");
+                //writer.WriteStartElement("Meta1");
+                //writer.WriteAttributeString("value", "");
+                //writer.WriteAttributeString("name", "");
+                //writer.WriteEndElement();
+                //writer.WriteStartElement("Meta2");
+                //writer.WriteAttributeString("value", "");
+                //writer.WriteAttributeString("name", "");
+                //writer.WriteEndElement();
+                writer.WriteEndElement();
+                #endregion
+
+                #region HbtMsg
+                writer.WriteStartElement("HbtMsg");
+                writer.WriteAttributeString("type", "ALIVE");
+                writer.WriteAttributeString("acquirerId", data.PlazaDetail.PlazaAcquirerId.ToString());
+                writer.WriteEndElement();
+                #endregion
+
+                #region Plaza
+                writer.WriteStartElement("Plaza");
+                writer.WriteAttributeString("geoCode", data.PlazaDetail.PlazaGeoCode);
+                writer.WriteAttributeString("id", data.PlazaDetail.PlazaZoneId.ToString());
+                writer.WriteAttributeString("name", data.PlazaDetail.PlazaName);
+                writer.WriteAttributeString("subtype", data.PlazaDetail.PlazaState);
+                writer.WriteAttributeString("type", "Toll");
+                writer.WriteAttributeString("address", data.PlazaDetail.PlazaAddress);
+                writer.WriteAttributeString("fromDistrict", data.PlazaDetail.PlazaFromDistrict);
+                writer.WriteAttributeString("toDistrict", data.PlazaDetail.PlazaToDistrict);
+                writer.WriteAttributeString("agencyCode", data.PlazaDetail.PlazaAgencyCode);
+
+                #region Lane
+                foreach (ICDLaneDetailsIL item in data.LaneDetails)
+                {
+                    writer.WriteStartElement("Lane");
+                    writer.WriteAttributeString("id", item.LaneNumber);
+                    writer.WriteAttributeString("direction", item.LaneDirectionName);
+                    writer.WriteAttributeString("readerId", item.ReaderName);
+                    writer.WriteAttributeString("Status", item.LaneStatusName);
+                    writer.WriteAttributeString("Mode", item.LaneModeName);
+                    writer.WriteAttributeString("laneType", item.LaneTypeName);
+                    writer.WriteEndElement();
+                }
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+                writer.WriteEndElement();
+                #endregion
+
+
                 writer.WriteEndElement();
                 #endregion
                 writer.WriteEndDocument();
@@ -394,11 +688,11 @@ namespace ICDProcessService
                 if (data.IsSignatureRequired)
                 {
                     SignXmlFile(FileName, SignedFileName, config);
-                    DataSet dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestSyncTime, RequestSyncTimeDetailsPath, _fname);
+                    DataSet dataSet = ProcessRequest(SignedFileName, 1000, config, config.RequestSyncTime, RequestHeartBeatDetailsPath, _fname);
                 }
                 else
                 {
-                    DataSet dataSet = ProcessRequest(FileName, 1000, config, config.RequestViolationAuditDetailAPI, RequestSyncTimeDetailsPath, _fname);
+                    DataSet dataSet = ProcessRequest(FileName, 1000, config, config.RequestViolationAuditDetailAPI, RequestHeartBeatDetailsPath, _fname);
                 }
                 data.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Send;
             }
@@ -409,6 +703,7 @@ namespace ICDProcessService
             }
             return data;
         }
+        #endregion
 
         #region Helper Method
         static XmlWriterSettings GetSettingFile()

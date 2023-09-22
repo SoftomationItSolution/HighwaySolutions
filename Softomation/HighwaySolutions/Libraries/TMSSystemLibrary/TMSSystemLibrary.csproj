@@ -101,9 +101,12 @@
     <Compile Include="BL\FloatTransactionsTypeBL.cs" />
     <Compile Include="BL\ICDCashDetailResponseBL.cs" />
     <Compile Include="BL\ICDHeartBeatDetailsBL.cs" />
+    <Compile Include="BL\ICDLaneDetailsBL.cs" />
     <Compile Include="BL\ICDNotificationResponseBL.cs" />
+    <Compile Include="BL\ICDPlazaDetailsBL.cs" />
     <Compile Include="BL\ICDQueryExceptionResponseBL.cs" />
     <Compile Include="BL\ICDPaymentResponseBL.cs" />
+    <Compile Include="BL\ICDRequestPaymentDetailsBL.cs" />
     <Compile Include="BL\ICDTagDetailsBL.cs" />
     <Compile Include="BL\ICDSyncTimeDetailsBL.cs" />
     <Compile Include="BL\ICDTransactionStatusResponseBL.cs" />
@@ -137,8 +140,10 @@
     <Compile Include="DL\ICDCashDetailResponseDL.cs" />
     <Compile Include="DL\ICDLaneDetailsDL.cs" />
     <Compile Include="DL\ICDNotificationResponseDL.cs" />
+    <Compile Include="DL\ICDPlazaDetailsDL.cs" />
     <Compile Include="DL\ICDQueryExceptionResponseDL.cs" />
     <Compile Include="DL\ICDHeartBeatDetailsDL.cs" />
+    <Compile Include="DL\ICDRequestPaymentDetailsDL.cs" />
     <Compile Include="DL\ICDTagDetailsDL.cs" />
     <Compile Include="DL\ICDSyncTimeDetailsDL.cs" />
     <Compile Include="DL\ICDTransactionStatusResponseDL.cs" />
@@ -168,6 +173,8 @@
     <Compile Include="IL\ICDCommonIL.cs" />
     <Compile Include="IL\ICDLaneDetailsIL.cs" />
     <Compile Include="IL\ICDNotificationResponseIL.cs" />
+    <Compile Include="IL\ICDPlazaDetailsIL.cs" />
+    <Compile Include="IL\ICDRequestPaymentDetailsIL.cs" />
     <Compile Include="IL\ICDViolationAuditDetailsRequestIL.cs" />
     <Compile Include="IL\ReportMasterIL.cs" />
     <Compile Include="IL\DataFilterIL.cs" />

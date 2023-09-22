@@ -79,7 +79,7 @@ export class LaneConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '338px';
+      dialogConfig.height = '538px';
       dialogConfig.data = { action: 'Save', LaneId: 0 };
       const dialogRef = this.dialog.open(LaneConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -102,7 +102,7 @@ export class LaneConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '338px';
+      dialogConfig.height = '538px';
       dialogConfig.data = { action: 'Update', LaneId: data.LaneId };
       const dialogRef = this.dialog.open(LaneConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

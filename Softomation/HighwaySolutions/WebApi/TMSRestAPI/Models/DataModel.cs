@@ -286,19 +286,21 @@ namespace TMSRestAPI.Models
             {
                 DataSet dataSet = new DataSet();
                 dataSet.ReadXml(@"" + icd.FilePath + icd.FileReadLocation);
-                icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
-                icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]);
-                icd.TransactionHeadDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
                 icd.ApiVersion = Convert.ToString(dataSet.Tables["Head"].Rows[0]["ver"]);
+                icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Head"].Rows[0]["ts"]);
+                icd.OrganizationId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["orgId"]); 
+                icd.MessageId = Convert.ToString(dataSet.Tables["Head"].Rows[0]["msgId"]);
+              
                 icd.TransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["id"]);
                 icd.Note = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["note"]);
-                icd.OrgTransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["orgTxnId"]);
                 icd.RefId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refId"]);
                 icd.RefUrl = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["refUrl"]);
                 icd.TransactionDateTime = Convert.ToDateTime(dataSet.Tables["Txn"].Rows[0]["ts"]);
-                icd.OrgTransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["type"]);
+                icd.OrgTransactionId = Convert.ToString(dataSet.Tables["Txn"].Rows[0]["orgTxnId"]);
+                
+              
                 if (!string.IsNullOrEmpty(Convert.ToString(dataSet.Tables["Resp"].Rows[0]["errcode"])))
-                    icd.AcquirerId = Convert.ToInt32(dataSet.Tables["Resp"].Rows[0]["errcode"]);
+                    icd.ErrorCode = Convert.ToInt32(dataSet.Tables["Resp"].Rows[0]["errcode"]);
                 icd.ResponseResult = Convert.ToString(dataSet.Tables["Resp"].Rows[0]["result"]);
                 icd.ResponseDateTime = Convert.ToDateTime(dataSet.Tables["Resp"].Rows[0]["ts"]);
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + ".xml read successfully.");

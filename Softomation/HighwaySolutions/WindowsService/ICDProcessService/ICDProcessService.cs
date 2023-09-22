@@ -36,6 +36,12 @@ namespace ICDProcessService
 
         private Thread SyncTimeRequestThread;
         private volatile Boolean stopSyncTimeRequest = false;
+
+        private Thread HeartBeatRequestThread;
+        private volatile Boolean stopHearBeatRequest = false;
+
+        private Thread ReqPayRequestThread;
+        private volatile Boolean stopReqPayRequest = false;
         #endregion
 
         #region ICD Config
@@ -109,6 +115,19 @@ namespace ICDProcessService
             {
                 try
                 {
+                    LogMessage("Starting ReqPay thread...");
+                    ReqPayRequestThread = new Thread(new ThreadStart(this.ReqPayRequestThreadFunction));
+                    ReqPayRequestThread.IsBackground = true;
+                    ReqPayRequestThread.Start();
+                    LogMessage("The ReqPay has been started.");
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("Error in starting ReqPay thread function. " + ex.ToString());
+                }
+
+                try
+                {
                     LogMessage("Starting TagRequestThread thread...");
                     TagRequestThread = new Thread(new ThreadStart(this.TagRequestThreadFunction));
                     TagRequestThread.IsBackground = true;
@@ -143,7 +162,20 @@ namespace ICDProcessService
                 }
                 catch (Exception ex)
                 {
-                    LogMessage("Error in starting ViolationAuditRequest thread function. ICDPS cannot be started. " + ex.ToString());
+                    LogMessage("Error in starting ViolationAuditRequest thread function. " + ex.ToString());
+                }
+
+                try
+                {
+                    LogMessage("Starting HearBeatRequest thread...");
+                    HeartBeatRequestThread = new Thread(new ThreadStart(this.HeartBeatRequestThreadFunction));
+                    HeartBeatRequestThread.IsBackground = true;
+                    HeartBeatRequestThread.Start();
+                    LogMessage("The HearBeatRequest has been started.");
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("Error in starting HearBeatRequest thread function. " + ex.ToString());
                 }
             }
             #endregion
@@ -152,6 +184,34 @@ namespace ICDProcessService
         protected override void OnStop()
         {
         }
+
+        #region ReqPay Request
+        private void ReqPayRequestThreadFunction()
+        {
+            stopTagRequest = false;
+            while (!stopTagRequest)
+            {
+                try
+                {
+                    List<ICDRequestPaymentDetailsIL> data = ICDRequestPaymentDetailsBL.GetPendingRequest();
+                    foreach (ICDRequestPaymentDetailsIL item in data)
+                    {
+                        GenerateRequestDetails.ProcessReqPayRequest(item, icdConfig, requestDirectoryConfig.RequestPay);
+                        ICDRequestPaymentDetailsBL.RequestProcess(item);
+                        Thread.Sleep(50);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("ReqPayRequestThreadFunction: Error " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(50);
+                }
+            }
+        }
+        #endregion
 
         #region Tag Request
         private void TagRequestThreadFunction()
@@ -209,7 +269,7 @@ namespace ICDProcessService
         }
         #endregion
 
-        #region Violation Audit Request
+        #region Sync Time Request
         private void SyncTimeRequestThreadFunction()
         {
             stopSyncTimeRequest = false;
@@ -236,6 +296,35 @@ namespace ICDProcessService
             }
         }
         #endregion
+
+        #region Heart Beat Request
+        private void HeartBeatRequestThreadFunction()
+        {
+            stopHearBeatRequest = false;
+            while (!stopHearBeatRequest)
+            {
+                try
+                {
+                    List<ICDHeartBeatDetailsIL> data = ICDHeartBeatDetailsBL.GetPendingRequest();
+                    foreach (ICDHeartBeatDetailsIL item in data)
+                    {
+                        GenerateRequestDetails.ProcessHeartBeatDetailsRequest(item, icdConfig, requestDirectoryConfig.RequestSyncTime);
+                        ICDHeartBeatDetailsBL.RequestProcess(item);
+                        Thread.Sleep(50);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("HeartBeatRequestThreadFunction: Error " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(50);
+                }
+            }
+        }
+        #endregion
+
         #region Log Methods
         private void LogMessage(String message)
         {

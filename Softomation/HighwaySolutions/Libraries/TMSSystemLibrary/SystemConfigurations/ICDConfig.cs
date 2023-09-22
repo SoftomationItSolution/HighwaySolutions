@@ -14,12 +14,12 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
         string passPrase;
         bool certificateValidation;
         string requestQueryExceptionList;
-        string requestSyncTime;
-        string requestTagDetails;
+        string requestSyncTime; //Done
+        string requestTagDetails; //Done
         string requestCheckTransactionStatus;
-        string requestTollPlazaHeartBeat;
+        string requestTollPlazaHeartBeat; //Done
         string requestPay;
-        string requestViolationAuditDetailAPI;
+        string requestViolationAuditDetailAPI; //Done
         string requestCashApi;
 
         public ICDConfig()
@@ -207,6 +207,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 certificateValidation = value;
             }
         }
+        
+
         public static ICDConfig Deserialize()
         {
             ICDConfig config = null;

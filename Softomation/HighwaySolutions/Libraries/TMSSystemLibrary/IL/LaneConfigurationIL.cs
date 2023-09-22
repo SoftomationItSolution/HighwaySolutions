@@ -10,10 +10,17 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String laneName;
         Int16 laneTypeId;
         String laneTypeName;
+        Int16 lanePositionId;
+        String lanePositionName;
+        Int16 lanePointId;
+        String lanePointName;
         Int16 laneDirectionId;
         String laneDirectionName;
+        Int16 laneStatusId;
+        String laneStatusName;
+        Int16 laneModeId;
+        String laneModeName;
         String laneSystemIpAddress;
-
 
         public LaneConfigurationIL()
         {
@@ -22,8 +29,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             this.laneName = string.Empty;
             this.laneTypeId = 0;
             this.laneTypeName = string.Empty;
+            this.lanePositionId = 0;
+            this.lanePositionName = string.Empty;
+            this.lanePointId = 0;
+            this.lanePointName = string.Empty;
             this.laneDirectionId = 0;
             this.laneDirectionName = string.Empty;
+            this.laneStatusId = 0;
+            this.laneStatusName = string.Empty;
+            this.laneModeId = 0;
+            this.laneModeName = string.Empty;
             this.laneSystemIpAddress = string.Empty;
         }
 
@@ -47,6 +62,22 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => laneTypeName; set => laneTypeName = value;
         }
+        public short LanePositionId
+        {
+            get => lanePositionId; set => lanePositionId = value;
+        }
+        public string LanePositionName
+        {
+            get => lanePositionName; set => lanePositionName = value;
+        }
+        public short LanePointId
+        {
+            get => lanePointId; set => lanePointId = value;
+        }
+        public string LanePointName
+        {
+            get => lanePointName; set => lanePointName = value;
+        }
         public short LaneDirectionId
         {
             get => laneDirectionId; set => laneDirectionId = value;
@@ -55,9 +86,26 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         {
             get => laneDirectionName; set => laneDirectionName = value;
         }
+        public short LaneStatusId
+        {
+            get => laneStatusId; set => laneStatusId = value;
+        }
+        public string LaneStatusName
+        {
+            get => laneStatusName; set => laneStatusName = value;
+        }
+        public short LaneModeId
+        {
+            get => laneModeId; set => laneModeId = value;
+        }
+        public string LaneModeName
+        {
+            get => laneModeName; set => laneModeName = value;
+        }
         public string LaneSystemIpAddress
         {
             get => laneSystemIpAddress; set => laneSystemIpAddress = value;
         }
+       
     }
 }

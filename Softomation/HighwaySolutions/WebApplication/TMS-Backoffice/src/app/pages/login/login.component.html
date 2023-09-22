@@ -57,7 +57,8 @@
                                             <img src="assets/images/nhai_tp.png" width="100%" alt="logo">
                                         </div>
                                         <div class="mt-4 text-center">
-                                            <p class="text-muted"><i class="mdi mdi-google-maps me-1"></i>
+                                            <p class="text-muted" *ngIf="ProjectDetails!=null">
+                                                <i class="mdi mdi-google-maps me-1"></i>
                                                 {{ProjectDetails.RoadName}},
                                                 <br>{{ProjectDetails.ProjectName}},
                                                 <br>{{ProjectDetails.PlazaName}},

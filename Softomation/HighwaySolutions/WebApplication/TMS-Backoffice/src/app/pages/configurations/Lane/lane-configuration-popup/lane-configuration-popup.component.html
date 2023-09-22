@@ -27,6 +27,12 @@
                         required.</small>
                 </div>
                 <div class="col-md-6">
+                    <label for="LaneName">Lane Name</label>
+                    <input formControlName="LaneName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LaneName')">Lane name is required.</small>
+                </div>
+                <div class="col-md-6">
                     <label for="LaneTypeId">Lane Type</label>
                     <p-dropdown appendTo="body" formControlName="LaneTypeId" inputId="LaneTypeId"
                         [options]="LaneTypeList" optionLabel="DataName" optionValue="DataId"
@@ -36,12 +42,48 @@
                         required.</small>
                 </div>
                 <div class="col-md-6">
+                    <label for="LanePositionId">Lane Position</label>
+                    <p-dropdown appendTo="body" formControlName="LanePositionId" inputId="LanePositionId"
+                        [options]="LanePositionList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LanePositionId')">Lane Position is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LanePointId">Lane Point</label>
+                    <p-dropdown appendTo="body" formControlName="LanePointId" inputId="LanePointId"
+                        [options]="LanePointList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LanePointId')">Lane Point is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
                     <label for="LaneDirectionId">Lane Direction</label>
                     <p-dropdown appendTo="body" formControlName="LaneDirectionId" inputId="LaneDirectionId"
                         [options]="LaneDirectionList" optionLabel="DataName" optionValue="DataId"
                         placeholder="Select" class="form-control select2"></p-dropdown>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','LaneDirectionId')">Lane Direction is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneStatusId">Lane Status</label>
+                    <p-dropdown appendTo="body" formControlName="LaneStatusId" inputId="LaneStatusId"
+                        [options]="LaneStatusList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneStatusId')">Lane Status is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LaneModeId">Lane Mode</label>
+                    <p-dropdown appendTo="body" formControlName="LaneModeId" inputId="LaneModeId"
+                        [options]="LaneModeList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneModeId')">Lane Mode is
                         required.</small>
                 </div>
                 <div class="col-md-6">
