@@ -23,20 +23,55 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             {
                 string spName = "USP_ICDRequestPayDetailsRequest";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestHeartBeatId", DbType.Int64, ed.RequestHeartBeatId, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.String, ed.MessageId, ParameterDirection.Input, 35));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, ed.TransactionId, ParameterDirection.Input, 22));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestDateTime", DbType.DateTime, ed.RequestDateTime, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Note", DbType.String, ed.Note, ParameterDirection.Input, 50));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RefId", DbType.String, ed.RefId, ParameterDirection.Input, 35));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RefUrl", DbType.String, ed.RefUrl, ParameterDirection.Input, 35));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionDateTime", DbType.DateTime, ed.TransactionDateTime, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@OrgTransactionId", DbType.String, ed.OrgTransactionId, ParameterDirection.Input, 36));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseResult", DbType.String, ed.ResponseResult, ParameterDirection.Input, 10));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseDateTime", DbType.DateTime, ed.ResponseDateTime, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ErrorCode", DbType.Int32, ed.ErrorCode, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageType", DbType.Boolean, ed.MessageType, ParameterDirection.Input));
-                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestStatusId", DbType.Int16, ed.RequestStatusId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestPaymentId", DbType.Int64, ed.RequestPaymentId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaTransactionId", DbType.Int64, ed.PlazaTransactionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ICDTransactionId", DbType.String, ed.ICDTransactionId, ParameterDirection.Input, 22));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.String, ed.MessageId, ParameterDirection.Input, 35));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestDateTime", DbType.DateTime, ed.RequestDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@OrgTransactionId", DbType.String, ed.OrgTransactionId, ParameterDirection.Input, 36));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Note", DbType.String, ed.Note, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RefId", DbType.String, ed.RefId, ParameterDirection.Input, 35));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RefUrl", DbType.String, ed.RefUrl, ParameterDirection.Input, 35));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionDateTime", DbType.DateTime, ed.TransactionDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ICDTransactionTypeId", DbType.Int16, ed.ICDTransactionTypeId, ParameterDirection.Input, 36));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagReadDateTime", DbType.DateTime, ed.TagReadDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagReadDateTime", DbType.Int16, ed.TagReadDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlazaId", DbType.Int16, ed.PlazaId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneId", DbType.Int16, ed.LaneId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneStatusId", DbType.Int16, ed.LaneStatusId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SignAuthId", DbType.Int16, ed.SignAuthId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagVerifiedId", DbType.Int16, ed.TagVerifiedId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ProcRestrictionResult", DbType.String, ed.ProcRestrictionResult, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleAuthId", DbType.Int16, ed.VehicleAuthId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionCounter", DbType.Int64, ed.TransactionCounter, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionStatusId", DbType.Int16, ed.TransactionStatusId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PublicKeyCVV", DbType.String, ed.PublicKeyCVV, ParameterDirection.Input, 32));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagId", DbType.String, ed.TagId, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagVRN", DbType.String, ed.TagVRN, ParameterDirection.Input, 20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TagClass", DbType.String, ed.TagClass, ParameterDirection.Input, 5));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TID", DbType.String, ed.TID, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StaticWeight", DbType.Decimal, ed.StaticWeight, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WimWeight", DbType.Decimal, ed.WimWeight, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@AVC", DbType.String, ed.AvcClass, ParameterDirection.Input,5));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LicensePlateNumber", DbType.String, ed.LicensePlateNumber, ParameterDirection.Input,20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestCurrency", DbType.String, ed.RequestCurrency, ParameterDirection.Input,5));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TollAmount", DbType.Decimal, ed.TollAmount, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PriceModeId", DbType.Int16, ed.PriceModeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsOverWeightCharged", DbType.Boolean, ed.IsOverWeightCharged, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PaymentModeId", DbType.Int16, ed.PaymentModeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@OverwightAmount", DbType.Decimal, ed.OverwightAmount, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseCode", DbType.Int32, ed.ResponseCode, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseResult", DbType.String, ed.ResponseResult, ParameterDirection.Input, 10));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseDateTime", DbType.DateTime, ed.ResponseDateTime, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ErrorCode", DbType.Int32, ed.ErrorCode, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FareTypeId", DbType.Int16, ed.FareTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionLiability", DbType.String, ed.TransactionLiability, ParameterDirection.Input,36));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ApprovalNummber", DbType.String, ed.ApprovalNummber, ParameterDirection.Input,4));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ResponseTollFare", DbType.Decimal, ed.ResponseTollFare, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsCommercialVehicle", DbType.Boolean, ed.IsCommercialVehicle, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RequestStatusId", DbType.Int16, ed.RequestStatusId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsResponseProcessError", DbType.Boolean, ed.IsResponseProcessError, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageType", DbType.Boolean, ed.MessageType, ParameterDirection.Input));
                 DataTable dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
             }
@@ -125,10 +160,10 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["ProcRestrictionResult"] != DBNull.Value)
                 ed.ProcRestrictionResult = Convert.ToString(dr["ProcRestrictionResult"]);
-           
+
             if (dr["VehicleAuthId"] != DBNull.Value)
                 ed.VehicleAuthId = Convert.ToInt16(dr["VehicleAuthId"]);
-            
+
             if (dr["TransactionCounter"] != DBNull.Value)
                 ed.TransactionCounter = Convert.ToInt64(dr["TransactionCounter"]);
 
@@ -179,7 +214,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
 
             if (dr["OverwightAmount"] != DBNull.Value)
                 ed.OverwightAmount = Convert.ToDecimal(dr["OverwightAmount"]);
-            
+
             if (dr["ResponseCode"] != DBNull.Value)
                 ed.ResponseCode = Convert.ToInt32(dr["ResponseCode"]);
 
@@ -210,7 +245,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["RequestStatusId"] != DBNull.Value)
                 ed.RequestStatusId = Convert.ToInt16(dr["RequestStatusId"]);
 
-            
+
 
             ed.LaneStatusName = Enum.GetName(typeof(SystemConstants.ICDLaneStatusType), (SystemConstants.ICDLaneStatusType)ed.LaneStatusId);
             ed.FareTypeName = Enum.GetName(typeof(SystemConstants.ICDFareType), (SystemConstants.ICDFareType)ed.FareTypeId);

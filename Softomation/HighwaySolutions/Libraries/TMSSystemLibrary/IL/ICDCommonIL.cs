@@ -23,6 +23,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String requestStatusName;
         Boolean isResponseSuccess;
         Boolean isSignatureRequired;
+        Boolean isResponseProcessError;
+
         public ICDCommonIL()
         {
             requestDateTime = DateTime.Now;
@@ -44,6 +46,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             requestStatusName = string.Empty;
             isResponseSuccess = false;
             isSignatureRequired = true;
+            isResponseProcessError = false;
         }
         public DateTime RequestDateTime
         {
@@ -272,6 +275,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 isSignatureRequired = value;
+            }
+        }
+        public Boolean IsResponseProcessError
+        {
+            get
+            {
+                return isResponseProcessError;
+            }
+
+            set
+            {
+                isResponseProcessError = value;
             }
         }
     }
