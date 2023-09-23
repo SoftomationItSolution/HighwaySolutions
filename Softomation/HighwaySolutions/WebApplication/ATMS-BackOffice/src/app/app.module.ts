@@ -82,6 +82,7 @@ import { VsdsIncidentConfigComponent } from './pages/VSDS/vsds-incident-config/v
 import { VsdsValidationComponent } from './pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from './pages/VSDS/vsds-validated/vsds-validated.component';
 import { VsdsLaneConfigComponent } from './pages/VSDS/vsds-lane-config/vsds-lane-config.component';
+import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -154,7 +155,8 @@ export const MY_CUSTOM_FORMATS = {
     SystemSettingComponent,
     AppLockComponent,
     SystemDetailsComponent,
-    VsdsLaneConfigComponent
+    VsdsLaneConfigComponent,
+    LiveViewPopUpComponent
   ],
   imports: [
     BrowserAnimationsModule,

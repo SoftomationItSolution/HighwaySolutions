@@ -1386,3 +1386,17 @@ input[type=radio] {
     text-align: right;
 
 }
+
+.H_ib_content {
+    min-width: 6em;
+    font: 14px "Lucida Grande", Arial, Helvetica, sans-serif !important;
+    line-height: 20px !important;
+    margin: 2px 2px 2px 2px !important;
+    color: rgba(15,22,33,.8);
+    user-select: text;
+    -moz-user-select: text;
+    -khtml-user-select: text;
+    -webkit-user-select: text;
+    -o-user-select: text;
+    -ms-user-select: text;
+}
