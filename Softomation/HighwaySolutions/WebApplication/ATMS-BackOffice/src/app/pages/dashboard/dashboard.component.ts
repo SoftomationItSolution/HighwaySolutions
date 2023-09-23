@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit {
         curve: "straight"
       },
       title: {
-        text: "Product Trends by Month",
+        text: "VIDS Incident Details",
         align: "left"
       },
       grid: {
