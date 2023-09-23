@@ -3,130 +3,36 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
-    public class PhoneEventsIL : EquipmentDetailsIL
+    public class PhoneEventsIL : PhoneBookIL
     {
-        Int64 phoneBookId;
-        Int64 extensionId;
-        String extensionName;
-        String extensionNumber;
-        Int16 phoneTypeId;
-        String phoneTypeName;
-        Boolean phoneStatusId;
-        Boolean onCallStatus;
+        String eventMessage;
+        Int16 eventId;
+        String eventName;
+        DateTime eventDateTime;
+
         public PhoneEventsIL()
         {
-            phoneBookId = 0;
-            extensionId = 0;
-            extensionName = string.Empty;
-            extensionNumber = string.Empty;
-            phoneTypeId = 0;
-            phoneTypeName = string.Empty;
-            phoneStatusId = false;
-            onCallStatus = false;
+            this.eventMessage = String.Empty;
+            this.eventId = 0;
+            this.eventName = String.Empty;
+            this.eventDateTime = DateTime.Now;
         }
 
-        public Int64 PhoneBookId
+        public string EventMessage
         {
-            get
-            {
-                return phoneBookId;
-            }
-
-            set
-            {
-                phoneBookId = value;
-            }
+            get => eventMessage; set => eventMessage = value;
         }
-
-        public Int64 ExtensionId
+        public short EventId
         {
-            get
-            {
-                return extensionId;
-            }
-
-            set
-            {
-                extensionId = value;
-            }
+            get => eventId; set => eventId = value;
         }
-
-        public String ExtensionName
+        public string EventName
         {
-            get
-            {
-                return extensionName;
-            }
-
-            set
-            {
-                extensionName = value;
-            }
+            get => eventName; set => eventName = value;
         }
-
-        public String ExtensionNumber
+        public DateTime EventDateTime
         {
-            get
-            {
-                return extensionNumber;
-            }
-
-            set
-            {
-                extensionNumber = value;
-            }
-        }
-
-        public Int16 PhoneTypeId
-        {
-            get
-            {
-                return phoneTypeId;
-            }
-
-            set
-            {
-                phoneTypeId = value;
-            }
-        }
-
-        public String PhoneTypeName
-        {
-            get
-            {
-                return phoneTypeName;
-            }
-
-            set
-            {
-                phoneTypeName = value;
-            }
-        }
-
-        public Boolean PhoneStatusId
-        {
-            get
-            {
-                return phoneStatusId;
-            }
-
-            set
-            {
-                phoneStatusId = value;
-            }
-        }
-
-        public Boolean OnCallStatus
-        {
-            get
-            {
-                return onCallStatus;
-            }
-
-            set
-            {
-                onCallStatus = value;
-            }
+            get => eventDateTime; set => eventDateTime = value;
         }
     }
 }

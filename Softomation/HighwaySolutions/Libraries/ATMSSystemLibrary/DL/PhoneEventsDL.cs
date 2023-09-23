@@ -1,10 +1,10 @@
-﻿using Softomation.ECSLibraries.DBManagement;
-using Softomation.ECSLibraries.InterfaceLayer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using Softomation.CommonLibraries.InterfaceLayer;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace Softomation.ECSLibraries.DataLayer
 {
@@ -21,12 +21,12 @@ namespace Softomation.ECSLibraries.DataLayer
             try
             {
                 string spName = "USP_PhoneEventsInsert";
-                DbCommand command = DBExtension.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBExtension.CreateDbParameter(ref command, "@ExtensionNumber", DbType.String, pBook.ExtensionNumber, ParameterDirection.Input, 20));
-                command.Parameters.Add(DBExtension.CreateDbParameter(ref command, "@EventId", DbType.Int16, pBook.EventId, ParameterDirection.Input));
-                command.Parameters.Add(DBExtension.CreateDbParameter(ref command, "@EventMessage", DbType.String, pBook.EventMessage, ParameterDirection.Input, 50));
-                command.Parameters.Add(DBExtension.CreateDbParameter(ref command, "@EventDateTime", DbType.DateTime, pBook.EventDateTime, ParameterDirection.Input, 50));
-                DBExtension.ExecuteNonQuery(command);
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ExtensionNumber", DbType.String, pBook.ExtensionNumber, ParameterDirection.Input, 20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventId", DbType.Int16, pBook.EventId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventMessage", DbType.String, pBook.EventMessage, ParameterDirection.Input, 50));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventDateTime", DbType.DateTime, pBook.EventDateTime, ParameterDirection.Input, 50));
+                DBAccessor.ExecuteNonQuery(command);
             }
             catch (Exception ex)
             {
@@ -41,8 +41,8 @@ namespace Softomation.ECSLibraries.DataLayer
             try
             {
                 string spName = "USP_IPPbxEventsGetRecent";
-                DbCommand command = DBExtension.GetStoredProcCommand(spName);
-                dt = DBExtension.LoadDataSet(command, tableName).Tables[tableName];
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
                     pBooks.Add(CreateObjectFromDataRow(dr));
             }
