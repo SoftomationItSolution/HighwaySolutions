@@ -135,10 +135,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             //    events.EventTypeName = Convert.ToString(dr["EventTypeName"]);
 
             if (dr["Latitude"] != DBNull.Value)
-                events.Latitude = Convert.ToDecimal(dr["Latitude"]);
+                events.Latitude = Convert.ToDouble(dr["Latitude"]);
 
             if (dr["Longitude"] != DBNull.Value)
-                events.Longitude = Convert.ToDecimal(dr["Longitude"]);
+                events.Longitude = Convert.ToDouble(dr["Longitude"]);
 
             if (dr["EventDate"] != DBNull.Value)
             {
@@ -254,10 +254,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 events.ControlRoomName = Convert.ToString(dr["ControlRoomName"]);
 
             if (dr["Latitude"] != DBNull.Value)
-                events.Latitude = Convert.ToDecimal(dr["Latitude"]);
+                events.Latitude = Convert.ToDouble(dr["Latitude"]);
 
             if (dr["Longitude"] != DBNull.Value)
-                events.Longitude = Convert.ToDecimal(dr["Longitude"]);
+                events.Longitude = Convert.ToDouble(dr["Longitude"]);
 
             if (dr["EventDate"] != DBNull.Value)
             {
