@@ -144,6 +144,10 @@
     <Content Include="Content\img\hero-img.png" />
     <Content Include="Content\img\NHAIlogo.jpg" />
     <Content Include="Content\style.css" />
+    <Content Include="Rotativa\help-wkhtmltoimage.txt" />
+    <Content Include="Rotativa\help-wkhtmltopdf.txt" />
+    <Content Include="Rotativa\wkhtmltoimage.exe" />
+    <Content Include="Rotativa\wkhtmltopdf.exe" />
     <Content Include="Scripts\bootstrap-icons\bootstrap-icons.css" />
     <Content Include="Scripts\bootstrap-icons\bootstrap-icons.min.css" />
     <Content Include="Scripts\bootstrap\css\bootstrap-grid.css" />

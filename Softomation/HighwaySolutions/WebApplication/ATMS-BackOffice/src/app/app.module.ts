@@ -82,6 +82,12 @@ import { VsdsIncidentConfigComponent } from './pages/VSDS/vsds-incident-config/v
 import { VsdsValidationComponent } from './pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from './pages/VSDS/vsds-validated/vsds-validated.component';
 import { VsdsLaneConfigComponent } from './pages/VSDS/vsds-lane-config/vsds-lane-config.component';
+import { AtccvalidatedComponent } from './pages/ATCC/atccvalidated/atccvalidated.component';
+import { AtccValidationComponent } from './pages/ATCC/atcc-validation/atcc-validation.component';
+import { MetEventConfigComponent } from './pages/MET/met-event-config/met-event-config.component';
+import { MetDataComponent } from './pages/MET/met-data/met-data.component';
+import { VmsDataComponent } from './pages/VMS/vms-data/vms-data.component';
+import { VmsPopupComponent } from './pages/VMS/vms-popup/vms-popup.component';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -154,7 +160,13 @@ export const MY_CUSTOM_FORMATS = {
     SystemSettingComponent,
     AppLockComponent,
     SystemDetailsComponent,
-    VsdsLaneConfigComponent
+    VsdsLaneConfigComponent,
+    AtccvalidatedComponent,
+    AtccValidationComponent,
+    MetEventConfigComponent,
+    MetDataComponent,
+    VmsDataComponent,
+    VmsPopupComponent
   ],
   imports: [
     BrowserAnimationsModule,

@@ -1,0 +1,196 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div id="accordion" class="data-filter">
+                    <div class="card-header">
+                        <div class="dropdown d-inline-block">
+                            <h5 class="mb-0">
+                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
+                                    <i class="mdi mdi-arrow-up-circle filter-icon-class" id="datafilterIcon"></i>
+                                </a>
+                                <span class="rc">Record:{{TotalCount}}</span>
+                            </h5>
+                        </div>
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="fa fa-search"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <form [formGroup]="FilterDetailsForm">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="StartDateTime">Start Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control"
+                                                formControlName="StartDateTime" [readonlyInput]="true"
+                                                dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="EndDateTime">End Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control" formControlName="EndDateTime"
+                                                [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="ControlRoomFilterList">Control Room</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ControlRoomFilterList"
+                                                inputId="ControlRoomFilterList" [options]="ControlRoomData"
+                                                (onChange)="FillPackages()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Control Room">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="PackageFilterList">Package</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PackageFilterList"
+                                                inputId="PackageFilterList" [options]="PackageFilter"
+                                                (onChange)="FillChainage()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Package">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="ChainageFilterList">Chainage</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ChainageFilterList"
+                                                inputId="ChainageFilterList" [options]="ChainageFilter"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="DirectionFilterList">Direction</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="DirectionFilterList"
+                                                inputId="DirectionFilterList" [options]="DirectionList"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="PositionFilterList">Camera View</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PositionFilterList"
+                                                inputId="PositionFilterList" [options]="PositionList"
+                                                optionLabel="DataName" optionValue="DataValue"
+                                                placeholder="Camera View">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="EventFilterList">Event Type</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
+                                                inputId="EventFilterList" [options]="EventData"
+                                                optionLabel="EventTypeName" optionValue="EventTypeId"
+                                                placeholder="Event Type">
+                                            </p-multiSelect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center text-bottom">
+                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search" (click)="SearchEntry()">
+                                        <i class="mdi mdi-feature-search-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
+                                [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
+                                selectionMode="single" [(selection)]="SelectedRow"
+                                [globalFilterFields]="['PackageName','ChainageName','DirectionName','EventTypeName','EventStartDateStamp']">
+                                <ng-template pTemplate="header" styleClass="thead-light">
+                                    <tr>
+                                        <th pSortableColumn="ChainageName">Chainage <p-sortIcon
+                                                field="ChainageName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="EventTypeName">Event Type <p-sortIcon
+                                                field="EventTypeName"></p-sortIcon>
+                                        </th>
+                                        <th pSortableColumn="EventStartDateStamp">Event Time <p-sortIcon
+                                                field="EventStartDateStamp"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr [pSelectableRow]="rowData" (click)="onRowSelect(i)">
+                                        <td>{{rowData.ChainageName}}</td>
+                                        <td>{{rowData.VehicleClassName}}</td>
+                                        <td>{{rowData.EventDateStamp}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <img *ngIf="SelectedRow != null" src="{{MediaPrefix}}{{SelectedRow.EventImageUrl}}"
+                                        class="audit-media" (dblclick)="viewImage()" />
+                                </div>
+                                <div class="col-md-6">
+                                    <video class="audit-media" *ngIf="VideoFound" controls [autoplay]="true" [loop]="true" #videoPlayer>
+                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/mp4" />
+                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/ogg" />
+                                        Browser not supported
+                                    </video>
+                                    <span *ngIf="!VideoFound" class="audit-media">No video found</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <form [formGroup]="Reviewedform">
+                                    <div class="row">
+                                        <!-- <div class="col-md-3">
+                                            <label for="ReviewedEventTypeId">Event Type</label>
+                                            <p-dropdown appendTo="body" formControlName="ReviewedEventTypeId" inputId="IncidentCategoryId"
+                                                [options]="EventData"  optionLabel="EventTypeName" optionValue="EventTypeId"
+                                                placeholder="Event Type" class="form-control select2">
+                                            </p-dropdown>
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <label for="ReviewedVehicleClassId">Vehicle Class</label>
+                                            <p-dropdown appendTo="body" formControlName="ReviewedVehicleClassId" inputId="IncidentCategoryId"
+                                                [options]="VehicleClass"  optionLabel="VehicleClassName" optionValue="VehicleClassId"
+                                                placeholder="Vehicle Class" class="form-control select2">
+                                            </p-dropdown>
+                                        </div>
+                                        <!-- <div class="col-md-3">
+                                            <label for="ReviewedPlateNumber">Plate Number</label>
+                                            <input formControlName="ReviewedPlateNumber" type="text" pInputText class="form-control" />
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="IsChallanRequired">Challan</label>
+                                            <input formControlName="IsChallanRequired" type="checkbox" class="form-check-input chk" />
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <button type="button" class="btn btn-success btn-circle btn-lg btn-search" (click)="SaveEntry()">
+                                                <i class="mdi mdi-check-all"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p-confirmDialog #cd [style]="{width: '50vw'}">
+            <ng-template pTemplate="header">
+                <h3>Header Content</h3>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button type="button" pButton icon="fa fa-times" label="No" (click)="cd.reject()"></button>
+                <button type="button" pButton icon="fa fa-check" label="Yes" (click)="cd.accept()"></button>
+            </ng-template>
+        </p-confirmDialog>
+    </div>
+</div>
