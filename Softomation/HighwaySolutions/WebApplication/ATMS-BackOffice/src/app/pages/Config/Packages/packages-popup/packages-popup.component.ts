@@ -71,7 +71,6 @@ export class PackagesPopupComponent implements OnInit {
     );
   }
   
-
   DetailsbyId() {
     this.spinner.show();
     this.dbService.PackagesGetById(this.PackageId).subscribe(

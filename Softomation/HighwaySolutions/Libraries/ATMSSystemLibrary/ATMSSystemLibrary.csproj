@@ -106,6 +106,7 @@
     <Compile Include="BL\PackageBL.cs" />
     <Compile Include="BL\ReportMasterBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
+    <Compile Include="BL\WeatherBL.cs" />
     <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
     <Compile Include="BL\ControlRoomBL.cs" />
@@ -119,14 +120,19 @@
     <Compile Include="BL\VehicleClassIL.cs" />
     <Compile Include="BL\VIDSEventBL.cs" />
     <Compile Include="BL\VIDSReviewedEventBL.cs" />
+    <Compile Include="BL\ATCCEventBL.cs" />
     <Compile Include="BL\VSDSEventBL.cs" />
     <Compile Include="BL\VSDSLaneConfigBL.cs" />
     <Compile Include="BL\VSDSReviewedEventBL.cs" />
+    <Compile Include="DL\ATCCEventDL.cs" />
+    <Compile Include="DL\WeatherDL.cs" />
     <Compile Include="DL\VSDSEventDL.cs" />
     <Compile Include="DL\VSDSLaneConfigDL.cs" />
     <Compile Include="DL\VSDSReviewedEventDL.cs" />
     <Compile Include="IL\GeoCoordinateIL.cs" />
+    <Compile Include="IL\WeatherConfigIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
+    <Compile Include="IL\ATCCEventIL.cs" />
     <Compile Include="IL\VSDSEventIL.cs" />
     <Compile Include="IL\VSDSLaneConfigIL.cs" />
     <Compile Include="IL\VSDSReviewedEventIL.cs" />

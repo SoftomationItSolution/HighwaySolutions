@@ -23,6 +23,12 @@ import { VsdsValidationComponent } from '../pages/VSDS/vsds-validation/vsds-vali
 import { VsdsValidatedComponent } from '../pages/VSDS/vsds-validated/vsds-validated.component';
 import { VsdsLaneConfigComponent } from '../pages/VSDS/vsds-lane-config/vsds-lane-config.component';
 import { VsdsDataComponent } from '../pages/VSDS/vsds-data/vsds-data.component';
+import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
+import { AtccValidationComponent } from '../pages/ATCC/atcc-validation/atcc-validation.component';
+import { AtccvalidatedComponent } from '../pages/ATCC/atccvalidated/atccvalidated.component';
+import { MetEventConfigComponent } from '../pages/MET/met-event-config/met-event-config.component';
+import { MetDataComponent } from '../pages/MET/met-data/met-data.component';
+import { VmsDataComponent } from '../pages/VMS/vms-data/vms-data.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -48,6 +54,12 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vsdsEventHistroy', component: VsdsDataComponent },
     { path: 'vsdsValidation', component: VsdsValidationComponent },
     { path: 'vsdsValidated', component: VsdsValidatedComponent },
+    { path: 'atccEventHistroy', component: AtccdataComponent },
+    { path: 'atccValidation', component: AtccValidationComponent },
+    { path: 'atccValidated', component: AtccvalidatedComponent },
+    { path: 'metEventConfig', component: MetEventConfigComponent },
+    { path: 'metEventHistory', component: MetDataComponent },
+    { path: 'vmsEventHistroy', component: VmsDataComponent },
     { path: 'rmsReports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

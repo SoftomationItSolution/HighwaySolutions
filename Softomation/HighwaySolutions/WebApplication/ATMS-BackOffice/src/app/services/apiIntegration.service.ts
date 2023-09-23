@@ -154,10 +154,10 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId, { headers: headers_object });
   }
 
-  UserConfigurationGetBySystemUserType(UserTypeId: any,SystemId:any): Observable<any> {
+  UserConfigurationGetBySystemUserType(UserTypeId: any, SystemId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId+'&SystemId='+SystemId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId + '&SystemId=' + SystemId, { headers: headers_object });
   }
 
   UserGetByIdWithPassword(UserId: any): Observable<any> {
@@ -513,19 +513,19 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
   }
-  
+
   VIDSPendingReviewGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VIDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
   }
- 
+
   VIDSEventsGetByFilter(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VIDSEventsGetByFilter', data, { headers: headers_object });
   }
- 
+
   VIDSEventReviewed(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -562,19 +562,19 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSEventsGetByHours?Hours=' + Hours, { headers: headers_object });
   }
-  
+
   VSDSPendingReviewGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
   }
- 
+
   VSDSEventsGetByFilter(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSEventsGetByFilter', data, { headers: headers_object });
   }
- 
+
   VSDSEventReviewed(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -593,4 +593,49 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSReviewedEventsGetByFilter', data, { headers: headers_object });
   }
   //#endregion
+
+  //#region  ATCC System
+  ATCCEventsGetALLByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCEventsGetALLByFilter', data, { headers: headers_object });
+  }
+  ATCCReviewedEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCReviewedEventsGetByFilter', data, { headers: headers_object });
+  }
+  ATCCUnreviewedEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCUnreviewedEventsGetByFilter', data, { headers: headers_object });
+  }
+  ATCCEventReviewed(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCEventReviewUpdate', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region  Weather System
+  GetWeatherConfig(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetWeatherConfig', { headers: headers_object });
+  }
+  WeatherConfigSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherConfigSetUp', data, { headers: headers_object });
+  }
+  WeatherGetALLByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherEventsGetALLByFilter', data, { headers: headers_object });
+  }
+  //#endregion
 }
+
+

@@ -31,6 +31,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private List<MasterDataIL> packageDataList;
         private List<MasterDataIL> chainageDataList;
         private List<MasterDataIL> incidentDataList;
+        private String reviewedStatusList;
 
         public DataFilterIL()
         {
@@ -60,6 +61,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             packageDataList = new List<MasterDataIL>();
             chainageDataList = new List<MasterDataIL>();
             incidentDataList = new List<MasterDataIL>();
+            this.reviewedStatusList = string.Empty;
         }
         public short SystemId
         {
@@ -200,6 +202,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 incidentDataList = value;
+            }
+        }
+
+        public string ReviewedStatusList
+        {
+            get
+            {
+                return reviewedStatusList;
+            }
+
+            set
+            {
+                reviewedStatusList = value;
             }
         }
     }

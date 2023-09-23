@@ -2124,5 +2124,286 @@ namespace ATMSRestAPI.Controllers
         #endregion
         #endregion
 
+        #region ATCC Events
+
+        #region AllEvents
+        [Route(Provider + "/" + APIPath + "/ATCCEventsGetALLByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ATCCEventsGetALLByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.LaneFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.LaneNumber IN (" + data.LaneFilterList + ") ";
+                }
+                if (data.VehicleClassFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
+                }
+                if (!String.IsNullOrEmpty(data.PlateNumber))
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.PlateNumber LIKE '%" + data.PlateNumber + "%' ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetALLByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region un audited
+
+        [Route(Provider + "/" + APIPath + "/ATCCUnreviewedEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ATCCUnreviewedEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.LaneFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.LaneNumber IN (" + data.LaneFilterList + ") ";
+                }
+                if (data.VehicleClassFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
+                }
+                if (!String.IsNullOrEmpty(data.PlateNumber))
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.PlateNumber LIKE '%" + data.PlateNumber + "%' ";
+                }
+                if (!String.IsNullOrEmpty(data.ReviewedStatusList))
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedStatus =0 ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetALLByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ATCCEventReviewUpdate")]
+        [HttpPost]
+        public HttpResponseMessage ATCCEventReviewUpdate(VSDSReviewedEventIL data)
+        {
+            try
+            {
+                response.Message = ATCCEventBL.ReviewUpdate(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSEventReviewUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        #endregion
+
+        #region audited
+
+        [Route(Provider + "/" + APIPath + "/ATCCReviewedEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ATCCReviewedEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.EventFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (H.EventTypeId IN (" + data.EventFilterList + ") OR H.ReviewedEventTypeId IN (" + data.EventFilterList + ")) ";
+                }
+                if (data.ReviewedFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
+                }
+                if (!String.IsNullOrEmpty(data.ReviewedStatusList))
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedStatus =1 ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetReviewedByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VSDSReviewedEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Weather
+        [Route(Provider + "/" + APIPath + "/WeatherConfigSetUp")]
+        [HttpPost]
+        public HttpResponseMessage WeatherConfigSetUp(WeatherConfigIL ss)
+        {
+            try
+            {
+                response.Message = WeatherBL.InsertUpdateConfig(ss);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in WeatherConfigSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        [Route(Provider + "/" + APIPath + "/GetWeatherConfig")]
+        [HttpGet]
+        public HttpResponseMessage GetWeatherConfig()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = WeatherBL.GetWeatherConfig();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetWeatherConfig : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/WeatherEventsGetALLByFilter")]
+        [HttpPost]
+        public HttpResponseMessage WeatherEventsGetALLByFilter(DataFilterIL data)
+        {
+            try
+            {
+                 data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = WeatherBL.WeatherGetALLByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in WeatherEventsGetALLByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
     }
 }
