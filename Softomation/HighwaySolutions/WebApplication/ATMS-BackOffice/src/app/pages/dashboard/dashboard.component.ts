@@ -1,8 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import {ChartComponent,ApexAxisChartSeries,ApexChart,ApexXAxis,ApexDataLabels,ApexTitleSubtitle,ApexStroke,ApexGrid,ApexPlotOptions} from "ng-apexcharts";
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions } from "ng-apexcharts";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+import { LiveViewPopUpComponent } from '../live-view-pop-up/live-view-pop-up.component';
 declare var H: any;
 export type ChartOptions = {
   series?: ApexAxisChartSeries;
@@ -22,8 +24,12 @@ export type ChartOptions = {
 })
 export class DashboardComponent implements OnInit {
   @ViewChild("chart") chart!: ChartComponent;
-  @ViewChild("map")mapElement!: ElementRef;
-  public chartOptions!: Partial<ChartOptions>| any;
+  @ViewChild("map") mapElement!: ElementRef;
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.map.getViewPort().resize()
+  }
+  public chartOptions!: Partial<ChartOptions> | any;
   private platform: any;
   public map: any;
   public mapUI: any;
@@ -31,9 +37,9 @@ export class DashboardComponent implements OnInit {
   DefaultCordinatelat = 20.0568644;
   DefaultCordinatelong = 85.542642;
   ErrorData: any;
-  EquipmentList:any;
-  constructor(private dbService: apiIntegrationService,private spinner: NgxSpinnerService,
-    private dm: DataModel) { }
+  EquipmentList: any;
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
+    private dm: DataModel,private cd: ChangeDetectorRef,public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.chartOptions = {
@@ -67,20 +73,20 @@ export class DashboardComponent implements OnInit {
             position: 'center'
           }
         },
-        
+
       },
       dataLabels: {
         enabled: true,
         style: {
           colors: ['#c23c23'],
-          fontSize:'8px'
-      },
+          fontSize: '8px'
+        },
       },
       stroke: {
         curve: "straight"
       },
       title: {
-        text: "Product Trends by Month",
+        text: "VIDS Incident Details",
         align: "left"
       },
       grid: {
@@ -103,11 +109,21 @@ export class DashboardComponent implements OnInit {
         ],
       }
     };
-
     this.GetDashboardEquipment();
   }
-  ngAfterViewInit(): void {
-    this.DefaultCoordinates();
+
+  GetDashboardEquipment() {
+    this.dbService.DashboardEquipmentGetAll().subscribe(
+      data => {
+        this.EquipmentList = data.ResponseData;
+        this.DefaultCoordinates();
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        this.DefaultCoordinates();
+      }
+    );
   }
   DefaultCoordinates() {
     this.platform = new H.service.Platform({
@@ -119,25 +135,56 @@ export class DashboardComponent implements OnInit {
       {
         zoom: this.MapZoom,
         center: { lat: this.DefaultCordinatelat, lng: this.DefaultCordinatelong },
+        //center: { lat: 48.8567, lng: 2.3508 },
         pixelRatio: window.devicePixelRatio || 1
       }
     );
     window.addEventListener('resize', () => this.map.getViewPort().resize());
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
     this.mapUI = H.ui.UI.createDefault(this.map, defaultLayers);
+    for (let i = 0; i < this.EquipmentList.length; i++) {
+      const element = this.EquipmentList[i];
+      this.addMarkersToMap(this.map, this.mapUI, element)
 
+    }
   }
 
-  GetDashboardEquipment() {
-    this.dbService.DashboardEquipmentGetAll().subscribe(
-      data => {
-        this.EquipmentList = data.ResponseData;
-      },
-      (error) => {
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
+  addMarkersToMap(map: any, mapUI: any, data: any) {
+    var svgMarkup = 'assets/icons/' + data.EquipmentTypeName.replace(" ", "") + '.svg';
+    var icon = new H.map.Icon(svgMarkup, { size: { w: 40, h: 40 } })
+    var parisMarker = new H.map.Marker({ lat: data.Latitude, lng: data.Longitude }, { icon: icon });
+    let bubble: any;
+    parisMarker.addEventListener('pointerenter', function (evt: any) {
+      bubble = new H.ui.InfoBubble({ lat: data.Latitude, lng: data.Longitude }, {
+      content:'<div class="d-flex flex-row justify-content-start" style="width:147px">'+
+      '<div style="border-radius: 3px; background-color: rgba(57, 192, 237,.2);">'+
+      '<p class="small mb-0">Location:'+data.ChainageName+'-'+data.DirectionName+'</p>'+
+      '<p class="small mb-0">IP-Address:'+data.IpAddress+'</p>'+
+      '</div>'+
+      '</div>'
+      });
+      mapUI.addBubble(bubble);
+    }, false);
+    parisMarker.addEventListener('pointerleave', function (evt: any) {
+      bubble.close();
+    }, false);
+    parisMarker.addEventListener('tap',  {
+      data:data,
+      handleEvent:(evt:any) => this.tap(data)
+    });
+    map.addObject(parisMarker);
   }
 
+  tap(detail:any){
+    if(detail.EquipmentTypeName.indexOf("Camera")>-1 && detail.OnLineStatus){
+      this.cd.detectChanges();
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '50%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = detail;
+      const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+    }
+  }
 }

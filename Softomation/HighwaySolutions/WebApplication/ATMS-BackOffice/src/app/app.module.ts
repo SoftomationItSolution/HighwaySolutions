@@ -82,6 +82,7 @@ import { VsdsIncidentConfigComponent } from './pages/VSDS/vsds-incident-config/v
 import { VsdsValidationComponent } from './pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from './pages/VSDS/vsds-validated/vsds-validated.component';
 import { VsdsLaneConfigComponent } from './pages/VSDS/vsds-lane-config/vsds-lane-config.component';
+import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
 import { AtccvalidatedComponent } from './pages/ATCC/atccvalidated/atccvalidated.component';
 import { AtccValidationComponent } from './pages/ATCC/atcc-validation/atcc-validation.component';
 import { MetEventConfigComponent } from './pages/MET/met-event-config/met-event-config.component';
@@ -154,13 +155,13 @@ export const MY_CUSTOM_FORMATS = {
     IncidentProcessComponent,
     IncidentAssigneComponent,
     IncidentClosedComponent,
-   
     ImsProgressComponent,
     ImsPendingComponent,
     SystemSettingComponent,
     AppLockComponent,
     SystemDetailsComponent,
     VsdsLaneConfigComponent,
+    LiveViewPopUpComponent,
     AtccvalidatedComponent,
     AtccValidationComponent,
     MetEventConfigComponent,
