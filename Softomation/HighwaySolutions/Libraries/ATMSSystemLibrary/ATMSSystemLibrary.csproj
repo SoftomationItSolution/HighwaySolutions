@@ -97,6 +97,8 @@
   <ItemGroup>
     <Compile Include="BL\DataFilterBL.cs" />
     <Compile Include="BL\EquipmentConfigBL.cs" />
+    <Compile Include="BL\PhoneEventsBL.cs" />
+    <Compile Include="BL\PhoneBookBL.cs" />
     <Compile Include="BL\EventsTypeBL.cs" />
     <Compile Include="BL\IncidentActionHistoryBL.cs" />
     <Compile Include="BL\IncidentCategoryBL.cs" />
@@ -125,10 +127,14 @@
     <Compile Include="BL\VSDSLaneConfigBL.cs" />
     <Compile Include="BL\VSDSReviewedEventBL.cs" />
     <Compile Include="DL\ATCCEventDL.cs" />
+    <Compile Include="DL\PhoneEventsDL.cs" />
+    <Compile Include="DL\PhoneBookDL.cs" />
     <Compile Include="DL\WeatherDL.cs" />
     <Compile Include="DL\VSDSEventDL.cs" />
     <Compile Include="DL\VSDSLaneConfigDL.cs" />
     <Compile Include="DL\VSDSReviewedEventDL.cs" />
+    <Compile Include="IL\PhoneEventsIL.cs" />
+    <Compile Include="IL\PhoneBookIL.cs" />
     <Compile Include="IL\GeoCoordinateIL.cs" />
     <Compile Include="IL\WeatherConfigIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />

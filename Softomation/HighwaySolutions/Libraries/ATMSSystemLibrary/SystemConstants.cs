@@ -21,6 +21,14 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
         #endregion
 
         #region Enum
+        public enum PhoneType
+        {
+            Operator = 1,
+            RoadSide = 2,
+            GsmGateway = 3,
+            Patrolling = 4,
+            Commuters = 5,
+        }
         public enum VehicleDirectionType
         {
             Front = 1,

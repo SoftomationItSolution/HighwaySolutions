@@ -2405,5 +2405,85 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region ECS
+        [Route(Provider + "/" + APIPath + "/ECSGetAll")]
+        [HttpGet]
+        public HttpResponseMessage ECSGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ControlRoomBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ECSGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PhoneBookGetActive")]
+        [HttpGet]
+        public HttpResponseMessage ECSGetActive()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PhoneBookBL.GetActive();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PhoneBookGetActive : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PhoneBookGetById")]
+        [HttpGet]
+        public HttpResponseMessage PhoneBookGetById(int PhoneBookId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = PhoneBookBL.GetById(PhoneBookId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PhoneBookGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/PhoneBookInsertUpdate")]
+        [HttpPost]
+        public HttpResponseMessage PhoneBookInsertUpdate(PhoneBookIL PhoneBook)
+        {
+            try
+            {
+                response.Message = PhoneBookBL.InsertUpdate(PhoneBook);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in PhoneBookInsertUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
     }
 }
