@@ -9,8 +9,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String controlRoomName;
         Decimal chainageNumber;
         String chainageName;
-        Decimal latitude;
-        Decimal longitude;
+        Double latitude;
+        Double longitude;
         Int16 directionId;
         String directionName;
         public ControlRoomIL()
@@ -67,7 +67,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal Latitude
+        public double Latitude
         {
             get
             {
@@ -80,7 +80,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal Longitude
+        public double Longitude
         {
             get
             {

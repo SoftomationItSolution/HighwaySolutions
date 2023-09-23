@@ -22,8 +22,12 @@ export class LaneConfigurationPopupComponent implements OnInit {
   ErrorData: any;
   PlazaList: any;
   LaneNumberList: any = [];
-  LaneDirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
-  LaneTypeList = [{ DataId: 0, DataName: 'Normal' },{ DataId: 1, DataName: 'Entry' }, { DataId: 2, DataName: 'Exit' }];
+  LaneDirectionList = [{ DataId: 1, DataName: 'East' }, { DataId: 2, DataName: 'West' }, { DataId: 3, DataName: 'North' }, { DataId: 4, DataName: 'South' }];
+  LanePositionList = [{ DataId: 0, DataName: 'LHS' }, { DataId: 1, DataName: 'RHS' }];
+  LaneModeList = [{ DataId: 0, DataName: 'Maintenance' }, { DataId: 1, DataName: 'Normal' }];
+  LaneStatusList = [{ DataId: 0, DataName: 'Open' }, { DataId: 1, DataName: 'Close' }];
+  LanePointList = [{ DataId: 0, DataName: 'Normal' }, { DataId: 1, DataName: 'Entry' },{ DataId: 2, DataName: 'Exit' }];
+  LaneTypeList = [{ DataId: 0, DataName: 'Dedicated' },{ DataId: 1, DataName: 'Hybrid' }, { DataId: 2, DataName: 'Handheld' }];
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<LaneConfigurationPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();
@@ -37,9 +41,14 @@ export class LaneConfigurationPopupComponent implements OnInit {
     this.PageTitle = "Create Lane Master Details";
     this.DataDetailsForm = new FormGroup({
       PlazaId: new FormControl('', [Validators.required]),
+      LaneName: new FormControl('', [Validators.required]),
       LaneNumber: new FormControl('', [Validators.required]),
       LaneTypeId: new FormControl('', [Validators.required]),
+      LanePositionId: new FormControl('', [Validators.required]),
+      LanePointId: new FormControl('', [Validators.required]),
       LaneDirectionId: new FormControl('', [Validators.required]),
+      LaneStatusId: new FormControl('', [Validators.required]),
+      LaneModeId: new FormControl('', [Validators.required]),
       LaneSystemIpAddress: new FormControl('', [Validators.required, Validators.pattern(regExps["IpAddress"])]),
       DataStatus: new FormControl(true),
     });
@@ -73,9 +82,14 @@ export class LaneConfigurationPopupComponent implements OnInit {
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
           this.DataDetailsForm.controls['PlazaId'].setValue(DetailData.PlazaId);
+          this.DataDetailsForm.controls['LaneName'].setValue(DetailData.LaneName);
           this.DataDetailsForm.controls['LaneNumber'].setValue(DetailData.LaneNumber);
           this.DataDetailsForm.controls['LaneTypeId'].setValue(DetailData.LaneTypeId);
+          this.DataDetailsForm.controls['LanePositionId'].setValue(DetailData.LanePositionId);
+          this.DataDetailsForm.controls['LanePointId'].setValue(DetailData.LanePointId);
           this.DataDetailsForm.controls['LaneDirectionId'].setValue(DetailData.LaneDirectionId);
+          this.DataDetailsForm.controls['LaneStatusId'].setValue(DetailData.LaneStatusId);
+          this.DataDetailsForm.controls['LaneModeId'].setValue(DetailData.LaneModeId);
           this.DataDetailsForm.controls['LaneSystemIpAddress'].setValue(DetailData.LaneSystemIpAddress);
           if (DetailData.DataStatus == 1)
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
@@ -107,8 +121,13 @@ export class LaneConfigurationPopupComponent implements OnInit {
       LaneId: this.LaneId,
       PlazaId: this.DataDetailsForm.value.PlazaId,
       LaneNumber: this.DataDetailsForm.value.LaneNumber,
+      LaneName: this.DataDetailsForm.value.LaneName,
       LaneTypeId: this.DataDetailsForm.value.LaneTypeId,
+      LanePositionId: this.DataDetailsForm.value.LanePositionId,
+      LanePointId: this.DataDetailsForm.value.LanePointId,
       LaneDirectionId: this.DataDetailsForm.value.LaneDirectionId,
+      LaneStatusId: this.DataDetailsForm.value.LaneStatusId,
+      LaneModeId: this.DataDetailsForm.value.LaneModeId,
       LaneSystemIpAddress: this.DataDetailsForm.value.LaneSystemIpAddress,
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,

@@ -8,10 +8,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         string packageName;
         decimal startChainageNumber;
         decimal endChainageNumber;
-        decimal startLatitude;
-        decimal startLongitude;
-        decimal endLatitude;
-        decimal endLongitude;
+        double startLatitude;
+        double startLongitude;
+        double endLatitude;
+        double endLongitude;
 
         public PackageIL()
         {
@@ -77,7 +77,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal StartLatitude
+        public Double StartLatitude
         {
             get
             {
@@ -90,7 +90,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal StartLongitude
+        public Double StartLongitude
         {
             get
             {
@@ -103,7 +103,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal EndLatitude
+        public Double EndLatitude
         {
             get
             {
@@ -116,7 +116,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
 
-        public Decimal EndLongitude
+        public Double EndLongitude
         {
             get
             {

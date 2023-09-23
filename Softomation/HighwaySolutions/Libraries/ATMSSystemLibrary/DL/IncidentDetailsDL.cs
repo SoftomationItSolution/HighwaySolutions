@@ -32,8 +32,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentAudioPath", DbType.String, ims.IncidentAudioPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, ims.DirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ims.ChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ims.Latitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ims.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Double, ims.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Double, ims.Longitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehiclePlateNumber", DbType.String, ims.VehiclePlateNumber, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, ims.VehicleClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SourceSystemId", DbType.Int16, ims.SourceSystemId, ParameterDirection.Input));
@@ -69,8 +69,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IncidentAudioPath", DbType.String, ims.IncidentAudioPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, ims.DirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ims.ChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ims.Latitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ims.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Double, ims.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Double, ims.Longitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehiclePlateNumber", DbType.String, ims.VehiclePlateNumber, ParameterDirection.Input, 20));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, ims.VehicleClassId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SourceSystemId", DbType.Int16, ims.SourceSystemId, ParameterDirection.Input));
@@ -231,10 +231,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
 
             if (dr["Latitude"] != DBNull.Value)
-                id.Latitude = Convert.ToDecimal(dr["Latitude"]);
+                id.Latitude = Convert.ToDouble(dr["Latitude"]);
 
             if (dr["Longitude"] != DBNull.Value)
-                id.Longitude = Convert.ToDecimal(dr["Longitude"]);
+                id.Longitude = Convert.ToDouble(dr["Longitude"]);
 
             if (dr["VehiclePlateNumber"] != DBNull.Value)
                 id.VehiclePlateNumber = Convert.ToString(dr["VehiclePlateNumber"]);

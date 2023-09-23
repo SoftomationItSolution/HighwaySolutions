@@ -27,10 +27,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PackageName", DbType.String, pd.PackageName.Trim(), ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartChainageNumber", DbType.Decimal, pd.StartChainageNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndChainageNumber", DbType.Decimal, pd.EndChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLatitude", DbType.Decimal, pd.StartLatitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLongitude", DbType.Decimal, pd.StartLongitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLatitude", DbType.Decimal, pd.EndLatitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLongitude", DbType.Decimal, pd.EndLongitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLatitude", DbType.Double, pd.StartLatitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StartLongitude", DbType.Double, pd.StartLongitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLatitude", DbType.Double, pd.EndLatitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EndLongitude", DbType.Double, pd.EndLongitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, pd.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, pd.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -124,16 +124,16 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 cr.EndChainageNumber = Convert.ToDecimal(dr["EndChainageNumber"]);
 
             if (dr["StartLatitude"] != DBNull.Value)
-                cr.StartLatitude = Convert.ToDecimal(dr["StartLatitude"]);
+                cr.StartLatitude = Convert.ToDouble(dr["StartLatitude"]);
 
             if (dr["EndLatitude"] != DBNull.Value)
-                cr.EndLatitude = Convert.ToDecimal(dr["EndLatitude"]);
+                cr.EndLatitude = Convert.ToDouble(dr["EndLatitude"]);
 
             if (dr["StartLongitude"] != DBNull.Value)
-                cr.StartLongitude = Convert.ToDecimal(dr["StartLongitude"]);
+                cr.StartLongitude = Convert.ToDouble(dr["StartLongitude"]);
 
             if (dr["EndLongitude"] != DBNull.Value)
-                cr.EndLongitude = Convert.ToDecimal(dr["EndLongitude"]);
+                cr.EndLongitude = Convert.ToDouble(dr["EndLongitude"]);
 
             if (dr["DataStatus"] != DBNull.Value)
                 cr.DataStatus = Convert.ToInt16(dr["DataStatus"]);

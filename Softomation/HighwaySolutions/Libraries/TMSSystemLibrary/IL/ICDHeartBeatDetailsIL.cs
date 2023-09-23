@@ -6,25 +6,40 @@ using System.Threading.Tasks;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
 {
-    public class ICDHeartBeatDetailsIL: ICDCommonIL
+    public class ICDHeartBeatDetailsIL : ICDCommonIL
     {
+        Int64 requestHeartBeatId;
         string transactionId;
         string note;
         string refId;
         string refUrl;
         string orgTransactionId;
-        int acquirerId;
-
+        ICDPlazaDetailsIL plazaDetail;
         List<ICDLaneDetailsIL> laneDetails;
+        
         public ICDHeartBeatDetailsIL()
         {
-            transactionId=string.Empty;
+            requestHeartBeatId = 0;
+            transactionId = string.Empty;
             note = string.Empty;
             refId = string.Empty;
             refUrl = string.Empty;
             orgTransactionId = string.Empty;
-            acquirerId = 0;
+            plazaDetail = new ICDPlazaDetailsIL();
             laneDetails = new List<ICDLaneDetailsIL>();
+        }
+       
+        public Int64 RequestHeartBeatId
+        {
+            get
+            {
+                return requestHeartBeatId;
+            }
+
+            set
+            {
+                requestHeartBeatId = value;
+            }
         }
         public String TransactionId
         {
@@ -86,16 +101,16 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
                 orgTransactionId = value;
             }
         }
-        public int AcquirerId
+        public ICDPlazaDetailsIL PlazaDetail
         {
             get
             {
-                return acquirerId;
+                return plazaDetail;
             }
 
             set
             {
-                acquirerId = value;
+                plazaDetail = value;
             }
         }
         public List<ICDLaneDetailsIL> LaneDetails

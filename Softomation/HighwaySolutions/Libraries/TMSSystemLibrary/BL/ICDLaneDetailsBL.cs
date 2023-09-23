@@ -1,30 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class ICDHeartBeatDetailsBL
+    public class ICDLaneDetailsBL
     {
-        public static List<ResponseIL> RequestProcess(ICDHeartBeatDetailsIL ed)
+        public static List<ICDLaneDetailsIL> GetByPlaza(short PlazaId)
         {
             try
             {
-                return ICDHeartBeatDetailsDL.RequestProcess(ed);
+                return ICDLaneDetailsDL.GetByPlaza(PlazaId);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-
-        public static List<ICDHeartBeatDetailsIL> GetPendingRequest()
+        public static ICDLaneDetailsIL GetByLane(short LaneId)
         {
             try
             {
-                return ICDHeartBeatDetailsDL.GetPendingRequest();
+                return ICDLaneDetailsDL.GetByLane(LaneId);
             }
             catch (Exception ex)
             {

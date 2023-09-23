@@ -133,7 +133,14 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
   //#endregion
-
+ 
+  //#region Dashboard
+  DashboardEquipmentGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/Dashboard/Equipment', { headers: headers_object });
+  }
+  //#endregion
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();

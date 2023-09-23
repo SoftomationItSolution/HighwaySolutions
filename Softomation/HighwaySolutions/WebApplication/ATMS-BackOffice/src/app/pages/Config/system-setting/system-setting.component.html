@@ -7,6 +7,7 @@
     </div>
     <div class="modal-body ">
         <form [formGroup]="DataDetailsForm">
+            <div class="row">
             <fieldset class="col-md-12">
                 <legend>ATCC</legend>
                 <div class="panel-body">
@@ -42,8 +43,8 @@
                         </div>
                     </div>
                 </div>
-
             </fieldset>
+            </div>
             <div class="row">
                 <fieldset class="col-md-6">
                     <legend>VSDS</legend>
@@ -76,6 +77,24 @@
                             </div>
                         </div>
                     </div>
+                </fieldset>
+            </div>
+            <div class="row">
+                <fieldset class="col-md-12">
+                    <legend>Other</legend>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="DefaultControlRoomId">Control Room</label>
+                                <p-dropdown appendTo="body" formControlName="DefaultControlRoomId" inputId="DefaultControlRoomId" [options]="ControlRoomData"
+                                    optionLabel="ControlRoomName" optionValue="ControlRoomId" placeholder="Select"  class="form-control select2"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DataDetailsForm.hasError('required','DefaultControlRoomId')">Control Room is
+                                    required.</small>
+                            </div>
+                        </div>
+                    </div>
+                    
                 </fieldset>
             </div>
         </form>

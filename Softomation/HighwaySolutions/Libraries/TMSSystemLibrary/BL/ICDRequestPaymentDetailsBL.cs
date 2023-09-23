@@ -6,13 +6,13 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
 {
-    public class ICDHeartBeatDetailsBL
+    public class ICDRequestPaymentDetailsBL
     {
-        public static List<ResponseIL> RequestProcess(ICDHeartBeatDetailsIL ed)
+        public static List<ResponseIL> RequestProcess(ICDRequestPaymentDetailsIL ed)
         {
             try
             {
-                return ICDHeartBeatDetailsDL.RequestProcess(ed);
+                return ICDRequestPaymentDetailsDL.RequestProcess(ed);
             }
             catch (Exception ex)
             {
@@ -20,11 +20,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.BL
             }
         }
 
-        public static List<ICDHeartBeatDetailsIL> GetPendingRequest()
+        public static List<ICDRequestPaymentDetailsIL> GetPendingRequest()
         {
             try
             {
-                return ICDHeartBeatDetailsDL.GetPendingRequest();
+                return ICDRequestPaymentDetailsDL.GetPendingRequest();
             }
             catch (Exception ex)
             {

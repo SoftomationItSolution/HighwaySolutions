@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
 
     this.api.GetUrl();
     this.ProjectDetails = this.dataModel.getProjectDetails();
+    console.log(this.ProjectDetails)
   }
 
 

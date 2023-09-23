@@ -17,19 +17,29 @@
                 <div class="table-responsive mt-3 listtableheight">
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap" selectionMode="single"
-                        [globalFilterFields]="['PlazaName','LaneNumber','LaneTypeName',
-                        'LaneDirectionName','LaneSystemIpAddress','DataStatusName']">
+                        [globalFilterFields]="['PlazaName','LaneName','LaneNumber','LaneTypeName','LanePositionName',
+                        'LanePointName','LaneStatusName','LaneModeName','LaneDirectionName','LaneSystemIpAddress','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
                                 <th pSortableColumn="PlazaName">Plaza Name <p-sortIcon field="PlazaName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="LaneNumber">Lane Number <p-sortIcon
+                                <th pSortableColumn="LaneName">Name <p-sortIcon
+                                    field="LaneName"></p-sortIcon></th>
+                                <th pSortableColumn="LaneNumber">Number <p-sortIcon
                                         field="LaneNumber"></p-sortIcon></th>
-                                <th pSortableColumn="LaneTypeName">Lane Type<p-sortIcon
+                                <th pSortableColumn="LaneTypeName">Type<p-sortIcon
                                         field="LaneTypeName"></p-sortIcon></th>
-                                <th pSortableColumn="LaneDirectionName">Lane Direction<p-sortIcon
+                                <th pSortableColumn="LanePositionName">Position<p-sortIcon
+                                    field="LanePositionName"></p-sortIcon></th>
+                                <th pSortableColumn="LanePointName">Point<p-sortIcon
+                                    field="LanePointName"></p-sortIcon></th>
+                                <th pSortableColumn="LaneDirectionName">Direction<p-sortIcon
                                         field="LaneDirectionName"></p-sortIcon></th>
+                                <th pSortableColumn="LaneStatusName">Lane Status<p-sortIcon
+                                    field="LaneStatusName"></p-sortIcon></th>
+                                    <th pSortableColumn="LaneModeName">Mode<p-sortIcon
+                                        field="LaneModeName"></p-sortIcon></th>
                                 <th pSortableColumn="LaneSystemIpAddress">System IP<p-sortIcon
                                         field="LaneSystemIpAddress"></p-sortIcon></th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
@@ -41,9 +51,14 @@
                             <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.PlazaName}}</td>
+                                <td>{{rowData.LaneName}}</td>
                                 <td>Lane-{{rowData.LaneNumber}}</td>
                                 <td>{{rowData.LaneTypeName}}</td>
+                                <td>{{rowData.LanePositionName}}</td>
+                                <td>{{rowData.LanePointName}}</td>
                                 <td>{{rowData.LaneDirectionName}}</td>
+                                <td>{{rowData.LaneStatusName}}</td>
+                                <td>{{rowData.LaneModeName}}</td>
                                 <td>{{rowData.LaneSystemIpAddress}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">

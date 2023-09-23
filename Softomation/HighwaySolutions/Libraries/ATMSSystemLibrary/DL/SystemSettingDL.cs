@@ -29,7 +29,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ATCCByVSDS", DbType.Boolean, ss.ATCCByVSDS, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TrafficCount", DbType.Int16, ss.TrafficCount, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TrafficByTime", DbType.Int16, ss.TrafficByTime, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RestrictedVehiclesIds", DbType.String, ss.RestrictedVehiclesIds, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RestrictedVehiclesIds", DbType.String, ss.RestrictedVehiclesIds, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DefaultControlRoomId", DbType.String, ss.DefaultControlRoomId, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -97,6 +98,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 }
             }
 
+            if (dr["DefaultControlRoomId"] != DBNull.Value)
+                sysSet.DefaultControlRoomId = Convert.ToInt16(dr["DefaultControlRoomId"]);
 
             if (dr["DataStatus"] != DBNull.Value)
                 sysSet.DataStatus = Convert.ToInt16(dr["DataStatus"]);

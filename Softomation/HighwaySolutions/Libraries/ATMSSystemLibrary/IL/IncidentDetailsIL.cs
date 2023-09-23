@@ -18,8 +18,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String directionName;
         Decimal chainageNumber;
         String chainageName;
-        Decimal latitude;
-        Decimal longitude;
+        Double latitude;
+        Double longitude;
         String vehiclePlateNumber;
         Int16 vehicleClassId;
         String vehicleClassName;
@@ -231,7 +231,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 chainageName = value;
             }
         }
-        public Decimal Latitude
+        public Double Latitude
         {
             get
             {
@@ -243,7 +243,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 latitude = value;
             }
         }
-        public Decimal Longitude
+        public Double Longitude
         {
             get
             {

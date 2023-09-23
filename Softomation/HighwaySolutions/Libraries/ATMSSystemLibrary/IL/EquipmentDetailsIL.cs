@@ -23,8 +23,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String password;
         Decimal chainageNumber;
         String chainageName;
-        Decimal latitude;
-        Decimal longitude;
+        Double latitude;
+        Double longitude;
         String macAddress;
         String modelNumber;
         String serialNumber;
@@ -284,7 +284,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 chainageName = value;
             }
         }
-        public Decimal Latitude
+        public double Latitude
         {
             get
             {
@@ -296,7 +296,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 latitude = value;
             }
         }
-        public Decimal Longitude
+        public double Longitude
         {
             get
             {

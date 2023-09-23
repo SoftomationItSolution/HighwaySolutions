@@ -8,6 +8,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String messageId;
         String organizationId;
         String apiVersion;
+        String icdTransactionId;
         Int32 responseCode;
         String responseResult;
         DateTime transactionHeadDateTime;
@@ -22,12 +23,15 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String requestStatusName;
         Boolean isResponseSuccess;
         Boolean isSignatureRequired;
+        Boolean isResponseProcessError;
+
         public ICDCommonIL()
         {
             requestDateTime = DateTime.Now;
             messageId =string.Empty;
             organizationId = string.Empty;
             apiVersion = string.Empty;
+            icdTransactionId = string.Empty;
             responseCode = 0;
             responseResult = string.Empty;
             transactionHeadDateTime = DateTime.Now;
@@ -42,6 +46,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             requestStatusName = string.Empty;
             isResponseSuccess = false;
             isSignatureRequired = true;
+            isResponseProcessError = false;
         }
         public DateTime RequestDateTime
         {
@@ -89,6 +94,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 apiVersion = value;
+            }
+        }
+        public String ICDTransactionId
+        {
+            get
+            {
+                return icdTransactionId;
+            }
+
+            set
+            {
+                icdTransactionId = value;
             }
         }
         public int ResponseCode
@@ -258,6 +275,18 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             set
             {
                 isSignatureRequired = value;
+            }
+        }
+        public Boolean IsResponseProcessError
+        {
+            get
+            {
+                return isResponseProcessError;
+            }
+
+            set
+            {
+                isResponseProcessError = value;
             }
         }
     }

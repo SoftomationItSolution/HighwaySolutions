@@ -186,6 +186,8 @@ export class ApiService {
     return this.objHttp.post(this.ApiCallUrl + 'LogoutUser', data, { headers: this.header });
   }
 
+
+
   //#region  Client Configuration
   ClientConfigurationGetById(ClientId:any): Observable<any> {
     this.ApiCallUrl = this.GetUrl();

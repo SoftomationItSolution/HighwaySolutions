@@ -15,6 +15,9 @@ using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using HighwaySoluations.Softomation.TMSSystemLibrary;
+using System.Data;
+using System.Xml;
+using System.Text;
 
 namespace TMSRestAPI.Controllers
 {
@@ -37,40 +40,50 @@ namespace TMSRestAPI.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task<IHttpActionResult> GetResponsePay()
         {
+            ICDRequestPaymentDetailsIL icd = new ICDRequestPaymentDetailsIL();
             try
             {
-                ICDPaymentResponseIL icd = new ICDPaymentResponseIL();
+                DataSet dataSet = new DataSet();
                 icd.FilePath = responseDirectoryConfig.ResponsePay;
                 BankOfficeAPILog("ResponsePay-PayResponse  initiated.");
-                XDocument doc = XDocument.Load(await Request.Content.ReadAsStreamAsync());
-                foreach (XElement element in doc.Descendants("Head"))
-                {
-                    icd.MsgId = Convert.ToString(element.Attribute("msgId").Value);
-
-                }
+                var input = await Request.Content.ReadAsStreamAsync();
+                XDocument doc = XDocument.Load(input);
+                dataSet.ReadXml(new MemoryStream(Encoding.ASCII.GetBytes(doc.ToString())));
                 icd.FilePath += DateTime.Now.ToString("ddMMyyyy") + "\\";
-                if (!Directory.Exists(icd.FilePath))
+                try
                 {
-                    Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                    icd = DataModel.ReadXMLFile(dataSet, icd);
+                    icd.IsResponseProcessError = false;
                 }
-                icd.SaveLoc = @"" + icd.FilePath + icd.MsgId + ".xml";
-                doc.Save(icd.SaveLoc);
-                BankOfficeAPILog("ResponsePay-PayResponse file " + icd.MsgId + ".xml saved successfully.");
-                icd = DataModel.ReadXMLFile(icd);
-                if (icd.IsResponseFileSuccess)
+                catch (Exception ex)
                 {
-                    ICDPaymentResponseBL.Insert(icd);
+                    BankOfficeAPILog("Error: ResponsePay parsing " + ex.Message + ex.StackTrace);
+                    icd.IsResponseProcessError = true;
                 }
-                else
+                finally
                 {
-                    BankOfficeAPILog("ResponsePay-PayResponse file " + icd.MsgId + ".xml not inserted in DB.");
+                    icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                    icd.MessageType = true;
+                    ICDRequestPaymentDetailsBL.RequestProcess(icd);
                 }
-                BankOfficeAPILog("ResponsePay-PayResponse file " + icd.MsgId + ".xml Accepted successfully.");
+                try
+                {
+                    if (!Directory.Exists(icd.FilePath))
+                    {
+                        Directory.CreateDirectory(Path.GetDirectoryName(icd.FilePath));
+                    }
+                    icd.FileSaveLocation = icd.FilePath + icd.MessageId + ".xml";
+                    doc.Save(icd.FileSaveLocation);
+                }
+                catch (Exception ex)
+                {
+                    BankOfficeAPILog("Error: ResponsePay to save file " + ex.Message + ex.StackTrace);
+                }
+
                 return StatusCode(HttpStatusCode.Accepted);
             }
             catch (Exception ex)
             {
-                BankOfficeAPILog("Error: Get CCH File :" + ex.Message + "-" + ex.StackTrace);
                 BankOfficeAPILog("Error: ResponsePay " + ex.Message + ex.StackTrace);
                 return StatusCode(HttpStatusCode.ExpectationFailed);
             }
@@ -328,10 +341,12 @@ namespace TMSRestAPI.Controllers
                 if (File.Exists(New_FileName))
                     New_FileName = @"" + icd.FilePath + icd.MessageId + "_" + DateTime.Now.ToString("ddMMyyyyHHmmssfff") + ".xml";
                 File.Move(icd.FileSaveLocation, New_FileName);
-                ICDHeartBeatDetailsBL.Insert(icd);
+
+                icd.RequestStatusId = (short)SystemConstants.ICDRequestStatusType.Received;
+                icd.MessageType = true;
+                ICDHeartBeatDetailsBL.RequestProcess(icd);
                 BankOfficeAPILog("HeartBeatResponse-Heart Beat Response file " + icd.MessageId + "Accepted successfully.");
                 return StatusCode(HttpStatusCode.Accepted);
-
             }
             catch (Exception ex)
             {

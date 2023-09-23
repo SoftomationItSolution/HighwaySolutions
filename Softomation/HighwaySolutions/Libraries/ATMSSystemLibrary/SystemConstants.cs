@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Device.Location;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary
@@ -148,6 +151,60 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             {
                 throw ex;
             }
+        }
+
+        public static double GeoDifference(double sLatitude, double sLongitude, double eLatitude, double eLongitude)
+        {
+            try
+            {
+                var sCoord = new GeoCoordinate(sLatitude, sLongitude);
+                var eCoord = new GeoCoordinate(eLatitude, eLongitude);
+                return sCoord.GetDistanceTo(eCoord);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static string GetCentralGeoCoordinate(List<GeoCoordinateIL> geoCoordinates)
+        {
+            GeoCoordinateIL data = new GeoCoordinateIL();
+            if (geoCoordinates.Count == 1)
+            {
+                data.Latitude = geoCoordinates[0].Latitude;
+                data.Longitude = geoCoordinates[0].Longitude;
+                return string.Format("{0},{1}", data.Latitude.ToString(), data.Longitude.ToString());
+            }
+
+            double x = 0;
+            double y = 0;
+            double z = 0;
+
+            foreach (var geoCoordinate in geoCoordinates)
+            {
+                var latitude = Convert.ToDouble(geoCoordinate.Latitude) * Math.PI / 180;
+                var longitude = Convert.ToDouble(geoCoordinate.Longitude) * Math.PI / 180;
+
+                x += Math.Cos(latitude) * Math.Cos(longitude);
+                y += Math.Cos(latitude) * Math.Sin(longitude);
+                z += Math.Sin(latitude);
+            }
+
+            var total = geoCoordinates.Count;
+
+            x = x / total;
+            y = y / total;
+            z = z / total;
+
+            var centralLongitude = Math.Atan2(y, x);
+            var centralSquareRoot = Math.Sqrt(x * x + y * y);
+            var centralLatitude = Math.Atan2(z, centralSquareRoot);
+
+            data.Latitude = Convert.ToDouble(centralLatitude * 180 / Math.PI);
+            data.Longitude = Convert.ToDouble(centralLongitude * 180 / Math.PI);
+
+            return string.Format("{0},{1}", data.Latitude.ToString(), data.Longitude.ToString());
         }
         #endregion
     }
