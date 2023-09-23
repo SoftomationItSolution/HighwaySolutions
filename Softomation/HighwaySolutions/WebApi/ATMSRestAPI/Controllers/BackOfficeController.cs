@@ -240,6 +240,28 @@ namespace ATMSRestAPI.Controllers
 
         #endregion
 
+        #region Dashboard
+        [Route(Provider + "/" + APIPath + "/Dashboard/Equipment")]
+        [HttpGet]
+        public HttpResponseMessage DashboardEquipmentGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.DashboardGetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in DashboardEquipmentGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region System Details
         [Route(Provider + "/" + APIPath + "/SystemSetup")]
         [HttpPost]

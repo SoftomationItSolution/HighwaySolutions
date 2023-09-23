@@ -34,8 +34,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LoginId", DbType.String, ed.LoginId, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Password", DbType.String, ed.Password, ParameterDirection.Input, 50));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, ed.ChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, ed.Latitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, ed.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Double, ed.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Double, ed.Longitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MacAddress", DbType.String, ed.MacAddress, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModelNumber", DbType.String, ed.ModelNumber, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SerialNumber", DbType.String, ed.SerialNumber, ParameterDirection.Input, 100));
@@ -59,6 +59,26 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
 
         #region Get Methods
+        internal static List<EquipmentDetailsIL> DashboardGetAll()
+        {
+            DataTable dt = new DataTable();
+            List<EquipmentDetailsIL> eds = new List<EquipmentDetailsIL>();
+            try
+            {
+                string spName = "USP_DashboardEquipmentDetailsGetAll";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    eds.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return eds;
+
+        }
         internal static List<EquipmentDetailsIL> GetAll()
         {
             DataTable dt = new DataTable();
@@ -208,10 +228,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
 
             if (dr["Latitude"] != DBNull.Value)
-                ed.Latitude = Convert.ToDecimal(dr["Latitude"]);
+                ed.Latitude = Convert.ToDouble(dr["Latitude"]);
 
             if (dr["Longitude"] != DBNull.Value)
-                ed.Longitude = Convert.ToDecimal(dr["Longitude"]);
+                ed.Longitude = Convert.ToDouble(dr["Longitude"]);
 
             if (dr["MacAddress"] != DBNull.Value)
                 ed.MacAddress = Convert.ToString(dr["MacAddress"]);

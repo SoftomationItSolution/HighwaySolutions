@@ -26,6 +26,7 @@ export class SystemSettingComponent {
   submitted = false;
   TabId = 0
   VehicleClassList:any;
+  ControlRoomData: any;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,public Dialogref: MatDialogRef<SystemSettingComponent>) {
       this.LogedUserId = this.dm.getUserId();
@@ -43,6 +44,7 @@ export class SystemSettingComponent {
       TrafficByTime: new FormControl('', [Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
       TrafficCount: new FormControl('', [Validators.required, Validators.pattern(regExps["OnlyDigit"])]),
       RestrictedVehiclesIds: new FormControl(''),
+      DefaultControlRoomId: new FormControl('',[Validators.required]),
     });
     this.GetPermissionData();
   }
@@ -91,10 +93,10 @@ export class SystemSettingComponent {
   }
 
   GetLaneList() {
-    this.spinner.show();
+    
     this.dbService.LaneGetAll().subscribe(
       data => {
-        this.spinner.hide();
+       
         this.LaneData = data.ResponseData;
         this.GetVehicleClass();
       },
@@ -113,10 +115,9 @@ export class SystemSettingComponent {
   GetVehicleClass(){
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
-        this.spinner.hide();
         let d=data.ResponseData;
         this.VehicleClassList = d.filter((e: { ClassId: any; }) => e.ClassId != 1);
-        this.GetDetails()
+        this.ControlRoom()
       },
       (error) => {
         this.spinner.hide();
@@ -131,8 +132,21 @@ export class SystemSettingComponent {
     );
   }
 
+  ControlRoom() {
+    this.dbService.ControlRoomGetActive().subscribe(
+      data => {
+        this.ControlRoomData = data.ResponseData;
+        this.GetDetails()
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
   GetDetails() {
-    this.spinner.show();
     this.dbService.SystemSettingGet().subscribe(
       data => {
         this.spinner.hide();
@@ -142,6 +156,7 @@ export class SystemSettingComponent {
         this.DataDetailsForm.controls['TrafficByTime'].setValue(this.DetailData.TrafficByTime);
         this.DataDetailsForm.controls['IsATCCIndependently'].setValue(this.DetailData.IsATCCIndependently);
         this.DataDetailsForm.controls['RestrictedVehiclesIds'].setValue(this.DetailData.RestrictedVehiclesIdList);
+        this.DataDetailsForm.controls['DefaultControlRoomId'].setValue(this.DetailData.DefaultControlRoomId);
         if (this.DetailData.IsATCCIndependently) {
           this.DataDetailsForm.controls['ATCCByVIDS'].setValue(false);
           this.DataDetailsForm.controls['ATCCByVSDS'].setValue(false);
@@ -154,14 +169,6 @@ export class SystemSettingComponent {
           this.DataDetailsForm.controls['ATCCByVSDS'].enable();
           this.DataDetailsForm.controls['ATCCByVIDS'].enable();
         }
-
-
-        // if (this.DetailData.DataStatus == 1) {
-        //   this.DataDetailsForm.controls['DataStatus'].setValue(true);
-        // } else {
-        //   this.DataDetailsForm.controls['DataStatus'].setValue(false);
-        // }
-
       },
       (error) => {
         this.spinner.hide();
@@ -194,6 +201,7 @@ export class SystemSettingComponent {
       TrafficCount: this.DataDetailsForm.value.TrafficCount,
       TrafficByTime: this.DataDetailsForm.value.TrafficByTime,
       RestrictedVehiclesIds: RestrictedVehiclesIds,
+      DefaultControlRoomId: this.DataDetailsForm.value.DefaultControlRoomId,
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();

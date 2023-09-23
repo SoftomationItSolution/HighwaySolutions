@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
-    public class SystemSettingIL:CommonIL
+    public class SystemSettingIL : CommonIL
     {
         Int16 totalLane;
         Boolean isATCCIndependently;
@@ -14,6 +14,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String restrictedVehiclesIds;
         Int16[] restrictedVehiclesIdList;
         List<VehicleClassIL> restrictedVehiclesList;
+        Int16 defaultControlRoomId;
         public SystemSettingIL()
         {
             this.totalLane = 4;
@@ -24,6 +25,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.trafficByTime = 10;
             restrictedVehiclesIds = string.Empty;
             restrictedVehiclesList = new List<VehicleClassIL>();
+            defaultControlRoomId = 1;
         }
 
         public Int16 TotalLane
@@ -132,6 +134,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 restrictedVehiclesList = value;
+            }
+        }
+        public Int16 DefaultControlRoomId
+        {
+            get
+            {
+                return defaultControlRoomId;
+            }
+
+            set
+            {
+                defaultControlRoomId = value;
             }
         }
     }

@@ -21,6 +21,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+        public static List<EquipmentDetailsIL> DashboardGetAll()
+        {
+            try
+            {
+                return EquipmentDetailsDL.DashboardGetAll();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
         public static List<EquipmentDetailsIL> GetAll()
         {
             try

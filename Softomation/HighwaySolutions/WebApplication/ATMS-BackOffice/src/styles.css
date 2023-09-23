@@ -1,3 +1,4 @@
+
 /* You can add global styles to this file, and also import other style files */
 /* You can add global styles to this file, and also import other style files */
 /* https://pictogrammers.com/library/mdi/ */
@@ -524,13 +525,11 @@ tr {
 .navbar-brand-box {
     padding: 0px !important;
 }
-
 .vertical-menu {
     top: 55px !important;
-    overflow-x: auto;
-
+    /* overflow-x: auto; */
+/* overflow-y: auto; */
 }
-
 .page-content {
     padding: calc(55px) calc(24px / 2) 60px calc(24px / 2);
 }
@@ -585,7 +584,6 @@ tr {
     font-weight: 600 !important;
     color: #416578 !important;
 }
-
 #availableDataList,
 #FillDataList,
 #permission-table {
@@ -928,7 +926,6 @@ input[type=radio] {
     max-height: 59vh !important;
     min-height: 59vh !important;
 }
-
 .btn-search {
     margin-top: auto;
     margin-bottom: auto;

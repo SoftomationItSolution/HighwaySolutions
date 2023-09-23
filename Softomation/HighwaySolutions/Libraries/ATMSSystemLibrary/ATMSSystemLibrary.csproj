@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Device" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.31.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.IdentityModel.Tokens.Jwt.6.31.0\lib\net472\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
@@ -124,6 +125,7 @@
     <Compile Include="DL\VSDSEventDL.cs" />
     <Compile Include="DL\VSDSLaneConfigDL.cs" />
     <Compile Include="DL\VSDSReviewedEventDL.cs" />
+    <Compile Include="IL\GeoCoordinateIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\VSDSEventIL.cs" />
     <Compile Include="IL\VSDSLaneConfigIL.cs" />

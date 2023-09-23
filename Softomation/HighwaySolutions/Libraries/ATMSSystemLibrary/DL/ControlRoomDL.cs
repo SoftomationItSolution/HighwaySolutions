@@ -25,8 +25,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomId", DbType.Int32, role.ControlRoomId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ControlRoomName", DbType.String, role.ControlRoomName.Trim(), ParameterDirection.Input, 200));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ChainageNumber", DbType.Decimal, role.ChainageNumber, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Decimal, role.Latitude, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Decimal, role.Longitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Latitude", DbType.Double, role.Latitude, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Longitude", DbType.Double, role.Longitude, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, role.DirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, role.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, role.CreatedBy, ParameterDirection.Input));
@@ -112,10 +112,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
 
             if (dr["Latitude"] != DBNull.Value)
-                cr.Latitude = Convert.ToDecimal(dr["Latitude"]);
+                cr.Latitude = Convert.ToDouble(dr["Latitude"]);
 
             if (dr["Longitude"] != DBNull.Value)
-                cr.Longitude = Convert.ToDecimal(dr["Longitude"]);
+                cr.Longitude = Convert.ToDouble(dr["Longitude"]);
 
             if (dr["DirectionId"] != DBNull.Value)
                 cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
