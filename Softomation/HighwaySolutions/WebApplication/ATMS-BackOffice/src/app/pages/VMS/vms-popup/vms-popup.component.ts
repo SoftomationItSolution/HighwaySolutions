@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component ,Inject} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -5,7 +6,22 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+import 'quill-emoji/dist/quill-emoji.js';
+import Quill from 'quill'
+import Delta from 'quill'
 
+import BlotFormatter from 'quill-blot-formatter';
+//import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+var Font = Quill.import('formats/font');
+//import diff = require('fast-diff');
+const fontFamiltArr = ['Arial', 'Calibri', 'Verdana', 'Microsoft Himalaya'];
+// Font.whitelist = fontFamiltArr;
+// Quill.register(Font, true);
+// var Size = Quill.import('attributors/style/size');
+const fontSizeArr = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '22px', '24px'];
+// Size.whitelist = fontSizeArr;
+// Quill.register(Size, true);
+// Quill.register('modules/blotFormatter', BlotFormatter);
 @Component({
   selector: 'app-vms-popup',
   templateUrl: './vms-popup.component.html',
@@ -21,41 +37,71 @@ export class VmsPopupComponent {
   ErrorData: any;
   DetailData: any;
   submitted = false;
-  ControlRoomData: any;
+  VMSDetailsData: any;
+  FormateTypeList = [{ FormateTypeId: 1, FormateTypeName: "Text" },{ FormateTypeId: 2, FormateTypeName: "Image" },{ FormateTypeId: 3, FormateTypeName: "Video" }];
+  DurationList = [{ DurationId: 10, DurationName: "10 Second" },{ DurationId: 20, DurationName: "20 Second" },{ DurationId: 30, DurationName: "30 Second"}];
+  MediaPrefix: any;
+  createdEvent: any;
+  MediaFile: any;
+  modules = {};
+  FormatId = 2;
+  uploadedFiles: any[] = [];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
-    private dm: DataModel, public Dialogref: MatDialogRef<VmsPopupComponent>, public dialog: MatDialog) {
+    private dm: DataModel, public Dialogref: MatDialogRef<VmsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.PackageId = parentData.PackageId;
+    this.modules = {
+      'emoji-shortname': true,
+      'emoji-textarea': false,
+      'emoji-toolbar': true,
+      blotFormatter: {
+        // empty object for default behaviour.
+      },
+      'toolbar': {
+        container: [
+          ['bold', 'italic'],        // toggled buttons
+          //['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          [{ 'size': fontSizeArr }],  // custom dropdown
+          [{ 'color': [] }],          // dropdown with defaults from theme
+          [{ 'font': fontFamiltArr }],
+          [{ 'align': [] }],
+          ['emoji'],
+        ],
+        handlers: { 'emoji': function () { } }
+      }
+    }
   }
 
   ngOnInit(): void {
-    this.PageTitle = 'Create New VMS';
+    var SDDate = this.datepipe.transform(new Date(), 'dd-MMM-yyyy');
+    this.PageTitle = 'Create New Message';
     this.DataDetailsForm = new FormGroup({
-      ControlRoomId: new FormControl('', Validators.required),
-      PackageName: new FormControl('', Validators.required),
-      StartChainageNumber: new FormControl('', [Validators.required, Validators.pattern(regExps['ChainageNumber'])]),
-      EndChainageNumber: new FormControl('', [Validators.required, Validators.pattern(regExps['ChainageNumber'])]),
+      EquipmentId: new FormControl('', Validators.required),
+      FormatTypeId: new FormControl('', Validators.required),
+      DurationId: new FormControl('', Validators.required),
+      validDate: new FormControl(new Date(SDDate + " 00:00:00")),
+
       StartLatitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
       StartLongitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
       EndLatitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
       EndLongitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
       DataStatus: new FormControl(true),
     });
-    this.ControlRoom();
+    this.GetVMSList();
     if (this.PackageId > 0) {
       this.PageTitle = 'Update VMS Details';
     }
   }
 
-  ControlRoom() {
+  GetVMSList() {
     this.spinner.show();
-    this.dbService.ControlRoomGetActive().subscribe(
+    this.dbService.EquipmentDetailsGetActive().subscribe(
       data => {
         this.spinner.hide();
-        this.ControlRoomData = data.ResponseData;
-        if (this.PackageId > 0) {
-          this.DetailsbyId();
-        }
+        this.VMSDetailsData = data.ResponseData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 8);
+        // if (this.PackageId > 0) {
+        //   this.DetailsbyId();
+        // }
       },
       (error) => {
         this.spinner.hide();
@@ -111,7 +157,34 @@ export class VmsPopupComponent {
   ClearDetails() {
     this.DataDetailsForm.reset();
   }
+ contentChanged(obj: any) {
+    localStorage.setItem('manualhtml', obj.html);
+  }
+  
+  created(event: any) {
+    this.createdEvent = event;
+    this.createdEvent.root.innerHTML = localStorage.getItem('manualData')
+  }
+  onFormatChange(FormatId: any) {
+    this.FormatId = FormatId;
+  }
 
+  onUpload(event: any) {
+    this.uploadedFiles = [];
+    this.spinner.show();
+    const file = event.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      this.spinner.hide();
+      this.MediaFile = reader.result;
+    };
+  }
+
+  onRemove(event: any) {
+    this.uploadedFiles = [];
+    this.MediaFile = undefined;
+  }
   SaveDetails() {
     this.submitted = true;
     if (this.DataDetailsForm.invalid) {

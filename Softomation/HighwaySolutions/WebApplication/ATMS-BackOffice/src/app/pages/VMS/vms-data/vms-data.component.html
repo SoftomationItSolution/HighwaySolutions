@@ -18,19 +18,20 @@
                     </div>
                 </div>
                 <div class="table-responsive mt-3 listtableheight">
-                    <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                    <p-table #dt [value]="MessageData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
                         [globalFilterFields]="['PackageName','StartChainageNumber','EndChainageNumber','DataStatusName']" scrollHeight="56vh">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
+                                <!-- <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="StartChainageNumber">Chainage<p-sortIcon
                                         field="StartChainageNumber"></p-sortIcon>
-                                </th>
-                                <th>Start Coordinates</th>
-                                <th>End Coordinates</th>
+                                </th> -->
+                                <th>Format</th>
+                                <th>ValidTillDateTimeStamp</th>
+                                <th>MessageDetails</th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
                                 </th>
@@ -40,10 +41,21 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.PackageName}}</td>
-                                <td>{{rowData.StartChainageNumber}} - {{rowData.EndChainageNumber}}</td>
-                                <td>{{rowData.StartLatitude}},{{rowData.StartLongitude}}</td>
-                                <td>{{rowData.EndLatitude}},{{rowData.EndLongitude}}</td>
+                                <!-- <td>{{rowData.PackageName}}</td>
+                                <td>{{rowData.StartChainageNumber}} - {{rowData.EndChainageNumber}}</td> -->
+                                <td>{{rowData.FormatName}}</td>
+                                <td>{{rowData.ValidTillDateTimeStamp}}</td>
+                                <td *ngIf="rowData.FormatId==1">{{rowData.MessageDetails}}</td>
+                                <!-- <td >
+                                    <i class="mdi mdi-file-image font-size-18"></i>
+                                </td> -->
+                                <td style="text-align: center;" >
+                                    <a *ngIf="rowData.FormatId==2 || rowData.FormatId==3" href="javascript:void(0);" (click)="onMidiaView(rowData)"
+                                        class="me-3 text-secondary" title="Meida Files">
+                                        <i class="fa fa-paperclip font-size-18"></i>
+                                    </a>
+                                </td>
+                             
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

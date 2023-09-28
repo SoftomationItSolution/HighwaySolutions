@@ -2405,5 +2405,48 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region VMS
+        [Route(Provider + "/" + APIPath + "/VMSMessageSetUp")]
+        [HttpPost]
+        public HttpResponseMessage VMSMessageSetUp(VMSIL ss)
+        {
+            try
+            {
+                response.Message = VMSBL.InsertUpdate(ss);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VMSMessageSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/GetVMSMessage")]
+        [HttpGet]
+        public HttpResponseMessage GetVMSMessage()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VMSBL.GetVMSMessage();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetVMSMessage : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+
+       #endregion
+
     }
 }

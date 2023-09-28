@@ -89,6 +89,7 @@ import { MetEventConfigComponent } from './pages/MET/met-event-config/met-event-
 import { MetDataComponent } from './pages/MET/met-data/met-data.component';
 import { VmsDataComponent } from './pages/VMS/vms-data/vms-data.component';
 import { VmsPopupComponent } from './pages/VMS/vms-popup/vms-popup.component';
+import { QuillModule } from 'ngx-quill';
 
 
 export const MY_NATIVE_DATE_FORMATS = {
@@ -207,7 +208,8 @@ export const MY_CUSTOM_FORMATS = {
     MultiSelectModule,
     ImageModule,
     ConfirmDialogModule,
-    ImageCropperModule 
+    ImageCropperModule,
+    QuillModule.forRoot() 
   ],
   providers: [
     [DatePipe],

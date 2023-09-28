@@ -13,7 +13,7 @@ import { VmsPopupComponent } from '../vms-popup/vms-popup.component';
 export class VmsDataComponent {
   ErrorData: any;
   PermissionData: any;
-  DevicesData: any;
+  MessageData: any;
   LogedRoleId;
   LogedUserId;
   DataUpdate: Number = 0;
@@ -60,10 +60,10 @@ export class VmsDataComponent {
 
   GetAllData() {
     this.spinner.show();
-    this.dbService.PackagesGetAll().subscribe(
+    this.dbService.GetVMSMessage().subscribe(
       data => {
         this.spinner.hide();
-        this.DevicesData = data.ResponseData;
+        this.MessageData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();
@@ -73,6 +73,33 @@ export class VmsDataComponent {
     );
   }
 
+  onMidiaView(TransactionRowData: any) {
+    let imagepath='';
+    let Videopath='';
+    if(TransactionRowData.FormatId==2)
+    {
+      imagepath=TransactionRowData.MessageDetails;
+    }
+    else if(TransactionRowData.FormatId==3)
+    {
+      Videopath=TransactionRowData.MessageDetails;
+    }
+
+    var obj = {
+      PageTitle: "Message media-(" + TransactionRowData.FormatName + ")",
+      
+      ImageData: [{
+        ImagePath: imagepath
+      }],
+      VideoData: [{
+        VideoPath: Videopath
+      }],
+      AudioData: [{
+        AudioPath: ''
+      }]
+    }
+    this.dm.MediaView(obj);
+  }
   NewEntry() {
     if (this.DataAdd == 1) {
       const dialogConfig = new MatDialogConfig();
