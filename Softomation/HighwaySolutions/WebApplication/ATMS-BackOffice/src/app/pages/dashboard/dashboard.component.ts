@@ -139,6 +139,11 @@ export class DashboardComponent implements OnInit {
         pixelRatio: window.devicePixelRatio || 1
       }
     );
+    let mapView = this.map.getViewModel();
+    mapView.setLookAtData({
+      heading: 170
+    });
+
     window.addEventListener('resize', () => this.map.getViewPort().resize());
     var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(this.map));
     this.mapUI = H.ui.UI.createDefault(this.map, defaultLayers);
