@@ -168,7 +168,7 @@ export const MY_CUSTOM_FORMATS = {
     MetEventConfigComponent,
     MetDataComponent,
     VmsDataComponent,
-    VmsPopupComponent
+    VmsPopupComponent,
   ],
   imports: [
     BrowserAnimationsModule,
