@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions } from "ng-apexcharts";
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions, ApexNonAxisChartSeries, ApexResponsive, ApexTheme, ApexYAxis, ApexMarkers, ApexFill, ApexForecastDataPoints, ApexLegend } from "ng-apexcharts";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
@@ -17,6 +17,29 @@ export type ChartOptions = {
   plotOptions?: ApexPlotOptions;
 };
 
+export type PieChartOptions = {
+  series: ApexNonAxisChartSeries;
+  chart: ApexChart;
+  responsive: ApexResponsive[];
+  labels: any;
+  theme: ApexTheme;
+  title: ApexTitleSubtitle;
+};
+
+export type LineChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -29,7 +52,10 @@ export class DashboardComponent implements OnInit {
   onResize() {
     this.map.getViewPort().resize()
   }
-  public chartOptions!: Partial<ChartOptions> | any;
+  public vidsEventOptions!: Partial<ChartOptions> | any;
+  public vidsLocationOptions!: Partial<PieChartOptions> | any;
+  public vidsTimeOptions!: Partial<LineChartOptions> | any;
+
   private platform: any;
   public map: any;
   public mapUI: any;
@@ -38,82 +64,18 @@ export class DashboardComponent implements OnInit {
   DefaultCordinatelong = 85.542642;
   ErrorData: any;
   EquipmentList: any;
-  VehicleTrafficCount:any;
-  ChainageList:any=[];
-  SelectedChainage:any;
+  VehicleTrafficCount: any;
+  ChainageList: any = [];
+  SelectedChainage: any;
+  VIDSEventCount: any
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
-    private dm: DataModel,private cd: ChangeDetectorRef,public dialog: MatDialog) { }
+    private dm: DataModel, private cd: ChangeDetectorRef, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.chartOptions = {
-      series: [
-        {
-          name: "paid",
-          data: [10, 5, 15, 12, 11, 9, 18, 16, 9],
-          color: "#0073cf"
 
-        }, {
-          name: "earning",
-          data: [10, 5, 15, 12, 11, 9, 18, 16, 9],
-          color: "#c2c2c2"
-        }
-      ],
-      chart: {
-        height: 350,
-        type: "bar",
-        zoom: {
-          enabled: false
-        },
-        stacked: true
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '20%',
-          borderRadius: 3,
-          borderRadiusApplication: 'end',
-          dataLabels: {
-            position: 'center'
-          }
-        },
-
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          colors: ['#c23c23'],
-          fontSize: '8px'
-        },
-      },
-      stroke: {
-        curve: "straight"
-      },
-      title: {
-        text: "VIDS Incident Details",
-        align: "left"
-      },
-      grid: {
-        row: {
-          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-          opacity: 0.5
-        }
-      },
-      xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep"
-        ],
-      }
-    };
     this.GetDashboardEquipment();
     this.DashboardATCC();
+    this.DashboardVIDS();
   }
 
   GetDashboardEquipment() {
@@ -166,27 +128,27 @@ export class DashboardComponent implements OnInit {
     let bubble: any;
     parisMarker.addEventListener('pointerenter', function (evt: any) {
       bubble = new H.ui.InfoBubble({ lat: data.Latitude, lng: data.Longitude }, {
-      content:'<div class="d-flex flex-row justify-content-start" style="width:147px">'+
-      '<div style="border-radius: 3px; background-color: rgba(57, 192, 237,.2);">'+
-      '<p class="small mb-0">Location:'+data.ChainageName+'-'+data.DirectionName+'</p>'+
-      '<p class="small mb-0">IP-Address:'+data.IpAddress+'</p>'+
-      '</div>'+
-      '</div>'
+        content: '<div class="d-flex flex-row justify-content-start" style="width:147px">' +
+          '<div style="border-radius: 3px; background-color: rgba(57, 192, 237,.2);">' +
+          '<p class="small mb-0">Location:' + data.ChainageName + '-' + data.DirectionName + '</p>' +
+          '<p class="small mb-0">IP-Address:' + data.IpAddress + '</p>' +
+          '</div>' +
+          '</div>'
       });
       mapUI.addBubble(bubble);
     }, false);
     parisMarker.addEventListener('pointerleave', function (evt: any) {
       bubble.close();
     }, false);
-    parisMarker.addEventListener('tap',  {
-      data:data,
-      handleEvent:(evt:any) => this.tap(data)
+    parisMarker.addEventListener('tap', {
+      data: data,
+      handleEvent: (evt: any) => this.tap(data)
     });
     map.addObject(parisMarker);
   }
 
-  tap(detail:any){
-    if(detail.EquipmentTypeName.indexOf("Camera")>-1 && detail.OnLineStatus){
+  tap(detail: any) {
+    if (detail.EquipmentTypeName.indexOf("Camera") > -1 && detail.OnLineStatus) {
       this.cd.detectChanges();
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
@@ -198,16 +160,16 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  DashboardATCC(){
+  DashboardATCC() {
     this.dbService.DashboardATCC().subscribe(
       data => {
         var ATCCData = data.ResponseData;
-        this.VehicleTrafficCount=ATCCData.VehicleTrafficCount;
+        this.VehicleTrafficCount = ATCCData.VehicleTrafficCount;
         this.ChainageList = [
-        ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any}) => 
-        element.ChainageName)),
+          ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any }) =>
+            element.ChainageName)),
         ];
-        this.SelectedChainage=this.ChainageList[0]
+        this.SelectedChainage = this.ChainageList[0]
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -217,16 +179,13 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  DashboardVIDS(){
+  DashboardVIDS() {
     this.dbService.DashboardVIDS().subscribe(
       data => {
         var VIDSData = data.ResponseData;
-        // this.VehicleTrafficCount=ATCCData.VehicleTrafficCount;
-        // this.ChainageList = [
-        // ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any}) => 
-        // element.ChainageName)),
-        // ];
-        // this.SelectedChainage=this.ChainageList[0]
+        this.VIDSEventCountFun(VIDSData.EventCount);
+        this.VIDSLocationCountFun(VIDSData.LocationTrafficCount);
+        this.VIDSHourTrafficCount(VIDSData.HourTrafficCount);
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -236,7 +195,220 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  ChainageChange(data:any){
+  VIDSEventCountFun(data: any) {
+    let EventTypeName = [
+      ...new Set(data.map((element: { EventTypeName: any }) =>
+        element.EventTypeName)),
+    ];
+
+    let LHSEvent = [
+      ...new Set(data.map((element: { LEventCount: any }) =>
+        element.LEventCount)),
+    ];
+    let RHSEvent = [
+      ...new Set(data.map((element: { REventCount: any }) =>
+        element.REventCount)),
+    ];
+
+    this.vidsEventOptions = {
+      series: [
+        {
+          name: "LHS",
+          data: LHSEvent,
+          color: "#0073cf"
+
+        }, {
+          name: "RHS",
+          data: RHSEvent,
+          color: "#c2c2c2"
+        }
+      ],
+      chart: {
+        height: 300,
+        type: "bar",
+        zoom: {
+          enabled: false
+        },
+        stacked: true
+      },
+      plotOptions: {
+        bar: {
+          horizontal: false,
+          columnWidth: '20%',
+          borderRadius: 3,
+          borderRadiusApplication: 'end',
+          dataLabels: {
+            position: 'center'
+          }
+        },
+
+      },
+      dataLabels: {
+        enabled: true,
+        style: {
+          colors: ['#c23c23'],
+          fontSize: '8px'
+        },
+      },
+      stroke: {
+        curve: "straight"
+      },
+      title: {
+        text: "VIDS Events Details",
+        align: "left"
+      },
+      grid: {
+        row: {
+          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
+          opacity: 0.5
+        }
+      },
+      xaxis: {
+        categories: EventTypeName,
+      }
+    };
+  }
+
+  VIDSLocationCountFun(data: any) {
+    let ChainageNumber = [
+      ...new Set(data.map((element: { ChainageName: any }) =>
+        element.ChainageName)),
+    ];
+
+
+    let EventCount = [
+      ...new Set(data.map((element: { EventCount: any }) =>
+        element.EventCount)),
+    ];
+
+    this.vidsLocationOptions = {
+      series: EventCount,
+      chart: {
+        height: 300,
+        width: "100%",
+        type: "pie"
+      },
+      labels: ChainageNumber,
+      theme: {
+        monochrome: {
+          enabled: true
+        }
+      },
+      title: {
+        text: "VIDS Event by Chainage"
+      },
+      responsive: [
+        {
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  VIDSHourTrafficCount(data: any) {
+    let LHSEvent=[];
+    let RHSEvent=[];
+    let TEvent=[];
+    let TimeSloat=[];
+    for (let i = 0; i < data.length; i++){
+        LHSEvent.push(data[i].LEventCount);
+        RHSEvent.push(data[i].REventCount);
+        TEvent.push(data[i].EventCount);
+        TimeSloat.push(data[i].TimeSloat);
+    } 
+    this.vidsTimeOptions = {
+      series: [
+        {
+          name: "LHS",
+          data: LHSEvent
+        },
+        {
+          name: "RHS",
+          data: RHSEvent
+        },
+        {
+          name: "Total Event",
+          data: TEvent
+        }
+      ],
+      chart: {
+        height: 350,
+        type: "line"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 5,
+        curve: "straight",
+        dashArray: [0, 8, 5]
+      },
+      title: {
+        text: "Last 24 Hours VIDS Events",
+        align: "left"
+      },
+      legend: {
+        tooltipHoverFormatter: function (val: string, opts: { w: { globals: { series: { [x: string]: { [x: string]: string; }; }; }; }; seriesIndex: string | number; dataPointIndex: string | number; }) {
+          return (
+            val +
+            " - <strong>" +
+            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            "</strong>"
+          );
+        }
+      },
+      markers: {
+        size: 0,
+        hover: {
+          sizeOffset: 12
+        }
+      },
+      xaxis: {
+        labels: {
+          trim: false
+        },
+        categories: TimeSloat
+      },
+      tooltip: {
+        y: [
+          {
+            title: {
+              formatter: function (val: string) {
+                return val + " (mins)";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function (val: string) {
+                return val + " events";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function (val: any) {
+                return val;
+              }
+            }
+          }
+        ]
+      },
+      grid: {
+        borderColor: "#f1f1f1"
+      }
+    };
+  }
+
+  ChainageChange(data: any) {
 
   }
 }

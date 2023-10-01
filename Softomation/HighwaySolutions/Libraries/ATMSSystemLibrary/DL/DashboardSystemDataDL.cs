@@ -56,7 +56,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     dash.LocationTrafficCount.Add(CreateLocationTraffic(dr));
 
                 foreach (DataRow dr in dataSet.Tables["Table2"].Rows)
-                    dash.LocationEventCount.Add(CreateEventCount(dr));
+                    dash.EventCount.Add(CreateEventCount(dr));
 
                 foreach (DataRow dr in dataSet.Tables["Table3"].Rows)
                     dash.LocationEventCount.Add(CreateLocationEventCount(dr));
