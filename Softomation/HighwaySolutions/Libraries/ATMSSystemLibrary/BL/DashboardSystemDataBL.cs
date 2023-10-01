@@ -17,5 +17,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+        public static DashboardSystemDataIL GetVIDS()
+        {
+            try
+            {
+                return DashboardSystemDataDL.GetVIDS();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

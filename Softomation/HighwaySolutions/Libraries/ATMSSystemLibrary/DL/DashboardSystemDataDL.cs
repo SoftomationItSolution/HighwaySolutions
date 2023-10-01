@@ -18,20 +18,20 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 string spName = "USP_DashboardATCCData";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 DataSet dataSet = DBAccessor.LoadDataSet(command, tableName);
-                foreach (DataRow dr in dataSet.Tables["Table1"].Rows)
+                foreach (DataRow dr in dataSet.Tables["Dashboard"].Rows)
                     dash.HourTrafficCount.Add(CreateHourTraffic(dr));
 
-                foreach (DataRow dr in dataSet.Tables["Table2"].Rows)
+                foreach (DataRow dr in dataSet.Tables["Table1"].Rows)
                     dash.LocationTrafficCount.Add(CreateLocationTraffic(dr));
 
-                foreach (DataRow dr in dataSet.Tables["Table3"].Rows)
+                foreach (DataRow dr in dataSet.Tables["Table2"].Rows)
                     dash.VehicleTrafficCount.Add(CreateVehcileTraffic(dr));
 
-                foreach (DataRow dr in dataSet.Tables["Table4"].Rows)
+                foreach (DataRow dr in dataSet.Tables["Table3"].Rows)
                     dash.LaneTrafficCount.Add(CreateLaneTraffic(dr));
 
-                foreach (DataRow dr in dataSet.Tables["Table5"].Rows)
-                    dash.LaneVehicleTrafficCount.Add(CreateLaneVehicleTraffic(dr));
+                foreach (DataRow dr in dataSet.Tables["Table4"].Rows)
+                    dash.LaneVehicleTrafficCount.Add(CreateLaneVehicleCount(dr));
             }
             catch (Exception ex)
             {
@@ -40,6 +40,36 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return dash;
         }
 
+        internal static DashboardSystemDataIL GetVIDS()
+        {
+            DashboardSystemDataIL dash = new DashboardSystemDataIL();
+
+            try
+            {
+                string spName = "USP_DashboardVIDSData";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                DataSet dataSet = DBAccessor.LoadDataSet(command, tableName);
+                foreach (DataRow dr in dataSet.Tables["Dashboard"].Rows)
+                    dash.HourTrafficCount.Add(CreateHourTraffic(dr));
+
+                foreach (DataRow dr in dataSet.Tables["Table1"].Rows)
+                    dash.LocationTrafficCount.Add(CreateLocationTraffic(dr));
+
+                foreach (DataRow dr in dataSet.Tables["Table2"].Rows)
+                    dash.LocationEventCount.Add(CreateEventCount(dr));
+
+                foreach (DataRow dr in dataSet.Tables["Table3"].Rows)
+                    dash.LocationEventCount.Add(CreateLocationEventCount(dr));
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dash;
+        }
+
+        #region Common
         private static TrafficDetailsIL CreateHourTraffic(DataRow dr)
         {
             TrafficDetailsIL cr = new TrafficDetailsIL();
@@ -58,17 +88,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
 
-            if (dr["DirectionId"] != DBNull.Value)
-                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
 
-            if (dr["VehicleCount"] != DBNull.Value)
-                cr.EventCount = Convert.ToInt64(dr["VehicleCount"]);
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
 
-            cr.DirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)cr.DirectionId);
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
 
             return cr;
         }
-
         private static TrafficDetailsIL CreateLocationTraffic(DataRow dr)
         {
             TrafficDetailsIL cr = new TrafficDetailsIL();
@@ -76,15 +106,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
 
-            if (dr["DirectionId"] != DBNull.Value)
-                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
 
-            if (dr["VehicleCount"] != DBNull.Value)
-                cr.EventCount = Convert.ToInt64(dr["VehicleCount"]);
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
 
-            cr.DirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)cr.DirectionId);
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
             return cr;
         }
+        #endregion
+
+        #region ATCC
 
         private static TrafficDetailsIL CreateVehcileTraffic(DataRow dr)
         {
@@ -92,12 +126,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-
-            if (dr["LDirectionId"] != DBNull.Value)
-                cr.LEventCount = Convert.ToInt64(dr["LDirectionId"]);
-
-            if (dr["RDirectionId"] != DBNull.Value)
-                cr.REventCount = Convert.ToInt64(dr["RDirectionId"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 cr.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
@@ -107,11 +135,15 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["VehicleClassIcon"] != DBNull.Value)
                 cr.VehicleClassIcon = Convert.ToString(dr["VehicleClassIcon"]);
-            
-            if (dr["VehicleCount"] != DBNull.Value)
-                cr.EventCount = Convert.ToInt64(dr["VehicleCount"]);
 
-            cr.DirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)cr.DirectionId);
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
+
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
+
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
             return cr;
         }
 
@@ -122,28 +154,26 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
 
-            if (dr["DirectionId"] != DBNull.Value)
-                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
-
             if (dr["LaneNumber"] != DBNull.Value)
                 cr.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
 
-            if (dr["VehicleCount"] != DBNull.Value)
-                cr.EventCount = Convert.ToInt64(dr["VehicleCount"]);
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
 
-            cr.DirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)cr.DirectionId);
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
+
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
             return cr;
         }
 
-        private static TrafficDetailsIL CreateLaneVehicleTraffic(DataRow dr)
+        private static TrafficDetailsIL CreateLaneVehicleCount(DataRow dr)
         {
             TrafficDetailsIL cr = new TrafficDetailsIL();
 
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-
-            if (dr["DirectionId"] != DBNull.Value)
-                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 cr.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);
@@ -157,13 +187,65 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["LaneNumber"] != DBNull.Value)
                 cr.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);
 
-            if (dr["VehicleCount"] != DBNull.Value)
-                cr.EventCount = Convert.ToInt64(dr["VehicleCount"]);
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
 
-            cr.DirectionName = Enum.GetName(typeof(CommonLibrary.Constants.DirectionType), (CommonLibrary.Constants.DirectionType)cr.DirectionId);
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
+
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
             return cr;
         }
 
+
+        #endregion
+
+        #region VIDS
+        private static TrafficDetailsIL CreateEventCount(DataRow dr)
+        {
+            TrafficDetailsIL cr = new TrafficDetailsIL();
+
+            if (dr["EventTypeId"] != DBNull.Value)
+                cr.EventTypeId = Convert.ToInt16(dr["EventTypeId"]);
+
+            if (dr["EventTypeName"] != DBNull.Value)
+                cr.EventTypeName = Convert.ToString(dr["EventTypeName"]);
+
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
+
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
+
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
+            return cr;
+        }
+        private static TrafficDetailsIL CreateLocationEventCount(DataRow dr)
+        {
+            TrafficDetailsIL cr = new TrafficDetailsIL();
+
+            if (dr["ChainageNumber"] != DBNull.Value)
+                cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
+
+            if (dr["EventTypeId"] != DBNull.Value)
+                cr.EventTypeId = Convert.ToInt16(dr["EventTypeId"]);
+
+            if (dr["EventTypeName"] != DBNull.Value)
+                cr.EventTypeName = Convert.ToString(dr["EventTypeName"]);
+
+            if (dr["LEventCount"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LEventCount"]);
+
+            if (dr["REventCount"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["REventCount"]);
+
+            if (dr["EventCount"] != DBNull.Value)
+                cr.EventCount = Convert.ToInt64(dr["EventCount"]);
+            return cr;
+        }
+        #endregion
 
     }
 }

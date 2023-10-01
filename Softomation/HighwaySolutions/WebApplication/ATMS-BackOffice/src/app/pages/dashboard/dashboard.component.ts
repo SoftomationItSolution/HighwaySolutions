@@ -217,6 +217,25 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  DashboardVIDS(){
+    this.dbService.DashboardVIDS().subscribe(
+      data => {
+        var VIDSData = data.ResponseData;
+        // this.VehicleTrafficCount=ATCCData.VehicleTrafficCount;
+        // this.ChainageList = [
+        // ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any}) => 
+        // element.ChainageName)),
+        // ];
+        // this.SelectedChainage=this.ChainageList[0]
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        this.DefaultCoordinates();
+      }
+    );
+  }
+
   ChainageChange(data:any){
 
   }

@@ -6,9 +6,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     {
         DateTime startDateTime;
         DateTime endDateTime;
-        Int16 directionId;
-        String directionName;
         String timeSloat;
+        Int16 eventTypeId;
+        String eventTypeName;
         Int16 vehicleClassId;
         String vehicleClassName;
         String vehicleClassIcon;
@@ -24,9 +24,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             startDateTime = DateTime.Now;
             endDateTime = DateTime.Now;
-            directionId = 0;
-            directionName = string.Empty;
             timeSloat = string.Empty;
+            eventTypeId = 0;
+            eventTypeName = string.Empty;
             vehicleClassId = 0;
             vehicleClassName = string.Empty;
             vehicleClassIcon = string.Empty;
@@ -63,30 +63,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 endDateTime = value;
             }
         }
-        public Int16 DirectionId
-        {
-            get
-            {
-                return directionId;
-            }
-
-            set
-            {
-                directionId = value;
-            }
-        }
-        public String DirectionName
-        {
-            get
-            {
-                return directionName;
-            }
-
-            set
-            {
-                directionName = value;
-            }
-        }
         public String TimeSloat
         {
             get
@@ -97,6 +73,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 timeSloat = value;
+            }
+        }
+        public Int16 EventTypeId
+        {
+            get
+            {
+                return eventTypeId;
+            }
+
+            set
+            {
+                eventTypeId = value;
+            }
+        }
+        public String EventTypeName
+        {
+            get
+            {
+                return eventTypeName;
+            }
+
+            set
+            {
+                eventTypeName = value;
             }
         }
         public Int16 VehicleClassId
@@ -223,5 +223,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 eventCount = value;
             }
         }
+       
     }
 }

@@ -10,6 +10,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         List<TrafficDetailsIL> vehicleTrafficCount;
         List<TrafficDetailsIL> laneTrafficCount;
         List<TrafficDetailsIL> laneVehicleTrafficCount;
+        List<TrafficDetailsIL> locationEventCount;
 
         public DashboardSystemDataIL()
         {
@@ -19,6 +20,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             vehicleTrafficCount = new List<TrafficDetailsIL>();
             laneTrafficCount = new List<TrafficDetailsIL>();
             laneVehicleTrafficCount = new List<TrafficDetailsIL>();
+            locationEventCount = new List<TrafficDetailsIL>();
         }
         public List<TrafficDetailsIL> MasterTrafficeCount
         {
@@ -92,5 +94,20 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 laneVehicleTrafficCount = value;
             }
         }
+
+        public List<TrafficDetailsIL> LocationEventCount
+        {
+            get
+            {
+                return locationEventCount;
+            }
+
+            set
+            {
+                locationEventCount = value;
+            }
+        }
+
+        
     }
 }

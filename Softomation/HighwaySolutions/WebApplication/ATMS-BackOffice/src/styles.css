@@ -1103,15 +1103,13 @@ input[type=radio] {
 }
 
 .dash-scrole{
-    height: 77vh;
+    height: 83vh;
     overflow-y: auto;
 }
 .avatar-title{
     font-size: 22px;
 }
-.iwt{
-    display:block;
-    }
+
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
