@@ -6,7 +6,7 @@ File: Icons Css File
 @font-face {
   font-family: "Material Design Icons";
   src: url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot?v=5.9.55");
-  src: url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot?#iefix&v=5.9.55") format("embedded-opentype"), url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2?v=5.9.55") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=5.9.55") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=5.9.55") format("truetype");
+  src: url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot?#iefix&v=5.9.55") format("embedded-opentype"), url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2?v=5.9.55") format("woff2"), url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff?v=5.9.55") format("woff"), url("node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf?v=5.9.55") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

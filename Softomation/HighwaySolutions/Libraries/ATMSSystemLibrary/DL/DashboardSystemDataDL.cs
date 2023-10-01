@@ -93,8 +93,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
                 cr.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
 
-            if (dr["DirectionId"] != DBNull.Value)
-                cr.DirectionId = Convert.ToInt16(dr["DirectionId"]);
+            if (dr["LDirectionId"] != DBNull.Value)
+                cr.LEventCount = Convert.ToInt64(dr["LDirectionId"]);
+
+            if (dr["RDirectionId"] != DBNull.Value)
+                cr.REventCount = Convert.ToInt64(dr["RDirectionId"]);
 
             if (dr["VehicleClassId"] != DBNull.Value)
                 cr.VehicleClassId = Convert.ToInt16(dr["VehicleClassId"]);

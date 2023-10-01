@@ -1102,6 +1102,16 @@ input[type=radio] {
     margin-top: 10px;
 }
 
+.dash-scrole{
+    height: 77vh;
+    overflow-y: auto;
+}
+.avatar-title{
+    font-size: 22px;
+}
+.iwt{
+    display:block;
+    }
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;

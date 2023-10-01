@@ -39,6 +39,8 @@ export class DashboardComponent implements OnInit {
   ErrorData: any;
   EquipmentList: any;
   VehicleTrafficCount:any;
+  ChainageList:any=[];
+  SelectedChainage:any;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,private cd: ChangeDetectorRef,public dialog: MatDialog) { }
 
@@ -201,7 +203,11 @@ export class DashboardComponent implements OnInit {
       data => {
         var ATCCData = data.ResponseData;
         this.VehicleTrafficCount=ATCCData.VehicleTrafficCount;
-        console.log(ATCCData)
+        this.ChainageList = [
+        ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any}) => 
+        element.ChainageName)),
+        ];
+        this.SelectedChainage=this.ChainageList[0]
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -209,5 +215,9 @@ export class DashboardComponent implements OnInit {
         this.DefaultCoordinates();
       }
     );
+  }
+
+  ChainageChange(data:any){
+
   }
 }

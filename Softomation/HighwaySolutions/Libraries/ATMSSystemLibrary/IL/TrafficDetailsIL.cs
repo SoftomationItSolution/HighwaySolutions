@@ -16,6 +16,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String chainageName;
         Int16 laneNumber;
         String laneName;
+        Int64 lEventCount;
+        Int64 rEventCount;
         Int64 eventCount;
 
         public TrafficDetailsIL()
@@ -32,6 +34,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             chainageName = string.Empty;
             laneNumber = 0;
             laneName = string.Empty;
+            lEventCount = 0;
+            rEventCount = 0;
             eventCount = 0;
         }
         
@@ -141,8 +145,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 chainageNumber = value;
-                //ChainageName = chainageNumber.ToString().Replace(".","+");
-                ChainageName = string.Format("{0:0+000}", chainageNumber);
+                ChainageName = string.Format("{0:0.000}", chainageNumber);
+                ChainageName = ChainageName.Replace(".", "+");
             }
         }
         public String ChainageName
@@ -181,6 +185,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             {
                 laneName = value;
                
+            }
+        }
+        public Int64 LEventCount
+        {
+            get
+            {
+                return lEventCount;
+            }
+
+            set
+            {
+                lEventCount = value;
+            }
+        }
+        public Int64 REventCount
+        {
+            get
+            {
+                return rEventCount;
+            }
+
+            set
+            {
+                rEventCount = value;
             }
         }
         public Int64 EventCount
