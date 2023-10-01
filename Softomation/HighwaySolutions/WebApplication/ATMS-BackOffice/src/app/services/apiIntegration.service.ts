@@ -140,6 +140,12 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/Dashboard/Equipment', { headers: headers_object });
   }
+
+  DashboardATCC(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/Dashboard/ATCC', { headers: headers_object });
+  }
   //#endregion
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {

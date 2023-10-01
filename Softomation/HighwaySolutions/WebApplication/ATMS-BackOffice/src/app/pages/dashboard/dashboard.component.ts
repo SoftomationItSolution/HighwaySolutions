@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit {
   DefaultCordinatelong = 85.542642;
   ErrorData: any;
   EquipmentList: any;
+  VehicleTrafficCount:any;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,private cd: ChangeDetectorRef,public dialog: MatDialog) { }
 
@@ -110,6 +111,7 @@ export class DashboardComponent implements OnInit {
       }
     };
     this.GetDashboardEquipment();
+    this.DashboardATCC();
   }
 
   GetDashboardEquipment() {
@@ -125,6 +127,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
   DefaultCoordinates() {
     this.platform = new H.service.Platform({
       "apikey": "97IzKs6qDY3ZxrIClkXxieDxFK1w78t9PG3YqZUQpzE"
@@ -191,5 +194,20 @@ export class DashboardComponent implements OnInit {
       dialogConfig.data = detail;
       const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
     }
+  }
+
+  DashboardATCC(){
+    this.dbService.DashboardATCC().subscribe(
+      data => {
+        var ATCCData = data.ResponseData;
+        this.VehicleTrafficCount=ATCCData.VehicleTrafficCount;
+        console.log(ATCCData)
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        this.DefaultCoordinates();
+      }
+    );
   }
 }

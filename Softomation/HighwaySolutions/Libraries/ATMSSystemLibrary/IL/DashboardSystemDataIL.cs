@@ -4,78 +4,92 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
     public class DashboardSystemDataIL
     {
-        List<TrafficeDetailsIL> masterTrafficeCount;
-        List<TrafficeDetailsIL> hourTrafficeCount;
-        List<TrafficeDetailsIL> locationTrafficeCount;
-        List<TrafficeDetailsIL> directionTrafficeCount;
-        List<TrafficeDetailsIL> vehicleTrafficeCount;
+        List<TrafficDetailsIL> masterTrafficCount;
+        List<TrafficDetailsIL> hourTrafficCount;
+        List<TrafficDetailsIL> locationTrafficCount;
+        List<TrafficDetailsIL> vehicleTrafficCount;
+        List<TrafficDetailsIL> laneTrafficCount;
+        List<TrafficDetailsIL> laneVehicleTrafficCount;
 
         public DashboardSystemDataIL()
         {
-            masterTrafficeCount = new List<TrafficeDetailsIL>();
-            hourTrafficeCount = new List<TrafficeDetailsIL>();
-            locationTrafficeCount = new List<TrafficeDetailsIL>();
-            directionTrafficeCount = new List<TrafficeDetailsIL>();
-            vehicleTrafficeCount = new List<TrafficeDetailsIL>();
+            masterTrafficCount = new List<TrafficDetailsIL>();
+            hourTrafficCount = new List<TrafficDetailsIL>();
+            locationTrafficCount = new List<TrafficDetailsIL>();
+            vehicleTrafficCount = new List<TrafficDetailsIL>();
+            laneTrafficCount = new List<TrafficDetailsIL>();
+            laneVehicleTrafficCount = new List<TrafficDetailsIL>();
         }
-        public List<TrafficeDetailsIL> MasterTrafficeCount
+        public List<TrafficDetailsIL> MasterTrafficeCount
         {
             get
             {
-                return masterTrafficeCount;
+                return masterTrafficCount;
             }
 
             set
             {
-                masterTrafficeCount = value;
+                masterTrafficCount = value;
             }
         }
-        public List<TrafficeDetailsIL> HourTrafficeCount
+        public List<TrafficDetailsIL> HourTrafficCount
         {
             get
             {
-                return hourTrafficeCount;
+                return hourTrafficCount;
             }
 
             set
             {
-                hourTrafficeCount = value;
+                hourTrafficCount = value;
             }
         }
-        public List<TrafficeDetailsIL> LocationTrafficeCount
+        public List<TrafficDetailsIL> LocationTrafficCount
         {
             get
             {
-                return locationTrafficeCount;
+                return locationTrafficCount;
             }
 
             set
             {
-                locationTrafficeCount = value;
+                locationTrafficCount = value;
             }
         }
-        public List<TrafficeDetailsIL> DirectionTrafficeCount
+        public List<TrafficDetailsIL> VehicleTrafficCount
         {
             get
             {
-                return directionTrafficeCount;
+                return vehicleTrafficCount;
             }
 
             set
             {
-                directionTrafficeCount = value;
+                vehicleTrafficCount = value;
             }
         }
-        public List<TrafficeDetailsIL> VehicleTrafficeCount
+        public List<TrafficDetailsIL> LaneTrafficCount
         {
             get
             {
-                return vehicleTrafficeCount;
+                return laneTrafficCount;
             }
 
             set
             {
-                vehicleTrafficeCount = value;
+                laneTrafficCount = value;
+            }
+        }
+        public List<TrafficDetailsIL> LaneVehicleTrafficCount
+        {
+            get
+            {
+                return laneVehicleTrafficCount;
+            }
+
+            set
+            {
+                laneVehicleTrafficCount = value;
             }
         }
     }
