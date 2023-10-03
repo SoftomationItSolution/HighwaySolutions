@@ -8,13 +8,13 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class VSDSLaneConfigBL
+    public class LaneConfigBL
     {
-        public static List<ResponseIL> SetUp(List<VSDSLaneConfigIL> config)
+        public static List<ResponseIL> SetUp(List<LaneConfigIL> config)
         {
             try
             {
-                return VSDSLaneConfigDL.SetUp(config);
+                return LaneConfigDL.SetUp(config);
             }
             catch (Exception ex)
             {
@@ -22,22 +22,22 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static List<VSDSLaneConfigIL> GetAll()
+        public static List<LaneConfigIL> GetAll()
         {
             try
             {
-                return VSDSLaneConfigDL.GetAll();
+                return LaneConfigDL.GetAll();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<VSDSLaneConfigIL> GetActive()
+        public static List<LaneConfigIL> GetActive()
         {
             try
             {
-                return VSDSLaneConfigDL.GetActive();
+                return LaneConfigDL.GetActive();
             }
             catch (Exception ex)
             {

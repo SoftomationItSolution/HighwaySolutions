@@ -927,7 +927,7 @@ input[type=radio] {
     min-height: 59vh !important;
 }
 .btn-search {
-    margin-top: auto;
+    margin-top: 19px;
     margin-bottom: auto;
 }
 

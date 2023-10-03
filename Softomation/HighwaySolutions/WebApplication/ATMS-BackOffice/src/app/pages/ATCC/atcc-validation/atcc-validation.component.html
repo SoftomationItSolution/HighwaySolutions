@@ -64,12 +64,29 @@
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="DirectionFilterList">Direction</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="DirectionFilterList"
                                                 inputId="DirectionFilterList" [options]="DirectionList"
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="LaneFilterList">Lane</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="LaneFilterList"
+                                                inputId="LaneFilterList" [options]="LaneDetailsList"
+                                                optionLabel="LaneName" optionValue="LaneNumber" placeholder="Lane">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="VehicleClassFilterList">Vehicle Class</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="VehicleClassFilterList"
+                                                inputId="VehicleClassFilterList" [options]="VehicleClassDataList"
+                                                optionLabel="VehicleClassName" optionValue="VehicleClassId"
+                                                placeholder="Vehicle Class">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -81,19 +98,11 @@
                                                 placeholder="Camera View">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3">
-                                            <label for="EventFilterList">Event Type</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
-                                                inputId="EventFilterList" [options]="EventData"
-                                                optionLabel="EventTypeName" optionValue="EventTypeId"
-                                                placeholder="Event Type">
-                                            </p-multiSelect>
-                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 d-flex justify-content-center text-bottom">
-                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search" (click)="SearchEntry()">
+                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search"
+                                        (click)="SearchEntry()">
                                         <i class="mdi mdi-feature-search-outline"></i>
                                     </button>
                                 </div>
@@ -133,13 +142,13 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img *ngIf="SelectedRow != null" src="{{MediaPrefix}}{{SelectedRow.EventImageUrl}}"
+                                    <img *ngIf="SelectedRow != null" src="{{MediaPrefix}}{{SelectedRow.VehicleImageUrl}}"
                                         class="audit-media" (dblclick)="viewImage()" />
                                 </div>
                                 <div class="col-md-6">
                                     <video class="audit-media" *ngIf="VideoFound" controls [autoplay]="true" [loop]="true" #videoPlayer>
-                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/mp4" />
-                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/ogg" />
+                                        <source src="{{MediaPrefix}}{{SelectedRow.VehicleVideoUrl}}" type="video/mp4" />
+                                        <source src="{{MediaPrefix}}{{SelectedRow.VehicleVideoUrl}}" type="video/ogg" />
                                         Browser not supported
                                     </video>
                                     <span *ngIf="!VideoFound" class="audit-media">No video found</span>
@@ -148,13 +157,6 @@
                             <div class="row">
                                 <form [formGroup]="Reviewedform">
                                     <div class="row">
-                                        <!-- <div class="col-md-3">
-                                            <label for="ReviewedEventTypeId">Event Type</label>
-                                            <p-dropdown appendTo="body" formControlName="ReviewedEventTypeId" inputId="IncidentCategoryId"
-                                                [options]="EventData"  optionLabel="EventTypeName" optionValue="EventTypeId"
-                                                placeholder="Event Type" class="form-control select2">
-                                            </p-dropdown>
-                                        </div> -->
                                         <div class="col-md-3">
                                             <label for="ReviewedVehicleClassId">Vehicle Class</label>
                                             <p-dropdown appendTo="body" formControlName="ReviewedVehicleClassId" inputId="IncidentCategoryId"
@@ -162,14 +164,6 @@
                                                 placeholder="Vehicle Class" class="form-control select2">
                                             </p-dropdown>
                                         </div>
-                                        <!-- <div class="col-md-3">
-                                            <label for="ReviewedPlateNumber">Plate Number</label>
-                                            <input formControlName="ReviewedPlateNumber" type="text" pInputText class="form-control" />
-                                        </div>
-                                        <div class="col-md-1">
-                                            <label for="IsChallanRequired">Challan</label>
-                                            <input formControlName="IsChallanRequired" type="checkbox" class="form-check-input chk" />
-                                        </div> -->
                                         <div class="col-md-3">
                                             <button type="button" class="btn btn-success btn-circle btn-lg btn-search" (click)="SaveEntry()">
                                                 <i class="mdi mdi-check-all"></i>

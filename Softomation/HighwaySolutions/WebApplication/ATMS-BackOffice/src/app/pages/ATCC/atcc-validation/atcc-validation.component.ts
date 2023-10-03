@@ -32,7 +32,7 @@ export class AtccValidationComponent {
   ChainageFilter: any;
   SelectedIndex: number = 0;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
   SelectedRow: any = null;
   MediaPrefix: any;
   VehicleClass: any;
@@ -137,8 +137,8 @@ export class AtccValidationComponent {
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
         this.VehicleClass = data.ResponseData;
-        //this.GetEventHistroy();
-        this.SearchEntry();
+        this.GetEventHistroy();
+       
       },
       (error) => {
         this.spinner.hide();
@@ -149,13 +149,13 @@ export class AtccValidationComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VIDSPendingReviewGetByHours(24).subscribe(
+    this.dbService.ATCCPendingReviewGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
         if (this.TotalCount > 0) {
-          var sd = this.EventHistroyData[this.TotalCount - 1].EventStartDateStamp;
+          var sd = this.EventHistroyData[this.TotalCount - 1].EventDateStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
         this.SelectedIndex = 0;
@@ -176,12 +176,12 @@ export class AtccValidationComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "ATCC Event media-(" + TransactionRowData.VehicleClassName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.EventImageUrl
+        ImagePath: TransactionRowData.VehicleImageUrl
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.EventVideoUrl
+        VideoPath: TransactionRowData.VehicleVideoUrl
       }],
       AudioData: [{
         AudioPath: ''
@@ -345,10 +345,10 @@ export class AtccValidationComponent {
       VehicleClassFilterList: VehicleClassFilterList,
       StartDateTime: SD,
       EndDateTime: ED,
-      ReviewedStatusList:"0"
+      IsReviewedRequired:false
     }
     this.spinner.show();
-    this.dbService.ATCCUnreviewedEventsGetByFilter(obj).subscribe(
+    this.dbService.ATCCReviewedEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -388,18 +388,6 @@ export class AtccValidationComponent {
 
   SaveEntry() {
     let process = true;
-    // if (this.Reviewedform.value.IsChallanRequired) {
-    //   if (this.Reviewedform.value.ReviewedPlateNumber == "") {
-    //     this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
-    //     this.dm.openSnackBar(this.ErrorData, false);
-    //     process = false
-    //   }
-    //   if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
-    //     this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
-    //     this.dm.openSnackBar(this.ErrorData, false);
-    //     process = false
-    //   }
-    // }
     if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
       this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
       this.dm.openSnackBar(this.ErrorData, false);
@@ -408,7 +396,6 @@ export class AtccValidationComponent {
     if (process) {
       var obj = {
         TransactionId: this.SelectedRow.TransactionId,
-        ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
         ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId
       }
       this.dbService.ATCCEventReviewed(obj).subscribe(

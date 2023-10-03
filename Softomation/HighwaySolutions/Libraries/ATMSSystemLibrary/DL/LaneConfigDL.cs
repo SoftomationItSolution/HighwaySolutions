@@ -10,14 +10,14 @@ using System.Linq;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
-    internal class VSDSLaneConfigDL
+    internal class LaneConfigDL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_VSDSLaneConfig";
+        static string tableName = "tbl_LaneConfig";
         #endregion
 
-        internal static List<ResponseIL> SetUp(List<VSDSLaneConfigIL> config)
+        internal static List<ResponseIL> SetUp(List<LaneConfigIL> config)
         {
             List<ResponseIL> responses = null;
             try
@@ -42,9 +42,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
-                if (SystemConstants.BulkCopy(ImportDataTable, "temp_VSDSLaneConfig"))
+                if (SystemConstants.BulkCopy(ImportDataTable, "temp_LaneConfig"))
                 {
-                    string spName = "USP_VSDSLaneConfigInsertUpdate";
+                    string spName = "USP_LaneConfigInsertUpdate";
                     DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SessionId", DbType.String, SessionId, ParameterDirection.Input));
                     command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -62,12 +62,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return responses;
         }
 
-        internal static List<VSDSLaneConfigIL> GetAll()
+        internal static List<LaneConfigIL> GetAll()
         {
-            List<VSDSLaneConfigIL> config = new List<VSDSLaneConfigIL>();
+            List<LaneConfigIL> config = new List<LaneConfigIL>();
             try
             {
-                string spName = "USP_VSDSLaneConfigGetAll";
+                string spName = "USP_LaneConfigGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -80,9 +80,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return config;
         }
-        internal static List<VSDSLaneConfigIL> GetActive()
+        internal static List<LaneConfigIL> GetActive()
         {
-            List<VSDSLaneConfigIL> crlist = new List<VSDSLaneConfigIL>();
+            List<LaneConfigIL> crlist = new List<LaneConfigIL>();
             try
             {
                 crlist = GetAll();
@@ -95,9 +95,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         }
         
         #region Helper Methods
-        private static VSDSLaneConfigIL CreateObjectFromDataRow(DataRow dr)
+        private static LaneConfigIL CreateObjectFromDataRow(DataRow dr)
         {
-            VSDSLaneConfigIL lc = new VSDSLaneConfigIL();
+            LaneConfigIL lc = new LaneConfigIL();
             if (dr["LaneNumber"] != DBNull.Value)
             {
                 lc.LaneNumber = Convert.ToInt16(dr["LaneNumber"]);

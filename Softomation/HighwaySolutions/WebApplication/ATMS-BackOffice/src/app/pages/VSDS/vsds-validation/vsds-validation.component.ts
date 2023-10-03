@@ -136,7 +136,7 @@ export class VsdsValidationComponent {
     );
   }
   GetLaneConfig() {
-    this.dbService.VSDSLaneConfigGetAll().subscribe(
+    this.dbService.LaneConfigGetAll().subscribe(
       data => {
         this.LaneDetailsList = data.ResponseData;
         this.GetVehicleList();
