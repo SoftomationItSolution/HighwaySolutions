@@ -1073,6 +1073,46 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region Lane Config
+        [Route(Provider + "/" + APIPath + "/LaneConfigSetUp")]
+        [HttpPost]
+        public HttpResponseMessage LaneConfigSetUp(List<LaneConfigIL> config)
+        {
+            try
+            {
+                response.Message = LaneConfigBL.SetUp(config);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in LaneConfigSetUp : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/LaneConfigGetAll")]
+        [HttpGet]
+        public HttpResponseMessage LaneConfigGetAll()
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = LaneConfigBL.GetAll();
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in LaneConfigGetAll : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region Equipment Details
         [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetAll")]
         [HttpGet]
@@ -1758,7 +1798,7 @@ namespace ATMSRestAPI.Controllers
             {
                 if (data.IsReviewedRequired)
                 {
-                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 AND H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 else
                 {
@@ -1872,7 +1912,7 @@ namespace ATMSRestAPI.Controllers
             {
                 if (data.IsReviewedRequired)
                 {
-                    data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 AND  H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 else
                 {
@@ -1924,45 +1964,6 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region VSDS Events
-        [Route(Provider + "/" + APIPath + "/VSDSLaneConfigSetUp")]
-        [HttpPost]
-        public HttpResponseMessage VSDSLaneConfigSetUp(List<VSDSLaneConfigIL> config)
-        {
-            try
-            {
-                response.Message = VSDSLaneConfigBL.SetUp(config);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in VSDSLaneConfigSetUp : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-
-        [Route(Provider + "/" + APIPath + "/VSDSLaneConfigGetAll")]
-        [HttpGet]
-        public HttpResponseMessage VSDSLaneConfigGetAll()
-        {
-            try
-            {
-                resp.AlertMessage = "success";
-                response.Message.Add(resp);
-                response.ResponseData = VSDSLaneConfigBL.GetAll();
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in VSDSLaneConfigGetAll : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-
-
         [Route(Provider + "/" + APIPath + "/VSDSEventsGetByHours")]
         [HttpGet]
         public HttpResponseMessage VSDSEventsGetByHours(short Hours)
@@ -1991,7 +1992,7 @@ namespace ATMSRestAPI.Controllers
             {
                 if (data.IsReviewedRequired)
                 {
-                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 AND H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 else
                 {
@@ -2085,243 +2086,39 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region audited
-        //[Route(Provider + "/" + APIPath + "/VSDSReviewedEventsGetByHours")]
-        //[HttpGet]
-        //public HttpResponseMessage VSDSReviewedEventsGetByHours(short Hours)
-        //{
-        //    try
-        //    {
-        //        resp.AlertMessage = "success";
-        //        response.Message.Add(resp);
-        //        response.ResponseData = VSDSReviewedEventBL.GetByHours(Hours);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSReviewedEventsGetByHours : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
-
-        //[Route(Provider + "/" + APIPath + "/VSDSReviewedEventsGetByFilter")]
-        //[HttpPost]
-        //public HttpResponseMessage VSDSReviewedEventsGetByFilter(DataFilterIL data)
-        //{
-        //    try
-        //    {
-        //        if (data.IsReviewedRequired)
-        //        {
-        //            data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-        //        }
-        //        else
-        //        {
-        //            data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-        //        }
-        //        if (data.ControlRoomFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
-        //        }
-        //        if (data.PackageFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
-        //        }
-        //        if (data.ChainageFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
-        //        }
-        //        if (data.DirectionFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
-        //        }
-        //        if (data.PositionFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
-        //        }
-        //        if (data.EventFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND (H.EventTypeId IN (" + data.EventFilterList + ") OR H.ReviewedEventTypeId IN (" + data.EventFilterList + ")) ";
-        //        }
-        //        if (data.ReviewedFilterList != "0")
-        //        {
-        //            data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
-        //        }
-
-        //        resp.AlertMessage = "success";
-        //        response.Message.Add(resp);
-        //        response.ResponseData = VSDSReviewedEventBL.GetByFilter(data);
-        //        return Request.CreateResponse(HttpStatusCode.OK, response);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        BackOfficeAPILog("Exception in VSDSReviewedEventsGetByFilter : " + ex.Message.ToString());
-        //        resp.AlertMessage = ex.Message.ToString();
-        //        response.Message.Add(resp);
-        //        return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-        //    }
-        //}
-        #endregion
-        #endregion
-
-        #region ATCC Events
-
-        #region AllEvents
-        [Route(Provider + "/" + APIPath + "/ATCCEventsGetALLByFilter")]
-        [HttpPost]
-        public HttpResponseMessage ATCCEventsGetALLByFilter(DataFilterIL data)
+        [Route(Provider + "/" + APIPath + "/VSDSReviewedEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VSDSReviewedEventsGetByHours(short Hours)
         {
             try
             {
-                if (data.IsReviewedRequired)
-                {
-                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
-                else
-                {
-                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
-                if (data.ControlRoomFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
-                }
-                if (data.PackageFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
-                }
-                if (data.ChainageFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
-                }
-                if (data.DirectionFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
-                }
-                if (data.LaneFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.LaneNumber IN (" + data.LaneFilterList + ") ";
-                }
-                if (data.VehicleClassFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
-                }
-                if (!String.IsNullOrEmpty(data.PlateNumber))
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.PlateNumber LIKE '%" + data.PlateNumber + "%' ";
-                }
-
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = ATCCEventBL.GetALLByFilter(data);
+                response.ResponseData = VSDSReviewedEventBL.GetByHours(Hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in VSDSReviewedEventsGetByHours : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-        #endregion
 
-        #region un audited
-
-        [Route(Provider + "/" + APIPath + "/ATCCUnreviewedEventsGetByFilter")]
+        [Route(Provider + "/" + APIPath + "/VSDSReviewedEventsGetByFilter")]
         [HttpPost]
-        public HttpResponseMessage ATCCUnreviewedEventsGetByFilter(DataFilterIL data)
+        public HttpResponseMessage VSDSReviewedEventsGetByFilter(DataFilterIL data)
         {
             try
             {
                 if (data.IsReviewedRequired)
                 {
-                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 AND H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 else
                 {
-                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
-                if (data.ControlRoomFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
-                }
-                if (data.PackageFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
-                }
-                if (data.ChainageFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
-                }
-                if (data.DirectionFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
-                }
-                if (data.LaneFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.LaneNumber IN (" + data.LaneFilterList + ") ";
-                }
-                if (data.VehicleClassFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.VehicleClassId IN (" + data.VehicleClassFilterList + ") ";
-                }
-                if (!String.IsNullOrEmpty(data.PlateNumber))
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.PlateNumber LIKE '%" + data.PlateNumber + "%' ";
-                }
-                if (!String.IsNullOrEmpty(data.ReviewedStatusList))
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedStatus =0 ";
-                }
-                resp.AlertMessage = "success";
-                response.Message.Add(resp);
-                response.ResponseData = ATCCEventBL.GetALLByFilter(data);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in VSDSEventsGetByFilter : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-
-        [Route(Provider + "/" + APIPath + "/ATCCEventReviewUpdate")]
-        [HttpPost]
-        public HttpResponseMessage ATCCEventReviewUpdate(VSDSReviewedEventIL data)
-        {
-            try
-            {
-                response.Message = ATCCEventBL.ReviewUpdate(data);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in VSDSEventReviewUpdate : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-
-        #endregion
-
-        #region audited
-
-        [Route(Provider + "/" + APIPath + "/ATCCReviewedEventsGetByFilter")]
-        [HttpPost]
-        public HttpResponseMessage ATCCReviewedEventsGetByFilter(DataFilterIL data)
-        {
-            try
-            {
-                if (data.IsReviewedRequired)
-                {
-                    data.FilterQuery = "WHERE H.ReviewedStatus=1 H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
-                else
-                {
-                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                    data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 }
                 if (data.ControlRoomFilterList != "0")
                 {
@@ -2351,18 +2148,200 @@ namespace ATMSRestAPI.Controllers
                 {
                     data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
                 }
-                if (!String.IsNullOrEmpty(data.ReviewedStatusList))
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedStatus =1 ";
-                }
+
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = ATCCEventBL.GetReviewedByFilter(data);
+                response.ResponseData = VSDSReviewedEventBL.GetByFilter(data);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in VSDSReviewedEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+        #endregion
+
+        #region ATCC Events
+        [Route(Provider + "/" + APIPath + "/ATCCEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage ATCCEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ATCCEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ATCCEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.IsReviewedRequired=1 AND H.ReviewedStatus=0 AND H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        #region un audited
+        [Route(Provider + "/" + APIPath + "/ATCCPendingReviewGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage ATCCPendingReviewGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCEventBL.GetPendingReviewByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCPendingReviewGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ATCCEventReviewUpdate")]
+        [HttpPost]
+        public HttpResponseMessage ATCCEventReviewUpdate(ATCCReviewedEventIL data)
+        {
+            try
+            {
+                response.Message = ATCCReviewedEventBL.ReviewUpdate(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCEventReviewUpdate : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region audited
+        [Route(Provider + "/" + APIPath + "/ATCCReviewedEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage ATCCReviewedEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCReviewedEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCReviewedEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ATCCReviewedEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ATCCReviewedEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                if (data.IsReviewedRequired)
+                {
+                    data.FilterQuery = "WHERE H.ReviewedStatus=1 AND H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                else
+                {
+                    data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                }
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+                }
+                if (data.ReviewedFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
+                }
+
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ATCCReviewedEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ATCCReviewedEventsGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

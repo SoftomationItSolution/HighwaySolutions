@@ -4,6 +4,7 @@ import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { ControlRoomConfigurationComponent } from '../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
 import { DeviceDataComponent } from '../pages/Config/DeviceMaster/device-data/device-data.component';
 import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
+import { LaneConfigComponent } from '../pages/Config/LaneConfig/lane-config.component';
 import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
 import { UserConfigurationComponent } from '../pages/Config/UserData/user-configuration/user-configuration.component';
 import { VidsdataComponent } from "../pages/VIDS/vidsdata/vidsdata.component";
@@ -21,7 +22,6 @@ import { VsdsEquipmentConfigComponent } from '../pages/VSDS/vsds-equipment-confi
 import { VsdsIncidentConfigComponent } from '../pages/VSDS/vsds-incident-config/vsds-incident-config.component';
 import { VsdsValidationComponent } from '../pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from '../pages/VSDS/vsds-validated/vsds-validated.component';
-import { VsdsLaneConfigComponent } from '../pages/VSDS/vsds-lane-config/vsds-lane-config.component';
 import { VsdsDataComponent } from '../pages/VSDS/vsds-data/vsds-data.component';
 import { AtccdataComponent } from '../pages/ATCC/atccdata/atccdata.component';
 import { AtccValidationComponent } from '../pages/ATCC/atcc-validation/atcc-validation.component';
@@ -29,6 +29,8 @@ import { AtccvalidatedComponent } from '../pages/ATCC/atccvalidated/atccvalidate
 import { MetEventConfigComponent } from '../pages/MET/met-event-config/met-event-config.component';
 import { MetDataComponent } from '../pages/MET/met-data/met-data.component';
 import { VmsDataComponent } from '../pages/VMS/vms-data/vms-data.component';
+import { ATCCEquipmentConfigComponent } from '../pages/ATCC/atcc-equipment-config/atcc-equipment-config.component';
+
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -38,6 +40,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'configPackage', component: PackagesDetailsComponent },
     { path: 'configEquipment', component: DeviceDataComponent },
     { path: 'configVehicleClass', component: VehicleClassDataComponent },
+    { path: 'configLaneConfig', component: LaneConfigComponent },
     { path: 'configRole', component: RoleConfigurationComponent },
     { path: 'configUsers', component: UserConfigurationComponent },
     { path: 'imsPending', component: ImsPendingComponent },
@@ -50,10 +53,10 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'vidsValidated', component: VidsValidatedComponent },
     { path: 'vsdsEquipmentConfig', component: VsdsEquipmentConfigComponent },
     { path: 'vsdsEventConfig', component: VsdsIncidentConfigComponent },
-    { path: 'vsdsLaneConfig', component: VsdsLaneConfigComponent },
     { path: 'vsdsEventHistroy', component: VsdsDataComponent },
     { path: 'vsdsValidation', component: VsdsValidationComponent },
     { path: 'vsdsValidated', component: VsdsValidatedComponent },
+    { path: 'atccEquipmentConfig', component: ATCCEquipmentConfigComponent },
     { path: 'atccEventHistroy', component: AtccdataComponent },
     { path: 'atccValidation', component: AtccValidationComponent },
     { path: 'atccValidated', component: AtccvalidatedComponent },

@@ -55,6 +55,7 @@ export class DashboardComponent implements OnInit {
   public vidsEventOptions!: Partial<ChartOptions> | any;
   public vidsLocationOptions!: Partial<PieChartOptions> | any;
   public vidsTimeOptions!: Partial<LineChartOptions> | any;
+  public atccTimeOptions!: Partial<LineChartOptions> | any;
 
   private platform: any;
   public map: any;
@@ -169,7 +170,8 @@ export class DashboardComponent implements OnInit {
           ...new Set(this.VehicleTrafficCount.map((element: { ChainageName: any }) =>
             element.ChainageName)),
         ];
-        this.SelectedChainage = this.ChainageList[0]
+        this.SelectedChainage = this.ChainageList[0];
+        this.ATCCHourTrafficCount(ATCCData.HourTrafficCount)
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -185,7 +187,7 @@ export class DashboardComponent implements OnInit {
         var VIDSData = data.ResponseData;
         this.VIDSEventCountFun(VIDSData.EventCount);
         this.VIDSLocationCountFun(VIDSData.LocationTrafficCount);
-        this.VIDSHourTrafficCount(VIDSData.HourTrafficCount);
+        this.VIDSHourEventCount(VIDSData.HourTrafficCount);
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -284,7 +286,7 @@ export class DashboardComponent implements OnInit {
     this.vidsLocationOptions = {
       series: EventCount,
       chart: {
-        height: 300,
+        height: 200,
         width: "100%",
         type: "pie"
       },
@@ -313,7 +315,7 @@ export class DashboardComponent implements OnInit {
     };
   }
 
-  VIDSHourTrafficCount(data: any) {
+  VIDSHourEventCount(data: any) {
     let LHSEvent=[];
     let RHSEvent=[];
     let TEvent=[];
@@ -340,7 +342,7 @@ export class DashboardComponent implements OnInit {
         }
       ],
       chart: {
-        height: 350,
+        height: 250,
         type: "line"
       },
       dataLabels: {
@@ -353,6 +355,101 @@ export class DashboardComponent implements OnInit {
       },
       title: {
         text: "Last 24 Hours VIDS Events",
+        align: "left"
+      },
+      legend: {
+        tooltipHoverFormatter: function (val: string, opts: { w: { globals: { series: { [x: string]: { [x: string]: string; }; }; }; }; seriesIndex: string | number; dataPointIndex: string | number; }) {
+          return (
+            val +
+            " - <strong>" +
+            opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+            "</strong>"
+          );
+        }
+      },
+      markers: {
+        size: 0,
+        hover: {
+          sizeOffset: 12
+        }
+      },
+      xaxis: {
+        labels: {
+          trim: false
+        },
+        categories: TimeSloat
+      },
+      tooltip: {
+        y: [
+          {
+            title: {
+              formatter: function (val: string) {
+                return val + " (mins)";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function (val: string) {
+                return val + " events";
+              }
+            }
+          },
+          {
+            title: {
+              formatter: function (val: any) {
+                return val;
+              }
+            }
+          }
+        ]
+      },
+      grid: {
+        borderColor: "#f1f1f1"
+      }
+    };
+  }
+
+  ATCCHourTrafficCount(data: any) {
+    let LHSEvent=[];
+    let RHSEvent=[];
+    let TEvent=[];
+    let TimeSloat=[];
+    for (let i = 0; i < data.length; i++){
+        LHSEvent.push(data[i].LEventCount);
+        RHSEvent.push(data[i].REventCount);
+        TEvent.push(data[i].EventCount);
+        TimeSloat.push(data[i].TimeSloat);
+    } 
+    this.atccTimeOptions = {
+      series: [
+        {
+          name: "LHS",
+          data: LHSEvent
+        },
+        {
+          name: "RHS",
+          data: RHSEvent
+        },
+        {
+          name: "Total Event",
+          data: TEvent
+        }
+      ],
+      chart: {
+        height: 250,
+        type: "line"
+      },
+      dataLabels: {
+        enabled: false
+      },
+      stroke: {
+        width: 5,
+        curve: "straight",
+        dashArray: [0, 8, 5]
+      },
+      title: {
+        text: "Last 24 Hours ATCC Traffic",
         align: "left"
       },
       legend: {

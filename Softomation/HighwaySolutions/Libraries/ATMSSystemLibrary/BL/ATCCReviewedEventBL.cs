@@ -1,40 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class ATCCEventBL
+    public class ATCCReviewedEventBL
     {
-        public static List<ATCCEventIL> GetByHours(short hours)
+        public static List<ResponseIL> ReviewUpdate(ATCCReviewedEventIL data)
         {
             try
             {
-                return ATCCEventDL.GetByHours(hours);
+                return ATCCReviewedEventDL.ReviewUpdate(data);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<ATCCEventIL> GetPendingReviewByHours(short hours)
+        public static List<ATCCReviewedEventIL> GetByHours(short hours)
         {
             try
             {
-                return ATCCEventDL.GetPendingReviewByHours(hours);
+                return ATCCReviewedEventDL.GetByHours(hours);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
         }
-        public static List<ATCCEventIL> GetByFilter(DataFilterIL data)
+        public static List<ATCCReviewedEventIL> GetByFilter(DataFilterIL data)
         {
             try
             {
-                return ATCCEventDL.GetByFilter(data);
+                return ATCCReviewedEventDL.GetByFilter(data);
             }
             catch (Exception ex)
             {

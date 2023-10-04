@@ -108,7 +108,6 @@ export class VsdsDataComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        
         this.GetLaneConfig();
       },
       (error) => {
@@ -119,7 +118,7 @@ export class VsdsDataComponent {
     );
   }
   GetLaneConfig() {
-    this.dbService.VSDSLaneConfigGetAll().subscribe(
+    this.dbService.LaneConfigGetAll().subscribe(
       data => {
         this.LaneDetailsList = data.ResponseData;
         this.GetVehicleList();

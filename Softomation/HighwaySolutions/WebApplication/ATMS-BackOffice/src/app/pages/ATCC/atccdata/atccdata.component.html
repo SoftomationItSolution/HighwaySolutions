@@ -64,7 +64,7 @@
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="DirectionFilterList">Direction</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="DirectionFilterList"
@@ -72,7 +72,7 @@
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="LaneFilterList">Lane</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="LaneFilterList"
@@ -80,16 +80,7 @@
                                                 optionLabel="LaneName" optionValue="LaneNumber" placeholder="Lane">
                                             </p-multiSelect>
                                         </div>
-                                        <!-- <div class="col-md-2">
-                                            <label for="EventFilterList">Event Type</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
-                                                inputId="EventFilterList" [options]="EventData"
-                                                optionLabel="EventTypeName" optionValue="EventTypeId"
-                                                placeholder="Event Type">
-                                            </p-multiSelect>
-                                        </div> -->
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="VehicleClassFilterList">Vehicle Class</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="VehicleClassFilterList"
@@ -98,11 +89,15 @@
                                                 placeholder="Vehicle Class">
                                             </p-multiSelect>
                                         </div>
-                                        <!-- <div class="col-md-2">
-                                            <label for="PlateNumber">Plate Number</label>
-                                            <input formControlName="PlateNumber" type="text" pInputText autofocus
-                                                class="form-control" />
-                                        </div> -->
+                                        <div class="col-md-3">
+                                            <label for="PositionFilterList">Camera View</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PositionFilterList"
+                                                inputId="PositionFilterList" [options]="PositionList"
+                                                optionLabel="DataName" optionValue="DataValue"
+                                                placeholder="Camera View">
+                                            </p-multiSelect>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-1 d-flex justify-content-center text-center">
@@ -119,7 +114,7 @@
                     <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
                         [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
                         [globalFilterFields]="['PackageName','ChainageName','DirectionName','LaneName','EventDateStamp',
-                        'PlateNumber','VehicleClassName','AllowedSpeed','RadarSpeed','CameraSpeed','EventTypeName']">
+                        'PlateNumber','VehicleClassName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
@@ -140,15 +135,6 @@
                                 <th pSortableColumn="VehicleClassName">Vehicle Class <p-sortIcon
                                         field="VehicleClassName"></p-sortIcon>
                                 </th>
-                               <th pSortableColumn="CameraSpeed">Vehicle Speed <p-sortIcon
-                                        field="CameraSpeed"></p-sortIcon>
-                                </th>
-                                 <!-- <th pSortableColumn="RadarSpeed">Radar Speed <p-sortIcon
-                                        field="RadarSpeed"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="EventTypeName">Event Type <p-sortIcon
-                                        field="EventTypeName"></p-sortIcon>
-                                </th> -->
                                 <th style="text-align: center;">Meida</th>
                             </tr>
                         </ng-template>
@@ -161,9 +147,6 @@
                                 <td>{{rowData.LaneName}}</td>
                                 <td>{{rowData.EventDateStamp}}</td>
                                 <td>{{rowData.VehicleClassName}}</td>
-                                <td>{{rowData.CameraSpeed}}</td>
-                                 <!--<td>{{rowData.RadarSpeed}}</td>
-                                <td>{{rowData.EventTypeName}}</td> -->
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Meida Files">

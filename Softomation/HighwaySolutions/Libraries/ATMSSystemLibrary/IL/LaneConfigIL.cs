@@ -4,7 +4,7 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
-    public class VSDSLaneConfigIL : CommonIL
+    public class LaneConfigIL : CommonIL
     {
         Int16 laneNumber;
         String laneName;
@@ -13,7 +13,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         short[] allowedClassIdList;
         List<VehicleClassIL> allowedClassList;
 
-        public VSDSLaneConfigIL()
+        public LaneConfigIL()
         {
             laneNumber = 0;
             laneName = String.Empty;

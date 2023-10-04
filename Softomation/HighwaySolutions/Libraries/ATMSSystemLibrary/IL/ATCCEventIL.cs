@@ -6,8 +6,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     {
         String transactionId;
         Int64 equipmentId;
-        Int16 eventTypeId;
-        String eventTypeName;
+        Int16 positionId;
+        String positionName;
         DateTime eventDate;
         String eventDateStamp;
         Int16 laneNumber;
@@ -15,22 +15,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String plateNumber;
         Int16 vehicleClassId;
         String vehicleClassName;
-        String plateImageUrl;
         String vehicleImageUrl;
         String vehicleVideoUrl;
-        Decimal cameraSpeed;
-        Decimal radarSpeed;
-        Decimal allowedSpeed;
-        Decimal ocrConfidencelevel;
         Decimal classConfidencelevel;
-        String plateFontColor;
-        String plateBackColor;
         String vehicleColor;
         Int16 vehicleDirectionId;
         String vehicleDirectionName;
-        Boolean isPlateVisible;
-        Boolean isFaultyPlate;
-        Boolean isStandardPlate;
         Boolean isWrongDirection;
         Boolean isReviewedRequired;
         Boolean isRestiredVehicle;
@@ -38,8 +28,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             this.transactionId = string.Empty;
             this.equipmentId = 0;
-            this.eventTypeId = 0;
-            this.eventTypeName = string.Empty;
+            this.positionId = 0;
+            this.positionName = string.Empty;
             this.eventDate = DateTime.MinValue;
             this.eventDateStamp = string.Empty;
             this.laneNumber = 0;
@@ -47,22 +37,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.plateNumber = string.Empty;
             this.vehicleClassId = 0;
             this.vehicleClassName = string.Empty;
-            this.plateImageUrl = string.Empty;
             this.vehicleImageUrl = string.Empty;
             this.vehicleVideoUrl = string.Empty;
-            this.cameraSpeed = 0;
-            this.radarSpeed = 0;
-            this.allowedSpeed = 0;
-            this.ocrConfidencelevel = 0;
             this.classConfidencelevel = 0;
-            this.plateFontColor = string.Empty;
-            this.plateBackColor = string.Empty;
             this.vehicleColor = string.Empty;
             this.vehicleDirectionId = 0;
             this.vehicleDirectionName = string.Empty;
-            this.isPlateVisible = false;
-            this.isFaultyPlate = false;
-            this.isStandardPlate = false;
             this.isWrongDirection = false;
             this.isReviewedRequired = false;
             this.isRestiredVehicle = false;
@@ -92,30 +72,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
-        public Int16 EventTypeId
-        {
-            get
-            {
-                return eventTypeId;
-            }
-
-            set
-            {
-                eventTypeId = value;
-            }
-        }
-        public String EventTypeName
-        {
-            get
-            {
-                return eventTypeName;
-            }
-
-            set
-            {
-                eventTypeName = value;
-            }
-        }
+        
         public DateTime EventDate
         {
             get
@@ -176,18 +133,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 plateNumber = value;
             }
         }
-        public Decimal VehicleSpeed
-        {
-            get
-            {
-                return cameraSpeed;
-            }
-
-            set
-            {
-                cameraSpeed = value;
-            }
-        }
+       
         public Int16 VehicleClassId
         {
             get
@@ -212,18 +158,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleClassName = value;
             }
         }
-        public String PlateImageUrl
-        {
-            get
-            {
-                return plateImageUrl;
-            }
-
-            set
-            {
-                plateImageUrl = value;
-            }
-        }
+      
         public String VehicleImageUrl
         {
             get
@@ -248,54 +183,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleVideoUrl = value;
             }
         }
-        public Decimal CameraSpeed
-        {
-            get
-            {
-                return cameraSpeed;
-            }
-
-            set
-            {
-                cameraSpeed = value;
-            }
-        }
-        public Decimal RadarSpeed
-        {
-            get
-            {
-                return radarSpeed;
-            }
-
-            set
-            {
-                radarSpeed = value;
-            }
-        }
-        public Decimal AllowedSpeed
-        {
-            get
-            {
-                return allowedSpeed;
-            }
-
-            set
-            {
-                allowedSpeed = value;
-            }
-        }
-        public Decimal OcrConfidencelevel
-        {
-            get
-            {
-                return ocrConfidencelevel;
-            }
-
-            set
-            {
-                ocrConfidencelevel = value;
-            }
-        }
         public Decimal ClassConfidencelevel
         {
             get
@@ -308,30 +195,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 classConfidencelevel = value;
             }
         }
-        public String PlateFontColor
-        {
-            get
-            {
-                return plateFontColor;
-            }
-
-            set
-            {
-                plateFontColor = value;
-            }
-        }
-        public String PlateBackColor
-        {
-            get
-            {
-                return plateBackColor;
-            }
-
-            set
-            {
-                plateBackColor = value;
-            }
-        }
+        
         public String VehicleColor
         {
             get
@@ -368,42 +232,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleDirectionName = value;
             }
         }
-        public Boolean IsPlateVisible
-        {
-            get
-            {
-                return isPlateVisible;
-            }
-
-            set
-            {
-                isPlateVisible = value;
-            }
-        }
-        public Boolean IsFaultyPlate
-        {
-            get
-            {
-                return isFaultyPlate;
-            }
-
-            set
-            {
-                isFaultyPlate = value;
-            }
-        }
-        public Boolean IsStandardPlate
-        {
-            get
-            {
-                return isStandardPlate;
-            }
-
-            set
-            {
-                isStandardPlate = value;
-            }
-        }
+        
         public Boolean IsWrongDirection
         {
             get
@@ -441,68 +270,5 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             }
         }
     }
-    public class AtccReviewedIL:ATCCEventIL
-    {
-        DateTime reviewedEventDate;
-        String reviewedEventDateStamp;
-        Int16 reviewedVehicleClassId;
-        String reviewedVehicleClassName;
-        public AtccReviewedIL()
-        {
-            this.reviewedEventDate = DateTime.Now;
-            this.reviewedEventDateStamp = string.Empty;
-            this.reviewedVehicleClassId= 0;
-            this.reviewedVehicleClassName = string.Empty;
-        }
-
-        public DateTime ReviewedEventDate
-        {
-            get
-            {
-                return reviewedEventDate;
-            }
-            set
-            {
-                reviewedEventDate = value;
-            }
-        }
-
-        public String ReviewedEventDateStamp
-        {
-            get
-            {
-                return reviewedEventDateStamp;
-            }
-            set
-            {
-                reviewedEventDateStamp = value;
-            }
-        }
-
-        public Int16 ReviewedVehicleClassId
-        {
-            get
-            {
-                return reviewedVehicleClassId;
-            }
-
-            set
-            {
-                reviewedVehicleClassId = value;
-            }
-        }
-
-        public String ReviewedVehicleClassName
-        {
-            get
-            {
-                return reviewedVehicleClassName;
-            }
-
-            set
-            {
-                reviewedVehicleClassName = value;
-            }
-        }
-    }
+    
 }

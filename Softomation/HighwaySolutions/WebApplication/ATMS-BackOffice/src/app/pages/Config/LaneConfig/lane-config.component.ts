@@ -5,11 +5,11 @@ import { DataModel } from 'src/app/services/data-model.model';
 
 
 @Component({
-  selector: 'app-vsds-lane-config',
-  templateUrl: './vsds-lane-config.component.html',
-  styleUrls: ['./vsds-lane-config.component.css']
+  selector: 'app-lane-config',
+  templateUrl: './lane-config.component.html',
+  styleUrls: ['./lane-config.component.css']
 })
-export class VsdsLaneConfigComponent {
+export class LaneConfigComponent {
   SystemId = 0;
   LogedRoleId;
   LogedUserId;
@@ -115,7 +115,7 @@ export class VsdsLaneConfigComponent {
 
   VSDSLaneConfigGetALL() {
     this.spinner.show();
-    this.dbService.VSDSLaneConfigGetAll().subscribe(
+    this.dbService.LaneConfigGetAll().subscribe(
       data => {
         this.LaneConfigDetails = data.ResponseData;
       },
@@ -137,7 +137,7 @@ export class VsdsLaneConfigComponent {
       if(this.LaneConfigDetails[j].AllowedClassIdList!=null && this.LaneConfigDetails[j].AllowedClassIdList!='')
        this.LaneConfigDetails[j].AllowedClassIds=this.LaneConfigDetails[j].AllowedClassIdList.toString();
     }
-    this.dbService.VSDSLaneConfigSetUp(this.LaneConfigDetails).subscribe(
+    this.dbService.LaneConfigSetUp(this.LaneConfigDetails).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;

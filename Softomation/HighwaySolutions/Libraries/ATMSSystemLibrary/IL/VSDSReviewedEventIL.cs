@@ -17,7 +17,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Boolean isReviewedFaultyPlate;
         Boolean isReviewedStandardPlate;
         Boolean isReviewedWrongDirection;
-        Boolean isReviewedRequired;
         Int64 reviewedById;
         String reviewedByLoginId;
         DateTime reviewedDateTime;
@@ -37,7 +36,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             isReviewedFaultyPlate = false;
             isReviewedStandardPlate = false;
             isReviewedWrongDirection = false;
-            isReviewedRequired = false;
             reviewedById = 0;
             reviewedByLoginId = string.Empty;
             reviewedDateTime = DateTime.MinValue;
@@ -149,18 +147,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 isReviewedWrongDirection = value;
-            }
-        }
-        public Boolean IsReviewedRequired
-        {
-            get
-            {
-                return isReviewedRequired;
-            }
-
-            set
-            {
-                isReviewedRequired = value;
             }
         }
         public Int64 ReviewedById

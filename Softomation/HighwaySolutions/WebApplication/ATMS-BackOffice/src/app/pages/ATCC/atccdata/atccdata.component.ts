@@ -1,10 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ApiService } from 'src/app/allservices/api.service';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
@@ -24,16 +21,17 @@ export class AtccdataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount = 0;
+  TotalCount=0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
+  LaneDetailsList:any;
+  VehicleClassDataList:any;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  LaneDetailsList: any;
-  VehicleClassDataList: any;
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -48,12 +46,10 @@ export class AtccdataComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-     
       LaneFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
       VehicleClassFilterList: new FormControl(''),
-      PlateNumber: new FormControl(''),
-
+      PositionFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -112,9 +108,9 @@ export class AtccdataComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetVehicleList();
-        this.SearchEntry();
-        //this.GetLaneConfig();
+        this.GetLaneConfig();
+       
+       
       },
       (error) => {
         this.spinner.hide();
@@ -124,9 +120,10 @@ export class AtccdataComponent {
     );
   }
   GetLaneConfig() {
-    this.dbService.VSDSLaneConfigGetAll().subscribe(
+    this.dbService.LaneConfigGetAll().subscribe(
       data => {
         this.LaneDetailsList = data.ResponseData;
+        this.GetVehicleList();
       },
       (error) => {
         this.spinner.hide();
@@ -139,6 +136,7 @@ export class AtccdataComponent {
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
         this.VehicleClassDataList = data.ResponseData;
+        this.GetEventHistroy();
       },
       (error) => {
         this.spinner.hide();
@@ -149,7 +147,7 @@ export class AtccdataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VSDSEventsGetByHours(24).subscribe(
+    this.dbService.ATCCEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -174,11 +172,8 @@ export class AtccdataComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "ATCC Event media-(" + TransactionRowData.EventTypeName + ")",
-      ImageData: [{
-        ImagePath: TransactionRowData.PlateImageUrl,
-        Title: "Plate Image"
-      },
+      PageTitle: "ATCC Event media-(" + TransactionRowData.VehicleClassName + ")",
+      ImageData: [
       {
         ImagePath: TransactionRowData.VehicleImageUrl,
         Title: "Vehicle Image"
@@ -330,11 +325,11 @@ export class AtccdataComponent {
         VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
       }
     }
-    let EventFilterList = "0"
-    if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
-      if (crData.split(',').length != this.EventData.length) {
-        EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
+    let PositionFilterList = "0"
+    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
+      if (crData.split(',').length != this.PositionList.length) {
+        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
     }
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
@@ -345,14 +340,14 @@ export class AtccdataComponent {
       ChainageFilterList: ChainageFilterList,
       LaneFilterList: LaneFilterList,
       DirectionFilterList: DirectionFilterList,
-      EventFilterList: EventFilterList,
+      PositionFilterList: PositionFilterList,
       PlateNumber: this.FilterDetailsForm.value.PlateNumber,
       VehicleClassFilterList: VehicleClassFilterList,
       StartDateTime: SD,
       EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.ATCCEventsGetALLByFilter(obj).subscribe(
+    this.dbService.ATCCEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;

@@ -53,6 +53,7 @@ import { PackagesPopupComponent } from './pages/Config/Packages/packages-popup/p
 import {MatStepperModule} from '@angular/material/stepper';
 import { InputTextModule } from 'primeng/inputtext';
 import { VehicleClassPopupComponent } from './pages/Config/VehicleClass/vehicle-class-popup/vehicle-class-popup.component';
+import { LaneConfigComponent } from './pages/Config/LaneConfig/lane-config.component';
 import {NgApexchartsModule } from "ng-apexcharts";
 import { ChnagePasswordPopUpComponent } from './pages/Config/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { PasswordModule } from 'primeng/password';
@@ -81,7 +82,6 @@ import { VsdsEquipmentConfigComponent } from './pages/VSDS/vsds-equipment-config
 import { VsdsIncidentConfigComponent } from './pages/VSDS/vsds-incident-config/vsds-incident-config.component';
 import { VsdsValidationComponent } from './pages/VSDS/vsds-validation/vsds-validation.component';
 import { VsdsValidatedComponent } from './pages/VSDS/vsds-validated/vsds-validated.component';
-import { VsdsLaneConfigComponent } from './pages/VSDS/vsds-lane-config/vsds-lane-config.component';
 import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
 import { AtccvalidatedComponent } from './pages/ATCC/atccvalidated/atccvalidated.component';
 import { AtccValidationComponent } from './pages/ATCC/atcc-validation/atcc-validation.component';
@@ -90,7 +90,9 @@ import { MetDataComponent } from './pages/MET/met-data/met-data.component';
 import { VmsDataComponent } from './pages/VMS/vms-data/vms-data.component';
 import { VmsPopupComponent } from './pages/VMS/vms-popup/vms-popup.component';
 import { QuillModule } from 'ngx-quill';
-import { QuillConfigModule } from 'ngx-quill/config';
+import { ATCCEquipmentConfigComponent } from './pages/ATCC/atcc-equipment-config/atcc-equipment-config.component';
+
+
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -128,6 +130,7 @@ export const MY_CUSTOM_FORMATS = {
     DevicePopupComponent,
     VehicleClassDataComponent,
     VehicleClassPopupComponent,
+    LaneConfigComponent,
     RoleConfigurationComponent,
     RoleConfigurationPopupComponent,
     RolePermissionPopupComponent,
@@ -161,8 +164,8 @@ export const MY_CUSTOM_FORMATS = {
     SystemSettingComponent,
     AppLockComponent,
     SystemDetailsComponent,
-    VsdsLaneConfigComponent,
     LiveViewPopUpComponent,
+    ATCCEquipmentConfigComponent,
     AtccvalidatedComponent,
     AtccValidationComponent,
     MetEventConfigComponent,

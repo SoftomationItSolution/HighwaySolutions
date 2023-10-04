@@ -133,7 +133,7 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
   //#endregion
- 
+
   //#region Dashboard
   DashboardEquipmentGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -251,6 +251,30 @@ export class apiIntegrationService {
   }
   //#endregion
 
+  //#region Lane
+  LaneConfigSetUp(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneConfigSetUp', data, { headers: headers_object });
+  }
+  LaneConfigGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneConfigGetAll', { headers: headers_object });
+  }
+
+  LaneGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetAll', { headers: headers_object });
+  }
+  LaneGetActive(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetActive', { headers: headers_object });
+  }
+  //#endregion
+
   //#region Equipment Details
   EquipmentDetailsGetBySystemId(SystemId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -329,8 +353,6 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/PackageGetById?PackageId=' + PackageId, { headers: headers_object });
   }
-
-  
   //#endregion
 
   //#region  System
@@ -357,7 +379,7 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region  System
+  //#region  Report
   ReportGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -375,18 +397,7 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region  Lane
-  LaneGetAll(): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetAll', { headers: headers_object });
-  }
-  LaneGetActive(): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LaneGetActive', { headers: headers_object });
-  }
-  //#endregion
+
 
   //#region System Setting
   SystemSettingSetUp(data: {}): Observable<any> {
@@ -559,17 +570,6 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  VSDS System
-  VSDSLaneConfigSetUp(data: any): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VSDSLaneConfigSetUp', data, { headers: headers_object });
-  }
-  VSDSLaneConfigGetAll(): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VSDSLaneConfigGetAll', { headers: headers_object });
-  }
-
   VSDSEventsGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -608,26 +608,41 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  ATCC System
-  ATCCEventsGetALLByFilter(data: any): Observable<any> {
+
+  ATCCEventsGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCEventsGetALLByFilter', data, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ATCCEventsGetByHours?Hours=' + Hours, { headers: headers_object });
   }
-  ATCCReviewedEventsGetByFilter(data: any): Observable<any> {
+
+  ATCCPendingReviewGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCReviewedEventsGetByFilter', data, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ATCCPendingReviewGetByHours?Hours=' + Hours, { headers: headers_object });
   }
-  ATCCUnreviewedEventsGetByFilter(data: any): Observable<any> {
+
+  ATCCEventsGetByFilter(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCUnreviewedEventsGetByFilter', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCEventsGetByFilter', data, { headers: headers_object });
   }
   ATCCEventReviewed(data: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCEventReviewUpdate', data, { headers: headers_object });
   }
+  
+  ATCCReviewedEventsGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ATCCReviewedEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+  ATCCReviewedEventsGetByFilter(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ATCCReviewedEventsGetByFilter', data, { headers: headers_object });
+  }
+
   //#endregion
 
   //#region  Weather System
@@ -650,23 +665,20 @@ export class apiIntegrationService {
   }
   //#endregion
 
-//#region  VMS System
-GetVMSMessage(): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  const token = this.dataModel.getTokenVale();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetVMSMessage', { headers: headers_object });
+  //#region  VMS System
+  GetVMSMessage(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetVMSMessage', { headers: headers_object });
+  }
+  VMSMessageSetUp(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    const token = this.dataModel.getTokenVale();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherConfigSetUp', data, { headers: headers_object });
+  }
+  //#endregion
 }
-VMSMessageSetUp(data: {}): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  const token = this.dataModel.getTokenVale();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VMSMessageSetUp', data, { headers: headers_object });
-}
-MessageDetailsGetById(MessageId: any): Observable<any> {
-  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/MessageDetailsGetById?MessageId=' + MessageId, { headers: headers_object });
-}
-//#endregion
-}
+
+
