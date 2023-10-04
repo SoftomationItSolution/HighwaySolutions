@@ -20,22 +20,24 @@ export class VmsDataComponent {
   DataAdd: Number = 0;
   DataView: Number = 0;
   public innerHeight: any;
+  MediaPrefix: any;
   constructor(public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService) {
     this.LogedRoleId = this.dm.getRoleId();
     this.LogedUserId = this.dm.getUserId();
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.GetPermissionData();
   }
 
   ngOnInit(): void {
   }
-  
+
   GetPermissionData() {
     this.spinner.show();
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
       MenuUrl: MenuUrl,
-      SystemId:0,
+      SystemId: 0,
       RoleId: this.LogedRoleId
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
@@ -60,7 +62,7 @@ export class VmsDataComponent {
 
   GetAllData() {
     this.spinner.show();
-    this.dbService.GetVMSMessage().subscribe(
+    this.dbService.VMSMessageGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.MessageData = data.ResponseData;
@@ -74,40 +76,48 @@ export class VmsDataComponent {
   }
 
   onMidiaView(TransactionRowData: any) {
-    let imagepath='';
-    let Videopath='';
-    if(TransactionRowData.FormatId==2)
-    {
-      imagepath=TransactionRowData.MessageDetails;
+    let imagepath = '';
+    let Videopath = '';
+    let Process = false;
+    if (TransactionRowData.MessageTypeId == 1) {
+      //imagepath=TransactionRowData.MediaPath;
+      var MyWindow = window.open(this.MediaPrefix + TransactionRowData.MediaPath, 'MyWindow', 'width=600,height=300');
+      Process = false;
     }
-    else if(TransactionRowData.FormatId==3)
-    {
-      Videopath=TransactionRowData.MessageDetails;
+    else if (TransactionRowData.MessageTypeId == 2) {
+      imagepath = TransactionRowData.MediaPath;
+      Process = true;
     }
+    else if (TransactionRowData.MessageTypeId == 3) {
+      Videopath = TransactionRowData.MediaPath;
+      Process = true;
+    }
+    if (Process) {
+      var obj = {
+        PageTitle: "Message media-(" + TransactionRowData.MessageTypeName + ")",
 
-    var obj = {
-      PageTitle: "Message media-(" + TransactionRowData.FormatName + ")",
-      
-      ImageData: [{
-        ImagePath: imagepath
-      }],
-      VideoData: [{
-        VideoPath: Videopath
-      }],
-      AudioData: [{
-        AudioPath: ''
-      }]
+        ImageData: [{
+          ImagePath: imagepath
+        }],
+        VideoData: [{
+          VideoPath: Videopath
+        }],
+        AudioData: [{
+          AudioPath: ''
+        }]
+      }
+      this.dm.MediaView(obj);
     }
-    this.dm.MediaView(obj);
   }
   NewEntry() {
     if (this.DataAdd == 1) {
+      localStorage.setItem('manualData', "");
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
-      dialogConfig.height = '476px';
-      dialogConfig.data = { action: 'Save', PackageId: 0 };
+      dialogConfig.width = '55%';
+      dialogConfig.height = '394px';
+      dialogConfig.data = { action: 'Save', MessageId: 0 };
       const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -125,11 +135,12 @@ export class VmsDataComponent {
 
   onRowEditInit(data: any) {
     if (this.DataUpdate == 1) {
+      localStorage.setItem('manualData', "");
       const dialogConfig = new MatDialogConfig();
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
-      dialogConfig.height = '476px';
+      dialogConfig.width = '55%';
+      dialogConfig.height = '394px';
       dialogConfig.data = { action: 'Update', MessageId: data.MessageId };
       const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

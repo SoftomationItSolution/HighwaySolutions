@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component ,Inject} from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -26,9 +26,9 @@ Quill.register('modules/blotFormatter', BlotFormatter);
   styleUrls: ['./vms-popup.component.css']
 })
 export class VmsPopupComponent {
-changedEditor($event: EditorChangeContent|EditorChangeSelection) {
-throw new Error('Method not implemented.');
-}
+  changedEditor($event: EditorChangeContent | EditorChangeSelection) {
+    throw new Error('Method not implemented.');
+  }
   PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
@@ -39,8 +39,8 @@ throw new Error('Method not implemented.');
   DetailData: any;
   submitted = false;
   VMSDetailsData: any;
-  FormateTypeList = [{ FormateTypeId: 1, FormateTypeName: "Text" },{ FormateTypeId: 2, FormateTypeName: "Image" },{ FormateTypeId: 3, FormateTypeName: "Video" }];
-  DurationList = [{ DurationId: 10, DurationName: "10 Second" },{ DurationId: 20, DurationName: "20 Second" },{ DurationId: 30, DurationName: "30 Second"}];
+  FormateTypeList = [{ DataId: 1, DataName: "Text" }, { DataId: 2, DataName: "Image" }, { DataId: 3, DataName: "Video" }];
+  DurationList = [{ DataId: 10, DataName: "10 Second" }, { DataId: 20, DataName: "20 Second" }, { DataId: 30, DataName: "30 Second" }];
   MediaPrefix: any;
   createdEvent: any;
   MediaFile: any;
@@ -48,8 +48,8 @@ throw new Error('Method not implemented.');
   SelectedFormateTypeId = 1;
   uploadedFiles: any[] = [];
   SystemId = 0;
-  MessageId= 0;
-  
+  MessageId = 0;
+
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<VmsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -78,20 +78,21 @@ throw new Error('Method not implemented.');
   }
 
   ngOnInit(): void {
+    localStorage.setItem('manualData', '');
+    localStorage.setItem('manualhtml', '');
     var SDDate = this.datepipe.transform(new Date(), 'dd-MMM-yyyy');
     this.PageTitle = 'Create New Message';
     this.DataDetailsForm = new FormGroup({
-      VmsId: new FormControl('', Validators.required),
-      FormatTypeId: new FormControl('', Validators.required),
-      DurationId: new FormControl('', Validators.required),
-      validDate: new FormControl(new Date(SDDate + " 00:00:00")),
-      MessageDetails:new FormControl('', Validators.required),
+      EquipmentId: new FormControl('', Validators.required),
+      MessageTypeId: new FormControl('', Validators.required),
+      DisplayTimout: new FormControl('', Validators.required),
+      ValidTillDate: new FormControl(new Date(SDDate + " 00:00:00")),
+      MessageDetails: new FormControl('', Validators.required),
       DataStatus: new FormControl(true),
     });
     this.SystemGetByName();
-    //this.GetVMSList();
     if (this.MessageId > 0) {
-      this.PageTitle = 'Update VMS Details';
+      this.PageTitle = 'Update Message';
     }
   }
   SystemGetByName() {
@@ -118,8 +119,6 @@ throw new Error('Method not implemented.');
       data => {
         this.spinner.hide();
         this.VMSDetailsData = data.ResponseData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 8);
-        //this.PackageId=this.VMSDetailsData[0].PackageId;
-
         if (this.MessageId > 0) {
           this.DetailsbyId();
         }
@@ -140,24 +139,34 @@ throw new Error('Method not implemented.');
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.MessageDetailsGetById(this.MessageId).subscribe(
+    this.dbService.VMSMessageGetById(this.MessageId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        // this.DataDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
-        // this.DataDetailsForm.controls['PackageName'].setValue(this.DetailData.PackageName);
-        // this.DataDetailsForm.controls['StartLatitude'].setValue(this.DetailData.StartLatitude);
-        // this.DataDetailsForm.controls['StartLongitude'].setValue(this.DetailData.StartLongitude);
-        // this.DataDetailsForm.controls['EndLatitude'].setValue(this.DetailData.EndLatitude);
-        // this.DataDetailsForm.controls['EndLongitude'].setValue(this.DetailData.EndLongitude);
-        // this.DataDetailsForm.controls['StartChainageNumber'].setValue(this.DetailData.StartChainageNumber);
-        // this.DataDetailsForm.controls['EndChainageNumber'].setValue(this.DetailData.EndChainageNumber);
-        // if (this.DetailData.DataStatus == 1) {
-        //   this.DataDetailsForm.controls['DataStatus'].setValue(true);
-        // } else {
-        //   this.DataDetailsForm.controls['DataStatus'].setValue(false);
-        // }
+        var selectedVMSDevice = [];
+        if (this.DetailData.EquipmentIds == '0') {
+          for (let index = 0; index < this.VMSDetailsData.length; index++) {
+            selectedVMSDevice.push(this.VMSDetailsData[index].EquipmentId);
+          }
+        }
+        else {
+          var data = this.DetailData.EquipmentIds.split(',');
+          for (let index = 0; index < data.length; index++) {
+            selectedVMSDevice.push(parseInt(data[index]));
+          }
+        }
 
+        this.SelectedFormateTypeId = this.DetailData.MessageTypeId;
+        this.DataDetailsForm.controls['EquipmentId'].setValue(selectedVMSDevice);
+        this.DataDetailsForm.controls['MessageTypeId'].setValue(this.SelectedFormateTypeId);
+        this.DataDetailsForm.controls['DisplayTimout'].setValue(this.DetailData.DisplayTimout);
+        this.DataDetailsForm.controls['ValidTillDate'].setValue(this.DetailData.ValidTillDateStamp);
+        if (this.DetailData.DataStatus == 1)
+          this.DataDetailsForm.controls['DataStatus'].setValue(true);
+        else
+          this.DataDetailsForm.controls['DataStatus'].setValue(false);
+
+        this.GetMediaFile(this.DetailData.MediaPath);
       },
       (error) => {
         this.spinner.hide();
@@ -178,17 +187,43 @@ throw new Error('Method not implemented.');
   ClearDetails() {
     this.DataDetailsForm.reset();
   }
- contentChanged(obj: any) {
-    localStorage.setItem('manualhtml', obj.html);
-  }
-  
+
   created(event: any) {
     this.createdEvent = event;
-    this.createdEvent.root.innerHTML = localStorage.getItem('manualData')
+    this.createdEvent.root.innerHTML = localStorage.getItem('manualhtml')
   }
-  onFormatChange(FormatId: any) {
-    this.SelectedFormateTypeId = FormatId;
+  contentChanged(obj: any) {
+    localStorage.setItem('manualhtml', obj.html);
   }
+
+
+  GetMediaFile(theUrl: any) {
+    this.spinner.show();
+    this.dbService.GetMediaFile(theUrl).subscribe(
+      data => {
+        this.spinner.hide();
+        if (this.SelectedFormateTypeId == 1) {
+          localStorage.setItem('manualData', data.ResponseData);
+          try {
+            this.createdEvent.root.innerHTML = data.ResponseData;
+          } catch (error) {
+
+          }
+        }
+        else {
+          this.uploadedFiles = [];
+          this.MediaFile = data.ResponseData;
+          this.uploadedFiles.push(this.MediaFile)
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
 
   onUpload(event: any) {
     this.uploadedFiles = [];
@@ -204,28 +239,41 @@ throw new Error('Method not implemented.');
         file: file
       }
       this.uploadedFiles.push(Obj);
+      this.DataDetailsForm.controls['MessageDetails'].setValue(this.MediaFile);
     };
   }
 
   onRemove(event: any) {
     this.uploadedFiles = [];
     this.MediaFile = undefined;
+    this.DataDetailsForm.controls['MessageDetails'].setValue('');
+  }
+  onFormatChange(FormatId: any) {
+    this.SelectedFormateTypeId = FormatId;
   }
   SaveDetails() {
     this.submitted = true;
-    if (this.DataDetailsForm.valid) {
+    if (this.DataDetailsForm.valid == false) {
       return;
+    }
+    let MediaPath = "";
+    if (this.SelectedFormateTypeId == 2 || this.SelectedFormateTypeId == 3) {
+      MediaPath = this.uploadedFiles[0].Base64
+    }
+    else {
+      MediaPath = localStorage.getItem('manualhtml') || '';
     }
     const Obj = {
       MessageId: this.MessageId,
-      VmsId: this.DataDetailsForm.value.VmsId,
-      MediaPath: this.uploadedFiles[0].Base64,
-      FormatId: this.DataDetailsForm.value.FormatTypeId,
-      DisplayTimout: this.DataDetailsForm.value.DurationId,
-      ValidTillDate: this.DataDetailsForm.value.validDate,
+      EquipmentIds: this.DataDetailsForm.value.EquipmentId.toString(),
+      MediaPath: MediaPath,
+      MessageTypeId: this.DataDetailsForm.value.MessageTypeId,
+      DisplayTimout: this.DataDetailsForm.value.DisplayTimout,
       MessageDetails: this.DataDetailsForm.value.MessageDetails,
+      ValidTillDate: this.datepipe.transform(this.DataDetailsForm.value.ValidTillDate, 'dd-MMM-yyyy') || new Date(),
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
-      CreatedBy: this.LogedUserId
+      CreatedBy: this.LogedUserId,
+      ModifiedBy: this.LogedUserId
     };
     this.spinner.show();
     this.dbService.VMSMessageSetUp(Obj).subscribe(
@@ -253,6 +301,4 @@ throw new Error('Method not implemented.');
       }
     );
   }
-
 }
-

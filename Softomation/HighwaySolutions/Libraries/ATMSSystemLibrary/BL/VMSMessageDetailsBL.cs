@@ -6,13 +6,13 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class VMSBL
+    public class VMSMessageDetailsBL
     {
-        public static List<ResponseIL> InsertUpdate(VMSIL ss)
+        public static List<ResponseIL> InsertUpdate(VMSMessageDetailsIL ss)
         {
             try
             {
-                return VMSDL.InsertUpdate(ss);
+                return VMSMessageDetailsDL.InsertUpdate(ss);
             }
             catch (Exception ex)
             {
@@ -20,11 +20,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static List<VMSIL> GetVMSMessage()
+        public static List<VMSMessageDetailsIL> GetAll()
         {
             try
             {
-                return VMSDL.GetVMSMessage();
+                return VMSMessageDetailsDL.GetAll();
             }
             catch (Exception ex)
             {
@@ -32,11 +32,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        public static VMSIL GetById(int MessageId)
+        public static VMSMessageDetailsIL GetById(int MessageId)
         {
             try
             {
-                return VMSDL.GetById(MessageId);
+                return VMSMessageDetailsDL.GetById(MessageId);
             }
             catch (Exception ex)
             {

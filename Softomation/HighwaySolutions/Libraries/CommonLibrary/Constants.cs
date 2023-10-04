@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Drawing;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
@@ -229,6 +230,51 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             decimal parsed = decimal.Parse(amount.ToString(), CultureInfo.InvariantCulture);
             CultureInfo hindi = new CultureInfo("hi-IN");
             return string.Format(hindi, "{0:c}", parsed);
+        }
+
+        public static string ImagetoBase64(string FilePath, string ext)
+        {
+            try
+            {
+                using (Image image = Image.FromFile(FilePath))
+                {
+                    using (MemoryStream m = new MemoryStream())
+                    {
+                        image.Save(m, image.RawFormat);
+                        byte[] imageBytes = m.ToArray();
+
+                        // Convert byte[] to Base64 String
+                        string base64String = Convert.ToBase64String(imageBytes);
+                        base64String = "data:image/" + ext + ";base64," + base64String;
+                        return base64String;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static string VideotoBase64(string FilePath, string ext)
+        {
+            try
+            {
+                //string contentType = "data:video/mp4;base64,";
+                using (FileStream fsRead = new FileStream(FilePath, FileMode.Open))
+                {
+                    int fsLen = (int)fsRead.Length;
+                    byte[] heByte = new byte[fsLen];
+                    int r = fsRead.Read(heByte, 0, heByte.Length);
+
+                    string base64Str = Convert.ToBase64String(heByte);
+                    base64Str = "data:video/" + ext + ";base64," + base64Str;
+                    return base64Str;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
         #endregion
     }

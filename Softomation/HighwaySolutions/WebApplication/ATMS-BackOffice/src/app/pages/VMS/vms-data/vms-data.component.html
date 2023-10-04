@@ -24,14 +24,10 @@
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <!-- <th pSortableColumn="PackageName">Name<p-sortIcon field="PackageName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="StartChainageNumber">Chainage<p-sortIcon
-                                        field="StartChainageNumber"></p-sortIcon>
-                                </th> -->
-                                <th>Format</th>
-                                <th>ValidTillDateTimeStamp</th>
-                                <th>MessageDetails</th>
+                                <th>Message Type</th>
+                                <th>Display Timout</th>
+                                <th>Valid Till</th>
+                                <th>Message Details</th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
                                 </th>
@@ -41,21 +37,15 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <!-- <td>{{rowData.PackageName}}</td>
-                                <td>{{rowData.StartChainageNumber}} - {{rowData.EndChainageNumber}}</td> -->
-                                <td>{{rowData.FormatName}}</td>
-                                <td>{{rowData.ValidTillDateTimeStamp}}</td>
-                                <td *ngIf="rowData.FormatId==1">{{rowData.MessageDetails}}</td>
-                                <!-- <td >
-                                    <i class="mdi mdi-file-image font-size-18"></i>
-                                </td> -->
+                                <td>{{rowData.MessageTypeName}}</td>
+                                <td>{{rowData.DisplayTimout}}</td>
+                                <td>{{rowData.ValidTillDateStamp}}</td>
                                 <td style="text-align: center;" >
-                                    <a *ngIf="rowData.FormatId==2 || rowData.FormatId==3" href="javascript:void(0);" (click)="onMidiaView(rowData)"
+                                    <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Meida Files">
                                         <i class="fa fa-paperclip font-size-18"></i>
                                     </a>
                                 </td>
-                             
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

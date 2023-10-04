@@ -1113,7 +1113,9 @@ input[type=radio] {
 .avatar-title{
     font-size: 22px;
 }
-
+.vms-msg .p-fileupload-content{
+    height: 133px !important;
+}
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;

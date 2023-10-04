@@ -62,7 +62,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'atccValidated', component: AtccvalidatedComponent },
     { path: 'metEventConfig', component: MetEventConfigComponent },
     { path: 'metEventHistory', component: MetDataComponent },
-    { path: 'vmsEventHistroy', component: VmsDataComponent },
+    { path: 'vmsMessageDetails', component: VmsDataComponent },
     { path: 'rmsReports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

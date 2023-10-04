@@ -666,19 +666,29 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  VMS System
-  GetVMSMessage(): Observable<any> {
+  VMSMessageGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetVMSMessage', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VMSMessageGetAll', { headers: headers_object });
   }
+  VMSMessageGetById(MessageId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VMSMessageGetById?MessageId=' + MessageId, { headers: headers_object });
+  }
+
   VMSMessageSetUp(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherConfigSetUp', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VMSMessageSetUp', data, { headers: headers_object });
   }
   //#endregion
+
+  GetMediaFile(theUrl: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetMediaFile?theUrl=' + theUrl, { headers: headers_object });
+  }
 }
 
 

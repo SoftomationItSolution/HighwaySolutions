@@ -10,6 +10,7 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
+using HighwaySoluations.Softomation.CommonLibrary;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
@@ -2394,8 +2395,8 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
-                 data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                
+                data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+
                 if (data.ControlRoomFilterList != "0")
                 {
                     data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
@@ -2424,14 +2425,75 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
-        #region VMS
+        #region VMS Message
         [Route(Provider + "/" + APIPath + "/VMSMessageSetUp")]
         [HttpPost]
-        public HttpResponseMessage VMSMessageSetUp(VMSIL ss)
+        public HttpResponseMessage VMSMessageSetUp(VMSMessageDetailsIL vms)
         {
             try
             {
-                response.Message = VMSBL.InsertUpdate(ss);
+                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                string OldExt = string.Empty;
+                string oldFilePath = string.Empty;
+                string deleteFilePath = string.Empty;
+                string oldFileName = string.Empty;
+                string SaveFilePath = string.Empty;
+                if (vms.MessageId != 0)
+                {
+                    VMSMessageDetailsIL oldData = VMSMessageDetailsBL.GetById(vms.MessageId);
+                    if (!string.IsNullOrEmpty(oldData.MediaPath))
+                    {
+                        oldFilePath = currentPath + oldData.MediaPath;
+                        FileInfo fileInfo = new FileInfo(oldFilePath);
+                        OldExt = fileInfo.Extension;
+                        oldFileName = fileInfo.Name.Replace(OldExt, "");
+                        if (File.Exists(oldFilePath))
+                        {
+                            deleteFilePath = oldFilePath.Replace(OldExt, "_" + OldExt);
+                            File.Move(oldFilePath, deleteFilePath);
+                        }
+
+                    }
+                }
+                #region  Create Media
+                var FileName = RandomString(5) + DateTime.Now.ToString(DateTimeFormatFileName);
+                if (!string.IsNullOrEmpty(oldFileName))
+                    FileName = oldFileName;
+                if (vms.MessageTypeId == 1)
+                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\html\\", FileName, ".html");
+                else if (vms.MessageTypeId == 2)
+                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\image\\", FileName, ".jpeg");
+                else if (vms.MessageTypeId == 3)
+                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\video\\", FileName, ".mp4");
+                else
+                {
+                    resp.AlertMessage = "Message is required";
+                    response.Message.Add(resp);
+                }
+                vms.MediaPath = vms.MediaPath.Replace(currentPath, "");
+                #endregion
+
+                response.Message = VMSMessageDetailsBL.InsertUpdate(vms);
+
+                #region Delete Old File
+                if (response.Message.Count > 0 && !string.IsNullOrEmpty(deleteFilePath))
+                {
+                    if (File.Exists(deleteFilePath))
+                        File.Delete(deleteFilePath);
+                }
+                else
+                {
+                    if (!string.IsNullOrEmpty(deleteFilePath))
+                    {
+                        if (File.Exists(deleteFilePath))
+                        {
+                            oldFilePath = deleteFilePath.Replace("_" + OldExt, OldExt);
+                            File.Move(deleteFilePath, oldFilePath);
+                        }
+                    }
+                }
+                #endregion
+
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -2443,47 +2505,78 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/GetVMSMessage")]
+        [Route(Provider + "/" + APIPath + "/VMSMessageGetAll")]
         [HttpGet]
-        public HttpResponseMessage GetVMSMessage()
+        public HttpResponseMessage VMSMessageGetAll()
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VMSBL.GetVMSMessage();
+                response.ResponseData = VMSMessageDetailsBL.GetAll();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in GetVMSMessage : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in VMSMessageGetAll : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        public HttpResponseMessage MessageDetailsGetById(int MessageId)
+        [Route(Provider + "/" + APIPath + "/VMSMessageGetById")]
+        [HttpGet]
+        public HttpResponseMessage VMSMessageGetById(int MessageId)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = VMSBL.GetById(MessageId);
+                response.ResponseData = VMSMessageDetailsBL.GetById(MessageId);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in MessageDetailsGetById : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in VMSMessageGetById : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-
-
-
         #endregion
 
+        #region Get Media File
+        [Route(Provider + "/" + APIPath + "/GetMediaFile")]
+        [HttpGet]
+        public HttpResponseMessage GetMediaFile(string theUrl)
+        {
+            try
+            {
+                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                string FilePath = currentPath + theUrl;
+                string result = string.Empty;
+                FileInfo fi = new FileInfo(FilePath);
+                string ext = fi.Extension.Replace(".", "");
+                if (ext.ToLower() == "html")
+                    result = File.ReadAllText(FilePath);
+                else if (ext.ToLower() == "mp4")
+                    result = VideotoBase64(FilePath, ext);
+                else
+                    result = ImagetoBase64(FilePath, ext);
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = result;
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in GetMediaFile : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
     }
 }
