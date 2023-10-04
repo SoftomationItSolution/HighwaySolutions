@@ -90,7 +90,7 @@ import { MetDataComponent } from './pages/MET/met-data/met-data.component';
 import { VmsDataComponent } from './pages/VMS/vms-data/vms-data.component';
 import { VmsPopupComponent } from './pages/VMS/vms-popup/vms-popup.component';
 import { QuillModule } from 'ngx-quill';
-
+import { QuillConfigModule } from 'ngx-quill/config';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {

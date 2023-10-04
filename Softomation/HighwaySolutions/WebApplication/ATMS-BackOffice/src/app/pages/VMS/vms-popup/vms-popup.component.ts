@@ -9,25 +9,26 @@ import { DataModel } from 'src/app/services/data-model.model';
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill'
 import Delta from 'quill'
-
 import BlotFormatter from 'quill-blot-formatter';
-//import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 var Font = Quill.import('formats/font');
-//import diff = require('fast-diff');
 const fontFamiltArr = ['Arial', 'Calibri', 'Verdana', 'Microsoft Himalaya'];
-// Font.whitelist = fontFamiltArr;
-// Quill.register(Font, true);
-// var Size = Quill.import('attributors/style/size');
+Font.whitelist = fontFamiltArr;
+Quill.register(Font, true);
+var Size = Quill.import('attributors/style/size');
 const fontSizeArr = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '22px', '24px'];
-// Size.whitelist = fontSizeArr;
-// Quill.register(Size, true);
-// Quill.register('modules/blotFormatter', BlotFormatter);
+Size.whitelist = fontSizeArr;
+Quill.register(Size, true);
+Quill.register('modules/blotFormatter', BlotFormatter);
 @Component({
   selector: 'app-vms-popup',
   templateUrl: './vms-popup.component.html',
   styleUrls: ['./vms-popup.component.css']
 })
 export class VmsPopupComponent {
+changedEditor($event: EditorChangeContent|EditorChangeSelection) {
+throw new Error('Method not implemented.');
+}
   PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
@@ -44,12 +45,16 @@ export class VmsPopupComponent {
   createdEvent: any;
   MediaFile: any;
   modules = {};
-  FormatId = 2;
+  SelectedFormateTypeId = 1;
   uploadedFiles: any[] = [];
+  SystemId = 0;
+  MessageId= 0;
+  
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<VmsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.PackageId = parentData.PackageId;
+    this.MessageId = parentData.MessageId;
     this.modules = {
       'emoji-shortname': true,
       'emoji-textarea': false,
@@ -76,32 +81,48 @@ export class VmsPopupComponent {
     var SDDate = this.datepipe.transform(new Date(), 'dd-MMM-yyyy');
     this.PageTitle = 'Create New Message';
     this.DataDetailsForm = new FormGroup({
-      EquipmentId: new FormControl('', Validators.required),
+      VmsId: new FormControl('', Validators.required),
       FormatTypeId: new FormControl('', Validators.required),
       DurationId: new FormControl('', Validators.required),
       validDate: new FormControl(new Date(SDDate + " 00:00:00")),
-
-      StartLatitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
-      StartLongitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
-      EndLatitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Latitude'])]),
-      EndLongitude: new FormControl('', [Validators.required, Validators.pattern(regExps['Longitude'])]),
+      MessageDetails:new FormControl('', Validators.required),
       DataStatus: new FormControl(true),
     });
-    this.GetVMSList();
-    if (this.PackageId > 0) {
+    this.SystemGetByName();
+    //this.GetVMSList();
+    if (this.MessageId > 0) {
       this.PageTitle = 'Update VMS Details';
     }
+  }
+  SystemGetByName() {
+    this.spinner.show();
+    let MenuUrl = window.location.pathname.replace('/', '');
+    let systenname = MenuUrl.substring(0, 3)
+    this.dbService.SystemGetByName(systenname).subscribe(
+      data => {
+        let SystemDetails = data.ResponseData;
+        this.SystemId = SystemDetails.SystemId;
+        this.GetVMSList();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   GetVMSList() {
     this.spinner.show();
-    this.dbService.EquipmentDetailsGetActive().subscribe(
+    this.dbService.EquipmentDetailsGetBySystemId(this.SystemId).subscribe(
       data => {
         this.spinner.hide();
         this.VMSDetailsData = data.ResponseData.filter((e: { EquipmentTypeId: any; }) => e.EquipmentTypeId == 8);
-        // if (this.PackageId > 0) {
-        //   this.DetailsbyId();
-        // }
+        //this.PackageId=this.VMSDetailsData[0].PackageId;
+
+        if (this.MessageId > 0) {
+          this.DetailsbyId();
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -119,23 +140,23 @@ export class VmsPopupComponent {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.PackagesGetById(this.PackageId).subscribe(
+    this.dbService.MessageDetailsGetById(this.MessageId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        this.DataDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
-        this.DataDetailsForm.controls['PackageName'].setValue(this.DetailData.PackageName);
-        this.DataDetailsForm.controls['StartLatitude'].setValue(this.DetailData.StartLatitude);
-        this.DataDetailsForm.controls['StartLongitude'].setValue(this.DetailData.StartLongitude);
-        this.DataDetailsForm.controls['EndLatitude'].setValue(this.DetailData.EndLatitude);
-        this.DataDetailsForm.controls['EndLongitude'].setValue(this.DetailData.EndLongitude);
-        this.DataDetailsForm.controls['StartChainageNumber'].setValue(this.DetailData.StartChainageNumber);
-        this.DataDetailsForm.controls['EndChainageNumber'].setValue(this.DetailData.EndChainageNumber);
-        if (this.DetailData.DataStatus == 1) {
-          this.DataDetailsForm.controls['DataStatus'].setValue(true);
-        } else {
-          this.DataDetailsForm.controls['DataStatus'].setValue(false);
-        }
+        // this.DataDetailsForm.controls['ControlRoomId'].setValue(this.DetailData.ControlRoomId);
+        // this.DataDetailsForm.controls['PackageName'].setValue(this.DetailData.PackageName);
+        // this.DataDetailsForm.controls['StartLatitude'].setValue(this.DetailData.StartLatitude);
+        // this.DataDetailsForm.controls['StartLongitude'].setValue(this.DetailData.StartLongitude);
+        // this.DataDetailsForm.controls['EndLatitude'].setValue(this.DetailData.EndLatitude);
+        // this.DataDetailsForm.controls['EndLongitude'].setValue(this.DetailData.EndLongitude);
+        // this.DataDetailsForm.controls['StartChainageNumber'].setValue(this.DetailData.StartChainageNumber);
+        // this.DataDetailsForm.controls['EndChainageNumber'].setValue(this.DetailData.EndChainageNumber);
+        // if (this.DetailData.DataStatus == 1) {
+        //   this.DataDetailsForm.controls['DataStatus'].setValue(true);
+        // } else {
+        //   this.DataDetailsForm.controls['DataStatus'].setValue(false);
+        // }
 
       },
       (error) => {
@@ -166,7 +187,7 @@ export class VmsPopupComponent {
     this.createdEvent.root.innerHTML = localStorage.getItem('manualData')
   }
   onFormatChange(FormatId: any) {
-    this.FormatId = FormatId;
+    this.SelectedFormateTypeId = FormatId;
   }
 
   onUpload(event: any) {
@@ -178,6 +199,11 @@ export class VmsPopupComponent {
     reader.onload = () => {
       this.spinner.hide();
       this.MediaFile = reader.result;
+      const Obj = {
+        Base64: reader.result,
+        file: file
+      }
+      this.uploadedFiles.push(Obj);
     };
   }
 
@@ -187,24 +213,22 @@ export class VmsPopupComponent {
   }
   SaveDetails() {
     this.submitted = true;
-    if (this.DataDetailsForm.invalid) {
+    if (this.DataDetailsForm.valid) {
       return;
     }
     const Obj = {
-      PackageId: this.PackageId,
-      ControlRoomId: this.DataDetailsForm.value.ControlRoomId,
-      PackageName: this.DataDetailsForm.value.PackageName,
-      StartLatitude: this.DataDetailsForm.value.StartLatitude,
-      StartLongitude: this.DataDetailsForm.value.StartLongitude,
-      EndLatitude: this.DataDetailsForm.value.EndLatitude,
-      EndLongitude: this.DataDetailsForm.value.EndLongitude,
-      StartChainageNumber: this.DataDetailsForm.value.StartChainageNumber,
-      EndChainageNumber: this.DataDetailsForm.value.EndChainageNumber,
+      MessageId: this.MessageId,
+      VmsId: this.DataDetailsForm.value.VmsId,
+      MediaPath: this.uploadedFiles[0].Base64,
+      FormatId: this.DataDetailsForm.value.FormatTypeId,
+      DisplayTimout: this.DataDetailsForm.value.DurationId,
+      ValidTillDate: this.DataDetailsForm.value.validDate,
+      MessageDetails: this.DataDetailsForm.value.MessageDetails,
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId
     };
     this.spinner.show();
-    this.dbService.PackagesSetUp(Obj).subscribe(
+    this.dbService.VMSMessageSetUp(Obj).subscribe(
       data => {
         this.spinner.hide();
         let returnMessage = data.Message[0].AlertMessage;

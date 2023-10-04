@@ -32,5 +32,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
+        public static VMSIL GetById(int MessageId)
+        {
+            try
+            {
+                return VMSDL.GetById(MessageId);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
     }
 }

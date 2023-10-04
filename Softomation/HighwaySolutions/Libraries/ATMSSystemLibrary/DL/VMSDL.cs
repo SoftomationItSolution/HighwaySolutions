@@ -14,7 +14,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_SystemSetting";
+        static string tableName = "tbl_ManualMessageDetails";
         #endregion
 
         internal static List<ResponseIL> InsertUpdate(VMSIL ss)
@@ -22,18 +22,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             List<ResponseIL> responses = null;
             try
             {
-                string spName = "USP_WeatherConfigInsertUpdate";
+                string spName = "USP_Vms_InsertUpdate";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.Int32, ss.MessageId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VmsIds", DbType.Decimal, ss.VmsIds, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MediaPath", DbType.Decimal, ss.MediaPath, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VmsIds", DbType.String, ss.VmsIds, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MediaPath", DbType.String, ss.MediaPath, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FormatId", DbType.Decimal, ss.FormatId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DisplayTimout", DbType.Decimal, ss.DisplayTimout, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ValidTillDate", DbType.DateTime, ss.ValidTillDate, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@NodeDetails", DbType.Decimal, ss.NodeDetails, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StyleDetails", DbType.Decimal, ss.StyleDetails, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CssDetails", DbType.Decimal, ss.CssDetails, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageDetails", DbType.Decimal, ss.MessageDetails, ParameterDirection.Input, 255));
+                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@NodeDetails", DbType.Decimal, ss.NodeDetails, ParameterDirection.Input, 255));
+                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@StyleDetails", DbType.Decimal, ss.StyleDetails, ParameterDirection.Input, 255));
+                //command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CssDetails", DbType.Decimal, ss.CssDetails, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageDetails", DbType.String, ss.MessageDetails, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
@@ -44,6 +44,27 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 throw ex;
             }
             return responses;
+        }
+
+        internal static VMSIL GetById(Int32 MessageId)
+        {
+            DataTable dt = new DataTable();
+            VMSIL edData = new VMSIL();
+            try
+            {
+                string spName = "USP_MessageDetailsGetById";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.Int32, MessageId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    edData = CreateObjectFromDataRow(dr);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return edData;
         }
 
         #region Get Methods

@@ -130,7 +130,7 @@ export class VmsDataComponent {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '476px';
-      dialogConfig.data = { action: 'Update', PackageId: data.PackageId };
+      dialogConfig.data = { action: 'Update', MessageId: data.MessageId };
       const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

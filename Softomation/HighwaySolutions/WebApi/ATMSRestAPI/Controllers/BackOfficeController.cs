@@ -2484,9 +2484,27 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        public HttpResponseMessage MessageDetailsGetById(int MessageId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VMSBL.GetById(MessageId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in MessageDetailsGetById : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
 
 
-       #endregion
+
+        #endregion
 
     }
 }

@@ -32,11 +32,16 @@
               "src/assets/css/icons.min.css",
               "src/assets/materialIcons/icon.css",
               "src/assets/css/app.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill/dist/quill.bubble.css",
+              "./node_modules/quill/dist/quill.snow.css"
+              
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/apexcharts/dist/apexcharts.min.js"
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "./node_modules/quill/dist/quill.min.js"
             ]
           },
           "configurations": {

@@ -5,63 +5,82 @@
             <i class="mdi mdi-close me-2"></i>
         </button>
     </div>
-    
+
     <div class="modal-body">
         <form [formGroup]="DataDetailsForm">
-            <div class="row"> 
+            <div class="row">
                 <div class="col-md-6">
                     <label for="EquipmentId">VMS </label>
-                    <p-dropdown appendTo="body" formControlName="EquipmentId" inputId="EquipmentId" [options]="VMSDetailsData"
-                        optionLabel="EquipmentTypeName" optionValue="EquipmentId" placeholder="Select"  class="form-control select2"></p-dropdown>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','EquipmentId')">VMS is
-                        required.</small>
+                    <p-dropdown appendTo="body" formControlName="VmsId" inputId="VmsId"
+                        [options]="VMSDetailsData" optionLabel="EquipmentTypeName" optionValue="EquipmentId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','VmsId')">VMS
+                        is required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="EquipmentId">Format</label>
-                    <p-dropdown appendTo="body" formControlName="FormatTypeId" inputId="EquipmentId" [options]="FormateTypeList"
-                        optionLabel="FormateTypeName" optionValue="FormateTypeId" placeholder="Select"  class="form-control select2"></p-dropdown>
+                    <label for="FormatTypeId">Format</label>
+                    <p-dropdown appendTo="body" formControlName="FormatTypeId" inputId="FormatTypeId"
+                        [options]="FormateTypeList" optionLabel="FormateTypeName"
+                        (onChange)="onFormatChange($event.value)" optionValue="FormateTypeId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','FormatTypeId')">Format is
                         required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="EquipmentId">Duration</label>
-                    <p-dropdown appendTo="body" formControlName="DurationId" inputId="DurationId" [options]="DurationList"
-                        optionLabel="DurationName" optionValue="DurationId" placeholder="Select"  class="form-control select2"></p-dropdown>
+                    <p-dropdown appendTo="body" formControlName="DurationId" inputId="DurationId"
+                        [options]="DurationList" optionLabel="DurationName" optionValue="DurationId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','DurationId')">Duration is
                         required.</small>
                 </div>
                 <div class="col-md-6">
                     <label for="StartDateTime">Valid Till Date</label>
-                    <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
-                        pInputText autofocus class="form-control"
-                        formControlName="validDate" [readonlyInput]="true"
+                    <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'" pInputText autofocus
+                        class="form-control" formControlName="validDate" [readonlyInput]="true"
                         dateFormat="dd-M-yy"></p-calendar>
                 </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <quill-editor *ngIf="DataDetailsForm.value.FormateTypeId==2" [styles]="{'height': '250px',color: 'green'}"
-                            [modules]="modules" id="textEditor" (onContentChanged)="contentChanged($event)"
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <quill-editor *ngIf="SelectedFormateTypeId==1" [styles]="{'height': '250px',color: 'green'}" class="content-editor"
+                            [modules]="modules" id="textEditor" formControlName="MessageDetails" (onContentChanged)="contentChanged($event)"
                             (onEditorCreated)="created($event)">
                         </quill-editor>
-                        <p-fileUpload *ngIf="DataDetailsForm.value.FormateTypeId==3" class="dataupload" [showUploadButton]="false" [showCancelButton]="false"
-                        (onSelect)="onUpload($event)" (onRemove)="onRemove($event)" accept="image/*" label="Browse Image">
-                        <ng-template pTemplate="content" style="height: 200px;">
-                            <ul *ngIf="uploadedFiles.length" >
-                                <li *ngFor="let file of uploadedFiles"><img [src]="this.MediaFile"/></li>
-                            </ul>
-                        </ng-template>
-                    </p-fileUpload>
+                        <p-fileUpload *ngIf="SelectedFormateTypeId==2" class="dataupload" [showUploadButton]="false"
+                            [showCancelButton]="false" (onSelect)="onUpload($event)" (onRemove)="onRemove($event)"
+                            accept="image/*" label="Browse Image">
+                            <ng-template pTemplate="content" style="height: 200px;">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles"><img [src]="this.MediaFile" /></li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+                        <p-fileUpload *ngIf="SelectedFormateTypeId==3" class="dataupload" [showUploadButton]="false"
+                            [showCancelButton]="false" (onSelect)="onUpload($event)" (onRemove)="onRemove($event)"
+                            accept="video/*" showupload>
+                            <ng-template pTemplate="content" style="height: 200px;">
+                                <ul *ngIf="uploadedFiles.length">
+                                    <li *ngFor="let file of uploadedFiles">
+                                        <video width="320" height="180" controls>
+                                            <source [src]="MediaFile" type="video/mp4">
+                                            <source [src]="MediaFile" type="video/ogg">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </li>
+                                </ul>
+                            </ng-template>
+                        </p-fileUpload>
+
                     </div>
                 </div>
-				
             </div>
             <div class="mb-3">
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
-                    <label  class="form-check-label" for="formCheck2">
+                    <label class="form-check-label" for="formCheck2">
                         Status
                     </label>
                 </div>
