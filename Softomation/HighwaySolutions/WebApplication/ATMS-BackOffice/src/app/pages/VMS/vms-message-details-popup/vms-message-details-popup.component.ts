@@ -9,7 +9,7 @@ import { DataModel } from 'src/app/services/data-model.model';
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill'
 import BlotFormatter from 'quill-blot-formatter';
-import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+//import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 var Font = Quill.import('formats/font');
 const fontFamiltArr = ['Arial', 'Calibri', 'Verdana', 'Microsoft Himalaya'];
 Font.whitelist = fontFamiltArr;
@@ -19,15 +19,16 @@ const fontSizeArr = ['8px', '10px', '12px', '14px', '16px', '18px', '20px', '22p
 Size.whitelist = fontSizeArr;
 Quill.register(Size, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
+
 @Component({
   selector: 'app-vms-message-details-popup',
   templateUrl: './vms-message-details-popup.component.html',
   styleUrls: ['./vms-message-details-popup.component.css']
 })
 export class VMSMessageDetailsPopupComponent {
-  changedEditor($event: EditorChangeContent | EditorChangeSelection) {
-    throw new Error('Method not implemented.');
-  }
+  // changedEditor($event: EditorChangeContent | EditorChangeSelection) {
+  //   throw new Error('Method not implemented.');
+  // }
   PageTitle: any;
   DataDetailsForm!: FormGroup;
   error = errorMessages;
@@ -48,7 +49,7 @@ export class VMSMessageDetailsPopupComponent {
   uploadedFiles: any[] = [];
   SystemId = 0;
   MessageId = 0;
-
+ 
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<VMSMessageDetailsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -59,16 +60,16 @@ export class VMSMessageDetailsPopupComponent {
       'emoji-textarea': false,
       'emoji-toolbar': true,
       blotFormatter: {
-        // empty object for default behaviour.
+        // empty object for default behaviour. https://stackblitz.com/edit/angular-quill-editor-vww7pa?file=src%2Fapp%2Fapp.component.ts
       },
       'toolbar': {
         container: [
-          ['bold', 'italic'],        // toggled buttons
-          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-          [{ 'size': fontSizeArr }],  // custom dropdown
-          [{ 'color': [] }],          // dropdown with defaults from theme
-          [{ 'font': fontFamiltArr }],
+          ['bold', 'italic'],
+          [{ 'size': fontSizeArr }, false],  // custom dropdown
+          [{ 'font': fontFamiltArr }, false],
+          [{ 'color': [] }, { 'background': [] }],
           [{ 'align': [] }],
+          ['image', 'video'],
           ['emoji'],
         ],
         handlers: { 'emoji': function () { } }

@@ -51,7 +51,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="row vms-msg">
-                        <quill-editor *ngIf="SelectedFormateTypeId==1" [styles]="{'height': '150px',color: 'green'}"
+                        <quill-editor *ngIf="SelectedFormateTypeId==1" [styles]="{'height': '150px'}"
                             class="content-editor" [modules]="modules" id="textEditor" formControlName="MessageDetails"
                             (onContentChanged)="contentChanged($event)" (onEditorCreated)="created($event)">
                         </quill-editor>

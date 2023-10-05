@@ -1120,6 +1120,38 @@ input[type=radio] {
     max-height: 36vh !important;
     min-height: 36vh !important;
 }
+.vms-msg #tab-panel{
+    max-height: 87px !important;
+}
+.vms-msg .ql-picker-options{
+    max-height: 100px !important;
+    overflow: auto !important;
+}
+.ql-snow{
+    .ql-picker{
+        &.ql-size,&.ql-font{
+            .ql-picker-label,
+            .ql-picker-item{
+                &::before{
+                    content: attr(data-value) !important;
+                }
+            }
+        }
+    }
+  }
+
+  /* .ql-snow{
+    .ql-picker{
+        &.ql-font{
+            .ql-picker-label,
+            .ql-picker-item{
+                &::before{
+                    content: attr(data-value) !important;
+                }
+            }
+        }
+    }
+  } */
 
 @media (max-height: 550px) {
     .page-content-wrapper {
