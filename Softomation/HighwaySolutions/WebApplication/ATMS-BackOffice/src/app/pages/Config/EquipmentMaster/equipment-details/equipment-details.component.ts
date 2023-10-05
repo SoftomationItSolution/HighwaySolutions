@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DevicePopupComponent } from '../device-popup/device-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import { FormControl, FormGroup } from '@angular/forms';
-declare var $: any;
+import { EquipmentPopupComponent } from '../equipment-popup/equipment-popup.component';
 @Component({
-  selector: 'app-device-data',
-  templateUrl: './device-data.component.html',
-  styleUrls: ['./device-data.component.css']
+  selector: 'app-equipment-details',
+  templateUrl: './equipment-details.component.html',
+  styleUrls: ['./equipment-details.component.css']
 })
-export class DeviceDataComponent implements OnInit {
+export class EquipmentDetailsComponent implements OnInit {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -231,7 +230,7 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Save', EquipmentId: 0 };
-      const dialogRef = this.dialog.open(DevicePopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(EquipmentPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -254,7 +253,7 @@ export class DeviceDataComponent implements OnInit {
       dialogConfig.width = '50%';
       dialogConfig.height = '500px';
       dialogConfig.data = { action: 'Update', EquipmentId: TransactionRowData.EquipmentId };
-      const dialogRef = this.dialog.open(DevicePopupComponent, dialogConfig);
+      const dialogRef = this.dialog.open(EquipmentPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {

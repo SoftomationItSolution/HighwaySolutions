@@ -17,7 +17,6 @@ import {  MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnakbarComponent } from './allservices/snakbar/snakbar.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ControlRoomConfigurationComponent } from './pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
-import { DeviceDataComponent } from './pages/Config/DeviceMaster/device-data/device-data.component';
 import { VehicleClassDataComponent } from './pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
 import { RoleConfigurationComponent } from './pages/Config/RoleData/role-configuration/role-configuration.component';
 import { RoleConfigurationPopupComponent } from './pages/Config/RoleData/role-configuration-popup/role-configuration-popup.component';
@@ -47,7 +46,9 @@ import { AtccdataComponent } from './pages/ATCC/atccdata/atccdata.component';
 import { ControlRoomPopupComponent } from './pages/Config/ControlRoom/control-room-popup/control-room-popup.component';
 import { UserConfigurationPopupComponent } from './pages/Config/UserData/user-configuration-popup/user-configuration-popup.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-import { DevicePopupComponent } from './pages/Config/DeviceMaster/device-popup/device-popup.component';
+import { EquipmentDetailsComponent } from './pages/Config/EquipmentMaster/equipment-details/equipment-details.component';
+import { EquipmentDetailsPopupComponent } from './pages/Config/EquipmentMaster/equipment-details-popup/equipment-details-popup.component';
+import { EquipmentPopupComponent } from './pages/Config/EquipmentMaster/equipment-popup/equipment-popup.component';
 import { PackagesDetailsComponent } from './pages/Config/Packages/packages-details/packages-details.component';
 import { PackagesPopupComponent } from './pages/Config/Packages/packages-popup/packages-popup.component';
 import {MatStepperModule} from '@angular/material/stepper';
@@ -87,10 +88,15 @@ import { AtccvalidatedComponent } from './pages/ATCC/atccvalidated/atccvalidated
 import { AtccValidationComponent } from './pages/ATCC/atcc-validation/atcc-validation.component';
 import { MetEventConfigComponent } from './pages/MET/met-event-config/met-event-config.component';
 import { MetDataComponent } from './pages/MET/met-data/met-data.component';
-import { VmsDataComponent } from './pages/VMS/vms-data/vms-data.component';
-import { VmsPopupComponent } from './pages/VMS/vms-popup/vms-popup.component';
+
 import { QuillModule } from 'ngx-quill';
 import { ATCCEquipmentConfigComponent } from './pages/ATCC/atcc-equipment-config/atcc-equipment-config.component';
+import { VMSEquipmentConfigComponent } from './pages/VMS/vms-equipment-config/vms-equipment-config.component';
+import { VMSMessageDetailsComponent } from './pages/VMS/vms-message-details/vms-message-details.component';
+import { VMSMessageDetailsPopupComponent } from './pages/VMS/vms-message-details-popup/vms-message-details-popup.component';
+import { VMSMessageHistroyComponent } from './pages/VMS/vms-message-histroy/vms-message-histroy.component';
+
+
 
 
 
@@ -126,8 +132,9 @@ export const MY_CUSTOM_FORMATS = {
     DashboardComponent,
     ControlRoomConfigurationComponent,
     ControlRoomPopupComponent,
-    DeviceDataComponent,
-    DevicePopupComponent,
+    EquipmentDetailsComponent,
+    EquipmentPopupComponent,
+    EquipmentDetailsPopupComponent,
     VehicleClassDataComponent,
     VehicleClassPopupComponent,
     LaneConfigComponent,
@@ -170,8 +177,10 @@ export const MY_CUSTOM_FORMATS = {
     AtccValidationComponent,
     MetEventConfigComponent,
     MetDataComponent,
-    VmsDataComponent,
-    VmsPopupComponent,
+    VMSEquipmentConfigComponent,
+    VMSMessageDetailsComponent,
+    VMSMessageDetailsPopupComponent,
+    VMSMessageHistroyComponent
   ],
   imports: [
     BrowserAnimationsModule,

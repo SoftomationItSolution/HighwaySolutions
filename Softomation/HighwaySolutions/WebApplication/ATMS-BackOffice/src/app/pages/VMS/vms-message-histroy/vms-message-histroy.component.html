@@ -24,6 +24,7 @@
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
+                                <th>VMS List</th>
                                 <th>Message Type</th>
                                 <th>Display Timout</th>
                                 <th>Valid Till</th>
@@ -37,6 +38,13 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
+                                <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                        class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <i class="mdi mdi-message-bulleted font-size-18"></i>
+                                    </a>
+                                </td>
                                 <td>{{rowData.MessageTypeName}}</td>
                                 <td>{{rowData.DisplayTimout}}</td>
                                 <td>{{rowData.ValidTillDateStamp}}</td>

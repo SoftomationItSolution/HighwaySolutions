@@ -111,6 +111,7 @@
     <Compile Include="BL\ReportMasterBL.cs" />
     <Compile Include="BL\SystemBL.cs" />
     <Compile Include="BL\VMSMessageDetailsBL.cs" />
+    <Compile Include="BL\VMSMessageHistoryBL.cs" />
     <Compile Include="BL\WeatherBL.cs" />
     <Compile Include="BL\SystemSettingBL.cs" />
     <Compile Include="BL\VehicleClassBL.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="DL\PhoneBookDL.cs" />
     <Compile Include="DL\PhoneEventsDL.cs" />
     <Compile Include="DL\VMSMessageDetailsDL.cs" />
+    <Compile Include="DL\VMSMessageHistoryDL.cs" />
     <Compile Include="DL\WeatherDL.cs" />
     <Compile Include="DL\VSDSEventDL.cs" />
     <Compile Include="DL\LaneConfigDL.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="IL\PhoneEventsIL.cs" />
     <Compile Include="IL\TrafficDetailsIL.cs" />
     <Compile Include="IL\VMSMessageDetailsIL.cs" />
+    <Compile Include="IL\VMSMessageHistoryIL.cs" />
     <Compile Include="IL\WeatherConfigIL.cs" />
     <Compile Include="IL\VehicleClassIL.cs" />
     <Compile Include="IL\ATCCEventIL.cs" />

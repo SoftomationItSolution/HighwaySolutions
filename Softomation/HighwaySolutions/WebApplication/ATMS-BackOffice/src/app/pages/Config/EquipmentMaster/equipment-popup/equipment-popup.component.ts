@@ -10,11 +10,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-device-popup',
-  templateUrl: './device-popup.component.html',
-  styleUrls: ['./device-popup.component.css']
+  selector: 'app-equipment-popup',
+  templateUrl: './equipment-popup.component.html',
+  styleUrls: ['./equipment-popup.component.css']
 })
-export class DevicePopupComponent implements OnInit {
+export class EquipmentPopupComponent implements OnInit {
   @ViewChild('stepper') private myStepper: MatStepper | undefined;
   PageTitle: any;
   DeviceCommunicationForm!: FormGroup;
@@ -53,7 +53,7 @@ export class DevicePopupComponent implements OnInit {
   ConnectionTypeId = 1
   process=false;
   constructor(private dm: DataModel, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
-    public datepipe: DatePipe, public Dialogref: MatDialogRef<DevicePopupComponent>, public dialog: MatDialog,
+    public datepipe: DatePipe, public Dialogref: MatDialogRef<EquipmentPopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
     this.LogedUserId = this.dm.getUserId();
     this.EquipmentId = parentData.EquipmentId;

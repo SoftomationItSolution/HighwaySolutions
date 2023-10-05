@@ -6,48 +6,13 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class VMSMessageDetailsBL
+    public class VMSMessageHistoryBL
     {
-        public static List<ResponseIL> InsertUpdate(VMSMessageDetailsIL ss)
+        public static List<ResponseIL> Insert(VMSMessageHistoryIL ss)
         {
             try
             {
-                return VMSMessageDetailsDL.InsertUpdate(ss);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public static List<VMSMessageDetailsIL> GetAll()
-        {
-            try
-            {
-                return VMSMessageDetailsDL.GetAll();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-        public static VMSMessageDetailsIL GetById(int MessageId)
-        {
-            try
-            {
-                return VMSMessageDetailsDL.GetById(MessageId);
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-        }
-        public static List<VMSMessageDetailsIL> GetByFilter(DataFilterIL data)
-        {
-            try
-            {
-                return VMSMessageDetailsDL.GetByFilter(data);
+                return VMSMessageHistoryDL.Insert(ss);
             }
             catch (Exception ex)
             {
@@ -55,5 +20,40 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
+        public static List<VMSMessageHistoryIL> GetAll()
+        {
+            try
+            {
+                return VMSMessageHistoryDL.GetAll();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<VMSMessageHistoryIL> GetByHours(short hours)
+        {
+            try
+            {
+                return VMSMessageHistoryDL.GetByHours(hours);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static List<VMSMessageHistoryIL> GetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return VMSMessageHistoryDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

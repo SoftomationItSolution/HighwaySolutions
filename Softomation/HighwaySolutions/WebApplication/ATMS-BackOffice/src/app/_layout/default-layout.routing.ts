@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { ControlRoomConfigurationComponent } from '../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
-import { DeviceDataComponent } from '../pages/Config/DeviceMaster/device-data/device-data.component';
+import { EquipmentDetailsComponent } from '../pages/Config/EquipmentMaster/equipment-details/equipment-details.component';
 import { VehicleClassDataComponent } from '../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component';
 import { LaneConfigComponent } from '../pages/Config/LaneConfig/lane-config.component';
 import { RoleConfigurationComponent } from '../pages/Config/RoleData/role-configuration/role-configuration.component';
@@ -28,9 +28,10 @@ import { AtccValidationComponent } from '../pages/ATCC/atcc-validation/atcc-vali
 import { AtccvalidatedComponent } from '../pages/ATCC/atccvalidated/atccvalidated.component';
 import { MetEventConfigComponent } from '../pages/MET/met-event-config/met-event-config.component';
 import { MetDataComponent } from '../pages/MET/met-data/met-data.component';
-import { VmsDataComponent } from '../pages/VMS/vms-data/vms-data.component';
 import { ATCCEquipmentConfigComponent } from '../pages/ATCC/atcc-equipment-config/atcc-equipment-config.component';
-
+import { VMSEquipmentConfigComponent } from '../pages/VMS/vms-equipment-config/vms-equipment-config.component';
+import { VMSMessageDetailsComponent } from '../pages/VMS/vms-message-details/vms-message-details.component';
+import { VMSMessageHistroyComponent } from '../pages/VMS/vms-message-histroy/vms-message-histroy.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -38,7 +39,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'configSystem', component: SystemDetailsComponent },
     { path: 'configControlRoom', component: ControlRoomConfigurationComponent },
     { path: 'configPackage', component: PackagesDetailsComponent },
-    { path: 'configEquipment', component: DeviceDataComponent },
+    { path: 'configEquipment', component: EquipmentDetailsComponent },
     { path: 'configVehicleClass', component: VehicleClassDataComponent },
     { path: 'configLaneConfig', component: LaneConfigComponent },
     { path: 'configRole', component: RoleConfigurationComponent },
@@ -62,7 +63,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'atccValidated', component: AtccvalidatedComponent },
     { path: 'metEventConfig', component: MetEventConfigComponent },
     { path: 'metEventHistory', component: MetDataComponent },
-    { path: 'vmsMessageDetails', component: VmsDataComponent },
+    { path: 'vmsEventConfig', component: VMSEquipmentConfigComponent },
+    { path: 'vmsMessageDetails', component: VMSMessageDetailsComponent },
+    { path: 'vmsMessageHistory', component: VMSMessageHistroyComponent },
     { path: 'rmsReports', component: ReportsComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

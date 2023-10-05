@@ -1116,6 +1116,11 @@ input[type=radio] {
 .vms-msg .p-fileupload-content{
     height: 133px !important;
 }
+.equipment-table .p-datatable-wrapper {
+    max-height: 36vh !important;
+    min-height: 36vh !important;
+}
+
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;

@@ -15,12 +15,14 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private String eventFilterList;
         private String vehicleClassFilterList;
         private String equipmentTypeFilterList;
+        private String equipmentIdFilterList;
         private String incidentFilterList;
         private String incidentStatusList;
         private String directionFilterList;
         private String laneFilterList;
         private String priorityFilterList;
         private String reviewedFilterList;
+        private String messageTypeIdFilterList;
         private String plateNumber;
         private String startDateTime;
         private String endDateTime;
@@ -42,6 +44,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.chainageFilterList = string.Empty;
             this.positionFilterList = string.Empty;
             this.equipmentTypeFilterList = string.Empty;
+            this.equipmentIdFilterList = string.Empty;
             this.eventFilterList = string.Empty;
             this.vehicleClassFilterList = string.Empty;
             this.incidentFilterList = string.Empty;
@@ -50,6 +53,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.laneFilterList = string.Empty;
             this.priorityFilterList = string.Empty;
             this.reviewedFilterList = string.Empty;
+            this.messageTypeIdFilterList = string.Empty;
             this.plateNumber = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
@@ -91,6 +95,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => equipmentTypeFilterList; set => equipmentTypeFilterList = value;
         }
+
+        public string EquipmentIdFilterList
+        {
+            get => equipmentIdFilterList; set => equipmentIdFilterList = value;
+        }
         public string EventFilterList
         {
             get => eventFilterList; set => eventFilterList = value;
@@ -123,6 +132,10 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         public string ReviewedFilterList
         {
             get => reviewedFilterList; set => reviewedFilterList = value;
+        }
+        public string MessageTypeIdFilterList
+        {
+            get => messageTypeIdFilterList; set => messageTypeIdFilterList = value;
         }
         public string PlateNumber
         {

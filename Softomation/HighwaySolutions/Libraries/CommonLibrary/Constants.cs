@@ -33,7 +33,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         #endregion
 
         #region Date Time
-        public static string DateFormat= "dd-MMM-yyyy";
+        public static string DateFormat = "dd-MMM-yyyy";
         public static string DateTimeFormatClient = "dd-MMM-yyyy HH:mm:ss";
         public static string DateTimeFormatJson = "dd-MMM-yyyy HH:mm:ss.fff";
         public static string DateTimeFormat12H = "yyyy-MM-dd hh:mm:ss.fff";
@@ -44,7 +44,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         public static string DateTimeFormat24HOracleQuery = "dd/MM/yyyy HH:mm:ss";
         public static string DateTimeFormat24HFileFormat = "MM/dd/yyyyHH:mm:ss";
         public static string DateTimeFormatTxnFormat = "yyyy-MM-ddTHH:mm:ss.ffff";
-        
+
         #endregion
 
         #region Enum
@@ -273,6 +273,20 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             }
             catch (Exception ex)
             {
+                throw ex;
+            }
+        }
+
+        public static string BaseToString(string base64)
+        {
+            try
+            {
+                byte[] data = Convert.FromBase64String(base64);
+                return Encoding.UTF8.GetString(data);
+            }
+            catch (Exception ex)
+            {
+
                 throw ex;
             }
         }

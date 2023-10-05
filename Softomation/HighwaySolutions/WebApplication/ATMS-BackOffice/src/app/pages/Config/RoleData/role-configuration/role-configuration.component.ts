@@ -129,7 +129,7 @@ export class RoleConfigurationComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '60%';
-      dialogConfig.height = '484px';
+      dialogConfig.height = '614px';
       dialogConfig.data = { action: 'Update', RoleId: data.RoleId, UpdatePermission: this.UpdatePermission };
       const dialogRef = this.dialog.open(RolePermissionPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

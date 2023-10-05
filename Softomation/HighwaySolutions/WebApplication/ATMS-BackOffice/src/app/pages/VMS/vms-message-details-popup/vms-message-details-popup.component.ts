@@ -3,12 +3,11 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
+import { errorMessages } from 'src/app/allservices/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill'
-import Delta from 'quill'
 import BlotFormatter from 'quill-blot-formatter';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
 var Font = Quill.import('formats/font');
@@ -21,11 +20,11 @@ Size.whitelist = fontSizeArr;
 Quill.register(Size, true);
 Quill.register('modules/blotFormatter', BlotFormatter);
 @Component({
-  selector: 'app-vms-popup',
-  templateUrl: './vms-popup.component.html',
-  styleUrls: ['./vms-popup.component.css']
+  selector: 'app-vms-message-details-popup',
+  templateUrl: './vms-message-details-popup.component.html',
+  styleUrls: ['./vms-message-details-popup.component.css']
 })
-export class VmsPopupComponent {
+export class VMSMessageDetailsPopupComponent {
   changedEditor($event: EditorChangeContent | EditorChangeSelection) {
     throw new Error('Method not implemented.');
   }
@@ -51,7 +50,7 @@ export class VmsPopupComponent {
   MessageId = 0;
 
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
-    private dm: DataModel, public Dialogref: MatDialogRef<VmsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
+    private dm: DataModel, public Dialogref: MatDialogRef<VMSMessageDetailsPopupComponent>, public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.PackageId = parentData.PackageId;
     this.MessageId = parentData.MessageId;
@@ -65,7 +64,7 @@ export class VmsPopupComponent {
       'toolbar': {
         container: [
           ['bold', 'italic'],        // toggled buttons
-          //['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+          ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
           [{ 'size': fontSizeArr }],  // custom dropdown
           [{ 'color': [] }],          // dropdown with defaults from theme
           [{ 'font': fontFamiltArr }],
@@ -161,6 +160,7 @@ export class VmsPopupComponent {
         this.DataDetailsForm.controls['MessageTypeId'].setValue(this.SelectedFormateTypeId);
         this.DataDetailsForm.controls['DisplayTimout'].setValue(this.DetailData.DisplayTimout);
         this.DataDetailsForm.controls['ValidTillDate'].setValue(this.DetailData.ValidTillDateStamp);
+        this.DataDetailsForm.controls['MessageDetails'].setValue(this.DetailData.MessageDetails);
         if (this.DetailData.DataStatus == 1)
           this.DataDetailsForm.controls['DataStatus'].setValue(true);
         else
@@ -199,7 +199,8 @@ export class VmsPopupComponent {
 
   GetMediaFile(theUrl: any) {
     this.spinner.show();
-    this.dbService.GetMediaFile(theUrl).subscribe(
+    var encodedStringBtoA = btoa(theUrl);
+    this.dbService.GetMediaFile(encodedStringBtoA).subscribe(
       data => {
         this.spinner.hide();
         if (this.SelectedFormateTypeId == 1) {
@@ -213,7 +214,12 @@ export class VmsPopupComponent {
         else {
           this.uploadedFiles = [];
           this.MediaFile = data.ResponseData;
-          this.uploadedFiles.push(this.MediaFile)
+          const Obj = {
+            Base64: this.MediaFile,
+            file: theUrl
+          }
+          this.uploadedFiles.push(Obj);
+          this.DataDetailsForm.controls['MessageDetails'].setValue(this.MediaFile);
         }
       },
       (error) => {

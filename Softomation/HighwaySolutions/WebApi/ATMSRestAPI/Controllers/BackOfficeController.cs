@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web;
@@ -12,6 +13,7 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
 using HighwaySoluations.Softomation.CommonLibrary;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HtmlAgilityPack;
 using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
@@ -2438,62 +2440,121 @@ namespace ATMSRestAPI.Controllers
                 string deleteFilePath = string.Empty;
                 string oldFileName = string.Empty;
                 string SaveFilePath = string.Empty;
-                if (vms.MessageId != 0)
-                {
-                    VMSMessageDetailsIL oldData = VMSMessageDetailsBL.GetById(vms.MessageId);
-                    if (!string.IsNullOrEmpty(oldData.MediaPath))
-                    {
-                        oldFilePath = currentPath + oldData.MediaPath;
-                        FileInfo fileInfo = new FileInfo(oldFilePath);
-                        OldExt = fileInfo.Extension;
-                        oldFileName = fileInfo.Name.Replace(OldExt, "");
-                        if (File.Exists(oldFilePath))
-                        {
-                            deleteFilePath = oldFilePath.Replace(OldExt, "_" + OldExt);
-                            File.Move(oldFilePath, deleteFilePath);
-                        }
 
-                    }
-                }
-                #region  Create Media
-                var FileName = RandomString(5) + DateTime.Now.ToString(DateTimeFormatFileName);
-                if (!string.IsNullOrEmpty(oldFileName))
-                    FileName = oldFileName;
-                if (vms.MessageTypeId == 1)
-                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\html\\", FileName, ".html");
-                else if (vms.MessageTypeId == 2)
-                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\image\\", FileName, ".jpeg");
-                else if (vms.MessageTypeId == 3)
-                    vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\video\\", FileName, ".mp4");
-                else
+                if (string.IsNullOrEmpty(vms.MediaPath))
                 {
                     resp.AlertMessage = "Message is required";
                     response.Message.Add(resp);
                 }
-                vms.MediaPath = vms.MediaPath.Replace(currentPath, "");
-                #endregion
-
-                response.Message = VMSMessageDetailsBL.InsertUpdate(vms);
-
-                #region Delete Old File
-                if (response.Message.Count > 0 && !string.IsNullOrEmpty(deleteFilePath))
-                {
-                    if (File.Exists(deleteFilePath))
-                        File.Delete(deleteFilePath);
-                }
                 else
                 {
-                    if (!string.IsNullOrEmpty(deleteFilePath))
-                    {
-                        if (File.Exists(deleteFilePath))
-                        {
-                            oldFilePath = deleteFilePath.Replace("_" + OldExt, OldExt);
-                            File.Move(deleteFilePath, oldFilePath);
-                        }
-                    }
-                }
-                #endregion
+                    #region Check Last File
+                    //if (vms.MessageId != 0)
+                    //{
+                    //    VMSMessageDetailsIL oldData = VMSMessageDetailsBL.GetById(vms.MessageId);
+                    //    if (!string.IsNullOrEmpty(oldData.MediaPath))
+                    //    {
+                    //        oldFilePath = currentPath + oldData.MediaPath;
+                    //        FileInfo fileInfo = new FileInfo(oldFilePath);
+                    //        OldExt = fileInfo.Extension;
+                    //        oldFileName = fileInfo.Name.Replace(OldExt, "");
+                    //        if (File.Exists(oldFilePath))
+                    //        {
+                    //            deleteFilePath = oldFilePath.Replace(OldExt, "_" + OldExt);
+                    //            File.Move(oldFilePath, deleteFilePath);
+                    //        }
 
+                    //    }
+                    //}
+                    #endregion
+
+                    #region  Create Media
+                    var FileName = RandomString(5) + DateTime.Now.ToString(DateTimeFormatFileName);
+                    if (!string.IsNullOrEmpty(oldFileName))
+                        FileName = oldFileName;
+                    if (vms.MessageTypeId == 1)
+                        vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\html\\", FileName, ".html");
+                    else if (vms.MessageTypeId == 2)
+                        vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\image\\", FileName, ".jpeg");
+                    else if (vms.MessageTypeId == 3)
+                        vms.MediaPath = SaveMediaFiles(vms.MediaPath, currentPath + "\\VMS\\video\\", FileName, ".mp4");
+                    else
+                    {
+                        resp.AlertMessage = "Message is required";
+                        response.Message.Add(resp);
+                    }
+                    SaveFilePath = vms.MediaPath;
+                    vms.MediaPath = vms.MediaPath.Replace(currentPath, "");
+                    #endregion
+                }
+                if (response.Message.Count == 0)
+                {
+                    #region Get Text Details
+                    if (vms.MessageTypeId == (short)VmsMessageFormat.Text)
+                    {
+                        var doc = new HtmlDocument();
+
+                        string DataContent = File.ReadAllText(SaveFilePath);
+                        doc.LoadHtml(DataContent);
+                        vms.MessageDetails = string.Join("", doc.DocumentNode.SelectNodes("//text()[normalize-space()]").Select(t => t.InnerText));
+
+                        //List<string> styles = new List<string>();
+                        //List<string> Cssclass = new List<string>();
+                        //List<string> taglist = new List<string>();
+
+                        //foreach (HtmlNode node in doc.DocumentNode.Descendants())
+                        //{
+                        //    taglist.Add(node.Name);
+                        //    if (node.Attributes.Count > 0)
+                        //    {
+                        //        if (node.Attributes["class"] != null)
+                        //            Cssclass.Add(node.Attributes["class"].Value);
+                        //        if (node.Attributes["style"] != null)
+                        //            styles.Add(node.Attributes["style"].Value);
+                        //    }
+                        //}
+
+                        //if (taglist.Count > 0)
+                        //{
+                        //    List<string> distinct = taglist.Distinct().ToList();
+                        //    vms.NodeDetails = string.Join("!", distinct);
+                        //}
+                        //if (Cssclass.Count > 0)
+                        //{
+                        //    List<string> distinct = Cssclass.Distinct().ToList();
+                        //    vms.CssDetails = string.Join("!", distinct);
+                        //}
+                        //if (styles.Count > 0)
+                        //{
+                        //    List<string> distinct = styles.Distinct().ToList();
+                        //    vms.StyleDetails = string.Join("!", distinct);
+                        //}
+                    }
+                    else
+                    {
+                        vms.MessageDetails = string.Empty;
+                    }
+                    #endregion
+                    response.Message = VMSMessageDetailsBL.InsertUpdate(vms);
+                    #region Delete Old File
+                    //if (response.Message.Count > 0 && !string.IsNullOrEmpty(deleteFilePath))
+                    //{
+                    //    if (File.Exists(deleteFilePath))
+                    //        File.Delete(deleteFilePath);
+                    //}
+                    //else
+                    //{
+                    //    if (!string.IsNullOrEmpty(deleteFilePath))
+                    //    {
+                    //        if (File.Exists(deleteFilePath))
+                    //        {
+                    //            oldFilePath = deleteFilePath.Replace("_" + OldExt, OldExt);
+                    //            File.Move(deleteFilePath, oldFilePath);
+                    //        }
+                    //    }
+                    //}
+                    #endregion
+                }
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
@@ -2544,6 +2605,85 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
+        [Route(Provider + "/" + APIPath + "/VMSMessageGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VMSMessageGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE 1=1 ";
+                if (data.EquipmentIdFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND V.Value IN (" + data.EquipmentIdFilterList + ") ";
+                }
+                if (data.MessageTypeIdFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND MessageTypeId IN (" + data.MessageTypeIdFilterList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VMSMessageDetailsBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VMSHistoryGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+
+        [Route(Provider + "/" + APIPath + "/VMSHistoryGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage VMSHistoryGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VMSMessageHistoryBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VMSHistoryGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/VMSHistoryGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage VMSHistoryGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE H.PlayDateTime>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.PlayDateTime<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                if (data.EquipmentIdFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND M.EquipmentId IN (" + data.EquipmentIdFilterList + ") ";
+                }
+                if (data.MessageTypeIdFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND M.MessageTypeId IN (" + data.MessageTypeIdFilterList + ") ";
+                }
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = VMSMessageHistoryBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in VMSHistoryGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
         #endregion
 
         #region Get Media File
@@ -2553,6 +2693,7 @@ namespace ATMSRestAPI.Controllers
         {
             try
             {
+                theUrl = BaseToString(theUrl);
                 string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
                 string FilePath = currentPath + theUrl;
                 string result = string.Empty;

@@ -3,14 +3,13 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
-import { VmsPopupComponent } from '../vms-popup/vms-popup.component';
 
 @Component({
-  selector: 'app-vms-data',
-  templateUrl: './vms-data.component.html',
-  styleUrls: ['./vms-data.component.css']
+  selector: 'app-vms-message-histroy',
+  templateUrl: './vms-message-histroy.component.html',
+  styleUrls: ['./vms-message-histroy.component.css']
 })
-export class VmsDataComponent {
+export class VMSMessageHistroyComponent {
   ErrorData: any;
   PermissionData: any;
   MessageData: any;
@@ -110,50 +109,50 @@ export class VmsDataComponent {
     }
   }
   NewEntry() {
-    if (this.DataAdd == 1) {
-      localStorage.setItem('manualData', "");
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '55%';
-      dialogConfig.height = '394px';
-      dialogConfig.data = { action: 'Save', MessageId: 0 };
-      const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(
-        data => {
-          if (data) {
-            this.GetAllData();
-          }
-        }
-      );
-    }
-    else {
-      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-    }
+    // if (this.DataAdd == 1) {
+    //   localStorage.setItem('manualData', "");
+    //   const dialogConfig = new MatDialogConfig();
+    //   dialogConfig.disableClose = true;
+    //   dialogConfig.autoFocus = true;
+    //   dialogConfig.width = '55%';
+    //   dialogConfig.height = '394px';
+    //   dialogConfig.data = { action: 'Save', MessageId: 0 };
+    //   const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
+    //   dialogRef.afterClosed().subscribe(
+    //     data => {
+    //       if (data) {
+    //         this.GetAllData();
+    //       }
+    //     }
+    //   );
+    // }
+    // else {
+    //   this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+    //   this.dm.openSnackBar(this.ErrorData, false);
+    // }
   }
 
   onRowEditInit(data: any) {
-    if (this.DataUpdate == 1) {
-      localStorage.setItem('manualData', "");
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '55%';
-      dialogConfig.height = '394px';
-      dialogConfig.data = { action: 'Update', MessageId: data.MessageId };
-      const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(
-        data => {
-          if (data) {
-            this.GetAllData();
-          }
-        }
-      );
-    }
-    else {
-      this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-    }
+    // if (this.DataUpdate == 1) {
+    //   localStorage.setItem('manualData', "");
+    //   const dialogConfig = new MatDialogConfig();
+    //   dialogConfig.disableClose = true;
+    //   dialogConfig.autoFocus = true;
+    //   dialogConfig.width = '55%';
+    //   dialogConfig.height = '394px';
+    //   dialogConfig.data = { action: 'Update', MessageId: data.MessageId };
+    //   const dialogRef = this.dialog.open(VmsPopupComponent, dialogConfig);
+    //   dialogRef.afterClosed().subscribe(
+    //     data => {
+    //       if (data) {
+    //         this.GetAllData();
+    //       }
+    //     }
+    //   );
+    // }
+    // else {
+    //   this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
+    //   this.dm.openSnackBar(this.ErrorData, false);
+    // }
   }
 }

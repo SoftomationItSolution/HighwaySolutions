@@ -7,34 +7,31 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 
+
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
-    internal class VMSMessageDetailsDL
+    public class VMSMessageHistoryDL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_VMSMessageDetails";
+        static string tableName = "tbl_VMSMessageHistory";
         #endregion
 
-        internal static List<ResponseIL> InsertUpdate(VMSMessageDetailsIL ss)
+        internal static List<ResponseIL> Insert(VMSMessageHistoryIL ss)
         {
             List<ResponseIL> responses = null;
             try
             {
-                string spName = "USP_VMSMessageDetailsInsertUpdate";
+                string spName = "USP_VMSMessageHistoryInsert";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.Int32, ss.MessageId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentIds", DbType.String, ss.EquipmentIds, ParameterDirection.Input, 4000));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, ss.EquipmentId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MediaPath", DbType.String, ss.MediaPath, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageTypeId", DbType.Int16, ss.MessageTypeId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DisplayTimout", DbType.Int16, ss.DisplayTimout, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ValidTillDate", DbType.Date, ss.ValidTillDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageDetails", DbType.String, ss.MessageDetails, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, ss.DataStatus, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, ss.ModifiedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlayDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
             }
@@ -46,13 +43,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         }
 
         #region Get Methods
-        internal static List<VMSMessageDetailsIL> GetAll()
+        internal static List<VMSMessageHistoryIL> GetAll()
         {
             DataTable dt = new DataTable();
-            List<VMSMessageDetailsIL> crData = new List<VMSMessageDetailsIL>();
+            List<VMSMessageHistoryIL> crData = new List<VMSMessageHistoryIL>();
             try
             {
-                string spName = "USP_VMSMessageDetailsGetAll";
+                string spName = "USP_VMSMessageHistoryGetAll";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -64,36 +61,33 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return crData;
         }
-        internal static VMSMessageDetailsIL GetById(Int32 MessageId)
+        internal static List<VMSMessageHistoryIL> GetByHours(short hours)
         {
-            DataTable dt = new DataTable();
-            VMSMessageDetailsIL crData = new VMSMessageDetailsIL();
+            List<VMSMessageHistoryIL> msgList = new List<VMSMessageHistoryIL>();
             try
             {
-                string spName = "USP_VMSMessageDetailsGetById";
+                string spName = "USP_VMSMessageHistoryGetByHours";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@MessageId", DbType.Int32, MessageId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@Hours", DbType.Int16, hours, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
-                    crData = CreateObjectFromDataRow(dr);
+                    msgList.Add(CreateObjectFromDataRow(dr));
 
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-            return crData;
+            return msgList;
         }
-
-        internal static List<VMSMessageDetailsIL> GetByFilter(DataFilterIL data)
+        internal static List<VMSMessageHistoryIL> GetByFilter(DataFilterIL data)
         {
             DataTable dt = new DataTable();
-            List<VMSMessageDetailsIL> msgsEvents = new List<VMSMessageDetailsIL>();
+            List<VMSMessageHistoryIL> msgsEvents = new List<VMSMessageHistoryIL>();
             try
             {
-                string spName = "USP_VMSMessageDetailsGetByFilter";
+                string spName = "USP_VMSMessageHistoryGetByFilter";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentIdFilterList", DbType.String, data.EquipmentIdFilterList, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
@@ -109,15 +103,15 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         #endregion
 
         #region Helper Methods
-        private static VMSMessageDetailsIL CreateObjectFromDataRow(DataRow dr)
+        private static VMSMessageHistoryIL CreateObjectFromDataRow(DataRow dr)
         {
-            VMSMessageDetailsIL sysSet = new VMSMessageDetailsIL();
+            VMSMessageHistoryIL sysSet = new VMSMessageHistoryIL();
 
             if (dr["MessageId"] != DBNull.Value)
                 sysSet.MessageId = Convert.ToInt16(dr["MessageId"]);
 
-            if (dr["EquipmentIds"] != DBNull.Value)
-                sysSet.EquipmentIds = Convert.ToString(dr["EquipmentIds"]);
+            if (dr["EquipmentId"] != DBNull.Value)
+                sysSet.EquipmentId = Convert.ToInt64(dr["EquipmentId"]);
 
             if (dr["MediaPath"] != DBNull.Value)
                 sysSet.MediaPath = Convert.ToString(dr["MediaPath"]);
@@ -137,34 +131,32 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["MessageDetails"] != DBNull.Value)
                 sysSet.MessageDetails = Convert.ToString(dr["MessageDetails"]);
 
-            if (dr["DataStatus"] != DBNull.Value)
-                sysSet.DataStatus = Convert.ToInt16(dr["DataStatus"]);
+            if (dr["PlayDateTime"] != DBNull.Value)
+            {
+                sysSet.PlayDateTime = Convert.ToDateTime(dr["PlayDateTime"]);
+                sysSet.PlayDateTimeStamp = sysSet.PlayDateTime.ToString(Constants.DateTimeFormatClient);
+            }
 
-            if (dr["CreatedDate"] != DBNull.Value)
-                sysSet.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
+            if (dr["DirectionId"] != DBNull.Value)
+                sysSet.DirectionId = Convert.ToInt16(dr["DirectionId"]);
 
-            if (dr["CreatedBy"] != DBNull.Value)
-                sysSet.CreatedBy = Convert.ToInt32(dr["CreatedBy"]);
+            if (dr["EquipmentName"] != DBNull.Value)
+                sysSet.EquipmentName = Convert.ToString(dr["EquipmentName"]);
 
-            if (dr["ModifiedDate"] != DBNull.Value)
-                sysSet.ModifiedDate = Convert.ToDateTime(dr["ModifiedDate"]);
+            if (dr["IpAddress"] != DBNull.Value)
+                sysSet.IpAddress = Convert.ToString(dr["IpAddress"]);
 
-            if (dr["ModifiedBy"] != DBNull.Value)
-                sysSet.ModifiedBy = Convert.ToInt32(dr["ModifiedBy"]);
+            if (dr["ChainageNumber"] != DBNull.Value)
+            {
+                sysSet.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
+                sysSet.ChainageName = sysSet.ChainageNumber.ToString().Replace(".", "+");
+            }
 
-            if (string.IsNullOrEmpty(sysSet.EquipmentIds))
-                sysSet.EquipmentIds = "0";
-
-            if (sysSet.EquipmentIds == "0")
-                sysSet.EquipmentList = EquipmentDetailsDL.GetByTypeId(8);
-            else
-                sysSet.EquipmentList = EquipmentDetailsDL.GetByIds(sysSet.EquipmentIds);
-
+            sysSet.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)sysSet.DirectionId);
             sysSet.MessageTypeName = Enum.GetName(typeof(SystemConstants.VmsMessageFormat), (SystemConstants.VmsMessageFormat)sysSet.MessageTypeId);
             sysSet.DataStatusName = Enum.GetName(typeof(Constants.DataStatusType), (Constants.DataStatusType)sysSet.DataStatus);
             return sysSet;
         }
-
         #endregion
     }
 }
