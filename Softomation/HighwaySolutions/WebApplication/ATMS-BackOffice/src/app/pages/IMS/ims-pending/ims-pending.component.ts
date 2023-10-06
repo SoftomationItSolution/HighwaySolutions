@@ -12,7 +12,7 @@ import { CreateIncidentComponent } from '../create-incident/create-incident.comp
   templateUrl: './ims-pending.component.html',
   styleUrls: ['./ims-pending.component.css']
 })
-export class ImsPendingComponent {
+export class IMSPendingComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;

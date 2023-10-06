@@ -4,7 +4,7 @@ import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabe
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
-import { LiveViewPopUpComponent } from '../live-view-pop-up/live-view-pop-up.component';
+import { LiveViewPopUpComponent } from '../PopUp/live-view-pop-up/live-view-pop-up.component';
 declare var H: any;
 export type ChartOptions = {
   series?: ApexAxisChartSeries;

@@ -6,11 +6,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-met-data',
-  templateUrl: './met-data.component.html',
-  styleUrls: ['./met-data.component.css']
+  selector: 'app-atcc-event-history',
+  templateUrl: './atcc-event-history.component.html',
+  styleUrls: ['./atcc-event-history.component.css']
 })
-export class MetDataComponent {
+export class ATCCEventHistoryComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -28,9 +28,10 @@ export class MetDataComponent {
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
   LaneDetailsList:any;
   VehicleClassDataList:any;
+  DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -45,6 +46,10 @@ export class MetDataComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
+      LaneFilterList: new FormControl(''),
+      DirectionFilterList: new FormControl(''),
+      VehicleClassFilterList: new FormControl(''),
+      PositionFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -58,7 +63,6 @@ export class MetDataComponent {
         let SystemDetails = data.ResponseData;
         this.SystemId = SystemDetails.SystemId;
         this.GetPermissionData();
-        this.SearchEntry();
       },
       (error) => {
         this.spinner.hide();
@@ -104,6 +108,35 @@ export class MetDataComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
+        this.GetLaneConfig();
+       
+       
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetLaneConfig() {
+    this.dbService.LaneConfigGetAll().subscribe(
+      data => {
+        this.LaneDetailsList = data.ResponseData;
+        this.GetVehicleList();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetVehicleList() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClassDataList = data.ResponseData;
+        this.GetEventHistroy();
       },
       (error) => {
         this.spinner.hide();
@@ -114,13 +147,13 @@ export class MetDataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VSDSEventsGetByHours(24).subscribe(
+    this.dbService.ATCCEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
-        if(this.TotalCount>0){
-          var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
+        if (this.TotalCount > 0) {
+          var sd = this.EventHistroyData[this.TotalCount - 1].EventDateStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
       },
@@ -136,7 +169,26 @@ export class MetDataComponent {
       }
     );
   }
-  
+
+  onMidiaView(TransactionRowData: any) {
+    var obj = {
+      PageTitle: "ATCC Event media-(" + TransactionRowData.VehicleClassName + ")",
+      ImageData: [
+      {
+        ImagePath: TransactionRowData.VehicleImageUrl,
+        Title: "Vehicle Image"
+      }],
+      VideoData: [{
+        VideoPath: TransactionRowData.VehicleVideoUrl,
+        Title: "Vehicle Video"
+      }],
+      AudioData: [{
+        AudioPath: ''
+      }]
+    }
+    this.dm.MediaView(obj);
+  }
+
   ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
@@ -228,7 +280,7 @@ export class MetDataComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -236,7 +288,7 @@ export class MetDataComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -244,35 +296,68 @@ export class MetDataComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
     }
 
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    let LaneFilterList = "0"
+    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
+      let crData = this.FilterDetailsForm.value.LaneFilterList.toString();
+      if (crData.split(',').length != this.LaneDetailsList.length) {
+        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
+      }
+    }
+
+    let DirectionFilterList = "0"
+    if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
+      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
+      if (crData.split(',').length != this.DirectionList.length) {
+        DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
+      }
+    }
+
+    let VehicleClassFilterList = "0"
+    if (this.FilterDetailsForm.value.VehicleClassFilterList != null && this.FilterDetailsForm.value.VehicleClassFilterList != '') {
+      let crData = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      if (crData.split(',').length != this.VehicleClassDataList.length) {
+        VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      }
+    }
+    let PositionFilterList = "0"
+    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
+      if (crData.split(',').length != this.PositionList.length) {
+        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+      }
+    }
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      LaneFilterList: LaneFilterList,
+      DirectionFilterList: DirectionFilterList,
+      PositionFilterList: PositionFilterList,
+      PlateNumber: this.FilterDetailsForm.value.PlateNumber,
+      VehicleClassFilterList: VehicleClassFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.WeatherGetALLByFilter(obj).subscribe(
+    this.dbService.ATCCEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: "Something went wrong." }];
         this.dm.openSnackBar(this.ErrorData, false);
-       
       }
     );
-
   }
 }

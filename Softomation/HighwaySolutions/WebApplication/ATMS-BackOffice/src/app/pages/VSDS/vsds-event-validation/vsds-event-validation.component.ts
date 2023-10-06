@@ -2,15 +2,17 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-vsds-data',
-  templateUrl: './vsds-data.component.html',
-  styleUrls: ['./vsds-data.component.css']
+  selector: 'app-vsds-event-validation',
+  templateUrl: './vsds-event-validation.component.html',
+  styleUrls: ['./vsds-event-validation.component.css'],
+  providers: [ConfirmationService]
 })
-export class VsdsDataComponent {
+export class VSDSEventValidationComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -21,18 +23,26 @@ export class VsdsDataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
   FilterDetailsForm!: FormGroup;
+  Reviewedform!: FormGroup;
   MasterData: any;
   EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
+  SelectedIndex: number = 0;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  SelectedRow: any = null;
+  MediaPrefix: any;
+  VehicleClass: any;
+  VideoFound = false;
+  TotalCount = 0;
   LaneDetailsList:any;
   VehicleClassDataList:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -50,6 +60,14 @@ export class VsdsDataComponent {
       EventFilterList: new FormControl(''),
       VehicleClassFilterList: new FormControl(''),
       PlateNumber: new FormControl(''),
+    });
+    this.Reviewedform = new FormGroup({
+      ReviewedPlateNumber: new FormControl(''),
+      ReviewedVehicleClassId: new FormControl(''),
+      IsReviewedPlateVisible: new FormControl(true),
+      IsReviewedFaultyPlate: new FormControl(false),
+      IsReviewedStandardPlate: new FormControl(true),
+      IsReviewedWrongDirection: new FormControl(false),
     });
     this.SystemGetByName()
   }
@@ -146,8 +164,21 @@ export class VsdsDataComponent {
   GetEventData() {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
-        let d=data.ResponseData;
-        this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
+        this.EventData = data.ResponseData;
+        this.GetVehicleClass();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetVehicleClass() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClass = data.ResponseData;
         this.GetEventHistroy();
       },
       (error) => {
@@ -159,7 +190,7 @@ export class VsdsDataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VSDSEventsGetByHours(24).subscribe(
+    this.dbService.VSDSPendingReviewGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -168,6 +199,8 @@ export class VsdsDataComponent {
           var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -182,22 +215,14 @@ export class VsdsDataComponent {
     );
   }
 
-  
-
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VSDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.PlateImageUrl,
-        Title:"Plate Image"
-      },
-      {
-        ImagePath: TransactionRowData.VehicleImageUrl,
-        Title:"Vehicle Image"
+        ImagePath: TransactionRowData.EventImageUrl
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.VehicleVideoUrl,
-        Title:"Vehicle Video"
+        VideoPath: TransactionRowData.EventVideoUrl
       }],
       AudioData: [{
         AudioPath: ''
@@ -352,7 +377,7 @@ export class VsdsDataComponent {
     }
     let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    var obj = {
       ControlRoomFilterList: ControlRoomFilterList,
       PackageFilterList:PackageFilterList,
       ChainageFilterList:ChainageFilterList,
@@ -368,16 +393,123 @@ export class VsdsDataComponent {
     this.dbService.VSDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(this.ErrorData, false);
-       
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+
       }
     );
 
+  }
+
+  AutoSelected() {
+    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+    this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
+    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
+    if (this.SelectedRow.VehicleVideoUrl != "") {
+      this.dm.delay(100).then(any => {
+        this.VideoFound = true;
+      });
+    }
+  }
+
+  onRowSelect(index: number) {
+    this.SelectedIndex = index;
+    this.AutoSelected();
+  }
+
+  
+
+  SaveEntry() {
+    let process = true;
+    if (this.Reviewedform.value.IsChallanRequired) {
+      if (this.Reviewedform.value.ReviewedPlateNumber == "") {
+        this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process = false
+      }
+      if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
+        this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process = false
+      }
+    }
+    if (process) {
+      var obj = {
+        TransactionId: this.SelectedRow.TransactionId,
+        ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
+        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId,
+        RadarSpeed:this.SelectedRow.RadarSpeed,
+        LaneName:this.SelectedRow.LaneName,
+        IsReviewedPlateVisible: this.Reviewedform.value.IsReviewedPlateVisible,
+        IsReviewedFaultyPlate: this.Reviewedform.value.IsReviewedFaultyPlate,
+        IsReviewedStandardPlate: this.Reviewedform.value.IsReviewedStandardPlate,
+        IsReviewedWrongDirection: this.Reviewedform.value.IsReviewedWrongDirection,
+        ReviewedById:this.LogedUserId
+      }
+      this.dbService.VSDSEventReviewed(obj).subscribe(
+        data => {
+          this.spinner.hide();
+          const returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage == 'success') {
+            this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
+            this.dm.openSnackBar(this.ErrorData, true);
+            this.ProcessNextRecord();
+          }
+          else {
+            this.confirmBox(returnMessage + " Do you want to reload data?")
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.dm.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+
+        }
+      );
+    }
+  }
+
+  ProcessNextRecord() {
+    this.TotalCount = this.EventHistroyData.length;
+    if (this.TotalCount > 1) {
+      this.EventHistroyData.splice(this.SelectedIndex, 1);
+    }
+    this.TotalCount = this.EventHistroyData.length;
+    this.SelectedIndex = 0;
+    this.AutoSelected();
+  }
+
+  confirmBox(msg: string) {
+    this.confirmationService.confirm({
+      message: msg,
+      icon: 'fa fa-exclamation-triangle',
+      accept: () => {
+        this.SearchEntry();
+      },
+      reject: (type: ConfirmEventType) => {
+        this.ProcessNextRecord();
+      }
+    });
+  }
+
+  viewImage(path:string) {
+    var myWindow = window.open(this.MediaPrefix + path, "", "width=600");
   }
 }

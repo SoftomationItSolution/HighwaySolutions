@@ -1,48 +1,40 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+import { IncidentHistoryComponent } from '../incident-history/incident-history.component';
+import { IncidentAssigneComponent } from '../incident-assigne/incident-assigne.component';
 
 @Component({
-  selector: 'app-atcc-validation',
-  templateUrl: './atcc-validation.component.html',
-  styleUrls: ['./atcc-validation.component.css'],
-  providers: [ConfirmationService]
+  selector: 'app-ims-closed',
+  templateUrl: './ims-closed.component.html',
+  styleUrls: ['./ims-closed.component.css']
 })
-export class AtccValidationComponent {
+export class IMSClosedComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
   LogedRoleId;
   LogedUserId;
-  EventHistroyData: any;
+  IMSData: any;
   ErrorData: any;
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
-  Reviewedform!: FormGroup;
   MasterData: any;
-  EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  SelectedIndex: number = 0;
-  DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
-  SelectedRow: any = null;
-  MediaPrefix: any;
-  VehicleClass: any;
-  VideoFound = false;
-  TotalCount = 0;
-  VehicleClassDataList:any;
-  LaneDetailsList:any;
+  IncidentFilter: any;
+  DirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
+  PriorityList = [{ DataId: 1, DataName: 'Critical' }, { DataId: 2, DataName: 'High' }, { DataId: 3, DataName: 'Medium' }, { DataId: 4, DataName: 'Low' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
-    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, public dialog: MatDialog) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -55,16 +47,9 @@ export class AtccValidationComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      PositionFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
-      LaneFilterList: new FormControl(''),
-      VehicleClassFilterList: new FormControl(''),
-    });
-    this.Reviewedform = new FormGroup({
-      ReviewedPlateNumber: new FormControl(''),
-      ReviewedEventTypeId: new FormControl(''),
-      ReviewedVehicleClassId: new FormControl(''),
-      IsChallanRequired: new FormControl(false)
+      IncidentFilterList: new FormControl(''),
+      PriorityFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -123,7 +108,8 @@ export class AtccValidationComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetVehicleClass();
+        this.IncidentFilter = this.MasterData.IncidentDataList;
+        this.GetIMSHistroy();
       },
       (error) => {
         this.spinner.hide();
@@ -133,33 +119,12 @@ export class AtccValidationComponent {
     );
   }
 
-  GetVehicleClass() {
-    this.dbService.VehicleClassGetActive().subscribe(
-      data => {
-        this.VehicleClass = data.ResponseData;
-        this.GetEventHistroy();
-       
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-
-  GetEventHistroy() {
-    this.dbService.ATCCPendingReviewGetByHours(24).subscribe(
+  GetIMSHistroy() {
+    this.dbService.IMSGetClosed(24).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
-        if (this.TotalCount > 0) {
-          var sd = this.EventHistroyData[this.TotalCount - 1].EventDateStamp;
-          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
-        }
-        this.SelectedIndex = 0;
-        this.AutoSelected();
+        this.IMSData = data.ResponseData;
+        this.TotalCount = this.IMSData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -176,18 +141,52 @@ export class AtccValidationComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "ATCC Event media-(" + TransactionRowData.VehicleClassName + ")",
+      PageTitle: "Incident media-(" + TransactionRowData.IncidentId + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.VehicleImageUrl
+        ImagePath: TransactionRowData.IncidentImagePath
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.VehicleVideoUrl
+        VideoPath: TransactionRowData.IncidentVideoPath
       }],
       AudioData: [{
-        AudioPath: ''
+        AudioPath: TransactionRowData.IncidentAudioPath
       }]
     }
     this.dm.MediaView(obj);
+  }
+
+
+
+  onActionHistory(TransactionRowData: any) {
+    if (TransactionRowData.ActionHistoryDetails.length > 0) {
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.height = '500px';
+      dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
+      this.dialog.open(IncidentHistoryComponent, dialogConfig);
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'No action history found!' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
+  }
+  onReAssigned(TransactionRowData: any) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.height = '331px';
+    dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
+    const dialogRef = this.dialog.open(IncidentAssigneComponent, dialogConfig);
+      dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            this.GetIMSHistroy();
+          }
+        }
+      );
   }
 
   ExColl(event: any) {
@@ -303,11 +302,11 @@ export class AtccValidationComponent {
       }
     }
 
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+    let PriorityFilterList = "0"
+    if (this.FilterDetailsForm.value.PriorityFilterList != null && this.FilterDetailsForm.value.PriorityFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PriorityFilterList.toString();
+      if (crData.split(',').length != this.PriorityList.length) {
+        PriorityFilterList = this.FilterDetailsForm.value.PriorityFilterList.toString();
       }
     }
 
@@ -319,42 +318,32 @@ export class AtccValidationComponent {
       }
     }
 
-    let VehicleClassFilterList = "0"
-    if (this.FilterDetailsForm.value.VehicleClassFilterList != null && this.FilterDetailsForm.value.VehicleClassFilterList != '') {
-      let crData=this.FilterDetailsForm.value.VehicleClassFilterList.toString();
-      if (crData.split(',').length != this.VehicleClassDataList.length) {
-        VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
-      }
-    }
-    let LaneFilterList = "0"
-    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
-      let crData=this.FilterDetailsForm.value.LaneFilterList.toString();
-      if (crData.split(',').length != this.LaneDetailsList.length) {
-        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
+    let IncidentFilterList = "0"
+    if (this.FilterDetailsForm.value.IncidentFilterList != null && this.FilterDetailsForm.value.IncidentFilterList != '') {
+      let crData = this.FilterDetailsForm.value.IncidentFilterList.toString();
+      if (crData.split(',').length != this.IncidentFilter.length) {
+        IncidentFilterList = this.FilterDetailsForm.value.IncidentFilterList.toString();
       }
     }
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
+      IncidentStatusList: "1,6,7,8",
       ControlRoomFilterList: ControlRoomFilterList,
       PackageFilterList: PackageFilterList,
       ChainageFilterList: ChainageFilterList,
-      PositionFilterList: PositionFilterList,
+      PriorityFilterList: PriorityFilterList,
       DirectionFilterList: DirectionFilterList,
-      LaneFilterList: LaneFilterList,
-      VehicleClassFilterList: VehicleClassFilterList,
+      IncidentFilterList: IncidentFilterList,
       StartDateTime: SD,
-      EndDateTime: ED,
-      IsReviewedRequired:false
+      EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.ATCCReviewedEventsGetByFilter(obj).subscribe(
+    this.dbService.IMSGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
-        this.SelectedIndex = 0;
-        this.AutoSelected();
+        this.IMSData = data.ResponseData;
+        this.TotalCount = this.IMSData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -365,91 +354,7 @@ export class AtccValidationComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-
       }
     );
-
-  }
-
-  AutoSelected() {
-    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
-    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
-    if (this.SelectedRow.EventVideoUrl != "") {
-      this.dm.delay(100).then(any => {
-        this.VideoFound = true;
-      });
-    }
-  }
-
-  onRowSelect(index: number) {
-    this.SelectedIndex = index;
-    this.AutoSelected();
-  }
-
-  SaveEntry() {
-    let process = true;
-    if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
-      this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-      process = false
-    }
-    if (process) {
-      var obj = {
-        TransactionId: this.SelectedRow.TransactionId,
-        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId
-      }
-      this.dbService.ATCCEventReviewed(obj).subscribe(
-        data => {
-          this.spinner.hide();
-          const returnMessage = data.Message[0].AlertMessage;
-          if (returnMessage == 'success') {
-            this.ErrorData = [{ AlertMessage: 'Event is Audit successfully!.' }];
-            this.dm.openSnackBar(this.ErrorData, true);
-            this.ProcessNextRecord();
-          }
-          else {
-            this.confirmBox(returnMessage + " Do you want to reload data?")
-          }
-        },
-        (error) => {
-          this.spinner.hide();
-          try {
-            this.ErrorData = error.error;
-            this.dm.openSnackBar(this.ErrorData, false);
-          } catch (error) {
-            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-            this.dm.openSnackBar(this.ErrorData, false);
-          }
-
-        }
-      );
-    }
-  }
-
-  ProcessNextRecord() {
-    this.TotalCount = this.EventHistroyData.length;
-    if (this.TotalCount > 1) {
-      this.EventHistroyData.splice(this.SelectedIndex, 1);
-    }
-    this.TotalCount = this.EventHistroyData.length;
-    this.SelectedIndex = 0;
-    this.AutoSelected();
-  }
-
-  confirmBox(msg: string) {
-    this.confirmationService.confirm({
-      message: msg,
-      icon: 'fa fa-exclamation-triangle',
-      accept: () => {
-        this.SearchEntry();
-      },
-      reject: (type: ConfirmEventType) => {
-        this.ProcessNextRecord();
-      }
-    });
-  }
-
-  viewImage() {
-    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 }

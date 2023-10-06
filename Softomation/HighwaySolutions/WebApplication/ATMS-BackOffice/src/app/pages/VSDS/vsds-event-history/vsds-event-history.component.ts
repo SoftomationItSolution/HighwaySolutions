@@ -2,17 +2,15 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-vids-validation',
-  templateUrl: './vids-validation.component.html',
-  styleUrls: ['./vids-validation.component.css'],
-  providers: [ConfirmationService]
+  selector: 'app-vsds-event-history',
+  templateUrl: './vsds-event-history.component.html',
+  styleUrls: ['./vsds-event-history.component.css']
 })
-export class VidsValidationComponent {
+export class VSDSEventHistoryComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -23,24 +21,18 @@ export class VidsValidationComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
+  TotalCount=0;
   FilterDetailsForm!: FormGroup;
-  Reviewedform!: FormGroup;
   MasterData: any;
   EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  SelectedIndex: number = 0;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
-  SelectedRow: any = null;
-  MediaPrefix: any;
-  VehicleClass: any;
-  VideoFound = false;
-  TotalCount = 0;
+  LaneDetailsList:any;
+  VehicleClassDataList:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
-    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
+    private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -53,15 +45,11 @@ export class VidsValidationComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      PositionFilterList: new FormControl(''),
+      LaneFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
       EventFilterList: new FormControl(''),
-    });
-    this.Reviewedform = new FormGroup({
-      ReviewedPlateNumber: new FormControl(''),
-      ReviewedEventTypeId: new FormControl(''),
-      ReviewedVehicleClassId: new FormControl(''),
-      IsChallanRequired: new FormControl(false)
+      VehicleClassFilterList: new FormControl(''),
+      PlateNumber: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -120,6 +108,32 @@ export class VidsValidationComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
+        this.GetLaneConfig();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetLaneConfig() {
+    this.dbService.LaneConfigGetAll().subscribe(
+      data => {
+        this.LaneDetailsList = data.ResponseData;
+        this.GetVehicleList();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+  GetVehicleList() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClassDataList = data.ResponseData;
         this.GetEventData();
       },
       (error) => {
@@ -129,26 +143,11 @@ export class VidsValidationComponent {
       }
     );
   }
-
   GetEventData() {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
         let d=data.ResponseData;
         this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
-        this.GetVehicleClass();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-
-  GetVehicleClass() {
-    this.dbService.VehicleClassGetActive().subscribe(
-      data => {
-        this.VehicleClass = data.ResponseData;
         this.GetEventHistroy();
       },
       (error) => {
@@ -160,17 +159,15 @@ export class VidsValidationComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VIDSPendingReviewGetByHours(24).subscribe(
+    this.dbService.VSDSEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
         if(this.TotalCount>0){
-          var sd=this.EventHistroyData[this.TotalCount-1].EventStartDateStamp;
+          var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
-        this.SelectedIndex = 0;
-        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -185,14 +182,22 @@ export class VidsValidationComponent {
     );
   }
 
+  
+
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "VSDS Event media-(" + TransactionRowData.EventTypeName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.EventImageUrl
+        ImagePath: TransactionRowData.PlateImageUrl,
+        Title:"Plate Image"
+      },
+      {
+        ImagePath: TransactionRowData.VehicleImageUrl,
+        Title:"Vehicle Image"
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.EventVideoUrl
+        VideoPath: TransactionRowData.VehicleVideoUrl,
+        Title:"Vehicle Video"
       }],
       AudioData: [{
         AudioPath: ''
@@ -201,7 +206,7 @@ export class VidsValidationComponent {
     this.dm.MediaView(obj);
   }
 
-  ExColl(event: any) {
+  ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!
@@ -292,7 +297,7 @@ export class VidsValidationComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -300,7 +305,7 @@ export class VidsValidationComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -308,23 +313,23 @@ export class VidsValidationComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
     }
 
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+    let LaneFilterList = "0"
+    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
+      let crData=this.FilterDetailsForm.value.LaneFilterList.toString();
+      if (crData.split(',').length != this.LaneDetailsList.length) {
+        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
       }
     }
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
@@ -332,140 +337,47 @@ export class VidsValidationComponent {
 
     let EventFilterList = "0"
     if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
+      let crData=this.FilterDetailsForm.value.EventFilterList.toString();
       if (crData.split(',').length != this.EventData.length) {
         EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
-    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj = {
+
+    let VehicleClassFilterList = "0"
+    if (this.FilterDetailsForm.value.VehicleClassFilterList != null && this.FilterDetailsForm.value.VehicleClassFilterList != '') {
+      let crData=this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      if (crData.split(',').length != this.VehicleClassDataList.length) {
+        VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      }
+    }
+    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj= {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList: PackageFilterList,
-      ChainageFilterList: ChainageFilterList,
-      PositionFilterList: PositionFilterList,
-      DirectionFilterList: DirectionFilterList,
-      EventFilterList: EventFilterList,
-      StartDateTime: SD,
-      EndDateTime: ED
+      PackageFilterList:PackageFilterList,
+      ChainageFilterList:ChainageFilterList,
+      LaneFilterList:LaneFilterList,
+      DirectionFilterList:DirectionFilterList,
+      EventFilterList:EventFilterList,
+      PlateNumber:this.FilterDetailsForm.value.PlateNumber,
+      VehicleClassFilterList:VehicleClassFilterList,
+      StartDateTime:SD,
+      EndDateTime:ED
     }
     this.spinner.show();
-    this.dbService.VIDSEventsGetByFilter(obj).subscribe(
+    this.dbService.VSDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
-        this.SelectedIndex = 0;
-        this.AutoSelected();
+        this.EventHistroyData = data.ResponseData;    
+        this.TotalCount = this.EventHistroyData.length;   
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+       
       }
     );
 
-  }
-
-  AutoSelected() {
-    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
-    this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
-    this.Reviewedform.controls['ReviewedEventTypeId'].setValue(this.SelectedRow.EventTypeId);
-    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
-    if (this.SelectedRow.EventVideoUrl != "") {
-      this.dm.delay(100).then(any => {
-        this.VideoFound = true;
-      });
-    }
-  }
-
-  onRowSelect(index: number) {
-    this.SelectedIndex = index;
-    this.AutoSelected();
-  }
-
-  
-
-  SaveEntry() {
-    let process = true;
-    if (this.Reviewedform.value.IsChallanRequired) {
-      if (this.Reviewedform.value.ReviewedPlateNumber == "") {
-        this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-        process = false
-      }
-      if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
-        this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-        process = false
-      }
-    }
-    if (process) {
-      var obj = {
-        TransactionId: this.SelectedRow.TransactionId,
-        ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
-        ReviewedEventTypeId: this.Reviewedform.value.ReviewedEventTypeId,
-        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId,
-        IsChallanRequired: this.Reviewedform.value.IsChallanRequired
-      }
-      this.dbService.VIDSEventReviewed(obj).subscribe(
-        data => {
-          this.spinner.hide();
-          const returnMessage = data.Message[0].AlertMessage;
-          if (returnMessage == 'success') {
-            this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
-            this.dm.openSnackBar(this.ErrorData, true);
-            this.ProcessNextRecord();
-          }
-          else {
-            this.confirmBox(returnMessage + " Do you want to reload data?")
-          }
-        },
-        (error) => {
-          this.spinner.hide();
-          try {
-            this.ErrorData = error.error;
-            this.dm.openSnackBar(this.ErrorData, false);
-          } catch (error) {
-            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-            this.dm.openSnackBar(this.ErrorData, false);
-          }
-
-        }
-      );
-    }
-  }
-
-  ProcessNextRecord() {
-    this.TotalCount = this.EventHistroyData.length;
-    if (this.TotalCount > 1) {
-      this.EventHistroyData.splice(this.SelectedIndex, 1);
-    }
-    this.TotalCount = this.EventHistroyData.length;
-    this.SelectedIndex = 0;
-    this.AutoSelected();
-  }
-
-  confirmBox(msg: string) {
-    this.confirmationService.confirm({
-      message: msg,
-      icon: 'fa fa-exclamation-triangle',
-      accept: () => {
-        this.SearchEntry();
-      },
-      reject: (type: ConfirmEventType) => {
-        this.ProcessNextRecord();
-      }
-    });
-  }
-
-  viewImage() {
-    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 }

@@ -4,13 +4,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
-
 @Component({
-  selector: 'app-vidsdata',
-  templateUrl: './vidsdata.component.html',
-  styleUrls: ['./vidsdata.component.css']
+  selector: 'app-vids-event-validated',
+  templateUrl: './vids-event-validated.component.html',
+  styleUrls: ['./vids-event-validated.component.css']
 })
-export class VidsdataComponent {
+export class VIDSEventValidatedComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -21,13 +20,15 @@ export class VidsdataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount = 0;
+  TotalCount=0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
+  ReviewedData:any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
+  
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
   PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
@@ -47,6 +48,7 @@ export class VidsdataComponent {
       PositionFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
       EventFilterList: new FormControl(''),
+      ReviewedFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -106,6 +108,7 @@ export class VidsdataComponent {
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
         this.GetEventData();
+        this.GetReviewerData();
       },
       (error) => {
         this.spinner.hide();
@@ -118,8 +121,21 @@ export class VidsdataComponent {
   GetEventData() {
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
-        let d=data.ResponseData;
-        this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
+        this.EventData = data.ResponseData;
+        this.GetReviewerData();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetReviewerData() {
+    this.dbService.UserConfigurationGetBySystemUserType(3,this.SystemId).subscribe(
+      data => {
+        this.ReviewedData = data.ResponseData;
         this.GetEventHistroy();
       },
       (error) => {
@@ -131,7 +147,7 @@ export class VidsdataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VIDSEventsGetByHours(24).subscribe(
+    this.dbService.VIDSReviewedEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -261,7 +277,7 @@ export class VidsdataComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -269,7 +285,7 @@ export class VidsdataComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -277,7 +293,7 @@ export class VidsdataComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
@@ -285,7 +301,7 @@ export class VidsdataComponent {
 
     let PositionFilterList = "0"
     if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
+      let crData=this.FilterDetailsForm.value.PositionFilterList.toString();
       if (crData.split(',').length != this.PositionList.length) {
         PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
@@ -293,7 +309,7 @@ export class VidsdataComponent {
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
@@ -301,29 +317,38 @@ export class VidsdataComponent {
 
     let EventFilterList = "0"
     if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
+      let crData=this.FilterDetailsForm.value.EventFilterList.toString();
       if (crData.split(',').length != this.EventData.length) {
         EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
-    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj = {
+
+    let ReviewedFilterList="0";
+    if (this.FilterDetailsForm.value.ReviewedFilterList != null && this.FilterDetailsForm.value.ReviewedFilterList != '') {
+      let crData=this.FilterDetailsForm.value.ReviewedFilterList.toString();
+      if (crData.split(',').length != this.ReviewedData.length) {
+        ReviewedFilterList = this.FilterDetailsForm.value.ReviewedFilterList.toString();
+      }
+    }
+    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj= {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList: PackageFilterList,
-      ChainageFilterList: ChainageFilterList,
-      PositionFilterList: PositionFilterList,
-      DirectionFilterList: DirectionFilterList,
-      EventFilterList: EventFilterList,
-      StartDateTime: SD,
-      EndDateTime: ED
+      PackageFilterList:PackageFilterList,
+      ChainageFilterList:ChainageFilterList,
+      PositionFilterList:PositionFilterList,
+      DirectionFilterList:DirectionFilterList,
+      EventFilterList:EventFilterList,
+      ReviewedFilterList:ReviewedFilterList,
+      StartDateTime:SD,
+      EndDateTime:ED
     }
     this.spinner.show();
-    this.dbService.VIDSEventsGetByFilter(obj).subscribe(
+    this.dbService.VIDSReviewedEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
+        this.EventHistroyData = data.ResponseData;    
+        this.TotalCount = this.EventHistroyData.length;   
       },
       (error) => {
         this.spinner.hide();
@@ -334,8 +359,9 @@ export class VidsdataComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-
+       
       }
     );
+
   }
 }

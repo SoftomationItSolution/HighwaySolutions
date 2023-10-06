@@ -2,15 +2,17 @@ import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-atccdata',
-  templateUrl: './atccdata.component.html',
-  styleUrls: ['./atccdata.component.css']
+  selector: 'app-atcc-event-validation',
+  templateUrl: './atcc-event-validation.component.html',
+  styleUrls: ['./atcc-event-validation.component.css'],
+  providers: [ConfirmationService]
 })
-export class AtccdataComponent {
+export class ATCCEventValidationComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -21,19 +23,26 @@ export class AtccdataComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
   FilterDetailsForm!: FormGroup;
+  Reviewedform!: FormGroup;
   MasterData: any;
   EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  LaneDetailsList:any;
-  VehicleClassDataList:any;
+  SelectedIndex: number = 0;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
   PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
+  SelectedRow: any = null;
+  MediaPrefix: any;
+  VehicleClass: any;
+  VideoFound = false;
+  TotalCount = 0;
+  VehicleClassDataList:any;
+  LaneDetailsList:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -46,10 +55,16 @@ export class AtccdataComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      LaneFilterList: new FormControl(''),
-      DirectionFilterList: new FormControl(''),
-      VehicleClassFilterList: new FormControl(''),
       PositionFilterList: new FormControl(''),
+      DirectionFilterList: new FormControl(''),
+      LaneFilterList: new FormControl(''),
+      VehicleClassFilterList: new FormControl(''),
+    });
+    this.Reviewedform = new FormGroup({
+      ReviewedPlateNumber: new FormControl(''),
+      ReviewedEventTypeId: new FormControl(''),
+      ReviewedVehicleClassId: new FormControl(''),
+      IsChallanRequired: new FormControl(false)
     });
     this.SystemGetByName()
   }
@@ -108,9 +123,7 @@ export class AtccdataComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetLaneConfig();
-       
-       
+        this.GetVehicleClass();
       },
       (error) => {
         this.spinner.hide();
@@ -119,24 +132,13 @@ export class AtccdataComponent {
       }
     );
   }
-  GetLaneConfig() {
-    this.dbService.LaneConfigGetAll().subscribe(
-      data => {
-        this.LaneDetailsList = data.ResponseData;
-        this.GetVehicleList();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-  GetVehicleList() {
+
+  GetVehicleClass() {
     this.dbService.VehicleClassGetActive().subscribe(
       data => {
-        this.VehicleClassDataList = data.ResponseData;
+        this.VehicleClass = data.ResponseData;
         this.GetEventHistroy();
+       
       },
       (error) => {
         this.spinner.hide();
@@ -147,7 +149,7 @@ export class AtccdataComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.ATCCEventsGetByHours(24).subscribe(
+    this.dbService.ATCCPendingReviewGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -156,6 +158,8 @@ export class AtccdataComponent {
           var sd = this.EventHistroyData[this.TotalCount - 1].EventDateStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -173,14 +177,11 @@ export class AtccdataComponent {
   onMidiaView(TransactionRowData: any) {
     var obj = {
       PageTitle: "ATCC Event media-(" + TransactionRowData.VehicleClassName + ")",
-      ImageData: [
-      {
-        ImagePath: TransactionRowData.VehicleImageUrl,
-        Title: "Vehicle Image"
+      ImageData: [{
+        ImagePath: TransactionRowData.VehicleImageUrl
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.VehicleVideoUrl,
-        Title: "Vehicle Video"
+        VideoPath: TransactionRowData.VehicleVideoUrl
       }],
       AudioData: [{
         AudioPath: ''
@@ -189,7 +190,7 @@ export class AtccdataComponent {
     this.dm.MediaView(obj);
   }
 
-  ExColl() {
+  ExColl(event: any) {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!
@@ -302,11 +303,11 @@ export class AtccdataComponent {
       }
     }
 
-    let LaneFilterList = "0"
-    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
-      let crData = this.FilterDetailsForm.value.LaneFilterList.toString();
-      if (crData.split(',').length != this.LaneDetailsList.length) {
-        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
+    let PositionFilterList = "0"
+    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
+      if (crData.split(',').length != this.PositionList.length) {
+        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
     }
 
@@ -320,16 +321,16 @@ export class AtccdataComponent {
 
     let VehicleClassFilterList = "0"
     if (this.FilterDetailsForm.value.VehicleClassFilterList != null && this.FilterDetailsForm.value.VehicleClassFilterList != '') {
-      let crData = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
+      let crData=this.FilterDetailsForm.value.VehicleClassFilterList.toString();
       if (crData.split(',').length != this.VehicleClassDataList.length) {
         VehicleClassFilterList = this.FilterDetailsForm.value.VehicleClassFilterList.toString();
       }
     }
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
+    let LaneFilterList = "0"
+    if (this.FilterDetailsForm.value.LaneFilterList != null && this.FilterDetailsForm.value.LaneFilterList != '') {
+      let crData=this.FilterDetailsForm.value.LaneFilterList.toString();
+      if (crData.split(',').length != this.LaneDetailsList.length) {
+        LaneFilterList = this.FilterDetailsForm.value.LaneFilterList.toString();
       }
     }
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
@@ -338,26 +339,117 @@ export class AtccdataComponent {
       ControlRoomFilterList: ControlRoomFilterList,
       PackageFilterList: PackageFilterList,
       ChainageFilterList: ChainageFilterList,
-      LaneFilterList: LaneFilterList,
-      DirectionFilterList: DirectionFilterList,
       PositionFilterList: PositionFilterList,
-      PlateNumber: this.FilterDetailsForm.value.PlateNumber,
+      DirectionFilterList: DirectionFilterList,
+      LaneFilterList: LaneFilterList,
       VehicleClassFilterList: VehicleClassFilterList,
       StartDateTime: SD,
-      EndDateTime: ED
+      EndDateTime: ED,
+      IsReviewedRequired:false
     }
     this.spinner.show();
-    this.dbService.ATCCEventsGetByFilter(obj).subscribe(
+    this.dbService.ATCCReviewedEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+
       }
     );
+
+  }
+
+  AutoSelected() {
+    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
+    if (this.SelectedRow.EventVideoUrl != "") {
+      this.dm.delay(100).then(any => {
+        this.VideoFound = true;
+      });
+    }
+  }
+
+  onRowSelect(index: number) {
+    this.SelectedIndex = index;
+    this.AutoSelected();
+  }
+
+  SaveEntry() {
+    let process = true;
+    if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
+      this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      process = false
+    }
+    if (process) {
+      var obj = {
+        TransactionId: this.SelectedRow.TransactionId,
+        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId
+      }
+      this.dbService.ATCCEventReviewed(obj).subscribe(
+        data => {
+          this.spinner.hide();
+          const returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage == 'success') {
+            this.ErrorData = [{ AlertMessage: 'Event is Audit successfully!.' }];
+            this.dm.openSnackBar(this.ErrorData, true);
+            this.ProcessNextRecord();
+          }
+          else {
+            this.confirmBox(returnMessage + " Do you want to reload data?")
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.dm.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+
+        }
+      );
+    }
+  }
+
+  ProcessNextRecord() {
+    this.TotalCount = this.EventHistroyData.length;
+    if (this.TotalCount > 1) {
+      this.EventHistroyData.splice(this.SelectedIndex, 1);
+    }
+    this.TotalCount = this.EventHistroyData.length;
+    this.SelectedIndex = 0;
+    this.AutoSelected();
+  }
+
+  confirmBox(msg: string) {
+    this.confirmationService.confirm({
+      message: msg,
+      icon: 'fa fa-exclamation-triangle',
+      accept: () => {
+        this.SearchEntry();
+      },
+      reject: (type: ConfirmEventType) => {
+        this.ProcessNextRecord();
+      }
+    });
+  }
+
+  viewImage() {
+    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 }

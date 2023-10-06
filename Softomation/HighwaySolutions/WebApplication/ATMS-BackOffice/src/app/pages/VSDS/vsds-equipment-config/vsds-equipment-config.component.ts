@@ -8,7 +8,7 @@ import { DataModel } from 'src/app/services/data-model.model';
   templateUrl: './vsds-equipment-config.component.html',
   styleUrls: ['./vsds-equipment-config.component.css']
 })
-export class VsdsEquipmentConfigComponent implements OnInit {
+export class VSDSEquipmentConfigComponent implements OnInit {
   availableData: any = [];
   selection: any = null;
   fillData: any = [];

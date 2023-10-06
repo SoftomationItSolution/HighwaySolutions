@@ -27,6 +27,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("EventsRequired");
                 ImportDataTable.Columns.Add("ReviewRequired");
                 ImportDataTable.Columns.Add("ChallanTypeId");
+                ImportDataTable.Columns.Add("MinimumValue");
+                ImportDataTable.Columns.Add("MaximumValue");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
                 string SessionId = CommonLibrary.Constants.RandomString(10);
@@ -38,7 +40,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     row["EventsRequired"] = types[i].EventsRequired;
                     row["ReviewRequired"] = types[i].ReviewRequired;
                     row["ChallanTypeId"] = types[i].ChallanTypeId;
-                    row["ChallanTypeId"] = types[i].ChallanTypeId;
+                    row["MinimumValue"] = types[i].MinimumValue;
+                    row["MaximumValue"] = types[i].MaximumValue;
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
@@ -143,6 +146,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["ChallanTypeId"] != DBNull.Value)
                 ed.ChallanTypeId = Convert.ToInt16(dr["ChallanTypeId"]);
+
+            if (dr["MinimumValue"] != DBNull.Value)
+                ed.MinimumValue = Convert.ToInt16(dr["MinimumValue"]);
+
+            if (dr["MaximumValue"] != DBNull.Value)
+                ed.MaximumValue = Convert.ToInt16(dr["MaximumValue"]);
 
             if (dr["DataStatus"] != DBNull.Value)
                 ed.DataStatus = Convert.ToInt16(dr["DataStatus"]);

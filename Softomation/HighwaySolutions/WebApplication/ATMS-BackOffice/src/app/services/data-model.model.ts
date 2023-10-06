@@ -3,7 +3,8 @@ import { SnakbarComponent } from "../allservices/snakbar/snakbar.component";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { MediaViewComponent } from "../pages/media-view/media-view.component";
+import { MediaViewComponent } from "../pages/PopUp/media-view/media-view.component";
+
 @Injectable({
   providedIn: 'root'
 })

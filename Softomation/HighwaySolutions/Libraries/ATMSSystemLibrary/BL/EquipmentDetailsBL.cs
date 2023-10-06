@@ -86,6 +86,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
+        public static List<EquipmentDetailsIL> GetByTypeId(Int16 EquipmentTypeId)
+        {
+            try
+            {
+                return EquipmentDetailsDL.GetByTypeId(EquipmentTypeId);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public static List<EquipmentDetailsIL> GetByFilter(DataFilterIL data)
         {
             try

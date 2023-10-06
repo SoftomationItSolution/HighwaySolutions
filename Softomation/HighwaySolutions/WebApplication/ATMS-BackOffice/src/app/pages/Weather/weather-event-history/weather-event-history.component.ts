@@ -6,11 +6,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-atccvalidated',
-  templateUrl: './atccvalidated.component.html',
-  styleUrls: ['./atccvalidated.component.css']
+  selector: 'app-weather-event-history',
+  templateUrl: './weather-event-history.component.html',
+  styleUrls: ['./weather-event-history.component.css']
 })
-export class AtccvalidatedComponent {
+export class WeatherEventHistoryComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -21,18 +21,16 @@ export class AtccvalidatedComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount = 0;
+  TotalCount=0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
-  ReviewedData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  VehicleClassDataList: any;
-  LaneDetailsList: any;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
+  LaneDetailsList:any;
+  VehicleClassDataList:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -47,10 +45,6 @@ export class AtccvalidatedComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
-      PositionFilterList: new FormControl(''),
-      DirectionFilterList: new FormControl(''),
-      EventFilterList: new FormControl(''),
-      ReviewedFilterList: new FormControl(''),
     });
     this.SystemGetByName()
   }
@@ -64,6 +58,7 @@ export class AtccvalidatedComponent {
         let SystemDetails = data.ResponseData;
         this.SystemId = SystemDetails.SystemId;
         this.GetPermissionData();
+        this.SearchEntry();
       },
       (error) => {
         this.spinner.hide();
@@ -109,8 +104,6 @@ export class AtccvalidatedComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetVehicleList();
-       
       },
       (error) => {
         this.spinner.hide();
@@ -119,51 +112,17 @@ export class AtccvalidatedComponent {
       }
     );
   }
-  GetVehicleList() {
-    this.dbService.VehicleClassGetActive().subscribe(
-      data => {
-        this.VehicleClassDataList = data.ResponseData;
-        
-        this.GetReviewerData();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-  GetReviewerData() {
-    this.dbService.UserConfigurationGetBySystemUserType(3, this.SystemId).subscribe(
-      data => {
-        this.ReviewedData = data.ResponseData;
-        this.GetEventHistroy();
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
-  GetLaneConfig() {
-    this.dbService.LaneConfigGetAll().subscribe(
-      data => {
-        this.LaneDetailsList = data.ResponseData;
-      },
-      (error) => {
-        this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
-      }
-    );
-  }
+
   GetEventHistroy() {
-    this.dbService.ATCCReviewedEventsGetByHours(24).subscribe(
+    this.dbService.VSDSEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
+        if(this.TotalCount>0){
+          var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
       },
       (error) => {
         this.spinner.hide();
@@ -177,24 +136,8 @@ export class AtccvalidatedComponent {
       }
     );
   }
-
-  onMidiaView(TransactionRowData: any) {
-    var obj = {
-      PageTitle: "ATCC Event media-(" + TransactionRowData.ReviewedVehicleClassName + ")",
-      ImageData: [{
-        ImagePath: TransactionRowData.VehicleImageUrl
-      }],
-      VideoData: [{
-        VideoPath: TransactionRowData.VehicleVideoUrl
-      }],
-      AudioData: [{
-        AudioPath: ''
-      }]
-    }
-    this.dm.MediaView(obj);
-  }
-
-  ExColl(event: any) {
+  
+  ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!
@@ -285,7 +228,7 @@ export class AtccvalidatedComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -293,7 +236,7 @@ export class AtccvalidatedComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -301,77 +244,35 @@ export class AtccvalidatedComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
     }
 
-    let PositionFilterList = "0"
-    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
-      if (crData.split(',').length != this.PositionList.length) {
-        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
-      }
-    }
-
-    let DirectionFilterList = "0"
-    if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
-      if (crData.split(',').length != this.DirectionList.length) {
-        DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
-      }
-    }
-
-    let EventFilterList = "0"
-    if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
-      if (crData.split(',').length != this.EventData.length) {
-        EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
-      }
-    }
-
-    let ReviewedFilterList = "0";
-    if (this.FilterDetailsForm.value.ReviewedFilterList != null && this.FilterDetailsForm.value.ReviewedFilterList != '') {
-      let crData = this.FilterDetailsForm.value.ReviewedFilterList.toString();
-      if (crData.split(',').length != this.ReviewedData.length) {
-        ReviewedFilterList = this.FilterDetailsForm.value.ReviewedFilterList.toString();
-      }
-    }
-    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj = {
+    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj= {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList: PackageFilterList,
-      ChainageFilterList: ChainageFilterList,
-      PositionFilterList: PositionFilterList,
-      DirectionFilterList: DirectionFilterList,
-      EventFilterList: EventFilterList,
-      ReviewedFilterList: ReviewedFilterList,
-      StartDateTime: SD,
-      EndDateTime: ED,
-      IsReviewedRequired:true
+      PackageFilterList:PackageFilterList,
+      ChainageFilterList:ChainageFilterList,
+      StartDateTime:SD,
+      EndDateTime:ED
     }
     this.spinner.show();
-    this.dbService.ATCCReviewedEventsGetByFilter(obj).subscribe(
+    this.dbService.WeatherGetALLByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;
-        this.TotalCount = this.EventHistroyData.length;
+        this.EventHistroyData = data.ResponseData;    
+        this.TotalCount = this.EventHistroyData.length;   
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+       
       }
     );
 
   }
 }
-

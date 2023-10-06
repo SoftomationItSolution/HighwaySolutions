@@ -1242,6 +1242,26 @@ namespace ATMSRestAPI.Controllers
             }
         }
 
+        [Route(Provider + "/" + APIPath + "/EquipmentDetailsGetByTypeId")]
+        [HttpGet]
+        public HttpResponseMessage EquipmentDetailsGetByTypeId(short EquipmentTypeId)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = EquipmentDetailsBL.GetByTypeId(EquipmentTypeId);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in EquipmentDetailsGetByTypeId : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
         [Route(Provider + "/" + APIPath + "/EquipmentDetailsInsertUpdate")]
         [HttpPost]
         public HttpResponseMessage EquipmentDetailsInsertUpdate(EquipmentDetailsIL ed)
@@ -2213,7 +2233,7 @@ namespace ATMSRestAPI.Controllers
                 }
                 if (data.ChainageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+",".") + ") ";
                 }
                 if (data.DirectionFilterList != "0")
                 {
@@ -2613,9 +2633,26 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 data.FilterQuery = "WHERE 1=1 ";
-                if (data.EquipmentIdFilterList != "0")
+
+                if (data.ControlRoomFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND V.Value IN (" + data.EquipmentIdFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+", ".") + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
                 }
                 if (data.MessageTypeIdFilterList != "0")
                 {
@@ -2663,13 +2700,29 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 data.FilterQuery = "WHERE H.PlayDateTime>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.PlayDateTime<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                if (data.EquipmentIdFilterList != "0")
+                if (data.ControlRoomFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND M.EquipmentId IN (" + data.EquipmentIdFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+", ".") + ") ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                }
+                if (data.PositionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
                 }
                 if (data.MessageTypeIdFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND M.MessageTypeId IN (" + data.MessageTypeIdFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND MessageTypeId IN (" + data.MessageTypeIdFilterList + ") ";
                 }
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);

@@ -14,7 +14,7 @@ import { IncidentHistoryComponent } from '../incident-history/incident-history.c
   templateUrl: './ims-progress.component.html',
   styleUrls: ['./ims-progress.component.css']
 })
-export class ImsProgressComponent {
+export class IMSProgressComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;

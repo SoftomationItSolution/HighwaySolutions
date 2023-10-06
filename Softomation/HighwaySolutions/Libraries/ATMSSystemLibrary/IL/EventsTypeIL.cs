@@ -12,6 +12,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Int16 systemId;
         Int16 challanTypeId;
         String challanTypeName;
+        Decimal minimumValue;
+        Decimal maximumValue;
 
         public EventsTypeIL()
         {
@@ -22,6 +24,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.systemId = 0;
             this.challanTypeId = 0;
             this.challanTypeName = string.Empty;
+            this.minimumValue = 0;
+            this.maximumValue = 0;
         }
 
         public Int16 EventTypeId
@@ -106,6 +110,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 challanTypeName = value;
+            }
+        }
+        public Decimal MinimumValue
+        {
+            get
+            {
+                return minimumValue;
+            }
+
+            set
+            {
+                minimumValue = value;
+            }
+        }
+        public Decimal MaximumValue
+        {
+            get
+            {
+                return maximumValue;
+            }
+
+            set
+            {
+                maximumValue = value;
             }
         }
     }

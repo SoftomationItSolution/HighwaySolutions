@@ -4,11 +4,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-vsds-incident-config',
-  templateUrl: './vsds-incident-config.component.html',
-  styleUrls: ['./vsds-incident-config.component.css']
+  selector: 'app-weather-event-config',
+  templateUrl: './weather-event-config.component.html',
+  styleUrls: ['./weather-event-config.component.css']
 })
-export class VsdsIncidentConfigComponent {
+export class WeatherEventConfigComponent {
   SystemId = 0;
   LogedRoleId;
   LogedUserId;
@@ -18,20 +18,18 @@ export class VsdsIncidentConfigComponent {
   PermissionData:any;
   ErrorData:any;
   EventTypeList:any;
-  ChalanTypeData:any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,private spinner: NgxSpinnerService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
-    this.GetPermissionData();
+    
   }
   ngOnInit(): void {
     this.SystemGetByName()
   }
-
   SystemGetByName() {
     this.spinner.show();
     let MenuUrl = window.location.pathname.replace('/', '');
-    let systenname = MenuUrl.substring(0, 4)
+    let systenname = MenuUrl.substring(0, 7)
     this.dbService.SystemGetByName(systenname).subscribe(
       data => {
         let SystemDetails = data.ResponseData;
@@ -65,7 +63,6 @@ export class VsdsIncidentConfigComponent {
         }
         else{
           this.GetEventType();
-          this.ChalanTypeGetAll();
         }
       },
       (error) => {
@@ -75,7 +72,6 @@ export class VsdsIncidentConfigComponent {
       }
     );
   }
-
   GetEventType(){
     this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
       data => {
@@ -95,23 +91,7 @@ export class VsdsIncidentConfigComponent {
       }
     );
   }
-  ChalanTypeGetAll() {
-    this.dbService.ChalanTypeGetAll().subscribe(
-      data => {
-        this.ChalanTypeData = data.ResponseData;
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
+
   handleCheck(event:any,data:any,type:any){
     
     if(!event && type=='EventsRequired'){
@@ -153,10 +133,9 @@ export class VsdsIncidentConfigComponent {
       }
     }
   }
-
+  
   SaveDetails(){
     this.spinner.show();
-    this.EventTypeList[0].SystemId=this.SystemId;
     this.EventTypeList[0].CreatedBy=this.LogedUserId
     this.EventTypeList[0].ModifiedBy=this.LogedUserId
     this.dbService.EventsTypeSetup(this.EventTypeList).subscribe(
@@ -184,3 +163,4 @@ export class VsdsIncidentConfigComponent {
     );
   }
 }
+

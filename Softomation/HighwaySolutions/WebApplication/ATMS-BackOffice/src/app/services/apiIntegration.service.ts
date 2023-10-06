@@ -276,6 +276,11 @@ export class apiIntegrationService {
   //#endregion
 
   //#region Equipment Details
+  EquipmentDetailsGetByTypeId(EquipmentTypeId: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsGetByTypeId?EquipmentTypeId=' + EquipmentTypeId, { headers: headers_object });
+  }
   EquipmentDetailsGetBySystemId(SystemId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -681,6 +686,21 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VMSMessageSetUp', data, { headers: headers_object });
+  }
+  VMSMessageGetByFilter(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VMSMessageGetByFilter', data, { headers: headers_object });
+  }
+  VMSHistoryGetByHours(Hours: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/VMSHistoryGetByHours?Hours=' + Hours, { headers: headers_object });
+  }
+  VMSHistoryGetByFilter(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/VMSHistoryGetByFilter', data, { headers: headers_object });
   }
   //#endregion
 

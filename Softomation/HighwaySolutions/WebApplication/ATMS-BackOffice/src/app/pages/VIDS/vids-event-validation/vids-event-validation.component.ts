@@ -1,40 +1,46 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ConfirmEventType, ConfirmationService } from 'primeng/api';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
-import { IncidentHistoryComponent } from '../incident-history/incident-history.component';
-import { IncidentAssigneComponent } from '../incident-assigne/incident-assigne.component';
 
 @Component({
-  selector: 'app-incident-closed',
-  templateUrl: './incident-closed.component.html',
-  styleUrls: ['./incident-closed.component.css']
+  selector: 'app-vids-event-validation',
+  templateUrl: './vids-event-validation.component.html',
+  styleUrls: ['./vids-event-validation.component.css'],
+  providers: [ConfirmationService]
 })
-export class IncidentClosedComponent {
+export class VIDSEventValidationComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
   LogedRoleId;
   LogedUserId;
-  IMSData: any;
+  EventHistroyData: any;
   ErrorData: any;
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
+  Reviewedform!: FormGroup;
   MasterData: any;
+  EventData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  IncidentFilter: any;
-  DirectionList = [{ DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }];
-  PriorityList = [{ DataId: 1, DataName: 'Critical' }, { DataId: 2, DataName: 'High' }, { DataId: 3, DataName: 'Medium' }, { DataId: 4, DataName: 'Low' }];
+  SelectedIndex: number = 0;
+  DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  SelectedRow: any = null;
+  MediaPrefix: any;
+  VehicleClass: any;
+  VideoFound = false;
+  TotalCount = 0;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
-    private spinner: NgxSpinnerService, public datepipe: DatePipe, public dialog: MatDialog) {
+    private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -47,9 +53,15 @@ export class IncidentClosedComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
+      PositionFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
-      IncidentFilterList: new FormControl(''),
-      PriorityFilterList: new FormControl(''),
+      EventFilterList: new FormControl(''),
+    });
+    this.Reviewedform = new FormGroup({
+      ReviewedPlateNumber: new FormControl(''),
+      ReviewedEventTypeId: new FormControl(''),
+      ReviewedVehicleClassId: new FormControl(''),
+      IsChallanRequired: new FormControl(false)
     });
     this.SystemGetByName()
   }
@@ -108,8 +120,7 @@ export class IncidentClosedComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.IncidentFilter = this.MasterData.IncidentDataList;
-        this.GetIMSHistroy();
+        this.GetEventData();
       },
       (error) => {
         this.spinner.hide();
@@ -119,12 +130,47 @@ export class IncidentClosedComponent {
     );
   }
 
-  GetIMSHistroy() {
-    this.dbService.IMSGetClosed(24).subscribe(
+  GetEventData() {
+    this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
+      data => {
+        let d=data.ResponseData;
+        this.EventData= d.filter((e: { EventTypeId: any; }) => e.EventTypeId != 0);
+        this.GetVehicleClass();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetVehicleClass() {
+    this.dbService.VehicleClassGetActive().subscribe(
+      data => {
+        this.VehicleClass = data.ResponseData;
+        this.GetEventHistroy();
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  GetEventHistroy() {
+    this.dbService.VIDSPendingReviewGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
-        this.IMSData = data.ResponseData;
-        this.TotalCount = this.IMSData.length;
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
+        if(this.TotalCount>0){
+          var sd=this.EventHistroyData[this.TotalCount-1].EventStartDateStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -141,52 +187,18 @@ export class IncidentClosedComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "Incident media-(" + TransactionRowData.IncidentId + ")",
+      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.IncidentImagePath
+        ImagePath: TransactionRowData.EventImageUrl
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.IncidentVideoPath
+        VideoPath: TransactionRowData.EventVideoUrl
       }],
       AudioData: [{
-        AudioPath: TransactionRowData.IncidentAudioPath
+        AudioPath: ''
       }]
     }
     this.dm.MediaView(obj);
-  }
-
-
-
-  onActionHistory(TransactionRowData: any) {
-    if (TransactionRowData.ActionHistoryDetails.length > 0) {
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.height = '500px';
-      dialogConfig.data = { action: 'Action History', IncidentId: TransactionRowData.IncidentId };
-      this.dialog.open(IncidentHistoryComponent, dialogConfig);
-    }
-    else {
-      this.ErrorData = [{ AlertMessage: 'No action history found!' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-    }
-  }
-  onReAssigned(TransactionRowData: any) {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '60%';
-    dialogConfig.height = '331px';
-    dialogConfig.data = { action: 'Manage Assigne', IncidentId: TransactionRowData.IncidentId };
-    const dialogRef = this.dialog.open(IncidentAssigneComponent, dialogConfig);
-      dialogRef.afterClosed().subscribe(
-        data => {
-          if (data) {
-            this.GetIMSHistroy();
-          }
-        }
-      );
   }
 
   ExColl(event: any) {
@@ -302,11 +314,11 @@ export class IncidentClosedComponent {
       }
     }
 
-    let PriorityFilterList = "0"
-    if (this.FilterDetailsForm.value.PriorityFilterList != null && this.FilterDetailsForm.value.PriorityFilterList != '') {
-      let crData = this.FilterDetailsForm.value.PriorityFilterList.toString();
-      if (crData.split(',').length != this.PriorityList.length) {
-        PriorityFilterList = this.FilterDetailsForm.value.PriorityFilterList.toString();
+    let PositionFilterList = "0"
+    if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
+      if (crData.split(',').length != this.PositionList.length) {
+        PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
     }
 
@@ -318,32 +330,33 @@ export class IncidentClosedComponent {
       }
     }
 
-    let IncidentFilterList = "0"
-    if (this.FilterDetailsForm.value.IncidentFilterList != null && this.FilterDetailsForm.value.IncidentFilterList != '') {
-      let crData = this.FilterDetailsForm.value.IncidentFilterList.toString();
-      if (crData.split(',').length != this.IncidentFilter.length) {
-        IncidentFilterList = this.FilterDetailsForm.value.IncidentFilterList.toString();
+    let EventFilterList = "0"
+    if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
+      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
+      if (crData.split(',').length != this.EventData.length) {
+        EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
-      IncidentStatusList: "1,6,7,8",
       ControlRoomFilterList: ControlRoomFilterList,
       PackageFilterList: PackageFilterList,
       ChainageFilterList: ChainageFilterList,
-      PriorityFilterList: PriorityFilterList,
+      PositionFilterList: PositionFilterList,
       DirectionFilterList: DirectionFilterList,
-      IncidentFilterList: IncidentFilterList,
+      EventFilterList: EventFilterList,
       StartDateTime: SD,
       EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.IMSGetByFilter(obj).subscribe(
+    this.dbService.VIDSEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.IMSData = data.ResponseData;
-        this.TotalCount = this.IMSData.length;
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
+        this.SelectedIndex = 0;
+        this.AutoSelected();
       },
       (error) => {
         this.spinner.hide();
@@ -354,7 +367,105 @@ export class IncidentClosedComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
+
       }
     );
+
+  }
+
+  AutoSelected() {
+    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+    this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
+    this.Reviewedform.controls['ReviewedEventTypeId'].setValue(this.SelectedRow.EventTypeId);
+    this.Reviewedform.controls['ReviewedVehicleClassId'].setValue(this.SelectedRow.VehicleClassId);
+    if (this.SelectedRow.EventVideoUrl != "") {
+      this.dm.delay(100).then(any => {
+        this.VideoFound = true;
+      });
+    }
+  }
+
+  onRowSelect(index: number) {
+    this.SelectedIndex = index;
+    this.AutoSelected();
+  }
+
+  
+
+  SaveEntry() {
+    let process = true;
+    if (this.Reviewedform.value.IsChallanRequired) {
+      if (this.Reviewedform.value.ReviewedPlateNumber == "") {
+        this.ErrorData = [{ AlertMessage: 'Plate Number is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process = false
+      }
+      if (this.Reviewedform.value.ReviewedVehicleClassId == 0) {
+        this.ErrorData = [{ AlertMessage: 'Vehicle Class is required!.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        process = false
+      }
+    }
+    if (process) {
+      var obj = {
+        TransactionId: this.SelectedRow.TransactionId,
+        ReviewedPlateNumber: this.Reviewedform.value.ReviewedPlateNumber,
+        ReviewedEventTypeId: this.Reviewedform.value.ReviewedEventTypeId,
+        ReviewedVehicleClassId: this.Reviewedform.value.ReviewedVehicleClassId,
+        IsChallanRequired: this.Reviewedform.value.IsChallanRequired
+      }
+      this.dbService.VIDSEventReviewed(obj).subscribe(
+        data => {
+          this.spinner.hide();
+          const returnMessage = data.Message[0].AlertMessage;
+          if (returnMessage == 'success') {
+            this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
+            this.dm.openSnackBar(this.ErrorData, true);
+            this.ProcessNextRecord();
+          }
+          else {
+            this.confirmBox(returnMessage + " Do you want to reload data?")
+          }
+        },
+        (error) => {
+          this.spinner.hide();
+          try {
+            this.ErrorData = error.error;
+            this.dm.openSnackBar(this.ErrorData, false);
+          } catch (error) {
+            this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+            this.dm.openSnackBar(this.ErrorData, false);
+          }
+
+        }
+      );
+    }
+  }
+
+  ProcessNextRecord() {
+    this.TotalCount = this.EventHistroyData.length;
+    if (this.TotalCount > 1) {
+      this.EventHistroyData.splice(this.SelectedIndex, 1);
+    }
+    this.TotalCount = this.EventHistroyData.length;
+    this.SelectedIndex = 0;
+    this.AutoSelected();
+  }
+
+  confirmBox(msg: string) {
+    this.confirmationService.confirm({
+      message: msg,
+      icon: 'fa fa-exclamation-triangle',
+      accept: () => {
+        this.SearchEntry();
+      },
+      reject: (type: ConfirmEventType) => {
+        this.ProcessNextRecord();
+      }
+    });
+  }
+
+  viewImage() {
+    var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 }

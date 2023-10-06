@@ -4,12 +4,13 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
+
 @Component({
-  selector: 'app-vsds-validated',
-  templateUrl: './vsds-validated.component.html',
-  styleUrls: ['./vsds-validated.component.css']
+  selector: 'app-atcc-event-validated',
+  templateUrl: './atcc-event-validated.component.html',
+  styleUrls: ['./atcc-event-validated.component.css']
 })
-export class VsdsValidatedComponent {
+export class ATCCEventValidatedComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -20,17 +21,18 @@ export class VsdsValidatedComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
-  ReviewedData:any;
+  ReviewedData: any;
   ControlRoomData: any
   PackageFilter: any
   ChainageFilter: any;
-  
+  VehicleClassDataList: any;
+  LaneDetailsList: any;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }, { "DataValue": 4, "DataName": 'Parking Spot' }];
+  PositionList = [{ "DataValue": 1, "DataName": 'Entry' }, { "DataValue": 2, "DataName": 'Exit' }, { "DataValue": 3, "DataName": 'Main Carriageway' }];
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -107,8 +109,8 @@ export class VsdsValidatedComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        this.GetEventData();
-        this.GetReviewerData();
+        this.GetVehicleList();
+       
       },
       (error) => {
         this.spinner.hide();
@@ -117,11 +119,11 @@ export class VsdsValidatedComponent {
       }
     );
   }
-
-  GetEventData() {
-    this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
+  GetVehicleList() {
+    this.dbService.VehicleClassGetActive().subscribe(
       data => {
-        this.EventData = data.ResponseData;
+        this.VehicleClassDataList = data.ResponseData;
+        
         this.GetReviewerData();
       },
       (error) => {
@@ -131,9 +133,8 @@ export class VsdsValidatedComponent {
       }
     );
   }
-
   GetReviewerData() {
-    this.dbService.UserConfigurationGetBySystemUserType(3,this.SystemId).subscribe(
+    this.dbService.UserConfigurationGetBySystemUserType(3, this.SystemId).subscribe(
       data => {
         this.ReviewedData = data.ResponseData;
         this.GetEventHistroy();
@@ -145,9 +146,20 @@ export class VsdsValidatedComponent {
       }
     );
   }
-
+  GetLaneConfig() {
+    this.dbService.LaneConfigGetAll().subscribe(
+      data => {
+        this.LaneDetailsList = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
   GetEventHistroy() {
-    this.dbService.VIDSReviewedEventsGetByHours(24).subscribe(
+    this.dbService.ATCCReviewedEventsGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -168,12 +180,12 @@ export class VsdsValidatedComponent {
 
   onMidiaView(TransactionRowData: any) {
     var obj = {
-      PageTitle: "VIDS Event media-(" + TransactionRowData.EventTypeName + ")",
+      PageTitle: "ATCC Event media-(" + TransactionRowData.ReviewedVehicleClassName + ")",
       ImageData: [{
-        ImagePath: TransactionRowData.EventImageUrl
+        ImagePath: TransactionRowData.VehicleImageUrl
       }],
       VideoData: [{
-        VideoPath: TransactionRowData.EventVideoUrl
+        VideoPath: TransactionRowData.VehicleVideoUrl
       }],
       AudioData: [{
         AudioPath: ''
@@ -273,7 +285,7 @@ export class VsdsValidatedComponent {
   SearchEntry() {
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -281,7 +293,7 @@ export class VsdsValidatedComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -289,7 +301,7 @@ export class VsdsValidatedComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
@@ -297,7 +309,7 @@ export class VsdsValidatedComponent {
 
     let PositionFilterList = "0"
     if (this.FilterDetailsForm.value.PositionFilterList != null && this.FilterDetailsForm.value.PositionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PositionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PositionFilterList.toString();
       if (crData.split(',').length != this.PositionList.length) {
         PositionFilterList = this.FilterDetailsForm.value.PositionFilterList.toString();
       }
@@ -305,7 +317,7 @@ export class VsdsValidatedComponent {
 
     let DirectionFilterList = "0"
     if (this.FilterDetailsForm.value.DirectionFilterList != null && this.FilterDetailsForm.value.DirectionFilterList != '') {
-      let crData=this.FilterDetailsForm.value.DirectionFilterList.toString();
+      let crData = this.FilterDetailsForm.value.DirectionFilterList.toString();
       if (crData.split(',').length != this.DirectionList.length) {
         DirectionFilterList = this.FilterDetailsForm.value.DirectionFilterList.toString();
       }
@@ -313,38 +325,39 @@ export class VsdsValidatedComponent {
 
     let EventFilterList = "0"
     if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
-      let crData=this.FilterDetailsForm.value.EventFilterList.toString();
+      let crData = this.FilterDetailsForm.value.EventFilterList.toString();
       if (crData.split(',').length != this.EventData.length) {
         EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
       }
     }
 
-    let ReviewedFilterList="0";
+    let ReviewedFilterList = "0";
     if (this.FilterDetailsForm.value.ReviewedFilterList != null && this.FilterDetailsForm.value.ReviewedFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ReviewedFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ReviewedFilterList.toString();
       if (crData.split(',').length != this.ReviewedData.length) {
         ReviewedFilterList = this.FilterDetailsForm.value.ReviewedFilterList.toString();
       }
     }
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      PositionFilterList:PositionFilterList,
-      DirectionFilterList:DirectionFilterList,
-      EventFilterList:EventFilterList,
-      ReviewedFilterList:ReviewedFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      PositionFilterList: PositionFilterList,
+      DirectionFilterList: DirectionFilterList,
+      EventFilterList: EventFilterList,
+      ReviewedFilterList: ReviewedFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED,
+      IsReviewedRequired:true
     }
     this.spinner.show();
-    this.dbService.VIDSReviewedEventsGetByFilter(obj).subscribe(
+    this.dbService.ATCCReviewedEventsGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
       },
       (error) => {
         this.spinner.hide();
@@ -355,9 +368,10 @@ export class VsdsValidatedComponent {
           this.ErrorData = [{ AlertMessage: "Something went wrong." }];
           this.dm.openSnackBar(this.ErrorData, false);
         }
-       
+
       }
     );
 
   }
 }
+

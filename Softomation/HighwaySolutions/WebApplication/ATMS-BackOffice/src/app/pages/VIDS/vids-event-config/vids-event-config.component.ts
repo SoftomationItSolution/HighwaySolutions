@@ -4,11 +4,11 @@ import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 
 @Component({
-  selector: 'app-vids-incident-config',
-  templateUrl: './vids-incident-config.component.html',
-  styleUrls: ['./vids-incident-config.component.css']
+  selector: 'app-vids-event-config',
+  templateUrl: './vids-event-config.component.html',
+  styleUrls: ['./vids-event-config.component.css']
 })
-export class VidsIncidentConfigComponent {
+export class VIDSEventConfigComponent {
   SystemId = 0;
   LogedRoleId;
   LogedUserId;

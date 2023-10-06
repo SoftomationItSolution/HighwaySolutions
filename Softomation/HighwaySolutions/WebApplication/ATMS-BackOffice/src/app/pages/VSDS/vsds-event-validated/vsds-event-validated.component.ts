@@ -5,11 +5,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 @Component({
-  selector: 'app-vids-validated',
-  templateUrl: './vids-validated.component.html',
-  styleUrls: ['./vids-validated.component.css']
+  selector: 'app-vsds-event-validated',
+  templateUrl: './vsds-event-validated.component.html',
+  styleUrls: ['./vsds-event-validated.component.css']
 })
-export class VidsValidatedComponent {
+export class VSDSEventValidatedComponent {
   DataAdd = 1;
   DataUpdate = 1;
   DataView = 1;
@@ -152,10 +152,6 @@ export class VidsValidatedComponent {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
-        if(this.TotalCount>0){
-          var sd=this.EventHistroyData[this.TotalCount-1].EventStartDateStamp;
-          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
-        }
       },
       (error) => {
         this.spinner.hide();

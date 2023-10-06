@@ -93,7 +93,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_VMSMessageDetailsGetByFilter";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentIdFilterList", DbType.String, data.EquipmentIdFilterList, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)

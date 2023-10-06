@@ -8,7 +8,7 @@ import { DataModel } from 'src/app/services/data-model.model';
   templateUrl: './vids-equipment-config.component.html',
   styleUrls: ['./vids-equipment-config.component.css']
 })
-export class VidsEquipmentConfigComponent implements OnInit {
+export class VIDSEquipmentConfigComponent implements OnInit {
   availableData: any = [];
   selection: any = null;
   fillData: any = [];
