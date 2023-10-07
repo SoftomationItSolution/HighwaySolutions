@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {

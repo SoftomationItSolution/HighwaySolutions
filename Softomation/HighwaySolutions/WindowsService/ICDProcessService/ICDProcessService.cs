@@ -26,8 +26,9 @@ namespace ICDProcessService
         private Queue logQueue = new Queue();
         private Thread loggerThread;
         private volatile Boolean stopLoggerThread = false;
+        #endregion
 
-
+        #region ICD Thread
         private Thread TagRequestThread;
         private volatile Boolean stopTagRequest = false;
 
@@ -49,6 +50,7 @@ namespace ICDProcessService
         RequestDirectoryConfig requestDirectoryConfig;
         #endregion
         #endregion
+
         static void Main()
         {
             ServiceBase[] ServicesToRun;

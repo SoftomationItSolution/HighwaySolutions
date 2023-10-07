@@ -160,7 +160,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             events.VehicleDirectionName = Enum.GetName(typeof(SystemConstants.VehicleDirectionType), (SystemConstants.VehicleDirectionType)events.VehicleDirectionId);
             return events;
         }
-        
         #endregion
     }
 }

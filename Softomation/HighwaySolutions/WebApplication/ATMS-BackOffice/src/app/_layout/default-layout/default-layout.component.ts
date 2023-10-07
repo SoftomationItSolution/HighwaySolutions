@@ -30,8 +30,8 @@ export class DefaultLayoutComponent implements OnInit {
   MediaPrefix: any;
   profileImage: any;
   capslockOn = false;
-  NotificationHide=false;
-  NotificationTest="Welcome in command and control application";
+  NotificationHide = false;
+  NotificationTest = "Welcome in command and control application";
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {
@@ -43,8 +43,6 @@ export class DefaultLayoutComponent implements OnInit {
       this.capslockOn = false;
     }
   }
-
-
 
   constructor(private router: Router, public dataModel: DataModel,
     public api: apiIntegrationService, public dialog: MatDialog,) {
@@ -72,7 +70,7 @@ export class DefaultLayoutComponent implements OnInit {
       data => {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
-          this.MenuList = data.ResponseData.filter((e: { MenuUrl: any; }) => e.MenuUrl.indexOf('#PopUp')!=0);
+          this.MenuList = data.ResponseData.filter((e: { MenuUrl: any; }) => e.MenuUrl.indexOf('#PopUp') != 0);
           this.getTitle();
         }
         else {
@@ -106,23 +104,42 @@ export class DefaultLayoutComponent implements OnInit {
 
   }
 
-  menuED(event: any, m:any) {
+  menuED(event: any, m: any) {
     const cn = document.getElementById("mid_" + m.MenuId);
-    if(cn==null){
+    if (cn == null) {
       return;
     }
+
+    // if (m.ChildCount != 0) {
+    //   if (cn.classList.contains("mm-active")) {
+    //     var cc = document.querySelectorAll("#"+cn.id+' > ul');
+    //     cc.forEach((element) => {
+    //       element.classList.remove('mm-show');
+    //       element.classList.remove('mm-active');
+    //     });
+    //     cn.classList.remove("mm-show")
+    //     cn.classList.remove('mm-active');
+    //     return;
+    //   }
+    // }
+
+
     const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *')
     allChildElementsOfParentWithClass.forEach((element) => {
       element.classList.remove('mm-show');
       element.classList.remove('mm-active');
     });
+
+
+
+
     if (m.ChildCount != 0) {
       if (cn.classList.contains("mm-active"))
         cn.classList.remove("mm-show")
       else
         cn.classList.add("mm-show")
       let childClass = cn.querySelector('ul');
-      if(childClass==null){
+      if (childClass == null) {
         return
       }
       if (childClass.classList.contains("mm-show")) {
@@ -190,7 +207,7 @@ export class DefaultLayoutComponent implements OnInit {
           const cn = document.getElementById("mid_" + foundObj[0].ParentId)
           if (cn != null) {
             let childClass = cn.querySelector('ul')
-            if(childClass==null){
+            if (childClass == null) {
               return
             }
             childClass.classList.add("mm-show")
@@ -229,7 +246,7 @@ export class DefaultLayoutComponent implements OnInit {
       }
     );
   }
-  ssOpen(){
+  ssOpen() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

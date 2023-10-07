@@ -1,47 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
-using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
-    public class WeatherBL
+    public class WeatherEventBL
     {
-        public static List<ResponseIL> InsertUpdateConfig(WeatherConfigIL ss)
+        public static List<ResponseIL> Insert(WeatherEventIL weather)
         {
-            try
-            {
-                return WeatherDL.InsertUpdateConfig(ss);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
-        public static List<WeatherConfigIL> GetWeatherConfig()
-        {
             try
             {
-                return WeatherDL.GetWeatherConfig();
+                return WeatherEventDL.Insert(weather);
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-        }
-        public static List<WeatherDataIL> WeatherGetALLByFilter(DataFilterIL data)
-        {
-            try
-            {
-                return WeatherDL.WeatherGetALLByFilter(data);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
 
+                throw ex;
+            }
+        }
+        public static List<WeatherEventIL> GetByHours(short hours)
+        {
+
+            try
+            {
+                return WeatherEventDL.GetByHours(hours);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public static List<WeatherEventIL> GetByFilter(DataFilterIL data)
+        {
+
+            try
+            {
+                return WeatherEventDL.GetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
     }
 }

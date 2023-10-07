@@ -84,8 +84,45 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             CRS = 16,
             MRCS = 17
         }
-       
-        
+        public enum EquipmentMasterType
+        {
+            PTZCamera = 1,
+            ECB = 2,
+            LPU = 3,
+            MET = 4,
+            Radar = 5,
+            Sensor = 6,
+            SpeedDisplay = 7,
+            VMS = 8,
+            Light = 9,
+            Blinker = 10,
+            DataStorage = 11,
+            IpPhone = 12,
+            JoyStick = 13,
+            Server = 14,
+            VideoWall = 15,
+            WorkStation = 16,
+            NetworkSwitch = 17,
+            Tablet = 18,
+            UPS = 19,
+            HooterAlarmWithBeacon = 20,
+            GPSDevice = 21,
+            BodyCam = 22,
+            DashCam = 23,
+            Other = 24,
+            VIDSCamera = 25,
+            ANPRCamera = 26,
+            MotionDetectionCamera = 27,
+            MediaConverter = 28,
+            VehicleFrontCamera = 29,
+            VehicleRearCamera = 30,
+            MRCS = 31,
+            ATCCCamera = 32,
+            Printer = 33,
+            NVR = 34,
+            Firewall_Router = 35,
+        }
+
         public enum AppUserType
         {
             SysAdmin = 0,

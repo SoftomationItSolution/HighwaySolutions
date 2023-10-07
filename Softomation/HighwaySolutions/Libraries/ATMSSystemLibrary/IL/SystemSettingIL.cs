@@ -15,6 +15,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Int16[] restrictedVehiclesIdList;
         List<VehicleClassIL> restrictedVehiclesList;
         Int16 defaultControlRoomId;
+        Boolean isWeatherOnline;
+        String weatherAPI;
         public SystemSettingIL()
         {
             this.totalLane = 4;
@@ -23,9 +25,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.aTCCByVIDS = false;
             this.trafficCount = 500;
             this.trafficByTime = 10;
-            restrictedVehiclesIds = string.Empty;
-            restrictedVehiclesList = new List<VehicleClassIL>();
-            defaultControlRoomId = 1;
+            this.restrictedVehiclesIds = string.Empty;
+            this.restrictedVehiclesList = new List<VehicleClassIL>();
+            this.defaultControlRoomId = 1;
+            this.isWeatherOnline = true;
+            this.weatherAPI = string.Empty;
         }
 
         public Int16 TotalLane
@@ -146,6 +150,32 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 defaultControlRoomId = value;
+            }
+        }
+
+        public Boolean IsWeatherOnline
+        {
+            get
+            {
+                return isWeatherOnline;
+            }
+
+            set
+            {
+                isWeatherOnline = value;
+            }
+        }
+
+        public String WeatherAPI
+        {
+            get
+            {
+                return weatherAPI;
+            }
+
+            set
+            {
+                weatherAPI = value;
             }
         }
     }

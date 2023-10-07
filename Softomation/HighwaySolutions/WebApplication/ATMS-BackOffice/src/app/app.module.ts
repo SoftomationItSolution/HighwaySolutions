@@ -11,6 +11,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import {  MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatStepperModule} from '@angular/material/stepper';
 import { MatDialogModule } from '@angular/material/dialog';
 
@@ -198,6 +199,7 @@ export const MY_CUSTOM_FORMATS = {
     MatStepperModule,
     MatIconModule,
     MatTooltipModule,
+    MatSlideToggleModule,
     TableModule,
     OverlayModule,
     InputNumberModule,

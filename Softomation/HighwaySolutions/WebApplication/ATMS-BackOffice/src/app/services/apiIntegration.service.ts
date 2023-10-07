@@ -651,22 +651,15 @@ export class apiIntegrationService {
   //#endregion
 
   //#region  Weather System
-  GetWeatherConfig(): Observable<any> {
+  WeatherHistoryGetByHours(Hours: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetWeatherConfig', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/WeatherHistoryGetByHours?Hours=' + Hours, { headers: headers_object });
   }
-  WeatherConfigSetUp(data: {}): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherConfigSetUp', data, { headers: headers_object });
-  }
-  WeatherGetALLByFilter(data: any): Observable<any> {
+  WeatherHistoryGetByFilter(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherEventsGetALLByFilter', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherHistoryGetByFilter', data, { headers: headers_object });
   }
   //#endregion
 

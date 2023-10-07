@@ -8,49 +8,48 @@
     <div class="modal-body ">
         <form [formGroup]="DataDetailsForm">
             <div class="row">
-            <fieldset class="col-md-12">
-                <legend>ATCC</legend>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
-                                    formControlName="IsATCCIndependently"
-                                    (change)="ATCCChanged($event)">
-                                <label class="form-check-label" for="IsATCCIndependently">
-                                    ATCC Independently
-                                </label>
+                <fieldset class="col-md-12">
+                    <legend>ATCC</legend>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="IsATCCIndependently"
+                                        formControlName="IsATCCIndependently" (change)="ATCCChanged($event)">
+                                    <label class="form-check-label" for="IsATCCIndependently">
+                                        ATCC Independently
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check" style="padding-bottom: 20px;">
-                                <input class="form-check-input" type="checkbox" id="ATCCByVIDS"
-                                    formControlName="ATCCByVIDS"
-                                    [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
-                                <label class="form-check-label" for="ATCCByVIDS">
-                                    ATCC By VIDS
-                                </label>
+                            <div class="col-md-4">
+                                <div class="form-check" style="padding-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="ATCCByVIDS"
+                                        formControlName="ATCCByVIDS"
+                                        [disabled]="DataDetailsForm.value.ATCCByVIDS==true">
+                                    <label class="form-check-label" for="ATCCByVIDS">
+                                        ATCC By VIDS
+                                    </label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-check" style="padding-bottom: 20px;">
-                                <input class="form-check-input" type="checkbox" id="ATCCByVSDS"
-                                    formControlName="ATCCByVSDS">
-                                <label class="form-check-label" for="ATCCByVSDS">
-                                    ATCC By VSDS
-                                </label>
+                            <div class="col-md-4">
+                                <div class="form-check" style="padding-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="ATCCByVSDS"
+                                        formControlName="ATCCByVSDS">
+                                    <label class="form-check-label" for="ATCCByVSDS">
+                                        ATCC By VSDS
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </fieldset>
+                </fieldset>
             </div>
             <div class="row">
-                <fieldset class="col-md-6">
-                    <legend>VSDS</legend>
+                <fieldset class="col-md-12">
+                    <legend>Lane & Vehicle </legend>
                     <div class="panel-body">
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 <label for="TotalLane">Number of Lane in each direction</label>
                                 <p-dropdown appendTo="body" formControlName="TotalLane" inputId="TotalLane"
                                     [options]="LaneData" optionLabel="DataName" optionValue="DataId"
@@ -60,20 +59,13 @@
                                     Lane is
                                     required.</small>
                             </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <fieldset class="col-md-6">
-                    <legend style="width: 50%;">Restricted Vehicles</legend>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label for="RestrictedVehiclesIds">Select Restricted Vehicles</label>
-                                <p-multiSelect appendTo="body" class="form-control select2"
-                                [options]="VehicleClassList" formControlName="RestrictedVehiclesIds"
-                                optionLabel="VehicleClassName" optionValue="VehicleClassId" placeholder="Restricted Vehicles"
-                                [style]="{'width':'100%'}">
-                            </p-multiSelect>
+                                <p-multiSelect appendTo="body" class="form-control select2" [options]="VehicleClassList"
+                                    formControlName="RestrictedVehiclesIds" optionLabel="VehicleClassName"
+                                    optionValue="VehicleClassId" placeholder="Restricted Vehicles"
+                                    [style]="{'width':'100%'}">
+                                </p-multiSelect>
                             </div>
                         </div>
                     </div>
@@ -86,15 +78,37 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <label for="DefaultControlRoomId">Control Room</label>
-                                <p-dropdown appendTo="body" formControlName="DefaultControlRoomId" inputId="DefaultControlRoomId" [options]="ControlRoomData"
-                                    optionLabel="ControlRoomName" optionValue="ControlRoomId" placeholder="Select"  class="form-control select2"></p-dropdown>
+                                <p-dropdown appendTo="body" formControlName="DefaultControlRoomId"
+                                    inputId="DefaultControlRoomId" [options]="ControlRoomData"
+                                    optionLabel="ControlRoomName" optionValue="ControlRoomId" placeholder="Select"
+                                    class="form-control select2"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && DataDetailsForm.hasError('required','DefaultControlRoomId')">Control Room is
+                                    *ngIf="submitted && DataDetailsForm.hasError('required','DefaultControlRoomId')">Control
+                                    Room is
                                     required.</small>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <label for="IsWeatherOnline">Weather(online)</label>
+                                        <br>
+                                        <mat-slide-toggle formControlName="IsWeatherOnline"
+                                            (change)="IsWeatherChnage($event)"></mat-slide-toggle>
+                                    </div>
+                                    <div class="col-md-9" *ngIf="IsWeatherOnline">
+                                        <label for="WeatherAPI">Weather API</label>
+                                        <input formControlName="WeatherAPI" type="text" pInputText required
+                                            autocomplete="off" class="form-control" />
+                                        <small class="p-error"
+                                            *ngIf="submitted && DataDetailsForm.hasError('required','WeatherAPI')">Weather
+                                            API
+                                            is required.</small>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
+
                 </fieldset>
             </div>
         </form>

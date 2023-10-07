@@ -64,6 +64,29 @@
                                                 optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
                                             </p-multiSelect>
                                         </div>
+                                        <div class="col-md-3">
+                                            <label for="TemperatureFilterList">Temperature</label>
+                                            <p-dropdown appendTo="body" formControlName="TemperatureFilterList"
+                                                inputId="TemperatureFilterList" [options]="Temperature"
+                                                optionLabel="DataName" optionValue="DataValue"
+                                                placeholder="Select Temperature"
+                                                class="form-control select2"></p-dropdown>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="HumidityFilterList">Humidity</label>
+                                            <p-dropdown appendTo="body" formControlName="HumidityFilterList"
+                                                inputId="HumidityFilterList" [options]="Humidity" optionLabel="DataName"
+                                                optionValue="DataValue" placeholder="Select Humidity"
+                                                class="form-control select2"></p-dropdown>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="VisibilityFilterList">Visibility</label>
+                                            <p-dropdown appendTo="body" formControlName="VisibilityFilterList"
+                                                inputId="VisibilityFilterList" [options]="Visibility"
+                                                optionLabel="DataName" optionValue="DataValue"
+                                                placeholder="Select Visibility"
+                                                class="form-control select2"></p-dropdown>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-1 d-flex justify-content-center text-center">
@@ -79,61 +102,43 @@
                 <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
                     <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
                         [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
-                        [globalFilterFields]="['PackageName','ChainageName','DirectionName','EventDateTimestamp',
-                        'EquipmentName','AirTemperature','HumidityRH','HumidityAH','Visibility','WindDirectionValue','RainValue']">
+                        [globalFilterFields]="['PackageName','ChainageName','EventDateTimeStamp',
+                        'AirTemperature','Humidity','Visibility','WindDirection','WindSpeed']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <!-- <th pSortableColumn="PackageName">Package <p-sortIcon field="PackageName"></p-sortIcon>
-                                </th>
                                 <th pSortableColumn="ChainageName">Chainage <p-sortIcon
                                         field="ChainageName"></p-sortIcon>
-                                </th> -->
-                                <th pSortableColumn="EquipmentName">Equipment Name <p-sortIcon
-                                        field="EquipmentName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="EventDateTimestamp">Event Time <p-sortIcon
-                                        field="EventDateTimestamp"></p-sortIcon>
+                                <th pSortableColumn="EventDateTimeStamp">Event Time <p-sortIcon
+                                        field="EventDateTimeStamp"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="AirTemperature">AirTemperature <p-sortIcon
+                                <th pSortableColumn="AirTemperature">Temperature(℃)<p-sortIcon
                                         field="Air Temperature"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="HumidityRH">Humidity RH <p-sortIcon
-                                        field="HumidityRH"></p-sortIcon>
+                                <th pSortableColumn="Humidity">Humidity (%)<p-sortIcon field="Humidity"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="HumidityAH">Humidity AH <p-sortIcon
-                                        field="HumidityAH"></p-sortIcon>
+                                <th pSortableColumn="Visibility">Visibility (meters)<p-sortIcon
+                                        field="Visibility"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="Visibility">Visibility <p-sortIcon field="Visibility"></p-sortIcon>
+                                <th pSortableColumn="WindDirection">Wind Direction(degrees) <p-sortIcon
+                                        field="WindDirection"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="WindDirectionValue">Wind Direction Value <p-sortIcon
-                                        field="WindDirectionValue"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="WindSpeedValue">Wind Speed Value <p-sortIcon
-                                        field="WindSpeedValue"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="RainValue">Rain Value <p-sortIcon field="RainValue"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="WindSpeedMeasurement">Wind Speed Measurement <p-sortIcon
-                                        field="WindSpeedMeasurement"></p-sortIcon>
+                                <th pSortableColumn="WindSpeed">Wind Speed (meter/sec)<p-sortIcon
+                                        field="WindSpeed"></p-sortIcon>
                                 </th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <!-- <td>{{rowData.PackageName}}</td>
-                                <td>{{rowData.ChainageName}}</td> -->
-                                <td>{{rowData.EquipmentName}}</td>
-                                <td>{{rowData.EventDateTimestamp}}</td>
+                                <td>{{rowData.ChainageName}}</td>
+                                <td>{{rowData.EventDateTimeStamp}}</td>
                                 <td>{{rowData.AirTemperature}}</td>
-                                <td>{{rowData.HumidityRH}}</td>
-                                <td>{{rowData.HumidityAH}}</td>
+                                <td>{{rowData.Humidity}}</td>
                                 <td>{{rowData.Visibility}}</td>
-                                <td>{{rowData.WindDirectionValue}}</td>
-                                <td>{{rowData.WindSpeedValue}}</td>
-                                <td>{{rowData.RainValue}}</td>
-                                <td>{{rowData.WindSpeedMeasurement}}</td>
+                                <td>{{rowData.WindDirection}}</td>
+                                <td>{{rowData.WindSpeed}}</td>
                             </tr>
                         </ng-template>
                     </p-table>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.33927.289
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{B88B4B17-BE84-43C7-933A-5E8EB50D408D}"
 EndProject
@@ -38,6 +38,12 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICDProcessService", "Softomation\HighwaySolutions\WindowsService\ICDProcessService\ICDProcessService.csproj", "{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LaneDataTransferService", "Softomation\HighwaySolutions\WindowsService\LaneDataTransferService\LaneDataTransferService.csproj", "{98928B27-7B73-41E1-A21B-C5582180020D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ATMSDAService", "Softomation\HighwaySolutions\WindowsService\ATMSDAService\ATMSDAService.csproj", "{47005EBC-C803-48D0-8CF7-1BDD4A22EC44}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MCubleATMSSetup", "Softomation\HighwaySolutions\SetUp\MCubleATMSSetup\MCubleATMSSetup.vdproj", "{55716E30-E9E0-46DE-813F-1656318D2999}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceMoniter", "Softomation\HighwaySolutions\WindowsService\ServiceMoniter\ServiceMoniter.csproj", "{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +93,16 @@ Global
 		{98928B27-7B73-41E1-A21B-C5582180020D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98928B27-7B73-41E1-A21B-C5582180020D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98928B27-7B73-41E1-A21B-C5582180020D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55716E30-E9E0-46DE-813F-1656318D2999}.Debug|Any CPU.ActiveCfg = Debug
+		{55716E30-E9E0-46DE-813F-1656318D2999}.Release|Any CPU.ActiveCfg = Release
+		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -104,6 +120,9 @@ Global
 		{626787B9-C509-4CDD-BFE1-C5B859BA9990} = {C91553A1-7BF4-4B67-85FC-2B847446B6B3}
 		{F68FEB9C-AEB8-4313-B3DC-9A75AD6DF808} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 		{98928B27-7B73-41E1-A21B-C5582180020D} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{55716E30-E9E0-46DE-813F-1656318D2999} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
+		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

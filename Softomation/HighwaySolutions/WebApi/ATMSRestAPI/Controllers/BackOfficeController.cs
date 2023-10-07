@@ -323,6 +323,7 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
+
         [Route(Provider + "/" + APIPath + "/SystemGetAll")]
         [HttpGet]
         public HttpResponseMessage SystemGetAll()
@@ -2233,7 +2234,7 @@ namespace ATMSRestAPI.Controllers
                 }
                 if (data.ChainageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+",".") + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+", ".") + ") ";
                 }
                 if (data.DirectionFilterList != "0")
                 {
@@ -2374,51 +2375,33 @@ namespace ATMSRestAPI.Controllers
         #endregion
 
         #region Weather
-        [Route(Provider + "/" + APIPath + "/WeatherConfigSetUp")]
-        [HttpPost]
-        public HttpResponseMessage WeatherConfigSetUp(WeatherConfigIL ss)
-        {
-            try
-            {
-                response.Message = WeatherBL.InsertUpdateConfig(ss);
-                return Request.CreateResponse(HttpStatusCode.OK, response);
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog("Exception in WeatherConfigSetUp : " + ex.Message.ToString());
-                resp.AlertMessage = ex.Message.ToString();
-                response.Message.Add(resp);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
-            }
-        }
-        [Route(Provider + "/" + APIPath + "/GetWeatherConfig")]
+        [Route(Provider + "/" + APIPath + "/WeatherHistoryGetByHours")]
         [HttpGet]
-        public HttpResponseMessage GetWeatherConfig()
+        public HttpResponseMessage WeatherHistoryGetByHours(short Hours)
         {
             try
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = WeatherBL.GetWeatherConfig();
+                response.ResponseData = WeatherEventBL.GetByHours(Hours);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in GetWeatherConfig : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in WeatherHistoryGetByHours : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
 
-        [Route(Provider + "/" + APIPath + "/WeatherEventsGetALLByFilter")]
+        [Route(Provider + "/" + APIPath + "/WeatherHistoryGetByFilter")]
         [HttpPost]
-        public HttpResponseMessage WeatherEventsGetALLByFilter(DataFilterIL data)
+        public HttpResponseMessage WeatherHistoryGetByFilter(DataFilterIL data)
         {
             try
             {
-                data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-
+                data.FilterQuery = "WHERE H.EventDateTime>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDateTime<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
                 if (data.ControlRoomFilterList != "0")
                 {
                     data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
@@ -2429,17 +2412,28 @@ namespace ATMSRestAPI.Controllers
                 }
                 if (data.ChainageFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList.Replace("+", ".") + ") ";
                 }
-
+                if (data.TemperatureFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.AirTemperature >=" + data.TemperatureFilterList.Split('-')[0] + " AND H.AirTemperature <=" + data.TemperatureFilterList.Split('-')[1] + " ";
+                }
+                if (data.HumidityFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.Humidity >=" + data.HumidityFilterList.Split('-')[0] + " AND H.Humidity <=" + data.HumidityFilterList.Split('-')[1] + " ";
+                }
+                if (data.VisibilityFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.Visibility >=" + data.VisibilityFilterList.Split('-')[0] + " AND H.Visibility <=" + data.VisibilityFilterList.Split('-')[1] + " ";
+                }
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = WeatherBL.WeatherGetALLByFilter(data);
+                response.ResponseData = WeatherEventBL.GetByFilter(data);
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)
             {
-                BackOfficeAPILog("Exception in WeatherEventsGetALLByFilter : " + ex.Message.ToString());
+                BackOfficeAPILog("Exception in WeatherHistoryGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
@@ -2671,7 +2665,6 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-
 
         [Route(Provider + "/" + APIPath + "/VMSHistoryGetByHours")]
         [HttpGet]

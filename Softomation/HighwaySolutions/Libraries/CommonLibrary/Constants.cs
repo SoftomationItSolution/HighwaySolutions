@@ -224,14 +224,12 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         {
             return Regex.Replace(Regex.Replace(str, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"), @"(\p{Ll})(\P{Ll})", "$1 $2").Replace("_", " ");
         }
-
         public static string CurrecyFromater(Decimal amount)
         {
             decimal parsed = decimal.Parse(amount.ToString(), CultureInfo.InvariantCulture);
             CultureInfo hindi = new CultureInfo("hi-IN");
             return string.Format(hindi, "{0:c}", parsed);
         }
-
         public static string ImagetoBase64(string FilePath, string ext)
         {
             try
@@ -276,7 +274,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
                 throw ex;
             }
         }
-
         public static string BaseToString(string base64)
         {
             try
@@ -289,6 +286,29 @@ namespace HighwaySoluations.Softomation.CommonLibrary
 
                 throw ex;
             }
+        }
+
+        public static DateTime ConvertFromUnixTimestamp(double timestamp)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            return origin.AddSeconds(timestamp);
+        }
+        public static DateTime ConvertFromUnixTimestampMilisec(double timestamp)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            return origin.AddMilliseconds(timestamp);
+        }
+        public static double ConvertToUnixTimestamp(DateTime date)
+        {
+            DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            TimeSpan diff = date.ToUniversalTime() - origin;
+            return Math.Floor(diff.TotalSeconds);
+        }
+        public static DateTime UnixTimeStampToDateTimeLocal(double unixTimeStamp)
+        {
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dateTime;
         }
         #endregion
     }

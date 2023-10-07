@@ -21,7 +21,7 @@ export class WeatherEventHistoryComponent {
   PermissionData: any;
   SystemId = 0;
   hourFormat = 24
-  TotalCount=0;
+  TotalCount = 0;
   FilterDetailsForm!: FormGroup;
   MasterData: any;
   EventData: any;
@@ -29,8 +29,32 @@ export class WeatherEventHistoryComponent {
   PackageFilter: any
   ChainageFilter: any;
   DirectionList = [{ "DataValue": 1, "DataName": 'LHS' }, { "DataValue": 2, "DataName": 'RHS' }];
-  LaneDetailsList:any;
-  VehicleClassDataList:any;
+  Temperature = [
+    { "DataValue": "0", "DataName": "All" },
+    { "DataValue": "0-20", "DataName": "0-20" },
+    { "DataValue": "20-40", "DataName": "20-40" },
+    { "DataValue": "40-60", "DataName": "40-60" },
+    { "DataValue": "60-80", "DataName": "60-80" },
+    { "DataValue": "80-200", "DataName": ">80" }];
+
+  Humidity = [
+    { "DataValue": "0", "DataName": "All" },
+    { "DataValue": "0-20", "DataName": "0-20" },
+    { "DataValue": "20-40", "DataName": "20-40" },
+    { "DataValue": "40-60", "DataName": "40-60" },
+    { "DataValue": "60-80", "DataName": "60-80" },
+    { "DataValue": "80-100", "DataName": "80-100" }];
+
+
+  Visibility = [
+    { "DataValue": "0", "DataName": "All" },
+    { "DataValue": "1000-3000", "DataName": "1000-3000" },
+    { "DataValue": "3000-6000", "DataName": "3000-6000" },
+    { "DataValue": "6000-8000", "DataName": "6000-8000" },
+    { "DataValue": "8000-10000", "DataName": "8000-10000" }
+  ];
+  LaneDetailsList: any;
+  VehicleClassDataList: any;
   constructor(private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -45,6 +69,9 @@ export class WeatherEventHistoryComponent {
       ControlRoomFilterList: new FormControl(''),
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
+      TemperatureFilterList: new FormControl('0'),
+      HumidityFilterList: new FormControl('0'),
+      VisibilityFilterList: new FormControl('0'),
     });
     this.SystemGetByName()
   }
@@ -52,13 +79,13 @@ export class WeatherEventHistoryComponent {
   SystemGetByName() {
     this.spinner.show();
     let MenuUrl = window.location.pathname.replace('/', '');
-    let systenname = MenuUrl.substring(0, 4)
+    let systenname = MenuUrl.substring(0, 7)
     this.dbService.SystemGetByName(systenname).subscribe(
       data => {
         let SystemDetails = data.ResponseData;
         this.SystemId = SystemDetails.SystemId;
         this.GetPermissionData();
-        this.SearchEntry();
+
       },
       (error) => {
         this.spinner.hide();
@@ -104,6 +131,7 @@ export class WeatherEventHistoryComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
+        this.GetEventHistroy();
       },
       (error) => {
         this.spinner.hide();
@@ -114,13 +142,13 @@ export class WeatherEventHistoryComponent {
   }
 
   GetEventHistroy() {
-    this.dbService.VSDSEventsGetByHours(24).subscribe(
+    this.dbService.WeatherHistoryGetByHours(24).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalCount = this.EventHistroyData.length;
-        if(this.TotalCount>0){
-          var sd=this.EventHistroyData[this.TotalCount-1].EventDateStamp;
+        if (this.TotalCount > 0) {
+          var sd = this.EventHistroyData[this.TotalCount - 1].EventDateTimeStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
       },
@@ -136,7 +164,7 @@ export class WeatherEventHistoryComponent {
       }
     );
   }
-  
+
   ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
@@ -226,9 +254,10 @@ export class WeatherEventHistoryComponent {
   }
 
   SearchEntry() {
+    debugger;
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ControlRoomFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       if (crData.split(',').length != this.ControlRoomData.length) {
         ControlRoomFilterList = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
       }
@@ -236,7 +265,7 @@ export class WeatherEventHistoryComponent {
 
     let PackageFilterList = "0"
     if (this.FilterDetailsForm.value.PackageFilterList != null && this.FilterDetailsForm.value.PackageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.PackageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.PackageFilterList.toString();
       if (crData.split(',').length != this.PackageFilter.length) {
         PackageFilterList = this.FilterDetailsForm.value.PackageFilterList.toString();
       }
@@ -244,33 +273,35 @@ export class WeatherEventHistoryComponent {
 
     let ChainageFilterList = "0"
     if (this.FilterDetailsForm.value.ChainageFilterList != null && this.FilterDetailsForm.value.ChainageFilterList != '') {
-      let crData=this.FilterDetailsForm.value.ChainageFilterList.toString();
+      let crData = this.FilterDetailsForm.value.ChainageFilterList.toString();
       if (crData.split(',').length != this.ChainageFilter.length) {
         ChainageFilterList = this.FilterDetailsForm.value.ChainageFilterList.toString();
       }
     }
-
-    let SD=this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED=this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    var obj= {
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    var obj = {
       ControlRoomFilterList: ControlRoomFilterList,
-      PackageFilterList:PackageFilterList,
-      ChainageFilterList:ChainageFilterList,
-      StartDateTime:SD,
-      EndDateTime:ED
+      PackageFilterList: PackageFilterList,
+      ChainageFilterList: ChainageFilterList,
+      TemperatureFilterList: this.FilterDetailsForm.value.TemperatureFilterList,
+      VisibilityFilterList: this.FilterDetailsForm.value.VisibilityFilterList,
+      HumidityFilterList: this.FilterDetailsForm.value.HumidityFilterList,
+      StartDateTime: SD,
+      EndDateTime: ED
     }
     this.spinner.show();
-    this.dbService.WeatherGetALLByFilter(obj).subscribe(
+    this.dbService.WeatherHistoryGetByFilter(obj).subscribe(
       data => {
         this.spinner.hide();
-        this.EventHistroyData = data.ResponseData;    
-        this.TotalCount = this.EventHistroyData.length;   
+        this.EventHistroyData = data.ResponseData;
+        this.TotalCount = this.EventHistroyData.length;
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: "Something went wrong." }];
         this.dm.openSnackBar(this.ErrorData, false);
-       
+
       }
     );
 

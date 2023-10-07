@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
 using System.Linq;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using System.Data.Common;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -31,8 +31,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TrafficByTime", DbType.Int16, ss.TrafficByTime, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@RestrictedVehiclesIds", DbType.String, ss.RestrictedVehiclesIds, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DefaultControlRoomId", DbType.String, ss.DefaultControlRoomId, ParameterDirection.Input, 255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@UserId", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CDateTime", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsWeatherOnline", DbType.Boolean, ss.IsWeatherOnline, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WeatherAPI", DbType.String, ss.WeatherAPI, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedBy", DbType.Int32, ss.ModifiedBy, ParameterDirection.Input));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 responses = ResponseIL.ConvertResponseList(dt);
             }
@@ -78,6 +82,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["IsATCCIndependently"] != DBNull.Value)
                 sysSet.IsATCCIndependently = Convert.ToBoolean(dr["IsATCCIndependently"]);
+
+            if (dr["IsWeatherOnline"] != DBNull.Value)
+                sysSet.IsWeatherOnline = Convert.ToBoolean(dr["IsWeatherOnline"]);
+
+            if (dr["WeatherAPI"] != DBNull.Value)
+                sysSet.WeatherAPI = Convert.ToString(dr["WeatherAPI"]);
 
             if (dr["TotalLane"] != DBNull.Value)
                 sysSet.TotalLane = Convert.ToInt16(dr["TotalLane"]);
