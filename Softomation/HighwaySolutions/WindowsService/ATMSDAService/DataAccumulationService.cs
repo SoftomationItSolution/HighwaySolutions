@@ -55,7 +55,7 @@ namespace ATMSDAService
             //var APIDateTime = UnixTimeStampToDateTimeLocal(1696687951);
             InitializeComponent();
             //dont forget to comment this line
-            OnStart(new string[] { "DAS" }); //<== only for debugging
+            //OnStart(new string[] { "DAS" }); //<== only for debugging
         }
         #endregion
 

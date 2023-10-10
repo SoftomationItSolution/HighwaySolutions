@@ -5,6 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\AppPublish\ATMS</_PublishTargetUrl>
+    <History>True|2023-10-07T15:18:28.0471943Z;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -14,22 +15,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.dll">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.pdb">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.pdb">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.pdb">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:26</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.dll">
+      <publishTime>10/04/2023 04:10:46</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.pdb">
+      <publishTime>10/04/2023 04:10:46</publishTime>
     </File>
     <File Include="bin/Microsoft.Bcl.AsyncInterfaces.dll">
       <publishTime>08/13/2023 12:00:47</publishTime>
@@ -617,7 +624,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/09/2023 10:30:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/01/2023 20:26:05</publishTime>
+      <publishTime>10/07/2023 20:48:27</publishTime>
     </File>
   </ItemGroup>
 </Project>
