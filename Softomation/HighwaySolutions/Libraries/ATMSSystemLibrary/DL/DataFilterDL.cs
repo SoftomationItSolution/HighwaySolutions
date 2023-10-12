@@ -133,10 +133,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         {
             MasterDataIL dataFilter = new MasterDataIL();
             if (dr["ChainageNumber"] != DBNull.Value)
+            {
                 dataFilter.DataValue = Convert.ToDecimal(dr["ChainageNumber"]);
+                dataFilter.DataName = SystemConstants.ConvertChainageName(dataFilter.DataValue);
+            }
 
-            if (dr["ChainageName"] != DBNull.Value)
-                dataFilter.DataName = Convert.ToString(dr["ChainageName"]);
+            //if (dr["ChainageName"] != DBNull.Value)
+            //    dataFilter.DataName = Convert.ToString(dr["ChainageName"]);
 
             return dataFilter;
         }

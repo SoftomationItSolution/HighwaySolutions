@@ -28,7 +28,7 @@
                                             <ul class="nested nested-active">
                                                 <li *ngFor="let c of d.children" pDraggable
                                                     (onDragStart)="onDragStart(c)" (onDragEnd)="onDragEnd()">
-                                                    {{c.ChainageName+'-'+c.IpAddress}}
+                                                    {{c.ChainageName+'-'+c.DirectionName+'-'+c.IpAddress}}
                                                 </li>
                                             </ul>
                                         </li>

@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\AppPublish\ATMS</_PublishTargetUrl>
-    <History>True|2023-10-07T15:18:28.0471943Z;</History>
+    <History>True|2023-10-12T11:44:49.1873123Z;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -15,22 +15,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.dll">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.pdb">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.pdb">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.pdb">
-      <publishTime>10/07/2023 20:48:26</publishTime>
+      <publishTime>10/12/2023 19:55:21</publishTime>
     </File>
     <File Include="bin/HtmlAgilityPack.dll">
       <publishTime>10/04/2023 04:10:46</publishTime>
@@ -606,16 +606,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/11/2023 15:18:13</publishTime>
     </File>
     <File Include="Views/Home/DataBase.cshtml">
-      <publishTime>08/11/2023 15:37:28</publishTime>
+      <publishTime>10/12/2023 19:40:47</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>08/11/2023 15:23:33</publishTime>
+    </File>
+    <File Include="Views/Home/Moniter.cshtml">
+      <publishTime>10/12/2023 19:47:22</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>08/09/2023 10:30:30</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>08/11/2023 15:19:04</publishTime>
+      <publishTime>10/12/2023 19:42:47</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>08/08/2023 15:45:42</publishTime>

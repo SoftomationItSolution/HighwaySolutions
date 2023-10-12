@@ -107,6 +107,9 @@
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
+                                <th pSortableColumn="WeatherDescription">Description<p-sortIcon
+                                        field="WeatherDescription"></p-sortIcon>
+                                </th>
                                 <th pSortableColumn="ChainageName">Chainage <p-sortIcon
                                         field="ChainageName"></p-sortIcon>
                                 </th>
@@ -127,11 +130,13 @@
                                 <th pSortableColumn="WindSpeed">Wind Speed (meter/sec)<p-sortIcon
                                         field="WindSpeed"></p-sortIcon>
                                 </th>
+
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
+                                <td>{{rowData.WeatherDescription}}</td>
                                 <td>{{rowData.ChainageName}}</td>
                                 <td>{{rowData.EventDateTimeStamp}}</td>
                                 <td>{{rowData.AirTemperature}}</td>

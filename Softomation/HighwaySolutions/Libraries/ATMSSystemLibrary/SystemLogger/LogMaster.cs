@@ -110,7 +110,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger
         }
         public static string CreateDirectory(string directoryName)
         {
-            string directory = SystemConstants.DriveLetter + ":\\" + SystemConstants.ProjectName + "\\log\\" + directoryName;
+            string directory = SystemConstants.ProjectLogDirectory + directoryName;
 
             if (!Directory.Exists(directory))
             {

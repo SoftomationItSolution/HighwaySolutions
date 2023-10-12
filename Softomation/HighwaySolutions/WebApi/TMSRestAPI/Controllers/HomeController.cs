@@ -31,12 +31,12 @@ namespace TMSRestAPI.Controllers
             ViewBag.Status = "Load";
             ViewBag.AppVersion = SystemConstants.Version;
             ViewBag.Provider = SystemConstants.AppProvider;
-            DataBaseConfig dataBase = DataBaseConfig.Deserialize();
+            DataBaseIL dataBase = DataBaseConfig.Deserialize();
             return View(dataBase);
         }
 
         [HttpPost]
-        public ActionResult DataBase(DataBaseConfig dataBase)
+        public ActionResult DataBase(DataBaseIL dataBase)
         {
             ViewBag.Title = "Web API|Config";
             ViewBag.AppVersion = SystemConstants.Version;

@@ -145,8 +145,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 chainageNumber = value;
-                ChainageName = string.Format("{0:0.000}", chainageNumber);
-                ChainageName = ChainageName.Replace(".", "+");
+                //ChainageName = string.Format("{0:0.000}", chainageNumber);
+                //ChainageName = ChainageName.Replace(".", "+");
+                ChainageName = SystemConstants.ConvertChainageName(chainageNumber);
             }
         }
         public String ChainageName

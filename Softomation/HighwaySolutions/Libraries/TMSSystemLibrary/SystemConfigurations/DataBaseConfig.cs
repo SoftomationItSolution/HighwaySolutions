@@ -1,87 +1,16 @@
 ﻿using System;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.IO;
-using System.Text.Json;
 using System.Threading;
 using System.Web.Script.Serialization;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
 {
     public class DataBaseConfig
     {
-        #region Variable
-        short dataBaseProvider;
-        string dbServername;
-        string dbName;
-        string dbLogin;
-        string dbPassword;
-        string poolSize;
-        string timeout;
-        #endregion
-
-        #region Constructor
-        public DataBaseConfig()
+        public static DataBaseIL Deserialize()
         {
-            this.dataBaseProvider = 2;
-            this.dbServername = String.Empty;
-            this.dbName = String.Empty;
-            this.dbLogin = String.Empty;
-            this.dbPassword = String.Empty;
-            this.poolSize = String.Empty;
-            this.timeout = String.Empty;
-        }
-        #endregion
-
-        #region Property
-        [Required]
-        [DisplayName("Database Provider:")]
-        public short DataBaseProvider
-        {
-            get => dataBaseProvider; set => dataBaseProvider = value;
-        }
-        [Required]
-        [DisplayName("Database Server:")]
-        public string DBServerName
-        {
-            get => dbServername; set => dbServername = value;
-        }
-        [Required]
-        [DisplayName("Database Name:")]
-        public string DBName
-        {
-            get => dbName; set => dbName = value;
-        }
-        [Required]
-        [DisplayName("Database Username:")]
-        public string DBLogin
-        {
-            get => dbLogin; set => dbLogin = value;
-        }
-        [Required]
-        [DisplayName("Database Password:")]
-        public string DBPassword
-        {
-            get => dbPassword; set => dbPassword = value;
-        }
-        [Required]
-        [DisplayName("Database Poolsize:")]
-        public string PoolSize
-        {
-            get => poolSize; set => poolSize = value;
-        }
-        [Required]
-        [DisplayName("Database Timeout:")]
-        public string Timeout
-        {
-            get => timeout; set => timeout = value;
-        }
-
-        #endregion
-
-        public static DataBaseConfig Deserialize()
-        {
-            DataBaseConfig config = null;
+            DataBaseIL config = null;
             Int16 i = 0;
             while (i < 4)
             {
@@ -90,7 +19,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     if (Directory.Exists(SystemConstants.ProjectConfigDirectory))
                     {
                         JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                        config = json_serializer.Deserialize<DataBaseConfig>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
+                        config = json_serializer.Deserialize<DataBaseIL>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
                         try
                         {
                             config.DBPassword = SystemConstants.Decrypt(config.DBPassword);
@@ -105,15 +34,14 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                 }
                 catch (Exception)
                 {
-                    config=new DataBaseConfig();
+                    config = new DataBaseIL();
                     i++;
                     Thread.Sleep(100);
                 }
             }
             return config;
         }
-
-        public static bool Serialize(DataBaseConfig config)
+        public static bool Serialize(DataBaseIL config)
         {
             bool result = false;
             Int16 i = 0;
@@ -132,7 +60,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations
                     {
                         Directory.CreateDirectory(SystemConstants.ProjectConfigDirectory);
                     }
-                   
+
                     File.WriteAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
                     i = 10;
                     result = true;

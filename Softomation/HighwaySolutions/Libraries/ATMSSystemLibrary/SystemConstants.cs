@@ -16,6 +16,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
         public static string ProjectName = "ATMSv1";
         public static string ProjectConfigRoot = DriveLetter + @":\ProjectConfig\";
         public static string ProjectConfigDirectory = ProjectConfigRoot + ProjectName + @"\MasterConfig\";
+        public static string ProjectLogDirectory = ProjectConfigRoot + ProjectName + @"\log\";
         public static string ProjectConfigKey = DriveLetter + @":\ProjectConfig\" + ProjectName + @"\MasterConfig\Key\";
         public static string Version = "1.0.0.1";
         #endregion
@@ -251,6 +252,12 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             data.Longitude = Convert.ToDouble(centralLongitude * 180 / Math.PI);
 
             return string.Format("{0},{1}", data.Latitude.ToString(), data.Longitude.ToString());
+        }
+
+        public static string ConvertChainageName(Decimal ChainageNumber)
+        {
+
+            return string.Format("{0:0.000}", ChainageNumber);
         }
         #endregion
     }

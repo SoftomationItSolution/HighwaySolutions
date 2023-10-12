@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,6 +68,16 @@
     <EmbeddedResource Include="ProjectInstaller.resx">
       <DependentUpon>ProjectInstaller.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\ATMSSystemLibrary\ATMSSystemLibrary.csproj">
+      <Project>{686B8C11-7EA7-437E-8454-F8598EA29201}</Project>
+      <Name>ATMSSystemLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\CommonLibrary\CommonLibrary.csproj">
+      <Project>{2EA5A765-E6EA-4574-89E2-C7C6529E8EE4}</Project>
+      <Name>CommonLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

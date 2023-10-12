@@ -52,6 +52,7 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=6.31.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -91,6 +92,7 @@
     <Compile Include="Constants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />
+    <Compile Include="IL\DataBaseIL.cs" />
     <Compile Include="IL\IntegrationResponseIL.cs" />
     <Compile Include="IL\ApiResponseIL.cs" />
     <Compile Include="IL\AppLoginIL.cs" />
@@ -103,6 +105,7 @@
     <Compile Include="IL\ResponseIL.cs" />
     <Compile Include="IL\RoleManagementIL.cs" />
     <Compile Include="IL\RolePermissionIL.cs" />
+    <Compile Include="IL\ServiceMonitorIL.cs" />
     <Compile Include="IL\ShiftStatusIL.cs" />
     <Compile Include="IL\ShiftTiminingIL.cs" />
     <Compile Include="IL\UserManagementIL.cs" />

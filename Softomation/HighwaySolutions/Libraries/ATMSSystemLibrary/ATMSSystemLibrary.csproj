@@ -157,6 +157,7 @@
     <Compile Include="IL\LaneConfigIL.cs" />
     <Compile Include="IL\VSDSReviewedEventIL.cs" />
     <Compile Include="IL\WeatherEventIL.cs" />
+    <Compile Include="SystemConfigurations\ServiceMonitorConfig.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
     <Compile Include="Cryptography\MD5CryptoServiceProvider.cs" />

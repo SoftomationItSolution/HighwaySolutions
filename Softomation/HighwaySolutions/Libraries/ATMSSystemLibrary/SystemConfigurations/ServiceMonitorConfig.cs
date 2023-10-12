@@ -6,11 +6,11 @@ using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
 {
-    public class DataBaseConfig
+    public class ServiceMonitorConfig
     {
-        public static DataBaseIL Deserialize()
+        public static ServiceMonitorIL Deserialize()
         {
-            DataBaseIL config = null;
+            ServiceMonitorIL config = null;
             Int16 i = 0;
             while (i < 4)
             {
@@ -19,14 +19,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
                     if (Directory.Exists(SystemConstants.ProjectConfigDirectory))
                     {
                         JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                        config = json_serializer.Deserialize<DataBaseIL>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"));
-                        try
-                        {
-                            config.DBPassword = SystemConstants.Decrypt(config.DBPassword);
-                        }
-                        catch (Exception ex)
-                        {
-                        }
+                        config = json_serializer.Deserialize<ServiceMonitorIL>(File.ReadAllText(SystemConstants.ProjectConfigDirectory + "ServiceMonitorConfig.json"));
                         i = 10;
 
                     }
@@ -34,14 +27,14 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
                 }
                 catch (Exception)
                 {
-                    config = new DataBaseIL();
+                    config = new ServiceMonitorIL();
                     i++;
                     Thread.Sleep(100);
                 }
             }
             return config;
         }
-        public static bool Serialize(DataBaseIL config)
+        public static bool Serialize(ServiceMonitorIL config)
         {
             bool result = false;
             Int16 i = 0;
@@ -50,18 +43,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
                 try
                 {
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                    config.DBPassword = CommonLibrary.Constants.Encrypt(config.DBPassword);
                     var jsonString = json_serializer.Serialize(config);
-                    if (File.Exists(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json"))
+                    if (File.Exists(SystemConstants.ProjectConfigDirectory + "ServiceMonitorConfig.json"))
                     {
-                        File.Delete(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json");
+                        File.Delete(SystemConstants.ProjectConfigDirectory + "ServiceMonitorConfig.json");
                     }
                     else
                     {
                         Directory.CreateDirectory(SystemConstants.ProjectConfigDirectory);
                     }
 
-                    File.WriteAllText(SystemConstants.ProjectConfigDirectory + "DBConfiguration.json", jsonString);
+                    File.WriteAllText(SystemConstants.ProjectConfigDirectory + "ServiceMonitorConfig.json", jsonString);
                     i = 10;
                     result = true;
                     break;

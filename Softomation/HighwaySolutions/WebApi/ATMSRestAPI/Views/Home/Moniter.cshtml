@@ -1,0 +1,81 @@
+﻿@model HighwaySoluations.Softomation.CommonLibrary.IL.ServiceMonitorIL
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@if (ViewBag.Status != "Load")
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Status");
+        };
+    </script>
+}
+<section id="hero" class="d-flex align-items-center">
+    <div class="container">
+        <div class="row">
+            @using (Html.BeginForm("Moniter", "Home", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="row">
+                    <h2>Data-base Config</h2>
+                    <hr />
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DatabaseService, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DatabaseService, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.DatabaseService, "", new { @class = "text-danger col-md-12" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.OtherService, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.OtherService, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.OtherService, "", new { @class = "text-danger col-md-12" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DeleteFileExtensions, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DeleteFileExtensions, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.DeleteFileExtensions, "", new { @class = "text-danger col-md-12" })
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                @Html.LabelFor(model => model.DeleteFileRootPath, htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-6">
+                                    @Html.EditorFor(model => model.DeleteFileRootPath, new { htmlAttributes = new { @class = "form-control" } })
+
+                                </div>
+                                @Html.ValidationMessageFor(model => model.DeleteFileRootPath, "", new { @class = "text-danger col-md-12" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="offset-md-10 col-md-2">
+                                <input type="submit" value="Submit" class="btn btn-default btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+</section>
+

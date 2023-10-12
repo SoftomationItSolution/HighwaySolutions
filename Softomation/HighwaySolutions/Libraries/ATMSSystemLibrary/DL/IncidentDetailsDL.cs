@@ -227,7 +227,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
             {
                 id.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-                id.ChainageName = id.ChainageNumber.ToString().Replace(".", "+");
+                id.ChainageName = SystemConstants.ConvertChainageName(id.ChainageNumber);
             }
 
             if (dr["Latitude"] != DBNull.Value)

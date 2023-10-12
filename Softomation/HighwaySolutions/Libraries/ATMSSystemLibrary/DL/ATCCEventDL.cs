@@ -90,7 +90,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
             {
                 events.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-                events.ChainageName = events.ChainageNumber.ToString().Replace(".", "+");
+                events.ChainageName = SystemConstants.ConvertChainageName(events.ChainageNumber);
             }
 
             if (dr["DirectionId"] != DBNull.Value)

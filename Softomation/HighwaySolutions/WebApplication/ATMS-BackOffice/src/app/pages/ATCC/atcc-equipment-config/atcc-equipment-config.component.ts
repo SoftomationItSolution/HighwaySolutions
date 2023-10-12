@@ -118,6 +118,8 @@ export class ATCCEquipmentConfigComponent implements OnInit {
             EquipmentTypeName: element.EquipmentTypeName,
             ChainageName: element.ChainageName,
             EquipmentId: element.EquipmentId,
+            DirectionId:element.DirectionId,
+            DirectionName:element.DirectionName,
             PositionId: element.PositionId
           }
           this.fillData.push(obj)
@@ -157,6 +159,8 @@ export class ATCCEquipmentConfigComponent implements OnInit {
                 EquipmentTypeName: element1.EquipmentTypeName,
                 ChainageName: element1.ChainageName,
                 EquipmentId: element1.EquipmentId,
+                DirectionId:element1.DirectionId,
+                DirectionName:element1.DirectionName,
                 PositionId: 0
               }
               childs.push(onjChild);
@@ -167,6 +171,8 @@ export class ATCCEquipmentConfigComponent implements OnInit {
               IpAddress: element.IpAddress,
               EquipmentTypeId: element.EquipmentTypeId,
               EquipmentTypeName: element.EquipmentTypeName,
+              DirectionId:element.DirectionId,
+              DirectionName:element.DirectionName,
               children: childs,
               PositionId: 0
             }

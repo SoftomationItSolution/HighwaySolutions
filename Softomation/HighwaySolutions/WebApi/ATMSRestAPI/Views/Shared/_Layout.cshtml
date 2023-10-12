@@ -16,7 +16,8 @@
             <nav id="navbar" class="navbar">
                 <ul>
                     <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Index" ? "active" : "")">@Html.ActionLink("Home", "Index", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
-                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DataBase" ? "active" : "")">@Html.ActionLink("Config", "DataBase", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "DataBase" ? "active" : "")">@Html.ActionLink("DataBase", "DataBase", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
+                    <li class="@(ViewContext.RouteData.Values["Action"].ToString() == "Moniter" ? "active" : "")">@Html.ActionLink("Moniter", "Moniter", "Home", new { area = "" }, htmlAttributes: new { @class = "nav-link" })</li>
 
                 </ul>
             </nav>

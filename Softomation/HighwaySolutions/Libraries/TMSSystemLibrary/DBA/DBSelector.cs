@@ -1,4 +1,5 @@
 ﻿using System;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.TMSSystemLibrary.SystemConfigurations;
 
 namespace HighwaySoluations.Softomation.TMSSystemLibrary.DBA
@@ -51,7 +52,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DBA
             try
             {
                 string connString = string.Empty;
-                DataBaseConfig dbConfig = DataBaseConfig.Deserialize();
+                DataBaseIL dbConfig = DataBaseConfig.Deserialize();
                 //string plainText = Constants.Decrypt(dbConfig.DBPassword);
                 if (provider == SystemConstants.DataBaseProvider.Oracle)
                 {

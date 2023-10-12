@@ -149,7 +149,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["ChainageNumber"] != DBNull.Value)
             {
                 sysSet.ChainageNumber = Convert.ToDecimal(dr["ChainageNumber"]);
-                sysSet.ChainageName = sysSet.ChainageNumber.ToString().Replace(".", "+");
+                sysSet.ChainageName = SystemConstants.ConvertChainageName(sysSet.ChainageNumber);
             }
 
             sysSet.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)sysSet.DirectionId);
