@@ -5,11 +5,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     public class ATCCEventIL : PackageIL
     {
         String transactionId;
+        String equipmentIp;
         Int64 equipmentId;
         Int16 positionId;
         String positionName;
         DateTime eventDate;
         String eventDateStamp;
+        String eventId;
         Int16 laneNumber;
         String laneName;
         String plateNumber;
@@ -24,14 +26,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Boolean isWrongDirection;
         Boolean isReviewedRequired;
         Boolean isRestiredVehicle;
+        Int16 systemProviderId;
         public ATCCEventIL()
         {
             this.transactionId = string.Empty;
+            this.equipmentIp = string.Empty;
             this.equipmentId = 0;
             this.positionId = 0;
             this.positionName = string.Empty;
             this.eventDate = DateTime.MinValue;
             this.eventDateStamp = string.Empty;
+            this.eventId = string.Empty;
             this.laneNumber = 0;
             this.laneName = string.Empty;
             this.plateNumber = string.Empty;
@@ -46,6 +51,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.isWrongDirection = false;
             this.isReviewedRequired = false;
             this.isRestiredVehicle = false;
+            this.systemProviderId = 0;
         }
 
         public String TransactionId
@@ -60,6 +66,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 transactionId = value;
             }
         }
+        public String EquipmentIp
+        {
+            get
+            {
+                return equipmentIp;
+            }
+
+            set
+            {
+                equipmentIp = value;
+            }
+        }
         public Int64 EquipmentId
         {
             get
@@ -72,7 +90,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 equipmentId = value;
             }
         }
-        
+        public Int16 PositionId
+        {
+            get
+            {
+                return positionId;
+            }
+
+            set
+            {
+                positionId = value;
+            }
+        }
+        public String PositionName
+        {
+            get
+            {
+                return positionName;
+            }
+
+            set
+            {
+                positionName = value;
+            }
+        }
         public DateTime EventDate
         {
             get
@@ -95,6 +136,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 eventDateStamp = value;
+            }
+        }
+        public String EventId
+        {
+            get
+            {
+                return eventId;
+            }
+
+            set
+            {
+                eventId = value;
             }
         }
         public Int16 LaneNumber
@@ -133,7 +186,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 plateNumber = value;
             }
         }
-       
         public Int16 VehicleClassId
         {
             get
@@ -158,7 +210,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleClassName = value;
             }
         }
-      
         public String VehicleImageUrl
         {
             get
@@ -195,7 +246,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 classConfidencelevel = value;
             }
         }
-        
         public String VehicleColor
         {
             get
@@ -232,7 +282,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleDirectionName = value;
             }
         }
-        
         public Boolean IsWrongDirection
         {
             get
@@ -267,6 +316,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 isRestiredVehicle = value;
+            }
+        }
+        public Int16 SystemProviderId
+        {
+            get
+            {
+                return systemProviderId;
+            }
+
+            set
+            {
+                systemProviderId = value;
             }
         }
     }

@@ -33,6 +33,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        
+        public static List<EquipmentConfigIL> GetActive()
+        {
+            try
+            {
+                return EquipmentConfigDL.GetActive();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

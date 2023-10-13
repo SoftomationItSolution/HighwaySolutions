@@ -40,9 +40,9 @@ namespace ATMSDAService
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "ATMS-DAS-1.0.1";
-            this.serviceInstaller1.DisplayName = "ATMS-DAS-1.0.1";
-            this.serviceInstaller1.ServiceName = "ATMS-DAS-1.0.1";
+            this.serviceInstaller1.Description = "Soft-ATMS-DAS-1.0.1";
+            this.serviceInstaller1.DisplayName = "Soft-ATMS-DAS-1.0.1";
+            this.serviceInstaller1.ServiceName = "Soft-ATMS-DAS-1.0.1";
             // 
             // ProjectInstaller
             // 

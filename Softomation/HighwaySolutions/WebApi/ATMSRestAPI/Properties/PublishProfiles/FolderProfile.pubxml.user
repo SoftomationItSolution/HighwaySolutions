@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\AppPublish\ATMS</_PublishTargetUrl>
-    <History>True|2023-10-12T11:44:49.1873123Z;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
+    <History>True|2023-10-13T11:00:55.3475141Z;True|2023-10-13T16:10:25.9259269+05:30;True|2023-10-13T15:58:09.2496913+05:30;True|2023-10-13T14:59:28.4503902+05:30;True|2023-10-12T17:14:49.1873123+05:30;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="bin/Antlr3.Runtime.dll">
@@ -15,22 +15,22 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.dll">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 16:30:54</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.pdb">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 16:30:54</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 15:58:08</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.pdb">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 15:58:08</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 15:58:07</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.pdb">
-      <publishTime>10/12/2023 19:55:21</publishTime>
+      <publishTime>10/13/2023 15:58:07</publishTime>
     </File>
     <File Include="bin/HtmlAgilityPack.dll">
       <publishTime>10/04/2023 04:10:46</publishTime>

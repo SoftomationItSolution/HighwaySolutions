@@ -50,12 +50,12 @@
                                                 (click)="childExCol($event)">{{d.ChainageName}}</span>
                                             <ul class="nested nested-active">
                                                 <li *ngFor="let c of d.LPUList">
-                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
+                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.DirectionName+'-'+c.IpAddress}}
                                                 </li>
                                                 <li *ngFor="let c of d.CameraList">
                                                   <div class="row">
                                                     <div class="col-md-8">
-                                                        {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
+                                                        {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.DirectionName+'-'+c.IpAddress}}
                                                     </div>
                                                     <div class="col-md-4">
                                                         <p-dropdown [(ngModel)]="c.PositionId" appendTo="body" inputId="PositionId" [options]="PositionList"
@@ -64,7 +64,7 @@
                                                   </div>
                                                 </li>
                                                 <li *ngFor="let c of d.MDSList">
-                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.IpAddress}}
+                                                    {{c.EquipmentTypeName+'-'+c.ChainageName+'-'+c.DirectionName+'-'+c.IpAddress}}
                                                 </li>
                                             </ul>
                                         </li>

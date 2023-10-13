@@ -67,6 +67,7 @@
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
     </Reference>
+    <Reference Include="System.Messaging" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -145,6 +146,7 @@
     <Compile Include="IL\ATCCReviewedEventIL.cs" />
     <Compile Include="IL\DashboardSystemDataIL.cs" />
     <Compile Include="IL\GeoCoordinateIL.cs" />
+    <Compile Include="IL\RoadSideDataPacketIL.cs" />
     <Compile Include="IL\WeatherOpenAPIIL.cs" />
     <Compile Include="IL\PhoneBookIL.cs" />
     <Compile Include="IL\PhoneEventsIL.cs" />
@@ -157,6 +159,7 @@
     <Compile Include="IL\LaneConfigIL.cs" />
     <Compile Include="IL\VSDSReviewedEventIL.cs" />
     <Compile Include="IL\WeatherEventIL.cs" />
+    <Compile Include="SystemConfigurations\MSMQConfig.cs" />
     <Compile Include="SystemConfigurations\ServiceMonitorConfig.cs" />
     <Compile Include="SystemConstants.cs" />
     <Compile Include="Cryptography\Encryption.cs" />
@@ -214,5 +217,6 @@
       <Name>CommonLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

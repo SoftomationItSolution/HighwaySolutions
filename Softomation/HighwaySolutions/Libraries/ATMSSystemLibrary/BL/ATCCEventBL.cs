@@ -8,6 +8,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
     public class ATCCEventBL
     {
+        public static List<ResponseIL> Insert(ATCCEventIL dataEvent)
+        {
+            try
+            {
+                return ATCCEventDL.Insert(dataEvent);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static List<ATCCEventIL> GetByHours(short hours)
         {
             try
@@ -41,5 +52,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+        
     }
 }

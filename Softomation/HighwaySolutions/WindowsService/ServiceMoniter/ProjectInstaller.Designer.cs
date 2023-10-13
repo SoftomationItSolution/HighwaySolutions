@@ -40,9 +40,9 @@ namespace ServiceMoniter
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Service-SM-1.0.1";
-            this.serviceInstaller1.DisplayName = "Service-SM-1.0.1";
-            this.serviceInstaller1.ServiceName = "Service-SM-1.0.1";
+            this.serviceInstaller1.Description = "Soft-Service-SM-1.0.1";
+            this.serviceInstaller1.DisplayName = "Soft-Service-SM-1.0.1";
+            this.serviceInstaller1.ServiceName = "Soft-Service-SM-1.0.1";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller

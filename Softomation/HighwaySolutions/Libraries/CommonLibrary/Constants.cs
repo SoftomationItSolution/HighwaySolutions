@@ -31,9 +31,9 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         public static int keySize = 256;                // can be 192 or 128
         public static string JWTkey = AppProvider + "HighwaySoluationsProvider";
         #endregion
-
         #region Date Time
         public static string DateFormat = "dd-MMM-yyyy";
+        public static string DateFileFormat = "ddMMMyyyy";
         public static string DateTimeFormatClient = "dd-MMM-yyyy HH:mm:ss";
         public static string DateTimeFormatJson = "dd-MMM-yyyy HH:mm:ss.fff";
         public static string DateTimeFormat12H = "yyyy-MM-dd hh:mm:ss.fff";
@@ -43,7 +43,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         public static string DateTimeFormat24HsqlServer = "yyyy-MM-dd HH:mm:ss.fff";
         public static string DateTimeFormat24HOracleQuery = "dd/MM/yyyy HH:mm:ss";
         public static string DateTimeFormat24HFileFormat = "MM/dd/yyyyHH:mm:ss";
-        public static string DateTimeFormatTxnFormat = "yyyy-MM-ddTHH:mm:ss.ffff";
+        public static string DateTimeFormatTxnIdFormat = "ddMMyyyyHHmmssffff";
 
         #endregion
 
@@ -124,6 +124,13 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             Development = 1,
             Production = 2
         }
+
+        public enum SystemProviderType
+        {
+            Softomation = 0,
+            Other = 1
+        }
+
         #endregion
 
         #region Methods

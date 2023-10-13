@@ -100,6 +100,7 @@ import { IncidentHistoryComponent } from './pages/IMS/incident-history/incident-
 import { WeatherEventConfigComponent } from './pages/Weather/weather-event-config/weather-event-config.component';
 import { WeatherEventHistoryComponent } from './pages/Weather/weather-event-history/weather-event-history.component';
 import { ReportsComponent } from './pages/reports/reports.component';
+import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -178,6 +179,7 @@ export const MY_CUSTOM_FORMATS = {
     IncidentProcessComponent,
     IncidentHistoryComponent,
     IncidentAssigneComponent,
+    IncidentDataComponent,
     WeatherEventConfigComponent,
     WeatherEventHistoryComponent,
     ReportsComponent

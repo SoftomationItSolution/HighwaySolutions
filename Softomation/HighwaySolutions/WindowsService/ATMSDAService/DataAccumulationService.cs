@@ -11,7 +11,9 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
-
+using System.Messaging;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations;
+using System.Linq;
 
 namespace ATMSDAService
 {
@@ -21,8 +23,14 @@ namespace ATMSDAService
         #region Globel Variable
         volatile int onstartCheckCount = 0;
         Int32 WeatherAPIHitPerMinite = 15;
+        static MessageQueue RseAtccQueue;
         SystemSettingIL systemSetting;
         List<EventsTypeIL> eventsTypesList;
+        List<EquipmentDetailsIL> equipmentDetailsList;
+        List<EquipmentConfigIL> equipmentConfigsList;
+        List<VehicleClassIL> vehicleClassesList;
+        DashboardSystemDataIL ATCCdashboardSystemData;
+
         #region Log Thread
         private Queue logQueue = new Queue();
         private Thread loggerThread;
@@ -50,12 +58,9 @@ namespace ATMSDAService
         #region Constructor
         public DataAccumulationService()
         {
-            //1696687951
-
-            //var APIDateTime = UnixTimeStampToDateTimeLocal(1696687951);
             InitializeComponent();
             //dont forget to comment this line
-            //OnStart(new string[] { "DAS" }); //<== only for debugging
+            OnStart(new string[] { "DAS" }); //<== only for debugging
         }
         #endregion
 
@@ -82,20 +87,24 @@ namespace ATMSDAService
             {
                 LogMessage("Onstart called multiple time so stopping service.");
                 this.Stop();
-                return;
+                //return;
             }
             #endregion
 
-            #region Master Data Setting
+            #region Master Data
             try
             {
                 systemSetting = SystemSettingBL.Get();
                 eventsTypesList = EventsTypeBL.GetActive();
+                equipmentDetailsList = EquipmentDetailsBL.GetActive();
+                equipmentConfigsList = EquipmentConfigBL.GetActive();
+                vehicleClassesList = VehicleClassBL.GetActive();
+                ATCCdashboardSystemData = DashboardSystemDataBL.GetATCC();
             }
             catch (Exception ex)
             {
                 systemSetting = null;
-                LogMessage("Error in geting Master Data Setting. DAS cannot be started. " + ex.ToString());
+                LogMessage("Error in geting Master Data. DAS cannot be started. " + ex.ToString());
             }
             finally
             {
@@ -103,6 +112,7 @@ namespace ATMSDAService
                 {
                     LogMessage("System Setting not found so stopping service.");
                     this.Stop();
+
                 }
             }
             #endregion
@@ -122,11 +132,34 @@ namespace ATMSDAService
             }
             #endregion
 
+            #region ATCC Data Queue
+            try
+            {
+                RseAtccQueue = MSMQConfig.Create(MSMQConfig.RseAtccQueueName.Replace("{ipaddress}", "."));
+                RseAtccQueue.PeekCompleted += new PeekCompletedEventHandler(RseAtccDataQueue_PeekCompleted);
+                RseAtccQueue.BeginPeek();
+                LogMessage("ATCC Data Queue listener has been attached.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage("Failed to ATCC Data Queue listener. " + ex.Message);
+            }
+            #endregion
 
         }
 
         protected override void OnStop()
         {
+
+            try
+            {
+                RseAtccQueue.PeekCompleted -= new PeekCompletedEventHandler(RseAtccDataQueue_PeekCompleted);
+            }
+            catch (Exception ex)
+            {
+
+                LogMessage("error in de queue. " + ex.Message.ToString() + " " + ex.Source.ToString() + " " + ex.StackTrace.ToString());
+            }
 
             try
             {
@@ -166,6 +199,85 @@ namespace ATMSDAService
 
 
         #region Helper Methods
+        #region ATCC Data Q
+        private void RseAtccDataQueue_PeekCompleted(object sender, PeekCompletedEventArgs e)
+        {
+            MessageQueue mqRSEATCC = (MessageQueue)sender;
+            Message mRSEATCC = mqRSEATCC.EndPeek(e.AsyncResult);
+            string DataPacket = string.Empty;
+            try
+            {
+                mRSEATCC.Formatter = new BinaryMessageFormatter();
+                if (mRSEATCC != null)
+                {
+                    DataPacket = mRSEATCC.Body.ToString();
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                    ATCCEventIL DataEvent = json_serializer.Deserialize<ATCCEventIL>(DataPacket);
+                    if (string.IsNullOrEmpty(DataEvent.EquipmentIp))
+                        LogMessage("ATCC:IP Not Found" + DataPacket);
+                    else
+                    {
+                        #region Get Equipment Details
+                        var eq = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.EquipmentIp);
+                        if (eq != null)
+                        {
+                            DataEvent.EquipmentId = eq.EquipmentId;
+                            DataEvent.ChainageNumber = eq.ChainageNumber;
+                            DataEvent.ChainageName = eq.ChainageName;
+                            DataEvent.PackageId = eq.PackageId;
+                            DataEvent.PackageName = eq.PackageName;
+                            DataEvent.ControlRoomId = eq.ControlRoomId;
+                            DataEvent.ControlRoomName = eq.ControlRoomName;
+                            DataEvent.DirectionId = eq.DirectionId;
+                            DataEvent.DirectionName = eq.DirectionName;
+
+                            #region Get Equipment Position
+                            var ec = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
+                            if (ec != null)
+                            {
+                                DataEvent.PositionId = ec.PositionId;
+                                DataEvent.PositionName = ec.PositionName;
+                            }
+                            else
+                                LogMessage("ATCC:EquipmentConfigsList Not Found" + DataPacket);
+                            #endregion
+
+                            #region Get Vehicle Class
+                            var vc = vehicleClassesList.SingleOrDefault(x => x.VehicleClassName == DataEvent.VehicleClassName);
+                            if (vc != null)
+                            {
+                                DataEvent.VehicleClassId = vc.VehicleClassId;
+                            }
+                            else
+                                LogMessage("ATCC:VehicleClass Not Found" + DataPacket);
+                            #endregion
+                            DataEvent.TransactionId= DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
+                            List<ResponseIL> responses = ATCCEventBL.Insert(DataEvent);
+                        }
+                        else
+                            LogMessage("ATCC:EquipmentDetails Not Found" + DataPacket);
+                        #endregion
+
+                        
+                        
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                LogMessage("Error in RseAtccDataQueue : " + exc.ToString());
+                if (!string.IsNullOrEmpty(DataPacket))
+                    LogMessage("RseAtccDataQueue DataPacket: " + DataPacket);
+            }
+            finally
+            {
+                mqRSEATCC.Receive();
+                RseAtccQueue.BeginPeek();
+            }
+
+        }
+        #endregion
+
         #region Weather ThreadFunction
         void WeatherThreadFunction()
         {

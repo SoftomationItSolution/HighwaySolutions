@@ -79,7 +79,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int16, SystemId, ParameterDirection.Input, 255));
                 dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
                 foreach (DataRow dr in dt.Rows)
-                    config.Add(CreateObjectFromDataRow(dr, SystemId));
+                    config.Add(CreateObjectFromDataRow(dr));
 
             }
             catch (Exception ex)
@@ -89,12 +89,34 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return config;
         }
 
-       
+        internal static List<EquipmentConfigIL> GetActive()
+        {
+            List<EquipmentConfigIL> config = new List<EquipmentConfigIL>();
+            try
+            {
+                string spName = "USP_EquipmentConfigGetActive";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                foreach (DataRow dr in dt.Rows)
+                    config.Add(CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return config;
+        }
+
+
 
         #region Helper Methods
-        private static EquipmentConfigIL CreateObjectFromDataRow(DataRow dr, short SystemId)
+        private static EquipmentConfigIL CreateObjectFromDataRow(DataRow dr)
         {
             EquipmentConfigIL id = new EquipmentConfigIL();
+
+            if (dr["SystemId"] != DBNull.Value)
+                id.SystemId = Convert.ToInt16(dr["SystemId"]);
 
             if (dr["EquipmentId"] != DBNull.Value)
                 id.EquipmentId = Convert.ToInt64(dr["EquipmentId"]);
@@ -131,13 +153,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             id.DirectionName = Enum.GetName(typeof(DirectionType), (DirectionType)id.DirectionId);
 
-            if (SystemId == (short)SystemMasterType.VIDS)
+            if (id.SystemId == (short)SystemMasterType.VIDS)
                 id.PositionName = Enum.GetName(typeof(VIDSEquipmentPositionType), (VIDSEquipmentPositionType)id.PositionId);
-            else if (SystemId == (short)SystemMasterType.VSDS)
+            else if (id.SystemId == (short)SystemMasterType.VSDS)
                 id.PositionName = Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)id.PositionId);
-            else if (SystemId == (short)SystemMasterType.ATCC)
+            else if (id.SystemId == (short)SystemMasterType.ATCC)
                 id.PositionName = Enum.GetName(typeof(ATCCEquipmentPositionType), (ATCCEquipmentPositionType)id.PositionId);
-            else if (SystemId == (short)SystemMasterType.VMS)
+            else if (id.SystemId == (short)SystemMasterType.VMS)
                 id.PositionName = Enum.GetName(typeof(VMSEquipmentPositionType), (VMSEquipmentPositionType)id.PositionId);
 
             id.LaneNumberName = SplitCamelCase(Enum.GetName(typeof(HighwayLaneNumber), (HighwayLaneNumber)id.LaneNumberId));

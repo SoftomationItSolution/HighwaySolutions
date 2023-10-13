@@ -13,8 +13,39 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
     {
         #region Global Varialble
         static DataTable dt;
-        static string tableName = "tbl_ATCCEventHistory";
+        static string tableName = "tbl_ATCCEventsHistory";
         #endregion
+
+        internal static List<ResponseIL> Insert(ATCCEventIL dataEvent)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                string spName = "USP_ATCCEventsInsert";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, dataEvent.TransactionId, ParameterDirection.Input,30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, dataEvent.EquipmentId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventId", DbType.String, dataEvent.EventId, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneNumber", DbType.Int16, dataEvent.LaneNumber, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventDate", DbType.DateTime2, dataEvent.EventDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, dataEvent.VehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleImageUrl", DbType.String, dataEvent.VehicleImageUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleVideoUrl", DbType.String, dataEvent.VehicleVideoUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassConfidencelevel", DbType.Decimal, dataEvent.ClassConfidencelevel, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleColor", DbType.String, dataEvent.VehicleColor, ParameterDirection.Input,30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleDirectionId", DbType.Int16, dataEvent.VehicleDirectionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsWrongDirection", DbType.Boolean, dataEvent.IsWrongDirection, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedRequired", DbType.Boolean, dataEvent.IsReviewedRequired, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemProviderId", DbType.Int16, dataEvent.SystemProviderId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                responses = ResponseIL.ConvertResponseList(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
         internal static List<ATCCEventIL> GetByHours(short hours)
         {
             List<ATCCEventIL> atccEvents = new List<ATCCEventIL>();
