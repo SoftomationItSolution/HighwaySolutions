@@ -60,7 +60,7 @@ namespace ATMSDAService
         {
             InitializeComponent();
             //dont forget to comment this line
-            OnStart(new string[] { "DAS" }); //<== only for debugging
+            //OnStart(new string[] { "DAS" }); //<== only for debugging
         }
         #endregion
 
@@ -213,6 +213,7 @@ namespace ATMSDAService
                     DataPacket = mRSEATCC.Body.ToString();
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
                     ATCCEventIL DataEvent = json_serializer.Deserialize<ATCCEventIL>(DataPacket);
+                    DataEvent.EventDate = Convert.ToDateTime(DataEvent.EventDateStamp);
                     if (string.IsNullOrEmpty(DataEvent.EquipmentIp))
                         LogMessage("ATCC:IP Not Found" + DataPacket);
                     else

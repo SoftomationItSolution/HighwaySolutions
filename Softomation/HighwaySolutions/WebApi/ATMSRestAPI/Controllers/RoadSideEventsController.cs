@@ -37,9 +37,11 @@ namespace ATMSRestAPI.Controllers
                 String FilePath = String.Empty;
                 ATCCEventIL aTCCEventIL = new ATCCEventIL();
                 aTCCEventIL.SystemProviderId = (short)SystemProviderType.Softomation;
+                //BackOfficeAPILog("atcc.Time" + atcc.Time);
                 if (!string.IsNullOrEmpty(atcc.Time))
                 {
                     aTCCEventIL.EventDate = Convert.ToDateTime(atcc.Time);
+                    //aTCCEventIL.EventDate = Convert.ToDateTime(atcc.Time).ToLocalTime();
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
                     FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                 }
@@ -49,6 +51,7 @@ namespace ATMSRestAPI.Controllers
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
                     FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                 }
+                //BackOfficeAPILog("aTCCEventIL.EventDateStamp" + aTCCEventIL.EventDateStamp);
                 aTCCEventIL.VehicleClassName = atcc.Class;
                 aTCCEventIL.ClassConfidencelevel = atcc.Score;
                 aTCCEventIL.EventId = atcc.ID;
