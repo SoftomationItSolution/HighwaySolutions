@@ -239,7 +239,6 @@ namespace ATMSRestAPI.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
             }
         }
-
         #endregion
 
         #region Dashboard

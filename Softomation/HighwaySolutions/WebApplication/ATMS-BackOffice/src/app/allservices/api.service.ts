@@ -45,6 +45,7 @@ export class ApiService {
                   resolve(returnURL);
                   returnURL = curretURL[0] + '://' + this.ConfigData.BaseURL + ':' + this.ConfigData.ApiPort + '/' + this.ConfigData.ApiAdminPath + '/';
                   this.ApiCallUrl = returnURL;
+                 
                   this.emitService.setAPI(this.ApiCallUrl);
                 },
                 reject => {

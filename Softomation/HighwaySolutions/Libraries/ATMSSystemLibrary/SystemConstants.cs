@@ -131,7 +131,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             Enforcement = 2,
             Operater = 3,
             Commuters = 4,
-            PetrollingTeam = 5
+            PatrollingTeam= 5
         }
        
         public enum IncidentGeneratedByType
@@ -141,7 +141,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             Enforcement = 2,
             Operater = 3,
             Commuters = 4,
-            PetrollingTeam = 5,
+            PatrollingTeam = 5,
             Auto = 6
         }
         public enum VmsMessageFormat

@@ -14,23 +14,23 @@ export class DataModel {
   loggedInStatus = false;
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) { }
   clearStorage() {
-    localStorage.removeItem("Transit360loggedIn");
-    localStorage.removeItem("Transit360Token");
-    localStorage.removeItem("Transit360UserData");
+    localStorage.removeItem("FastTrackHighwayATMS360loggedIn");
+    localStorage.removeItem("FastTrackHighwayATMS360Token");
+    localStorage.removeItem("FastTrackHighwayATMS360UserData");
   }
   
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
-      localStorage.setItem('Transit360loggedIn', 'true');
+      localStorage.setItem('FastTrackHighwayATMS360loggedIn', 'true');
     } else {
-      localStorage.setItem('Transit360loggedIn', 'false');
+      localStorage.setItem('FastTrackHighwayATMS360loggedIn', 'false');
     }
     this.LogInStatusEmit.emit(this.loggedInStatus);
   }
 
   getLoggedInStatus() {
-    let status = localStorage.getItem('Transit360loggedIn');
+    let status = localStorage.getItem('FastTrackHighwayATMS360loggedIn');
     if (status == 'true')
       return true;
     else
@@ -42,37 +42,44 @@ export class DataModel {
   }
 
   setDataAPI(path: string) {
-    return localStorage.setItem('Transit360API', path);
+    return localStorage.setItem('FastTrackHighwayATMS360API', path);
   }
   
   getDataAPI() {
-    return localStorage.getItem('Transit360API');
+    return localStorage.getItem('FastTrackHighwayATMS360API');
   }
 
   setLock(path: string) {
-    return localStorage.setItem('Transit360Lock', path);
+    return localStorage.setItem('FastTrackHighwayATMS360Lock', path);
   }
   getLock() {
-    return localStorage.getItem('Transit360Lock');
+    return localStorage.getItem('FastTrackHighwayATMS360Lock');
   }
 
 
   setMediaAPI(path: string) {
-    return localStorage.setItem('Transit360MediaAPI', path);
+    return localStorage.setItem('FastTrackHighwayATMS360MediaAPI', path);
   }
   getMediaAPI() {
-    return localStorage.getItem('Transit360MediaAPI');
+    return localStorage.getItem('FastTrackHighwayATMS360MediaAPI');
+  }
+
+  setLiveAPI(path: string) {
+    return localStorage.setItem('FastTrackHighwayATMS360LiveAPI', path);
+  }
+  getLiveAPI() {
+    return localStorage.getItem('FastTrackHighwayATMS360LiveAPI');
   }
 
   setTokenVale(token: string) {
-    return localStorage.setItem('Transit360Token', token);
+    return localStorage.setItem('FastTrackHighwayATMS360Token', token);
   }
   getTokenVale() {
-    return localStorage.getItem('Transit360Token');
+    return localStorage.getItem('FastTrackHighwayATMS360Token');
   }
 
   setUserData(token: string) {
-    return localStorage.setItem('Transit360UserData', token);
+    return localStorage.setItem('FastTrackHighwayATMS360UserData', token);
   }
 
   getUserId() {
@@ -92,7 +99,7 @@ export class DataModel {
   }
 
   getUserData() {
-    var result = localStorage.getItem('Transit360UserData');
+    var result = localStorage.getItem('FastTrackHighwayATMS360UserData');
     if (result != undefined)
       return JSON.parse(result);
     else

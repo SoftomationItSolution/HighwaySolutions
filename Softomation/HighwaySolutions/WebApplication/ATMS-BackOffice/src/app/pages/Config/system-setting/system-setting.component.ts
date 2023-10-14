@@ -233,13 +233,8 @@ export class SystemSettingComponent {
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }

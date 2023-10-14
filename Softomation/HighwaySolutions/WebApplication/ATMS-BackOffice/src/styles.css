@@ -457,7 +457,10 @@ small {
     transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
     border-radius: 3px;
 }
-
+.canvas{
+    height: 400px;
+    width: 724px;
+}
 .p-datatable-table tbody,
 tr {
     font-weight: 600;

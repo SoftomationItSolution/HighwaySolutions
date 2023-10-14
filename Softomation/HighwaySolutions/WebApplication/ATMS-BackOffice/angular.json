@@ -43,7 +43,9 @@
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/apexcharts/dist/apexcharts.min.js",
-              "./node_modules/quill/dist/quill.min.js"
+              "./node_modules/quill/dist/quill.min.js",
+             
+              "src/assets/js/jsmpeg.min.js"
             ]
           },
           "configurations": {

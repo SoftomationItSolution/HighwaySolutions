@@ -81,9 +81,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return role;
         }
-
-        
-
         internal static List<RolePermissionIL> GetByRoleId(Int64 roleId)
         {
             DataTable dt = new DataTable();

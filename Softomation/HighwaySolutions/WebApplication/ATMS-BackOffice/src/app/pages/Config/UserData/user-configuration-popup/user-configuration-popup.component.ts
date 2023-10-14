@@ -21,11 +21,11 @@ export class UserConfigurationPopupComponent implements OnInit {
   ErrorData: any;
   DetailData: any;
   RoleData: any;
-  UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Manager' }, { Id: 3, Name: 'Operator' }];
-  submitted=false;
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
+  UserTypeList = [{ Id: 1, Name: 'Administrator' }, { Id: 2, Name: 'Enforcement' }, { Id: 3, Name: 'Operater' }];
+  submitted = false;
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
-      this.LogedUserId = this.dm.getUserId();
+    this.LogedUserId = this.dm.getUserId();
     this.UserId = parentData.UserId;
     this.GetRoleData();
   }
@@ -147,7 +147,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         UserTypeId: this.DataDetailsForm.value.UserTypeId,
         AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
         RoleId: this.DataDetailsForm.value.RoleId,
-        DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
+        DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
         CreatedBy: this.LogedUserId
       };
       this.spinner.show();
@@ -155,24 +155,19 @@ export class UserConfigurationPopupComponent implements OnInit {
         data => {
           this.spinner.hide();
           let returnMessage = data.Message[0].AlertMessage;
-          if (returnMessage.indexOf('success')>-1) {
+          if (returnMessage.indexOf('success') > -1) {
             this.ErrorData = [{ AlertMessage: 'Success' }];
             this.dm.openSnackBar(this.ErrorData, true);
             this.Dialogref.close(true);
           } else {
-            this.ErrorData = data;
+            this.ErrorData = data.Message;
             this.dm.openSnackBar(this.ErrorData, false);
           }
         },
         (error) => {
           this.spinner.hide();
-          try {
-            this.ErrorData = error.error;
-            this.dm.openSnackBar(this.ErrorData, false);
-          } catch (error) {
-            this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-            this.dm.openSnackBar(this.ErrorData, false);
-          }
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       );
     }

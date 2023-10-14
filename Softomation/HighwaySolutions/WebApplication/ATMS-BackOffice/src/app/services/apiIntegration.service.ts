@@ -49,6 +49,8 @@ export class apiIntegrationService {
               this.dataModel.setDataAPI(this.ApiCallUrl)
               let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
               this.dataModel.setMediaAPI(mediaPath)
+              let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
+              this.dataModel.setLiveAPI(LiveView);
               resolve(returnURL);
             },
             error: (err: any) => {
