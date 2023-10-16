@@ -5,6 +5,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import { LiveViewPopUpComponent } from '../PopUp/live-view-pop-up/live-view-pop-up.component';
+import { IMqttMessage, MqttService } from 'ngx-mqtt';
+import { Subscription } from 'rxjs';
 declare var H: any;
 export type ChartOptions = {
   series?: ApexAxisChartSeries;
@@ -50,7 +52,7 @@ export class DashboardComponent implements OnInit {
   @ViewChild("map") mapElement!: ElementRef;
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.map.getViewPort().resize()
+    this.map.getViewPort().resize();
   }
   public vidsEventOptions!: Partial<ChartOptions> | any;
   public vidsLocationOptions!: Partial<PieChartOptions> | any;
@@ -68,15 +70,43 @@ export class DashboardComponent implements OnInit {
   VehicleTrafficCount: any;
   ChainageList: any = [];
   SelectedChainage: any;
-  VIDSEventCount: any
+  VIDSEventCount: any;
+  subscription: any;
+  message:any;
+  private DashDataSubscribe!: Subscription;
+  private readonly _eventService: DataModel;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
-    private dm: DataModel, private cd: ChangeDetectorRef, public dialog: MatDialog) { }
+    private dm: DataModel, private cd: ChangeDetectorRef, public dialog: MatDialog,private _mqttService: MqttService) {
+      this._eventService = dm;
+      //  this._eventService.menuResize.subscribe( (message: any) => 
+      //  {
+      //   this.message = message 
+      //   console.log(this.message)
+      // });
+    //   this.dm.menuResize().subscribe(data=>{
+    //    console.log(data);
+    // })
+
+    //this.subscription = this.dm.menuResize().subscribe(item => console.log(item));
+   
+  }
 
   ngOnInit(): void {
+    // this.subscription = this.dm.getMenuChangeEmitter()
+    // .subscribe(item => console.log(item));
+
+    // this.dm.name.subscribe(data=>{
+    //   debugger;
+    //   //this.newName = data;
+    // });
 
     this.GetDashboardEquipment();
     this.DashboardATCC();
     this.DashboardVIDS();
+    
+  }
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   GetDashboardEquipment() {
@@ -172,6 +202,7 @@ export class DashboardComponent implements OnInit {
         ];
         this.SelectedChainage = this.ChainageList[0];
         this.ATCCHourTrafficCount(ATCCData.HourTrafficCount)
+        this.MQTTATCC();
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -179,6 +210,18 @@ export class DashboardComponent implements OnInit {
         this.DefaultCoordinates();
       }
     );
+  }
+  MQTTATCC(){
+    try {
+      this.DashDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
+       var ATCCData =JSON.parse(message.payload.toString());
+       this.VehicleTrafficCount = ATCCData.VehicleTrafficCount;
+       this.SelectedChainage = this.ChainageList[0];
+       this.ATCCHourTrafficCount(ATCCData.HourTrafficCount)
+      });
+    } catch (error) {
+
+    }
   }
 
   DashboardVIDS() {

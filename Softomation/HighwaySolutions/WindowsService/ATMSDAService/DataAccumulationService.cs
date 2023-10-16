@@ -14,6 +14,10 @@ using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using System.Messaging;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations;
 using System.Linq;
+using System.Text;
+using uPLibrary.Networking.M2Mqtt.Messages;
+using uPLibrary.Networking.M2Mqtt;
+using System.Net;
 
 namespace ATMSDAService
 {
@@ -31,6 +35,7 @@ namespace ATMSDAService
         List<VehicleClassIL> vehicleClassesList;
         DashboardSystemDataIL ATCCdashboardSystemData;
 
+
         #region Log Thread
         private Queue logQueue = new Queue();
         private Thread loggerThread;
@@ -40,6 +45,15 @@ namespace ATMSDAService
         #region Weather Thread
         private Thread WeatherThread;
         private volatile Boolean stopWeatherThread = true;
+        #endregion
+
+        #region MQTT
+        //12.16.175.50 127.0.0.1
+        string MqttIP = "127.0.0.1";
+        static string[] PostTopic = { "Dashboard/ATCC" };
+        static MqttClient mqttDataPostLocal = null;
+        Thread MqttConnectionThread;
+        volatile Boolean stopMqttConnectionThread = false;
         #endregion
         #endregion
 
@@ -94,12 +108,15 @@ namespace ATMSDAService
             #region Master Data
             try
             {
+                
                 systemSetting = SystemSettingBL.Get();
                 eventsTypesList = EventsTypeBL.GetActive();
                 equipmentDetailsList = EquipmentDetailsBL.GetActive();
                 equipmentConfigsList = EquipmentConfigBL.GetActive();
                 vehicleClassesList = VehicleClassBL.GetActive();
                 ATCCdashboardSystemData = DashboardSystemDataBL.GetATCC();
+                //IPAddress[] iPAddresses=GetLocalIPAddress();
+                MQTTCreateThread();
             }
             catch (Exception ex)
             {
@@ -180,7 +197,8 @@ namespace ATMSDAService
 
             try
             {
-                Thread.Sleep(500);
+                MQTTStopThread();
+                Thread.Sleep(100);
                 stopLoggerThread = true;
                 if (loggerThread != null)
                 {
@@ -252,15 +270,28 @@ namespace ATMSDAService
                             else
                                 LogMessage("ATCC:VehicleClass Not Found" + DataPacket);
                             #endregion
-                            DataEvent.TransactionId= DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
+                            DataEvent.TransactionId = DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
                             List<ResponseIL> responses = ATCCEventBL.Insert(DataEvent);
+                            try
+                            {
+                                #region Serializer
+                                DashboardSystemDataIL dashATCC = DashboardSystemDataBL.GetATCC();
+                                var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                                var sendData = callHistory_Serializer.Serialize(dashATCC);
+                                #endregion
+
+                                #region Publish to MQTT
+                                MqttPublish(mqttDataPostLocal, sendData, PostTopic[0], "ATCCEvents");
+                                #endregion
+                            }
+                            catch (Exception ex)
+                            {
+                                LogMessage("error to send ATCC Events MQTT: error:" + ex.Message.ToString());
+                            }
                         }
                         else
                             LogMessage("ATCC:EquipmentDetails Not Found" + DataPacket);
                         #endregion
-
-                        
-                        
                     }
                 }
             }
@@ -409,6 +440,163 @@ namespace ATMSDAService
 
                 LogMaster.Write(message, ErrorLogModule.BackOfficeService);
             }
+        }
+        #endregion
+
+        #region MQTT Thread Events and Publish
+        private void MQTTCreateThread()
+        {
+            try
+            {
+                LogMessage("Starting MqttConnectionThread..");
+                stopMqttConnectionThread = false;
+                MqttConnectionThread = new Thread(new ThreadStart(this.MqttConnectionFunction));
+                MqttConnectionThread.IsBackground = true;
+                MqttConnectionThread.Start();
+                LogMessage("The MqttConnectionThread has been started.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage("error in MqttConnectionThread ." + ex.ToString());
+            }
+        }
+        private void MQTTStopThread()
+        {
+            try
+            {
+                #region Thread MQTT Connection
+                stopMqttConnectionThread = true;
+                Thread.Sleep(500);
+                if (MqttConnectionThread != null)
+                {
+                    if (MqttConnectionThread.IsAlive == true)
+                    {
+                        MqttConnectionThread.Abort();
+                    }
+                }
+                #endregion
+
+                #region Remove MQTT
+                try
+                {
+                    if (mqttDataPostLocal != null)
+                    {
+                        mqttDataPostLocal.Unsubscribe(PostTopic);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    LogMessage("error in stoping mqttDataPostLocal function. " + ex.ToString());
+                }
+                #endregion
+            }
+            catch (Exception ex)
+            {
+
+                LogMessage("error in stop MqttConnectionThread ." + ex.ToString());
+            }
+        }
+        private void MqttConnectionFunction()
+        {
+            DateTime MqttThreaLastUpdateDateTime = DateTime.MinValue;
+            while (!stopMqttConnectionThread)
+            {
+                try
+                {
+                    TimeSpan ts1 = DateTime.Now - MqttThreaLastUpdateDateTime;
+                    if (ts1.TotalSeconds > 10)
+                    {
+                        if (!string.IsNullOrEmpty(MqttIP))
+                        {
+                            try
+                            {
+                                if (mqttDataPostLocal == null)
+                                {
+                                    mqttDataPostLocal = CreateMqttClientAndSubcribe(mqttDataPostLocal, MqttIP, PostTopic[0], (short)MqttMessageType.SendOnly);
+                                    PublishDashBoard();
+                                }
+
+                            }
+                            catch (Exception ex)
+                            {
+                                LogMessage("Error in MqttConnectionFunction for MqttLocalIpAddress : " + ex.Message.ToString() + " IP: " + MqttIP);
+                            }
+                        }
+                        MqttThreaLastUpdateDateTime = DateTime.Now;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    LogMessage("Error in MqttConnectionFunction sync : " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(100);
+
+                }
+            }
+        }
+        private static string MqttPublish(MqttClient clientbroker, string strEvent, string publishTopic, string threadName)
+        {
+            try
+            {
+                ushort result = 0;
+                if (clientbroker != null)
+                {
+                    if (clientbroker.IsConnected)
+                    {
+                        result = clientbroker.Publish(publishTopic, Encoding.UTF8.GetBytes(strEvent), MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE, true);
+                        return "success";
+                    }
+                    else
+                    {
+                        return "Broker is not connected." + threadName;
+                    }
+                }
+                else
+                {
+                    return "Broker is found null." + threadName;
+                }
+            }
+            catch (Exception e)
+            {
+                return e.Message.ToString();
+            }
+        }
+        private MqttClient CreateMqttClientAndSubcribe(MqttClient obj, string IpAddress, string topic, short SendorReceive)
+        {
+            try
+            {
+                string clientId = Guid.NewGuid().ToString();
+                obj = new MqttClient(IpAddress);
+                obj.Connect(clientId);
+
+            }
+            catch (Exception ex)
+            {
+                LogMessage("Error in CreateMqttClientAndSubcribe sync : " + ex.Message.ToString());
+                obj = null;
+            }
+            return obj;
+        }
+
+        static void PublishDashBoard()
+        {
+            //try
+            //{
+            //    DashboardData = DashboardDataBL.GetLatest(DbConn);
+            //    #region Serializer
+            //    var dashData_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+            //    var sendDashData = dashData_Serializer.Serialize(DashboardData);
+            //    #endregion
+            //    MqttPublish(mqttDataPostLocal, sendDashData, PostTopic[3], "DashData");
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    LogMessage("Error in PublishDashBoard sync : " + ex.Message.ToString());
+            //}
         }
         #endregion
         #endregion

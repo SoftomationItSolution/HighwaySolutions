@@ -41,6 +41,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { QuillModule } from 'ngx-quill';
 import {NgApexchartsModule } from "ng-apexcharts";
 
+import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
+
 import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -101,6 +103,16 @@ import { WeatherEventConfigComponent } from './pages/Weather/weather-event-confi
 import { WeatherEventHistoryComponent } from './pages/Weather/weather-event-history/weather-event-history.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.component';
+
+
+
+
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: GetIpAddress(),
+  port: 9001,
+  path: '/mqtt',
+  protocol: 'ws',
+};
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -224,7 +236,8 @@ export const MY_CUSTOM_FORMATS = {
     ImageModule,
     ConfirmDialogModule,
     ImageCropperModule,
-    QuillModule.forRoot() 
+    QuillModule.forRoot(),
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS)  
   ],
   providers: [
     [DatePipe],
@@ -236,3 +249,9 @@ export const MY_CUSTOM_FORMATS = {
   schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ]
 })
 export class AppModule { }
+function GetIpAddress(): string | undefined {
+  var currentIP='';
+  var curretURL = (window.location.href).split(':')
+  currentIP = curretURL[1].replace("//", "");
+  return currentIP;
+}

@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -129,6 +131,12 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         {
             Softomation = 0,
             Other = 1
+        }
+        public enum MqttMessageType
+        {
+            SendOnly = 1,
+            ReveiveOnly = 2,
+            Both = 3
         }
 
         #endregion
@@ -316,6 +324,24 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dateTime;
+        }
+
+        public static IPAddress[] GetLocalIPAddress()
+        {
+            try
+            {
+                string hostName = Dns.GetHostName();
+                Console.WriteLine(hostName);
+
+                // Get the IP from GetHostByName method of dns class. 
+                return Dns.GetHostByName(hostName).AddressList;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+           
         }
         #endregion
     }

@@ -101,7 +101,8 @@ export class DefaultLayoutComponent implements OnInit {
       body.classList.add("sidebar-enable");
       body.classList.add("vertical-collpsed");
     }
-
+    this.dataModel.broadcastMessage(true);
+    //this.dataModel.changeName("true");
   }
 
   menuED(event: any, m: any) {

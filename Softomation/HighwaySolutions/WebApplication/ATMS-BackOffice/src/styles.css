@@ -1183,7 +1183,9 @@ input[type=radio] {
         }
     }
   } */
-
+.dash-font-size{
+    font-size: 16px;
+}
 @media (max-height: 550px) {
     .page-content-wrapper {
         margin-top: -115px !important;
@@ -1455,7 +1457,21 @@ input[type=radio] {
         padding: 0px 5px 0px 0px !important;
     }
 }
-
+@media (max-width: 800px) and (min-width: 401px){
+    .dash-font-size{
+        font-size: 8px;
+    }
+}
+@media (max-width: 1300px) and (min-width: 801px){
+    .dash-font-size{
+        font-size: 12px;
+    }
+}
+@media (max-width: 1600px) and (min-width: 1301px){
+    .dash-font-size{
+        font-size: 13px;
+    }
+}
 @media (max-width:993px) {
     .navbar-brand-box {
         padding: 0 0.5rem;
