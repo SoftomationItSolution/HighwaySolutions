@@ -32,6 +32,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 ImportDataTable.Columns.Add("ParentId");
                 ImportDataTable.Columns.Add("PositionId");
                 ImportDataTable.Columns.Add("LaneNumberId");
+                ImportDataTable.Columns.Add("Extension");
                 ImportDataTable.Columns.Add("SessionId");
                 DataRow row;
                 string SessionId = SystemConstants.RandomString(10);
@@ -45,6 +46,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                     row["ParentId"] = config[i].ParentId;
                     row["PositionId"] = config[i].PositionId;
                     row["LaneNumberId"] = config[i].LaneNumberId;
+                    row["Extension"] = config[i].Extension;
                     row["SessionId"] = SessionId;
                     ImportDataTable.Rows.Add(row);
                 }
@@ -151,6 +153,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["LaneNumberId"] != DBNull.Value)
                 id.LaneNumberId = Convert.ToInt16(dr["LaneNumberId"]);
 
+            if (dr["Extension"] != DBNull.Value)
+                id.Extension = Convert.ToInt64(dr["Extension"]);
+            
             id.DirectionName = Enum.GetName(typeof(DirectionType), (DirectionType)id.DirectionId);
 
             if (id.SystemId == (short)SystemMasterType.VIDS)

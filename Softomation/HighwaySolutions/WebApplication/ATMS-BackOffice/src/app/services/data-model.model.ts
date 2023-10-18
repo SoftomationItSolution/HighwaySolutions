@@ -1,61 +1,46 @@
-import { EventEmitter, Injectable, Output } from "@angular/core";
-import { SnakbarComponent } from "../allservices/snakbar/snakbar.component";
+import { Injectable } from "@angular/core";
+
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MediaViewComponent } from "../pages/PopUp/media-view/media-view.component";
+import { SnakbarComponent } from "./snakbar/snakbar.component";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataModel {
-  // PageHeading = new EventEmitter<string>();
-  // LogInStatusEmit = new EventEmitter<boolean>();
-  //loggedInStatus = false;
-  
-  // private nameSource = new BehaviorSubject<string>('');
-  // name = this.nameSource.asObservable()
-  // @Output()
-  // menuResize= new EventEmitter<boolean>();
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) {
-    //this.menuResize = new EventEmitter<string>(null);
    }
-   broadcastMessage(message: boolean): void {
-    //this.menuResize.emit(message);
+
+  setProjectDetails(token: {}) {
+    return localStorage.setItem('FastTrackHighwayATMSProjectDetails', JSON.stringify(token));
   }
-  // changeName(name: string) {
-  //   this.nameSource.next(name);
-  // }
-  // msgToSib(value: boolean) { this.menuResize.emit(value) }
-  // getMenuChangeEmitter() {
-  //   return this.menuResize;
-  // }
-  // public setData(data: boolean) {
-  //   this._MenuResize.next(data);
-  // }
-
-  // public getData(): Observable<boolean> {
-  //   return this._MenuResize.asObservable();
-  // }
-
+  getProjectDetails() {
+    var result = localStorage.getItem('FastTrackHighwayATMSProjectDetails');
+    if (result != undefined)
+      return JSON.parse(result);
+    else
+      return null;
+  }
   clearStorage() {
-    localStorage.removeItem("FastTrackHighwayATMS360loggedIn");
-    localStorage.removeItem("FastTrackHighwayATMS360Token");
-    localStorage.removeItem("FastTrackHighwayATMS360UserData");
+    localStorage.removeItem("FastTrackHighwayATMSloggedIn");
+    localStorage.removeItem("FastTrackHighwayATMSToken");
+    localStorage.removeItem("FastTrackHighwayATMSUserData");
   }
 
   setLoggedIn(value: boolean) {
     //this.loggedInStatus = value;
     if (value) {
-      localStorage.setItem('FastTrackHighwayATMS360loggedIn', 'true');
+      localStorage.setItem('FastTrackHighwayATMSloggedIn', 'true');
     } else {
-      localStorage.setItem('FastTrackHighwayATMS360loggedIn', 'false');
+      localStorage.setItem('FastTrackHighwayATMSloggedIn', 'false');
     }
     //this.LogInStatusEmit.emit(this.loggedInStatus);
   }
 
   getLoggedInStatus() {
-    let status = localStorage.getItem('FastTrackHighwayATMS360loggedIn');
+    let status = localStorage.getItem('FastTrackHighwayATMSloggedIn');
     if (status == 'true')
       return true;
     else
@@ -67,44 +52,44 @@ export class DataModel {
   }
 
   setDataAPI(path: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360API', path);
+    return localStorage.setItem('FastTrackHighwayATMSAPI', path);
   }
 
   getDataAPI() {
-    return localStorage.getItem('FastTrackHighwayATMS360API');
+    return localStorage.getItem('FastTrackHighwayATMSAPI');
   }
 
   setLock(path: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360Lock', path);
+    return localStorage.setItem('FastTrackHighwayATMSLock', path);
   }
   getLock() {
-    return localStorage.getItem('FastTrackHighwayATMS360Lock');
+    return localStorage.getItem('FastTrackHighwayATMSLock');
   }
 
 
   setMediaAPI(path: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360MediaAPI', path);
+    return localStorage.setItem('FastTrackHighwayATMSMediaAPI', path);
   }
   getMediaAPI() {
-    return localStorage.getItem('FastTrackHighwayATMS360MediaAPI');
+    return localStorage.getItem('FastTrackHighwayATMSMediaAPI');
   }
 
   setLiveAPI(path: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360LiveAPI', path);
+    return localStorage.setItem('FastTrackHighwayATMSLiveAPI', path);
   }
   getLiveAPI() {
-    return localStorage.getItem('FastTrackHighwayATMS360LiveAPI');
+    return localStorage.getItem('FastTrackHighwayATMSLiveAPI');
   }
 
   setTokenVale(token: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360Token', token);
+    return localStorage.setItem('FastTrackHighwayATMSToken', token);
   }
   getTokenVale() {
-    return localStorage.getItem('FastTrackHighwayATMS360Token');
+    return localStorage.getItem('FastTrackHighwayATMSToken');
   }
 
   setUserData(token: string) {
-    return localStorage.setItem('FastTrackHighwayATMS360UserData', token);
+    return localStorage.setItem('FastTrackHighwayATMSUserData', token);
   }
 
   getUserId() {
@@ -124,7 +109,7 @@ export class DataModel {
   }
 
   getUserData() {
-    var result = localStorage.getItem('FastTrackHighwayATMS360UserData');
+    var result = localStorage.getItem('FastTrackHighwayATMSUserData');
     if (result != undefined)
       return JSON.parse(result);
     else
@@ -181,5 +166,11 @@ export interface ConfigIntrface {
   ApiPort: Number
   ApiAdminPath: string,
   Latitude: Number,
-  Longitude: Number
+  Longitude: Number,
+  RoadName: string,
+  ProjectName: string,
+  ControlRoomName: string,
+  Address: string,
+  State: string,
+  Pincode: string,
 }

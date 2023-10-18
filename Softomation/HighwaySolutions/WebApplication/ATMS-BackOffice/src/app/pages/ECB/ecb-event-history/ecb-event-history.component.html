@@ -1,0 +1,120 @@
+<div class="row" *ngIf="DataView==1; else notaccess">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div id="accordion" class="data-filter">
+                    <div class="card-header">
+                        <div class="dropdown d-inline-block">
+                            <h5 class="mb-0">
+                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
+                                    <i class="mdi mdi-arrow-up-circle filter-icon-class" id="datafilterIcon"></i>
+                                </a>
+                                <span class="rc">Record:{{TotalCount}}</span>
+                            </h5>
+                        </div>
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="fa fa-search"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
+                        </div>
+                    </div>
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                        <form [formGroup]="FilterDetailsForm">
+                            <div class="row">
+                                <div class="col-md-11">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <label for="StartDateTime">Start Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control"
+                                                formControlName="StartDateTime" [readonlyInput]="true"
+                                                dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="EndDateTime">End Date Time</label>
+                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
+                                                pInputText autofocus class="form-control" formControlName="EndDateTime"
+                                                [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search"
+                                        (click)="SearchEntry()">
+                                        <i class="mdi mdi-feature-search-outline"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="table-responsive mt-3 listtablepagging-1 listtablepadding" id="tbl">
+                    <p-table #dt [value]="callHistory" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                        [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
+                        [globalFilterFields]="['CallerNumber','CallerIpAddress','CallerName','CallerTypeName','CalleeNumber','CalleeIpAddress','CalleeName','CalleeTypeName','CallDuration']">
+                        <ng-template pTemplate="header" styleClass="thead-light">
+                            <tr>
+                                <th>S. No.</th>
+                                <th pSortableColumn="CallerNumber">Number<p-sortIcon field="CallerNumber"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CallerIpAddress">IpAddress<p-sortIcon
+                                        field="CallerIpAddress"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CallerName">Name<p-sortIcon field="CallerName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CallerTypeName">Type<p-sortIcon
+                                        field="CallerTypeName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CalleeNumber">Number<p-sortIcon field="CalleeNumber"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CalleeIpAddress">IpAddress<p-sortIcon
+                                        field="CalleeIpAddress"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CalleeName">Name<p-sortIcon field="CalleeName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CalleeTypeName">Type<p-sortIcon
+                                        field="CalleeTypeName"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="StartDateTimeStamp">Date Time<p-sortIcon
+                                        field="StartDateTimeStamp"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="CallDuration">Duration<p-sortIcon
+                                        field="CallDuration"></p-sortIcon>
+                                </th>
+                                <th>Recording</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                            <tr>
+                                <td>{{i+1}}</td>
+                                <td>{{rowData.CallerNumber}}</td>
+                                <td>{{rowData.CallerIpAddress}}</td>
+                                <td>{{rowData.CallerName}}</td>
+                                <td>{{rowData.CallerTypeName}}</td>
+                                <td>{{rowData.CalleeNumber}}</td>
+                                <td>{{rowData.CalleeIpAddress}}</td>
+                                <td>{{rowData.CalleeName}}</td>
+                                <td>{{rowData.CalleeTypeName}}</td>
+                                <td>{{rowData.StartDateTimeStamp}}</td>
+                                <td>{{rowData.CallDuration}}</td>
+                                <td>
+                                    <!-- controlsList="play volume nodownload" -->
+                                    <audio style="width: 100px;" controls *ngIf="rowData.CallDuration!=0 && rowData.RecordingFileName!=''">
+                                        <source [src]=this.PbxRecordingPath+rowData.RecordingFileName type="audio/wav">
+                                        Your browser does not support the audio tag.
+                                    </audio>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #notaccess>
+    <h4 style="margin: 15% 0 15% 30%;">You don't have access of this page! <br />Kindly contact Administrator, Thanks
+    </h4>
+</ng-template>

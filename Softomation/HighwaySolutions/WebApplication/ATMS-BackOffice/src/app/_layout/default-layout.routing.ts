@@ -26,6 +26,8 @@ import { ATCCEventHistoryComponent } from '../pages/ATCC/atcc-event-history/atcc
 import { ATCCEventValidationComponent } from '../pages/ATCC/atcc-event-validation/atcc-event-validation.component';
 import { ATCCEventValidatedComponent } from '../pages/ATCC/atcc-event-validated/atcc-event-validated.component';
 import { VMSEquipmentConfigComponent } from '../pages/VMS/vms-equipment-config/vms-equipment-config.component';
+import { ECBEquipmentConfigComponent } from '../pages/ECB/ecb-equipment-config/ecb-equipment-config.component';
+import { ECBEventHistoryComponent } from '../pages/ECB/ecb-event-history/ecb-event-history.component';
 import { VMSMessageDetailsComponent } from '../pages/VMS/vms-message-details/vms-message-details.component';
 import { VMSMessageHistroyComponent } from '../pages/VMS/vms-message-histroy/vms-message-histroy.component';
 import { IMSPendingComponent } from '../pages/IMS/ims-pending/ims-pending.component';
@@ -34,6 +36,7 @@ import { IMSClosedComponent } from '../pages/IMS/ims-closed/ims-closed.component
 import { WeatherEventConfigComponent } from '../pages/Weather/weather-event-config/weather-event-config.component';
 import { WeatherEventHistoryComponent } from '../pages/Weather/weather-event-history/weather-event-history.component';
 import { ReportsComponent } from '../pages/reports/reports.component';
+
 
 
 
@@ -64,6 +67,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'atccEventHistroy', component: ATCCEventHistoryComponent },
     { path: 'atccValidation', component: ATCCEventValidationComponent },
     { path: 'atccValidated', component: ATCCEventValidatedComponent },
+
+    { path: 'ecbEquipmentConfig', component: ECBEquipmentConfigComponent },
+    { path: 'ecbEventHistroy', component: ECBEventHistoryComponent },
 
     { path: 'vmsEventConfig', component: VMSEquipmentConfigComponent },
     { path: 'vmsMessageDetails', component: VMSMessageDetailsComponent },

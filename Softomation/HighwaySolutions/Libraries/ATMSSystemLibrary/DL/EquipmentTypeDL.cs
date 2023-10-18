@@ -41,7 +41,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             try
             {
                 edlist = GetAll();
-                return edlist.FindAll(n => n.DataStatus == (short)SystemConstants.DataStatusType.Active);
+                return edlist.FindAll(n => n.DataStatus == (short)CommonLibrary.Constants.DataStatusType.Active);
             }
             catch (Exception ex)
             {

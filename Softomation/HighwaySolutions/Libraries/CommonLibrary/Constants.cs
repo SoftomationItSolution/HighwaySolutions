@@ -138,7 +138,39 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             ReveiveOnly = 2,
             Both = 3
         }
-
+        public enum IPPbxCallStatusType
+        {
+            Created = 0,
+            Setup = 1,
+            TransferSetup = 2,
+            Ringing = 3,
+            InCall = 4,
+            CalleeOnHold = 5,
+            CallerOnHold = 6,
+            OnHold = 7,
+            OnHoldInactive = 8,
+            TransferRequested = 9,
+            Transferring = 10,
+            TransferCompleted = 11,
+            TransferFailed = 12,
+            CallerHungUp = 13,
+            CalleeHungUp = 14,
+            Redirected = 15,
+            NotFound = 16,
+            Busy = 17,
+            Cancelled = 18,
+            NotAnswered = 19,
+            Error = 20,
+            Aborted = 21,
+            Completed = 22
+        }
+        public enum CallType
+        {
+            Incomming = 1,
+            Outgoing = 2,
+            Missed = 3,
+            Rejected=4
+        }
         #endregion
 
         #region Methods

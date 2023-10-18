@@ -72,23 +72,23 @@ export class DashboardComponent implements OnInit {
   SelectedChainage: any;
   VIDSEventCount: any;
   subscription: any;
-  message:any;
+  message: any;
   private DashDataSubscribe!: Subscription;
   private readonly _eventService: DataModel;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
-    private dm: DataModel, private cd: ChangeDetectorRef, public dialog: MatDialog,private _mqttService: MqttService) {
-      this._eventService = dm;
-      //  this._eventService.menuResize.subscribe( (message: any) => 
-      //  {
-      //   this.message = message 
-      //   console.log(this.message)
-      // });
+    private dm: DataModel, private cd: ChangeDetectorRef, public dialog: MatDialog, private _mqttService: MqttService) {
+    this._eventService = dm;
+    //  this._eventService.menuResize.subscribe( (message: any) => 
+    //  {
+    //   this.message = message 
+    //   console.log(this.message)
+    // });
     //   this.dm.menuResize().subscribe(data=>{
     //    console.log(data);
     // })
 
     //this.subscription = this.dm.menuResize().subscribe(item => console.log(item));
-   
+
   }
 
   ngOnInit(): void {
@@ -103,10 +103,10 @@ export class DashboardComponent implements OnInit {
     this.GetDashboardEquipment();
     this.DashboardATCC();
     this.DashboardVIDS();
-    
+
   }
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    //this.subscription.unsubscribe();
   }
 
   GetDashboardEquipment() {
@@ -179,16 +179,22 @@ export class DashboardComponent implements OnInit {
   }
 
   tap(detail: any) {
-    if (detail.EquipmentTypeName.indexOf("Camera") > -1 && detail.OnLineStatus) {
-      this.cd.detectChanges();
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '50%';
-      dialogConfig.height = '500px';
-      dialogConfig.data = detail;
-      const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+    if (detail.EquipmentTypeName.indexOf("Camera") > -1) {
+      if (detail.OnLineStatus) {
+        this.cd.detectChanges();
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = '50%';
+        dialogConfig.height = '500px';
+        dialogConfig.data = detail;
+        const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+      } else {
+        this.ErrorData = [{ AlertMessage: 'Camera is offline.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
     }
+
   }
 
   DashboardATCC() {
@@ -211,13 +217,13 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
-  MQTTATCC(){
+  MQTTATCC() {
     try {
       this.DashDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
-       var ATCCData =JSON.parse(message.payload.toString());
-       this.VehicleTrafficCount = ATCCData.VehicleTrafficCount;
-       this.SelectedChainage = this.ChainageList[0];
-       this.ATCCHourTrafficCount(ATCCData.HourTrafficCount)
+        var ATCCData = JSON.parse(message.payload.toString());
+        this.VehicleTrafficCount = ATCCData.VehicleTrafficCount;
+        this.SelectedChainage = this.ChainageList[0];
+        this.ATCCHourTrafficCount(ATCCData.HourTrafficCount)
       });
     } catch (error) {
 
@@ -359,16 +365,16 @@ export class DashboardComponent implements OnInit {
   }
 
   VIDSHourEventCount(data: any) {
-    let LHSEvent=[];
-    let RHSEvent=[];
-    let TEvent=[];
-    let TimeSloat=[];
-    for (let i = 0; i < data.length; i++){
-        LHSEvent.push(data[i].LEventCount);
-        RHSEvent.push(data[i].REventCount);
-        TEvent.push(data[i].EventCount);
-        TimeSloat.push(data[i].TimeSloat);
-    } 
+    let LHSEvent = [];
+    let RHSEvent = [];
+    let TEvent = [];
+    let TimeSloat = [];
+    for (let i = 0; i < data.length; i++) {
+      LHSEvent.push(data[i].LEventCount);
+      RHSEvent.push(data[i].REventCount);
+      TEvent.push(data[i].EventCount);
+      TimeSloat.push(data[i].TimeSloat);
+    }
     this.vidsTimeOptions = {
       series: [
         {
@@ -454,16 +460,16 @@ export class DashboardComponent implements OnInit {
   }
 
   ATCCHourTrafficCount(data: any) {
-    let LHSEvent=[];
-    let RHSEvent=[];
-    let TEvent=[];
-    let TimeSloat=[];
-    for (let i = 0; i < data.length; i++){
-        LHSEvent.push(data[i].LEventCount);
-        RHSEvent.push(data[i].REventCount);
-        TEvent.push(data[i].EventCount);
-        TimeSloat.push(data[i].TimeSloat);
-    } 
+    let LHSEvent = [];
+    let RHSEvent = [];
+    let TEvent = [];
+    let TimeSloat = [];
+    for (let i = 0; i < data.length; i++) {
+      LHSEvent.push(data[i].LEventCount);
+      RHSEvent.push(data[i].REventCount);
+      TEvent.push(data[i].EventCount);
+      TimeSloat.push(data[i].TimeSloat);
+    }
     this.atccTimeOptions = {
       series: [
         {

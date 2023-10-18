@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { RoleConfigurationPopupComponent } from '../role-configuration-popup/role-configuration-popup.component';
 import { RolePermissionPopupComponent } from '../role-permission-popup/role-permission-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';

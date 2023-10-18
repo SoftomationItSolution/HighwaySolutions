@@ -51,6 +51,12 @@ export class apiIntegrationService {
               this.dataModel.setMediaAPI(mediaPath)
               let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
               this.dataModel.setLiveAPI(LiveView);
+
+              const obj = {
+                "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "ControlRoomName": this.ConfigData.ControlRoomName,
+                "Address": this.ConfigData.Address, "State": this.ConfigData.State, "Pincode": this.ConfigData.Pincode
+              };
+              this.dataModel.setProjectDetails(obj);
               resolve(returnURL);
             },
             error: (err: any) => {

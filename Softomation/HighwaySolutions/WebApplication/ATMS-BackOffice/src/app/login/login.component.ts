@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { apiIntegrationService } from '../services/apiIntegration.service';
 import { DataModel } from '../services/data-model.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EmittersService } from '../allservices/emitters.service';
+
 
 @Component({
   selector: 'app-login',
@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   ErrorData: any;
   loginReposnse: any;
+  ProjectDetails:any;
   constructor(public router: Router, public api: apiIntegrationService, public dataModel: DataModel,
     private spinner: NgxSpinnerService) { }
 
@@ -28,8 +29,11 @@ export class LoginComponent implements OnInit {
       ])
     });
     this.api.GetUrl();
+    this.dataModel.delay(100).then(any => {
+      this.ProjectDetails = this.dataModel.getProjectDetails();
+      console.log(this.ProjectDetails)
+    });
   }
-
 
   onLoginSubmit() {
     if (this.loginForm.invalid) {

@@ -18,6 +18,7 @@ using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using uPLibrary.Networking.M2Mqtt;
 using System.Net;
+using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace ATMSDAService
 {
@@ -28,6 +29,7 @@ namespace ATMSDAService
         volatile int onstartCheckCount = 0;
         Int32 WeatherAPIHitPerMinite = 15;
         static MessageQueue RseAtccQueue;
+        static MessageQueue RseECBQueue;
         SystemSettingIL systemSetting;
         List<EventsTypeIL> eventsTypesList;
         List<EquipmentDetailsIL> equipmentDetailsList;
@@ -108,7 +110,7 @@ namespace ATMSDAService
             #region Master Data
             try
             {
-                
+
                 systemSetting = SystemSettingBL.Get();
                 eventsTypesList = EventsTypeBL.GetActive();
                 equipmentDetailsList = EquipmentDetailsBL.GetActive();
@@ -163,6 +165,20 @@ namespace ATMSDAService
             }
             #endregion
 
+            #region ECB Data Queue
+            try
+            {
+                RseECBQueue = MSMQConfig.Create(MSMQConfig.RseECBQueueName.Replace("{ipaddress}", "."));
+                RseECBQueue.PeekCompleted += new PeekCompletedEventHandler(RseECBDataQueue_PeekCompleted);
+                RseECBQueue.BeginPeek();
+                LogMessage("ECB Data Queue listener has been attached.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage("Failed to ECB Data Queue listener. " + ex.Message);
+            }
+            #endregion
+
         }
 
         protected override void OnStop()
@@ -171,6 +187,7 @@ namespace ATMSDAService
             try
             {
                 RseAtccQueue.PeekCompleted -= new PeekCompletedEventHandler(RseAtccDataQueue_PeekCompleted);
+                RseECBQueue.PeekCompleted -= new PeekCompletedEventHandler(RseECBDataQueue_PeekCompleted);
             }
             catch (Exception ex)
             {
@@ -304,6 +321,138 @@ namespace ATMSDAService
             finally
             {
                 mqRSEATCC.Receive();
+                RseAtccQueue.BeginPeek();
+            }
+
+        }
+        #endregion
+
+        #region ECB Data Q
+        private void RseECBDataQueue_PeekCompleted(object sender, PeekCompletedEventArgs e)
+        {
+            MessageQueue mqRSEECB = (MessageQueue)sender;
+            Message mRSEECB = mqRSEECB.EndPeek(e.AsyncResult);
+            string DataPacket = string.Empty;
+            try
+            {
+                mRSEECB.Formatter = new BinaryMessageFormatter();
+                if (mRSEECB != null)
+                {
+                    DataPacket = mRSEECB.Body.ToString();
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                    ECBCallEventIL DataEvent = json_serializer.Deserialize<ECBCallEventIL>(DataPacket);
+                    DataEvent.CallStatusId = (short)CallType.Outgoing;
+                    if (!string.IsNullOrEmpty(DataEvent.StartDateTimeStamp))
+                        DataEvent.StartDateTime = Convert.ToDateTime(DataEvent.StartDateTimeStamp);
+                    if (!string.IsNullOrEmpty(DataEvent.EndDateTimeStamp))
+                        DataEvent.EndDateTime = Convert.ToDateTime(DataEvent.EndDateTimeStamp);
+                    if (string.IsNullOrEmpty(DataEvent.CallerIpAddress))
+                        LogMessage("Caller IP Not Found" + DataPacket);
+                    else
+                    {
+                        #region Get Caller Equipment Details
+                        var eq = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.CallerIpAddress);
+                        if (eq != null)
+                        {
+                            DataEvent.CallerId = eq.EquipmentId;
+                            DataEvent.ChainageNumber = eq.ChainageNumber;
+                            DataEvent.ChainageName = eq.ChainageName;
+                            DataEvent.PackageId = eq.PackageId;
+                            DataEvent.PackageName = eq.PackageName;
+                            DataEvent.ControlRoomId = eq.ControlRoomId;
+                            DataEvent.ControlRoomName = eq.ControlRoomName;
+                            DataEvent.DirectionId = eq.DirectionId;
+                            DataEvent.DirectionName = eq.DirectionName;
+                            if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
+                            {
+                                DataEvent.CallStatusId = (short)CallType.Incomming;
+                            }
+                            else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
+                            {
+                                DataEvent.CallStatusId = (short)CallType.Outgoing;
+                            }
+
+                        }
+                        else
+                            LogMessage("ECB:EquipmentDetails Not Found" + DataPacket);
+                        #endregion
+                    }
+
+                    if (string.IsNullOrEmpty(DataEvent.CalleeIpAddress))
+                        LogMessage("ECB:Callee IP Not Found" + DataPacket);
+                    else
+                    {
+                        #region Get Caller Equipment Details
+                        var eq = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.CalleeIpAddress);
+                        if (eq != null)
+                        {
+                            DataEvent.CalleeId = eq.EquipmentId;
+                            DataEvent.ChainageNumber = eq.ChainageNumber;
+                            DataEvent.ChainageName = eq.ChainageName;
+                            DataEvent.PackageId = eq.PackageId;
+                            DataEvent.PackageName = eq.PackageName;
+                            DataEvent.ControlRoomId = eq.ControlRoomId;
+                            DataEvent.ControlRoomName = eq.ControlRoomName;
+                            DataEvent.DirectionId = eq.DirectionId;
+                            DataEvent.DirectionName = eq.DirectionName;
+                            if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
+                            {
+                                DataEvent.CallStatusId = (short)CallType.Outgoing;
+                            }
+                            else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
+                            {
+                                DataEvent.CallStatusId = (short)CallType.Incomming;
+                            }
+                        }
+                        else
+                            LogMessage("EquipmentDetails Not Found" + DataPacket);
+                        #endregion
+                    }
+
+                    #region Get Equipment Details
+                    if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.NotAnswered)
+                    {
+                        DataEvent.CallStatusId = (short)CallType.Missed;
+                    }
+                    else if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.Completed && DataEvent.CallDuration == 0)
+                    {
+                        DataEvent.CallStatusId = (short)CallType.Missed;
+                    }
+                    else if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.Busy || DataEvent.CallTypeId == (short)IPPbxCallStatusType.Aborted)
+                    {
+                        DataEvent.CallStatusId = (short)CallType.Rejected;
+                    }
+                    #endregion
+                    List<ResponseIL> responses = ECBCallEventBL.Insert(DataEvent);
+                    //try
+                    //{
+                    //    #region Serializer
+                    //    DashboardSystemDataIL dashATCC = DashboardSystemDataBL.GetATCC();
+                    //    var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                    //    var sendData = callHistory_Serializer.Serialize(dashATCC);
+                    //    #endregion
+
+                    //    #region Publish to MQTT
+                    //    MqttPublish(mqttDataPostLocal, sendData, PostTopic[0], "ATCCEvents");
+                    //    #endregion
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    LogMessage("error to send ATCC Events MQTT: error:" + ex.Message.ToString());
+                    //}
+
+
+                }
+            }
+            catch (Exception exc)
+            {
+                LogMessage("Error in RseAtccDataQueue : " + exc.ToString());
+                if (!string.IsNullOrEmpty(DataPacket))
+                    LogMessage("RseAtccDataQueue DataPacket: " + DataPacket);
+            }
+            finally
+            {
+                mqRSEECB.Receive();
                 RseAtccQueue.BeginPeek();
             }
 

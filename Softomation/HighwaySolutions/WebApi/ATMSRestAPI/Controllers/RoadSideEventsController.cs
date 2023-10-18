@@ -18,6 +18,7 @@ namespace ATMSRestAPI.Controllers
     public class RoadSideEventsController : ApiController
     {
         static MessageQueue RseAtccQueue;
+        static MessageQueue RseECBQueue;
         const string Provider = AppProvider;
         const string APIPath = "FastTrackHighway-ATMS";
         ApiResponseIL response = new ApiResponseIL();
@@ -45,7 +46,7 @@ namespace ATMSRestAPI.Controllers
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
                     FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                 }
-                else 
+                else
                 {
                     aTCCEventIL.EventDate = DateTime.Now;
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
@@ -70,13 +71,13 @@ namespace ATMSRestAPI.Controllers
                     {
                         aTCCEventIL.LaneNumber = Convert.ToInt16(atcc.Lane);
                     }
-                    catch (Exception )
+                    catch (Exception)
                     {
 
                         aTCCEventIL.LaneNumber = 0;
                     }
                 }
-               
+
                 #region Send to MSMQ
                 JavaScriptSerializer json_serializer = new JavaScriptSerializer();
                 var jsonString = json_serializer.Serialize(aTCCEventIL);
@@ -93,6 +94,68 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Error in Event-ATCCSoftomation : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ECB-Softomation")]
+        [AllowAnonymous]
+        public HttpResponseMessage ECBSoftomation(IpPbxCallEventsIL ecb)
+        {
+            try
+            {
+                String FilePath = String.Empty;
+                ECBCallEventIL ecbEvent = new ECBCallEventIL();
+                ecbEvent.SystemProviderId = (short)SystemProviderType.Softomation;
+
+                if (!string.IsNullOrEmpty(ecb.StartDateTimeStamp))
+                {
+                    ecbEvent.StartDateTime = Convert.ToDateTime(ecb.StartDateTimeStamp);
+                }
+                if (!string.IsNullOrEmpty(ecb.EndDateTimeStamp))
+                {
+                    ecbEvent.EndDateTime = Convert.ToDateTime(ecb.EndDateTimeStamp);
+                    FilePath = "\\ECB\\" + ecbEvent.EndDateTime.ToString(DateFileFormat) + "\\CallRecord\\";
+                    if (!string.IsNullOrEmpty(ecb.RecordingFileName))
+                    {
+                        try
+                        {
+                            string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                            FilePath = SaveMediaFiles(ecb.RecordingFileName, currentPath + FilePath, ecb.CallerSession, ".wav");
+                            ecbEvent.RecordingFileName = FilePath.Replace(currentPath, "");
+                            ecbEvent.RecordingFileName = ecbEvent.RecordingFileName.Replace("\\", "/");
+
+                        }
+                        catch (Exception)
+                        {
+                            ecbEvent.RecordingFileName = ecb.RecordingFileName;
+                        }
+                    }
+                }
+                ecbEvent.CallDuration = ecb.CallDuration;
+                ecbEvent.CalleeIpAddress = ecb.CalleeIpAddress;
+                ecbEvent.CallerIpAddress = ecb.CallerIpAddress;
+                ecbEvent.CallStatusId = ecb.CallStatusId;
+                ecbEvent.SystemProviderId = (short)SystemProviderType.Softomation;
+
+                #region Send to MSMQ
+                JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                var jsonString = json_serializer.Serialize(ecbEvent);
+                Message m = new Message();
+                m.Formatter = new BinaryMessageFormatter();
+                m.Body = jsonString;
+                m.Recoverable = true;
+                RseECBQueue = MSMQConfig.Create(MSMQConfig.RseECBQueueName.Replace("{ipaddress}", "."));
+                RseECBQueue.Send(m);
+                return Request.CreateResponse(HttpStatusCode.OK);
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Error in Event-ECBSoftomation : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);

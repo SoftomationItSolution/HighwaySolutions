@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EmittersService } from 'src/app/allservices/emitters.service';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { PackagesPopupComponent } from '../packages-popup/packages-popup.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';

@@ -99,6 +99,7 @@
     <Compile Include="BL\ATCCReviewedEventBL.cs" />
     <Compile Include="BL\DashboardSystemDataBL.cs" />
     <Compile Include="BL\DataFilterBL.cs" />
+    <Compile Include="BL\ECBCallEventBL.cs" />
     <Compile Include="BL\EquipmentConfigBL.cs" />
     <Compile Include="BL\EventsTypeBL.cs" />
     <Compile Include="BL\IncidentActionHistoryBL.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="DL\ATCCEventDL.cs" />
     <Compile Include="DL\ATCCReviewedEventDL.cs" />
     <Compile Include="DL\DashboardSystemDataDL.cs" />
+    <Compile Include="DL\ECBCallEventDL.cs" />
     <Compile Include="DL\WeatherEventDL.cs" />
     <Compile Include="DL\WeatherOpenAPIDL.cs" />
     <Compile Include="DL\PhoneBookDL.cs" />
@@ -145,6 +147,8 @@
     <Compile Include="DL\VSDSReviewedEventDL.cs" />
     <Compile Include="IL\ATCCReviewedEventIL.cs" />
     <Compile Include="IL\DashboardSystemDataIL.cs" />
+    <Compile Include="IL\ECBCallEventIL.cs" />
+    <Compile Include="IL\IpPbxCallEventsIL.cs" />
     <Compile Include="IL\GeoCoordinateIL.cs" />
     <Compile Include="IL\RoadSideDataPacketIL.cs" />
     <Compile Include="IL\WeatherOpenAPIIL.cs" />

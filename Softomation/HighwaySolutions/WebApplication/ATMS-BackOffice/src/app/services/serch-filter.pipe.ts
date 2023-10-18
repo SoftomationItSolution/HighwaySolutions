@@ -14,7 +14,20 @@ export class SerchFilterPipe implements PipeTransform {
             ((it.ParentId).toString()).toLowerCase() == searchText
         );
       });
-    } else if (flag == 'whitespace') {
+    } 
+    else if (flag == 'filterkey') {
+      return items.filter( it => {
+        return (
+            ((it.key).toString()).toLowerCase() == searchText
+        );
+      });
+    } else if (flag == '!filterkey') {
+      return items.filter( it => {
+        return (
+            ((it.key).toString()).toLowerCase() != searchText
+        );
+      });
+    }else if (flag == 'whitespace') {
       if (searchText === undefined) {
         return 'undefined';
       }

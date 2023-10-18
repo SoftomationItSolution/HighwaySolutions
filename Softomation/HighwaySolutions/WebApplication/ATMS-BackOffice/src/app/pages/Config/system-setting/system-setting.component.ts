@@ -1,8 +1,8 @@
-import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, NumberValueAccessor, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { errorMessages, regExps } from 'src/app/allservices/CustomValidation';
+import { errorMessages, regExps } from 'src/app/services/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 

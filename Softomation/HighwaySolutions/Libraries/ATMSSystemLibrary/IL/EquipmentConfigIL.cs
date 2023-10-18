@@ -10,6 +10,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         String positionName;
         Int16 laneNumberId;
         String laneNumberName;
+        Int64 extension;
 
         public EquipmentConfigIL()
         {
@@ -18,6 +19,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             positionName = string.Empty;
             laneNumberId = 0;
             laneNumberName = string.Empty;
+            extension = 0;
         }
         public Int64 ParentId
         {
@@ -77,6 +79,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 laneNumberName = value;
+            }
+        }
+        public Int64 Extension
+        {
+            get
+            {
+                return extension;
+            }
+
+            set
+            {
+                extension = value;
             }
         }
     }

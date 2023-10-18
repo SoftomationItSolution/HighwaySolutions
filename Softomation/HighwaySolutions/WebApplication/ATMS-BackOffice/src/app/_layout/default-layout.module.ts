@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AdminLayoutRoutes } from "./default-layout.routing";
 import { DataModel } from "../services/data-model.model";
-import { ApiService } from "../allservices/api.service";
-import { EmittersService } from "../allservices/emitters.service";
+
+
 // import { DeviceDataComponent } from "../pages/Config/DeviceMaster/device-data/device-data.component";
 // import { VehicleClassDataComponent } from "../pages/Config/VehicleClass/vehicle-class-data/vehicle-class-data.component";
 // import { RoleConfigurationComponent } from "../pages/Config/RoleData/role-configuration/role-configuration.component";
@@ -18,7 +18,7 @@ import { EmittersService } from "../allservices/emitters.service";
     declarations: [
       
     ],
-    providers: [DataModel, ApiService, EmittersService],
+    providers: [DataModel],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class DefaultLayoutModule { }

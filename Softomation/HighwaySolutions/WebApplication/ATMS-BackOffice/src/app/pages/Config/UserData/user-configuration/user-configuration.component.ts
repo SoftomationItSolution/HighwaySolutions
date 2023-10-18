@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { EmittersService } from 'src/app/allservices/emitters.service';
+
 import { UserConfigurationPopupComponent } from '../user-configuration-popup/user-configuration-popup.component';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';

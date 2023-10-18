@@ -50,7 +50,7 @@ export class apiIntegrationService {
               let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
               this.dataModel.setMediaAPI(mediaPath);
               const obj = {
-                "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "PlazaName": this.ConfigData.PlazaName,
+                "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "ControlRoomName": this.ConfigData.ControlRoomName,
                 "Address": this.ConfigData.Address, "State": this.ConfigData.State, "Pincode": this.ConfigData.Pincode
               };
               this.dataModel.setProjectDetails(obj);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormGroup, Validators, FormBuilder, FormControl } from '@angular/forms';
-import { ConfirmPasswordValidator, errorMessages, regExps } from 'src/app/allservices/CustomValidation';
+import { ConfirmPasswordValidator, errorMessages, regExps } from 'src/app/services/CustomValidation';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';

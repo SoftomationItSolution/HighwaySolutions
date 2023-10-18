@@ -5,6 +5,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations
     public class MSMQConfig
     {
         public static string RseAtccQueueName = "{ipaddress}\\Private$\\RseAtccQueue";
+        public static string RseECBQueueName = "{ipaddress}\\Private$\\RseECBQueue";
 
         public static MessageQueue Create(string queueName)
         {

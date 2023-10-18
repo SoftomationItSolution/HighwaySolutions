@@ -3,6 +3,12 @@
     "BaseURL": "localhost",
     "ApiPort": 49874,
     "ApiAdminPath": "Softomation",
-    "Latitude": "28.457267",
-    "Longitude": "77.306759"
+    "Latitude": "19.621774437842745",
+    "Longitude": "85.10468424861364",
+    "RoadName": "NH-16 (1700 km)",
+    "ProjectName": "Chennai-Dankuni",
+    "ControlRoomName": "Gurapalli Control Room",
+    "Address": "City- Bhubaneswar",
+    "State": "Odisha",
+    "Pincode": "761026"
 }

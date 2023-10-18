@@ -46,8 +46,8 @@ import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 import { AppComponent } from './app.component';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
 import { AppRoutingModule } from './app-routing.module';
-import { SerchFilterPipe } from './allservices/Filter/serch-filter.pipe';
-import { SnakbarComponent } from './allservices/snakbar/snakbar.component';
+import { SerchFilterPipe } from './services/serch-filter.pipe';
+import { SnakbarComponent } from './services/snakbar/snakbar.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { SystemDetailsComponent } from './pages/Config/system-details/system-details.component';
@@ -103,6 +103,9 @@ import { WeatherEventConfigComponent } from './pages/Weather/weather-event-confi
 import { WeatherEventHistoryComponent } from './pages/Weather/weather-event-history/weather-event-history.component';
 import { ReportsComponent } from './pages/reports/reports.component';
 import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.component';
+import { ECBEquipmentConfigComponent } from './pages/ECB/ecb-equipment-config/ecb-equipment-config.component';
+import { ECBEventHistoryComponent } from './pages/ECB/ecb-event-history/ecb-event-history.component';
+
 
 
 
@@ -194,6 +197,8 @@ export const MY_CUSTOM_FORMATS = {
     IncidentDataComponent,
     WeatherEventConfigComponent,
     WeatherEventHistoryComponent,
+    ECBEquipmentConfigComponent,
+    ECBEventHistoryComponent,
     ReportsComponent
   ],
   imports: [

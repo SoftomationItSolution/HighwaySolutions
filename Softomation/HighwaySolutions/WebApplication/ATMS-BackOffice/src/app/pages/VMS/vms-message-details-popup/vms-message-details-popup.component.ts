@@ -3,13 +3,12 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { errorMessages } from 'src/app/allservices/CustomValidation';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import 'quill-emoji/dist/quill-emoji.js';
 import Quill from 'quill'
 import BlotFormatter from 'quill-blot-formatter';
-//import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { errorMessages } from 'src/app/services/CustomValidation';
 var Font = Quill.import('formats/font');
 const fontFamiltArr = ['Arial', 'Calibri', 'Verdana', 'Microsoft Himalaya'];
 Font.whitelist = fontFamiltArr;

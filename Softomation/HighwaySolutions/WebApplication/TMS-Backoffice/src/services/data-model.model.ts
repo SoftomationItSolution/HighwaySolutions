@@ -184,7 +184,7 @@ export interface ConfigIntrface {
   Longitude: Number,
   RoadName: string,
   ProjectName: string,
-  PlazaName: string,
+  ControlRoomName: string,
   Address: string,
   State: string,
   Pincode: string,
