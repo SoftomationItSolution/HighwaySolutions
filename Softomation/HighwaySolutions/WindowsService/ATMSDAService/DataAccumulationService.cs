@@ -667,9 +667,7 @@ namespace ATMSDAService
                                 if (mqttDataPostLocal == null)
                                 {
                                     mqttDataPostLocal = CreateMqttClientAndSubcribe(mqttDataPostLocal, MqttIP, PostTopic[0], (short)MqttMessageType.SendOnly);
-                                    PublishDashBoard();
                                 }
-
                             }
                             catch (Exception ex)
                             {
@@ -732,24 +730,6 @@ namespace ATMSDAService
                 obj = null;
             }
             return obj;
-        }
-
-        static void PublishDashBoard()
-        {
-            //try
-            //{
-            //    DashboardData = DashboardDataBL.GetLatest(DbConn);
-            //    #region Serializer
-            //    var dashData_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
-            //    var sendDashData = dashData_Serializer.Serialize(DashboardData);
-            //    #endregion
-            //    MqttPublish(mqttDataPostLocal, sendDashData, PostTopic[3], "DashData");
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    LogMessage("Error in PublishDashBoard sync : " + ex.Message.ToString());
-            //}
         }
         #endregion
         #endregion

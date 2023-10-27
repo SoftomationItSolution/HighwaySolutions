@@ -45,6 +45,10 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "MCubleATMSSetup", "Softomat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceMoniter", "Softomation\HighwaySolutions\WindowsService\ServiceMoniter\ServiceMoniter.csproj", "{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMSService", "Softomation\HighwaySolutions\WindowsService\NMSService\NMSService.csproj", "{8961BB8A-2D85-4BDE-943E-DE34215AAC0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NMSSystemLibrary", "Softomation\HighwaySolutions\Libraries\NMSLibrary\NMSSystemLibrary.csproj", "{DACE94EA-520E-4046-949A-5E2869F44052}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +107,14 @@ Global
 		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8961BB8A-2D85-4BDE-943E-DE34215AAC0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8961BB8A-2D85-4BDE-943E-DE34215AAC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8961BB8A-2D85-4BDE-943E-DE34215AAC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8961BB8A-2D85-4BDE-943E-DE34215AAC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DACE94EA-520E-4046-949A-5E2869F44052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DACE94EA-520E-4046-949A-5E2869F44052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DACE94EA-520E-4046-949A-5E2869F44052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DACE94EA-520E-4046-949A-5E2869F44052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,6 +135,8 @@ Global
 		{47005EBC-C803-48D0-8CF7-1BDD4A22EC44} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
 		{55716E30-E9E0-46DE-813F-1656318D2999} = {30C10762-2616-4CCD-8AB7-2AD9A4DA1E73}
 		{52D01E3A-C10B-4B49-AAF2-E2F3A2104917} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{8961BB8A-2D85-4BDE-943E-DE34215AAC0B} = {521151E3-38FB-44FF-8B5A-F186F4CEDBEC}
+		{DACE94EA-520E-4046-949A-5E2869F44052} = {B88B4B17-BE84-43C7-933A-5E8EB50D408D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {559C6FB1-7EBF-4E94-BD73-B62FFE148F94}

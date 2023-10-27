@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Device.Location;
+using HighwaySoluations.Softomation.CommonLibrary;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
-using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary
 {
@@ -261,6 +261,4 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
         }
         #endregion
     }
-
-   
 }
