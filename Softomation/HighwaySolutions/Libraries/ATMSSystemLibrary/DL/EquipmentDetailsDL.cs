@@ -59,26 +59,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
 
         #region Get Methods
-        internal static List<EquipmentDetailsIL> DashboardGetAll()
-        {
-            DataTable dt = new DataTable();
-            List<EquipmentDetailsIL> eds = new List<EquipmentDetailsIL>();
-            try
-            {
-                string spName = "USP_DashboardEquipmentDetailsGetAll";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    eds.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return eds;
-
-        }
+        
         internal static List<EquipmentDetailsIL> GetAll()
         {
             DataTable dt = new DataTable();
@@ -220,7 +201,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         #endregion
 
         #region Helper Methods
-        private static EquipmentDetailsIL CreateObjectFromDataRow(DataRow dr)
+        internal static EquipmentDetailsIL CreateObjectFromDataRow(DataRow dr)
         {
             EquipmentDetailsIL ed = new EquipmentDetailsIL();
 

@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
           this.dataModel.setLoggedIn(true);
           this.dataModel.setTokenVale(data.ResponseData.AccessToken);
           this.dataModel.setUserData(JSON.stringify(data.ResponseData.UserData));
-          this.router.navigate(['/dashboard']);
+          this.router.navigate(['/graphDashboard']);
         } else {
           this.ErrorData = data.Message;
           this.dataModel.openSnackBar(this.ErrorData, false);

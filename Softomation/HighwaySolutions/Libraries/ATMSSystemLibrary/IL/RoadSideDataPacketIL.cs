@@ -30,5 +30,10 @@
         {
             get; set;
         }
+        public string VehicleColor
+        {
+            get; set;
+        }
+
     }
 }

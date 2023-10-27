@@ -32,6 +32,7 @@ import { PasswordModule } from 'primeng/password';
 import { TreeModule } from 'primeng/tree';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { ListboxModule } from 'primeng/listbox';
 import { ImageModule } from 'primeng/image';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
@@ -49,7 +50,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { SerchFilterPipe } from './services/serch-filter.pipe';
 import { SnakbarComponent } from './services/snakbar/snakbar.component';
 import { LoginComponent } from './login/login.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { DashboardGraphComponent } from './pages/dashboard-master/dashboard-graph/dashboard-graph.component';
+import { DashboardMapComponent } from './pages/dashboard-master/dashboard-map/dashboard-map.component';
 import { SystemDetailsComponent } from './pages/Config/system-details/system-details.component';
 import { SystemSettingComponent } from './pages/Config/system-setting/system-setting.component';
 import { ControlRoomConfigurationComponent } from './pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
@@ -106,10 +108,6 @@ import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.c
 import { ECBEquipmentConfigComponent } from './pages/ECB/ecb-equipment-config/ecb-equipment-config.component';
 import { ECBEventHistoryComponent } from './pages/ECB/ecb-event-history/ecb-event-history.component';
 
-
-
-
-
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
   port: 9001,
@@ -146,7 +144,8 @@ export const MY_CUSTOM_FORMATS = {
     SerchFilterPipe,
     SnakbarComponent,
     LoginComponent,
-    DashboardComponent,
+    DashboardGraphComponent,
+    DashboardMapComponent,
     SystemDetailsComponent,
     SystemSettingComponent,
     ControlRoomConfigurationComponent,
@@ -238,6 +237,7 @@ export const MY_CUSTOM_FORMATS = {
     TreeModule,
     DragDropModule,
     MultiSelectModule,
+    ListboxModule,
     ImageModule,
     ConfirmDialogModule,
     ImageCropperModule,

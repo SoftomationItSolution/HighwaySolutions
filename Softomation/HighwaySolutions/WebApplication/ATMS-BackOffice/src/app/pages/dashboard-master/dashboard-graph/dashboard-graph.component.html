@@ -1,0 +1,110 @@
+<div class="card">
+    <div class="card-body">
+        <!-- <div class="row">
+            <div class="col-xl-11"></div>
+            <div class="col-xl-1">
+                <mat-slide-toggle color="primary"></mat-slide-toggle>
+            </div>
+        </div> -->
+        <div class="row dash-scrole">
+            <div class="col-xl-10">
+                <div class="row">
+
+                    <div class="col-xl-12">
+                        <div id="chart">
+                            <div id="chart">
+                                <apx-chart *ngIf="atccTimeOptions!=null" [series]="atccTimeOptions.series"
+                                    [chart]="atccTimeOptions.chart" [xaxis]="atccTimeOptions.xaxis"
+                                    [stroke]="atccTimeOptions.stroke" [tooltip]="atccTimeOptions.tooltip"
+                                    [dataLabels]="atccTimeOptions.dataLabels" [legend]="atccTimeOptions.legend"
+                                    [markers]="atccTimeOptions.markers" [grid]="atccTimeOptions.grid"
+                                    [yaxis]="atccTimeOptions.yaxis" [title]="atccTimeOptions.title"></apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div id="chart">
+                            <apx-chart *ngIf="vidsEventOptions!=null" [series]="vidsEventOptions.series"
+                                [chart]="vidsEventOptions.chart" [xaxis]="vidsEventOptions.xaxis"
+                                [dataLabels]="vidsEventOptions.dataLabels" [grid]="vidsEventOptions.grid"
+                                [stroke]="vidsEventOptions.stroke" [title]="vidsEventOptions.title"
+                                [plotOptions]="vidsEventOptions.plotOptions"></apx-chart>
+                        </div>
+                        <div>
+                            <div id="stacked-column-chart" class="apex-charts" dir="ltr"></div>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div id="chart">
+                                    <apx-chart *ngIf="vidsLocationOptions!=null" [series]="vidsLocationOptions.series"
+                                        [chart]="vidsLocationOptions.chart" [labels]="vidsLocationOptions.labels"
+                                        [title]="vidsLocationOptions.title" [theme]="vidsLocationOptions.theme"
+                                        [responsive]="vidsLocationOptions.responsive"></apx-chart>
+                                </div>
+                                <div>
+                                    <div id="stacked-column-chart" class="apex-charts" dir="ltr"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="col-xl-12">
+                        <div id="chart">
+                            <div id="chart">
+                                <apx-chart *ngIf="vidsTimeOptions!=null" [series]="vidsTimeOptions.series"
+                                    [chart]="vidsTimeOptions.chart" [xaxis]="vidsTimeOptions.xaxis"
+                                    [stroke]="vidsTimeOptions.stroke" [tooltip]="vidsTimeOptions.tooltip"
+                                    [dataLabels]="vidsTimeOptions.dataLabels" [legend]="vidsTimeOptions.legend"
+                                    [markers]="vidsTimeOptions.markers" [grid]="vidsTimeOptions.grid"
+                                    [yaxis]="vidsTimeOptions.yaxis" [title]="vidsTimeOptions.title"></apx-chart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-2">
+                <div class="dash-info-widget mt-2 mt-lg-0 py-2 rounded">
+                    <p-dropdown appendTo="body" inputId="ControlRoomId" [options]="ChainageList" placeholder="Select"
+                        (ngModelChange)="ChainageChange($event.value)" [(ngModel)]="SelectedChainage"
+                        class="form-control select2" (onChange)="ChainageChange($event.value)"></p-dropdown>
+                </div>
+                <div class="dash-info-widget mt-2 mt-lg-0 py-2 rounded" *ngFor="let cl of VehicleTrafficCount">
+                    <!--  pb-2 mt-2 -->
+                    <div class="media dash-main-border">
+                        <!-- mb-3 mt-2 -->
+                        <div class="avatar-sm">
+                            <span class="avatar-title rounded-circle bg-white shadow">
+                                <i [class]="cl.VehicleClassIcon" aria-hidden="true"></i>
+                            </span>
+                        </div>
+                        <!--ps-3  -->
+                        <div class="media-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 class="dash-font-size">
+                                        <a href="#" class="text-primary yellow-gold-color">
+                                            {{cl.LEventCount}} <i class="mdi mdi-arrow-up"></i>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div class="col-md-6">
+                                    <h5 class="dash-font-size">
+                                        <a href="#" class="text-primary yellow-gold-color">
+                                            {{cl.REventCount}} <i class="mdi mdi-arrow-down"></i>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <col-md-12>
+                                    <p class="text-muted">{{cl.VehicleClassName}}</p>
+                                </col-md-12>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

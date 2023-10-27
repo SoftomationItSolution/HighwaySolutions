@@ -51,7 +51,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         #endregion
 
         #region Helper Methods
-        private static EquipmentTypeIL CreateObjectFromDataRow(DataRow dr)
+        internal static EquipmentTypeIL CreateObjectFromDataRow(DataRow dr)
         {
             EquipmentTypeIL ed = new EquipmentTypeIL();
 

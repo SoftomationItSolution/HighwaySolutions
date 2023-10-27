@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
-import { DashboardComponent } from '../pages/dashboard/dashboard.component';
+import { DashboardGraphComponent } from '../pages/dashboard-master/dashboard-graph/dashboard-graph.component';
+import { DashboardMapComponent } from '../pages/dashboard-master/dashboard-map/dashboard-map.component';
 import { SystemDetailsComponent } from '../pages/Config/system-details/system-details.component';
 import { ControlRoomConfigurationComponent } from '../pages/Config/ControlRoom/control-room-configuration/control-room-configuration.component';
 import { PackagesDetailsComponent } from '../pages/Config/Packages/packages-details/packages-details.component';
@@ -40,8 +41,11 @@ import { ReportsComponent } from '../pages/reports/reports.component';
 
 
 
+
+
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard', component: DashboardComponent },
+    { path: 'graphDashboard', component: DashboardGraphComponent },
+    { path: 'gisDashboard', component: DashboardMapComponent },
     { path: 'configSystem', component: SystemDetailsComponent },
     { path: 'configControlRoom', component: ControlRoomConfigurationComponent },
     { path: 'configPackage', component: PackagesDetailsComponent },

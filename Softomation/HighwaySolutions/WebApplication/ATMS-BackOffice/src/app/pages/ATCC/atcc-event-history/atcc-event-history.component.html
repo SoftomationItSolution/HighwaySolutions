@@ -135,6 +135,7 @@
                                 <th pSortableColumn="VehicleClassName">Vehicle Class <p-sortIcon
                                         field="VehicleClassName"></p-sortIcon>
                                 </th>
+                                <th>Vehicle Color</th>
                                 <th style="text-align: center;">Media</th>
                             </tr>
                         </ng-template>
@@ -147,10 +148,12 @@
                                 <td>{{rowData.LaneName}}</td>
                                 <td>{{rowData.EventDateStamp}}</td>
                                 <td>{{rowData.VehicleClassName}}</td>
+                                <td [ngStyle]="{'background-color': rowData.VehicleColor}">
+                                    {{rowData.VehicleColor}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Media Files">
-                                        <i class="fa fa-paperclip font-size-18"></i>
+                                        <i class="mdi mdi-multimedia font-size-18"></i>
                                     </a>
                                 </td>
                             </tr>

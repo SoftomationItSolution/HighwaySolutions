@@ -258,6 +258,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 vehicleColor = value;
             }
         }
+        
         public Int16 VehicleDirectionId
         {
             get

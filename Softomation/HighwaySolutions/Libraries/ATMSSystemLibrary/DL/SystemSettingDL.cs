@@ -33,6 +33,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DefaultControlRoomId", DbType.String, ss.DefaultControlRoomId, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsWeatherOnline", DbType.Boolean, ss.IsWeatherOnline, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WeatherAPI", DbType.String, ss.WeatherAPI, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@WeatherAPIHitPerMinite", DbType.Int16, ss.WeatherAPIHitPerMinite, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, ss.CreatedBy, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ModifiedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
@@ -97,6 +98,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["TrafficCount"] != DBNull.Value)
                 sysSet.TrafficCount = Convert.ToInt16(dr["TrafficCount"]);
+
+            if (dr["WeatherAPIHitPerMinite"] != DBNull.Value)
+                sysSet.WeatherAPIHitPerMinite = Convert.ToInt16(dr["WeatherAPIHitPerMinite"]);
 
             if (dr["RestrictedVehiclesIds"] != DBNull.Value)
             {

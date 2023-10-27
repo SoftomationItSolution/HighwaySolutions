@@ -1273,7 +1273,7 @@ body[data-layout=horizontal][data-layout-size=boxed] .container-fluid, body[data
 
 .avatar-sm {
   height: 2.5rem;
-  width: 2.5rem;
+  width: 2.0rem;
 }
 
 .avatar-md {

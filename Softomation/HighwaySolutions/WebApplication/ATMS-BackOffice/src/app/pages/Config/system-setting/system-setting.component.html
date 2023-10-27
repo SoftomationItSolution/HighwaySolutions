@@ -92,10 +92,19 @@
                                     <div class="col-md-3">
                                         <label for="IsWeatherOnline">Weather(online)</label>
                                         <br>
-                                        <mat-slide-toggle formControlName="IsWeatherOnline"
+                                        <mat-slide-toggle formControlName="IsWeatherOnline" color="primary"
                                             (change)="IsWeatherChnage($event)"></mat-slide-toggle>
                                     </div>
-                                    <div class="col-md-9" *ngIf="IsWeatherOnline">
+                                    <div class="col-md-3" *ngIf="IsWeatherOnline">
+                                        <label for="WeatherAPIHitPerMinite">Weather Hits</label>
+                                        <input formControlName="WeatherAPIHitPerMinite" type="text" pInputText required
+                                        autocomplete="off" class="form-control" />
+                                        <small class="p-error"
+                                        *ngIf="submitted && DataDetailsForm.hasError('required','WeatherAPIHitPerMinite')">Weather
+                                        hits
+                                        is required.</small>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="IsWeatherOnline">
                                         <label for="WeatherAPI">Weather API</label>
                                         <input formControlName="WeatherAPI" type="text" pInputText required
                                             autocomplete="off" class="form-control" />

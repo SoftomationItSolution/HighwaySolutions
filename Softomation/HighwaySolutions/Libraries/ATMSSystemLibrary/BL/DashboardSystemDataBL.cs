@@ -6,6 +6,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
     public class DashboardSystemDataBL
     {
+        public static DashboardSystemDataIL GetEquipments()
+        {
+            try
+            {
+                return DashboardSystemDataDL.GetEquipments();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
         public static DashboardSystemDataIL GetATCC()
         {
             try

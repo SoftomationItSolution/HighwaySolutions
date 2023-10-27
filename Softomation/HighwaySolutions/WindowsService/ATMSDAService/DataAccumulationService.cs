@@ -17,8 +17,6 @@ using System.Linq;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using uPLibrary.Networking.M2Mqtt;
-using System.Net;
-using HighwaySoluations.Softomation.CommonLibrary;
 
 namespace ATMSDAService
 {
@@ -132,6 +130,10 @@ namespace ATMSDAService
                     LogMessage("System Setting not found so stopping service.");
                     this.Stop();
 
+                }
+                else 
+                {
+                    WeatherAPIHitPerMinite = systemSetting.WeatherAPIHitPerMinite;
                 }
             }
             #endregion
@@ -266,6 +268,7 @@ namespace ATMSDAService
                             DataEvent.ControlRoomName = eq.ControlRoomName;
                             DataEvent.DirectionId = eq.DirectionId;
                             DataEvent.DirectionName = eq.DirectionName;
+                          
 
                             #region Get Equipment Position
                             var ec = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
@@ -287,6 +290,7 @@ namespace ATMSDAService
                             else
                                 LogMessage("ATCC:VehicleClass Not Found" + DataPacket);
                             #endregion
+
                             DataEvent.TransactionId = DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
                             List<ResponseIL> responses = ATCCEventBL.Insert(DataEvent);
                             try

@@ -48,6 +48,7 @@ export class SystemSettingComponent {
       DefaultControlRoomId: new FormControl('', [Validators.required]),
       IsWeatherOnline: new FormControl(false),
       WeatherAPI: new FormControl('', [Validators.required]),
+      WeatherAPIHitPerMinite: new FormControl('', [Validators.required]),
     });
     this.GetPermissionData();
   }
@@ -168,6 +169,9 @@ export class SystemSettingComponent {
         this.DataDetailsForm.controls['RestrictedVehiclesIds'].setValue(this.DetailData.RestrictedVehiclesIdList);
         this.DataDetailsForm.controls['DefaultControlRoomId'].setValue(this.DetailData.DefaultControlRoomId);
         this.DataDetailsForm.controls['WeatherAPI'].setValue(this.DetailData.WeatherAPI);
+        this.DataDetailsForm.controls['WeatherAPIHitPerMinite'].setValue(this.DetailData.WeatherAPIHitPerMinite);
+        this.IsWeatherOnline=this.DetailData.IsWeatherOnline;
+        this.DataDetailsForm.controls['IsWeatherOnline'].setValue(this.DetailData.IsWeatherOnline);
         if (this.DetailData.IsATCCIndependently) {
           this.DataDetailsForm.controls['ATCCByVIDS'].setValue(false);
           this.DataDetailsForm.controls['ATCCByVSDS'].setValue(false);
@@ -213,6 +217,7 @@ export class SystemSettingComponent {
       TrafficCount: this.DataDetailsForm.value.TrafficCount,
       TrafficByTime: this.DataDetailsForm.value.TrafficByTime,
       WeatherAPI: this.DataDetailsForm.value.WeatherAPI,
+      WeatherAPIHitPerMinite: this.DataDetailsForm.value.WeatherAPIHitPerMinite,
       RestrictedVehiclesIds: RestrictedVehiclesIds,
       DefaultControlRoomId: this.DataDetailsForm.value.DefaultControlRoomId,
       CreatedBy: this.LogedUserId,

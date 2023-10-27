@@ -250,7 +250,7 @@ namespace ATMSRestAPI.Controllers
             {
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
-                response.ResponseData = EquipmentDetailsBL.DashboardGetAll();
+                response.ResponseData = DashboardSystemDataBL.GetEquipments();
                 return Request.CreateResponse(HttpStatusCode.OK, response);
             }
             catch (Exception ex)

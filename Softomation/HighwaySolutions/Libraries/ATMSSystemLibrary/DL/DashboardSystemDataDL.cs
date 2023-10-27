@@ -9,6 +9,29 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
     internal class DashboardSystemDataDL
     {
         static string tableName = "Dashboard";
+
+        internal static DashboardSystemDataIL GetEquipments()
+        {
+            DashboardSystemDataIL dash = new DashboardSystemDataIL();
+            try
+            {
+                string spName = "USP_DashboardEquipmentDetailsGetAll";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                DataSet dataSet = DBAccessor.LoadDataSet(command, tableName);
+                foreach (DataRow dr in dataSet.Tables["Dashboard"].Rows)
+                    dash.EquipmentDetails.Add(EquipmentDetailsDL.CreateObjectFromDataRow(dr));
+                foreach (DataRow dr in dataSet.Tables["Table1"].Rows)
+                    dash.EquipmentTypeDetails.Add(EquipmentTypeDL.CreateObjectFromDataRow(dr));
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return dash;
+
+        }
+
         internal static DashboardSystemDataIL GetATCC()
         {
             DashboardSystemDataIL dash = new DashboardSystemDataIL();
@@ -68,6 +91,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return dash;
         }
+
+       
+
 
         #region Common
         private static TrafficDetailsIL CreateHourTraffic(DataRow dr)

@@ -38,6 +38,21 @@ namespace ATMSRestAPI.Controllers
                 String FilePath = String.Empty;
                 ATCCEventIL aTCCEventIL = new ATCCEventIL();
                 aTCCEventIL.SystemProviderId = (short)SystemProviderType.Softomation;
+                if (!string.IsNullOrEmpty(atcc.VehicleColor))
+                {
+                    try
+                    {
+                        string[] col = atcc.VehicleColor.Split(',');
+                        aTCCEventIL.VehicleColor = RGBtoHEX(Convert.ToInt32(col[0]), Convert.ToInt32(col[1]), Convert.ToInt32(col[2]));
+                    }
+                    catch (Exception)
+                    {
+                        BackOfficeAPILog("Error in Event-ATCCSoftomation VehicleColor : " + atcc.VehicleColor);
+                        aTCCEventIL.VehicleColor = atcc.VehicleColor;
+                    }
+                   
+                }
+
                 //BackOfficeAPILog("atcc.Time" + atcc.Time);
                 if (!string.IsNullOrEmpty(atcc.Time))
                 {

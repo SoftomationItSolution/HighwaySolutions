@@ -17,6 +17,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Int16 defaultControlRoomId;
         Boolean isWeatherOnline;
         String weatherAPI;
+        Int16 weatherAPIHitPerMinite;
         public SystemSettingIL()
         {
             this.totalLane = 4;
@@ -30,6 +31,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.defaultControlRoomId = 1;
             this.isWeatherOnline = true;
             this.weatherAPI = string.Empty;
+            this.weatherAPIHitPerMinite = 15;
         }
 
         public Int16 TotalLane
@@ -152,7 +154,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 defaultControlRoomId = value;
             }
         }
-
         public Boolean IsWeatherOnline
         {
             get
@@ -165,7 +166,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 isWeatherOnline = value;
             }
         }
-
         public String WeatherAPI
         {
             get
@@ -176,6 +176,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 weatherAPI = value;
+            }
+        }
+        public Int16 WeatherAPIHitPerMinite
+        {
+            get
+            {
+                return weatherAPIHitPerMinite;
+            }
+
+            set
+            {
+                weatherAPIHitPerMinite = value;
             }
         }
     }

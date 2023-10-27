@@ -23,16 +23,16 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             {
                 string spName = "USP_ATCCEventsInsert";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, dataEvent.TransactionId, ParameterDirection.Input,30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, dataEvent.TransactionId, ParameterDirection.Input, 30));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, dataEvent.EquipmentId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventId", DbType.String, dataEvent.EventId, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventId", DbType.String, dataEvent.EventId, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneNumber", DbType.Int16, dataEvent.LaneNumber, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventDate", DbType.DateTime2, dataEvent.EventDate, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, dataEvent.VehicleClassId, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleImageUrl", DbType.String, dataEvent.VehicleImageUrl, ParameterDirection.Input,255));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleVideoUrl", DbType.String, dataEvent.VehicleVideoUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleImageUrl", DbType.String, dataEvent.VehicleImageUrl, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleVideoUrl", DbType.String, dataEvent.VehicleVideoUrl, ParameterDirection.Input, 255));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@ClassConfidencelevel", DbType.Decimal, dataEvent.ClassConfidencelevel, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleColor", DbType.String, dataEvent.VehicleColor, ParameterDirection.Input,30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleColor", DbType.String, dataEvent.VehicleColor, ParameterDirection.Input, 30));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleDirectionId", DbType.Int16, dataEvent.VehicleDirectionId, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsWrongDirection", DbType.Boolean, dataEvent.IsWrongDirection, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedRequired", DbType.Boolean, dataEvent.IsReviewedRequired, ParameterDirection.Input));
@@ -169,6 +169,9 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["VehicleVideoUrl"] != DBNull.Value)
                 events.VehicleVideoUrl = Convert.ToString(dr["VehicleVideoUrl"]);
 
+            if (dr["VehicleColor"] != DBNull.Value)
+                events.VehicleColor = Convert.ToString(dr["VehicleColor"]);
+
             if (dr["ClassConfidencelevel"] != DBNull.Value)
                 events.ClassConfidencelevel = Convert.ToDecimal(dr["ClassConfidencelevel"]);
 
@@ -186,7 +189,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["CreatedDate"] != DBNull.Value)
                 events.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
-
+           
             events.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.DirectionId);
             events.VehicleDirectionName = Enum.GetName(typeof(SystemConstants.VehicleDirectionType), (SystemConstants.VehicleDirectionType)events.VehicleDirectionId);
             return events;

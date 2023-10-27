@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Globalization;
@@ -7,9 +6,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.RegularExpressions;
+using ColorHelper;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using Microsoft.IdentityModel.Tokens;
 
@@ -169,7 +170,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             Incomming = 1,
             Outgoing = 2,
             Missed = 3,
-            Rejected=4
+            Rejected = 4
         }
         #endregion
 
@@ -373,8 +374,45 @@ namespace HighwaySoluations.Softomation.CommonLibrary
 
                 throw ex;
             }
-           
+
         }
+
+        public static string RGBtoHEX(int red, int green, int blue)
+        {
+            try
+            {
+                Color color = Color.FromArgb(red, green, blue);
+                string strColor = ColorTranslator.ToHtml(color);
+                return strColor;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        static string GetColorName(Color color)
+        {
+            var colorProperties = typeof(Color)
+                .GetProperties(BindingFlags.Public | BindingFlags.Static)
+                .Where(p => p.PropertyType == typeof(Color));
+            foreach (var colorProperty in colorProperties)
+            {
+                var colorPropertyValue = (Color)colorProperty.GetValue(null, null);
+                if (colorPropertyValue.R == color.R
+                       && colorPropertyValue.G == color.G
+                       && colorPropertyValue.B == color.B)
+                {
+                    return colorPropertyValue.Name;
+                }
+            }
+
+            //If unknown color, fallback to the hex value
+            //(or you could return null, "Unkown" or whatever you want)
+            return ColorTranslator.ToHtml(color);
+        }
+
+
         #endregion
     }
 }
