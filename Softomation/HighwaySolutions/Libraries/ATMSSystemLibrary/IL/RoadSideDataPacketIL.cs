@@ -34,6 +34,10 @@
         {
             get; set;
         }
+        public string Video
+        {
+            get; set;
+        }
 
     }
 }

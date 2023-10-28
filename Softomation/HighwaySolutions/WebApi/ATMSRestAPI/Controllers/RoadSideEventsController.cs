@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Web;
 using System.Net.Http;
 using System.Web.Http;
 using System.Messaging;
@@ -10,7 +11,7 @@ using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConfigurations;
-using System.Web;
+
 
 namespace ATMSRestAPI.Controllers
 {
@@ -18,6 +19,7 @@ namespace ATMSRestAPI.Controllers
     public class RoadSideEventsController : ApiController
     {
         static MessageQueue RseAtccQueue;
+        static MessageQueue RseVidsQueue;
         static MessageQueue RseECBQueue;
         const string Provider = AppProvider;
         const string APIPath = "FastTrackHighway-ATMS";
@@ -52,32 +54,35 @@ namespace ATMSRestAPI.Controllers
                     }
                    
                 }
-
-                //BackOfficeAPILog("atcc.Time" + atcc.Time);
                 if (!string.IsNullOrEmpty(atcc.Time))
                 {
                     aTCCEventIL.EventDate = Convert.ToDateTime(atcc.Time);
-                    //aTCCEventIL.EventDate = Convert.ToDateTime(atcc.Time).ToLocalTime();
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
-                    FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                 }
                 else
                 {
                     aTCCEventIL.EventDate = DateTime.Now;
                     aTCCEventIL.EventDateStamp = aTCCEventIL.EventDate.ToString(DateTimeFormatJson);
-                    FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                 }
-                //BackOfficeAPILog("aTCCEventIL.EventDateStamp" + aTCCEventIL.EventDateStamp);
                 aTCCEventIL.VehicleClassName = atcc.Class;
                 aTCCEventIL.ClassConfidencelevel = atcc.Score;
                 aTCCEventIL.EventId = atcc.ID;
 
                 if (!string.IsNullOrEmpty(atcc.Image))
                 {
+                    FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleImage\\";
                     string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
                     FilePath = SaveMediaFiles(atcc.Image, currentPath + FilePath, atcc.ID, ".jpeg");
                     aTCCEventIL.VehicleImageUrl = FilePath.Replace(currentPath, "");
                     aTCCEventIL.VehicleImageUrl = aTCCEventIL.VehicleImageUrl.Replace("\\", "/");
+                }
+                if (!string.IsNullOrEmpty(atcc.Video))
+                {
+                    FilePath = "\\ATCC\\" + aTCCEventIL.EventDate.ToString(DateFileFormat) + "\\VehicleVideo\\";
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    FilePath = SaveMediaFiles(atcc.Video, currentPath + FilePath, atcc.ID, ".mp4");
+                    aTCCEventIL.VehicleVideoUrl = FilePath.Replace(currentPath, "");
+                    aTCCEventIL.VehicleVideoUrl = aTCCEventIL.VehicleVideoUrl.Replace("\\", "/");
                 }
                 aTCCEventIL.EquipmentIp = atcc.IP;
                 if (!string.IsNullOrEmpty(atcc.Lane))
@@ -109,6 +114,76 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Error in Event-ATCCSoftomation : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/VIDS-Softomation")]
+        [AllowAnonymous]
+        public HttpResponseMessage VIDSSoftomation(VIDSEventIL vids)
+        {
+            try
+            {
+                String FilePath = String.Empty;
+                vids.SystemProviderId = (short)SystemProviderType.Softomation;
+                if (!string.IsNullOrEmpty(vids.EventStartDateStamp))
+                {
+                    vids.EventStartDate = Convert.ToDateTime(vids.EventStartDateStamp);
+                    vids.EventStartDateStamp = vids.EventStartDate.ToString(DateTimeFormatJson);
+                }
+                else
+                {
+                    vids.EventStartDate = DateTime.Now;
+                    vids.EventStartDateStamp = vids.EventStartDate.ToString(DateTimeFormatJson);
+                }
+
+                if (!string.IsNullOrEmpty(vids.EventEndDateStamp))
+                {
+                    vids.EventEndDate = Convert.ToDateTime(vids.EventEndDateStamp);
+                    vids.EventEndDateStamp = vids.EventEndDate.ToString(DateTimeFormatJson);
+                }
+                if (!string.IsNullOrEmpty(vids.EventImageUrl))
+                {
+                    FilePath = "\\VIDS\\" + vids.EventStartDate.ToString(DateFileFormat) + "\\EventImage\\";
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    FilePath = SaveMediaFiles(vids.EventImageUrl, currentPath + FilePath, vids.EventId, ".jpeg");
+                    vids.EventImageUrl = FilePath.Replace(currentPath, "");
+                    vids.EventImageUrl = vids.EventImageUrl.Replace("\\", "/");
+                }
+                if (!string.IsNullOrEmpty(vids.PlateImageUrl))
+                {
+                    FilePath = "\\VIDS\\" + vids.EventStartDate.ToString(DateFileFormat) + "\\PlateImage\\";
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    FilePath = SaveMediaFiles(vids.PlateImageUrl, currentPath + FilePath, vids.EventId, ".jpeg");
+                    vids.PlateImageUrl = FilePath.Replace(currentPath, "");
+                    vids.PlateImageUrl = vids.PlateImageUrl.Replace("\\", "/");
+                }
+                if (!string.IsNullOrEmpty(vids.EventVideoUrl))
+                {
+                    FilePath = "\\VIDS\\" + vids.EventStartDate.ToString(DateFileFormat) + "\\PlateImage\\";
+                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                    FilePath = SaveMediaFiles(vids.EventVideoUrl, currentPath + FilePath, vids.EventId, ".mp4");
+                    vids.EventVideoUrl = FilePath.Replace(currentPath, "");
+                    vids.EventVideoUrl = vids.EventVideoUrl.Replace("\\", "/");
+                }
+                #region Send to MSMQ
+                JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                var jsonString = json_serializer.Serialize(vids);
+                Message m = new Message();
+                m.Formatter = new BinaryMessageFormatter();
+                m.Body = jsonString;
+                m.Recoverable = true;
+                RseVidsQueue = MSMQConfig.Create(MSMQConfig.RseVidsQueueName.Replace("{ipaddress}", "."));
+                RseVidsQueue.Send(m);
+                return Request.CreateResponse(HttpStatusCode.OK);
+                #endregion
+
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Error in Event-VIDSSoftomation : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError);

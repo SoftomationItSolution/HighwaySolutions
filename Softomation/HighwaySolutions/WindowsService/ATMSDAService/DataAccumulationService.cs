@@ -27,6 +27,7 @@ namespace ATMSDAService
         volatile int onstartCheckCount = 0;
         Int32 WeatherAPIHitPerMinite = 15;
         static MessageQueue RseAtccQueue;
+        static MessageQueue RseVidsQueue;
         static MessageQueue RseECBQueue;
         SystemSettingIL systemSetting;
         List<EventsTypeIL> eventsTypesList;
@@ -34,7 +35,12 @@ namespace ATMSDAService
         List<EquipmentConfigIL> equipmentConfigsList;
         List<VehicleClassIL> vehicleClassesList;
         DashboardSystemDataIL ATCCdashboardSystemData;
+        DashboardSystemDataIL VIDSdashboardSystemData;
 
+        static readonly object _locdevice = new object();
+        static readonly object _locClass = new object();
+        static readonly object _locEvent = new object();
+        static readonly object _locPosition = new object();
 
         #region Log Thread
         private Queue logQueue = new Queue();
@@ -50,7 +56,7 @@ namespace ATMSDAService
         #region MQTT
         //12.16.175.50 127.0.0.1
         string MqttIP = "127.0.0.1";
-        static string[] PostTopic = { "Dashboard/ATCC" };
+        static string[] PostTopic = { "Dashboard/ATCC", "Dashboard/VIDS" };
         static MqttClient mqttDataPostLocal = null;
         Thread MqttConnectionThread;
         volatile Boolean stopMqttConnectionThread = false;
@@ -108,14 +114,13 @@ namespace ATMSDAService
             #region Master Data
             try
             {
-
                 systemSetting = SystemSettingBL.Get();
                 eventsTypesList = EventsTypeBL.GetActive();
                 equipmentDetailsList = EquipmentDetailsBL.GetActive();
                 equipmentConfigsList = EquipmentConfigBL.GetActive();
                 vehicleClassesList = VehicleClassBL.GetActive();
                 ATCCdashboardSystemData = DashboardSystemDataBL.GetATCC();
-                //IPAddress[] iPAddresses=GetLocalIPAddress();
+                VIDSdashboardSystemData = DashboardSystemDataBL.GetVIDS();
                 MQTTCreateThread();
             }
             catch (Exception ex)
@@ -131,7 +136,7 @@ namespace ATMSDAService
                     this.Stop();
 
                 }
-                else 
+                else
                 {
                     WeatherAPIHitPerMinite = systemSetting.WeatherAPIHitPerMinite;
                 }
@@ -167,6 +172,20 @@ namespace ATMSDAService
             }
             #endregion
 
+            #region VIDS Data Queue
+            try
+            {
+                RseVidsQueue = MSMQConfig.Create(MSMQConfig.RseVidsQueueName.Replace("{ipaddress}", "."));
+                RseVidsQueue.PeekCompleted += new PeekCompletedEventHandler(RseVidsDataQueue_PeekCompleted);
+                RseVidsQueue.BeginPeek();
+                LogMessage("VIDS Data Queue listener has been attached.");
+            }
+            catch (Exception ex)
+            {
+                LogMessage("Failed to VIDS Data Queue listener. " + ex.Message);
+            }
+            #endregion
+
             #region ECB Data Queue
             try
             {
@@ -185,10 +204,10 @@ namespace ATMSDAService
 
         protected override void OnStop()
         {
-
             try
             {
                 RseAtccQueue.PeekCompleted -= new PeekCompletedEventHandler(RseAtccDataQueue_PeekCompleted);
+                RseVidsQueue.PeekCompleted -= new PeekCompletedEventHandler(RseVidsDataQueue_PeekCompleted);
                 RseECBQueue.PeekCompleted -= new PeekCompletedEventHandler(RseECBDataQueue_PeekCompleted);
             }
             catch (Exception ex)
@@ -241,6 +260,9 @@ namespace ATMSDAService
         {
             MessageQueue mqRSEATCC = (MessageQueue)sender;
             Message mRSEATCC = mqRSEATCC.EndPeek(e.AsyncResult);
+            EquipmentDetailsIL ATCCequipmentDetails = null;
+            EquipmentConfigIL ATCCequipmentConfig = null;
+            VehicleClassIL ATCCvehicleClass = null;
             string DataPacket = string.Empty;
             try
             {
@@ -255,64 +277,87 @@ namespace ATMSDAService
                         LogMessage("ATCC:IP Not Found" + DataPacket);
                     else
                     {
-                        #region Get Equipment Details
-                        var eq = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.EquipmentIp);
-                        if (eq != null)
+
+                        #region Get Vehicle Class
+                        if (!string.IsNullOrEmpty(DataEvent.VehicleClassName))
                         {
-                            DataEvent.EquipmentId = eq.EquipmentId;
-                            DataEvent.ChainageNumber = eq.ChainageNumber;
-                            DataEvent.ChainageName = eq.ChainageName;
-                            DataEvent.PackageId = eq.PackageId;
-                            DataEvent.PackageName = eq.PackageName;
-                            DataEvent.ControlRoomId = eq.ControlRoomId;
-                            DataEvent.ControlRoomName = eq.ControlRoomName;
-                            DataEvent.DirectionId = eq.DirectionId;
-                            DataEvent.DirectionName = eq.DirectionName;
-                          
-
-                            #region Get Equipment Position
-                            var ec = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
-                            if (ec != null)
+                            lock (_locClass)
                             {
-                                DataEvent.PositionId = ec.PositionId;
-                                DataEvent.PositionName = ec.PositionName;
+                                ATCCvehicleClass = vehicleClassesList.SingleOrDefault(x => x.VehicleClassName == DataEvent.VehicleClassName);
+                            }
+                            if (ATCCvehicleClass != null)
+                            {
+                                DataEvent.VehicleClassId = ATCCvehicleClass.VehicleClassId;
                             }
                             else
-                                LogMessage("ATCC:EquipmentConfigsList Not Found" + DataPacket);
-                            #endregion
-
-                            #region Get Vehicle Class
-                            var vc = vehicleClassesList.SingleOrDefault(x => x.VehicleClassName == DataEvent.VehicleClassName);
-                            if (vc != null)
-                            {
-                                DataEvent.VehicleClassId = vc.VehicleClassId;
-                            }
-                            else
-                                LogMessage("ATCC:VehicleClass Not Found" + DataPacket);
-                            #endregion
-
-                            DataEvent.TransactionId = DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
-                            List<ResponseIL> responses = ATCCEventBL.Insert(DataEvent);
-                            try
-                            {
-                                #region Serializer
-                                DashboardSystemDataIL dashATCC = DashboardSystemDataBL.GetATCC();
-                                var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
-                                var sendData = callHistory_Serializer.Serialize(dashATCC);
-                                #endregion
-
-                                #region Publish to MQTT
-                                MqttPublish(mqttDataPostLocal, sendData, PostTopic[0], "ATCCEvents");
-                                #endregion
-                            }
-                            catch (Exception ex)
-                            {
-                                LogMessage("error to send ATCC Events MQTT: error:" + ex.Message.ToString());
-                            }
+                                LogMessage("ATCC:VehicleClass Not Found " + DataPacket);
                         }
                         else
-                            LogMessage("ATCC:EquipmentDetails Not Found" + DataPacket);
+                            LogMessage("ATCC:VehicleClass Not blank " + DataPacket);
                         #endregion
+
+                        if (DataEvent.VehicleClassId > 0)
+                        {
+                            #region Get Equipment Details
+                            lock (_locdevice)
+                            {
+                                ATCCequipmentDetails = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.EquipmentIp);
+                            }
+                            if (ATCCequipmentDetails != null)
+                            {
+                                DataEvent.EquipmentId = ATCCequipmentDetails.EquipmentId;
+                                DataEvent.ChainageNumber = ATCCequipmentDetails.ChainageNumber;
+                                DataEvent.ChainageName = ATCCequipmentDetails.ChainageName;
+                                DataEvent.PackageId = ATCCequipmentDetails.PackageId;
+                                DataEvent.PackageName = ATCCequipmentDetails.PackageName;
+                                DataEvent.ControlRoomId = ATCCequipmentDetails.ControlRoomId;
+                                DataEvent.ControlRoomName = ATCCequipmentDetails.ControlRoomName;
+                                DataEvent.DirectionId = ATCCequipmentDetails.DirectionId;
+                                DataEvent.DirectionName = ATCCequipmentDetails.DirectionName;
+
+                            }
+                            else
+                                LogMessage("ATCC:EquipmentDetails Not Found" + DataPacket);
+                            #endregion
+
+                            if (DataEvent.EquipmentId > 0) 
+                            {
+                                #region Get Equipment Position
+                                lock (_locPosition)
+                                {
+                                    ATCCequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
+                                }
+                                if (ATCCequipmentConfig != null)
+                                {
+                                    DataEvent.PositionId = ATCCequipmentConfig.PositionId;
+                                    DataEvent.PositionName = ATCCequipmentConfig.PositionName;
+                                }
+                                else
+                                    LogMessage("ATCC:EquipmentConfigsList Not Found" + DataPacket);
+                                #endregion
+
+                                #region Data Process
+                                DataEvent.TransactionId = DataEvent.EventDate.ToString(DateTimeFormatTxnIdFormat);
+                                List<ResponseIL> responses = ATCCEventBL.Insert(DataEvent);
+                                try
+                                {
+                                    #region Serializer
+                                    DashboardSystemDataIL dashATCC = DashboardSystemDataBL.GetATCC();
+                                    var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                                    var sendData = callHistory_Serializer.Serialize(dashATCC);
+                                    #endregion
+
+                                    #region Publish to MQTT
+                                    MqttPublish(mqttDataPostLocal, sendData, PostTopic[0], "ATCCEvents");
+                                    #endregion
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogMessage("error to send ATCC Events MQTT: error:" + ex.Message.ToString());
+                                }
+                                #endregion
+                            }
+                        }
                     }
                 }
             }
@@ -326,6 +371,136 @@ namespace ATMSDAService
             {
                 mqRSEATCC.Receive();
                 RseAtccQueue.BeginPeek();
+            }
+
+        }
+        #endregion
+
+        #region VIDS Data Q
+        private void RseVidsDataQueue_PeekCompleted(object sender, PeekCompletedEventArgs e)
+        {
+            MessageQueue mqRSEVIDS = (MessageQueue)sender;
+            Message mRSEVIDS = mqRSEVIDS.EndPeek(e.AsyncResult);
+            string DataPacket = string.Empty;
+            EquipmentDetailsIL VIDSequipmentDetails = null;
+            EquipmentConfigIL VIDSequipmentConfig = null;
+            VehicleClassIL VIDSvehicleClass = null;
+            EventsTypeIL VIDSeventsType = null;
+            try
+            {
+                mRSEVIDS.Formatter = new BinaryMessageFormatter();
+                if (mRSEVIDS != null)
+                {
+                    DataPacket = mRSEVIDS.Body.ToString();
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                    VIDSEventIL DataEvent = json_serializer.Deserialize<VIDSEventIL>(DataPacket);
+                    DataEvent.EventStartDate = Convert.ToDateTime(DataEvent.EventStartDateStamp);
+                    if (string.IsNullOrEmpty(DataEvent.EquipmentIp))
+                        LogMessage("VIDS:IP Not Found" + DataPacket);
+                    else
+                    {
+                        #region Get Events Class
+                        if (!string.IsNullOrEmpty(DataEvent.EventTypeName))
+                        {
+                            lock (_locEvent)
+                            {
+                                VIDSeventsType = eventsTypesList.SingleOrDefault(x => x.EventTypeName == DataEvent.EventTypeName);
+                            }
+                            if (VIDSeventsType != null)
+                            {
+                                DataEvent.EventTypeId = VIDSeventsType.EventTypeId;
+                            }
+                            else
+                                LogMessage("VIDS:EventType Not Found" + DataPacket);
+                        }
+                        #endregion
+
+                        if (DataEvent.EventTypeId > 0)
+                        {
+                            #region Get Equipment Details
+                            lock (_locdevice)
+                            {
+                                VIDSequipmentDetails = equipmentDetailsList.SingleOrDefault(x => x.IpAddress == DataEvent.EquipmentIp);
+                            }
+                            if (VIDSequipmentDetails != null)
+                            {
+                                DataEvent.EquipmentId = VIDSequipmentDetails.EquipmentId;
+                                DataEvent.ChainageNumber = VIDSequipmentDetails.ChainageNumber;
+                                DataEvent.ChainageName = VIDSequipmentDetails.ChainageName;
+                                DataEvent.PackageId = VIDSequipmentDetails.PackageId;
+                                DataEvent.PackageName = VIDSequipmentDetails.PackageName;
+                                DataEvent.ControlRoomId = VIDSequipmentDetails.ControlRoomId;
+                                DataEvent.ControlRoomName = VIDSequipmentDetails.ControlRoomName;
+                            }
+                            else
+                                LogMessage("VIDS:EquipmentDetails Not Found" + DataPacket);
+                            #endregion
+
+                            if (DataEvent.EquipmentId > 0)
+                            {
+                                #region Get Equipment Position
+                                lock (_locPosition)
+                                {
+                                    VIDSequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
+                                }
+                                if (VIDSequipmentConfig != null)
+                                {
+                                    DataEvent.PositionId = VIDSequipmentConfig.PositionId;
+                                    DataEvent.PositionName = VIDSequipmentConfig.PositionName;
+                                }
+                                else
+                                    LogMessage("VIDS:EquipmentConfigsList Not Found" + DataPacket);
+                                #endregion
+
+                                #region Get Vehicle Class
+                                if (!string.IsNullOrEmpty(DataEvent.VehicleClassName))
+                                {
+                                    lock (_locClass)
+                                    {
+                                        VIDSvehicleClass = vehicleClassesList.SingleOrDefault(x => x.VehicleClassName == DataEvent.VehicleClassName);
+                                    }
+                                    if (VIDSvehicleClass != null)
+                                    {
+                                        DataEvent.VehicleClassId = VIDSvehicleClass.VehicleClassId;
+                                    }
+                                }
+                                #endregion
+
+                                #region Data Process
+                                DataEvent.TransactionId = DataEvent.EventStartDate.ToString(DateTimeFormatTxnIdFormat);
+                                List<ResponseIL> responses = VIDSEventBL.Insert(DataEvent);
+                                try
+                                {
+                                    #region Serializer
+                                    DashboardSystemDataIL dashVIDS = DashboardSystemDataBL.GetVIDS();
+                                    var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
+                                    var sendData = callHistory_Serializer.Serialize(dashVIDS);
+                                    #endregion
+
+                                    #region Publish to MQTT
+                                    MqttPublish(mqttDataPostLocal, sendData, PostTopic[1], "VIDSEvents");
+                                    #endregion
+                                }
+                                catch (Exception ex)
+                                {
+                                    LogMessage("error to send VIDS Events MQTT: error:" + ex.Message.ToString());
+                                }
+                                #endregion
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                LogMessage("Error in RseVIDSDataQueue : " + exc.ToString());
+                if (!string.IsNullOrEmpty(DataPacket))
+                    LogMessage("RseVIDSDataQueue DataPacket: " + DataPacket);
+            }
+            finally
+            {
+                mqRSEVIDS.Receive();
+                RseVidsQueue.BeginPeek();
             }
 
         }
@@ -428,24 +603,6 @@ namespace ATMSDAService
                     }
                     #endregion
                     List<ResponseIL> responses = ECBCallEventBL.Insert(DataEvent);
-                    //try
-                    //{
-                    //    #region Serializer
-                    //    DashboardSystemDataIL dashATCC = DashboardSystemDataBL.GetATCC();
-                    //    var callHistory_Serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
-                    //    var sendData = callHistory_Serializer.Serialize(dashATCC);
-                    //    #endregion
-
-                    //    #region Publish to MQTT
-                    //    MqttPublish(mqttDataPostLocal, sendData, PostTopic[0], "ATCCEvents");
-                    //    #endregion
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    LogMessage("error to send ATCC Events MQTT: error:" + ex.Message.ToString());
-                    //}
-
-
                 }
             }
             catch (Exception exc)

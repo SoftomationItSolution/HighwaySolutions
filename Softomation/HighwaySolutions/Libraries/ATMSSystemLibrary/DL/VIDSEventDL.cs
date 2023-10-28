@@ -1,8 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
 
@@ -15,6 +16,38 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         static string tableName = "tbl_VIDSEventsHistory";
         #endregion
 
+        internal static List<ResponseIL> Insert(VIDSEventIL dataEvent)
+        {
+            List<ResponseIL> responses = null;
+            try
+            {
+                string spName = "USP_VIDSEventsInsert";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@TransactionId", DbType.String, dataEvent.TransactionId, ParameterDirection.Input, 30));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EquipmentId", DbType.Int64, dataEvent.EquipmentId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventId", DbType.String, dataEvent.EventId, ParameterDirection.Input, 255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DirectionId", DbType.Int16, dataEvent.DirectionId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventTypeId", DbType.Int16, dataEvent.EventTypeId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventStartDate", DbType.DateTime2, dataEvent.EventStartDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventEndDate", DbType.DateTime2, dataEvent.EventEndDate, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@LaneNumber", DbType.Int16, dataEvent.LaneNumber, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleSpeed", DbType.Decimal, dataEvent.VehicleSpeed, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@VehicleClassId", DbType.Int16, dataEvent.VehicleClassId, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlateNumber", DbType.String, dataEvent.PlateNumber, ParameterDirection.Input,20));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PlateImageUrl", DbType.String, dataEvent.PlateImageUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventImageUrl", DbType.String, dataEvent.EventImageUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@EventVideoUrl", DbType.String, dataEvent.EventVideoUrl, ParameterDirection.Input,255));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@IsReviewedRequired", DbType.Boolean, dataEvent.IsReviewedRequired, ParameterDirection.Input));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemProviderId", DbType.Int16, dataEvent.SystemProviderId, ParameterDirection.Input));
+                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
+                responses = ResponseIL.ConvertResponseList(dt);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return responses;
+        }
         internal static List<VIDSEventIL> GetByHours(short hours)
         {
             List<VIDSEventIL> vidsEvents = new List<VIDSEventIL>();
@@ -176,7 +209,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             if (dr["CreatedDate"] != DBNull.Value)
                 events.CreatedDate = Convert.ToDateTime(dr["CreatedDate"]);
 
-            events.DirectionName = Enum.GetName(typeof(SystemConstants.DirectionType), (SystemConstants.DirectionType)events.DirectionId);
+            events.DirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.DirectionId);
             events.PositionName = Enum.GetName(typeof(SystemConstants.VIDSEquipmentPositionType), (SystemConstants.VIDSEquipmentPositionType)events.PositionId);
             return events;
         }

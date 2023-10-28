@@ -5,9 +5,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     public class VIDSEventIL: PackageIL
     {
         String transactionId;
+        String equipmentIp;
         Int64 equipmentId;
         Int16 positionId;
         String positionName;
+        String eventId;
         Int16 eventTypeId;
         String eventTypeName;
         DateTime eventStartDate;
@@ -27,13 +29,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         Int16 incidentStatusId;
         String incidentStatusName;
         Boolean isReviewedRequired;
+        Boolean isRestiredVehicle;
+        Int16 systemProviderId;
 
         public VIDSEventIL()
         {
             this.transactionId = string.Empty;
+            this.equipmentIp = string.Empty;
             this.equipmentId = 0;
             this.positionId = 0;
             this.positionName = string.Empty;
+            this.eventId = string.Empty;
             this.eventTypeId = 0;
             this.eventTypeName = string.Empty;
             this.eventStartDate = DateTime.MinValue;
@@ -53,6 +59,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.incidentStatusId = 0;
             this.incidentStatusName = string.Empty;
             isReviewedRequired = false;
+            this.isRestiredVehicle = false;
+            this.systemProviderId = 0;
         }
 
         public String TransactionId
@@ -65,6 +73,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 transactionId = value;
+            }
+        }
+        public String EquipmentIp
+        {
+            get
+            {
+                return equipmentIp;
+            }
+
+            set
+            {
+                equipmentIp = value;
             }
         }
         public Int64 EquipmentId
@@ -101,6 +121,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 positionName = value;
+            }
+        }
+        public String EventId
+        {
+            get
+            {
+                return eventId;
+            }
+
+            set
+            {
+                eventId = value;
             }
         }
         public Int16 EventTypeId
@@ -329,6 +361,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 isReviewedRequired = value;
+            }
+        }
+        public Boolean IsRestiredVehicle
+        {
+            get
+            {
+                return isRestiredVehicle;
+            }
+
+            set
+            {
+                isRestiredVehicle = value;
+            }
+        }
+        public Int16 SystemProviderId
+        {
+            get
+            {
+                return systemProviderId;
+            }
+
+            set
+            {
+                systemProviderId = value;
             }
         }
     }
