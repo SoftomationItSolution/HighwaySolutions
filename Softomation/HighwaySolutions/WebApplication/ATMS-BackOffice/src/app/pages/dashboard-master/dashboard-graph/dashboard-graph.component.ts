@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions, ApexNonAxisChartSeries, ApexResponsive, ApexTheme, ApexYAxis, ApexMarkers, ApexFill, ApexForecastDataPoints, ApexLegend } from "ng-apexcharts";
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
@@ -44,14 +44,12 @@ export type LineChartOptions = {
   templateUrl: './dashboard-graph.component.html',
   styleUrls: ['./dashboard-graph.component.css']
 })
-export class DashboardGraphComponent implements OnInit {
+export class DashboardGraphComponent implements OnInit,OnDestroy {
   @ViewChild("chart") chart!: ChartComponent;
   public vidsEventOptions!: Partial<ChartOptions> | any;
   public vidsLocationOptions!: Partial<PieChartOptions> | any;
   public vidsTimeOptions!: Partial<LineChartOptions> | any;
   public atccTimeOptions!: Partial<LineChartOptions> | any;
-
-  
   ErrorData: any;
   VehicleTrafficCount: any;
   ChainageList: any = [];

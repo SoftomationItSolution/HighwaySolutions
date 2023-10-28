@@ -147,26 +147,6 @@ namespace HighwaySoluations.Softomation.NMSSystemLibrary.DL
             }
             return edData;
         }
-        internal static List<EquipmentDetailsIL> GetBySystemId(Int16 SystemId)
-        {
-            DataTable dt = new DataTable();
-            List<EquipmentDetailsIL> edData = new List<EquipmentDetailsIL>();
-            try
-            {
-                string spName = "USP_EquipmentDetailsGetBySystemId";
-                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
-                dt = DBAccessor.LoadDataSet(command, tableName).Tables[tableName];
-                foreach (DataRow dr in dt.Rows)
-                    edData.Add(CreateObjectFromDataRow(dr));
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return edData;
-        }
         internal static List<EquipmentDetailsIL> GetByTypeId(Int16 EquipmentTypeId)
         {
             DataTable dt = new DataTable();

@@ -60,17 +60,6 @@ namespace HighwaySoluations.Softomation.NMSSystemLibrary.BL
             }
 
         }
-        public static List<EquipmentDetailsIL> GetBySystemId(Int16 SystemId)
-        {
-            try
-            {
-                return EquipmentDetailsDL.GetBySystemId(SystemId);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
         public static List<EquipmentDetailsIL> GetByTypeId(Int16 EquipmentTypeId)
         {
             try

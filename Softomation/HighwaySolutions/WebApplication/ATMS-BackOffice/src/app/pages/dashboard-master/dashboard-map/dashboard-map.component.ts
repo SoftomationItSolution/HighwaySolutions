@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
 import { Subscription } from 'rxjs';
 import { LiveViewPopUpComponent } from '../../PopUp/live-view-pop-up/live-view-pop-up.component';
+import { IMqttMessage, MqttService } from 'ngx-mqtt';
 declare var H: any;
 
 @Component({
@@ -11,7 +12,7 @@ declare var H: any;
   templateUrl: './dashboard-map.component.html',
   styleUrls: ['./dashboard-map.component.css']
 })
-export class DashboardMapComponent implements OnInit {
+export class DashboardMapComponent implements OnInit,OnDestroy {
   @ViewChild("map") mapElement!: ElementRef;
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -30,18 +31,19 @@ export class DashboardMapComponent implements OnInit {
   selectedEquipmentType: any;
   selectedEquipmentList: any = [];
   markerList: any = [];
-  DashDataSubscribe!: Subscription;
-  show=true;
+  NMSDataSubscribe!: Subscription;
+  show = true;
+
   constructor(private dbService: apiIntegrationService, private dm: DataModel, private cd: ChangeDetectorRef,
-    public dialog: MatDialog) {
+    public dialog: MatDialog, private _mqttService: MqttService) {
   }
 
   ngOnInit(): void {
     this.GetDashboardEquipment();
   }
   ngOnDestroy() {
-    if (this.DashDataSubscribe != null)
-      this.DashDataSubscribe.unsubscribe();
+    if (this.NMSDataSubscribe != null)
+      this.NMSDataSubscribe.unsubscribe();
   }
 
   GetDashboardEquipment() {
@@ -52,6 +54,7 @@ export class DashboardMapComponent implements OnInit {
         this.selectedEquipmentType = this.EquipmentTypeList;
         this.DefaultCoordinates();
         this.ChnageEquipmentType();
+        this.MQTTNMS();
       },
       (error) => {
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -59,6 +62,24 @@ export class DashboardMapComponent implements OnInit {
         this.DefaultCoordinates();
       }
     );
+  }
+
+  MQTTNMS() {
+    try {
+      this.NMSDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
+        var nsmData = JSON.parse(message.payload.toString());
+        for (let l = 0; l < this.EquipmentList.length; l++) {
+          let d=this.EquipmentList[l];
+          if(d.EquipmentId==nsmData.EquipmentId){
+            d.OnLineStatus=nsmData.OnLineStatus;
+            break;
+          }
+        }
+        this.ChnageEquipmentType();
+      });
+    } catch (error) {
+
+    }
   }
 
   DefaultCoordinates() {
@@ -93,7 +114,8 @@ export class DashboardMapComponent implements OnInit {
   }
 
   addMarkersToMap(map: any, mapUI: any, data: any) {
-    var svgMarkup = 'assets/icons/' + data.EquipmentTypeName.replace(" ", "") + '.svg';
+    var svgMarkup = 'assets/icons/' + data.OnLineStatus + '/' + data.EquipmentTypeName.replace(" ", "") + '.svg';
+    //console.log(svgMarkup)
     var icon = new H.map.Icon(svgMarkup, { size: { w: 40, h: 40 } })
     var parisMarker = new H.map.Marker({ lat: data.Latitude, lng: data.Longitude }, { icon: icon });
     let bubble: any;
@@ -103,7 +125,7 @@ export class DashboardMapComponent implements OnInit {
           '<div style="border-radius: 3px; background-color: rgba(57, 192, 237,.2);">' +
           '<p class="small mb-0">Location:' + data.ChainageName + '-' + data.DirectionName + '</p>' +
           '<p class="small mb-0">IP-Address:' + data.IpAddress + '</p>' +
-          '<p class="small mb-0">'+data.EquipmentTypeName+':' + data.EquipmentName + '</p>' +
+          '<p class="small mb-0">' + data.EquipmentTypeName + ':' + data.EquipmentName + '</p>' +
           '</div>' +
           '</div>'
       });

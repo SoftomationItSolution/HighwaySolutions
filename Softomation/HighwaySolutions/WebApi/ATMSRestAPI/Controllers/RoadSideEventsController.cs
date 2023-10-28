@@ -137,10 +137,17 @@ namespace ATMSRestAPI.Controllers
                     {
                         try
                         {
-                            string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                            FilePath = SaveMediaFiles(ecb.RecordingFileName, currentPath + FilePath, ecb.CallerSession, ".wav");
-                            ecbEvent.RecordingFileName = FilePath.Replace(currentPath, "");
-                            ecbEvent.RecordingFileName = ecbEvent.RecordingFileName.Replace("\\", "/");
+                            if (ecb.RecordingFileName.ToLower().Contains("wav"))
+                            {
+                                ecbEvent.RecordingFileName = ecb.RecordingFileName;
+                            }
+                            else
+                            {
+                                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                                FilePath = SaveMediaFiles(ecb.RecordingFileName, currentPath + FilePath, ecb.CallerSession, ".wav");
+                                ecbEvent.RecordingFileName = FilePath.Replace(currentPath, "");
+                                ecbEvent.RecordingFileName = ecbEvent.RecordingFileName.Replace("\\", "/");
+                            }
 
                         }
                         catch (Exception)

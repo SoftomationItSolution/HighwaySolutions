@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { apiIntegrationService } from '../../services/apiIntegration.service';
 import { DataModel } from '../../services/data-model.model';
@@ -8,11 +8,13 @@ import { ChnagePasswordPopUpComponent } from 'src/app/pages/Config/UserData/chna
 import { UserProfilePopupComponent } from 'src/app/pages/Config/UserData/user-profile-popup/user-profile-popup.component';
 import { AppLockComponent } from 'src/app/pages/Config/UserData/app-lock/app-lock.component';
 import { SystemSettingComponent } from 'src/app/pages/Config/system-setting/system-setting.component';
+import { Subscription } from 'rxjs';
+import { IMqttMessage, MqttService } from 'ngx-mqtt';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
 })
-export class DefaultLayoutComponent implements OnInit {
+export class DefaultLayoutComponent implements OnInit,OnDestroy {
   UserData: any;
   public perfectScrollbarConfig = {
     suppressScrollX: true,
@@ -32,6 +34,7 @@ export class DefaultLayoutComponent implements OnInit {
   capslockOn = false;
   NotificationHide = false;
   NotificationTest = "Welcome in command and control application";
+  NMSDataSubscribe!: Subscription;
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: any) {
     if (event.ctrlKey && event.keyCode == 76) {
@@ -45,7 +48,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, public dialog: MatDialog,) {
+    public api: apiIntegrationService, public dialog: MatDialog, private _mqttService: MqttService) {
     this.docElement = document.documentElement;
     this.MediaPrefix = this.dataModel.getMediaAPI()?.toString();
   }
@@ -60,9 +63,28 @@ export class DefaultLayoutComponent implements OnInit {
     if (lck == "true") {
       this.alOpen();
     }
+    this.MQTTNMS();
   }
   ngAfterViewInit() {
     this.getTitle();
+  }
+
+  ngOnDestroy() {
+    if (this.NMSDataSubscribe != null)
+      this.NMSDataSubscribe.unsubscribe();
+  }
+
+  MQTTNMS() {
+    try {
+      this.NMSDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
+        var nsmData = JSON.parse(message.payload.toString());
+        if(nsmData.OnLineStatus)
+          this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.ChainageName+" is online!" 
+        this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.ChainageName+" is offline!" 
+      });
+    } catch (error) {
+
+    }
   }
 
   GetSystemMenu() {

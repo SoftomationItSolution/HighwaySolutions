@@ -7,16 +7,14 @@ using System.Collections;
 using System.ServiceProcess;
 using System.Collections.Generic;
 using uPLibrary.Networking.M2Mqtt;
+using System.Web.Script.Serialization;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using HighwaySoluations.Softomation.NMSSystemLibrary;
-using HighwaySoluations.Softomation.NMSSystemLibrary.IL;
-using HighwaySoluations.Softomation.NMSSystemLibrary.SystemLogger;
-
-using static HighwaySoluations.Softomation.CommonLibrary.Constants;
-using HighwaySoluations.Softomation.NMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
-using System.Web.Script.Serialization;
-using System.Threading.Tasks;
+using HighwaySoluations.Softomation.NMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.NMSSystemLibrary.BL;
+using HighwaySoluations.Softomation.NMSSystemLibrary.SystemLogger;
+using static HighwaySoluations.Softomation.CommonLibrary.Constants;
 
 namespace NMSService
 {
@@ -356,21 +354,24 @@ namespace NMSService
                     lock (_locdevice)
                     {
                         equipmentDetailsList = EquipmentDetailsBL.GetActive();
+                        //LogMessage("equipmentDetailsList:" + equipmentDetailsList.Count);
                     }
-
                     foreach (EquipmentDetailsIL item in equipmentDetailsList)
                     {
+                        //LogMessage("going to check:" + item.IpAddress);
                         if (SystemConstants.ValidateIP(item.IpAddress))
                         {
                             CheckStatus(item);
-                            //var task = Task.Factory.StartNew(() => CheckStatus(item));
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-
-                    throw ex;
+                    LogMessage("error in Equipment Status Function." + ex.ToString());
+                }
+                finally
+                {
+                    Thread.Sleep(100);
                 }
             }
         }
@@ -383,6 +384,7 @@ namespace NMSService
                 currentStatus.IpAddress = item.IpAddress;
                 currentStatus.EquipmentId = item.EquipmentId;
                 currentStatus = SystemConstants.CheckStatusByIMCP(currentStatus);
+                //LogMessage("Equipment Details : " + item.IpAddress + " Last Status : " + item.OnLineStatus + " Current Status : " + currentStatus.OnLineStatus);
                 if (item.OnLineStatus != currentStatus.OnLineStatus)
                 {
                     if (!currentStatus.OnLineStatus)

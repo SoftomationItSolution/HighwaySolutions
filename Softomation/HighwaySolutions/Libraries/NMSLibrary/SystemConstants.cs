@@ -105,6 +105,7 @@ namespace HighwaySoluations.Softomation.NMSSystemLibrary
         {
             try
             {
+                impcStatus.OnLineStatus = false;
                 Ping myPing = new Ping();
                 PingReply reply = myPing.Send(impcStatus.IpAddress, impcStatus.Timeout);
                 if (reply != null)
