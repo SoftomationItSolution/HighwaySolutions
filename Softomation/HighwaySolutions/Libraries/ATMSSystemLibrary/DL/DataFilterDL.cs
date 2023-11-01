@@ -67,6 +67,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 dataResult.PackageDataList = PackageData;
                 dataResult.ChainageDataList = ChainageData;
                 dataResult.IncidentDataList = IncidentData;
+                dataResult.VehicleTypeList = VehcileData;
             }
             return dataResult;
         }

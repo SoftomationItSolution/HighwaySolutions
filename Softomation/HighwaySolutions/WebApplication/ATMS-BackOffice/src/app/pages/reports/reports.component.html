@@ -22,7 +22,7 @@
                                         <div class="col-md-3">
                                             <label for="DataId">System</label>
                                             <p-dropdown appendTo="body" formControlName="SystemId" inputId="DataId"
-                                                [options]="SystemData" optionLabel="DataName" optionValue="DataId"
+                                                [options]="SystemData" optionLabel="SystemName" optionValue="SystemId"
                                                 placeholder="Select" class="form-control select2"
                                                 (onChange)="GetMasterReportData()"></p-dropdown>
                                                 <small class="p-error"
@@ -107,7 +107,7 @@
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="VehicleClassFilterList"
                                                 inputId="VehicleClassFilterList" [options]="VehicleClassDataList"
-                                                optionLabel="VehicleClassName" optionValue="VehicleClassId"
+                                                optionLabel="DataName" optionValue="DataId"
                                                 placeholder="Vehicle Class">
                                             </p-multiSelect>
                                         </div>

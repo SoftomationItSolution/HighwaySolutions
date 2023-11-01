@@ -112,8 +112,11 @@ export class ReportsComponent {
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
         this.SystemData = this.MasterData.SystemDataList
+        this.VehicleClassDataList = this.MasterData.VehicleTypeList
         this.GetEventData();
-        this.GetVehicleList();
+        this.GetSystemList();
+
+       
       },
       (error) => {
         this.spinner.hide();
@@ -123,10 +126,11 @@ export class ReportsComponent {
     );
   }
 
-  GetVehicleList() {
-    this.dbService.VehicleClassGetActive().subscribe(
+  GetSystemList() {
+    this.dbService.SystemGetActive().subscribe(
       data => {
-        this.VehicleClassDataList = data.ResponseData;
+        this.SystemData = data.ResponseData.filter((e: { ReportIds: any; }) => e.ReportIds != '');
+        console.log(this.SystemData)
       },
       (error) => {
         this.spinner.hide();
