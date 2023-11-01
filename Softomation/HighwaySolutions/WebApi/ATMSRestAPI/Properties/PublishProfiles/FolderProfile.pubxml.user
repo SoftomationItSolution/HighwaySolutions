@@ -5,9 +5,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\AppPublish\ATMS</_PublishTargetUrl>
-    <History>True|2023-10-28T10:39:16.9180438Z;True|2023-10-28T16:02:50.6115103+05:30;True|2023-10-28T15:57:18.4994520+05:30;True|2023-10-28T14:21:16.0925660+05:30;True|2023-10-27T17:42:53.2795542+05:30;True|2023-10-26T12:49:26.1526359+05:30;True|2023-10-26T11:39:49.5536981+05:30;True|2023-10-26T11:33:36.7524275+05:30;True|2023-10-18T14:51:49.2300387+05:30;True|2023-10-14T21:36:33.5104165+05:30;True|2023-10-14T21:29:54.9749784+05:30;True|2023-10-13T19:46:13.5527282+05:30;True|2023-10-13T16:30:55.3475141+05:30;True|2023-10-13T16:10:25.9259269+05:30;True|2023-10-13T15:58:09.2496913+05:30;True|2023-10-13T14:59:28.4503902+05:30;True|2023-10-12T17:14:49.1873123+05:30;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
+    <History>True|2023-11-01T11:57:58.3432407Z;True|2023-11-01T17:27:43.1582193+05:30;True|2023-10-28T16:09:16.9180438+05:30;True|2023-10-28T16:02:50.6115103+05:30;True|2023-10-28T15:57:18.4994520+05:30;True|2023-10-28T14:21:16.0925660+05:30;True|2023-10-27T17:42:53.2795542+05:30;True|2023-10-26T12:49:26.1526359+05:30;True|2023-10-26T11:39:49.5536981+05:30;True|2023-10-26T11:33:36.7524275+05:30;True|2023-10-18T14:51:49.2300387+05:30;True|2023-10-14T21:36:33.5104165+05:30;True|2023-10-14T21:29:54.9749784+05:30;True|2023-10-13T19:46:13.5527282+05:30;True|2023-10-13T16:30:55.3475141+05:30;True|2023-10-13T16:10:25.9259269+05:30;True|2023-10-13T15:58:09.2496913+05:30;True|2023-10-13T14:59:28.4503902+05:30;True|2023-10-12T17:14:49.1873123+05:30;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
+    <File Include="App_Browsers/qt.browser">
+      <publishTime>10/31/2023 13:22:24</publishTime>
+    </File>
     <File Include="bin/Antlr3.Runtime.dll">
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
@@ -15,28 +18,28 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.dll">
-      <publishTime>10/28/2023 16:09:16</publishTime>
+      <publishTime>11/01/2023 17:27:57</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.pdb">
-      <publishTime>10/28/2023 16:09:16</publishTime>
+      <publishTime>11/01/2023 17:27:57</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll">
-      <publishTime>10/28/2023 16:09:15</publishTime>
+      <publishTime>11/01/2023 17:27:41</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll.config">
       <publishTime>10/26/2023 11:51:04</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.pdb">
-      <publishTime>10/28/2023 16:09:15</publishTime>
+      <publishTime>11/01/2023 17:27:41</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll">
-      <publishTime>10/26/2023 12:49:24</publishTime>
+      <publishTime>11/01/2023 17:27:41</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll.config">
       <publishTime>10/26/2023 11:51:02</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.pdb">
-      <publishTime>10/26/2023 12:49:24</publishTime>
+      <publishTime>11/01/2023 17:27:41</publishTime>
     </File>
     <File Include="bin/HtmlAgilityPack.dll">
       <publishTime>10/04/2023 04:10:46</publishTime>
@@ -220,6 +223,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="bin/roslyn/VBCSCompiler.exe.config">
       <publishTime>08/13/2023 12:00:47</publishTime>
+    </File>
+    <File Include="bin/Rotativa.dll">
+      <publishTime>08/13/2023 12:00:48</publishTime>
     </File>
     <File Include="bin/System.Buffers.dll">
       <publishTime>08/13/2023 12:00:48</publishTime>
@@ -620,6 +626,12 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     <File Include="Views/Home/Moniter.cshtml">
       <publishTime>10/12/2023 19:47:22</publishTime>
     </File>
+    <File Include="Views/Reports/ATCC_Report_1.cshtml">
+      <publishTime>11/01/2023 17:22:30</publishTime>
+    </File>
+    <File Include="Views/Reports/Report_1.cshtml">
+      <publishTime>10/31/2023 14:01:53</publishTime>
+    </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>08/09/2023 10:30:30</publishTime>
     </File>
@@ -633,7 +645,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/09/2023 10:30:22</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/26/2023 12:49:24</publishTime>
+      <publishTime>11/01/2023 17:27:42</publishTime>
     </File>
   </ItemGroup>
 </Project>

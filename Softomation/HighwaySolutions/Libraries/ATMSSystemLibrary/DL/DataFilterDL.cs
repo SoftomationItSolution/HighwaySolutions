@@ -19,6 +19,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             List<MasterDataIL> PackageData = new List<MasterDataIL>();
             List<MasterDataIL> ChainageData = new List<MasterDataIL>();
             List<MasterDataIL> IncidentData = new List<MasterDataIL>();
+            List<MasterDataIL> VehcileData = new List<MasterDataIL>();
             try
             {
                 string spName = "USP_MasterDataGetBySystemId";
@@ -49,6 +50,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 foreach (DataRow dr in ds.Tables[4].Rows)
                     IncidentData.Add(CreateObjectForIncident(dr));
                 #endregion
+
+                #region Vehcile
+                foreach (DataRow dr in ds.Tables[5].Rows)
+                    VehcileData.Add(CreateObjectForVehcile(dr));
+                #endregion
             }
             catch (Exception ex)
             {
@@ -68,20 +74,25 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         {
             DataSet ds = new DataSet();
             DataFilterIL dataResult = new DataFilterIL();
+            List<MasterDataIL> reportData = new List<MasterDataIL>();
             try
             {
                 string spName = "USP_ReportDataGetBySystemId";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemId", DbType.Int32, SystemId, ParameterDirection.Input));
                 ds = DBAccessor.LoadDataSet(command, "temp");
-                //#region System Master
-                //foreach (DataRow dr in ds.Tables[0].Rows)
-                //    SystemData.Add(CreateObjectForSystem(dr));
-                //#endregion
+                #region System Master
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                    reportData.Add(CreateObjectForReport(dr));
+                #endregion
             }
             catch (Exception ex)
             {
                 throw ex;
+            }
+            finally 
+            {
+                dataResult.ReportTypeList = reportData;
             }
             return dataResult;
         }
@@ -138,9 +149,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
                 dataFilter.DataName = SystemConstants.ConvertChainageName(dataFilter.DataValue);
             }
 
-            //if (dr["ChainageName"] != DBNull.Value)
-            //    dataFilter.DataName = Convert.ToString(dr["ChainageName"]);
-
             return dataFilter;
         }
         private static MasterDataIL CreateObjectForIncident(DataRow dr)
@@ -151,6 +159,33 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             if (dr["IncidentCategoryName"] != DBNull.Value)
                 dataFilter.DataName = Convert.ToString(dr["IncidentCategoryName"]);
+
+            return dataFilter;
+        }
+
+        private static MasterDataIL CreateObjectForVehcile(DataRow dr)
+        {
+            MasterDataIL dataFilter = new MasterDataIL();
+            if (dr["VehicleClassId"] != DBNull.Value)
+                dataFilter.DataId = Convert.ToInt16(dr["VehicleClassId"]);
+
+            if (dr["VehicleClassName"] != DBNull.Value)
+                dataFilter.DataName = Convert.ToString(dr["VehicleClassName"]);
+
+            return dataFilter;
+        }
+
+        private static MasterDataIL CreateObjectForReport(DataRow dr)
+        {
+            MasterDataIL dataFilter = new MasterDataIL();
+            if (dr["ReportId"] != DBNull.Value)
+                dataFilter.DataId = Convert.ToInt16(dr["ReportId"]);
+
+            if (dr["ReportName"] != DBNull.Value)
+                dataFilter.DataName = Convert.ToString(dr["ReportName"]);
+
+            if (dr["ParentId"] != DBNull.Value)
+                dataFilter.ParentId = Convert.ToInt16(dr["ParentId"]);
 
             return dataFilter;
         }

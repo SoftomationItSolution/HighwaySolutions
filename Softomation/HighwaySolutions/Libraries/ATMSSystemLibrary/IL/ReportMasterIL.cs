@@ -6,6 +6,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     {
         Int16 reportId;
         String reportName;
+        Boolean isLandscape;
         Int16 parentId;
         Int16 orderBy;
 
@@ -13,6 +14,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             reportId = 0;
             reportName = String.Empty;
+            isLandscape = false;
             parentId = 0;
             orderBy = 0;
         }
@@ -40,6 +42,19 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             set
             {
                 reportName = value;
+            }
+        }
+
+        public Boolean IsLandscape
+        {
+            get
+            {
+                return isLandscape;
+            }
+
+            set
+            {
+                isLandscape = value;
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,17 +7,23 @@ using HtmlAgilityPack;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary;
-using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
+using HighwaySoluations.Softomation.ATMSSystemLibrary.BL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger;
-using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
+
 using static HighwaySoluations.Softomation.CommonLibrary.Constants;
-using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
+
+using RouteAttribute = System.Web.Http.RouteAttribute;
 using HttpGetAttribute = System.Web.Http.HttpGetAttribute;
 using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
-using RouteAttribute = System.Web.Http.RouteAttribute;
+using AllowAnonymousAttribute = System.Web.Http.AllowAnonymousAttribute;
+
 
 namespace ATMSRestAPI.Controllers
 {
@@ -2324,37 +2329,19 @@ namespace ATMSRestAPI.Controllers
             try
             {
                 if (data.IsReviewedRequired)
-                {
                     data.FilterQuery = "WHERE H.ReviewedStatus=1 AND H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
                 else
-                {
                     data.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
-                }
                 if (data.ControlRoomFilterList != "0")
-                {
                     data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
-                }
                 if (data.PackageFilterList != "0")
-                {
                     data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
-                }
                 if (data.ChainageFilterList != "0")
-                {
                     data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
-                }
                 if (data.DirectionFilterList != "0")
-                {
                     data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
-                }
                 if (data.PositionFilterList != "0")
-                {
                     data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
-                }
-                if (data.ReviewedFilterList != "0")
-                {
-                    data.FilterQuery = data.FilterQuery + " AND H.ReviewedById IN (" + data.ReviewedFilterList + ") ";
-                }
 
                 resp.AlertMessage = "success";
                 response.Message.Add(resp);
@@ -2757,6 +2744,72 @@ namespace ATMSRestAPI.Controllers
             catch (Exception ex)
             {
                 BackOfficeAPILog("Exception in GetMediaFile : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
+        #region RMS
+        [Route(Provider + "/" + APIPath + "/ReportsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ReportsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                try
+                {
+                    string ApiBaseURL = HttpContext.Current.Request.Url.OriginalString.Replace(HttpContext.Current.Request.Url.LocalPath, "");
+                    string FileName = string.Empty;
+                    string urlAddress = string.Empty;
+                    FileName = Regex.Replace(data.ReportId.ToString(), @"\s+", "") + "_" + Guid.NewGuid() + ".pdf";
+
+                    #region Save Json File
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                    var jsonString = json_serializer.Serialize(data);
+                    string rootpath = HttpContext.Current.Server.MapPath("~/filter/");
+                    if (!Directory.Exists(rootpath))
+                    {
+                        Directory.CreateDirectory(rootpath);
+                    }
+                    var filepath = rootpath + FileName.Replace(".pdf", ".json");
+                    File.Create(filepath).Dispose();
+                    File.WriteAllText(filepath, jsonString);
+                    #endregion
+
+                    urlAddress = ApiBaseURL + "/Reports/FullReports?ReportId=" + data.ReportId + "&SystemId=" + data.SystemId + "&FileName=" + FileName;
+
+                    var client = new WebClient();
+                    client.Headers.Add("User-Agent", "C# console program");
+                    string content = client.DownloadString(urlAddress);
+                    if (string.IsNullOrEmpty(content))
+                    {
+                        resp.AlertMessage = "Something went wrong!";
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
+                    else
+                    {
+                        string FinalPath = ApiBaseURL + "/reports/" + FileName;
+                        resp.AlertMessage = FinalPath;
+                        response.Message.Add(resp);
+                        return Request.CreateResponse(HttpStatusCode.OK, response);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BackOfficeAPILog("Exception in GetReport : " + ex.Message.ToString());
+                    resp.AlertMessage = ex.Message.ToString();
+                    response.Message.Add(resp);
+                    return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ReportsGetByFilter : " + ex.Message.ToString());
                 resp.AlertMessage = ex.Message.ToString();
                 response.Message.Add(resp);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, response);

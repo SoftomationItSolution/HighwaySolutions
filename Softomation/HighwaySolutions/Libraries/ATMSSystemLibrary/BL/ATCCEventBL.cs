@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DL;
-
+using System.Data;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
 {
@@ -54,6 +54,18 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
             }
         }
 
-        
+        public static DataSet ReportSummeryGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return ATCCEventDL.ReportSummeryGetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
     }
 }

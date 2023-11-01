@@ -710,6 +710,12 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetMediaFile?theUrl=' + theUrl, { headers: headers_object });
   }
+
+  ReportGetByFilter(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ReportsGetByFilter', data, { headers: headers_object });
+  }
 }
 
 

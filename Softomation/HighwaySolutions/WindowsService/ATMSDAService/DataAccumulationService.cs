@@ -252,8 +252,7 @@ namespace ATMSDAService
             }
         }
         #endregion
-
-
+        
         #region Helper Methods
         #region ATCC Data Q
         private void RseAtccDataQueue_PeekCompleted(object sender, PeekCompletedEventArgs e)

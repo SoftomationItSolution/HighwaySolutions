@@ -7,6 +7,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
     public class DataFilterIL
     {
         Int16 systemId;
+        Int16 reportId;
         private String systemFilterList;
         private String controlRoomFilterList;
         private String packageFilterList;
@@ -36,11 +37,15 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private List<MasterDataIL> packageDataList;
         private List<MasterDataIL> chainageDataList;
         private List<MasterDataIL> incidentDataList;
+        List<MasterDataIL> reportTypeList;
+        List<MasterDataIL> vehicleTypeList;
         private String reviewedStatusList;
+        
 
         public DataFilterIL()
         {
             this.systemId = 0;
+            this.reportId = 0;
             this.systemFilterList = string.Empty;
             this.controlRoomFilterList = string.Empty;
             this.packageFilterList = string.Empty;
@@ -71,11 +76,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             packageDataList = new List<MasterDataIL>();
             chainageDataList = new List<MasterDataIL>();
             incidentDataList = new List<MasterDataIL>();
+            reportTypeList = new List<MasterDataIL>();
+            vehicleTypeList = new List<MasterDataIL>();
             this.reviewedStatusList = string.Empty;
         }
         public short SystemId
         {
             get => systemId; set => systemId = value;
+        }
+        public short ReportId
+        {
+            get => reportId; set => reportId = value;
         }
         public string SystemFilterList
         {
@@ -238,7 +249,30 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 incidentDataList = value;
             }
         }
+        public List<MasterDataIL> ReportTypeList
+        {
+            get
+            {
+                return reportTypeList;
+            }
 
+            set
+            {
+                reportTypeList = value;
+            }
+        }
+        public List<MasterDataIL> VehicleTypeList
+        {
+            get
+            {
+                return vehicleTypeList;
+            }
+
+            set
+            {
+                vehicleTypeList = value;
+            }
+        }
         public string ReviewedStatusList
         {
             get
@@ -251,6 +285,8 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
                 reviewedStatusList = value;
             }
         }
+
+       
     }
 
 

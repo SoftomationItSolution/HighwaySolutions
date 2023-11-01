@@ -37,6 +37,11 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.SystemLogger
                             path = CreateDirectory("BackOfficeAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
                             break;
                         }
+                    case ErrorLogModule.BackOfficeReportAPI:
+                        {
+                            path = CreateDirectory("BackOfficeReportAPI//") + dt.ToString("yyyy-MM-dd") + ".log";
+                            break;
+                        }
                     case ErrorLogModule.EventAPI:
                         {
                             path = CreateDirectory("EventAPI//") + dt.ToString("yyyy-MM-dd") + ".log";

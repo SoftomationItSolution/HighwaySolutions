@@ -62,6 +62,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         {
             GeneralLog,
             BackOfficeAPI,
+            BackOfficeReportAPI,
             BankAPI,
             EventAPI,
             ServiceMonitor,
