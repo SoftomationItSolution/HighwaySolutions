@@ -27,6 +27,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private String temperatureFilterList;
         private String humidityFilterList;
         private String visibilityFilterList;
+        private String callTypeFilterList;
         private String plateNumber;
         private String startDateTime;
         private String endDateTime;
@@ -65,6 +66,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.temperatureFilterList = string.Empty;
             this.humidityFilterList = string.Empty;
             this.visibilityFilterList = string.Empty;
+            this.callTypeFilterList = string.Empty;
             this.plateNumber = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
@@ -112,7 +114,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => equipmentTypeFilterList; set => equipmentTypeFilterList = value;
         }
-
         public string EquipmentIdFilterList
         {
             get => equipmentIdFilterList; set => equipmentIdFilterList = value;
@@ -133,7 +134,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => incidentStatusList; set => incidentStatusList = value;
         }
-
         public string PriorityFilterList
         {
             get => priorityFilterList; set => priorityFilterList = value;
@@ -154,20 +154,21 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         {
             get => messageTypeIdFilterList; set => messageTypeIdFilterList = value;
         }
-
         public string TemperatureFilterList
         {
             get => temperatureFilterList; set => temperatureFilterList = value;
         }
-
         public string HumidityFilterList
         {
             get => humidityFilterList; set => humidityFilterList = value;
         }
-
         public string VisibilityFilterList
         {
             get => visibilityFilterList; set => visibilityFilterList = value;
+        }
+        public string CallTypeFilterList
+        {
+            get => callTypeFilterList; set => callTypeFilterList = value;
         }
         public string PlateNumber
         {

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/app/services/apiIntegration.service';
 import { DataModel } from 'src/app/services/data-model.model';
@@ -34,8 +35,10 @@ export class ReportsComponent {
   SystemData: any;
   ReportList: any;
   submitted = false;
+  pdfSrc: any;
+  CallTypeList = [{ "DataValue": 1, "DataName": 'Incomming' }, { "DataValue": 2, "DataName": 'Outgoing' }, { "DataValue": 3, "DataName": 'Missed' }, { "DataValue": 4, "DataName": 'Rejected' }];
   constructor(private dm: DataModel, private spinner: NgxSpinnerService,
-    public datepipe: DatePipe, private dbService: apiIntegrationService,) {
+    public datepipe: DatePipe, private dbService: apiIntegrationService, private sanitizer: DomSanitizer) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
   }
@@ -52,6 +55,7 @@ export class ReportsComponent {
       DirectionFilterList: new FormControl(''),
       EventFilterList: new FormControl(''),
       VehicleClassFilterList: new FormControl(''),
+      CallTypeFilterList: new FormControl(''),
       SystemId: new FormControl('', [Validators.required]),
       ReportId: new FormControl('', [Validators.required]),
     });
@@ -115,8 +119,6 @@ export class ReportsComponent {
         this.VehicleClassDataList = this.MasterData.VehicleTypeList
         this.GetEventData();
         this.GetSystemList();
-
-       
       },
       (error) => {
         this.spinner.hide();
@@ -130,7 +132,6 @@ export class ReportsComponent {
     this.dbService.SystemGetActive().subscribe(
       data => {
         this.SystemData = data.ResponseData.filter((e: { ReportIds: any; }) => e.ReportIds != '');
-        console.log(this.SystemData)
       },
       (error) => {
         this.spinner.hide();
@@ -285,6 +286,15 @@ export class ReportsComponent {
           EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
         }
       }
+
+      let CallTypeFilterList = "0"
+    if (this.FilterDetailsForm.value.CallTypeFilterList != null && this.FilterDetailsForm.value.CallTypeFilterList != '') {
+      let crData = this.FilterDetailsForm.value.CallTypeFilterList.toString();
+      if (crData.split(',').length != this.CallTypeList.length) {
+        CallTypeFilterList = this.FilterDetailsForm.value.CallTypeFilterList.toString();
+      }
+    }
+
       let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
       let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
       var obj = {
@@ -292,9 +302,10 @@ export class ReportsComponent {
         PackageFilterList: PackageFilterList,
         ChainageFilterList: ChainageFilterList,
         DirectionFilterList: DirectionFilterList,
-        PositionFilterList:PositionFilterList,
-        EventFilterList:EventFilterList,
+        PositionFilterList: PositionFilterList,
+        EventFilterList: EventFilterList,
         VehicleClassFilterList: VehicleClassFilterList,
+        CallTypeFilterList:CallTypeFilterList,
         ReportId: this.FilterDetailsForm.value.ReportId,
         SystemId: this.FilterDetailsForm.value.SystemId,
         StartDateTime: SD,
@@ -304,8 +315,17 @@ export class ReportsComponent {
       this.dbService.ReportGetByFilter(obj).subscribe(
         data => {
           let returnMessage = data.Message[0].AlertMessage;
-          if(returnMessage.indexOf('pdf')>-1){
+          if (returnMessage.indexOf('pdf') > -1) {
+            //this.pdfSrc=returnMessage;
+            //this.pdfSrc=this.sanitizer.bypassSecurityTrustUrl(returnMessage)
+            //this.pdfSrc = this._base64ToArrayBuffer(returnMessage);
             window.open(returnMessage);
+
+            this.pdfSrc = {
+              url: returnMessage,
+              withCredentials: true
+            };
+
           }
           this.spinner.hide();
         },
@@ -315,6 +335,70 @@ export class ReportsComponent {
           this.dm.openSnackBar(this.ErrorData, false);
         }
       );
+    }
+
+  }
+
+  _base64ToArrayBuffer(base64: string) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
+  }
+
+  ReportTypeChange(value:any){
+    if(value==1){
+      this.FilterDetailsForm.get(["ControlRoomFilterList"])?.reset();
+      this.FilterDetailsForm.get(["ControlRoomFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["PackageFilterList"])?.reset();
+      this.FilterDetailsForm.get(["PackageFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["ChainageFilterList"])?.reset();
+      this.FilterDetailsForm.get(["ChainageFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["DirectionFilterList"])?.reset();
+      this.FilterDetailsForm.get(["DirectionFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["PositionFilterList"])?.reset();
+      this.FilterDetailsForm.get(["PositionFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["EventFilterList"])?.reset();
+      this.FilterDetailsForm.get(["EventFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["VehicleClassFilterList"])?.reset();
+      this.FilterDetailsForm.get(["VehicleClassFilterList"])?.disable();
+
+      this.FilterDetailsForm.get(["CallTypeFilterList"])?.reset();
+      this.FilterDetailsForm.get(["CallTypeFilterList"])?.disable();
+    }
+    else{
+      this.FilterDetailsForm.get(["ControlRoomFilterList"])?.reset();
+      this.FilterDetailsForm.get(["ControlRoomFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["PackageFilterList"])?.reset();
+      this.FilterDetailsForm.get(["PackageFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["ChainageFilterList"])?.reset();
+      this.FilterDetailsForm.get(["ChainageFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["DirectionFilterList"])?.reset();
+      this.FilterDetailsForm.get(["DirectionFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["PositionFilterList"])?.reset();
+      this.FilterDetailsForm.get(["PositionFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["EventFilterList"])?.reset();
+      this.FilterDetailsForm.get(["EventFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["VehicleClassFilterList"])?.reset();
+      this.FilterDetailsForm.get(["VehicleClassFilterList"])?.enable();
+
+      this.FilterDetailsForm.get(["CallTypeFilterList"])?.reset();
+      this.FilterDetailsForm.get(["CallTypeFilterList"])?.enable();
     }
 
   }

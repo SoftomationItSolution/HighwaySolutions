@@ -38,6 +38,48 @@
                                                 pInputText autofocus class="form-control" formControlName="EndDateTime"
                                                 [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
                                         </div>
+                                        <div class="col-md-3">
+                                            <label for="ControlRoomFilterList">Control Room</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ControlRoomFilterList"
+                                                inputId="ControlRoomFilterList" [options]="ControlRoomData"
+                                                (onChange)="FillPackages()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Control Room">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="PackageFilterList">Package</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="PackageFilterList"
+                                                inputId="PackageFilterList" [options]="PackageFilter"
+                                                (onChange)="FillChainage()" optionLabel="DataName" optionValue="DataId"
+                                                placeholder="Package">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="ChainageFilterList">Chainage</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="ChainageFilterList"
+                                                inputId="ChainageFilterList" [options]="ChainageFilter"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Chainage">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="DirectionFilterList">Direction</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="DirectionFilterList"
+                                                inputId="DirectionFilterList" [options]="DirectionList"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Direction">
+                                            </p-multiSelect>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="CallTypeFilterList">Call Type</label>
+                                            <p-multiSelect appendTo="body" class="form-control select2"
+                                                [style]="{'width':'100%'}" formControlName="CallTypeFilterList"
+                                                inputId="CallTypeFilterList" [options]="CallTypeList"
+                                                optionLabel="DataName" optionValue="DataValue" placeholder="Call Type">
+                                            </p-multiSelect>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-1 align-self-center">
@@ -50,32 +92,19 @@
                         </form>
                     </div>
                 </div>
-                <div class="table-responsive mt-3 listtablepagging-1 listtablepadding" id="tbl">
+                <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
                     <p-table #dt [value]="callHistory" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
-                        [globalFilterFields]="['CallerNumber','CallerIpAddress','CallerName','CallerTypeName','CalleeNumber','CalleeIpAddress','CalleeName','CalleeTypeName','CallDuration']">
+                        [globalFilterFields]="['CallTypeName','CallerNumber','CalleeNumber','CallDuration','StartDateTimeStamp']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="CallerNumber">Number<p-sortIcon field="CallerNumber"></p-sortIcon>
+                                <th pSortableColumn="CallTypeName">Call Type<p-sortIcon
+                                        field="CallTypeName"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="CallerIpAddress">IpAddress<p-sortIcon
-                                        field="CallerIpAddress"></p-sortIcon>
+                                <th pSortableColumn="CallerNumber">Caller<p-sortIcon field="CallerNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="CallerName">Name<p-sortIcon field="CallerName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="CallerTypeName">Type<p-sortIcon
-                                        field="CallerTypeName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="CalleeNumber">Number<p-sortIcon field="CalleeNumber"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="CalleeIpAddress">IpAddress<p-sortIcon
-                                        field="CalleeIpAddress"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="CalleeName">Name<p-sortIcon field="CalleeName"></p-sortIcon>
-                                </th>
-                                <th pSortableColumn="CalleeTypeName">Type<p-sortIcon
-                                        field="CalleeTypeName"></p-sortIcon>
+                                <th pSortableColumn="CalleeNumber">Reviver<p-sortIcon field="CalleeNumber"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="StartDateTimeStamp">Date Time<p-sortIcon
                                         field="StartDateTimeStamp"></p-sortIcon>
@@ -89,19 +118,14 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.CallerNumber}}</td>
-                                <td>{{rowData.CallerIpAddress}}</td>
-                                <td>{{rowData.CallerName}}</td>
-                                <td>{{rowData.CallerTypeName}}</td>
-                                <td>{{rowData.CalleeNumber}}</td>
-                                <td>{{rowData.CalleeIpAddress}}</td>
-                                <td>{{rowData.CalleeName}}</td>
-                                <td>{{rowData.CalleeTypeName}}</td>
+                                <td>{{rowData.CallTypeName}}</td>
+                                <td>{{rowData.CallerNumber}} ({{rowData.CallerChainageName}} {{rowData.CallerDirectionName}})</td>
+                                <td>{{rowData.CalleeNumber}} ({{rowData.CalleeChainageName}} {{rowData.CalleeDirectionName}})</td>
                                 <td>{{rowData.StartDateTimeStamp}}</td>
                                 <td>{{rowData.CallDuration}}</td>
                                 <td>
-                                    <!-- controlsList="play volume nodownload" -->
-                                    <audio style="width: 100px;" controls *ngIf="rowData.CallDuration!=0 && rowData.RecordingFileName!=''">
+                                    <audio style="width: 100px;" controls
+                                        *ngIf="rowData.CallDuration!=0 && rowData.RecordingFileName!=''">
                                         <source [src]=this.PbxRecordingPath+rowData.RecordingFileName type="audio/wav">
                                         Your browser does not support the audio tag.
                                     </audio>

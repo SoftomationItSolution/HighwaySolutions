@@ -65,7 +65,39 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
-
+        public static DataSet ReportLocationGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return ATCCEventDL.ReportLocationGetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static DataSet ReportClassGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return ATCCEventDL.ReportClassGetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public static DataSet ReportPositionGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                return ATCCEventDL.ReportPositionGetByFilter(data);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
     }
 }

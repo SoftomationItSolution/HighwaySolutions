@@ -76,11 +76,13 @@ export class DefaultLayoutComponent implements OnInit,OnDestroy {
 
   MQTTNMS() {
     try {
-      this.NMSDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
+      this.NMSDataSubscribe = this._mqttService.observe("NMS/DeviceStatus").subscribe((message: IMqttMessage) => {
         var nsmData = JSON.parse(message.payload.toString());
+        // console.log("nsmData");
+        // console.log(nsmData)
         if(nsmData.OnLineStatus)
-          this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.ChainageName+" is online!" 
-        this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.ChainageName+" is offline!" 
+          this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.IpAddress+" is online!" 
+        this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.IpAddress+" is offline!" 
       });
     } catch (error) {
 

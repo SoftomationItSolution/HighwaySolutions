@@ -39,6 +39,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { FieldsetModule } from 'primeng/fieldset';
 
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { QuillModule } from 'ngx-quill';
 import {NgApexchartsModule } from "ng-apexcharts";
 
@@ -241,6 +242,7 @@ export const MY_CUSTOM_FORMATS = {
     ImageModule,
     ConfirmDialogModule,
     ImageCropperModule,
+    PdfViewerModule,
     QuillModule.forRoot(),
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS)  
   ],

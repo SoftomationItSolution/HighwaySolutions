@@ -109,8 +109,6 @@ export class ATCCEventHistoryComponent {
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
         this.GetLaneConfig();
-       
-       
       },
       (error) => {
         this.spinner.hide();

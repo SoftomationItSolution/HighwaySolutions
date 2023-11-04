@@ -46,7 +46,6 @@ namespace ATMSRestAPI.Controllers
                     pdfResult = new ActionAsPdf(CategoryName, new {
                         SystemName = system.SystemName,
                         SystemId = system.SystemId,
-                        ReportName = rpt.ReportName,
                         FileName = FileName,
                     }) {
                         FileName = FileName,
@@ -64,7 +63,6 @@ namespace ATMSRestAPI.Controllers
                     pdfResult = new ActionAsPdf(CategoryName, new {
                         SystemName = system.SystemName,
                         SystemId = system.SystemId,
-                        ReportName = rpt.ReportName,
                         FileName = FileName,
                     }) {
                         FileName = FileName,
@@ -84,86 +82,249 @@ namespace ATMSRestAPI.Controllers
             return FilePath;
         }
 
-        public ActionResult Report_1(string SystemName, short SystemId, string ReportName, string FileName)
+        /// <summary>
+        /// Summery Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_1(string SystemName, short SystemId, string FileName)
         {
-            DataFilterIL filter = new DataFilterIL();
-
-            #region Read Json
-            var filePath = Path.Combine(Server.MapPath("/filter"), FileName.Replace(".pdf", ".json"));
-            using (StreamReader r = new StreamReader(filePath))
-            {
-                JavaScriptSerializer json_serializer = new JavaScriptSerializer();
-                filter = json_serializer.Deserialize<DataFilterIL>(r.ReadToEnd());
-            }
-            try
-            {
-                if (System.IO.File.Exists(filePath))
-                {
-                    System.IO.File.Delete(filePath);
-                }
-            }
-            catch (Exception ex)
-            {
-                BackOfficeAPILog(string.Format("Error in Report_1 json Read SystemName:{0} ,ReportName:{1} & FileName:{2} Error is:{3}", SystemName, ReportName, FileName, ex.Message.ToString()));
-            }
-            #endregion
-
+            DataFilterIL filter = GetFiltersFromFile(FileName);
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ATCC")
             {
-                #region Data Filter
-                filter.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + filter.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + filter.EndDateTime + "')";
-                if (filter.ControlRoomFilterList != "0")
-                {
-                    filter.FilterQuery = filter.FilterQuery + " AND CR.ControlRoomId IN (" + filter.ControlRoomFilterList + ") ";
-                }
-                if (filter.PackageFilterList != "0")
-                {
-                    filter.FilterQuery = filter.FilterQuery + " AND PD.PackageId IN (" + filter.PackageFilterList + ") ";
-                }
-                if (filter.ChainageFilterList != "0")
-                {
-                    filter.FilterQuery = filter.FilterQuery + " AND ED.ChainageNumber IN (" + filter.ChainageFilterList + ") ";
-                }
-                if (filter.DirectionFilterList != "0")
-                {
-                    filter.FilterQuery = filter.FilterQuery + " AND ED.DirectionId IN (" + filter.DirectionFilterList + ") ";
-                }
-                if (filter.PositionFilterList != "0")
-                {
-                    filter.FilterQuery = filter.FilterQuery + " AND EC.PositionId IN (" + filter.PositionFilterList + ") ";
-                }
+                filter = GetATCCFilterQuery(filter);
                 DataSet events = ATCCEventBL.ReportSummeryGetByFilter(filter);
-                #endregion
-
-                if (filter.ChainageFilterList != "0")
-                {
-                    filter.ChainageFilterList = "All";
-                }
-                if (filter.DirectionFilterList == "0")
-                {
-                    filter.DirectionFilterList = "All";
-                }
-                else
-                {
-                    List<string> directionIds = filter.DirectionFilterList.Split(',').ToList();
-                    foreach (var val in directionIds)
-                    {
-                        var filtered = Enum.GetName(typeof(DirectionType), (DirectionType)Convert.ToInt16(val));
-                        filter.DirectionFilterList = filter.DirectionFilterList + ',' + filtered;
-                    }
-                    filter.DirectionFilterList = filter.DirectionFilterList.Remove(0, 1);
-                }
-
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_1", events);
             }
+            else if (SystemName == "ECB")
+            {
+                filter = GetECBFilterQuery(filter);
+                DataSet events = ECBCallEventBL.ReportSummeryGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ECB_Report_1", events);
+            }
             else
             {
-                return View();
+                return View("Report_1");
+            }
+        }
+
+        /// <summary>
+        /// Location wise Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_4(string SystemName, short SystemId, string FileName)
+        {
+            DataFilterIL filter = GetFiltersFromFile(FileName);
+            DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
+            if (SystemName == "ATCC")
+            {
+                filter = GetATCCFilterQuery(filter);
+                DataSet events = ATCCEventBL.ReportLocationGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ATCC_Report_4", events);
+            }
+            else if (SystemName == "ECB")
+            {
+                filter = GetECBFilterQuery(filter);
+                DataSet events = ECBCallEventBL.ReportLocationGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ECB_Report_4", events);
+            }
+            else
+            {
+                return View("Report_1");
+            }
+        }
+
+        /// <summary>
+        /// Class wise Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_5(string SystemName, short SystemId, string FileName)
+        {
+            DataFilterIL filter = GetFiltersFromFile(FileName);
+            DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
+            if (SystemName == "ATCC")
+            {
+                filter = GetATCCFilterQuery(filter);
+                DataSet events = ATCCEventBL.ReportClassGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ATCC_Report_5", events);
+            }
+            else
+            {
+                return View("Report_1");
             }
 
 
+        }
+
+        /// <summary>
+        /// Position wise Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_6(string SystemName, short SystemId, string FileName)
+        {
+            DataFilterIL filter = GetFiltersFromFile(FileName);
+            DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
+            if (SystemName == "ATCC")
+            {
+                filter = GetATCCFilterQuery(filter);
+                DataSet events = ATCCEventBL.ReportPositionGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ATCC_Report_6", events);
+            }
+            else
+            {
+                return View("Report_1");
+            }
+        }
+
+        private DataFilterIL GetFiltersFromFile(string FileName)
+        {
+            DataFilterIL filter;
+            try
+            {
+                #region Read Json
+                var filePath = Path.Combine(Server.MapPath("/filter"), FileName.Replace(".pdf", ".json"));
+                using (StreamReader r = new StreamReader(filePath))
+                {
+                    JavaScriptSerializer json_serializer = new JavaScriptSerializer();
+                    filter = json_serializer.Deserialize<DataFilterIL>(r.ReadToEnd());
+                }
+                try
+                {
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BackOfficeAPILog(string.Format("Error in json Read FileName:{0} Error is:{1}", FileName, ex.Message.ToString()));
+                }
+                #endregion
+            }
+            catch (Exception)
+            {
+
+                filter = new DataFilterIL();
+            }
+            return filter;
+        }
+        private DataFilterIL GetATCCFilterQuery(DataFilterIL filter)
+        {
+            #region Data Filter
+            filter.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + filter.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + filter.EndDateTime + "')";
+            if (filter.ControlRoomFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND CR.ControlRoomId IN (" + filter.ControlRoomFilterList + ") ";
+
+            }
+            else
+                filter.ControlRoomFilterList = "All";
+            if (filter.PackageFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND PD.PackageId IN (" + filter.PackageFilterList + ") ";
+
+            }
+            else
+                filter.PackageFilterList = "All";
+            if (filter.ChainageFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND ED.ChainageNumber IN (" + filter.ChainageFilterList + ") ";
+
+            }
+            else
+                filter.ChainageFilterList = "All";
+            if (filter.DirectionFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND ED.DirectionId IN (" + filter.DirectionFilterList + ") ";
+                List<string> directionIds = filter.DirectionFilterList.Split(',').ToList();
+                foreach (var val in directionIds)
+                {
+                    var filtered = Enum.GetName(typeof(DirectionType), (DirectionType)Convert.ToInt16(val));
+                    filter.DirectionFilterList = filter.DirectionFilterList + ',' + filtered;
+                }
+                filter.DirectionFilterList = filter.DirectionFilterList.Remove(0, 1);
+            }
+            else
+            {
+                filter.DirectionFilterList = "All";
+
+            }
+            if (filter.PositionFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND EC.PositionId IN (" + filter.PositionFilterList + ") ";
+
+            }
+            else
+                filter.PositionFilterList = "All";
+            #endregion
+            return filter;
+        }
+
+        private DataFilterIL GetECBFilterQuery(DataFilterIL filter)
+        {
+            #region Data Filter
+            filter.FilterQuery = "WHERE H.StartDateTime>= CONVERT(DATETIME,'" + filter.StartDateTime + "') AND H.StartDateTime<= CONVERT(DATETIME,'" + filter.EndDateTime + "')";
+            if (filter.ControlRoomFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND (CallerED.ControlRoomId IN (" + filter.DirectionFilterList + ") OR CalleeED.ControlRoomId IN (" + filter.DirectionFilterList + ")) ";
+
+            }
+            else
+                filter.ControlRoomFilterList = "All";
+            if (filter.PackageFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND (CallerED.PackageId IN (" + filter.PackageFilterList + ") OR CalleeED.PackageId IN (" + filter.PackageFilterList + ")) ";
+
+            }
+            else
+                filter.PackageFilterList = "All";
+            if (filter.ChainageFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND (CallerED.ChainageNumber IN (" + filter.ChainageFilterList + ") OR CalleeED.ChainageNumber IN (" + filter.ChainageFilterList + ")) ";
+
+            }
+            else
+                filter.ChainageFilterList = "All";
+            if (filter.CallTypeFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND H.CallTypeId IN (" + filter.CallTypeFilterList + ") ";
+
+            }
+            else
+                filter.CallTypeFilterList = "All";
+            if (filter.DirectionFilterList != "0")
+            {
+                filter.FilterQuery = filter.FilterQuery + " AND (CallerED.DirectionId IN (" + filter.DirectionFilterList + ") OR CalleeED.DirectionId IN (" + filter.DirectionFilterList + ")) ";
+                List<string> directionIds = filter.DirectionFilterList.Split(',').ToList();
+                foreach (var val in directionIds)
+                {
+                    var filtered = Enum.GetName(typeof(DirectionType), (DirectionType)Convert.ToInt16(val));
+                    filter.DirectionFilterList = filter.DirectionFilterList + ',' + filtered;
+                }
+                filter.DirectionFilterList = filter.DirectionFilterList.Remove(0, 1);
+            }
+            else
+                filter.DirectionFilterList = "All";
+            #endregion
+            return filter;
         }
     }
 }

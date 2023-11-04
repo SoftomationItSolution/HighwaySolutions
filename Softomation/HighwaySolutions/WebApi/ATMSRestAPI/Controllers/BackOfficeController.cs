@@ -2717,6 +2717,71 @@ namespace ATMSRestAPI.Controllers
         }
         #endregion
 
+        #region ECB Events
+        [Route(Provider + "/" + APIPath + "/ECBEventsGetByHours")]
+        [HttpGet]
+        public HttpResponseMessage ECBEventsGetByHours(short Hours)
+        {
+            try
+            {
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ECBCallEventBL.GetByHours(Hours);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ECBEventsGetByHours : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+
+        [Route(Provider + "/" + APIPath + "/ECBEventsGetByFilter")]
+        [HttpPost]
+        public HttpResponseMessage ECBEventsGetByFilter(DataFilterIL data)
+        {
+            try
+            {
+                data.FilterQuery = "WHERE H.StartDateTime>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.StartDateTime<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+                if (data.ControlRoomFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (CallerED.ControlRoomId IN (" + data.DirectionFilterList + ") OR CalleeED.ControlRoomId IN (" + data.DirectionFilterList + ")) ";
+                }
+                if (data.PackageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (CallerED.PackageId IN (" + data.PackageFilterList + ") OR CalleeED.PackageId IN (" + data.PackageFilterList + ")) ";
+                }
+                if (data.ChainageFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (CallerED.ChainageNumber IN (" + data.ChainageFilterList + ") OR CalleeED.ChainageNumber IN (" + data.ChainageFilterList + ")) ";
+                }
+                if (data.DirectionFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND (CallerED.DirectionId IN (" + data.DirectionFilterList + ") OR CalleeED.DirectionId IN (" + data.DirectionFilterList + ")) ";
+                }
+                if (data.CallTypeFilterList != "0")
+                {
+                    data.FilterQuery = data.FilterQuery + " AND H.CallTypeId IN (" + data.CallTypeFilterList + ") ";
+                }
+
+                
+                resp.AlertMessage = "success";
+                response.Message.Add(resp);
+                response.ResponseData = ECBCallEventBL.GetByFilter(data);
+                return Request.CreateResponse(HttpStatusCode.OK, response);
+            }
+            catch (Exception ex)
+            {
+                BackOfficeAPILog("Exception in ECBEventsGetByFilter : " + ex.Message.ToString());
+                resp.AlertMessage = ex.Message.ToString();
+                response.Message.Add(resp);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, response);
+            }
+        }
+        #endregion
+
         #region Get Media File
         [Route(Provider + "/" + APIPath + "/GetMediaFile")]
         [HttpGet]

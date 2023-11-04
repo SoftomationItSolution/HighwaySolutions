@@ -124,6 +124,58 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return ds;
         }
 
+        internal static DataSet ReportLocationGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            List<ATCCEventIL> vidsEvents = new List<ATCCEventIL>();
+            try
+            {
+                string spName = "USP_ATCCLocationReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        internal static DataSet ReportClassGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            List<ATCCEventIL> vidsEvents = new List<ATCCEventIL>();
+            try
+            {
+                string spName = "USP_ATCCClassReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
+        internal static DataSet ReportPositionGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            List<ATCCEventIL> vidsEvents = new List<ATCCEventIL>();
+            try
+            {
+                string spName = "USP_ATCCPositionReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
 
         #region Helper Methods
         internal static ATCCEventIL CreateObjectFromDataRow(DataRow dr)

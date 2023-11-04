@@ -49,6 +49,8 @@ export class apiIntegrationService {
               this.dataModel.setDataAPI(this.ApiCallUrl)
               let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
               this.dataModel.setMediaAPI(mediaPath)
+              let recordPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9091/PbxRec/"
+              this.dataModel.setPBXRecordAPI(recordPath)
               let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
               this.dataModel.setLiveAPI(LiveView);
 
@@ -670,6 +672,22 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/WeatherHistoryGetByFilter', data, { headers: headers_object });
   }
   //#endregion
+
+//#region  ECB System
+
+ECBEventsGetByHours(Hours: any): Observable<any> {
+  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ECBEventsGetByHours?Hours=' + Hours, { headers: headers_object });
+}
+
+ECBEventsGetByFilter(data: any): Observable<any> {
+  this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+  return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ECBEventsGetByFilter', data, { headers: headers_object });
+}
+//#endregion
+
 
   //#region  VMS System
   VMSMessageGetAll(): Observable<any> {

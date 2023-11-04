@@ -398,6 +398,26 @@ namespace ATMSDAService
                         LogMessage("VIDS:IP Not Found" + DataPacket);
                     else
                     {
+                        #region Check Null
+                        if (string.IsNullOrEmpty(DataEvent.TransactionId))
+                            DataEvent.TransactionId = string.Empty;
+
+                        if (string.IsNullOrEmpty(DataEvent.EventId))
+                            DataEvent.EventId = string.Empty;
+
+                        if (string.IsNullOrEmpty(DataEvent.PlateNumber))
+                            DataEvent.PlateNumber = string.Empty;
+
+                        if (string.IsNullOrEmpty(DataEvent.PlateImageUrl))
+                            DataEvent.PlateImageUrl = string.Empty;
+
+                        if (string.IsNullOrEmpty(DataEvent.EventImageUrl))
+                            DataEvent.EventImageUrl = string.Empty;
+
+                        if (string.IsNullOrEmpty(DataEvent.EventVideoUrl))
+                            DataEvent.EventVideoUrl = string.Empty;
+                        #endregion
+
                         #region Get Events Class
                         if (!string.IsNullOrEmpty(DataEvent.EventTypeName))
                         {
@@ -524,6 +544,16 @@ namespace ATMSDAService
                         DataEvent.StartDateTime = Convert.ToDateTime(DataEvent.StartDateTimeStamp);
                     if (!string.IsNullOrEmpty(DataEvent.EndDateTimeStamp))
                         DataEvent.EndDateTime = Convert.ToDateTime(DataEvent.EndDateTimeStamp);
+
+                    if (string.IsNullOrEmpty(DataEvent.CallerNumber))
+                        LogMessage("CallerNumber Not Found" + DataPacket);
+                    else 
+                    {
+                        var eqc = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CallerNumber);
+                        DataEvent.CallerIpAddress = eqc.IpAddress;
+                    }
+                    
+
                     if (string.IsNullOrEmpty(DataEvent.CallerIpAddress))
                         LogMessage("Caller IP Not Found" + DataPacket);
                     else
@@ -533,21 +563,21 @@ namespace ATMSDAService
                         if (eq != null)
                         {
                             DataEvent.CallerId = eq.EquipmentId;
-                            DataEvent.ChainageNumber = eq.ChainageNumber;
-                            DataEvent.ChainageName = eq.ChainageName;
-                            DataEvent.PackageId = eq.PackageId;
-                            DataEvent.PackageName = eq.PackageName;
-                            DataEvent.ControlRoomId = eq.ControlRoomId;
-                            DataEvent.ControlRoomName = eq.ControlRoomName;
-                            DataEvent.DirectionId = eq.DirectionId;
-                            DataEvent.DirectionName = eq.DirectionName;
+                            DataEvent.CallerChainageNumber = eq.ChainageNumber;
+                            DataEvent.CallerChainageName = eq.ChainageName;
+                            DataEvent.CallerPackageId = eq.PackageId;
+                            DataEvent.CallerPackageName = eq.PackageName;
+                            DataEvent.CallerControlRoomId = eq.ControlRoomId;
+                            DataEvent.CallerControlRoomName = eq.ControlRoomName;
+                            DataEvent.CallerDirectionId = eq.DirectionId;
+                            DataEvent.CallerDirectionName = eq.DirectionName;
                             if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
                             {
-                                DataEvent.CallStatusId = (short)CallType.Incomming;
+                                DataEvent.CallTypeId = (short)CallType.Incomming;
                             }
                             else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
                             {
-                                DataEvent.CallStatusId = (short)CallType.Outgoing;
+                                DataEvent.CallTypeId = (short)CallType.Outgoing;
                             }
 
                         }
@@ -556,6 +586,13 @@ namespace ATMSDAService
                         #endregion
                     }
 
+                    if (string.IsNullOrEmpty(DataEvent.CalleeNumber))
+                        LogMessage("CalleeNumber Not Found" + DataPacket);
+                    else
+                    {
+                        var eqc1 = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CalleeNumber);
+                        DataEvent.CalleeIpAddress = eqc1.IpAddress;
+                    }
                     if (string.IsNullOrEmpty(DataEvent.CalleeIpAddress))
                         LogMessage("ECB:Callee IP Not Found" + DataPacket);
                     else
@@ -565,21 +602,21 @@ namespace ATMSDAService
                         if (eq != null)
                         {
                             DataEvent.CalleeId = eq.EquipmentId;
-                            DataEvent.ChainageNumber = eq.ChainageNumber;
-                            DataEvent.ChainageName = eq.ChainageName;
-                            DataEvent.PackageId = eq.PackageId;
-                            DataEvent.PackageName = eq.PackageName;
-                            DataEvent.ControlRoomId = eq.ControlRoomId;
-                            DataEvent.ControlRoomName = eq.ControlRoomName;
-                            DataEvent.DirectionId = eq.DirectionId;
-                            DataEvent.DirectionName = eq.DirectionName;
+                            DataEvent.CalleeChainageNumber = eq.ChainageNumber;
+                            DataEvent.CalleeChainageName = eq.ChainageName;
+                            DataEvent.CalleePackageId = eq.PackageId;
+                            DataEvent.CalleePackageName = eq.PackageName;
+                            DataEvent.CalleeControlRoomId = eq.ControlRoomId;
+                            DataEvent.CalleeControlRoomName = eq.ControlRoomName;
+                            DataEvent.CalleeDirectionId = eq.DirectionId;
+                            DataEvent.CalleeDirectionName = eq.DirectionName;
                             if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
                             {
-                                DataEvent.CallStatusId = (short)CallType.Outgoing;
+                                DataEvent.CallTypeId = (short)CallType.Outgoing;
                             }
                             else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
                             {
-                                DataEvent.CallStatusId = (short)CallType.Incomming;
+                                DataEvent.CallTypeId = (short)CallType.Incomming;
                             }
                         }
                         else
@@ -588,17 +625,17 @@ namespace ATMSDAService
                     }
 
                     #region Get Equipment Details
-                    if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.NotAnswered)
+                    if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.NotAnswered)
                     {
-                        DataEvent.CallStatusId = (short)CallType.Missed;
+                        DataEvent.CallTypeId = (short)CallType.Missed;
                     }
-                    else if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.Completed && DataEvent.CallDuration == 0)
+                    else if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.Completed && DataEvent.CallDuration == 0)
                     {
-                        DataEvent.CallStatusId = (short)CallType.Missed;
+                        DataEvent.CallTypeId = (short)CallType.Missed;
                     }
-                    else if (DataEvent.CallTypeId == (short)IPPbxCallStatusType.Busy || DataEvent.CallTypeId == (short)IPPbxCallStatusType.Aborted)
+                    else if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.Busy || DataEvent.CallStatusId == (short)IPPbxCallStatusType.Aborted)
                     {
-                        DataEvent.CallStatusId = (short)CallType.Rejected;
+                        DataEvent.CallTypeId = (short)CallType.Rejected;
                     }
                     #endregion
                     List<ResponseIL> responses = ECBCallEventBL.Insert(DataEvent);
@@ -606,14 +643,14 @@ namespace ATMSDAService
             }
             catch (Exception exc)
             {
-                LogMessage("Error in RseAtccDataQueue : " + exc.ToString());
+                LogMessage("Error in RseECBDataQueue : " + exc.ToString());
                 if (!string.IsNullOrEmpty(DataPacket))
-                    LogMessage("RseAtccDataQueue DataPacket: " + DataPacket);
+                    LogMessage("RseECBDataQueue DataPacket: " + DataPacket);
             }
             finally
             {
                 mqRSEECB.Receive();
-                RseAtccQueue.BeginPeek();
+                RseECBQueue.BeginPeek();
             }
 
         }

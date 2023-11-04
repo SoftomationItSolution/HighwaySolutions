@@ -150,6 +150,10 @@
     <Content Include="Content\img\favicon.ico" />
     <Content Include="Content\img\hero-img.png" />
     <Content Include="Content\img\NHAIlogo.jpg" />
+    <Content Include="Content\logo-sm.png" />
+    <Content Include="Content\main-sm-nhai-logo12.png" />
+    <Content Include="Content\nhai.png" />
+    <Content Include="Content\nhai_tp.png" />
     <Content Include="Content\style.css" />
     <Content Include="Rotativa\help-wkhtmltoimage.txt" />
     <Content Include="Rotativa\help-wkhtmltopdf.txt" />
@@ -260,6 +264,11 @@
     <Content Include="Views\Home\Moniter.cshtml" />
     <Content Include="Views\Reports\Report_1.cshtml" />
     <Content Include="Views\Reports\ATCC_Report_1.cshtml" />
+    <Content Include="Views\Reports\ATCC_Report_4.cshtml" />
+    <Content Include="Views\Reports\ATCC_Report_5.cshtml" />
+    <Content Include="Views\Reports\ATCC_Report_6.cshtml" />
+    <Content Include="Views\Reports\ECB_Report_1.cshtml" />
+    <Content Include="Views\Reports\ECB_Report_4.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

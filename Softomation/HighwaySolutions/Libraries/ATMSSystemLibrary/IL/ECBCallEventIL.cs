@@ -1,15 +1,38 @@
 ﻿using System;
+using HighwaySoluations.Softomation.CommonLibrary.IL;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
 {
-    public class ECBCallEventIL : PackageIL
+    public class ECBCallEventIL: CommonIL
     {
         Int64 callerId;
-        Int64 calleeId;
         String callerIpAddress;
-        String calleeIpAddress;
         String callerNumber;
+        Int16 callerPackageId;
+        String callerPackageName;
+        Int64 callerControlRoomId;
+        String callerControlRoomName;
+        Decimal callerChainageNumber;
+        String callerChainageName;
+        Double callerLatitude;
+        Double callerLongitude;
+        Int16 callerDirectionId;
+        String callerDirectionName;
+
+        Int64 calleeId;
+        String calleeIpAddress;
         String calleeNumber;
+        Int16 calleePackageId;
+        String calleePackageName;
+        Int64 calleeControlRoomId;
+        String calleeControlRoomName;
+        Decimal calleeChainageNumber;
+        String calleeChainageName;
+        Double calleeLatitude;
+        Double calleeLongitude;
+        Int16 calleeDirectionId;
+        String calleeDirectionName;
+
         Int64 operatorId;
         String operatorLoginId;
         String eventId;
@@ -29,11 +52,34 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         public ECBCallEventIL()
         {
             this.callerId = 0;
-            this.calleeId = 0;
             this.callerIpAddress = string.Empty;
-            this.calleeIpAddress = string.Empty;
             this.callerNumber = string.Empty;
+            this.callerPackageId = 0;
+            this.callerPackageName = string.Empty;
+            this.callerControlRoomId = 0;
+            this.callerControlRoomName = string.Empty;
+            this.callerChainageNumber = 0;
+            this.callerChainageName = string.Empty;
+            this.callerLatitude = 0;
+            this.callerLongitude = 0;
+            this.callerDirectionId = 0;
+            this.callerDirectionName = string.Empty;
+
+            this.calleeId = 0;
+            this.calleeIpAddress = string.Empty;
             this.calleeNumber = string.Empty;
+            this.calleePackageId = 0;
+            this.calleePackageName = string.Empty;
+            this.calleeControlRoomId = 0;
+            this.calleeControlRoomName = string.Empty;
+            this.calleeChainageNumber = 0;
+            this.calleeChainageName = string.Empty;
+            this.calleeLatitude = 0;
+            this.calleeLongitude = 0;
+            this.calleeDirectionId = 0;
+            this.calleeDirectionName = string.Empty;
+
+
             this.operatorId = 0;
             this.operatorLoginId = string.Empty;
             this.eventId = string.Empty;
@@ -52,93 +98,509 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.incidentStatusId = 0;
         }
 
-        public long CallerId
+        public Int64 CallerId
         {
-            get => callerId; set => callerId = value;
+            get
+            {
+                return callerId;
+            }
+
+            set
+            {
+                callerId = value;
+            }
         }
-        public long CalleeId
+        public String CallerIpAddress
         {
-            get => calleeId; set => calleeId = value;
+            get
+            {
+                return callerIpAddress;
+            }
+
+            set
+            {
+                callerIpAddress = value;
+            }
         }
-        public string CallerIpAddress
+        public String CallerNumber
         {
-            get => callerIpAddress; set => callerIpAddress = value;
+            get
+            {
+                return callerNumber;
+            }
+
+            set
+            {
+                callerNumber = value;
+            }
         }
-        public string CalleeIpAddress
+        public Int16 CallerPackageId
         {
-            get => calleeIpAddress; set => calleeIpAddress = value;
+            get
+            {
+                return callerPackageId;
+            }
+
+            set
+            {
+                callerPackageId = value;
+            }
         }
-        public string CallerNumber
+        public String CallerPackageName
         {
-            get => callerNumber; set => callerNumber = value;
+            get
+            {
+                return callerPackageName;
+            }
+
+            set
+            {
+                callerPackageName = value;
+            }
         }
-        public string CalleeNumber
+        public Int64 CallerControlRoomId
         {
-            get => calleeNumber; set => calleeNumber = value;
+            get
+            {
+                return callerControlRoomId;
+            }
+
+            set
+            {
+                callerControlRoomId = value;
+            }
         }
-        public long OperatorId
+        public String CallerControlRoomName
         {
-            get => operatorId; set => operatorId = value;
+            get
+            {
+                return callerControlRoomName;
+            }
+
+            set
+            {
+                callerControlRoomName = value;
+            }
         }
-        public string OperatorLoginId
+        public Decimal CallerChainageNumber
         {
-            get => operatorLoginId; set => operatorLoginId = value;
+            get
+            {
+                return callerChainageNumber;
+            }
+
+            set
+            {
+                callerChainageNumber = value;
+            }
         }
-        public string EventId
+        public String CallerChainageName
         {
-            get => eventId; set => eventId = value;
+            get
+            {
+                return callerChainageName;
+            }
+
+            set
+            {
+                callerChainageName = value;
+            }
         }
-        public string RecordingFileName
+        public Double CallerLatitude
         {
-            get => recordingFileName; set => recordingFileName = value;
+            get
+            {
+                return callerLatitude;
+            }
+
+            set
+            {
+                callerLatitude = value;
+            }
+        }
+        public Double CallerLongitude
+        {
+            get
+            {
+                return callerLongitude;
+            }
+
+            set
+            {
+                callerLongitude = value;
+            }
+        }
+        public Int16 CallerDirectionId
+        {
+            get
+            {
+                return callerDirectionId;
+            }
+
+            set
+            {
+                callerDirectionId = value;
+            }
+        }
+        public String CallerDirectionName
+        {
+            get
+            {
+                return callerDirectionName;
+            }
+
+            set
+            {
+                callerDirectionName = value;
+            }
+        }
+        public Int64 CalleeId
+        {
+            get
+            {
+                return calleeId;
+            }
+
+            set
+            {
+                calleeId = value;
+            }
+        }
+        public String CalleeIpAddress
+        {
+            get
+            {
+                return calleeIpAddress;
+            }
+
+            set
+            {
+                calleeIpAddress = value;
+            }
+        }
+        public String CalleeNumber
+        {
+            get
+            {
+                return calleeNumber;
+            }
+
+            set
+            {
+                calleeNumber = value;
+            }
+        }
+        public Int16 CalleePackageId
+        {
+            get
+            {
+                return calleePackageId;
+            }
+
+            set
+            {
+                calleePackageId = value;
+            }
+        }
+        public String CalleePackageName
+        {
+            get
+            {
+                return calleePackageName;
+            }
+
+            set
+            {
+                calleePackageName = value;
+            }
+        }
+        public Int64 CalleeControlRoomId
+        {
+            get
+            {
+                return calleeControlRoomId;
+            }
+
+            set
+            {
+                calleeControlRoomId = value;
+            }
+        }
+        public String CalleeControlRoomName
+        {
+            get
+            {
+                return calleeControlRoomName;
+            }
+
+            set
+            {
+                calleeControlRoomName = value;
+            }
+        }
+        public Decimal CalleeChainageNumber
+        {
+            get
+            {
+                return calleeChainageNumber;
+            }
+
+            set
+            {
+                calleeChainageNumber = value;
+            }
+        }
+        public String CalleeChainageName
+        {
+            get
+            {
+                return calleeChainageName;
+            }
+
+            set
+            {
+                calleeChainageName = value;
+            }
+        }
+        public Double CalleeLatitude
+        {
+            get
+            {
+                return calleeLatitude;
+            }
+
+            set
+            {
+                calleeLatitude = value;
+            }
+        }
+        public Double CalleeLongitude
+        {
+            get
+            {
+                return calleeLongitude;
+            }
+
+            set
+            {
+                calleeLongitude = value;
+            }
+        }
+        public Int16 CalleeDirectionId
+        {
+            get
+            {
+                return calleeDirectionId;
+            }
+
+            set
+            {
+                calleeDirectionId = value;
+            }
+        }
+        public String CalleeDirectionName
+        {
+            get
+            {
+                return calleeDirectionName;
+            }
+
+            set
+            {
+                calleeDirectionName = value;
+            }
+        }
+        public Int64 OperatorId
+        {
+            get
+            {
+                return operatorId;
+            }
+
+            set
+            {
+                operatorId = value;
+            }
+        }
+        public String OperatorLoginId
+        {
+            get
+            {
+                return operatorLoginId;
+            }
+
+            set
+            {
+                operatorLoginId = value;
+            }
+        }
+        public String EventId
+        {
+            get
+            {
+                return eventId;
+            }
+
+            set
+            {
+                eventId = value;
+            }
+        }
+        public String RecordingFileName
+        {
+            get
+            {
+                return recordingFileName;
+            }
+
+            set
+            {
+                recordingFileName = value;
+            }
         }
         public DateTime StartDateTime
         {
-            get => startDateTime; set => startDateTime = value;
+            get
+            {
+                return startDateTime;
+            }
+
+            set
+            {
+                startDateTime = value;
+            }
         }
-        public string StartDateTimeStamp
+        public String StartDateTimeStamp
         {
-            get => startDateTimeStamp; set => startDateTimeStamp = value;
+            get
+            {
+                return startDateTimeStamp;
+            }
+
+            set
+            {
+                startDateTimeStamp = value;
+            }
         }
         public DateTime EndDateTime
         {
-            get => endDateTime; set => endDateTime = value;
+            get
+            {
+                return endDateTime;
+            }
+
+            set
+            {
+                endDateTime = value;
+            }
         }
-        public string EndDateTimeStamp
+        public String EndDateTimeStamp
         {
-            get => endDateTimeStamp; set => endDateTimeStamp = value;
+            get
+            {
+                return endDateTimeStamp;
+            }
+
+            set
+            {
+                endDateTimeStamp = value;
+            }
         }
-        public int CallDuration
+        public Int32 CallDuration
         {
-            get => callDuration; set => callDuration = value;
+            get
+            {
+                return callDuration;
+            }
+
+            set
+            {
+                callDuration = value;
+            }
         }
-        public short CallStatusId
+        public Int16 CallStatusId
         {
-            get => callStatusId; set => callStatusId = value;
+            get
+            {
+                return callStatusId;
+            }
+
+            set
+            {
+                callStatusId = value;
+            }
         }
-        public string CallStatusName
+        public String CallStatusName
         {
-            get => callStatusName; set => callStatusName = value;
+            get
+            {
+                return callStatusName;
+            }
+
+            set
+            {
+                callStatusName = value;
+            }
         }
-        public short CallTypeId
+        public Int16 CallTypeId
         {
-            get => callTypeId; set => callTypeId = value;
+            get
+            {
+                return callTypeId;
+            }
+
+            set
+            {
+                callTypeId = value;
+            }
         }
-        public string CallTypeName
+        public String CallTypeName
         {
-            get => callTypeName; set => callTypeName = value;
+            get
+            {
+                return callTypeName;
+            }
+
+            set
+            {
+                callTypeName = value;
+            }
         }
-        public short SystemProviderId
+        public Int16 SystemProviderId
         {
-            get => systemProviderId; set => systemProviderId = value;
+            get
+            {
+                return systemProviderId;
+            }
+
+            set
+            {
+                systemProviderId = value;
+            }
         }
-        public string IncidentId
+        public String IncidentId
         {
-            get => incidentId; set => incidentId = value;
+            get
+            {
+                return incidentId;
+            }
+
+            set
+            {
+                incidentId = value;
+            }
         }
-        public short IncidentStatusId
+        public Int16 IncidentStatusId
         {
-            get => incidentStatusId; set => incidentStatusId = value;
+            get
+            {
+                return incidentStatusId;
+            }
+
+            set
+            {
+                incidentStatusId = value;
+            }
         }
     }
 }

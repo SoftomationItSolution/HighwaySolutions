@@ -74,6 +74,13 @@ export class DataModel {
     return localStorage.getItem('FastTrackHighwayATMSMediaAPI');
   }
 
+  setPBXRecordAPI(path: string) {
+    return localStorage.setItem('PBXRecordAPI', path);
+  }
+  getPBXRecordAPI() {
+    return localStorage.getItem('PBXRecordAPI');
+  }
+
   setLiveAPI(path: string) {
     return localStorage.setItem('FastTrackHighwayATMSLiveAPI', path);
   }

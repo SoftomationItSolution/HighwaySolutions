@@ -66,7 +66,7 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
 
   MQTTNMS() {
     try {
-      this.NMSDataSubscribe = this._mqttService.observe("Dashboard/ATCC").subscribe((message: IMqttMessage) => {
+      this.NMSDataSubscribe = this._mqttService.observe("NMS/DeviceStatus").subscribe((message: IMqttMessage) => {
         var nsmData = JSON.parse(message.payload.toString());
         for (let l = 0; l < this.EquipmentList.length; l++) {
           let d=this.EquipmentList[l];

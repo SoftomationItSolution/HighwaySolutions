@@ -52,7 +52,7 @@ namespace ATMSRestAPI.Controllers
                         BackOfficeAPILog("Error in Event-ATCCSoftomation VehicleColor : " + atcc.VehicleColor);
                         aTCCEventIL.VehicleColor = atcc.VehicleColor;
                     }
-                   
+
                 }
                 if (!string.IsNullOrEmpty(atcc.Time))
                 {
@@ -202,35 +202,45 @@ namespace ATMSRestAPI.Controllers
 
                 if (!string.IsNullOrEmpty(ecb.StartDateTimeStamp))
                 {
+                    ecbEvent.StartDateTimeStamp = ecb.StartDateTimeStamp;
                     ecbEvent.StartDateTime = Convert.ToDateTime(ecb.StartDateTimeStamp);
                 }
-                if (!string.IsNullOrEmpty(ecb.EndDateTimeStamp))
+
+                if (!string.IsNullOrEmpty(ecb.RecordingFileName)) 
                 {
-                    ecbEvent.EndDateTime = Convert.ToDateTime(ecb.EndDateTimeStamp);
-                    FilePath = "\\ECB\\" + ecbEvent.EndDateTime.ToString(DateFileFormat) + "\\CallRecord\\";
-                    if (!string.IsNullOrEmpty(ecb.RecordingFileName))
+                    if (!string.IsNullOrEmpty(ecb.StartDateTimeStamp))
                     {
-                        try
+                        ecbEvent.EndDateTimeStamp = ecb.StartDateTimeStamp;
+                        ecbEvent.EndDateTime = Convert.ToDateTime(ecb.StartDateTimeStamp);
+
+                        FilePath = "\\ECB\\" + ecbEvent.EndDateTime.ToString(DateFileFormat) + "\\CallRecord\\";
+                        if (!string.IsNullOrEmpty(ecb.RecordingFileName))
                         {
-                            if (ecb.RecordingFileName.ToLower().Contains("wav"))
+                            try
+                            {
+                                if (ecb.RecordingFileName.ToLower().Contains("wav"))
+                                {
+                                    ecbEvent.RecordingFileName = ecb.RecordingFileName;
+                                }
+                                else
+                                {
+                                    string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
+                                    FilePath = SaveMediaFiles(ecb.RecordingFileName, currentPath + FilePath, ecb.CallerSession, ".wav");
+                                    ecbEvent.RecordingFileName = FilePath.Replace(currentPath, "");
+                                    ecbEvent.RecordingFileName = ecbEvent.RecordingFileName.Replace("\\", "/");
+                                }
+
+                            }
+                            catch (Exception)
                             {
                                 ecbEvent.RecordingFileName = ecb.RecordingFileName;
                             }
-                            else
-                            {
-                                string currentPath = HttpContext.Current.Server.MapPath("~/EventMedia/");
-                                FilePath = SaveMediaFiles(ecb.RecordingFileName, currentPath + FilePath, ecb.CallerSession, ".wav");
-                                ecbEvent.RecordingFileName = FilePath.Replace(currentPath, "");
-                                ecbEvent.RecordingFileName = ecbEvent.RecordingFileName.Replace("\\", "/");
-                            }
-
-                        }
-                        catch (Exception)
-                        {
-                            ecbEvent.RecordingFileName = ecb.RecordingFileName;
                         }
                     }
                 }
+                ecbEvent.EventId = ecb.CallerSession;
+                ecbEvent.CalleeNumber = ecb.CalleeNumber;
+                ecbEvent.CallerNumber = ecb.CallerNumber;
                 ecbEvent.CallDuration = ecb.CallDuration;
                 ecbEvent.CalleeIpAddress = ecb.CalleeIpAddress;
                 ecbEvent.CallerIpAddress = ecb.CallerIpAddress;
