@@ -115,7 +115,6 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
 
   addMarkersToMap(map: any, mapUI: any, data: any) {
     var svgMarkup = 'assets/icons/' + data.OnLineStatus + '/' + data.EquipmentTypeName.replace(" ", "") + '.svg';
-    //console.log(svgMarkup)
     var icon = new H.map.Icon(svgMarkup, { size: { w: 40, h: 40 } })
     var parisMarker = new H.map.Marker({ lat: data.Latitude, lng: data.Longitude }, { icon: icon });
     let bubble: any;

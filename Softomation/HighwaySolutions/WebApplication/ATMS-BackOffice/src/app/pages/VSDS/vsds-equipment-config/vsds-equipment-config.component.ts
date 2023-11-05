@@ -218,8 +218,6 @@ export class VSDSEquipmentConfigComponent implements OnInit {
 
   onDragStart(val: any) {
     this.selection = val;
-    console.log(val)
-
   }
   onDragEnd() {
     this.selection = null;
@@ -328,8 +326,6 @@ export class VSDSEquipmentConfigComponent implements OnInit {
         this.FillFinalData.push(mainObj)
       }
     }
-
-    console.log(this.FillFinalData)
   }
 
   childExCol(event:any) {

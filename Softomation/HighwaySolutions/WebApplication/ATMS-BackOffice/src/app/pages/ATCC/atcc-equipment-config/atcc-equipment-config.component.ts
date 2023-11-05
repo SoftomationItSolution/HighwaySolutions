@@ -278,8 +278,6 @@ export class ATCCEquipmentConfigComponent implements OnInit {
         this.FillFinalData.push(mainObj)
       }
     }
-
-    console.log(this.FillFinalData)
   }
 
   childExCol(event:any) {

@@ -66,5 +66,17 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.BL
                 throw ex;
             }
         }
+
+        public static DataSet ReportEventGetByFilter(DataFilterIL filter)
+        {
+            try
+            {
+                return ECBCallEventDL.ReportEventGetByFilter(filter);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

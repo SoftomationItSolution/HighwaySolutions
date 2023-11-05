@@ -17,6 +17,7 @@ using System.Linq;
 using System.Text;
 using uPLibrary.Networking.M2Mqtt.Messages;
 using uPLibrary.Networking.M2Mqtt;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
 
 namespace ATMSDAService
 {
@@ -539,7 +540,7 @@ namespace ATMSDAService
                     DataPacket = mRSEECB.Body.ToString();
                     JavaScriptSerializer json_serializer = new JavaScriptSerializer() { MaxJsonLength = 86753090 };
                     ECBCallEventIL DataEvent = json_serializer.Deserialize<ECBCallEventIL>(DataPacket);
-                    DataEvent.CallStatusId = (short)CallType.Outgoing;
+                    DataEvent.CallStatusId = (short)ECSCallType.Outgoing;
                     if (!string.IsNullOrEmpty(DataEvent.StartDateTimeStamp))
                         DataEvent.StartDateTime = Convert.ToDateTime(DataEvent.StartDateTimeStamp);
                     if (!string.IsNullOrEmpty(DataEvent.EndDateTimeStamp))
@@ -571,13 +572,13 @@ namespace ATMSDAService
                             DataEvent.CallerControlRoomName = eq.ControlRoomName;
                             DataEvent.CallerDirectionId = eq.DirectionId;
                             DataEvent.CallerDirectionName = eq.DirectionName;
-                            if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
+                            if (eq.EquipmentTypeId == (short)EquipmentMasterType.ECB)
                             {
-                                DataEvent.CallTypeId = (short)CallType.Incomming;
+                                DataEvent.CallTypeId = (short)ECSCallType.Incomming;
                             }
                             else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
                             {
-                                DataEvent.CallTypeId = (short)CallType.Outgoing;
+                                DataEvent.CallTypeId = (short)ECSCallType.Outgoing;
                             }
 
                         }
@@ -612,11 +613,11 @@ namespace ATMSDAService
                             DataEvent.CalleeDirectionName = eq.DirectionName;
                             if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.ECB)
                             {
-                                DataEvent.CallTypeId = (short)CallType.Outgoing;
+                                DataEvent.CallTypeId = (short)ECSCallType.Outgoing;
                             }
                             else if (eq.EquipmentTypeId == (short)SystemConstants.EquipmentMasterType.IpPhone)
                             {
-                                DataEvent.CallTypeId = (short)CallType.Incomming;
+                                DataEvent.CallTypeId = (short)ECSCallType.Incomming;
                             }
                         }
                         else
@@ -627,15 +628,15 @@ namespace ATMSDAService
                     #region Get Equipment Details
                     if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.NotAnswered)
                     {
-                        DataEvent.CallTypeId = (short)CallType.Missed;
+                        DataEvent.CallTypeId = (short)ECSCallType.Missed;
                     }
                     else if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.Completed && DataEvent.CallDuration == 0)
                     {
-                        DataEvent.CallTypeId = (short)CallType.Missed;
+                        DataEvent.CallTypeId = (short)ECSCallType.Missed;
                     }
                     else if (DataEvent.CallStatusId == (short)IPPbxCallStatusType.Busy || DataEvent.CallStatusId == (short)IPPbxCallStatusType.Aborted)
                     {
-                        DataEvent.CallTypeId = (short)CallType.Rejected;
+                        DataEvent.CallTypeId = (short)ECSCallType.Rejected;
                     }
                     #endregion
                     List<ResponseIL> responses = ECBCallEventBL.Insert(DataEvent);

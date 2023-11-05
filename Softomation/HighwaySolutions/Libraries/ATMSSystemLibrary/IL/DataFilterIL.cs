@@ -27,7 +27,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         private String temperatureFilterList;
         private String humidityFilterList;
         private String visibilityFilterList;
-        private String callTypeFilterList;
         private String plateNumber;
         private String startDateTime;
         private String endDateTime;
@@ -66,7 +65,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
             this.temperatureFilterList = string.Empty;
             this.humidityFilterList = string.Empty;
             this.visibilityFilterList = string.Empty;
-            this.callTypeFilterList = string.Empty;
             this.plateNumber = string.Empty;
             this.startDateTime = string.Empty;
             this.endDateTime = string.Empty;
@@ -165,10 +163,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.IL
         public string VisibilityFilterList
         {
             get => visibilityFilterList; set => visibilityFilterList = value;
-        }
-        public string CallTypeFilterList
-        {
-            get => callTypeFilterList; set => callTypeFilterList = value;
         }
         public string PlateNumber
         {

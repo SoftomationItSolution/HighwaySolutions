@@ -123,7 +123,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return ds;
         }
-
         internal static DataSet ReportLocationGetByFilter(DataFilterIL data)
         {
             DataSet ds = new DataSet();
@@ -158,7 +157,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return ds;
         }
-
         internal static DataSet ReportPositionGetByFilter(DataFilterIL data)
         {
             DataSet ds = new DataSet();

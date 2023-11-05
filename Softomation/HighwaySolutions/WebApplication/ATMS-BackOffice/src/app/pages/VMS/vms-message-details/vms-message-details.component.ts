@@ -136,7 +136,6 @@ export class VMSMessageDetailsComponent {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
-        console.log(this.ChainageFilter)
         this.GetAllData();
       },
       (error) => {

@@ -73,11 +73,12 @@
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="CallTypeFilterList">Call Type</label>
+                                            <label for="EventFilterList">Event Type</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="CallTypeFilterList"
-                                                inputId="CallTypeFilterList" [options]="CallTypeList"
-                                                optionLabel="DataName" optionValue="DataValue" placeholder="Call Type">
+                                                [style]="{'width':'100%'}" formControlName="EventFilterList"
+                                                inputId="EventFilterList" [options]="EventData"
+                                                optionLabel="EventTypeName" optionValue="EventTypeId"
+                                                placeholder="Event Type">
                                             </p-multiSelect>
                                         </div>
                                     </div>

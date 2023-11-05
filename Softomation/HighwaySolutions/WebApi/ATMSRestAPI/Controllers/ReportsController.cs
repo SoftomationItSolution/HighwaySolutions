@@ -100,6 +100,13 @@ namespace ATMSRestAPI.Controllers
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_1", events);
             }
+            else if (SystemName == "VIDS")
+            {
+                filter = GetVIDSFilterQuery(filter);
+                DataSet events = VIDSEventBL.ReportSummeryGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("VIDS_Report_1", events);
+            }
             else if (SystemName == "ECB")
             {
                 filter = GetECBFilterQuery(filter);
@@ -130,6 +137,13 @@ namespace ATMSRestAPI.Controllers
                 DataSet events = ATCCEventBL.ReportLocationGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_4", events);
+            }
+            else if (SystemName == "VIDS")
+            {
+                filter = GetVIDSFilterQuery(filter);
+                DataSet events = VIDSEventBL.ReportLocationGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("VIDS_Report_4", events);
             }
             else if (SystemName == "ECB")
             {
@@ -166,8 +180,6 @@ namespace ATMSRestAPI.Controllers
             {
                 return View("Report_1");
             }
-
-
         }
 
         /// <summary>
@@ -187,6 +199,44 @@ namespace ATMSRestAPI.Controllers
                 DataSet events = ATCCEventBL.ReportPositionGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_6", events);
+            }
+            else if (SystemName == "VIDS")
+            {
+                filter = GetVIDSFilterQuery(filter);
+                DataSet events = VIDSEventBL.ReportPositionGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("VIDS_Report_6", events);
+            }
+            else
+            {
+                return View("Report_1");
+            }
+        }
+
+        /// <summary>
+        /// Event wise Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_7(string SystemName, short SystemId, string FileName)
+        {
+            DataFilterIL filter = GetFiltersFromFile(FileName);
+            DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
+            if (SystemName == "ECB")
+            {
+                filter = GetECBFilterQuery(filter);
+                DataSet events = ECBCallEventBL.ReportEventGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ECB_Report_7", events);
+            }
+            else if (SystemName == "VIDS")
+            {
+                filter = GetVIDSFilterQuery(filter);
+                DataSet events = VIDSEventBL.ReportEventGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("VIDS_Report_7", events);
             }
             else
             {
@@ -277,7 +327,6 @@ namespace ATMSRestAPI.Controllers
             #endregion
             return filter;
         }
-
         private DataFilterIL GetECBFilterQuery(DataFilterIL filter)
         {
             #region Data Filter
@@ -303,13 +352,13 @@ namespace ATMSRestAPI.Controllers
             }
             else
                 filter.ChainageFilterList = "All";
-            if (filter.CallTypeFilterList != "0")
+            if (filter.EventFilterList != "0")
             {
-                filter.FilterQuery = filter.FilterQuery + " AND H.CallTypeId IN (" + filter.CallTypeFilterList + ") ";
+                filter.FilterQuery = filter.FilterQuery + " AND H.CallTypeId IN (" + filter.EventFilterList + ") ";
 
             }
             else
-                filter.CallTypeFilterList = "All";
+                filter.EventFilterList = "All";
             if (filter.DirectionFilterList != "0")
             {
                 filter.FilterQuery = filter.FilterQuery + " AND (CallerED.DirectionId IN (" + filter.DirectionFilterList + ") OR CalleeED.DirectionId IN (" + filter.DirectionFilterList + ")) ";
@@ -325,6 +374,56 @@ namespace ATMSRestAPI.Controllers
                 filter.DirectionFilterList = "All";
             #endregion
             return filter;
+        }
+        private DataFilterIL GetVIDSFilterQuery(DataFilterIL data)
+        {
+            #region Data Filter
+            data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
+            if (data.ControlRoomFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND CR.ControlRoomId IN (" + data.ControlRoomFilterList + ") ";
+            }
+            else
+                data.ControlRoomFilterList = "All";
+            if (data.PackageFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND PD.PackageId IN (" + data.PackageFilterList + ") ";
+            }
+            else
+                data.PackageFilterList = "All";
+            if (data.ChainageFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND ED.ChainageNumber IN (" + data.ChainageFilterList + ") ";
+            }
+            else
+                data.ChainageFilterList = "All";
+            if (data.DirectionFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND ED.DirectionId IN (" + data.DirectionFilterList + ") ";
+                List<string> directionIds = data.DirectionFilterList.Split(',').ToList();
+                foreach (var val in directionIds)
+                {
+                    var filtered = Enum.GetName(typeof(DirectionType), (DirectionType)Convert.ToInt16(val));
+                    data.DirectionFilterList = data.DirectionFilterList + ',' + filtered;
+                }
+                data.DirectionFilterList = data.DirectionFilterList.Remove(0, 1);
+            }
+            else
+                data.DirectionFilterList = "All";
+            if (data.PositionFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND EC.PositionId IN (" + data.PositionFilterList + ") ";
+            }
+            else
+                data.PositionFilterList = "All";
+            if (data.EventFilterList != "0")
+            {
+                data.FilterQuery = data.FilterQuery + " AND H.EventTypeId IN (" + data.EventFilterList + ") ";
+            }
+            else
+                data.EventFilterList = "All";
+            #endregion
+            return data;
         }
     }
 }

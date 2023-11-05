@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     this.api.GetUrl();
     this.dataModel.delay(100).then(any => {
       this.ProjectDetails = this.dataModel.getProjectDetails();
-      console.log(this.ProjectDetails)
     });
   }
 

@@ -6,6 +6,7 @@ using HighwaySoluations.Softomation.CommonLibrary;
 using HighwaySoluations.Softomation.CommonLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.IL;
 using HighwaySoluations.Softomation.ATMSSystemLibrary.DBA;
+using static HighwaySoluations.Softomation.ATMSSystemLibrary.SystemConstants;
 
 namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 {
@@ -46,6 +47,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         }
 
         
+
         internal static List<ECBCallEventIL> GetByHours(short hours)
         {
             List<ECBCallEventIL> ecbEvents = new List<ECBCallEventIL>();
@@ -104,7 +106,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
         internal static DataSet ReportLocationGetByFilter(DataFilterIL data)
         {
             DataSet ds = new DataSet();
-            List<ATCCEventIL> vidsEvents = new List<ATCCEventIL>();
             try
             {
                 string spName = "USP_ECBLocationReport";
@@ -118,7 +119,22 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             }
             return ds;
         }
-
+        internal static DataSet ReportEventGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                string spName = "USP_ECBEventReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
 
         #region Helper Methods
         internal static ECBCallEventIL CreateObjectFromDataRow(DataRow dr)
@@ -234,7 +250,7 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
 
             events.CallerDirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.CallerDirectionId);
             events.CalleeDirectionName = Enum.GetName(typeof(Constants.DirectionType), (Constants.DirectionType)events.CalleeDirectionId);
-            events.CallTypeName = Enum.GetName(typeof(Constants.CallType), (Constants.CallType)events.CallTypeId);
+            events.CallTypeName = Enum.GetName(typeof(ECSCallType), (ECSCallType)events.CallTypeId);
             events.CallStatusName = Enum.GetName(typeof(Constants.IPPbxCallStatusType), (Constants.IPPbxCallStatusType)events.CallStatusId);
             return events;
         }

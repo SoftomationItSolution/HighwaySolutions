@@ -35,6 +35,13 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             Front = 1,
             Rear = 2
         }
+        public enum ECSCallType
+        {
+            Incomming = 26,
+            Outgoing = 27,
+            Missed = 28,
+            Rejected = 29
+        }
         public enum VIDSEquipmentPositionType
         {
             Entry = 1,
@@ -64,7 +71,6 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary
             Lane_7 = 7,
             Lane_8 = 8
         }
-
         public enum SystemMasterType
         {
             ADAS = 1,

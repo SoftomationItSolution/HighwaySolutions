@@ -108,6 +108,71 @@ namespace HighwaySoluations.Softomation.ATMSSystemLibrary.DL
             return vidsEvents;
         }
 
+        internal static DataSet ReportSummeryGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                string spName = "USP_VIDSSummeryReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        internal static DataSet ReportLocationGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                string spName = "USP_VIDSLocationReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        internal static DataSet ReportEventGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                string spName = "USP_VIDSEventReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+        internal static DataSet ReportPositionGetByFilter(DataFilterIL data)
+        {
+            DataSet ds = new DataSet();
+            try
+            {
+                string spName = "USP_VIDSPositionReport";
+                DbCommand command = DBAccessor.GetStoredProcCommand(spName);
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@FilterQuery", DbType.String, data.FilterQuery, ParameterDirection.Input));
+                ds = DBAccessor.LoadDataSet(command, tableName);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ds;
+        }
+
         #region Helper Methods
         internal static VIDSEventIL CreateObjectFromDataRow(DataRow dr)
         {

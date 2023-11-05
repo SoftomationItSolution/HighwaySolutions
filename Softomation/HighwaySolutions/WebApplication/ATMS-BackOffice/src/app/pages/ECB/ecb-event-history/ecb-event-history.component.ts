@@ -72,7 +72,7 @@ export class ECBEventHistoryComponent implements OnInit {
       PackageFilterList: new FormControl(''),
       ChainageFilterList: new FormControl(''),
       DirectionFilterList: new FormControl(''),
-      CallTypeFilterList: new FormControl(''),
+      EventFilterList: new FormControl(''),
     });
   }
 
@@ -132,6 +132,7 @@ export class ECBEventHistoryComponent implements OnInit {
         this.ControlRoomData = this.MasterData.ControlRoomDataList;
         this.PackageFilter = this.MasterData.PackageDataList;
         this.ChainageFilter = this.MasterData.ChainageDataList;
+        this.GetEventData();
         this.GetCallHistroy();
       },
       (error) => {
@@ -200,8 +201,6 @@ export class ECBEventHistoryComponent implements OnInit {
   }
 
   FillChainage() {
-    
-
     if (this.FilterDetailsForm.value.PackageFilterList == null) {
       this.ChainageFilter = this.MasterData.ChainageDataList;
     }
@@ -233,16 +232,23 @@ export class ECBEventHistoryComponent implements OnInit {
     }
   }
 
+  GetEventData() {
+    this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
+      data => {
+        this.EventData = data.ResponseData;
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
   SearchEntry() {
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let CallTypeFilterList = "0"
-    if (this.FilterDetailsForm.value.CallTypeFilterList != null && this.FilterDetailsForm.value.CallTypeFilterList != '') {
-      let crData = this.FilterDetailsForm.value.CallTypeFilterList.toString();
-      if (crData.split(',').length != this.CallTypeList.length) {
-        CallTypeFilterList = this.FilterDetailsForm.value.CallTypeFilterList.toString();
-      }
-    }
+    
     let ControlRoomFilterList = "0"
     if (this.FilterDetailsForm.value.ControlRoomFilterList != null && this.FilterDetailsForm.value.ControlRoomFilterList != '') {
       let crData = this.FilterDetailsForm.value.ControlRoomFilterList.toString();
@@ -275,6 +281,14 @@ export class ECBEventHistoryComponent implements OnInit {
       }
     }
 
+    let EventFilterList = "0"
+      if (this.FilterDetailsForm.value.EventFilterList != null && this.FilterDetailsForm.value.EventFilterList != '') {
+        let crData = this.FilterDetailsForm.value.EventFilterList.toString();
+        if (crData.split(',').length != this.EventData.length) {
+          EventFilterList = this.FilterDetailsForm.value.EventFilterList.toString();
+        }
+      }
+
     const obj = {
       StartDateTime: SD,
       EndDateTime: ED,
@@ -282,7 +296,7 @@ export class ECBEventHistoryComponent implements OnInit {
       PackageFilterList: PackageFilterList,
       ChainageFilterList: ChainageFilterList,
       DirectionFilterList: DirectionFilterList,
-      CallTypeFilterList: CallTypeFilterList
+      EventFilterList: EventFilterList,
     }
     this.spinner.show();
     this.dbService.ECBEventsGetByFilter(obj).subscribe(

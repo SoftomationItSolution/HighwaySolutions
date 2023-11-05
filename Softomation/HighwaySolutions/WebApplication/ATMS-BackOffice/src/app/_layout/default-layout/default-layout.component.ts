@@ -78,8 +78,6 @@ export class DefaultLayoutComponent implements OnInit,OnDestroy {
     try {
       this.NMSDataSubscribe = this._mqttService.observe("NMS/DeviceStatus").subscribe((message: IMqttMessage) => {
         var nsmData = JSON.parse(message.payload.toString());
-        // console.log("nsmData");
-        // console.log(nsmData)
         if(nsmData.OnLineStatus)
           this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.IpAddress+" is online!" 
         this.NotificationTest=nsmData.EquipmentTypeName + '-' + nsmData.EquipmentName +'-'+nsmData.IpAddress+" is offline!" 

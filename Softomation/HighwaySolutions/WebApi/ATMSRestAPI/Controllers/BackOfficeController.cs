@@ -2761,9 +2761,9 @@ namespace ATMSRestAPI.Controllers
                 {
                     data.FilterQuery = data.FilterQuery + " AND (CallerED.DirectionId IN (" + data.DirectionFilterList + ") OR CalleeED.DirectionId IN (" + data.DirectionFilterList + ")) ";
                 }
-                if (data.CallTypeFilterList != "0")
+                if (data.EventFilterList != "0")
                 {
-                    data.FilterQuery = data.FilterQuery + " AND H.CallTypeId IN (" + data.CallTypeFilterList + ") ";
+                    data.FilterQuery = data.FilterQuery + " AND H.CallTypeId IN (" + data.EventFilterList + ") ";
                 }
 
                 

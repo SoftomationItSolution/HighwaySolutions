@@ -94,7 +94,7 @@
                                                 placeholder="Camera View">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3" *ngIf="FilterDetailsForm.value.SystemId === 6">
+                                        <div class="col-md-3" *ngIf="FilterDetailsForm.value.SystemId === 6 || FilterDetailsForm.value.SystemId === 3">
                                             <label for="EventFilterList">Event Type</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="EventFilterList"
@@ -111,14 +111,7 @@
                                                 optionLabel="DataName" optionValue="DataId" placeholder="Vehicle Class">
                                             </p-multiSelect>
                                         </div>
-                                        <div class="col-md-3" *ngIf="FilterDetailsForm.value.SystemId === 3">
-                                            <label for="CallTypeFilterList">Call Type</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="CallTypeFilterList"
-                                                inputId="CallTypeFilterList" [options]="CallTypeList"
-                                                optionLabel="DataName" optionValue="DataValue" placeholder="Call Type">
-                                            </p-multiSelect>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="col-md-1 align-self-center">

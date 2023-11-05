@@ -55,7 +55,6 @@ export class ReportsComponent {
       DirectionFilterList: new FormControl(''),
       EventFilterList: new FormControl(''),
       VehicleClassFilterList: new FormControl(''),
-      CallTypeFilterList: new FormControl(''),
       SystemId: new FormControl('', [Validators.required]),
       ReportId: new FormControl('', [Validators.required]),
     });
@@ -117,7 +116,7 @@ export class ReportsComponent {
         this.ChainageFilter = this.MasterData.ChainageDataList;
         this.SystemData = this.MasterData.SystemDataList
         this.VehicleClassDataList = this.MasterData.VehicleTypeList
-        this.GetEventData();
+        
         this.GetSystemList();
       },
       (error) => {
@@ -142,7 +141,7 @@ export class ReportsComponent {
   }
 
   GetEventData() {
-    this.dbService.EventsTypeGetBySystemId(this.SystemId).subscribe(
+    this.dbService.EventsTypeGetBySystemId(this.FilterDetailsForm.value.SystemId).subscribe(
       data => {
         this.EventData = data.ResponseData;
       },
@@ -157,7 +156,7 @@ export class ReportsComponent {
     this.dbService.FilterReportGetBySystemId(this.FilterDetailsForm.value.SystemId).subscribe(
       data => {
         this.ReportList = data.ResponseData.ReportTypeList;
-
+        this.GetEventData();
       },
       (error) => {
         this.spinner.hide();
@@ -287,14 +286,6 @@ export class ReportsComponent {
         }
       }
 
-      let CallTypeFilterList = "0"
-    if (this.FilterDetailsForm.value.CallTypeFilterList != null && this.FilterDetailsForm.value.CallTypeFilterList != '') {
-      let crData = this.FilterDetailsForm.value.CallTypeFilterList.toString();
-      if (crData.split(',').length != this.CallTypeList.length) {
-        CallTypeFilterList = this.FilterDetailsForm.value.CallTypeFilterList.toString();
-      }
-    }
-
       let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
       let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
       var obj = {
@@ -305,7 +296,6 @@ export class ReportsComponent {
         PositionFilterList: PositionFilterList,
         EventFilterList: EventFilterList,
         VehicleClassFilterList: VehicleClassFilterList,
-        CallTypeFilterList:CallTypeFilterList,
         ReportId: this.FilterDetailsForm.value.ReportId,
         SystemId: this.FilterDetailsForm.value.SystemId,
         StartDateTime: SD,
@@ -371,9 +361,6 @@ export class ReportsComponent {
 
       this.FilterDetailsForm.get(["VehicleClassFilterList"])?.reset();
       this.FilterDetailsForm.get(["VehicleClassFilterList"])?.disable();
-
-      this.FilterDetailsForm.get(["CallTypeFilterList"])?.reset();
-      this.FilterDetailsForm.get(["CallTypeFilterList"])?.disable();
     }
     else{
       this.FilterDetailsForm.get(["ControlRoomFilterList"])?.reset();
@@ -396,9 +383,6 @@ export class ReportsComponent {
 
       this.FilterDetailsForm.get(["VehicleClassFilterList"])?.reset();
       this.FilterDetailsForm.get(["VehicleClassFilterList"])?.enable();
-
-      this.FilterDetailsForm.get(["CallTypeFilterList"])?.reset();
-      this.FilterDetailsForm.get(["CallTypeFilterList"])?.enable();
     }
 
   }

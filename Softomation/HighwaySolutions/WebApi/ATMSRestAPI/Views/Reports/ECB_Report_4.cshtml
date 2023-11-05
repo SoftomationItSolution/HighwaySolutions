@@ -4,7 +4,6 @@
     Layout = null;
     int index = 0;
     string LocationName = "";
-    string PositionName = "";
     Int64 CatCount = 0;
     HighwaySoluations.Softomation.ATMSSystemLibrary.IL.DataFilterIL FilterData = ViewBag.Filter;
 }
@@ -17,14 +16,8 @@
     <script src="~/Content/bootstrap/js/jquery-3.3.1.js"></script>
     <script src="~/Content/bootstrap/js/bootstrap.js"></script>
     <style type="text/css">
-        @@media print {
-            .noprint {
-                display: none !important;
-            }
-        }
-
-        .breakhere {
-            page-break-after: always
+        tr {
+            page-break-inside: avoid;
         }
 
         .report-header {
@@ -192,8 +185,8 @@
                     <td style="width:25%">: @FilterData.DirectionFilterList</td>
                 </tr>
                 <tr>
-                    <td style="width:20%">Call Type</td>
-                    <td style="width:25%">: @FilterData.CallTypeFilterList</td>
+                    <td style="width:20%">Event Type</td>
+                    <td style="width:25%">: @FilterData.EventFilterList</td>
                 </tr>
             </tbody>
         </table>
@@ -250,17 +243,10 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
-
-
                         <div style="border:1px solid"></div>
                     }
-
                 }
-
             }
-
             <div class="masterHead"><h4><b>ECB Location Summery</b></h4></div>
             <table class="tableizer-table mt-20">
                 <thead>

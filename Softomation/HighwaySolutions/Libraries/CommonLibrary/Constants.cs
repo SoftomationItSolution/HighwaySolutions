@@ -166,13 +166,7 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             Aborted = 21,
             Completed = 22
         }
-        public enum CallType
-        {
-            Incomming = 1,
-            Outgoing = 2,
-            Missed = 3,
-            Rejected = 4
-        }
+       
         #endregion
 
         #region Methods

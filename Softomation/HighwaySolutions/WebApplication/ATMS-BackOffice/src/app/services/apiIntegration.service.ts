@@ -65,7 +65,6 @@ export class apiIntegrationService {
               reject(err);
             },
             complete: () => {
-              //console.log('complete');
             },
           });
         });

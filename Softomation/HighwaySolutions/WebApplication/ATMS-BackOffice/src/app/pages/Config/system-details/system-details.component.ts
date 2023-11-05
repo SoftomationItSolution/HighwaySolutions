@@ -116,7 +116,6 @@ export class SystemDetailsComponent {
     }
   }
   ReportSelection(event:any,rowData:any){
-   // console.log(rowData)
   }
 
   SaveDetails(){

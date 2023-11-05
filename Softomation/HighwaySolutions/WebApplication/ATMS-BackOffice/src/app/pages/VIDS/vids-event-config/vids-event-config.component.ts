@@ -99,7 +99,6 @@ export class VIDSEventConfigComponent {
     this.dbService.ChalanTypeGetAll().subscribe(
       data => {
         this.ChalanTypeData = data.ResponseData;
-        console.log(this.ChalanTypeData)
       },
       (error) => {
         this.spinner.hide();
