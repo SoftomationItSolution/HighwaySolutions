@@ -1,0 +1,327 @@
+﻿@model IEnumerable<HighwaySoluations.Softomation.ATMSSystemLibrary.IL.ATCCEventIL>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ATCC_Report_2</title>
+</head>
+<body>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.DataStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataStatusName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByLoginId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedByLoginId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DataSendStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MediaSendStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlRoomId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ControlRoomName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChainageNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ChainageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Latitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Longitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DirectionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DirectionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PackageName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartChainageNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndChainageNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartLatitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartLongitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndLatitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndLongitude)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TransactionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentIp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EquipmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PositionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventDateStamp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LaneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LaneName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlateNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleClassId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleClassName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleImageUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleVideoUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassConfidencelevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleColor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleDirectionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleDirectionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsWrongDirection)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsReviewedRequired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsRestiredVehicle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SystemProviderId)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataStatusName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedByLoginId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedByLoginId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DataSendStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MediaSendStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlRoomId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ControlRoomName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChainageNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ChainageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Latitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Longitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DirectionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DirectionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PackageName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartChainageNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndChainageNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartLatitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartLongitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndLatitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndLongitude)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TransactionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentIp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EquipmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PositionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventDateStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LaneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LaneName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlateNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleClassId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleImageUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleVideoUrl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassConfidencelevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleColor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleDirectionId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VehicleDirectionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsWrongDirection)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsReviewedRequired)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsRestiredVehicle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SystemProviderId)
+            </td>
+            <td>
+              
+            </td>
+        </tr>
+    }
+    
+    </table>
+</body>
+</html>

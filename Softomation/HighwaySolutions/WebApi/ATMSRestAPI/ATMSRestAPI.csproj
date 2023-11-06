@@ -274,6 +274,8 @@
     <Content Include="Views\Reports\VIDS_Report_4.cshtml" />
     <Content Include="Views\Reports\VIDS_Report_7.cshtml" />
     <Content Include="Views\Reports\VIDS_Report_6.cshtml" />
+    <Content Include="Views\Reports\ATCC_Report_2.cshtml" />
+    <Content Include="Views\Reports\ATCC_Report_22.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

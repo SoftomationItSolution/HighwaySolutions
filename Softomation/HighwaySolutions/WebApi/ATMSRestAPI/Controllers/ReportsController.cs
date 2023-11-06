@@ -95,24 +95,63 @@ namespace ATMSRestAPI.Controllers
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ATCC")
             {
-                filter = GetATCCFilterQuery(filter);
+                filter = GetATCCFilterQuery(filter, masterData);
                 DataSet events = ATCCEventBL.ReportSummeryGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_1", events);
             }
             else if (SystemName == "VIDS")
             {
-                filter = GetVIDSFilterQuery(filter);
+                filter = GetVIDSFilterQuery(filter, masterData);
                 DataSet events = VIDSEventBL.ReportSummeryGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("VIDS_Report_1", events);
             }
             else if (SystemName == "ECB")
             {
-                filter = GetECBFilterQuery(filter);
+                filter = GetECBFilterQuery(filter, masterData);
                 DataSet events = ECBCallEventBL.ReportSummeryGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ECB_Report_1", events);
+            }
+            else
+            {
+                return View("Report_1");
+            }
+        }
+
+
+        /// <summary>
+        /// Details Report
+        /// </summary>
+        /// <param name="SystemName"></param>
+        /// <param name="SystemId"></param>
+        /// <param name="FileName"></param>
+        /// <returns></returns>
+        public ActionResult Report_2(string SystemName, short SystemId, string FileName)
+        {
+            DataFilterIL filter = GetFiltersFromFile(FileName);
+            DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
+            if (SystemName == "ATCC")
+            {
+                filter = GetATCCFilterQuery(filter,masterData);
+                List<ATCCEventIL> events = ATCCEventBL.GetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ATCC_Report_2", events);
+            }
+            else if (SystemName == "VIDS")
+            {
+                filter = GetVIDSFilterQuery(filter, masterData);
+                DataSet events = VIDSEventBL.ReportSummeryGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("VIDS_Report_2", events);
+            }
+            else if (SystemName == "ECB")
+            {
+                filter = GetECBFilterQuery(filter, masterData);
+                DataSet events = ECBCallEventBL.ReportSummeryGetByFilter(filter);
+                ViewBag.Filter = filter;
+                return View("ECB_Report_2", events);
             }
             else
             {
@@ -133,21 +172,21 @@ namespace ATMSRestAPI.Controllers
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ATCC")
             {
-                filter = GetATCCFilterQuery(filter);
+                filter = GetATCCFilterQuery(filter, masterData);
                 DataSet events = ATCCEventBL.ReportLocationGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_4", events);
             }
             else if (SystemName == "VIDS")
             {
-                filter = GetVIDSFilterQuery(filter);
+                filter = GetVIDSFilterQuery(filter, masterData);
                 DataSet events = VIDSEventBL.ReportLocationGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("VIDS_Report_4", events);
             }
             else if (SystemName == "ECB")
             {
-                filter = GetECBFilterQuery(filter);
+                filter = GetECBFilterQuery(filter, masterData);
                 DataSet events = ECBCallEventBL.ReportLocationGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ECB_Report_4", events);
@@ -171,7 +210,7 @@ namespace ATMSRestAPI.Controllers
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ATCC")
             {
-                filter = GetATCCFilterQuery(filter);
+                filter = GetATCCFilterQuery(filter, masterData);
                 DataSet events = ATCCEventBL.ReportClassGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_5", events);
@@ -195,14 +234,14 @@ namespace ATMSRestAPI.Controllers
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ATCC")
             {
-                filter = GetATCCFilterQuery(filter);
+                filter = GetATCCFilterQuery(filter, masterData);
                 DataSet events = ATCCEventBL.ReportPositionGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ATCC_Report_6", events);
             }
             else if (SystemName == "VIDS")
             {
-                filter = GetVIDSFilterQuery(filter);
+                filter = GetVIDSFilterQuery(filter, masterData);
                 DataSet events = VIDSEventBL.ReportPositionGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("VIDS_Report_6", events);
@@ -226,14 +265,14 @@ namespace ATMSRestAPI.Controllers
             DataFilterIL masterData = DataFilterBL.GetBySystemId(SystemId);
             if (SystemName == "ECB")
             {
-                filter = GetECBFilterQuery(filter);
+                filter = GetECBFilterQuery(filter, masterData);
                 DataSet events = ECBCallEventBL.ReportEventGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ECB_Report_7", events);
             }
             else if (SystemName == "VIDS")
             {
-                filter = GetVIDSFilterQuery(filter);
+                filter = GetVIDSFilterQuery(filter, masterData);
                 DataSet events = VIDSEventBL.ReportEventGetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("VIDS_Report_7", events);
@@ -276,7 +315,7 @@ namespace ATMSRestAPI.Controllers
             }
             return filter;
         }
-        private DataFilterIL GetATCCFilterQuery(DataFilterIL filter)
+        private DataFilterIL GetATCCFilterQuery(DataFilterIL filter, DataFilterIL masterData)
         {
             #region Data Filter
             filter.FilterQuery = "WHERE H.EventDate>= CONVERT(DATETIME,'" + filter.StartDateTime + "') AND H.EventDate<= CONVERT(DATETIME,'" + filter.EndDateTime + "')";
@@ -327,7 +366,7 @@ namespace ATMSRestAPI.Controllers
             #endregion
             return filter;
         }
-        private DataFilterIL GetECBFilterQuery(DataFilterIL filter)
+        private DataFilterIL GetECBFilterQuery(DataFilterIL filter, DataFilterIL masterData)
         {
             #region Data Filter
             filter.FilterQuery = "WHERE H.StartDateTime>= CONVERT(DATETIME,'" + filter.StartDateTime + "') AND H.StartDateTime<= CONVERT(DATETIME,'" + filter.EndDateTime + "')";
@@ -375,7 +414,7 @@ namespace ATMSRestAPI.Controllers
             #endregion
             return filter;
         }
-        private DataFilterIL GetVIDSFilterQuery(DataFilterIL data)
+        private DataFilterIL GetVIDSFilterQuery(DataFilterIL data, DataFilterIL masterData)
         {
             #region Data Filter
             data.FilterQuery = "WHERE H.EventStartDate>= CONVERT(DATETIME,'" + data.StartDateTime + "') AND H.EventStartDate<= CONVERT(DATETIME,'" + data.EndDateTime + "')";
