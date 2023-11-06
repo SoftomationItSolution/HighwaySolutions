@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\AppPublish\ATMS</_PublishTargetUrl>
-    <History>True|2023-11-02T08:05:02.1935849Z;True|2023-11-01T17:42:58.3617089+05:30;True|2023-11-01T17:27:58.3432407+05:30;True|2023-11-01T17:27:43.1582193+05:30;True|2023-10-28T16:09:16.9180438+05:30;True|2023-10-28T16:02:50.6115103+05:30;True|2023-10-28T15:57:18.4994520+05:30;True|2023-10-28T14:21:16.0925660+05:30;True|2023-10-27T17:42:53.2795542+05:30;True|2023-10-26T12:49:26.1526359+05:30;True|2023-10-26T11:39:49.5536981+05:30;True|2023-10-26T11:33:36.7524275+05:30;True|2023-10-18T14:51:49.2300387+05:30;True|2023-10-14T21:36:33.5104165+05:30;True|2023-10-14T21:29:54.9749784+05:30;True|2023-10-13T19:46:13.5527282+05:30;True|2023-10-13T16:30:55.3475141+05:30;True|2023-10-13T16:10:25.9259269+05:30;True|2023-10-13T15:58:09.2496913+05:30;True|2023-10-13T14:59:28.4503902+05:30;True|2023-10-12T17:14:49.1873123+05:30;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
+    <History>True|2023-11-06T12:22:36.5337856Z;True|2023-11-02T13:35:02.1935849+05:30;True|2023-11-01T17:42:58.3617089+05:30;True|2023-11-01T17:27:58.3432407+05:30;True|2023-11-01T17:27:43.1582193+05:30;True|2023-10-28T16:09:16.9180438+05:30;True|2023-10-28T16:02:50.6115103+05:30;True|2023-10-28T15:57:18.4994520+05:30;True|2023-10-28T14:21:16.0925660+05:30;True|2023-10-27T17:42:53.2795542+05:30;True|2023-10-26T12:49:26.1526359+05:30;True|2023-10-26T11:39:49.5536981+05:30;True|2023-10-26T11:33:36.7524275+05:30;True|2023-10-18T14:51:49.2300387+05:30;True|2023-10-14T21:36:33.5104165+05:30;True|2023-10-14T21:29:54.9749784+05:30;True|2023-10-13T19:46:13.5527282+05:30;True|2023-10-13T16:30:55.3475141+05:30;True|2023-10-13T16:10:25.9259269+05:30;True|2023-10-13T15:58:09.2496913+05:30;True|2023-10-13T14:59:28.4503902+05:30;True|2023-10-12T17:14:49.1873123+05:30;True|2023-10-12T16:57:51.2621443+05:30;True|2023-10-07T20:48:28.0471943+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="App_Browsers/qt.browser">
@@ -18,19 +18,19 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/13/2023 12:00:47</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.dll">
-      <publishTime>11/06/2023 14:00:39</publishTime>
+      <publishTime>11/06/2023 18:04:38</publishTime>
     </File>
     <File Include="bin/ATMSRestAPI.pdb">
-      <publishTime>11/06/2023 14:00:39</publishTime>
+      <publishTime>11/06/2023 18:04:38</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll">
-      <publishTime>11/06/2023 14:00:39</publishTime>
+      <publishTime>11/06/2023 17:52:34</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.dll.config">
       <publishTime>10/26/2023 11:51:04</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.ATMSSystemLibrary.pdb">
-      <publishTime>11/06/2023 14:00:39</publishTime>
+      <publishTime>11/06/2023 17:52:34</publishTime>
     </File>
     <File Include="bin/HighwaySoluations.Softomation.CommonLibrary.dll">
       <publishTime>11/05/2023 11:05:05</publishTime>
@@ -642,7 +642,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2023 14:30:35</publishTime>
     </File>
     <File Include="Views/Reports/ATCC_Report_2.cshtml">
-      <publishTime>11/06/2023 14:00:03</publishTime>
+      <publishTime>11/06/2023 17:40:03</publishTime>
     </File>
     <File Include="Views/Reports/ATCC_Report_22.cshtml">
       <publishTime>11/06/2023 13:32:35</publishTime>
@@ -657,7 +657,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>11/05/2023 15:27:34</publishTime>
     </File>
     <File Include="Views/Reports/ECB_Report_1.cshtml">
-      <publishTime>11/05/2023 14:30:14</publishTime>
+      <publishTime>11/06/2023 17:57:31</publishTime>
+    </File>
+    <File Include="Views/Reports/ECB_Report_2.cshtml">
+      <publishTime>11/06/2023 18:04:22</publishTime>
     </File>
     <File Include="Views/Reports/ECB_Report_4.cshtml">
       <publishTime>11/05/2023 14:30:09</publishTime>
@@ -670,6 +673,9 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
     </File>
     <File Include="Views/Reports/VIDS_Report_1.cshtml">
       <publishTime>11/05/2023 14:32:54</publishTime>
+    </File>
+    <File Include="Views/Reports/VIDS_Report_2.cshtml">
+      <publishTime>11/06/2023 17:42:28</publishTime>
     </File>
     <File Include="Views/Reports/VIDS_Report_4.cshtml">
       <publishTime>11/05/2023 15:22:30</publishTime>

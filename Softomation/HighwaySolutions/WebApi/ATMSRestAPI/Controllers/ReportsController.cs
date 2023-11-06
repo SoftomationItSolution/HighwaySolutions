@@ -142,14 +142,14 @@ namespace ATMSRestAPI.Controllers
             else if (SystemName == "VIDS")
             {
                 filter = GetVIDSFilterQuery(filter, masterData);
-                DataSet events = VIDSEventBL.ReportSummeryGetByFilter(filter);
+                List<VIDSEventIL> events = VIDSEventBL.GetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("VIDS_Report_2", events);
             }
             else if (SystemName == "ECB")
             {
                 filter = GetECBFilterQuery(filter, masterData);
-                DataSet events = ECBCallEventBL.ReportSummeryGetByFilter(filter);
+                List<ECBCallEventIL> events = ECBCallEventBL.GetByFilter(filter);
                 ViewBag.Filter = filter;
                 return View("ECB_Report_2", events);
             }

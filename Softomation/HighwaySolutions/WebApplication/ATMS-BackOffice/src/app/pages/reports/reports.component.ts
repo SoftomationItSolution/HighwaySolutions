@@ -131,6 +131,7 @@ export class ReportsComponent {
     this.dbService.SystemGetActive().subscribe(
       data => {
         this.SystemData = data.ResponseData.filter((e: { ReportIds: any; }) => e.ReportIds != '');
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
@@ -304,6 +305,7 @@ export class ReportsComponent {
       this.spinner.show();
       this.dbService.ReportGetByFilter(obj).subscribe(
         data => {
+          this.spinner.hide();
           let returnMessage = data.Message[0].AlertMessage;
           if (returnMessage.indexOf('pdf') > -1) {
             //this.pdfSrc=returnMessage;
@@ -317,7 +319,7 @@ export class ReportsComponent {
             };
 
           }
-          this.spinner.hide();
+         
         },
         (error) => {
           this.spinner.hide();

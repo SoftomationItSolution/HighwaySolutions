@@ -325,7 +325,7 @@ namespace ATMSDAService
                                 #region Get Equipment Position
                                 lock (_locPosition)
                                 {
-                                    ATCCequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
+                                    ATCCequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId && x.SystemId == (short)SystemMasterType.ATCC);
                                 }
                                 if (ATCCequipmentConfig != null)
                                 {
@@ -424,7 +424,7 @@ namespace ATMSDAService
                         {
                             lock (_locEvent)
                             {
-                                VIDSeventsType = eventsTypesList.SingleOrDefault(x => x.EventTypeName == DataEvent.EventTypeName);
+                                VIDSeventsType = eventsTypesList.SingleOrDefault(x => x.EventTypeName == DataEvent.EventTypeName && x.SystemId==(short)SystemMasterType.VIDS);
                             }
                             if (VIDSeventsType != null)
                             {
@@ -461,7 +461,7 @@ namespace ATMSDAService
                                 #region Get Equipment Position
                                 lock (_locPosition)
                                 {
-                                    VIDSequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId);
+                                    VIDSequipmentConfig = equipmentConfigsList.SingleOrDefault(x => x.EquipmentId == DataEvent.EquipmentId && x.SystemId == (short)SystemMasterType.VIDS);
                                 }
                                 if (VIDSequipmentConfig != null)
                                 {
@@ -550,7 +550,7 @@ namespace ATMSDAService
                         LogMessage("CallerNumber Not Found" + DataPacket);
                     else 
                     {
-                        var eqc = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CallerNumber);
+                        var eqc = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CallerNumber && x.SystemId == (short)SystemMasterType.ECS);
                         DataEvent.CallerIpAddress = eqc.IpAddress;
                     }
                     
@@ -591,7 +591,7 @@ namespace ATMSDAService
                         LogMessage("CalleeNumber Not Found" + DataPacket);
                     else
                     {
-                        var eqc1 = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CalleeNumber);
+                        var eqc1 = equipmentConfigsList.SingleOrDefault(x => x.Extension.ToString() == DataEvent.CalleeNumber && x.SystemId == (short)SystemMasterType.VIDS);
                         DataEvent.CalleeIpAddress = eqc1.IpAddress;
                     }
                     if (string.IsNullOrEmpty(DataEvent.CalleeIpAddress))
