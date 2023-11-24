@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -26,7 +27,7 @@ export class UserConfigurationPopupComponent implements OnInit {
   PlazaList:any;
   submitted=false;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
-    private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog) {
+    private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog,public datepipe: DatePipe) {
       this.LogedUserId = this.dm.getUserId();
     this.UserId = parentData.UserId;
     this.GetRoleData();
@@ -87,7 +88,7 @@ export class UserConfigurationPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -109,7 +110,7 @@ export class UserConfigurationPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -145,7 +146,7 @@ export class UserConfigurationPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -174,7 +175,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         MobileNumber: this.DataDetailsForm.value.MobileNumber,
         EmailId: this.DataDetailsForm.value.EmailId,
         PlazaId: this.DataDetailsForm.value.PlazaId,
-        AccountExpiredDate: this.DataDetailsForm.value.AccountExpiredDate,
+        AccountExpiredDate: this.datepipe.transform(this.DataDetailsForm.value.AccountExpiredDate, 'dd-MMM-yyyy'),
         RoleId: this.DataDetailsForm.value.RoleId,
         UserTypeId: this.DataDetailsForm.value.UserTypeId,
         DataStatus: this.DataDetailsForm.value.DataStatus==true?1:2,
@@ -198,7 +199,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         (error) => {
           this.spinner.hide();
           try {
-            this.ErrorData = error.error;
+            this.ErrorData = error.error.Message;
             this.dm.openSnackBar(this.ErrorData, false);
           } catch (error) {
             this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

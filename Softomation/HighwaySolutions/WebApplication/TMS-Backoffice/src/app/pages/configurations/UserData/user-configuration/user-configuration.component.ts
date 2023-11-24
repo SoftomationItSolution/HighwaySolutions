@@ -49,8 +49,13 @@ export class UserConfigurationComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -70,8 +75,13 @@ export class UserConfigurationComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }

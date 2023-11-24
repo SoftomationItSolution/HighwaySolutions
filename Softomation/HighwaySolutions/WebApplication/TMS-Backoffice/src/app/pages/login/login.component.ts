@@ -40,7 +40,6 @@ export class LoginComponent implements OnInit {
 
     this.api.GetUrl();
     this.ProjectDetails = this.dataModel.getProjectDetails();
-    console.log(this.ProjectDetails)
   }
 
 
@@ -94,7 +93,7 @@ export class LoginComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dataModel.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

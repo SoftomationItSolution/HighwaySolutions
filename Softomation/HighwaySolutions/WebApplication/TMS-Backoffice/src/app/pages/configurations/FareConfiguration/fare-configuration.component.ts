@@ -50,8 +50,13 @@ export class FareConfigurationComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -69,7 +74,8 @@ export class FareConfigurationComponent implements OnInit {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
         this.FareData = this.DevicesData.TollFareConfigurations;
-        this.EffectiveFrom=this.DevicesData.EffectedFromStamp;
+        //this.EffectiveFrom=new Date(this.DevicesData.EffectedFrom);
+        this.EffectiveFrom =this.datepipe.transform(this.DevicesData.EffectedFrom, 'dd-MMM-yyyy')
         if(this.FareData.length==0){
           this.ErrorData = [{ AlertMessage: "Toll Fare not found." }];
           this.dm.openSnackBar(this.ErrorData, false);
@@ -77,15 +83,20 @@ export class FareConfigurationComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
 
   SaveDetails(){
     this.spinner.show();
-    this.DevicesData.EffectedFrom=this.EffectiveDate;
+    this.DevicesData.EffectedFrom=this.datepipe.transform(this.EffectiveDate, 'dd-MMM-yyyy');
     this.DevicesData.EffectedFromStamp=this.datepipe.transform(this.EffectiveDate, 'dd-MMM-yyyy');
     this.dbService.TollFareSetUp(this.DevicesData).subscribe(
       data => {
@@ -102,7 +113,7 @@ export class FareConfigurationComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

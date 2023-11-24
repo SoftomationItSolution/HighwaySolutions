@@ -49,8 +49,13 @@ export class TransectionTypeComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -68,18 +73,23 @@ export class TransectionTypeComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
+
+  updateModel(even:any,index:number){
+    this.DevicesData[index].DataStatus=(even==true?1:2);
+  }
+
   SaveDetails(){
     this.spinner.show();
-    for (let k = 0; k < this.DevicesData.length; k++) {
-      this.DevicesData[k].CreatedBy=this.LogedUserId;
-      this.DevicesData[k].ModifiedBy=this.LogedUserId
-      this.DevicesData[k].DataStatus=this.DevicesData[k].DataStatus== true ? 1 : 2
-    }
     this.DevicesData[0].CreatedBy=this.LogedUserId
     this.DevicesData[0].ModifiedBy=this.LogedUserId
     this.dbService.TransactionTypeUpdate(this.DevicesData).subscribe(
@@ -89,6 +99,7 @@ export class TransectionTypeComponent implements OnInit {
         if (returnMessage == 'success') {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
+          this.GetAllData();
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);
@@ -97,7 +108,7 @@ export class TransectionTypeComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

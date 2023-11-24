@@ -456,7 +456,7 @@ export class apiIntegrationService {
   GetShiftTimining(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetShiftTimining', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ShiftTiminingGetActive', { headers: headers_object });
   }
   //#endregion
 

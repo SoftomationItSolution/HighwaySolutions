@@ -61,7 +61,7 @@ export class UserProfilePopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -124,7 +124,7 @@ export class UserProfilePopupComponent implements OnInit {
         (error) => {
           this.spinner.hide();
           try {
-            this.ErrorData = error.error;
+            this.ErrorData = error.error.Message;
             this.dm.openSnackBar(this.ErrorData, false);
           } catch (error) {
             this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

@@ -63,14 +63,18 @@ export class FloatProcessPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
 
   GetTCList() {
-
     this.dbService.UserConfigurationGetByUserType(4).subscribe(
       data => {
         this.TCList = data.ResponseData;
@@ -78,8 +82,13 @@ export class FloatProcessPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -102,8 +111,13 @@ export class FloatProcessPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -112,12 +126,17 @@ export class FloatProcessPopupComponent implements OnInit {
     this.dbService.DenominationGetActive().subscribe(
       data => {
         this.DenominationData = data.ResponseData;
-        this.spinner.show();
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -133,7 +152,7 @@ export class FloatProcessPopupComponent implements OnInit {
           this.AmountAlloted = DetailData.TransactionAmount;
           this.DataDetailsForm.controls['LaneId'].setValue(DetailData.LaneId);
           this.DataDetailsForm.controls['ShiftId'].setValue(DetailData.ShiftId);
-          this.DataDetailsForm.controls['AssignedTo'].setValue(DetailData.AssignedTo);
+          this.DataDetailsForm.controls['AssignedTo'].setValue(parseInt(DetailData.AssignedTo));
           this.DataDetailsForm.controls['TransactionDateStamp'].setValue(new Date(DetailData.TransactionDateStamp));
 
         }
@@ -145,8 +164,13 @@ export class FloatProcessPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        const ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -198,7 +222,7 @@ export class FloatProcessPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = error.error;
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];

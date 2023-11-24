@@ -14,7 +14,6 @@ import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock
   templateUrl: './default-layout.component.html',
 })
 export class DefaultLayoutComponent implements OnInit, AfterViewInit {
-
   UserData: any;
   public perfectScrollbarConfig = {
     suppressScrollX: true,
@@ -54,13 +53,18 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.userData = this.dataModel.getUserData();
-    if (this.userData.UserProfileImage != '') {
-      this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
+    if (this.userData == null) {
+      this.router.navigate(['']);
     }
-    this.GetSystemMenu();
-    let lck = this.dataModel.getLock();
-    if (lck == "true") {
-      this.alOpen();
+    else {
+      if (this.userData.UserProfileImage != '') {
+        this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
+      }
+      this.GetSystemMenu();
+      let lck = this.dataModel.getLock();
+      if (lck == "true") {
+        this.alOpen();
+      }
     }
   }
   ngAfterViewInit() {
@@ -180,25 +184,25 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
 
       if (foundObj.length > 0) {
         if (foundObj[0].ParentId === 0) {
-          this.ParentTitle = foundObj[0].MenuName;
+          this.ParentTitle = foundObj[0].MenuName
         }
         else {
           var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
             return obj1.MenuId === foundObj[0].ParentId;
           });
           if (parentObj.length > 0) {
-            this.ParentTitle = parentObj[0].MenuName;
+            this.ParentTitle = parentObj[0].MenuName
           }
-          const cn = document.getElementById("mid_" + foundObj[0].ParentId);
+          const cn = document.getElementById("mid_" + foundObj[0].ParentId)
           if (cn != null) {
-            let childClass = cn.querySelector('ul');
+            let childClass = cn.querySelector('ul')
             if (childClass == null) {
-              return true
+              return null
             }
-            childClass.classList.add("mm-show");
+            childClass.classList.add("mm-show")
           }
         }
-        this.ChildTitle = foundObj[0].MenuName;
+        this.ChildTitle = foundObj[0].MenuName
       }
     }
     return 'Dashboard';

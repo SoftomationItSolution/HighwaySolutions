@@ -62,7 +62,7 @@ namespace TMSRestAPI.Controllers
                         activity.LoginStatusId = (Int16)UserLoginStatus.Login;
                         activity.UserTypeId = (Int16)AppUserType.SysAdmin;
                         LogingActivityBL.Insert(activity);
-                        result.LoginId = SystemConstants.Decrypt(login.LoginId);
+                        result.LoginId = Decrypt(login.LoginId);
                         result.LoginPassword = login.LoginPassword;
                         resp.AlertMessage = "success";
                         response.Message.Add(resp);
@@ -72,9 +72,9 @@ namespace TMSRestAPI.Controllers
                     else
                     {
                         LogingActivityIL activity = new LogingActivityIL();
-                        login.LoginId = SystemConstants.Encrypt(login.LoginId);
-                        activity.LoginStatusId = (Int16)SystemConstants.UserLoginStatus.Invalid;
-                        activity.UserTypeId = (Int16)SystemConstants.AppUserType.SysAdmin;
+                        login.LoginId = Encrypt(login.LoginId);
+                        activity.LoginStatusId = (Int16)UserLoginStatus.Invalid;
+                        activity.UserTypeId = (Int16)AppUserType.SysAdmin;
                         LogingActivityBL.Insert(activity);
                         resp.AlertMessage = "Invalid user credentials";
                         response.Message.Add(resp);

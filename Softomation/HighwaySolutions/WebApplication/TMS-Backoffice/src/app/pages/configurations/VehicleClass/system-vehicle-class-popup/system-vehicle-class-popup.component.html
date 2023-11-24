@@ -40,13 +40,13 @@
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemSubClassIdList">Sub Class</label>
+                    <label for="SystemSubClassIds">Sub Class</label>
                     <p-multiSelect appendTo="body" class="form-control select2"
-                        formControlName="SystemSubClassIdList" inputId="SystemSubClassIdList" [options]="FasTagVehicleClassList"
+                        formControlName="SystemSubClassIds" inputId="SystemSubClassIds" [options]="FasTagVehicleClassList"
                         optionLabel="FasTagVehicleClassName" optionValue="FasTagVehicleClassId" placeholder="Sub Class" [style]="{'width':'100%'}">
                     </p-multiSelect>
                     <small class="p-error"
-                    *ngIf="submitted && DataDetailsForm.hasError('required','SystemSubClassIdList')">Sub Class
+                    *ngIf="submitted && DataDetailsForm.hasError('required','SystemSubClassIds')">Sub Class
                     is
                     required.</small>
                 </div>

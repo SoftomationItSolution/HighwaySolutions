@@ -115,8 +115,13 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -136,8 +141,13 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -151,8 +161,13 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       },
       (error) => {
         this.spinner.hide();
-        const ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -262,8 +277,13 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
 
       }
     );

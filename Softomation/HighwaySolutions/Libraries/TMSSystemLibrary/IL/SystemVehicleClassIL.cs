@@ -10,7 +10,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         String systemVehicleClassName;
         String systemVehicleClassDescription;
         Decimal permissibleWeight;
-        String systemVehicleClassIds;
+        String systemSubClassIds;
         String systemSubClassNames;
         short[] systemSubClassIdList;
        
@@ -22,7 +22,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
             systemVehicleClassName = string.Empty;
             systemVehicleClassDescription = string.Empty;
             permissibleWeight = 0;
-            systemVehicleClassIds = string.Empty;
+            systemSubClassIds = string.Empty;
             systemSubClassNames = string.Empty;
             systemSubClassList = new List<FasTagVehicleClassIL>();
         }
@@ -31,7 +31,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.IL
         public string SystemVehicleClassName { get => systemVehicleClassName; set => systemVehicleClassName = value; }
         public string SystemVehicleClassDescription { get => systemVehicleClassDescription; set => systemVehicleClassDescription = value; }
         public decimal PermissibleWeight { get => permissibleWeight; set => permissibleWeight = value; }
-        public string SystemVehicleClassIds { get => systemVehicleClassIds; set => systemVehicleClassIds = value;}
+        public string SystemSubClassIds { get => systemSubClassIds; set => systemSubClassIds = value;}
         public string SystemSubClassNames { get => systemSubClassNames; set => systemSubClassNames = value;}
         public short[] SystemSubClassIdList
         {

@@ -27,7 +27,6 @@ export class MediaViewComponent {
       }
     }
     for (let i = 0; i < parentData.ImageData.length; i++) {
-      console.log(parentData.ImageData[i])
       if (parentData.ImageData[i].ImagePath != ''){
         var obj1 = {
           type: "image",

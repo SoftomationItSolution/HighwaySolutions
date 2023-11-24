@@ -16,9 +16,9 @@ export class DataModel {
   PageRefresh = new EventEmitter<any>();
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) { }
   clearStorage() {
-    localStorage.removeItem("Toll360loggedIn");
-    localStorage.removeItem("Toll360Token");
-    localStorage.removeItem("Toll360UserData");
+    localStorage.removeItem("FthTmsloggedIn");
+    localStorage.removeItem("FthTmsToken");
+    localStorage.removeItem("FthTmsUserData");
   }
   setPageRefresh(value: boolean, MenuId: number) {
     this.PageRefreshJson.Pagerefreshvalue = value;
@@ -28,15 +28,15 @@ export class DataModel {
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
-      localStorage.setItem('Toll360loggedIn', 'true');
+      localStorage.setItem('FthTmsloggedIn', 'true');
     } else {
-      localStorage.setItem('Toll360loggedIn', 'false');
+      localStorage.setItem('FthTmsloggedIn', 'false');
     }
     this.LogInStatusEmit.emit(this.loggedInStatus);
   }
 
   getLoggedInStatus() {
-    let status = localStorage.getItem('Toll360loggedIn');
+    let status = localStorage.getItem('FthTmsloggedIn');
     if (status == 'true')
       return true;
     else
@@ -48,49 +48,49 @@ export class DataModel {
   }
 
   setDataAPI(path: string) {
-    return localStorage.setItem('Toll360API', path);
+    return localStorage.setItem('FthTmsAPI', path);
   }
 
   getDataAPI() {
-    return localStorage.getItem('Toll360API');
+    return localStorage.getItem('FthTmsAPI');
   }
 
   setLock(path: string) {
-    return localStorage.setItem('Toll360Lock', path);
+    return localStorage.setItem('FthTmsLock', path);
   }
   getLock() {
-    return localStorage.getItem('Toll360Lock');
+    return localStorage.getItem('FthTmsLock');
   }
 
 
   setMediaAPI(path: string) {
-    return localStorage.setItem('Toll360MediaAPI', path);
+    return localStorage.setItem('FthTmsMediaAPI', path);
   }
   getMediaAPI() {
-    return localStorage.getItem('Toll360MediaAPI');
+    return localStorage.getItem('FthTmsMediaAPI');
   }
 
   setTokenVale(token: string) {
-    return localStorage.setItem('Toll360Token', token);
+    return localStorage.setItem('FthTmsToken', token);
   }
   getTokenVale() {
-    return localStorage.getItem('Toll360Token');
+    return localStorage.getItem('FthTmsToken');
   }
   setSSData(token: string) {
-    return localStorage.setItem('Toll360SS', token);
+    return localStorage.setItem('FthTmsSS', token);
   }
   getSSData() {
-    var result = localStorage.getItem('Toll360SS');
+    var result = localStorage.getItem('FthTmsSS');
     if (result != undefined)
       return JSON.parse(result);
     else
       return null;
   }
   setUserData(token: string) {
-    return localStorage.setItem('Toll360UserData', token);
+    return localStorage.setItem('FthTmsUserData', token);
   }
   getUserData() {
-    var result = localStorage.getItem('Toll360UserData');
+    var result = localStorage.getItem('FthTmsUserData');
     if (result != undefined)
       return JSON.parse(result);
     else
@@ -121,10 +121,10 @@ export class DataModel {
   }
 
   setProjectDetails(token: {}) {
-    return localStorage.setItem('Toll360ProjectDetails', JSON.stringify(token));
+    return localStorage.setItem('FthTmsProjectDetails', JSON.stringify(token));
   }
   getProjectDetails() {
-    var result = localStorage.getItem('Toll360ProjectDetails');
+    var result = localStorage.getItem('FthTmsProjectDetails');
     if (result != undefined)
       return JSON.parse(result);
     else
@@ -132,6 +132,9 @@ export class DataModel {
   }
 
   openSnackBar(message: any, success: boolean) {
+    if(message==undefined){
+      message = [{ AlertMessage: 'Something went wrong.' }];
+    }
     this.snackBar.openFromComponent(SnakbarComponent, {
       duration: 2000,
       data: { success, message }

@@ -27,7 +27,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemVehicleClassName", DbType.String, data.SystemVehicleClassName, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemVehicleClassDescription", DbType.String, data.SystemVehicleClassDescription, ParameterDirection.Input, 100));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@PermissibleWeight", DbType.Decimal, data.PermissibleWeight, ParameterDirection.Input));
-                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemVehicleClassIds", DbType.String, data.SystemVehicleClassIds, ParameterDirection.Input, 4000));
+                command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@SystemSubClassIds", DbType.String, data.SystemSubClassIds, ParameterDirection.Input, 4000));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@DataStatus", DbType.Int16, data.DataStatus, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedDate", DbType.DateTime, DateTime.Now, ParameterDirection.Input));
                 command.Parameters.Add(DBAccessor.CreateDbParameter(ref command, "@CreatedBy", DbType.Int32, data.CreatedBy, ParameterDirection.Input));
@@ -110,8 +110,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["SystemVehicleClassDescription"] != DBNull.Value)
                 user.SystemVehicleClassDescription = Convert.ToString(dr["SystemVehicleClassDescription"]);
 
-            if (dr["SystemVehicleClassIds"] != DBNull.Value)
-                user.SystemVehicleClassIds = Convert.ToString(dr["SystemVehicleClassIds"]);
+            if (dr["SystemSubClassIds"] != DBNull.Value)
+                user.SystemSubClassIds = Convert.ToString(dr["SystemSubClassIds"]);
 
             if (dr["SystemVehicleClassName"] != DBNull.Value)
                 user.SystemVehicleClassName = Convert.ToString(dr["SystemVehicleClassName"]);
@@ -134,8 +134,8 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             if (dr["DataStatus"] != DBNull.Value)
                 user.DataStatus = Convert.ToInt16(dr["DataStatus"]);
 
-            user.SystemSubClassIdList = user.SystemVehicleClassIds?.Split(',')?.Select(Int16.Parse)?.ToArray();
-            user.SystemSubClassList = FasTagVehicleClassDL.GetByIds(user.SystemVehicleClassIds);
+            user.SystemSubClassIdList = user.SystemSubClassIds?.Split(',')?.Select(Int16.Parse)?.ToArray();
+            user.SystemSubClassList = FasTagVehicleClassDL.GetByIds(user.SystemSubClassIds);
             user.SystemSubClassNames = string.Join(",", user.SystemSubClassList.Select(s => s.FasTagVehicleClassName));
             user.DataStatusName = Enum.GetName(typeof(CommonLibrary.Constants.DataStatusType), (CommonLibrary.Constants.DataStatusType)user.DataStatus);
             return user;

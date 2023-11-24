@@ -21,7 +21,7 @@ export class SystemVehicleClassPopupComponent implements OnInit {
   DetailData: any;
   submitted = false;
   ErrorData: any;
-  FasTagVehicleClassList:any;
+  FasTagVehicleClassList: any;
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<SystemVehicleClassPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();
@@ -32,15 +32,15 @@ export class SystemVehicleClassPopupComponent implements OnInit {
     this.DataDetailsForm = new FormGroup({
       SystemVehicleClassName: new FormControl('', [Validators.required]),
       SystemVehicleClassDescription: new FormControl('', [Validators.required]),
-      SystemSubClassIdList: new FormControl('', [Validators.required]),
+      SystemSubClassIds: new FormControl('', [Validators.required]),
       PermissibleWeight: new FormControl('', [Validators.required, Validators.pattern(regExps['DecimalThreeDigit'])]),
       DataStatus: new FormControl(true),
     });
     this.GetActiveClass();
-    
+
   }
 
-  GetActiveClass(){
+  GetActiveClass() {
     this.spinner.show();
     this.dbService.FasTagVehicleClassGetActive().subscribe(
       data => {
@@ -53,8 +53,13 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dm.openSnackBar(this.ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -67,10 +72,12 @@ export class SystemVehicleClassPopupComponent implements OnInit {
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
+          // let listData = DetailData.SystemSubClassIds.split(',');
+          // var numberArray = listData.map(Number);
           this.DataDetailsForm.controls['SystemVehicleClassName'].setValue(DetailData.SystemVehicleClassName);
           this.DataDetailsForm.controls['SystemVehicleClassDescription'].setValue(DetailData.SystemVehicleClassDescription);
           this.DataDetailsForm.controls['PermissibleWeight'].setValue(DetailData.PermissibleWeight);
-          this.DataDetailsForm.controls['SystemSubClassIdList'].setValue(DetailData.SystemSubClassIdList);
+          this.DataDetailsForm.controls['SystemSubClassIds'].setValue(DetailData.SystemSubClassIds.split(','));//DetailData.SystemSubClassIdList
           if (DetailData.DataStatus == 1)
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
           else
@@ -84,8 +91,13 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       },
       (error) => {
         this.spinner.hide();
-        const ErrorData = [{ AlertMessage: "Something went wrong." }];
-        this.dm.openSnackBar(ErrorData, false);
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       }
     );
   }
@@ -101,7 +113,7 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       SystemVehicleClassName: this.DataDetailsForm.value.SystemVehicleClassName,
       SystemVehicleClassDescription: this.DataDetailsForm.value.SystemVehicleClassDescription,
       PermissibleWeight: this.DataDetailsForm.value.PermissibleWeight,
-      SystemVehicleClassIds: this.DataDetailsForm.value.SystemSubClassIdList.toString(),
+      SystemSubClassIds: this.DataDetailsForm.value.SystemSubClassIds.toString(),
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId
@@ -123,7 +135,7 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       (error) => {
         this.spinner.hide();
         try {
-          this.ErrorData = [{ AlertMessage: error.error }];
+          this.ErrorData = error.error.Message;
           this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
@@ -132,5 +144,4 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       }
     );
   }
-
 }
