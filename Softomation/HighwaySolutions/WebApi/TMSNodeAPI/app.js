@@ -21,6 +21,6 @@ app.use(apiPrefix, require('./_routers/paymentTypeRoute'));
 app.use(apiPrefix, require('./_routers/exemptTypeRoute'));
 app.use(apiPrefix, require('./_routers/equipmentRoute'));
 app.use(apiPrefix, require('./_routers/floatProcessRoute'));
-app.use(apiPrefix, require('./_routers/shiftTiminingRoute'));
+app.use(apiPrefix, require('./_routers/shiftRoute'));
 let port = process.env.PORT || 5001;
 app.listen(port, () => console.log('Server listening on port ' + port));
