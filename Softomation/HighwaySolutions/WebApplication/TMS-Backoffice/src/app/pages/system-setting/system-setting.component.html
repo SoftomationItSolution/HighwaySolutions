@@ -8,7 +8,7 @@
     <div class="modal-body ">
         <form [formGroup]="DataDetailsForm">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label" for="DefaultPlazaId">Default Plaza</label>
                     <p-dropdown appendTo="body" formControlName="DefaultPlazaId" inputId="DefaultPlazaId"
                         [options]="PlazaData" optionLabel="PlazaName" optionValue="PlazaId" placeholder="Select"
@@ -17,16 +17,8 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','DefaultPlazaId')">Default Plaza must be
                         selected.</small>
                 </div>
-                <div class="col-md-6">
-                    <label class="form-label" for="TollingTypeId">Tolling Type</label>
-                    <p-dropdown appendTo="body" formControlName="TollingTypeId" inputId="TollingTypeId"
-                        [options]="TollingTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                        class="form-control select2"></p-dropdown>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','TollingTypeId')">Tolling Type must be
-                        selected.</small>
-                </div>
-                <div class="col-md-6">
+
+                <div class="col-md-4">
                     <label class="form-label" for="AllotmentDays">Allotment Days</label>
                     <p-dropdown appendTo="body" formControlName="AllotmentDays" inputId="AllotmentDays"
                         [options]="AllotmentDaysList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
@@ -35,7 +27,7 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','AllotmentDays')">Allotment Days must be
                         selected.</small>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <label class="form-label" for="OpeningBalance">Opening Balance</label>
                     <input formControlName="OpeningBalance" type="text" pInputText required autocomplete="off"
                         class="form-control" />
@@ -46,7 +38,16 @@
                         *ngIf="submitted && DataDetailsForm.hasError('pattern','OpeningBalance')">Vaild >Opening Balance
                         must be required.</small>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="IsAccessControl"
+                            formControlName="IsAccessControl">
+                        <label class="form-check-label" for="IsAccessControl">
+                            Is ACS System
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-2">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="CashPenalty" formControlName="CashPenalty">
                         <label class="form-check-label" for="CashPenalty">
@@ -54,7 +55,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="LoginAccess" formControlName="LoginAccess">
                         <label class="form-check-label" for="LoginAccess">
@@ -62,7 +63,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="ExemptAccess"
                             formControlName="ExemptAccess">
@@ -71,7 +72,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="FleetAccess" formControlName="FleetAccess">
                         <label class="form-check-label" for="FleetAccess">
@@ -79,9 +80,16 @@
                         </label>
                     </div>
                 </div>
-
+                <div class="col-md-2">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="SubClassRequired"
+                            formControlName="SubClassRequired">
+                        <label class="form-check-label" for="SubClassRequired">
+                            Sub-Class Required
+                        </label>
+                    </div>
+                </div>
             </div>
-
         </form>
     </div>
     <div class="modal-footer">

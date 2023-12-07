@@ -1,18 +1,18 @@
-import { DatePipe } from '@angular/common';
-import { Compiler, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { AfterViewInit, Compiler, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
-import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-transactional-validated',
-  templateUrl: './transactional-validated.component.html',
-  styleUrls: ['./transactional-validated.component.css']
+  selector: 'et-fasTag-data-pending',
+  templateUrl: './fasTag-data-pending.component.html',
+  styleUrls: ['./fasTag-data-pending.component.css']
 })
-export class TransactionalValidatedComponent {
+export class FasTagDataPending implements OnInit, AfterViewInit, OnDestroy {
   subscription!: Subscription;
   FilterDetailsForm!: FormGroup;
   ShiftData: any;
@@ -128,7 +128,7 @@ export class TransactionalValidatedComponent {
 
   GetMasterData() {
     this.subscription = this.dbService.FilterMasterGet().subscribe(
-      data => {
+      (data:any) => {
         var MaserData=data.ResponseData;
         this.ShiftData=MaserData.ShiftTiminingList;
         this.LaneUserData=MaserData.TCMasterList;
@@ -153,7 +153,7 @@ export class TransactionalValidatedComponent {
   }
   
   GetDefaultData() {
-    this.subscription = this.dbService.ReviewedGetLatest().subscribe(
+    this.subscription = this.dbService.FasTagGetByStatus(-1).subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -162,6 +162,7 @@ export class TransactionalValidatedComponent {
           var sd=this.EventHistroyData[this.TotalTransactionCount-1].TransactionDateTimeStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
+        
       },
       (error) => {
         this.spinner.hide();
@@ -271,8 +272,8 @@ export class TransactionalValidatedComponent {
       StartDateTime: SD,
       EndDateTime: ED,
       AuditerFilterList:AuditerFilterList,
-      IsReviewedRequired:true,
-      IsReviewedStatus:true,
+      IsReviewedRequired:false,
+      IsReviewedStatus:false,
     }
     this.spinner.show();
     this.dbService.LaneTransactionFilter(obj).subscribe(

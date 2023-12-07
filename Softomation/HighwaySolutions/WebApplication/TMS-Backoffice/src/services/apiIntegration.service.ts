@@ -30,6 +30,7 @@ export class apiIntegrationService {
 
   GetUrl() {
     let returnURL;
+    let mediaPath;
     returnURL = this.dataModel.getDataAPI();
     if (returnURL == "" || returnURL == null || returnURL == 'null' || returnURL == undefined) {
       var curretURL = (window.location.href).split(':')
@@ -44,11 +45,17 @@ export class apiIntegrationService {
                 if (this.ConfigData.BaseURL == "localhost")
                   this.ConfigData.BaseURL = currentIP;
               }
-              returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
+              if(this.ConfigData.ApiPort==0){
+                returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + "/" + this.ConfigData.ApiAdminPath + "/";
+                mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/EventMedia/"
+              }
+              else{
+                returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
+                mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+              }
               this.ApiCallUrl = returnURL;
-              this.dataModel.setDataAPI(this.ApiCallUrl)
-              let mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
               this.dataModel.setMediaAPI(mediaPath);
+              this.dataModel.setDataAPI(this.ApiCallUrl)
               const obj = {
                 "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "ControlRoomName": this.ConfigData.ControlRoomName,
                 "Address": this.ConfigData.Address, "State": this.ConfigData.State, "Pincode": this.ConfigData.Pincode
@@ -138,6 +145,13 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/RolePermissionSetup', data, { headers: headers_object });
   }
   //#endregion
+
+
+  DashboardGetData(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/DashboardGetData', { headers: headers_object });
+  }
 
   //#region System Setting
   SystemSettingSetUp(data: {}): Observable<any> {
@@ -521,10 +535,39 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReviewPendingGetLatest', { headers: headers_object });
   }
+  ReviewedGetLatest(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ReviewedGetLatest', { headers: headers_object });
+  }
   LaneTransactionFilter(FilterData: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionGetByFilter', FilterData, { headers: headers_object });
+  }
+
+  LaneTransactionValidation(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionValidation', data, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region FasTag Transaction
+  FasTagRequestCode(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagRequestCode', { headers: headers_object });
+  }
+  FasTagGetByStatus(RequestStatusId:any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagGetByStatus?RequestStatusId='+RequestStatusId, { headers: headers_object });
+  }
+  FasTagProcessedGetLatest(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagProcessedGetLatest', { headers: headers_object });
   }
   //#endregion
 
@@ -537,7 +580,7 @@ export class apiIntegrationService {
   GetSubReportCategory(ReportId: number): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategoryBYId?ReportId=' + ReportId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetReportCategoryById?ReportId=' + ReportId, { headers: headers_object });
   }
   ReportFilter(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -549,7 +592,5 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/GetReport', data, { headers: headers_object });
   }
-
   //#endregion
-
 }

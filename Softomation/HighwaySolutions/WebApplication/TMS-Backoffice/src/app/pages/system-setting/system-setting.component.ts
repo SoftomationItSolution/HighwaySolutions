@@ -41,12 +41,13 @@ export class SystemSettingComponent {
     }
     this.DataDetailsForm = new FormGroup({
       DefaultPlazaId: new FormControl('', [Validators.required]),
-      TollingTypeId: new FormControl('', [Validators.required]),
+      IsAccessControl: new FormControl('', [Validators.required]),
       AllotmentDays: new FormControl('', [Validators.required]),
       CashPenalty: new FormControl(true),
       LoginAccess: new FormControl(false),
       ExemptAccess: new FormControl(false),
       FleetAccess: new FormControl(false),
+      SubClassRequired: new FormControl(false),
       OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["DecimalTwoDigit"])])
     });
     this.GetPermissionData();
@@ -115,12 +116,13 @@ export class SystemSettingComponent {
         this.DetailData = data.ResponseData;
         this.dm.setSSData(JSON.stringify(this.DetailData));
         this.DataDetailsForm.controls['DefaultPlazaId'].setValue(this.DetailData.DefaultPlazaId);
-        this.DataDetailsForm.controls['TollingTypeId'].setValue(this.DetailData.TollingTypeId);
+        this.DataDetailsForm.controls['IsAccessControl'].setValue(this.DetailData.IsAccessControl);
         this.DataDetailsForm.controls['AllotmentDays'].setValue(this.DetailData.AllotmentDays);
         this.DataDetailsForm.controls['CashPenalty'].setValue(this.DetailData.CashPenalty);
         this.DataDetailsForm.controls['LoginAccess'].setValue(this.DetailData.LoginAccess);
         this.DataDetailsForm.controls['ExemptAccess'].setValue(this.DetailData.ExemptAccess);
         this.DataDetailsForm.controls['FleetAccess'].setValue(this.DetailData.FleetAccess);
+        this.DataDetailsForm.controls['SubClassRequired'].setValue(this.DetailData.SubClassRequired);
         this.DataDetailsForm.controls['OpeningBalance'].setValue(this.DetailData.OpeningBalance);
       },
       (error) => {
@@ -145,12 +147,13 @@ export class SystemSettingComponent {
     }
     const Obj = {
       DefaultPlazaId: this.DataDetailsForm.value.DefaultPlazaId,
-      TollingTypeId: this.DataDetailsForm.value.TollingTypeId,
+      IsAccessControl: this.DataDetailsForm.value.IsAccessControl,
       AllotmentDays: this.DataDetailsForm.value.AllotmentDays,
       CashPenalty: this.DataDetailsForm.value.CashPenalty,
       LoginAccess: this.DataDetailsForm.value.LoginAccess,
       ExemptAccess: this.DataDetailsForm.value.ExemptAccess,
       FleetAccess: this.DataDetailsForm.value.FleetAccess,
+      SubClassRequired: this.DataDetailsForm.value.SubClassRequired,
       OpeningBalance: this.DataDetailsForm.value.OpeningBalance,
       DataStatus:1,
       CreatedBy: this.LogedUserId,

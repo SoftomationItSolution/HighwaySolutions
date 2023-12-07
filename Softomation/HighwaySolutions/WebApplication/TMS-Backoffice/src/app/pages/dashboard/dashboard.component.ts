@@ -1,16 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexDataLabels,
-  ApexTitleSubtitle,
-  ApexStroke,
-  ApexGrid,
-  ApexPlotOptions
-} from "ng-apexcharts";
-
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions, ApexNonAxisChartSeries, ApexResponsive, ApexTheme, ApexYAxis, ApexMarkers, ApexFill, ApexForecastDataPoints, ApexLegend } from "ng-apexcharts";
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { DataModel } from 'src/services/data-model.model';
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
@@ -21,6 +12,19 @@ export type ChartOptions = {
   title: ApexTitleSubtitle;
   plotOptions: ApexPlotOptions;
 };
+export type LineChartOptions = {
+  series: ApexAxisChartSeries;
+  chart: ApexChart;
+  xaxis: ApexXAxis;
+  stroke: ApexStroke;
+  dataLabels: ApexDataLabels;
+  markers: ApexMarkers;
+  tooltip: any; // ApexTooltip;
+  yaxis: ApexYAxis;
+  grid: ApexGrid;
+  legend: ApexLegend;
+  title: ApexTitleSubtitle;
+};
 
 @Component({
   selector: 'app-dashboard',
@@ -28,78 +32,150 @@ export type ChartOptions = {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  @ViewChild("chart") chart: ChartComponent | undefined;
-  public chartOptions: Partial<ChartOptions> | undefined;
-  constructor() { }
+  @ViewChild("chart") chart!: ChartComponent;
+  public laneDetailsOptions!: Partial<LineChartOptions> | any;
+  public transactionTypeOptions!: Partial<LineChartOptions> | any;
+  public vehicleClassOptions!: Partial<LineChartOptions> | any;
+
+  DashboardGetData: any;
+  ErrorData: any;
+  laneDetails: any
+  transactionType: any;
+  vehicleClassMaster: any;
+
+  constructor(private dbService: apiIntegrationService, private dm: DataModel) { }
 
   ngOnInit(): void {
-    this.chartOptions = {
-      series: [
-        {
-          name: "paid",
-          data: [10, 5, 15, 12, 11, 9, 18, 16, 9],
-          color: "#0073cf"
+    this.DashboardData();
+  }
 
-        }, {
-          name: "earning",
-          data: [10, 5, 15, 12, 11, 9, 18, 16, 9],
-          color: "#c2c2c2"
-        }
-      ],
+  DashboardData() {
+    this.dbService.DashboardGetData().subscribe(
+      data => {
+        var DashboardGetData = data.ResponseData;
+        this.laneDetails = DashboardGetData[0];
+        this.transactionType = DashboardGetData[1];
+        this.vehicleClassMaster = DashboardGetData[2];
+        this.laneBarChart(DashboardGetData[0])
+        this.transactionTypePieChat(DashboardGetData[1])
+        this.VehicleClassBarChat(DashboardGetData[2])
+
+      },
+      (error) => {
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+
+      }
+    );
+  }
+
+  laneBarChart(data: any) {
+    let LaneName = []
+    let LaneTransactionCount = []
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      LaneName.push(element.LaneName)
+      LaneTransactionCount.push(element.LaneTransactionCount)
+    }
+    this.laneDetailsOptions = {
+      series: [{
+        data: LaneTransactionCount
+      }],
       chart: {
-        height: 350,
-        type: "bar",
-        zoom: {
-          enabled: false
-        },
-        stacked: true
+        type: 'bar',
+        height: 300
       },
       plotOptions: {
         bar: {
-          horizontal: false,
-          columnWidth: '20%',
-          borderRadius: 3,
-          borderRadiusApplication: 'end',
-          dataLabels: {
-            position: 'center'
-          }
-        },
-        
-      },
-      dataLabels: {
-        enabled: true,
-        style: {
-          colors: ['#c23c23'],
-          fontSize:'8px'
-      },
-      },
-      stroke: {
-        curve: "straight"
-      },
-      title: {
-        text: "Product Trends by Month",
-        align: "left"
-      },
-      grid: {
-        row: {
-          colors: ["#f3f3f3", "transparent"], // takes an array which will be repeated on columns
-          opacity: 0.5
+          borderRadius: 4,
+          horizontal: true,
+          columnWidth: '10%',
         }
       },
+      dataLabels: {
+        enabled: true
+      },
       xaxis: {
-        categories: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep"
-        ],
-      }
+        categories: LaneName,
+      },
+      title: {
+        text: "Shift Lane Details",
+        align: "left"
+      },
     };
   }
 
+  transactionTypePieChat(data: any){
+    let TransactionTypeName = []
+    let TransactionTypeCount = []
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      TransactionTypeName.push(element.TransactionTypeName)
+      TransactionTypeCount.push(element.TransactionTypeCount)
+    }
+
+    this.transactionTypeOptions = {
+      series: TransactionTypeCount,
+      chart: {
+        width: "100%",
+        type: "pie",
+        height: 300
+      },
+      labels: TransactionTypeName,
+      responsive: [
+        {
+          breakpoint: 300,
+          options: {
+            chart: {
+              width: 200,
+              innerHeight:200
+            },
+            legend: {
+              position: "bottom"
+            }
+          }
+        }
+      ],
+      title: {
+        text: "Transaction Type Details",
+        align: "right"
+      },
+    };
+  }
+
+  VehicleClassBarChat(data: any) {
+    let FasTagVehicleClassName = []
+    let VehicleClassCount = []
+    for (let index = 0; index < data.length; index++) {
+      const element = data[index];
+      FasTagVehicleClassName.push(element.FasTagVehicleClassName)
+      VehicleClassCount.push(element.VehicleClassCount)
+    }
+    this.vehicleClassOptions = {
+      series: [{
+        data: VehicleClassCount
+      }],
+      chart: {
+        type: 'bar',
+        height: 300
+      },
+      plotOptions: {
+        bar: {
+          borderRadius: 4,
+          horizontal: true,
+          columnWidth: '10%',
+        }
+      },
+      dataLabels: {
+        enabled: true
+      },
+      xaxis: {
+        categories: FasTagVehicleClassName,
+      },
+      title: {
+        text: "Vehicle Class Details",
+        align: "left"
+      },
+    };
+  }
 }

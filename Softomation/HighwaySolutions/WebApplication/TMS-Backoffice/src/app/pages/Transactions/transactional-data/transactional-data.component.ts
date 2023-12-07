@@ -67,7 +67,7 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
     this._compiler.clearCache();
   }
 
-  ExColl(event: any) {
+  ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!
@@ -155,9 +155,14 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
   GetDefaultData() {
     this.subscription = this.dbService.LaneTransactionGetLatest().subscribe(
       data => {
+        this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalTransactionCount = this.EventHistroyData.length;
-        this.spinner.hide();
+        if(this.TotalTransactionCount>0){
+          var sd=this.EventHistroyData[this.TotalTransactionCount-1].TransactionDateTimeStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
+        
       },
       (error) => {
         this.spinner.hide();
@@ -266,7 +271,9 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       TransactionId:this.FilterDetailsForm.value.TransactionId,
       StartDateTime: SD,
       EndDateTime: ED,
-      AuditerFilterList:AuditerFilterList
+      AuditerFilterList:AuditerFilterList,
+      IsReviewedRequired:false,
+      IsReviewedStatus:false,
     }
     this.spinner.show();
     this.dbService.LaneTransactionFilter(obj).subscribe(

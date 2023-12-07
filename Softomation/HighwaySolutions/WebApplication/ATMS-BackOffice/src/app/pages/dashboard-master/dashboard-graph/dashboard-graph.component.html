@@ -12,14 +12,12 @@
 
                     <div class="col-xl-12">
                         <div id="chart">
-                            <div id="chart">
-                                <apx-chart *ngIf="atccTimeOptions!=null" [series]="atccTimeOptions.series"
-                                    [chart]="atccTimeOptions.chart" [xaxis]="atccTimeOptions.xaxis"
-                                    [stroke]="atccTimeOptions.stroke" [tooltip]="atccTimeOptions.tooltip"
-                                    [dataLabels]="atccTimeOptions.dataLabels" [legend]="atccTimeOptions.legend"
-                                    [markers]="atccTimeOptions.markers" [grid]="atccTimeOptions.grid"
-                                    [yaxis]="atccTimeOptions.yaxis" [title]="atccTimeOptions.title"></apx-chart>
-                            </div>
+                            <apx-chart *ngIf="atccTimeOptions!=null" [series]="atccTimeOptions.series"
+                                [chart]="atccTimeOptions.chart" [xaxis]="atccTimeOptions.xaxis"
+                                [stroke]="atccTimeOptions.stroke" [tooltip]="atccTimeOptions.tooltip"
+                                [dataLabels]="atccTimeOptions.dataLabels" [legend]="atccTimeOptions.legend"
+                                [markers]="atccTimeOptions.markers" [grid]="atccTimeOptions.grid"
+                                [yaxis]="atccTimeOptions.yaxis" [title]="atccTimeOptions.title"></apx-chart>
                         </div>
                     </div>
                     <div class="col-xl-6">

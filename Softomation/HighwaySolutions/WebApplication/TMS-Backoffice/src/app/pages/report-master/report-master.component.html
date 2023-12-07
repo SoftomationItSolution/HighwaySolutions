@@ -11,14 +11,14 @@
                                         <div class="col-md-3">
                                             <label for="ShiftFilterList">Category</label>
                                             <p-dropdown appendTo="body" formControlName="CategoryId"
-                                                inputId="CategoryId" [options]="CategoryData" optionLabel="ReportName"
+                                                inputId="CategoryId" [options]="ReportMasterData" optionLabel="ReportName"
                                                 optionValue="ReportId" placeholder="Select" class="form-control select2"
                                                 (onChange)="CategoryChange($event.value)"></p-dropdown>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="ShiftFilterList">Report</label>
                                             <p-dropdown appendTo="body" formControlName="ReportId" inputId="ReportId"
-                                                [options]="SubCategoryData" optionLabel="ReportName" optionValue="ReportId"
+                                                [options]="SubReportMasterData" optionLabel="ReportName" optionValue="ReportId"
                                                 placeholder="Select" class="form-control select2"></p-dropdown>
                                         </div>
                                         <div class="col-md-3">
@@ -110,7 +110,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                <div class="col-md-1 align-self-center">
                                     <button type="button" class="btn btn-info btn-circle btn-lg btn-search"
                                         (click)="FilterAllData()">
                                         <i class="mdi mdi-feature-search-outline"></i>

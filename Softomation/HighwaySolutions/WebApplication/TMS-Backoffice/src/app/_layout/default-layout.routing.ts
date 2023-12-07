@@ -20,6 +20,8 @@ import { TransactionalDataComponent } from '../pages/Transactions/transactional-
 import { TransactionalValidationComponent } from '../pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from '../pages/Transactions/transactional-validated/transactional-validated.component';
 import { ReportMasterComponent } from '../pages/report-master/report-master.component';
+import { FasTagDataPending } from '../pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
+import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -41,6 +43,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'transactionsHistory', component: TransactionalDataComponent },
     { path: 'Unaudited', component: TransactionalValidationComponent },
     { path: 'audited', component: TransactionalValidatedComponent },
+    { path: 'fasTagPending', component: FasTagDataPending },
+    { path: 'fasTagProcessed', component: FasTagDataProcessed },
     { path: 'reports', component: ReportMasterComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },

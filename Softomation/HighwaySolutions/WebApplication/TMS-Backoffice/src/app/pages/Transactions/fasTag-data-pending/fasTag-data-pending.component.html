@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <div class="dropdown d-inline-block">
                             <h5 class="mb-0">
-                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl()">
+                                <a href="javascript:void(0);" class="mb-2">
                                     <i class="mdi mdi-arrow-up-circle filter-icon-class" id="datafilterIcon"></i>
                                 </a>
                                 <span class="rc">Record:{{TotalTransactionCount}}</span>
@@ -20,7 +20,7 @@
                             </span>
                         </div>
                     </div>
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                         <form [formGroup]="FilterDetailsForm">
                             <div class="row">
                                 <div class="col-md-11">
@@ -119,35 +119,21 @@
                         </form>
                     </div>
                 </div>
-                <div class="table-responsive mt-3 listtablepagging-f3 listtablepadding" id="tbl">
+                <div class="table-responsive mt-3 listtablepagging-cf3 listtablepadding" id="tbl">
                     <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
                         [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
-                        [globalFilterFields]="['PlazaName','LaneNumber','ShiftNumber','TransactionDateTimeStamp','PlateNumber','TransactionTypeName',
-                        'VehicleClassName','VehicleSubClassName','VehicleAvcClassName','TagClassName','RCTNumber','TagId','LoginId']">
+                        [globalFilterFields]="['PlazaName','LaneName','TransactionDateTime','FasTagVehicleClassName','RCTNumber','EPC','IsOverWeightCharged','TagPlateNumber']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
-                                <th>Transaction Id</th>
+                                <th>Transcation Id</th>
                                 <th>Plaza</th>
                                 <th>Lane</th>
-                                <th>Shift</th>
                                 <th>Date Time</th>
-                                <th>Plate Number</th>
-                                <th>Type</th>
-                                <th>Sys Class</th>
-                                <th>Sub Class</th>
-                                <th>AVC Class</th>
+                                <th>Tag Plate</th>
                                 <th>Tag Class</th>
-                                <th>Receipt/Tag Number</th>
-                                <th>Weight</th>
-                                <th>Over Weight <br/> Penalty</th>
-                                <th>FasTag <br/> Penalty</th>
-                                <th>Transaction <br/> Amount</th>
-                                <th>Operator</th>
-                                <th>Reviewed By</th>
-                                <th>Reviewed <br/>Correct Class</th>
-                                <th>Reviewed <br/>Class</th>
-                                <th>Reviewed <br/>Type</th>
-                                <th>Difference<br/> Amount</th>
+                                <th>Tag Id</th>
+                                <th>EPC</th>
+                                <th>Over Weight</th>
                                 <th>Media</th>
                             </tr>
                         </ng-template>
@@ -155,26 +141,13 @@
                             <tr>
                                 <td>{{rowData.PlazaTransactionId}}</td>
                                 <td>{{rowData.PlazaName}}</td>
-                                <td>{{rowData.LaneNumber}}</td>
-                                <td>{{rowData.ShiftNumber}}</td>
-                                <td>{{rowData.TransactionDateTimeStamp}}</td>
-                                <td>{{rowData.PlateNumber}}</td>
-                                <td>{{rowData.TransactionTypeName}}</td>
-                                <td>{{rowData.VehicleClassName}}</td>
-                                <td>{{rowData.VehicleSubClassName}}</td>
-                                <td>{{rowData.VehicleAvcClassName}}</td>
-                                <td>{{rowData.TagClassName}}</td>
+                                <td>{{rowData.LaneName}}</td>
+                                <td>{{rowData.TransactionDateTime}}</td>
+                                <td>{{rowData.TagPlateNumber}}</td>
+                                <td>{{rowData.FasTagVehicleClassName}}</td>
                                 <td>{{rowData.RCTNumber}}</td>
-                                <td class="td-amt">{{rowData.ActualVehicleWeight | number:'1.0-3'}}</td>
-                                <td class="td-amt">{{rowData.OverWeightAmount| currency:'INR':true:'1.0-2'}}</td>
-                                <td class="td-amt">{{rowData.TagPenaltyAmount| currency:'INR':true:'1.0-2'}}</td>
-                                <td class="td-amt">{{rowData.TransactionAmount| currency:'INR':true:'1.0-2'}}</td>
-                                <td>{{rowData.LoginId}}</td>
-                                <td>{{rowData.ReviewedLoginId}}</td>
-                                <td>{{rowData.ReviewedClassCorrectionName}}</td>
-                                <td>{{rowData.ReviewedSubClassName}}</td>
-                                <td>{{rowData.ReviewedTransactionTypeName}}</td>
-                                <td class="td-amt">{{rowData.DifferenceAmount | number:'1.0-3'}}</td>
+                                <td>{{rowData.EPC}}</td>
+                                <td>{{rowData.IsOverWeightCharged}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Meida Files">

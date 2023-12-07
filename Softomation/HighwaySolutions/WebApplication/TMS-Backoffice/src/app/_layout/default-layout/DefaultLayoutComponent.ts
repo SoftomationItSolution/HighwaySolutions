@@ -1,4 +1,4 @@
-import { AfterContentInit, AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
@@ -183,12 +183,12 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
       });
 
       if (foundObj.length > 0) {
-        if (foundObj[0].ParentId === 0) {
+        if (parseInt(foundObj[0].ParentId) === 0) {
           this.ParentTitle = foundObj[0].MenuName
         }
         else {
           var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
-            return obj1.MenuId === foundObj[0].ParentId;
+            return parseInt(obj1.MenuId) === parseInt(foundObj[0].ParentId);
           });
           if (parentObj.length > 0) {
             this.ParentTitle = parentObj[0].MenuName

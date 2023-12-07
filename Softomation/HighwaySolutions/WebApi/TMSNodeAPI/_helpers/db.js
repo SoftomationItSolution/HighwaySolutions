@@ -1,24 +1,6 @@
 const sql = require('mssql');
 const config = require('../config.json');
 
-const con = {
-  user: 'sa',
-  password: 'Etoll@123',
-  server: 'Softomation-Pundir',
-  database: 'TMSv1',
-  options: {
-    encrypt: true, // For secure connections
-    trustServerCertificate: true, // Trust self-signed certificates
-  },
-}
-const configq = {
-  user: 'sa',
-  password: 'Etoll@123',
-  server: 'Softomation-Pundir',
-  database: 'TMSv1',
-};
-
-
 class Database {
   constructor() {
     this.pool = null;

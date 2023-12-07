@@ -19,8 +19,8 @@ export class ReportMasterComponent implements OnInit{
   error = errorMessages;
   ErrorData: any;
   MediaPrefix:any;
-  CategoryData:any;
-  SubCategoryData:any
+  ReportMasterData:any;
+  SubReportMasterData:any
   LogedUserId = 0;
   LogedRoleId: any;
   PermissionData: any;
@@ -87,7 +87,7 @@ export class ReportMasterComponent implements OnInit{
           this.dm.unauthorized();
         }
         else {
-          this.GetCategoryData();
+          this.GetReportMasterData();
           this.GetMasterData();
         }
       },
@@ -129,13 +129,12 @@ export class ReportMasterComponent implements OnInit{
     );
   }
 
-  GetCategoryData() {
+  GetReportMasterData() {
     this.spinner.show();
     this.subscription =this.dbService.GetReportCategory().subscribe(
       data => {
         this.spinner.hide();
-        this.CategoryData = data.ResponseData;
-        //this.GetLaneTypeData();
+        this.ReportMasterData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();
@@ -155,7 +154,7 @@ export class ReportMasterComponent implements OnInit{
     this.dbService.GetSubReportCategory(this.FilterDetailsForm.value.CategoryId).subscribe(
       data => {
         this.spinner.hide();
-        this.SubCategoryData = data.ResponseData;
+        this.SubReportMasterData = data.ResponseData;
       },
       (error) => {
         this.spinner.hide();

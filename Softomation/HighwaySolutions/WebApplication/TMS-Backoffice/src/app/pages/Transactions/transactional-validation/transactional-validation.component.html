@@ -6,7 +6,7 @@
                     <div class="card-header">
                         <div class="dropdown d-inline-block">
                             <h5 class="mb-0">
-                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl($event)">
+                                <a href="javascript:void(0);" class="mb-2" (click)="ExColl()">
                                     <i class="mdi mdi-arrow-up-circle filter-icon-class" id="datafilterIcon"></i>
                                 </a>
                                 <span class="rc">Record:{{TotalTransactionCount}}</span>
@@ -15,7 +15,7 @@
                         </div>
                         <div class="dropdown d-inline-block float-right">
                             <span class="p-input-icon-left">
-                                <i class="fa fa-search"></i>
+                                <i class="mdi mdi-text-box-search-outline"></i>
                                 <input type="text" pInputText class="form-control"
                                     (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
                             </span>
@@ -119,7 +119,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-1 d-flex justify-content-center text-center">
+                                <div class="col-md-1 align-self-center">
                                     <button type="button" class="btn btn-info btn-circle btn-lg btn-search"
                                         (click)="FilterAllData()">
                                         <i class="mdi mdi-feature-search-outline"></i>
@@ -136,7 +136,7 @@
                                 [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
                                 selectionMode="single" [(selection)]="SelectedRow"
                                 [globalFilterFields]="['PlazaName','LaneNumber','ShiftNumber','TransactionDateTimeStamp','PlateNumber','TransactionTypeName',
-                        'VehicleClassName','VehicleSubClassName','VehicleAvcClassName','TagClassName','ReceiptNumber','TagId','LoginId']">
+                        'VehicleClassName','VehicleSubClassName','VehicleAvcClassName','TagClassName','RCTNumber','TagId','LoginId']">
                                 <ng-template pTemplate="header" styleClass="thead-light">
                                     <tr>
                                         <th>Plaza</th>
@@ -168,6 +168,7 @@
                             </p-table>
                         </div>
                         <div class="col-md-6">
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <img *ngIf="SelectedRow != null" src="{{MediaPrefix}}{{SelectedRow.EventImageUrl}}"
@@ -184,38 +185,52 @@
                                 </div>
                             </div>
                             <div class="row">
+
                                 <form [formGroup]="Reviewedform">
                                     <div class="row">
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
+                                            <mat-radio-group formControlName="ReviewedClassCorrectionId"
+                                                (change)="ReviewedClassCorrectionTypeChange($event.value)">
+                                                <mat-radio-button class="example-radio-button"
+                                                    *ngFor="let t of ReviewedClassCorrectionList" [value]="t.DataId">
+                                                    {{t.DataName}}
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                        <div class="col-md-4">
                                             <label class="form-label" for="ReviewedSubClassId">Sub Class</label>
                                             <p-dropdown appendTo="body" formControlName="ReviewedSubClassId"
                                                 inputId="ReviewedSubClassId" [options]="SubClassData"
                                                 optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                                class="form-control select2"></p-dropdown>
+                                                class="form-control select2"
+                                                (onChange)="ReviewedSubClassChange($event.value)"></p-dropdown>
                                             <small class="p-error"
                                                 *ngIf="submitted && Reviewedform.hasError('required','ReviewedSubClassId')">Sub
                                                 class is required.</small>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
                                             <label class="form-label" for="ReviewedTransactionTypeId">Transaction
                                                 Type</label>
                                             <p-dropdown appendTo="body" formControlName="ReviewedTransactionTypeId"
                                                 inputId="ReviewedTransactionTypeId" [options]="TransactionTypeData"
                                                 optionLabel="DataName" optionValue="DataId" placeholder="Select"
-                                                class="form-control select2"></p-dropdown>
+                                                class="form-control select2"
+                                                (onChange)="TransactionTypeChange($event.value)"></p-dropdown>
                                             <small class="p-error"
                                                 *ngIf="submitted && Reviewedform.hasError('required','ReviewedTransactionTypeId')">Transaction
                                                 type is required.</small>
                                         </div>
-                                        <div class="col-md-3">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col md-4">
                                             <label for="ReviewedRemark">Remark</label>
                                             <input formControlName="ReviewedRemark" type="text" pInputText
                                                 class="form-control" />
-                                            <!-- <small class="p-error"
-                                                *ngIf="submitted && Reviewedform.hasError('required','ReviewedRemark')">Remark
-                                                is required.</small> -->
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-4">
+                                            <div class="amt">{{DifferenceAmount | currency:'INR':true:'1.0-2'}}</div>
+                                        </div>
+                                        <div class="col-md-4">
                                             <button type="button" class="btn btn-success btn-circle btn-lg btn-search"
                                                 (click)="SaveEntry()">
                                                 <i class="mdi mdi-check-all"></i>

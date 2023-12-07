@@ -43,21 +43,27 @@ export class TransactionalValidationComponent {
   ErrorData: any;
   LogedUserId = 0;
   DataAdd: Number = 0;
-  MediaPrefix:any;
-  SelectedRow:any;
-  VideoFound=false;
-  SelectedIndex=0;
-  IsReviewedRequired:boolean=true
-  ReviewRequired="Review Required";
-  selectedCategory:any;
+  MediaPrefix: any;
+  SelectedRow: any;
+  VideoFound = false;
+  SelectedIndex = 0;
+  IsReviewedRequired: boolean = true
+  ReviewRequired = "Review Required";
+  selectedCategory: any;
   TransactionTypeId = 0;
-  submitted=false;
-  ClassTypeList = [{ DataId: "0", DataName: "Both" }, { DataId: "1", DataName: "TC" }, { DataId: "2", DataName: "AVC" }, { DataId: "3", DataName: "None" }];
-  constructor(private _compiler: Compiler,private dbService: apiIntegrationService, private dm: DataModel,
+  submitted = false;
+  FareData: any;
+  selectedReviewedClassCorrectionId: number = 0;
+  ReviewedTransactionAmount = 0;
+  DifferenceAmount = 0;
+  SystemSetting: any;
+  ReviewedClassCorrectionList = [{ DataId: 0, DataName: "Both" }, { DataId: 1, DataName: "TC" }, { DataId: 2, DataName: "AVC" }, { DataId: 3, DataName: "None" }];
+  constructor(private _compiler: Compiler, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
     this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
+    this.SystemSetting = this.dm.getSSData();
     this.GetPermissionData();
   }
 
@@ -74,18 +80,21 @@ export class TransactionalValidationComponent {
       VehicleClassFilterList: new FormControl(''),
       VehicleSubClassFilterList: new FormControl(''),
       PlateNumber: new FormControl(''),
-      TransactionId: new FormControl(''),
+      TransactionId: new FormControl('')
     });
     this.Reviewedform = new FormGroup({
-      ReviewedSubClassId: new FormControl('',[Validators.required]),
-      ReviewedTransactionTypeId: new FormControl('',[Validators.required]),
-      ReviewedRemark: new FormControl('')
+      ReviewedSubClassId: new FormControl('', [Validators.required]),
+      ReviewedTransactionTypeId: new FormControl('', [Validators.required]),
+      ReviewedRemark: new FormControl(''),
+      ReviewedClassCorrectionId: new FormControl(0, []),
     });
   }
+
   ngAfterViewInit(): void {
     this._compiler.clearCache();
   }
-  ExColl(event: any) {
+
+  ExColl() {
     const collapseOne = document.getElementById("collapseOne")!
     collapseOne.classList.toggle("show")
     const datafilterIcon = document.getElementById("datafilterIcon")!
@@ -108,12 +117,14 @@ export class TransactionalValidationComponent {
       tbl.classList.add("listtablepagging-cf3")
     }
   }
-  statusChanged(event:any){
-    if(event)
-     this.ReviewRequired="Review Required";
+
+  statusChanged(event: any) {
+    if (event)
+      this.ReviewRequired = "Review Required";
     else
-      this.ReviewRequired="All Transaction";
+      this.ReviewRequired = "All Transaction";
   }
+
   GetPermissionData() {
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
@@ -151,11 +162,11 @@ export class TransactionalValidationComponent {
   GetMasterData() {
     this.subscription = this.dbService.FilterMasterGet().subscribe(
       data => {
-        var MaserData=data.ResponseData;
-        this.ShiftData=MaserData.ShiftTiminingList;
-        this.LaneUserData=MaserData.TCMasterList;
-        this.PlazaDataList=MaserData.PlazaDataList;
-        this.LaneData=MaserData.LaneDataList;
+        var MaserData = data.ResponseData;
+        this.ShiftData = MaserData.ShiftTiminingList;
+        this.LaneUserData = MaserData.TCMasterList;
+        this.PlazaDataList = MaserData.PlazaDataList;
+        this.LaneData = MaserData.LaneDataList;
         this.ClassData = MaserData.SystemClassList;
         this.SubClassData = MaserData.SystemSubClassList;
         this.TransactionTypeData = MaserData.TransactionTypeList;
@@ -177,11 +188,16 @@ export class TransactionalValidationComponent {
   GetDefaultData() {
     this.subscription = this.dbService.ReviewPendingGetLatest().subscribe(
       data => {
+        this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
         this.TotalTransactionCount = this.EventHistroyData.length;
         this.SelectedIndex = 0;
         this.AutoSelected();
-        this.spinner.hide();
+        if (this.TotalTransactionCount > 0) {
+          var sd = this.EventHistroyData[this.TotalTransactionCount - 1].TransactionDateTimeStamp;
+          this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
+        }
+
       },
       (error) => {
         this.spinner.hide();
@@ -279,7 +295,8 @@ export class TransactionalValidationComponent {
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
-      IsReviewedRequired:this.IsReviewedRequired,
+      IsReviewedRequired: this.IsReviewedRequired,
+      IsReviewedStatus: false,
       ShiftFilterList: ShiftFilterList,
       TCUserFilterList: TCUserFilterList,
       PlazaFilterList: PlazaFilterList,
@@ -287,11 +304,11 @@ export class TransactionalValidationComponent {
       VehicleClassFilterList: VehicleClassFilterList,
       VehicleSubClassFilterList: VehicleSubClassFilterList,
       TransactionTypeFilterList: TransactionTypeFilterList,
-      PlateNumber:this.FilterDetailsForm.value.PlateNumber,
-      TransactionId:this.FilterDetailsForm.value.TransactionId,
+      PlateNumber: this.FilterDetailsForm.value.PlateNumber,
+      TransactionId: this.FilterDetailsForm.value.TransactionId,
       StartDateTime: SD,
       EndDateTime: ED,
-      AuditerFilterList:AuditerFilterList
+      AuditerFilterList: AuditerFilterList,
     }
     this.spinner.show();
     this.dbService.LaneTransactionFilter(obj).subscribe(
@@ -344,14 +361,25 @@ export class TransactionalValidationComponent {
   }
 
   AutoSelected() {
-    this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
-    this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
-    this.Reviewedform.controls['ReviewedTransactionTypeId'].setValue(this.SelectedRow.TransactionTypeId);
-    this.Reviewedform.controls['ReviewedRemark'].reset();
-    if (this.SelectedRow.EventVideoUrl != "") {
-      this.dm.delay(100).then(any => {
-        this.VideoFound = true;
-      });
+    if (this.EventHistroyData.length > 0) {
+      this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+      this.getTollFare(new Date(this.SelectedRow.TransactionDateTimeStamp));
+      this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
+      this.Reviewedform.controls['ReviewedTransactionTypeId'].setValue(this.SelectedRow.TransactionTypeId);
+      this.Reviewedform.controls['ReviewedRemark'].reset();
+      if (this.SelectedRow.VehicleSubClassId == this.SelectedRow.AvcClassId) {
+        this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(0);
+        this.ReviewedClassCorrectionTypeChange(0);
+      }
+      else {
+        this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(2);
+        this.ReviewedClassCorrectionTypeChange(2);
+      }
+      if (this.SelectedRow.EventVideoUrl != "") {
+        this.dm.delay(100).then(any => {
+          this.VideoFound = true;
+        });
+      }
     }
   }
 
@@ -361,7 +389,7 @@ export class TransactionalValidationComponent {
   }
 
   SaveEntry() {
-    this.submitted=true;
+    this.submitted = true;
     if (this.Reviewedform.invalid) {
       return;
     }
@@ -369,67 +397,75 @@ export class TransactionalValidationComponent {
     if (Remark == undefined || Remark == null || Remark == '') {
       Remark = ''
     }
-    if(this.Reviewedform.value.ReviewedSubClassId!=this.SelectedRow.VehicleSubClassId){
-      if(Remark==''){
+    if (this.Reviewedform.value.ReviewedSubClassId != this.SelectedRow.VehicleSubClassId) {
+      if (Remark == '') {
         const ErrorData = [{ AlertMessage: "Remark is required." }];
         this.dm.openSnackBar(ErrorData, false);
         return;
       }
     }
-    if(this.Reviewedform.value.ReviewedSubClassId==this.SelectedRow.VehicleAvcClassId){
-      this.SelectedRow.ReviewedClassCorrectionId=0;
-    }
-    else{
-      this.SelectedRow.ReviewedClassCorrectionId=0;
-    }
-    if(this.Reviewedform.value.TransactionTypeId!=this.SelectedRow.TransactionTypeId){
-      if(Remark==''){
+    if (this.Reviewedform.value.TransactionTypeId != this.SelectedRow.TransactionTypeId) {
+      if (Remark == '') {
         const ErrorData = [{ AlertMessage: "Remark is required." }];
         this.dm.openSnackBar(ErrorData, false);
         return;
       }
     }
-    this.SelectedRow.ReviewedSubClassId= this.Reviewedform.value.ReviewedSubClassId;
-    this.SelectedRow.ReviewedTransactionTypeId= this.Reviewedform.value.ReviewedTransactionTypeId;
-    this.SelectedRow.ReviewedRemark= this.Reviewedform.value.ReviewedRemark;
-    this.SelectedRow.ReviewedById=this.LogedUserId;
-  
-    // this.dbService.VIDSEventReviewed(row).subscribe(
-    //   data => {
-    //     this.spinner.hide();
-    //     const returnMessage = data.Message[0].AlertMessage;
-    //     if (returnMessage == 'success') {
-    //       this.ErrorData = [{ AlertMessage: 'Event is received successfully!.' }];
-    //       this.dm.openSnackBar(this.ErrorData, true);
-    //       this.ProcessNextRecord();
-    //     }
-    //     else {
-    //       this.confirmBox(returnMessage + " Do you want to reload data?")
-    //     }
-    //   },
-    //   (error) => {
-    //     this.spinner.hide();
-    //     this.ErrorData = [{ AlertMessage: "Something went wrong." }];
-    //     this.dm.openSnackBar(this.ErrorData, false);
-    //   }
-    // );
+    if (this.Reviewedform.value.ReviewedClassCorrectionId == 0 || this.Reviewedform.value.ReviewedClassCorrectionId == 1)
+      this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleSubClassId;
+    else if (this.Reviewedform.value.ReviewedClassCorrectionId == 2)
+      this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleAvcClassId
+    else
+      this.SelectedRow.ReviewedSubClassId = this.Reviewedform.value.ReviewedSubClassId;
+    this.SelectedRow.ReviewedPlateNumber = this.Reviewedform.value.PlateNumber;
+    this.SelectedRow.ReviewedTransactionTypeId = this.Reviewedform.value.ReviewedTransactionTypeId;
+    this.SelectedRow.ReviewedRemark = this.Reviewedform.value.ReviewedRemark;
+    this.SelectedRow.ReviewedClassCorrectionId = this.Reviewedform.value.ReviewedClassCorrectionId
+    this.SelectedRow.ReviewedTransactionAmount = this.ReviewedTransactionAmount
+    this.SelectedRow.DifferenceAmount = this.DifferenceAmount
+    this.SelectedRow.ReviewedById = this.LogedUserId;
+    this.SelectedRow.ReviewedDateTime = this.datepipe.transform(new Date, 'dd-MMM-yyyy HH:mm:ss')
+    this.dbService.LaneTransactionValidation(this.SelectedRow).subscribe(
+      data => {
+        this.spinner.hide();
+        const returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'transaction audit successfully!.' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.ProcessNextRecord();
+        }
+        else {
+          this.confirmBox(returnMessage + " Do you want to reload data?")
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   ProcessNextRecord() {
     this.TotalTransactionCount = this.EventHistroyData.length;
     if (this.TotalTransactionCount > 1) {
       this.EventHistroyData.splice(this.SelectedIndex, 1);
+      this.TotalTransactionCount = this.EventHistroyData.length;
+      this.SelectedIndex = 0;
+      this.AutoSelected();
     }
-    this.TotalTransactionCount = this.EventHistroyData.length;
-    this.SelectedIndex = 0;
-    this.AutoSelected();
+    else {
+
+      this.confirmBox("No more transcation, Do you want to reload data?")
+    }
   }
 
   confirmBox(msg: string) {
     this.confirmationService.confirm({
       message: msg,
-      icon: 'fa fa-exclamation-triangle',
+      icon: 'mdi mdi-reload-alert',
       accept: () => {
+        this.EventHistroyData = [];
         this.FilterAllData();
       },
       reject: (type: ConfirmEventType) => {
@@ -442,7 +478,81 @@ export class TransactionalValidationComponent {
     var myWindow = window.open(this.MediaPrefix + this.SelectedRow.EventImageUrl, "", "width=600");
   }
 
-  TypeChange(value:any){
+  ReviewedClassCorrectionTypeChange(value: any) {
+    if (value == 3) {
+      this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
+      this.Reviewedform.controls['ReviewedSubClassId'].enable();
+    }
+    else if (value == 2) {
+      this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleAvcClassId);
+      this.Reviewedform.controls['ReviewedSubClassId'].disable();
+    }
+    else {
+      this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
+      this.Reviewedform.controls['ReviewedSubClassId'].disable();
+    }
+    this.checkTollFare(0, this.Reviewedform.controls['ReviewedSubClassId'].value, this.Reviewedform.controls['ReviewedTransactionTypeId'].value);
 
+  }
+
+  ReviewedSubClassChange(value: any) {
+    this.checkTollFare(0, value, this.Reviewedform.controls['ReviewedTransactionTypeId'].value);
+  }
+
+  TransactionTypeChange(value: any) {
+    this.checkTollFare(this.SelectedRow.VehicleClassId, this.SelectedRow.VehicleSubClassId, value);
+  }
+
+  getTollFare(EffectiveDate: any) {
+    this.spinner.show();
+    let StartDate = this.datepipe.transform(EffectiveDate, 'dd-MMM-yyyy')
+    this.dbService.TollFareGetByEffectedFrom(StartDate).subscribe(
+      data => {
+        this.spinner.hide();
+        const DevicesData = data.ResponseData;
+        this.FareData = DevicesData.TollFareConfigurations;
+        this.checkTollFare(this.SelectedRow.VehicleClassId, this.SelectedRow.VehicleSubClassId, this.SelectedRow.TransactionTypeId);
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
+  checkTollFare(VehicleClassId: any, VehicleSubClassId: any, TransactionTypeId: any) {
+    if (TransactionTypeId == 1 || TransactionTypeId == 3) {
+      this.ReviewedTransactionAmount = 0;
+    }
+    else {
+      if (this.FareData != null) {
+        let TF;
+        if (VehicleSubClassId != 0) {
+          TF = this.FareData.filter((e: { SubVehicleClassId: any }) =>
+            e.SubVehicleClassId == VehicleSubClassId);
+        }
+        else {
+          TF = this.FareData.filter((e: { SystemVehicleClassId: any; }) =>
+            e.SystemVehicleClassId == VehicleClassId);
+        }
+        if (TF.length > 0) {
+          if (this.SystemSetting.CashPenalty)
+            this.ReviewedTransactionAmount = TF[0].FasTagPenalty;
+          else
+            this.ReviewedTransactionAmount = TF[0].TollFare;
+        }
+        else {
+          this.ErrorData = [{ AlertMessage: 'System fare not found.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    }
+    this.DifferenceAmount = this.SelectedRow.TagPenaltyAmount + this.SelectedRow.TransactionAmount - this.ReviewedTransactionAmount;
   }
 }

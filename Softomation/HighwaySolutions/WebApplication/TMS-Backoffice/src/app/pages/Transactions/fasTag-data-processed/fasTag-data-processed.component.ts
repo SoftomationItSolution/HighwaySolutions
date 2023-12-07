@@ -1,18 +1,18 @@
-import { DatePipe } from '@angular/common';
-import { Compiler, Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { AfterViewInit, Compiler, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
-import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
+import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { Subscription } from 'rxjs';
+import { FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-transactional-validated',
-  templateUrl: './transactional-validated.component.html',
-  styleUrls: ['./transactional-validated.component.css']
+  selector: 'et-fasTag-data-processed',
+  templateUrl: './fasTag-data-processed.component.html',
+  styleUrls: ['./fasTag-data-processed.component.css']
 })
-export class TransactionalValidatedComponent {
+export class FasTagDataProcessed implements OnInit, AfterViewInit, OnDestroy {
   subscription!: Subscription;
   FilterDetailsForm!: FormGroup;
   ShiftData: any;
@@ -40,6 +40,7 @@ export class TransactionalValidatedComponent {
   ErrorData: any;
   LogedUserId = 0;
   DataAdd: Number = 0;
+  CodeList:any;
   constructor(private _compiler: Compiler, private dbService: apiIntegrationService, private spinner: NgxSpinnerService, private dm: DataModel,
     public dialog: MatDialog, public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
@@ -55,7 +56,6 @@ export class TransactionalValidatedComponent {
       TCUserFilterList: new FormControl('', []),
       PlazaFilterList: new FormControl('', []),
       LaneFilterList: new FormControl('', []),
-      TransactionTypeFilterList: new FormControl(''),
       VehicleClassFilterList: new FormControl(''),
       VehicleSubClassFilterList: new FormControl(''),
       PlateNumber: new FormControl(''),
@@ -128,7 +128,7 @@ export class TransactionalValidatedComponent {
 
   GetMasterData() {
     this.subscription = this.dbService.FilterMasterGet().subscribe(
-      data => {
+      (data:any) => {
         var MaserData=data.ResponseData;
         this.ShiftData=MaserData.ShiftTiminingList;
         this.LaneUserData=MaserData.TCMasterList;
@@ -137,7 +137,7 @@ export class TransactionalValidatedComponent {
         this.ClassData = MaserData.SystemClassList;
         this.SubClassData = MaserData.SystemSubClassList;
         this.TransactionTypeData = MaserData.TransactionTypeList;
-        this.GetDefaultData();
+        this.FasTagRequestCode();
       },
       (error) => {
         this.spinner.hide();
@@ -151,9 +151,31 @@ export class TransactionalValidatedComponent {
       }
     );
   }
+
+  FasTagRequestCode() {
+    this.subscription = this.dbService.FasTagRequestCode().subscribe(
+      data => {
+        this.spinner.hide();
+        this.CodeList=data.ResponseData;
+        this.GetDefaultData();
+        
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
   
   GetDefaultData() {
-    this.subscription = this.dbService.ReviewedGetLatest().subscribe(
+    this.subscription = this.dbService.FasTagProcessedGetLatest().subscribe(
       data => {
         this.spinner.hide();
         this.EventHistroyData = data.ResponseData;
@@ -162,6 +184,7 @@ export class TransactionalValidatedComponent {
           var sd=this.EventHistroyData[this.TotalTransactionCount-1].TransactionDateTimeStamp;
           this.FilterDetailsForm.controls['StartDateTime'].setValue(new Date(sd));
         }
+        
       },
       (error) => {
         this.spinner.hide();
@@ -248,31 +271,18 @@ export class TransactionalValidatedComponent {
       }
     }
 
-    let TransactionTypeFilterList = "0"
-    if (this.FilterDetailsForm.value.TransactionTypeFilterList != null && this.FilterDetailsForm.value.TransactionTypeFilterList != '') {
-      let crData = this.FilterDetailsForm.value.TransactionTypeFilterList.toString();
-      if (crData.split(',').length != this.TransactionTypeData.length) {
-        TransactionTypeFilterList = this.FilterDetailsForm.value.TransactionTypeFilterList.toString();
-      }
-    }
-    let AuditerFilterList = "0"
+   
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
-      ShiftFilterList: ShiftFilterList,
-      TCUserFilterList: TCUserFilterList,
       PlazaFilterList: PlazaFilterList,
       LaneFilterList: LaneFilterList,
       VehicleClassFilterList: VehicleClassFilterList,
       VehicleSubClassFilterList: VehicleSubClassFilterList,
-      TransactionTypeFilterList: TransactionTypeFilterList,
       PlateNumber:this.FilterDetailsForm.value.PlateNumber,
       TransactionId:this.FilterDetailsForm.value.TransactionId,
       StartDateTime: SD,
-      EndDateTime: ED,
-      AuditerFilterList:AuditerFilterList,
-      IsReviewedRequired:true,
-      IsReviewedStatus:true,
+      EndDateTime: ED
     }
     this.spinner.show();
     this.dbService.LaneTransactionFilter(obj).subscribe(

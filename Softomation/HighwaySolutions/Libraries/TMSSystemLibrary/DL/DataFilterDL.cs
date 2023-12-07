@@ -29,6 +29,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
                 string spName = "USP_MasterDataGet";
                 DbCommand command = DBAccessor.GetStoredProcCommand(spName);
                 ds = DBAccessor.LoadDataSet(command, "temp");
+               
                 #region Shift Timining
                 foreach (DataRow dr in ds.Tables[0].Rows)
                     ShiftTimining.Add(CreateObjectForShiftTimining(dr));
@@ -152,6 +153,7 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary.DL
             }
             return dataResult;
         }
+        
         #region Helpler Method
         private static ReportMasterIL CreateObjectForReportMaster(DataRow dr)
         {

@@ -32,6 +32,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
@@ -81,6 +82,8 @@ import { TransactionalDataComponent } from './pages/Transactions/transactional-d
 import { TransactionalValidationComponent } from './pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from './pages/Transactions/transactional-validated/transactional-validated.component';
 import { ReportMasterComponent } from './pages/report-master/report-master.component';
+import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
+import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -148,6 +151,8 @@ export const MY_CUSTOM_FORMATS = {
     TransactionalDataComponent,
     TransactionalValidationComponent,
     TransactionalValidatedComponent,
+    FasTagDataPending,
+    FasTagDataProcessed,
     ReportMasterComponent
   ],
   imports: [
@@ -184,6 +189,7 @@ export const MY_CUSTOM_FORMATS = {
     MatDialogModule,
     MatStepperModule,
     MatSlideToggleModule,
+    MatRadioModule,
     NgxSpinnerModule,
     ImageCropperModule 
   ],

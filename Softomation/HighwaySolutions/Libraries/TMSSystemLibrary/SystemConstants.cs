@@ -73,7 +73,11 @@ namespace HighwaySoluations.Softomation.TMSSystemLibrary
             East = 1,
             West = 2,
             North = 3,
-            South = 4
+            South = 4,
+            North_East=5,
+            North_West=6,
+            South_West = 7,
+            South_East= 8
         }
         public enum ICDRequestStatusType
         {

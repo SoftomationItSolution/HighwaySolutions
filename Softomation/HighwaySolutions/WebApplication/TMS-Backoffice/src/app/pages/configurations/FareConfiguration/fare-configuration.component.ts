@@ -20,11 +20,14 @@ export class FareConfigurationComponent implements OnInit {
   DataView: Number = 0;
   EffectiveDate:any;
   FareData:any;
-  EffectiveFrom:any
+  EffectiveFrom:any;
+  SystemSetting:any
+  isSubClassRequired=false;
   constructor(private spinner: NgxSpinnerService,private dm: DataModel,
     private dbService: apiIntegrationService,public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
+    this.isSubClassRequired = this.dm.getSSData().SubClassRequired;
     this.GetPermissionData();
   }
 

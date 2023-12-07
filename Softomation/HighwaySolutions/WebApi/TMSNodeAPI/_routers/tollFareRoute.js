@@ -19,6 +19,7 @@ async function TollFareSetUp(req, res, next) {
         table.create = true;
         table.columns.add('JourneyId', sql.BigInt, { nullable: false });
         table.columns.add('SystemVehicleClassId', sql.SmallInt, { nullable: false });
+        table.columns.add('SubVehicleClassId', sql.SmallInt, { nullable: false });
         table.columns.add('TollFare', sql.Float, { nullable: false });
         table.columns.add('ReturnFare', sql.Float, { nullable: false });
         table.columns.add('FasTagPenalty', sql.Float, { nullable: false });
@@ -28,6 +29,7 @@ async function TollFareSetUp(req, res, next) {
             table.rows.add(
                 parseInt(array[i].JourneyId),
                 parseInt(array[i].SystemVehicleClassId),
+                parseInt(array[i].SubVehicleClassId),
                 parseFloat(array[i].TollFare),
                 parseFloat(array[i].ReturnFare),
                 parseFloat(array[i].FasTagPenalty),
