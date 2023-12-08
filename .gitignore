@@ -42,7 +42,6 @@
 .vs/HighwaySoluations/v16/.suo
 .vs/HighwaySoluations/v16/.suo
 .vs/HighwaySoluations/v16/.suo
-*.config
 .vs/HighwaySoluations/config/applicationhost.config
 Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/PlazaDataSynchronization.csproj.AssemblyReference.cache
 .vs/HighwaySoluations/v17/.suo
@@ -51,5 +50,3 @@ Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/
 *.cache
 bin
 obj
-packages
-*.json
