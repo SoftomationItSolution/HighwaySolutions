@@ -1,26 +1,15 @@
-
-let apiPrefix = '/Softomation/FastTrackHighway-TMS/'
-let laneApiPrefix = '/Softomation/FTH-TMS-RSD/'
-const corsOpts = {
-    origin: '*',
-  
-    methods: [
-      'GET',
-      'POST',
-    ],
-  
-    allowedHeaders: [
-      'Content-Type',
-    ],
-  };
-  
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 const cors = require('cors');
+const corsOpts = require('./configCros.json');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));
+//Route
+let apiPrefix = '/Softomation/FastTrackHighway-TMS/'
+let laneApiPrefix = '/Softomation/FTH-TMS-RSD/'
 app.use('/EventMedia', express.static('EventMedia/'));
+app.use(apiPrefix, require('./_routers/commonRoute'));
 app.use(apiPrefix, require('./_routers/commonRoute'));
 app.use(apiPrefix, require('./_routers/dashboardRoute'));
 app.use(apiPrefix, require('./_routers/userRoute'));
@@ -40,5 +29,12 @@ app.use(apiPrefix, require('./_routers/shiftRoute'));
 app.use(apiPrefix, require('./_routers/transactionRoute'));
 app.use(apiPrefix, require('./_routers/fasTagProcessRoute'));
 app.use(laneApiPrefix, require('./_routers/laneTransactionRoute'));
-let port = process.env.PORT || 5001;
+app.get("/", (request, response) => {
+    const status = {
+       "Status": "Running"
+    };
+    
+    response.send(status);
+ });
+let port = process.env.PORT || 5001; 
 app.listen(port, () => console.log('Server listening on port ' + port));
