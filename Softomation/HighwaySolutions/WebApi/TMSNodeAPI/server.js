@@ -5,7 +5,6 @@ const corsOpts = require('./configCros.json');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));
-
 //Route
 let apiPrefix = '/Softomation/FastTrackHighway-TMS/'
 let laneApiPrefix = '/Softomation/FTH-TMS-RSD/'

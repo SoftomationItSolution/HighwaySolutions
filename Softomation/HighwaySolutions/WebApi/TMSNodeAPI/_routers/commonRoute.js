@@ -6,6 +6,7 @@ const token = require("../_helpers/jwtToken");
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
 const sql = require('mssql');
+
 router.post('/ValidateUser', ValidateUser);
 router.post('/LogoutUser', LogoutUser);
 router.post('/RolePermissionGetByMenu', RolePermissionGetByMenu);
