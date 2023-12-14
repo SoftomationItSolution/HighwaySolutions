@@ -1,19 +1,19 @@
 const crypto = require('crypto');
-const encryptionKey = '$0ft0m@ti0n';
-// Encryption function
-function encrypt(text) {
-  const cipher = crypto.createCipher('aes-256-cbc', encryptionKey);
-  let encrypted = cipher.update(text, 'utf-8', 'hex');
-  encrypted += cipher.final('hex');
-  return encrypted;
+const key = '0123456789abcdef0123456789abcdef'; // 32 bytes key for AES-256
+const iv = '$0ft0m@ti0nTech$'; // 16 bytes IV for AES-256-CBC
+
+function encrypt(plaintext) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+    let encrypted = cipher.update(plaintext, 'utf-8', 'base64');
+    encrypted += cipher.final('base64');
+    return encrypted;
 }
 
-// Decryption function
-function decrypt(encryptedText) {
-  const decipher = crypto.createDecipher('aes-256-cbc', encryptionKey);
-  let decrypted = decipher.update(encryptedText, 'hex', 'utf-8');
-  decrypted += decipher.final('utf-8');
-  return decrypted;
+function decrypt(ciphertext) {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(key, 'hex'), Buffer.from(iv, 'hex'));
+    let decrypted = decipher.update(ciphertext, 'base64', 'utf-8');
+    decrypted += decipher.final('utf-8');
+    return decrypted;
 }
 
 module.exports = {
