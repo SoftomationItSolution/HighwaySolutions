@@ -13,6 +13,149 @@ const keySize = 256;                // can be 192 or 128
 const JWTkey = AppProvider + "HighwaySoluationsProvider";
 //#endregion
 
+const TollingType =
+{
+    Normal: 0,
+    AccessControl: 1,
+    FreeFlow: 2
+};
+
+const AppUserType =
+{
+    SysAdmin: 0,
+    Administrator: 1,
+    Manager: 2,
+    Auditor: 3,
+    TollCollector: 4,
+    Maintenance: 5
+};
+const LaneType =
+{
+    Dedicated: 0,
+    Hybrid: 1,
+    Handheld: 2
+};
+const LaneStatusType =
+{
+    Open: 0,
+    Close: 1
+};
+const LaneModeType =
+{
+    Maintenance: 0,
+    Normal: 1
+};
+const LanePointType =
+{
+    Normal: 0,
+    Entry: 1,
+    Exit: 2
+};
+const LanePositionType =
+{
+    LHS: 0,
+    RHS: 1
+};
+const LaneDirectionType =
+{
+    East: 1,
+    West: 2,
+    North: 3,
+    South: 4,
+    North_East: 5,
+    North_West: 6,
+    South_West: 7,
+    South_East: 8
+};
+const ICDRequestStatusType =
+{
+    Generated: 0,
+    Send: 1,
+    Received: 2,
+    Send_Error: 3,
+    Received_Error: 4
+};
+
+const ICDDirectionType =
+{
+    E: 1,
+    W: 2,
+    N: 3,
+    S: 4
+};
+const ICDLaneStatusType =
+{
+    OPEN: 1,
+    CLOSE: 2
+};
+const ICDLaneModeType =
+{
+    Maintenance: 1,
+    Normal: 2
+};
+const ICDLaneType =
+{
+    Dedicated: 1,
+    Hybrid: 2,
+    Handheld: 3
+};
+
+const ICDRequestPayTxnType =
+{
+    DEBIT: 1,
+    CREDIT: 2,
+    NON_FIN: 3
+};
+
+const ICDSignAuthType =
+{
+    VALID: 1,
+    INVALID: 2,
+    NOT_VERIFIED: 3
+};
+
+const ICDTagVerifiedType =
+{
+    NETC_TAG: 1,
+    NON_NETC_TAG: 2
+};
+
+const ICDVehicleAuthType =
+{
+    YES: 1,
+    NO: 2,
+    UNKNOWN: 3
+};
+const ICDTxnStatusType =
+{
+    SUCCESS: 1,
+    FAILED: 2
+};
+const ICDPriceModeType =
+{
+    DISTANCE: 1,
+    POINT: 2,
+    CUSTOM: 3
+};
+const ICDPaymentModeType =
+{
+    Tag: 1,
+    Cash: 2,
+    Card: 3,
+    QRCode: 4,
+    Other: 5
+};
+const ICDFareType =
+{
+    DISCOUNTED: 1,
+    EXEMPTED: 2,
+    FULL: 3,
+    RETURN: 4
+};
+
+
+
+
 function ResponseMessageList(model, Data) {
     let msg = [];
     for (let i = 0; i < model.length; i++) {
@@ -26,14 +169,14 @@ function ResponseMessageList(model, Data) {
     return out;
 }
 
-function RandonString(length){
+function RandonString(length) {
     let result = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     const charactersLength = characters.length;
     let counter = 0;
     while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        counter += 1;
     }
     return result;
 }
@@ -91,14 +234,14 @@ function SaveImage(base64String, filePath, filename, ext, path) {
             const imageBuffer = Buffer.from(base64String, 'base64');
             fs.writeFile(filePath, imageBuffer, (err) => {
                 if (err) {
-                    filePath= "";
-                } 
+                    filePath = "";
+                }
             });
         }
         else
-        filePath= "";
+            filePath = "";
     } catch (error) {
-        filePath= "";
+        filePath = "";
     }
     return filePath
 }
