@@ -172,11 +172,13 @@ namespace HighwaySoluations.Softomation.CommonLibrary
         #region Methods
         public static string Decrypt(string input)
         {
-            return Cryptography.Encryption.Decrypt(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+            //return Cryptography.AesCbc.DecryptAes256Cbc(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+            return Cryptography.AesCbc.DecryptAes256Cbc(input);
         }
         public static string Encrypt(string input)
         {
-            return Cryptography.Encryption.Encrypt(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+            //return Cryptography.AesCbc.EncryptAes256Cbc(input, passPhrase, saltValue, hashAlgorithm, passwordIterations, initVector, keySize);
+            return Cryptography.AesCbc.EncryptAes256Cbc(input);
         }
         public static object GetToken(AppLoginIL input)
         {
