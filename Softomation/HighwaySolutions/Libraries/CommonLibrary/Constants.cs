@@ -332,7 +332,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
                 throw ex;
             }
         }
-
         public static DateTime ConvertFromUnixTimestamp(double timestamp)
         {
             DateTime origin = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
@@ -355,7 +354,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dateTime;
         }
-
         public static IPAddress[] GetLocalIPAddress()
         {
             try
@@ -373,7 +371,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             }
 
         }
-
         public static string RGBtoHEX(int red, int green, int blue)
         {
             try
@@ -387,7 +384,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
                 throw ex;
             }
         }
-
         static string GetColorName(Color color)
         {
             var colorProperties = typeof(Color)
@@ -408,8 +404,6 @@ namespace HighwaySoluations.Softomation.CommonLibrary
             //(or you could return null, "Unkown" or whatever you want)
             return ColorTranslator.ToHtml(color);
         }
-
-
         #endregion
     }
 }
