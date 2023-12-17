@@ -5,7 +5,7 @@ const corsOpts = require('./configCros.json');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));
-
+const logger = require('./_helpers/logger');
 //Route
 let apiPrefix = '/Softomation/FastTrackHighway-TMS/'
 let laneApiPrefix = '/Softomation/FTH-TMS-RSD/'
@@ -29,12 +29,22 @@ app.use(apiPrefix, require('./_routers/shiftRoute'));
 app.use(apiPrefix, require('./_routers/transactionRoute'));
 app.use(apiPrefix, require('./_routers/fasTagProcessRoute'));
 app.use(laneApiPrefix, require('./_routers/laneTransactionRoute'));
+app.use(laneApiPrefix, require('./_routers/laneMasterDataRoute'));
 app.get("/", (request, response) => {
-    const status = {
-       "Status": "Running"
-    };
-    
-    response.send(status);
- });
-let port = process.env.PORT || 5001; 
-app.listen(port, () => console.log('Server listening on port ' + port));
+   const status = {
+      "Status": "Running"
+   };
+
+   response.send(status);
+});
+
+
+function logMessage(msg) {
+   console.log(msg)
+   logger.info(msg);
+   logger.warn(msg);
+   logger.error(msg);
+}
+
+let port = process.env.PORT || 5001;
+app.listen(port, () => logMessage('Server listening on port ' + port));

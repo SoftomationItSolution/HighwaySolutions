@@ -5,6 +5,7 @@ const database = require('../_helpers/db');
 const token = require("../_helpers/jwtToken");
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
+const logger = require('../_helpers/logger');
 const sql = require('mssql');
 
 router.post('/ValidateUser', ValidateUser);
@@ -387,4 +388,13 @@ function CreateObjectForSystemVehicleSubClass(row) {
         ParentId: row.ParentClassId
     }
     return data;
+}
+function errorlogMessage(error, method) {
+    try {
+        logger.error(`Caught an error in :${method} : ${error.message}`);
+        logger.error(error.stack);
+    }
+    catch (error) {
+        logger.error(`Caught an error in :${method}`);
+    }
 }

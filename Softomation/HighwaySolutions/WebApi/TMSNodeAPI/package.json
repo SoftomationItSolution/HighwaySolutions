@@ -16,7 +16,10 @@
     "mkdirp": "^3.0.1",
     "moment": "^2.29.4",
     "mssql": "^10.0.1",
-    "rootpath": "^0.1.2"
+    "pkcs7": "^1.0.4",
+    "rootpath": "^0.1.2",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

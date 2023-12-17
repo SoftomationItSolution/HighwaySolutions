@@ -1,0 +1,5 @@
+Flask
+PyJWT
+paho-mqtt
+cryptography
+pyodbc

@@ -3,8 +3,10 @@ const router = express.Router();
 const database = require('../_helpers/db');
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
+const logger = require('../_helpers/logger');
 const path = require('path');
 const sql = require('mssql');
+const moment = require('moment');
 
 router.post('/UserValidatePassword', UserValidatePassword);
 router.post('/UserUpdatePassword', UserUpdatePassword);
@@ -14,19 +16,9 @@ router.post('/UserProfileChange', UserProfileChange);
 
 router.get('/UserConfigurationGetAll', UserConfigurationGetAll);
 router.get('/UserConfigurationGetById', UserConfigurationGetById);
-router.get('/UserGetByIdWithPassword', UserGetByIdWithPassword);
 router.get('/UserConfigurationGetByUserType', UserConfigurationGetByUserType);
 router.get('/UserConfigurationGetBySystemUserType', UserConfigurationGetBySystemUserType);
 module.exports = router;
-
-
-async function UserGetbyId(userId) {
-    const pool = await database.connect();
-    result = await pool.request().input('UserId', sql.Int, userId)
-        .execute('USP_UserGetbyId');
-    await database.disconnect();
-    return result;
-}
 
 async function UserValidatePassword(req, res, next) {
     try {
@@ -49,6 +41,7 @@ async function UserValidatePassword(req, res, next) {
         }
 
     } catch (error) {
+        errorlogMessage(error, 'UserValidatePassword');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -66,6 +59,7 @@ async function UserUpdatePassword(req, res, next) {
         let out = constants.ResponseMessage("User Details not found", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'UserUpdatePassword');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -95,6 +89,7 @@ async function UserConfigurationSetUp(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'UserConfigurationSetUp');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -105,9 +100,18 @@ async function UserConfigurationGetAll(req, res, next) {
         const pool = await database.connect();
         result = await pool.request().execute('USP_UserGetAll');
         await database.disconnect();
-        let out = constants.ResponseMessage("success", result.recordset);
+        let dataarray = result.recordset;
+        userMasterData = []
+        for (let i = 0; i < dataarray.length; i++) {
+            const element = dataarray[i];
+            const out = CreateObjectForUserMaster(element);
+            if (out != null)
+                userMasterData.push(out)
+        }
+        let out = constants.ResponseMessage("success", userMasterData);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'UserConfigurationGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -123,30 +127,13 @@ async function UserConfigurationGetById(req, res, next) {
             res.status(200).json(out);
         }
         else {
-            let out = constants.ResponseMessage("success", result.recordset[0]);
+            const element = result.recordset[0];
+            userMasterData = (CreateObjectForUserMaster(element))
+            let out = constants.ResponseMessage("success", userMasterData);
             res.status(200).json(out);
         }
     } catch (error) {
-        let out = constants.ResponseMessage(error.message, null);
-        res.status(400).json(out);
-    }
-}
-
-async function UserGetByIdWithPassword(req, res, next) {
-    try {
-        const userId = req.query.UserId | 0;
-        result = await UserGetbyId(userId);
-        if (result.recordset == []) {
-            let out = constants.ResponseMessage("No data found", null);
-            res.status(200).json(out);
-        }
-        else {
-            let d=result.recordset[0];
-            d.LoginPassword=crypto.decrypt(d.LoginPassword)
-            let out = constants.ResponseMessage("success", result.recordset[0]);
-            res.status(200).json(out);
-        }
-    } catch (error) {
+        errorlogMessage(error, 'UserConfigurationGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -159,9 +146,18 @@ async function UserConfigurationGetByUserType(req, res, next) {
         result = await pool.request().input('UserTypeId', sql.Int, UserTypeId)
             .execute('USP_UserGetByUserTypeId');
         await database.disconnect();
-        let out = constants.ResponseMessage("success", result.recordset);
+        let dataarray = result.recordset;
+        userMasterData = []
+        for (let i = 0; i < dataarray.length; i++) {
+            const element = dataarray[i];
+            const out = CreateObjectForUserMaster(element);
+            if (out != null)
+                userMasterData.push(out)
+        }
+        let out = constants.ResponseMessage("success", userMasterData);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'UserConfigurationGetByUserType');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -176,9 +172,18 @@ async function UserConfigurationGetBySystemUserType(req, res, next) {
             .input('SystemId', sql.Int, SystemId)
             .execute('USP_UserGetBySystemUserTypeId');
         await database.disconnect();
-        let out = constants.ResponseMessage("success", result.recordset);
+        let dataarray = result.recordset;
+        userMasterData = []
+        for (let i = 0; i < dataarray.length; i++) {
+            const element = dataarray[i];
+            const out = CreateObjectForUserMaster(element);
+            if (out != null)
+                userMasterData.push(out)
+        }
+        let out = constants.ResponseMessage("success", userMasterData);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'UserConfigurationGetBySystemUserType');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -186,13 +191,13 @@ async function UserConfigurationGetBySystemUserType(req, res, next) {
 
 async function UserProfileChange(req, res, next) {
     try {
-        const dir='./EventMedia/User/ProfileImage';
+        const dir = './EventMedia/User/ProfileImage';
         const currentPath = path.resolve('./EventMedia');
         let FilePath = "\\User\\ProfileImage\\";
-        FilePath = constants.SaveImage(req.body.UserProfileImage, currentPath + FilePath, constants.randomUUID(), ".png",dir);
+        FilePath = constants.SaveImage(req.body.UserProfileImage, currentPath + FilePath, constants.randomUUID(), ".png", dir);
         if (FilePath != "") {
-            FilePath=FilePath.replace(currentPath,"");
-            FilePath=FilePath.replaceAll("\\","/");
+            FilePath = FilePath.replace(currentPath, "");
+            FilePath = FilePath.replaceAll("\\", "/");
             const pool = await database.connect();
             result = await pool.request().input('UserId', sql.Int, req.body.UserId)
                 .input('UserProfileImage', sql.VarChar(200), FilePath)
@@ -206,7 +211,52 @@ async function UserProfileChange(req, res, next) {
             res.status(200).json(out)
         }
     } catch (error) {
+        errorlogMessage(error, 'UserProfileChange');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
+    }
+}
+
+function CreateObjectForUserMaster(row) {
+    try {
+        const data = {
+            UserId: parseInt(row.UserId),
+            LoginId: row.LoginId,
+            LoginPassword: row.LoginPassword,
+            LoginPasswordPlan: crypto.decrypt(row.LoginPassword),
+            FirstName: row.FirstName,
+            LastName: row.LastName,
+            EmailId: row.EmailId,
+            MobileNumber: row.MobileNumber,
+            AccountExpiredDate: moment(row.AccountExpiredDate).format('DD-MMM-YYYY'),
+            RoleId: parseInt(row.RoleId),
+            RoleName: row.RoleName,
+            DataStatus: parseInt(row.DataStatus),
+            CreatedDate: moment(row.CreatedDate).format('DD-MMM-YYYY HH:mm:ss'),
+            CreatedBy: parseInt(row.CreatedBy),
+            ModifiedDate: moment(row.ModifiedDate).format('DD-MMM-YYYY HH:mm:ss'),
+            ModifiedBy: parseInt(row.ModifiedBy),
+            PlazaId: parseInt(row.PlazaId),
+            PlazaName: row.PlazaName,
+            UserProfileImage: row.UserProfileImage,
+            UserTypeId: parseInt(row.UserTypeId),
+            UserTypeName: row.UserTypeName,
+            DataStatusName: row.DataStatusName
+        }
+        return data;
+    }
+    catch (error) {
+        errorlogMessage(error, 'CreateObjectForUserMaster');
+        return null;
+    }
+}
+
+function errorlogMessage(error, method) {
+    try {
+        logger.error(`Caught an error in :${method} : ${error.message}`);
+        logger.error(error.stack);
+    }
+    catch (error) {
+        logger.error(`Caught an error in :${method}`);
     }
 }
