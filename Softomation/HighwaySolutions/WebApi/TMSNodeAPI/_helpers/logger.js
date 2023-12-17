@@ -3,7 +3,7 @@ const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
 
-const logDirectory = './logs/apilogs';
+const logDirectory = './apilogs';
 //const logDirectory = __dirname + '/logs/apilogs';
 // Create log directory and its parent directories if they don't exist
 if (!fs.existsSync(logDirectory)) {

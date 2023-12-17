@@ -51,6 +51,7 @@ async function TollFareSetUp(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'TollFareSetUp');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -84,6 +85,7 @@ async function TollFareGetByEffectedFrom(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'TollFareGetByEffectedFrom');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

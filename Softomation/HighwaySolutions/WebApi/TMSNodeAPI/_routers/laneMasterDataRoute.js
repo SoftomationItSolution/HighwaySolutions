@@ -44,11 +44,11 @@ async function TollFareGetByEffectedFrom(req, res, next) {
                 DataStatus: mainTable.DataStatus,
                 TollFareConfigurations: result.recordsets[1]
             }
-            //result.recordsets[0].TollFareConfigurations=result.recordsets[1];
             let out = constants.ResponseMessage("success", ResponseData);
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'TollFareGetByEffectedFrom');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -62,6 +62,7 @@ async function SystemSettingGet(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemSettingGet');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -76,6 +77,7 @@ async function DenominationGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'DenominationGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -95,6 +97,7 @@ async function LaneUserGetDetails(req, res, next) {
         let out = constants.ResponseMessage("success", userMasterData);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneUserGetDetails');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -108,6 +111,7 @@ async function TransactionTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'TransactionTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -121,6 +125,7 @@ async function ExemptTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ExemptTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -134,6 +139,7 @@ async function PaymentMethodTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'PaymentMethodTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -147,6 +153,7 @@ async function SystemVehicleClassGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemVehicleClassGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -160,6 +167,7 @@ async function FasTagVehicleClassGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'FasTagVehicleClassGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -180,6 +188,7 @@ async function LaneGetByIpAddress(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'LaneGetByIpAddress');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -201,6 +210,7 @@ async function PlazaGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'PlazaGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -214,6 +224,7 @@ async function EquipmentTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'EquipmentTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -235,6 +246,7 @@ async function EquipmentDetailsGetByLane(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsGetByLane');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -242,31 +254,35 @@ async function EquipmentDetailsGetByLane(req, res, next) {
 
 
 function CreateObjectForUserMaster(row) {
-    const data = {
-        UserId: parseInt(row.UserId),
-        LoginId: row.LoginId,
-        LoginPassword: row.LoginPassword,
-        LoginPasswordPlan:crypto.decrypt(row.LoginPassword),
-        FirstName: row.FirstName,
-        LastName: row.LastName,
-        EmailId: row.EmailId,
-        MobileNumber: row.MobileNumber,
-        AccountExpiredDate: moment(row.AccountExpiredDate).format('DD-MMM-YYYY'),
-        RoleId: parseInt(row.RoleId),
-        RoleName: row.RoleName,
-        DataStatus: parseInt(row.DataStatus),
-        CreatedDate: moment(row.CreatedDate).format('DD-MMM-YYYY HH:mm:ss'),
-        CreatedBy: parseInt(row.CreatedBy),
-        ModifiedDate: moment(row.ModifiedDate).format('DD-MMM-YYYY HH:mm:ss'),
-        ModifiedBy: parseInt(row.ModifiedBy),
-        PlazaId: parseInt(row.PlazaId),
-        PlazaName: row.PlazaName,
-        UserProfileImage: row.UserProfileImage,
-        UserTypeId: parseInt(row.UserTypeId),
-        UserTypeName: row.UserTypeName,
-        DataStatusName: row.DataStatusName
+    try {
+        const data = {
+            UserId: parseInt(row.UserId),
+            LoginId: row.LoginId,
+            LoginPassword: row.LoginPassword,
+            LoginPasswordPlan: crypto.decrypt(row.LoginPassword),
+            FirstName: row.FirstName,
+            LastName: row.LastName,
+            EmailId: row.EmailId,
+            MobileNumber: row.MobileNumber,
+            AccountExpiredDate: moment(row.AccountExpiredDate).format('DD-MMM-YYYY'),
+            RoleId: parseInt(row.RoleId),
+            RoleName: row.RoleName,
+            DataStatus: parseInt(row.DataStatus),
+            CreatedDate: moment(row.CreatedDate).format('DD-MMM-YYYY HH:mm:ss'),
+            CreatedBy: parseInt(row.CreatedBy),
+            ModifiedDate: moment(row.ModifiedDate).format('DD-MMM-YYYY HH:mm:ss'),
+            ModifiedBy: parseInt(row.ModifiedBy),
+            PlazaId: parseInt(row.PlazaId),
+            PlazaName: row.PlazaName,
+            UserProfileImage: row.UserProfileImage,
+            UserTypeId: parseInt(row.UserTypeId),
+            UserTypeName: row.UserTypeName,
+            DataStatusName: row.DataStatusName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function errorlogMessage(error, method) {

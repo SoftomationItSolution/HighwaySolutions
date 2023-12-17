@@ -24,6 +24,7 @@ async function ShiftTiminingGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ShiftTiminingGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -37,6 +38,7 @@ async function ShiftTiminingGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ShiftTiminingGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -58,6 +60,7 @@ async function ShiftTiminingGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'ShiftTiminingGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -78,6 +81,7 @@ async function ShiftTiminingGetByDateTime(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'ShiftTiminingGetByDateTime');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -96,6 +100,7 @@ async function ShiftStatusGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", dataresult);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ShiftStatusGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -115,6 +120,7 @@ async function ShiftStatusGetOpen(req, res, next) {
         let out = constants.ResponseMessage("success", dataresult);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ShiftStatusGetOpen');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -133,36 +139,41 @@ async function ShiftStatusGetClose(req, res, next) {
         let out = constants.ResponseMessage("success", dataresult);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ShiftStatusGetClose');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
 }
 
 function ShiftStatusGetdata(dataarray) {
-    const data = {
-        ShiftStatusId: dataarray.ShiftStatusId,
-        PlazaId: dataarray.PlazaId,
-        PlazaName: dataarray.PlazaName,
-        ShiftId: dataarray.ShiftId,
-        ShiftNumber: "Shift-" + dataarray.ShiftId,
-        StartTimmng: dataarray.StartTimmng,
-        EndTimming: dataarray.EndTimming,
-        ShiftDate: dataarray.ShiftDate,
-        ShiftDateStamp: moment(dataarray.ShiftDate).format('DD-MMM-YYYY HH:mm:ss'),
-        ShiftStatus: dataarray.ShiftStatus,
-        LaneTransactionCount: dataarray.LaneTransactionCount,
-        FloatDeclare: dataarray.FloatDeclare,
-        MidDeclare: dataarray.MidDeclare,
-        EndDeclare: dataarray.EndDeclare,
-        SystemDeclare: dataarray.SystemDeclare,
-        DifferenceAmount: dataarray.DifferenceAmount,
-        DataStatus: dataarray.DataStatus,
-        CreatedDate: dataarray.CreatedDate,
-        CreatedBy: dataarray.CreatedBy,
-        ModifiedDate: dataarray.ModifiedDate,
-        ModifiedBy: dataarray.ModifiedBy
+    try {
+        const data = {
+            ShiftStatusId: dataarray.ShiftStatusId,
+            PlazaId: dataarray.PlazaId,
+            PlazaName: dataarray.PlazaName,
+            ShiftId: dataarray.ShiftId,
+            ShiftNumber: "Shift-" + dataarray.ShiftId,
+            StartTimmng: dataarray.StartTimmng,
+            EndTimming: dataarray.EndTimming,
+            ShiftDate: dataarray.ShiftDate,
+            ShiftDateStamp: moment(dataarray.ShiftDate).format('DD-MMM-YYYY HH:mm:ss'),
+            ShiftStatus: dataarray.ShiftStatus,
+            LaneTransactionCount: dataarray.LaneTransactionCount,
+            FloatDeclare: dataarray.FloatDeclare,
+            MidDeclare: dataarray.MidDeclare,
+            EndDeclare: dataarray.EndDeclare,
+            SystemDeclare: dataarray.SystemDeclare,
+            DifferenceAmount: dataarray.DifferenceAmount,
+            DataStatus: dataarray.DataStatus,
+            CreatedDate: dataarray.CreatedDate,
+            CreatedBy: dataarray.CreatedBy,
+            ModifiedDate: dataarray.ModifiedDate,
+            ModifiedBy: dataarray.ModifiedBy
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function errorlogMessage(error, method) {

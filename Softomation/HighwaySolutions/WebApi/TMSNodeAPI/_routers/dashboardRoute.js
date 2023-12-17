@@ -18,6 +18,7 @@ async function DashboardGetData(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordsets);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'DashboardGetData');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

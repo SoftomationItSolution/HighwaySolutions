@@ -30,6 +30,7 @@ async function ManufactureInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ManufactureInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -43,6 +44,7 @@ async function ManufactureGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ManufactureGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -55,6 +57,7 @@ async function ManufactureGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ManufactureGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -76,6 +79,7 @@ async function ManufactureGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'ManufactureGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

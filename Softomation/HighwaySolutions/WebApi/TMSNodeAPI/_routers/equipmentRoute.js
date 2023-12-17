@@ -43,6 +43,7 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -57,6 +58,7 @@ async function EquipmentDetailsGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -70,6 +72,7 @@ async function EquipmentDetailsGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -91,6 +94,7 @@ async function EquipmentDetailsGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -104,6 +108,7 @@ async function EquipmentTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'EquipmentTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

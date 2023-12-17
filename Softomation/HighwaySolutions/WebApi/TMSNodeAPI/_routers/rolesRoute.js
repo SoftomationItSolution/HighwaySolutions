@@ -30,6 +30,7 @@ async function RoleConfigurationSetUp(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'RoleConfigurationSetUp');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -65,6 +66,7 @@ async function RolePermissionSetup(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'RolePermissionSetup');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -78,6 +80,7 @@ async function RoleConfigurationGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'RoleConfigurationGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -91,6 +94,7 @@ async function RoleConfigurationGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'RoleConfigurationGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -111,6 +115,7 @@ async function RoleConfigurationGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'RoleConfigurationGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -125,6 +130,7 @@ async function RolePermissionGetByRoleId(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'RolePermissionGetByRoleId');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }

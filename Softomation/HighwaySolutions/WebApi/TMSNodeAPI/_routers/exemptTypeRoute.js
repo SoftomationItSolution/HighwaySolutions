@@ -39,6 +39,7 @@ async function ExemptTypeUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ExemptTypeUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -52,6 +53,7 @@ async function ExemptTypeGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ExemptTypeGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -65,6 +67,7 @@ async function ExemptTypeGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'ExemptTypeGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

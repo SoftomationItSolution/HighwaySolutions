@@ -38,6 +38,7 @@ async function LaneInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -51,6 +52,7 @@ async function LaneGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -64,6 +66,7 @@ async function LaneGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -85,6 +88,7 @@ async function LaneGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'LaneGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -106,6 +110,7 @@ async function LaneGetByPlazaId(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'LaneGetByPlazaId');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -126,6 +131,7 @@ async function LaneGetByIpAddress(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'LaneGetByIpAddress');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

@@ -30,6 +30,7 @@ async function SystemSettingGet(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemSettingGet');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -59,6 +60,7 @@ async function SystemSettingSetup(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemSettingSetup');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -159,6 +161,7 @@ async function ValidateUser(req, res, next) {
             }
         }
     } catch (error) {
+        errorlogMessage(error, 'ValidateUser');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -169,6 +172,7 @@ async function LogoutUser(req, res, next) {
         let out = constants.ResponseMessage("success", null);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'LogoutUser');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -190,6 +194,7 @@ async function GetMenu(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'GetMenu');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -205,6 +210,7 @@ async function GetReportCategory(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'GetReportCategory');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -220,6 +226,7 @@ async function GetReportCategoryById(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'GetReportCategoryById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -243,6 +250,7 @@ async function RolePermissionGetByMenu(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'RolePermissionGetByMenu');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -256,6 +264,7 @@ async function DenominationGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'DenominationGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -311,83 +320,120 @@ async function FilterMasterGet(req, res, next) {
         let out = constants.ResponseMessage("success", ResultDataSet);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'FilterMasterGet');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
 }
 
 function CreateObjectForShiftTimining(row) {
-    const data = {
-        DataId: parseInt(row.ShiftId),
-        DataName: "Shift-" + row.ShiftId
+    try {
+        const data = {
+            DataId: parseInt(row.ShiftId),
+            DataName: "Shift-" + row.ShiftId
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForUserMaster(row) {
-    const data = {
-        DataId: parseInt(row.UserId),
-        DataName: row.LoginId
+    try {
+        const data = {
+            DataId: parseInt(row.UserId),
+            DataName: row.LoginId
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForPlaza(row) {
-    const data = {
-        DataId: parseInt(row.PlazaId),
-        DataName: row.PlazaName
+    try {
+        const data = {
+            DataId: parseInt(row.PlazaId),
+            DataName: row.PlazaName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForLane(row) {
-    const data = {
-        DataId: parseInt(row.LaneId),
-        DataName: "Lane-" + row.LaneNumber,
-        ParentId: row.PlazaId
+    try {
+        const data = {
+            DataId: parseInt(row.LaneId),
+            DataName: "Lane-" + row.LaneNumber,
+            ParentId: row.PlazaId
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForTransactionType(row) {
-    const data = {
-        DataId: parseInt(row.TransactionTypeId),
-        DataName: row.TransactionTypeName
+    try {
+        const data = {
+            DataId: parseInt(row.TransactionTypeId),
+            DataName: row.TransactionTypeName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForPayemntType(row) {
-    const data = {
-        DataId: parseInt(row.PaymentTypeId),
-        DataName: row.PaymentTypeName
+    try {
+        const data = {
+            DataId: parseInt(row.PaymentTypeId),
+            DataName: row.PaymentTypeName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForExemptType(row) {
-    const data = {
-        DataId: parseInt(row.ExemptTypeId),
-        DataName: row.ExemptTypeName
+    try {
+        const data = {
+            DataId: parseInt(row.ExemptTypeId),
+            DataName: row.ExemptTypeName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForSystemVehicleClass(row) {
-    const data = {
-        DataId: parseInt(row.SystemVehicleClassId),
-        DataName: row.SystemVehicleClassName
+    try {
+        const data = {
+            DataId: parseInt(row.SystemVehicleClassId),
+            DataName: row.SystemVehicleClassName
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function CreateObjectForSystemVehicleSubClass(row) {
-    const data = {
-        DataId: parseInt(row.FasTagVehicleClassId),
-        DataName: row.FasTagVehicleClassName,
-        ParentId: row.ParentClassId
+    try {
+        const data = {
+            DataId: parseInt(row.FasTagVehicleClassId),
+            DataName: row.FasTagVehicleClassName,
+            ParentId: row.ParentClassId
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 function errorlogMessage(error, method) {
     try {

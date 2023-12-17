@@ -33,6 +33,7 @@ async function PlazaInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'PlazaInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -46,6 +47,7 @@ async function PlazaGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'PlazaGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -58,6 +60,7 @@ async function PlazaGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'PlazaGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -79,6 +82,7 @@ async function PlazaGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'PlazaGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

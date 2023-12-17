@@ -21,6 +21,7 @@ async function FasTagRequestCode(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'FasTagRequestCode');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -37,6 +38,7 @@ async function FasTagGetByStatus(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'FasTagGetByStatus');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -50,6 +52,7 @@ async function FasTagProcessedGetLatest(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'FasTagProcessedGetLatest');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

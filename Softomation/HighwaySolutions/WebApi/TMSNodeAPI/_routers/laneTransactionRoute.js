@@ -65,6 +65,7 @@ async function LaneTranscationInsert(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneTranscationInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

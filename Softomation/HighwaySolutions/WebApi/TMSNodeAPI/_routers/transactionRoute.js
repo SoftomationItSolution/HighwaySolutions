@@ -27,6 +27,7 @@ async function LaneTransactionGetLatest(req, res, next) {
         let out = constants.ResponseMessage("success", dataset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneTransactionGetLatest');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -45,6 +46,7 @@ async function ReviewPendingGetLatest(req, res, next) {
         let out = constants.ResponseMessage("success", dataset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ReviewPendingGetLatest');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -63,6 +65,7 @@ async function ReviewedGetLatest(req, res, next) {
         let out = constants.ResponseMessage("success", dataset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'ReviewedGetLatest');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -74,7 +77,7 @@ async function LaneTransactionGetByFilter(req, res, next) {
         if (data.IsReviewedRequired && data.IsReviewedStatus) {
             data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=1 AND CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
         }
-        else if (data.IsReviewedRequired && data.IsReviewedStatus==false) {
+        else if (data.IsReviewedRequired && data.IsReviewedStatus == false) {
             data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=0 AND CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
         }
         else {
@@ -118,6 +121,7 @@ async function LaneTransactionGetByFilter(req, res, next) {
         let out = constants.ResponseMessage("success", dataset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneTransactionGetByFilter');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -143,6 +147,7 @@ async function LaneTransactionValidation(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'LaneTransactionValidation');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -150,81 +155,85 @@ async function LaneTransactionValidation(req, res, next) {
 
 
 function CreateObjectForLaneData(row) {
-    const data = {
-        MasterTransactionId: parseInt(row.MasterTransactionId),
-        PlazaTransactionId: parseInt(row.PlazaTransactionId),
-        LaneTransactionId: parseInt(row.LaneTransactionId),
-        SystemIntegratorId: parseInt(row.SystemIntegratorId),
-        JourneyId: parseInt(row.JourneyId),
-        PlazaId: parseInt(row.PlazaId),
-        PlazaName: row.PlazaName,
-        LaneNumber: "Lane-" + row.LaneNumber,
-        LaneTypeId: parseInt(row.LaneTypeId),
-        LaneStatusId: parseInt(row.LaneStatusId),
-        LaneDirectionId: parseInt(row.LaneDirectionId),
-        ShiftId: parseInt(row.ShiftId),
-        ShiftNumber: "Shift-" + row.ShiftId,
-        PlateNumber: row.PlateNumber,
-        VehicleClassId: parseInt(row.VehicleClassId),
-        VehicleClassName: row.VehicleClassName,
-        VehicleSubClassId: parseInt(row.VehicleSubClassId),
-        VehicleSubClassName: row.VehicleSubClassName,
-        VehicleAvcClassId: parseInt(row.VehicleAvcClassId),
-        VehicleAvcClassName: row.VehicleAvcClassName,
-        TransactionTypeId: parseInt(row.TransactionTypeId),
-        TransactionTypeName: row.TransactionTypeName,
-        PaymentTypeId: parseInt(row.PaymentTypeId),
-        PaymentTypeName: row.PaymentTypeName,
-        ExemptTypeId: parseInt(row.ExemptTypeId),
-        ExemptTypeName: row.ExemptTypeName,
-        ExemptSubTypeId: parseInt(row.ExemptSubTypeId),
-        RCTNumber: row.RCTNumber,
-        TagClassId: row.TagClassId,
-        TagClassName: row.TagClassName,
-        TagPlateNumber: row.TagPlateNumber,
-        TagEPC: row.TagEPC,
-        TagReadDateTime: row.TagReadDateTime,
-        TagReadBy: row.TagReadBy,
-        PermissibleVehicleWeight: row.PermissibleVehicleWeight,
-        ActualVehicleWeight: row.ActualVehicleWeight,
-        OverWeightAmount: row.OverWeightAmount,
-        TagPenaltyAmount: row.TagPenaltyAmount,
-        TransactionAmount: row.TransactionAmount,
-        TransactionDateTime: row.TransactionDateTime,
-        TransactionDateTimeStamp: moment(row.TransactionDateTime).format('DD-MMM-YYYY HH:mm:ss'),
-        TransactionFrontImage: row.TransactionFrontImage,
-        TransactionBackImage: row.TransactionBackImage,
-        TransactionAvcImage: row.TransactionAvcImage,
-        TransactionVideo: row.TransactionVideo,
-        ExemptionProofImage: row.ExemptionProofImage,
-        DestinationPlazaId: row.DestinationPlazaId,
-        UserId: row.UserId,
-        LoginId: row.LoginId,
-        ReturnJourney: row.ReturnJourney,
-        ExcessJourney: row.ExcessJourney,
-        BarrierAutoClose: row.BarrierAutoClose,
-        TowVehicle: row.TowVehicle,
-        FleetTranscation: row.FleetTranscation,
-        FleetCount: row.FleetCount,
-        TransactionStatus: row.TransactionStatus,
-        IsReviewedRequired: row.IsReviewedRequired,
-        ReviewedStatus: row.ReviewedStatus,
-        ReviewedPlateNumber:row.ReviewedPlateNumber,
-        ReviewedClassCorrectionId:row.ReviewedClassCorrectionId,
-        ReviewedClassCorrectionName:row.ReviewedClassCorrectionName,
-        ReviewedSubClassId:row.ReviewedSubClassId,
-        ReviewedSubClassName:row.ReviewedSubClassName,
-        ReviewedTransactionTypeId:row.ReviewedTransactionTypeId,
-        ReviewedTransactionTypeName:row.ReviewedTransactionTypeName,
-        ReviewedTransactionAmount:row.ReviewedTransactionAmount,
-        DifferenceAmount:row.DifferenceAmount,
-        ReviewedById:row.ReviewedById,
-        ReviewedLoginId:row.ReviewedLoginId,
-        ReviewedDateTime:row.ReviewedDateTime,
-        ReviewedRemark:row.ReviewedRemark,
-        ReceivedDateTime:row.ReceivedDateTime
+    try {
+        const data = {
+            MasterTransactionId: parseInt(row.MasterTransactionId),
+            PlazaTransactionId: parseInt(row.PlazaTransactionId),
+            LaneTransactionId: parseInt(row.LaneTransactionId),
+            SystemIntegratorId: parseInt(row.SystemIntegratorId),
+            JourneyId: parseInt(row.JourneyId),
+            PlazaId: parseInt(row.PlazaId),
+            PlazaName: row.PlazaName,
+            LaneNumber: "Lane-" + row.LaneNumber,
+            LaneTypeId: parseInt(row.LaneTypeId),
+            LaneStatusId: parseInt(row.LaneStatusId),
+            LaneDirectionId: parseInt(row.LaneDirectionId),
+            ShiftId: parseInt(row.ShiftId),
+            ShiftNumber: "Shift-" + row.ShiftId,
+            PlateNumber: row.PlateNumber,
+            VehicleClassId: parseInt(row.VehicleClassId),
+            VehicleClassName: row.VehicleClassName,
+            VehicleSubClassId: parseInt(row.VehicleSubClassId),
+            VehicleSubClassName: row.VehicleSubClassName,
+            VehicleAvcClassId: parseInt(row.VehicleAvcClassId),
+            VehicleAvcClassName: row.VehicleAvcClassName,
+            TransactionTypeId: parseInt(row.TransactionTypeId),
+            TransactionTypeName: row.TransactionTypeName,
+            PaymentTypeId: parseInt(row.PaymentTypeId),
+            PaymentTypeName: row.PaymentTypeName,
+            ExemptTypeId: parseInt(row.ExemptTypeId),
+            ExemptTypeName: row.ExemptTypeName,
+            ExemptSubTypeId: parseInt(row.ExemptSubTypeId),
+            RCTNumber: row.RCTNumber,
+            TagClassId: row.TagClassId,
+            TagClassName: row.TagClassName,
+            TagPlateNumber: row.TagPlateNumber,
+            TagEPC: row.TagEPC,
+            TagReadDateTime: row.TagReadDateTime,
+            TagReadBy: row.TagReadBy,
+            PermissibleVehicleWeight: row.PermissibleVehicleWeight,
+            ActualVehicleWeight: row.ActualVehicleWeight,
+            OverWeightAmount: row.OverWeightAmount,
+            TagPenaltyAmount: row.TagPenaltyAmount,
+            TransactionAmount: row.TransactionAmount,
+            TransactionDateTime: row.TransactionDateTime,
+            TransactionDateTimeStamp: moment(row.TransactionDateTime).format('DD-MMM-YYYY HH:mm:ss'),
+            TransactionFrontImage: row.TransactionFrontImage,
+            TransactionBackImage: row.TransactionBackImage,
+            TransactionAvcImage: row.TransactionAvcImage,
+            TransactionVideo: row.TransactionVideo,
+            ExemptionProofImage: row.ExemptionProofImage,
+            DestinationPlazaId: row.DestinationPlazaId,
+            UserId: row.UserId,
+            LoginId: row.LoginId,
+            ReturnJourney: row.ReturnJourney,
+            ExcessJourney: row.ExcessJourney,
+            BarrierAutoClose: row.BarrierAutoClose,
+            TowVehicle: row.TowVehicle,
+            FleetTranscation: row.FleetTranscation,
+            FleetCount: row.FleetCount,
+            TransactionStatus: row.TransactionStatus,
+            IsReviewedRequired: row.IsReviewedRequired,
+            ReviewedStatus: row.ReviewedStatus,
+            ReviewedPlateNumber: row.ReviewedPlateNumber,
+            ReviewedClassCorrectionId: row.ReviewedClassCorrectionId,
+            ReviewedClassCorrectionName: row.ReviewedClassCorrectionName,
+            ReviewedSubClassId: row.ReviewedSubClassId,
+            ReviewedSubClassName: row.ReviewedSubClassName,
+            ReviewedTransactionTypeId: row.ReviewedTransactionTypeId,
+            ReviewedTransactionTypeName: row.ReviewedTransactionTypeName,
+            ReviewedTransactionAmount: row.ReviewedTransactionAmount,
+            DifferenceAmount: row.DifferenceAmount,
+            ReviewedById: row.ReviewedById,
+            ReviewedLoginId: row.ReviewedLoginId,
+            ReviewedDateTime: row.ReviewedDateTime,
+            ReviewedRemark: row.ReviewedRemark,
+            ReceivedDateTime: row.ReceivedDateTime
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 function errorlogMessage(error, method) {
     try {

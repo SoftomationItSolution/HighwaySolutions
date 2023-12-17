@@ -52,6 +52,7 @@ async function FloatProcessSetUp(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out);
     } catch (error) {
+        errorlogMessage(error, 'FloatProcessSetUp');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
@@ -71,6 +72,7 @@ async function FloatProcessGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", dataresult);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'FloatProcessGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -93,47 +95,56 @@ async function FloatProcessGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'FloatProcessGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
 }
 
 async function FloatProcessDenominationDetails(FloatProcessId) {
-    const pool = await database.connect();
-    result = await pool.request().input('FloatProcessId', sql.BigInt, FloatProcessId).execute('USP_FloatProcessDenominationGetById');
-    await database.disconnect();
-    return result.recordset;
+    try {
+        const pool = await database.connect();
+        result = await pool.request().input('FloatProcessId', sql.BigInt, FloatProcessId).execute('USP_FloatProcessDenominationGetById');
+        await database.disconnect();
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    }
 
 }
 
 async function Getdata(dataarray) {
-    const data = {
-        FloatProcessId: dataarray.FloatProcessId,
-        PlazaId: dataarray.PlazaId,
-        PlazaName: dataarray.PlazaName,
-        LaneId: dataarray.LaneId,
-        LaneNumber: "Lane-" + dataarray.LaneNumber,
-        ShiftId: dataarray.ShiftId,
-        ShiftNumber: "Shift-" + dataarray.ShiftId,
-        ShiftTimining: dataarray.StartTimmng + "-" + dataarray.EndTimming,
-        FloatTransactionTypeId: dataarray.FloatTransactionTypeId,
-        FloatTransactionTypeName: dataarray.FloatTransactionTypeName,
-        TransactionDate: dataarray.TransactionDate,
-        TransactionDateStamp: moment(dataarray.TransactionDate).format('DD-MMM-YYYY HH:mm:ss'),
-        TransactionAmount: dataarray.TransactionAmount,
-        ReceiptNumber: dataarray.ReceiptNumber,
-        AssignedBy: dataarray.AssignedBy,
-        AssignedByLoginId: dataarray.AssignedByLoginId,
-        AssignedTo: dataarray.AssignedTo,
-        AssignedToLoginId: dataarray.AssignedToLoginId,
-        DataStatus: dataarray.DataStatus,
-        CreatedDate: dataarray.CreatedDate,
-        CreatedBy: dataarray.CreatedBy,
-        ModifiedDate: dataarray.ModifiedDate,
-        ModifiedBy: dataarray.ModifiedBy,
-        FloatProcessDenominationList: await FloatProcessDenominationDetails(dataarray.FloatProcessId),
+    try {
+        const data = {
+            FloatProcessId: dataarray.FloatProcessId,
+            PlazaId: dataarray.PlazaId,
+            PlazaName: dataarray.PlazaName,
+            LaneId: dataarray.LaneId,
+            LaneNumber: "Lane-" + dataarray.LaneNumber,
+            ShiftId: dataarray.ShiftId,
+            ShiftNumber: "Shift-" + dataarray.ShiftId,
+            ShiftTimining: dataarray.StartTimmng + "-" + dataarray.EndTimming,
+            FloatTransactionTypeId: dataarray.FloatTransactionTypeId,
+            FloatTransactionTypeName: dataarray.FloatTransactionTypeName,
+            TransactionDate: dataarray.TransactionDate,
+            TransactionDateStamp: moment(dataarray.TransactionDate).format('DD-MMM-YYYY HH:mm:ss'),
+            TransactionAmount: dataarray.TransactionAmount,
+            ReceiptNumber: dataarray.ReceiptNumber,
+            AssignedBy: dataarray.AssignedBy,
+            AssignedByLoginId: dataarray.AssignedByLoginId,
+            AssignedTo: dataarray.AssignedTo,
+            AssignedToLoginId: dataarray.AssignedToLoginId,
+            DataStatus: dataarray.DataStatus,
+            CreatedDate: dataarray.CreatedDate,
+            CreatedBy: dataarray.CreatedBy,
+            ModifiedDate: dataarray.ModifiedDate,
+            ModifiedBy: dataarray.ModifiedBy,
+            FloatProcessDenominationList: await FloatProcessDenominationDetails(dataarray.FloatProcessId),
+        }
+        return data;
+    } catch (error) {
+        throw error;
     }
-    return data;
 }
 
 function errorlogMessage(error, method) {

@@ -34,6 +34,7 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'FasTagVehicleClassInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -57,6 +58,7 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemVehicleClassInsertUpdate');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -70,6 +72,7 @@ async function FasTagVehicleClassGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'FasTagVehicleClassGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -83,6 +86,7 @@ async function FasTagVehicleClassGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'FasTagVehicleClassGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -104,6 +108,7 @@ async function FasTagVehicleClassGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'FasTagVehicleClassGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -117,6 +122,7 @@ async function SystemVehicleClassGetAll(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemVehicleClassGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -130,6 +136,7 @@ async function SystemVehicleClassGetActive(req, res, next) {
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
+        errorlogMessage(error, 'SystemVehicleClassGetActive');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -151,6 +158,7 @@ async function SystemVehicleClassGetById(req, res, next) {
             res.status(200).json(out);
         }
     } catch (error) {
+        errorlogMessage(error, 'SystemVehicleClassGetById');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
