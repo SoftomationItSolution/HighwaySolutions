@@ -187,11 +187,7 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId + '&SystemId=' + SystemId, { headers: headers_object });
   }
 
-  UserGetByIdWithPassword(UserId: any): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserGetByIdWithPassword?UserId=' + UserId, { headers: headers_object });
-  }
+  
   UserConfigurationGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');

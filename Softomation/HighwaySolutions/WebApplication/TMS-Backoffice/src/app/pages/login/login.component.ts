@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   ErrorData: any;
   loginReposnse: any;
+  hide = true;
   constructor(public router: Router, public api: apiIntegrationService, public dataModel: DataModel,
     private spinner: NgxSpinnerService) { }
 

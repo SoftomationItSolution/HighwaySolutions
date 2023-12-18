@@ -1637,3 +1637,10 @@ input[type=radio] {
     color: red;
     margin-top: 35px;
 }
+
+.user-icon {
+    font-size: 1.35rem;
+    padding: 2px 10px;
+    background: #011b41;
+    color: #fff;
+}

@@ -1,0 +1,24 @@
+2023-12-18T09:12:29.579Z [INFO]: Server listening on port 5001
+2023-12-18T09:12:29.581Z [WARN]: Server listening on port 5001
+2023-12-18T09:12:29.582Z [ERROR]: Server listening on port 5001
+2023-12-18T10:16:46.612Z [INFO]: Server listening on port 5001
+2023-12-18T10:16:46.613Z [WARN]: Server listening on port 5001
+2023-12-18T10:16:46.614Z [ERROR]: Server listening on port 5001
+2023-12-18T10:19:15.909Z [ERROR]: Caught an error in :UserConfigurationGetById : UserGetbyId is not defined
+2023-12-18T10:19:15.911Z [ERROR]: ReferenceError: UserGetbyId is not defined
+    at UserConfigurationGetById (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\userRoute.js:124:9)
+    at Layer.handle [as handle_request] (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\layer.js:95:5)
+    at next (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\route.js:144:13)
+    at Route.dispatch (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\route.js:114:3)
+    at Layer.handle [as handle_request] (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\layer.js:95:5)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\index.js:284:15
+    at Function.process_params (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\index.js:346:12)
+    at next (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\index.js:280:10)
+    at Function.handle (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\index.js:175:3)
+    at router (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\express\lib\router\index.js:47:12)
+2023-12-18T10:21:02.585Z [INFO]: Server listening on port 5001
+2023-12-18T10:21:02.586Z [WARN]: Server listening on port 5001
+2023-12-18T10:21:02.586Z [ERROR]: Server listening on port 5001
+2023-12-18T10:24:52.433Z [INFO]: Server listening on port 5001
+2023-12-18T10:24:52.435Z [WARN]: Server listening on port 5001
+2023-12-18T10:24:52.435Z [ERROR]: Server listening on port 5001

@@ -26,6 +26,7 @@ export class UserConfigurationPopupComponent implements OnInit {
   UserTypeList = [{ DataId: 1, DataName: 'Administrator' }, { DataId: 2, DataName: 'Manager' }, { DataId: 3, DataName: 'Auditor' }, { DataId: 4, DataName: 'Toll Collector' }, { DataId: 5, DataName: 'Maintenance' }];
   PlazaList:any;
   submitted=false;
+  hide = true;
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData:any,
     private dm: DataModel, public Dialogref: MatDialogRef<UserConfigurationPopupComponent>, public dialog: MatDialog,public datepipe: DatePipe) {
       this.LogedUserId = this.dm.getUserId();
@@ -123,7 +124,7 @@ export class UserConfigurationPopupComponent implements OnInit {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.UserGetByIdWithPassword(this.UserId).subscribe(
+    this.dbService.UserConfigurationGetById(this.UserId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
@@ -133,7 +134,7 @@ export class UserConfigurationPopupComponent implements OnInit {
           this.DataStatus = false;
         }
         this.DataDetailsForm.controls['LoginId'].setValue(this.DetailData.LoginId);
-        this.DataDetailsForm.controls['LoginPassword'].setValue(this.DetailData.LoginPassword);
+        this.DataDetailsForm.controls['LoginPassword'].setValue(this.DetailData.LoginPasswordPlan);
         this.DataDetailsForm.controls['MobileNumber'].setValue(this.DetailData.MobileNumber);
         this.DataDetailsForm.controls['RoleId'].setValue(this.DetailData.RoleId);
         this.DataDetailsForm.controls['EmailId'].setValue(this.DetailData.EmailId);

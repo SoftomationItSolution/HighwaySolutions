@@ -24,22 +24,27 @@ async function UserValidatePassword(req, res, next) {
     try {
         const UserId = req.body.UserId | 0;
         result = await UserGetbyId(UserId);
-        if (result.recordset != []) {
-            const userData = result.recordset[0];
-            if (req.body.LoginPassword == crypto.decrypt(userData.LoginPassword)) {
-                let out = constants.ResponseMessage("success", userData);
-                res.status(200).json(out)
-            }
-            else {
-                let out = constants.ResponseMessage("Invalid user password", null);
-                res.status(200).json(out)
-            }
+        if (result == null) {
+            let out = constants.ResponseMessage("No data found", null);
+            res.status(200).json(out);
         }
         else {
-            let out = constants.ResponseMessage("User Details not found", null);
-            res.status(200).json(out)
+            if (result.recordset != []) {
+                const userData = result.recordset[0];
+                if (req.body.LoginPassword == crypto.decrypt(userData.LoginPassword)) {
+                    let out = constants.ResponseMessage("success", userData);
+                    res.status(200).json(out)
+                }
+                else {
+                    let out = constants.ResponseMessage("Invalid user password", null);
+                    res.status(200).json(out)
+                }
+            }
+            else {
+                let out = constants.ResponseMessage("User Details not found", null);
+                res.status(200).json(out)
+            }
         }
-
     } catch (error) {
         errorlogMessage(error, 'UserValidatePassword');
         let out = constants.ResponseMessage(error.message, null);
@@ -122,15 +127,21 @@ async function UserConfigurationGetById(req, res, next) {
     try {
         const userId = req.query.UserId | 0;
         result = await UserGetbyId(userId);
-        if (result.recordset == []) {
+        if (result == null) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
         }
         else {
-            const element = result.recordset[0];
-            userMasterData = (CreateObjectForUserMaster(element))
-            let out = constants.ResponseMessage("success", userMasterData);
-            res.status(200).json(out);
+            if (result.recordset == []) {
+                let out = constants.ResponseMessage("No data found", null);
+                res.status(200).json(out);
+            }
+            else {
+                const element = result.recordset[0];
+                userMasterData = (CreateObjectForUserMaster(element))
+                let out = constants.ResponseMessage("success", userMasterData);
+                res.status(200).json(out);
+            }
         }
     } catch (error) {
         errorlogMessage(error, 'UserConfigurationGetById');
@@ -214,6 +225,20 @@ async function UserProfileChange(req, res, next) {
         errorlogMessage(error, 'UserProfileChange');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
+    }
+}
+
+async function UserGetbyId(userId) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().input('UserId', sql.Int, userId)
+            .execute('USP_UserGetbyId');
+        await database.disconnect();
+        return result;
+    } catch (error) {
+        errorlogMessage(error, 'UserGetbyId');
+        return null;
+
     }
 }
 

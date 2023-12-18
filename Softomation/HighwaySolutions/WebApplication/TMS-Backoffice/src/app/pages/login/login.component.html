@@ -27,9 +27,10 @@
                                                 <div class="mb-3">
                                                     <div class="input-group grouplist-border">
                                                         <i class="mdi mdi-account-key user-icon-login"></i>
-                                                        <input type="password" class="form-control"
+                                                        <input class="form-control"
                                                             placeholder="Enter password Here"
-                                                            formControlName="Password">
+                                                            formControlName="Password" [type]="hide ? 'password' : 'text'" >
+                                                            <i class="mdi  user-icon-login" [ngClass]="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" (click)="hide = !hide"></i>
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">

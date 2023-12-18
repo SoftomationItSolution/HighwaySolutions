@@ -48,7 +48,7 @@ export class UserProfilePopupComponent implements OnInit {
 
   DetailsbyId() {
     this.spinner.show();
-    this.dbService.UserGetByIdWithPassword(this.LogedUserId).subscribe(
+    this.dbService.UserConfigurationGetById(this.LogedUserId).subscribe(
       data => {
         this.spinner.hide();
         this.imsgProgress=false;
