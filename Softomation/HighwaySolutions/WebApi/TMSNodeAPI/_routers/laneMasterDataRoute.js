@@ -4,9 +4,10 @@ const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
+const crypto = require("../_helpers/crypto");
+const moment = require('moment');
 
 router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
-
 router.get('/SystemSettingGet', SystemSettingGet);
 router.get('/DenominationDetails', DenominationGetActive);
 router.get('/UserDetails', LaneUserGetDetails);
@@ -19,6 +20,7 @@ router.get('/LaneDetails', LaneGetByIpAddress);
 router.get('/PlazaDetails', PlazaGetById);
 router.get('/EquipmentTypeDetails', EquipmentTypeGetActive);
 router.get('/EquipmentDetails', EquipmentDetailsGetByLane);
+router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
 module.exports = router;
 
 async function TollFareGetByEffectedFrom(req, res, next) {
@@ -247,6 +249,20 @@ async function EquipmentDetailsGetByLane(req, res, next) {
         }
     } catch (error) {
         errorlogMessage(error, 'EquipmentDetailsGetByLane');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ShiftTiminingGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_ShiftTiminingGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out);
+    } catch (error) {
+        errorlogMessage(error, 'ShiftTiminingGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
