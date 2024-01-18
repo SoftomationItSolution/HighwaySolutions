@@ -7,20 +7,20 @@ const sql = require('mssql');
 const crypto = require("../_helpers/crypto");
 const moment = require('moment');
 
-router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
+router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
 router.get('/SystemSettingGet', SystemSettingGet);
-router.get('/DenominationDetails', DenominationGetActive);
 router.get('/UserDetails', LaneUserGetDetails);
 router.get('/TransactionTypeDetails', TransactionTypeGetActive);
 router.get('/ExemptTypeDetails', ExemptTypeGetActive);
 router.get('/PaymentMethodTypeDetails', PaymentMethodTypeGetActive);
-router.get('/SystemVehicleClassDetails', SystemVehicleClassGetActive);
 router.get('/FasTagVehicleClassDetails', FasTagVehicleClassGetActive);
+router.get('/SystemVehicleClassDetails', SystemVehicleClassGetActive);
 router.get('/LaneDetails', LaneGetByIpAddress);
 router.get('/PlazaDetails', PlazaGetById);
 router.get('/EquipmentTypeDetails', EquipmentTypeGetActive);
 router.get('/EquipmentDetails', EquipmentDetailsGetByLane);
-router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
+router.get('/DenominationDetails', DenominationGetActive);
+router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
 module.exports = router;
 
 async function TollFareGetByEffectedFrom(req, res, next) {
