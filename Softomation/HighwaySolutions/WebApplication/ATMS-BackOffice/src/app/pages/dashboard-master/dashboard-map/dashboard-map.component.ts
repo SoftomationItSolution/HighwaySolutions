@@ -41,6 +41,7 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
   ngOnInit(): void {
     this.GetDashboardEquipment();
   }
+  
   ngOnDestroy() {
     if (this.NMSDataSubscribe != null)
       this.NMSDataSubscribe.unsubscribe();

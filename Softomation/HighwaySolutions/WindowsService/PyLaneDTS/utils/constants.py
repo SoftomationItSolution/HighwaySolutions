@@ -1,3 +1,4 @@
+import datetime
 import json
 import os
 
@@ -22,3 +23,11 @@ def read_json_file(file_path):
         print(f"Error decoding JSON in {file_path}: {e}")
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
+
+def JsonDateFormat(inDate=None):
+    if inDate is None:
+        today_date = datetime.date.today()
+    else:
+        today_date = inDate
+    formatted_date = today_date.strftime("%Y-%m-%d")
+    return formatted_date

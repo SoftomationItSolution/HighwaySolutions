@@ -15,12 +15,13 @@ router.get('/ExemptTypeDetails', ExemptTypeGetActive);
 router.get('/PaymentMethodTypeDetails', PaymentMethodTypeGetActive);
 router.get('/FasTagVehicleClassDetails', FasTagVehicleClassGetActive);
 router.get('/SystemVehicleClassDetails', SystemVehicleClassGetActive);
+router.get('/SystemVehicleSubClassDetails', SystemVehicleSubClassDetails);
+router.get('/DenominationDetails', DenominationGetActive);
+router.get('/EquipmentTypeDetails', EquipmentTypeGetActive);
+router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
 router.get('/LaneDetails', LaneGetByIpAddress);
 router.get('/PlazaDetails', PlazaGetById);
-router.get('/EquipmentTypeDetails', EquipmentTypeGetActive);
 router.get('/EquipmentDetails', EquipmentDetailsGetByLane);
-router.get('/DenominationDetails', DenominationGetActive);
-router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
 module.exports = router;
 
 async function TollFareGetByEffectedFrom(req, res, next) {
@@ -156,6 +157,20 @@ async function SystemVehicleClassGetActive(req, res, next) {
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'SystemVehicleClassGetActive');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function SystemVehicleSubClassDetails(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_SystemVehicleSubClassGetActive');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'SystemVehicleSubClassDetails');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

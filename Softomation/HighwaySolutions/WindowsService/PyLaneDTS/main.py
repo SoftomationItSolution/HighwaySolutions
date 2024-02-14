@@ -1,13 +1,16 @@
 
-from utils.SystemSettingModel import systemSettingImport
+from models.SystemSettingModel import systemSettingImport
+from models.tollFareModle import tollFareFutureImport, tollFareImport
 from utils.constants import read_json_file
 from utils.database import MySQLConnection
-from utils.exemptTypeModel import exemptTypeImport
-from utils.paymentTypeModel import paymentTypeImport
-from utils.shiftTimingModel import shiftTimingImport
-from utils.transactionTypeModel import transactionTypeImport
-from utils.userModel import  userDetailsImport
-from utils.vehicleClassModel import fasTagVehicleClassImport, systemVehicleClassImport
+from models.denominationModel import denominationTypeImport
+from models.equipmentModle import equipmentTypeImport
+from models.exemptTypeModel import exemptTypeImport
+from models.paymentTypeModel import paymentTypeImport
+from models.shiftTimingModel import shiftTimingImport
+from models.transactionTypeModel import transactionTypeImport
+from models.userModel import  userDetailsImport
+from models.vehicleClassModel import fasTagVehicleClassImport, systemVehicleClassImport, systemVehicleSubClassImport
 
 def fetch_and_store_data():
     try:
@@ -21,7 +24,12 @@ def fetch_and_store_data():
         #shiftTimingImport(api_base_url,db)
         #userDetailsImport(api_base_url,db)
         #fasTagVehicleClassImport(api_base_url,db)
-        systemVehicleClassImport(api_base_url,db)
+        #systemVehicleClassImport(api_base_url,db)
+        #systemVehicleSubClassImport(api_base_url,db)
+        #denominationTypeImport(api_base_url,db)
+        #equipmentTypeImport(api_base_url,db)
+        tollFareImport(api_base_url,db)
+        tollFareFutureImport(api_base_url,db)
     except Exception as e:
         print(f"Error fetching or storing data: {e}")
 
