@@ -16,3 +16,9 @@ def transactionTypeImport(api_base_url,db):
             print(f"Error: {response.status_code} - {response.text}")
     except Exception as e:
         print(f"Error fetching or storing data: {e}")
+
+def GetTransactionType(db):
+    try:
+        return db.execute_procedure('USP_TransactionTypeGet', None)
+    except Exception as e:
+        print(f"Error fetching or storing data: {e}")

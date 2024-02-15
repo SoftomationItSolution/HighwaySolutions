@@ -17,7 +17,7 @@ def systemSettingImport(api_base_url,db):
     except Exception as e:
         print(f"Error fetching or storing data: {e}")
 
-def getSystemSettingGet(db):
+def GetSystemSetting(db):
     try:
         resultData=db.execute_procedure('USP_SystemSettingGet', None)
         if len(resultData)>0:

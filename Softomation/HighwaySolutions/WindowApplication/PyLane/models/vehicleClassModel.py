@@ -59,13 +59,13 @@ def systemVehicleSubClassImport(api_base_url,db):
         print(f"Error fetching or storing data: {e}")
 
 
-def systemVehicleClassImportGet(db):
+def GetsystemVehicleClass(db):
     try:
         return db.execute_procedure('USP_SystemVehicleClassGet', None)
     except Exception as e:
         print(f"Error fetching or storing data: {e}")
 
-def systemVehicleSubClassImportGet(db):
+def GetsystemVehicleSubClass(db):
     try:
         return db.execute_procedure('USP_SystemVehicleSubClassGet', None)
     except Exception as e:
