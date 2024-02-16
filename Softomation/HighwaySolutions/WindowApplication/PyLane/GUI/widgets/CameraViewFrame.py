@@ -23,7 +23,7 @@ class CameraLiveView(QFrame):
 
         box_heading = QLabel("<b>Live View</b>")
         box_heading.setAlignment(Qt.AlignTop)
-        box_heading.setFixedHeight(lbl_height)
+        box_heading.setFixedHeight(lbl_height-1)
         box_heading.setStyleSheet("color: white;border: none;")
         box_layout.addWidget(box_heading, alignment=Qt.AlignHCenter | Qt.AlignVCenter)
         if camDetails==None:
@@ -32,6 +32,7 @@ class CameraLiveView(QFrame):
             self.capture = cv2.VideoCapture(camDetails)
         self.live_view = QLabel()
         self.live_view.setFixedHeight(list_height)
+        self.live_view.setStyleSheet("border: none;border-top: 1px solid white;")
         self.live_view.show()
         
         self.timer = QTimer()

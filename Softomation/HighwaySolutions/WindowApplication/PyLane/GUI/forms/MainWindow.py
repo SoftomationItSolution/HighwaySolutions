@@ -28,16 +28,16 @@ class MainWindow(QMainWindow):
         self.shiftDetails=getShiftDetails(self.db)
         self.systemSettingDetails=GetSystemSetting(self.db)
         self.TransactionTypeDetails=GetTransactionType(self.db)
+        
         if self.systemSettingDetails['SubClassRequired']==1:
             self.vc=GetsystemVehicleSubClass(self.db)
         else:
             self.vc=GetsystemVehicleClass(self.db)
-       
-        
+
         central_widget = QWidget() 
         self.setCentralWidget(central_widget)
 
-        main_layout = QVBoxLayout(central_widget)  # Use central widget for layout
+        main_layout = QVBoxLayout(central_widget)
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0) 
         
@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.left_frame = LeftFrame(left_frame_width, frames_height,self.vc,self.systemSettingDetails)
         self.left_frame.setContentsMargins(0, 0, 0, 0)
         frames_layout.addWidget(self.left_frame)
-        self.left_frame.vc_list.itemSelectionChanged.connect(self.onVCSelectionChanged)
+        #self.left_frame.vc_list.itemSelectionChanged.connect(self.onVCSelectionChanged)
         camDetails=None
         right_frame = RightFrame(right_frame_width, frames_height,self.TransactionTypeDetails,camDetails)
         right_frame.setContentsMargins(0, 0, 0, 0)
@@ -84,7 +84,3 @@ class MainWindow(QMainWindow):
         if confirmation == True:
             self.close()
             #self.switch_window.emit()
-    
-    
-        
-    

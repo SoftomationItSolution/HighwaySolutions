@@ -8,7 +8,7 @@ class Footer(QFrame):
     def initUI(self, width, height):
         self.setFixedWidth(width)
         self.setFixedHeight(height)
-        self.setStyleSheet("border: 1px solid black;")
+        self.setStyleSheet("border: 1px solid white;")
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)

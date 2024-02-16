@@ -22,7 +22,7 @@ class TransactionTypeBox(QFrame):
         self.initUI(width, height,TransactionTypeDetails)
 
     def initUI(self, width, height,TransactionTypeDetails):
-        self.setStyleSheet("border: none;border-bottom: 1px solid white;border-right: 1px solid white;")
+        self.setStyleSheet("border: none;border-bottom: 1px solid white;border-right: 1px solid white;border-left: 1px solid white;")
         self.setFixedWidth(width)
         self.setFixedHeight(height)
         btn_height=30

@@ -6,30 +6,33 @@ class LeftFrame(QFrame):
         self.initUI(width,height,vc,systemSettingDetails)
         #border-top: none;border-bottom: none;
     def initUI(self,width,height,vc,systemSettingDetails):
-        self.setStyleSheet("border: 1px solid white;")
-        self.setFixedHeight(height)
+        self.setStyleSheet("border: none;")
         self.setFixedWidth(width)
-        self.setContentsMargins(0, 0, 0, 0)
-        lbl_height=20
-        list_height=height-lbl_height-20
-        layout = QVBoxLayout(self)
-        layout.setSpacing(0)
+        self.setFixedHeight(height)
+        btn_height=0
+        lbl_height=30
+        list_height=height-(btn_height+lbl_height)
+        
+        box_layout = QVBoxLayout(self)
+        box_layout.setContentsMargins(0, 0, 0, 0)
+        box_layout.setSpacing(0)
+
         box_heading = QLabel("<b>Vehicle Class</b>")
         box_heading.setAlignment(Qt.AlignTop)
         box_heading.setFixedHeight(lbl_height)
         box_heading.setStyleSheet("color: white;border: none;")
-        layout.addWidget(box_heading, alignment=Qt.AlignHCenter | Qt.AlignVCenter)
+        box_layout.addWidget(box_heading, alignment= Qt.AlignHCenter | Qt.AlignVCenter)
 
         self.vc_list = QListWidget(self)
         self.vc_list.setStyleSheet("color: white;border: none;border-top: 1px solid white;")
         self.vc_list.setFixedHeight(list_height)
-        self.vc_list.setFixedWidth(width-10)
-        
-        layout.addWidget(self.vc_list, alignment=Qt.AlignLeft)
+        box_layout.addWidget(self.vc_list)
         if systemSettingDetails['SubClassRequired']==1:
             self.bindSubvc(vc)
         else:
             self.bindvc(vc)
+
+        
 
     def bindvc(self,json_data):
         for item_data in json_data:
