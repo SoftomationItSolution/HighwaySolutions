@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QMainWindow
 from models.userModel import UserDetailsGetByLoginId
 from GUI.ui.messBox import show_custom_message_box
 from GUI.ui.ui_LoginWindow import Ui_Login
-from utils.crypt import encrypt_aes_256_cbc
+from utils.crypt import decrypt_aes_256_cbc, encrypt_aes_256_cbc
 
 
 
@@ -29,7 +29,8 @@ class LoginUI(QMainWindow, Ui_Login):
             if res is None:
                 show_custom_message_box("Login Failed","Invalid Username",'inf')
                 return
-            else:   
+            else: 
+                #print(decrypt_aes_256_cbc(res[0]["LoginPassword"]))  
                 if encrypt_aes_256_cbc(password)==res[0]["LoginPassword"]:
                     userDetails = json.dumps(res[0])
                     self.switch_window.emit(userDetails)

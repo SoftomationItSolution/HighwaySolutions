@@ -25,7 +25,7 @@ class Header(QFrame):
         if userDetails == None:
             login_label.setText("<b>Login By: ADMIN</b>")
         else:
-            login_label.setText("<b>Login By: "+self.userDetails["LoginId"]+"</b>")
+            login_label.setText("<b>Login By: "+userDetails["LoginId"]+"</b>")
         layout.addWidget(login_label, alignment=Qt.AlignRight | Qt.AlignVCenter)
 
         login_at_label = QLabel()
