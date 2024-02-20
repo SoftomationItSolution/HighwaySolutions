@@ -1,5 +1,8 @@
 pyside6
+<<<<<<< Updated upstream
 opencv-python
+=======
+>>>>>>> Stashed changes
 mysql-connector-python
 mysqlclient
 pandas
