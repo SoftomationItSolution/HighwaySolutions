@@ -82,7 +82,7 @@ class WinDataClient:
         self.client_socket.close()
 
 def handle_transaction_info(transactionInfo):
-    print("Transaction Info:")
+    print("WIM Transaction Info:")
     print(transactionInfo)
 
 if __name__ == "__main__":
