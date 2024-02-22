@@ -67,7 +67,6 @@ import { RoleConfigurationPopupComponent } from './pages/configurations/RoleData
 import { RolePermissionPopupComponent } from './pages/configurations/RoleData/role-permission-popup/role-permission-popup.component';
 import { UserConfigurationComponent } from './pages/configurations/UserData/user-configuration/user-configuration.component';
 import { UserConfigurationPopupComponent } from './pages/configurations/UserData/user-configuration-popup/user-configuration-popup.component';
-import { ChnagePasswordPopUpComponent } from './pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { UserProfilePopupComponent } from './pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
 import { FareConfigurationComponent } from './pages/configurations/FareConfiguration/fare-configuration.component';
 import { DenominationPoupComponent } from './pages/float-management/denomination-poup/denomination-poup.component';
@@ -84,6 +83,7 @@ import { TransactionalValidatedComponent } from './pages/Transactions/transactio
 import { ReportMasterComponent } from './pages/report-master/report-master.component';
 import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
+import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -138,7 +138,7 @@ export const MY_CUSTOM_FORMATS = {
     RolePermissionPopupComponent,
     UserConfigurationComponent,
     UserConfigurationPopupComponent,
-    ChnagePasswordPopUpComponent,
+    ChangePasswordPopUpComponent,
     UserProfilePopupComponent,
     FareConfigurationComponent,
     DenominationPoupComponent,

@@ -34,8 +34,8 @@ export class SystemIntegratorPopupComponent implements OnInit {
       SystemIntegratorEmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
       SystemIntegratorMobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
       SystemIntegratorAddress: new FormControl('', [Validators.required]),
-      SystemIntegratorLoginId: new FormControl('', [Validators.required, Validators.pattern(regExps['LoginId'])]),
-      SystemIntegratorLoginPassword: new FormControl('', [Validators.required, Validators.pattern(regExps['Password'])]),
+      SystemIntegratorLoginId: new FormControl(''),
+      SystemIntegratorLoginPassword: new FormControl(''),
       DataStatus: new FormControl(true),
     });
     if (this.SystemIntegratorId > 0) {

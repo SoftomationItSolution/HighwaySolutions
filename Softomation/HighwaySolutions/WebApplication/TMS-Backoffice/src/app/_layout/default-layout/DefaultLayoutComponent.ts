@@ -5,10 +5,9 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { UserProfilePopupComponent } from 'src/app/pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
-import { ChnagePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/chnage-password-pop-up/chnage-password-pop-up.component';
 import { SystemSettingComponent } from 'src/app/pages/system-setting/system-setting.component';
 import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock/app-lock.component';
-
+import { ChangePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -214,7 +213,7 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
     dialogConfig.height = '349px';
-    this.dialog.open(ChnagePasswordPopUpComponent, dialogConfig);
+    this.dialog.open(ChangePasswordPopUpComponent, dialogConfig);
   }
 
   pfOpen() {

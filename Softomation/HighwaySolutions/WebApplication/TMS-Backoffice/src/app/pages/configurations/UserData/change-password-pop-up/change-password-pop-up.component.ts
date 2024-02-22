@@ -8,11 +8,11 @@ import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 
 @Component({
-  selector: 'app-chnage-password-pop-up',
-  templateUrl: './chnage-password-pop-up.component.html',
-  styleUrls: ['./chnage-password-pop-up.component.css']
+  selector: 'app-change-password-pop-up',
+  templateUrl: './change-password-pop-up.component.html',
+  styleUrls: ['./change-password-pop-up.component.css']
 })
-export class ChnagePasswordPopUpComponent implements OnInit {
+export class ChangePasswordPopUpComponent implements OnInit {
 
   error = errorMessages;
   notSame = true;
@@ -24,7 +24,7 @@ export class ChnagePasswordPopUpComponent implements OnInit {
   userData: any;
   submitted = false;
   constructor(private dm: DataModel, private router: Router,
-    public Dialogref: MatDialogRef<ChnagePasswordPopUpComponent>, private dbServive: apiIntegrationService,
+    public Dialogref: MatDialogRef<ChangePasswordPopUpComponent>, private dbServive: apiIntegrationService,
     public dialog: MatDialog, private spinner: NgxSpinnerService, private formBuilder: FormBuilder) {
     this.LogedUserId = this.dm.getUserId();
     this.userData = this.dm.getUserData();

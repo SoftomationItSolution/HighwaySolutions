@@ -1,7 +1,7 @@
 import datetime
 import json
 import os
-
+import socket
 
 appProvider = "Softomation"
 json_date_time_format = "%d-%b-%Y %H:%M:%S"
@@ -31,3 +31,14 @@ def JsonDateFormat(inDate=None):
         today_date = inDate
     formatted_date = today_date.strftime("%Y-%m-%d")
     return formatted_date
+
+def send_data_to_tcp_server(SERVER_IP,SERVER_PORT,data):
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        client_socket.connect((SERVER_IP, SERVER_PORT))
+        client_socket.sendall(data.encode())
+        #client_socket.sendall('\n'.encode())
+        received_data = client_socket.recv(1024)
+        print("Received:", received_data.decode())
+    finally:
+        client_socket.close()

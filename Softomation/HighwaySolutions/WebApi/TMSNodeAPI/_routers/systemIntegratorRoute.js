@@ -21,7 +21,7 @@ async function SystemIntegratorInsertUpdate(req, res, next) {
             .input('SystemIntegratorEmailId', sql.VarChar(100), req.body.SystemIntegratorEmailId)
             .input('SystemIntegratorMobileNumber', sql.VarChar(15), req.body.SystemIntegratorMobileNumber)
             .input('SystemIntegratorLoginId', sql.VarChar(255), req.body.SystemIntegratorLoginId)
-            .input('SystemIntegratorLoginPassword', sql.VarChar(255), req.body.SystemIntegratorMobileNumber)
+            .input('SystemIntegratorLoginPassword', sql.VarChar(255), req.body.SystemIntegratorLoginPassword)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)

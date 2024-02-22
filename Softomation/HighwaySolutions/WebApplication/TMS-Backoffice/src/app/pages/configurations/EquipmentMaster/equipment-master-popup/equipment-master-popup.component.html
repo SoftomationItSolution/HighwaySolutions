@@ -187,7 +187,7 @@
                                 <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
                                     [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
                                     optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
-                                    (onChange)="EquipmentTypeChnage($event.value)"></p-dropdown>
+                                    ></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
                                     Type must be selected.</small>
@@ -196,12 +196,12 @@
                                 <label for="ProtocolTypeId">Protocol Type</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
                                     [options]="ProtocolList" optionLabel="DataName" optionValue="DataId"
-                                    placeholder="Select" class="form-control select2"></p-dropdown>
+                                    placeholder="Select" class="form-control select2" (onChange)="ProtocolTypeChnage($event.value)"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
                                     Type must be selected.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4">
                                 <label class="form-label" for="IpAddress">IP-Address</label>
                                 <input formControlName="IpAddress" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
@@ -212,7 +212,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','IpAddress')">Vaild
                                     IP-Address must be required.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ConnectionTypeId===1">
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4">
                                 <label class="form-label" for="PortNumber">Port Number</label>
                                 <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
@@ -224,7 +224,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','PortNumber')">Vaild
                                     Port Number must be required.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
                                 <label class="form-label" for="ComPort">Com Port</label>
                                 <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
                                     [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId"
@@ -233,7 +233,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
                                     Port must be selected.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ConnectionTypeId===2">
+                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
                                 <label class="form-label" for="BaudRate">Baud Rate</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
                                     [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId"
@@ -241,6 +241,14 @@
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
                                     must be selected.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ProtocolTypeId>4">
+                                <label class="form-label" for="OtherAddress">Path</label>
+                                <input formControlName="OtherAddress" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','OtherAddress')">Path
+                                    must be required.</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="LoginId">Login Id</label>

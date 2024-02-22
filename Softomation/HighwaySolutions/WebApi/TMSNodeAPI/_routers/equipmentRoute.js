@@ -25,7 +25,7 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
             .input('IpAddress', sql.VarChar(20), req.body.IpAddress)
             .input('PortNumber', sql.Int, req.body.PortNumber)
             .input('LoginId', sql.VarChar(50), req.body.LoginId)
-            .input('LoginPassword', sql.VarChar(50), req.body.LoginId)
+            .input('LoginPassword', sql.VarChar(50), req.body.LoginPassword)
             .input('MacAddress', sql.VarChar(100), req.body.MacAddress)
             .input('SerialNumber', sql.VarChar(100), req.body.SerialNumber)
             .input('ModelNumber', sql.VarChar(100), req.body.ModelNumber)

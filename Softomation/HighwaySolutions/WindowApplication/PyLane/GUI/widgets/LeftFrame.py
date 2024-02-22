@@ -3,9 +3,6 @@ from PySide6.QtCore import Qt
 class LeftFrame(QFrame):
     def __init__(self, width,height,vc,systemSettingDetails):
         super().__init__()
-        self.initUI(width,height,vc,systemSettingDetails)
-        #border-top: none;border-bottom: none;
-    def initUI(self,width,height,vc,systemSettingDetails):
         self.setStyleSheet("border: none;")
         self.setFixedWidth(width)
         self.setFixedHeight(height)

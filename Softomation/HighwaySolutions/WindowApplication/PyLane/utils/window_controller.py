@@ -5,8 +5,9 @@ from GUI.forms.MainWindow import MainWindow
 
 
 class WindowController:
-    def __init__(self,dbConnectionObj):
+    def __init__(self,dbConnectionObj,config_manager):
         self.db=dbConnectionObj
+        self.config_manager=config_manager
      
     def show_login(self):
         self.login = LoginUI(self.db)

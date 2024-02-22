@@ -16,6 +16,8 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System
                         Integrator Name is
                         required.</small>
+                        <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('AlphaNumericSingleSpace','SystemIntegratorName')">Single space is required</small>
                 </div>
                 <div class="col-md-6">
                     <label for="SystemIntegratorAddress">System Integrator Address</label>
@@ -55,26 +57,26 @@
                 </div>
                 <div class="col-md-6">
                     <label for="SystemIntegratorLoginId">Login Id</label>
-                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText required autofocus
+                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText autofocus
                         class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
+                    <!-- <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
                         Id is
                         required.</small>
                     <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginId')">Vaild
                         Login Id is
-                        required.</small>
+                        required.</small> -->
                 </div>
                 <div class="col-md-6">
                     <label for="SystemIntegratorLoginPassword">Login Password</label>
-                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText required autofocus
+                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText autofocus
                         class="form-control" />
-                    <small class="p-error"
+                    <!-- <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginPassword')">Login Password is
                         required.</small>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginPassword')">Vaild Login
                         Password is
-                        required.</small>
+                        required.</small> -->
                 </div>
             </div>
             <div class="row">
