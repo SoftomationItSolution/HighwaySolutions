@@ -30,7 +30,7 @@ def process_data(input):
         print(transaction_info)
 
 def client():
-    server_ip = '192.168.10.95'  # Assuming server is running on localhost
+    server_ip = '192.168.10.35'  # Assuming server is running on localhost
     server_port = 4711
 
     # Connect to the server

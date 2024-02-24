@@ -1,0 +1,1523 @@
+2024-02-22 13:38:57,891 avc data: STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+
+Loop Activated.......
+S1F S2F S1R S2R S1F S2F S1R S2R S1F S2F S1R S2R Loop Released time 3058699
+
+XL1-F : 00280385  01896312  02284359  
+XL1-R : 00484217  02040584  02406645  
+
+XL2-F : 00380113  01921750  02336646  
+XL2-R : 00529470  02146876  02467649  
+Sequence is :            
+
+XL1_Length = 3, XL2_Length = 3
+
+Vehicle_Axle_Count = 5
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Wheel_Base = [1] 0 [2] 0 [3] 0 [4] 0 Vehicle_Class = MAV5Axle
+STX,02,06,05,F,00000,000003623,ETX
+Going to Flush_Global_Data
+S1F S1R S2F S1F S2R S1R S2F S2R S1F S1R S2F S1F S2R S1R S2F S2R Going to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+STX,01,1111
+2024-02-22 13:38:58,397 avc data: 1111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+2024-02-22 13:38:59,614 avc data: ST
+2024-02-22 13:39:00,128 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:04,623 avc data: ST
+2024-02-22 13:39:05,125 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:07,427 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:39:07,931 avc data: S1F S2F S1R
+2024-02-22 13:39:08,441 avc data: S2R Loop Released time 1342110
+
+XL1-F : 00099618  00835571  
+XL1-R : 00237049  01022613  
+
+XL2-F : 00157288  00945225  
+XL2-R : 00347771  01068605  
+Sequ
+2024-02-22 13:39:08,944 avc data: ence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 13.352429 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2809 overlapping in Lcv Bolero Innova_car Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+Checking Pick -upNot Matched, Reason-Any H sensor interrupted
+Checking Innova carMatched, Reason-Height sensors not interrupted
+
+No match found,considering Lowest WheelBase ran
+2024-02-22 13:39:09,447 avc data: ge.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,02809,000003624,ETX
+Going to Flush_Global_Data
+2024-02-22 13:39:09,953 avc data: STX,01,11111111,11111111,ETX
+2024-02-22 13:39:14,643 avc data: STX
+2024-02-22 13:39:15,144 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:39:19,651 avc data: ST
+2024-02-22 13:39:20,161 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:24,662 avc data: ST
+2024-02-22 13:39:25,177 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:29,671 avc data: ST
+2024-02-22 13:39:30,178 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:34,680 avc data: STX
+2024-02-22 13:39:35,184 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:39:39,689 avc data: STX
+2024-02-22 13:39:40,192 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:39:44,696 avc data: ST
+2024-02-22 13:39:45,198 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:49,706 avc data: ST
+2024-02-22 13:39:50,214 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:54,714 avc data: ST
+2024-02-22 13:39:55,219 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:39:59,722 avc data: ST
+2024-02-22 13:40:00,223 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:04,731 avc data: ST
+2024-02-22 13:40:05,237 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:09,739 avc data: ST
+2024-02-22 13:40:10,249 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:14,748 avc data: ST
+2024-02-22 13:40:15,264 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:19,758 avc data: ST
+2024-02-22 13:40:20,264 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:24,767 avc data: ST
+2024-02-22 13:40:25,268 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:29,775 avc data: ST
+2024-02-22 13:40:30,283 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:34,785 avc data: ST
+2024-02-22 13:40:35,296 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:35,800 avc data: Loop ActivatedS1F .......
+2024-02-22 13:40:36,301 avc data: S2F S1R S2R S1F S2F S1R S2R
+2024-02-22 13:40:36,805 avc data: Loop Released time 601681
+
+XL1-F : 00040758  00347513  
+XL1-R : 00112122  00418891  
+
+XL2-F : 00060647  00412073  
+XL2-R : 00089961  00512135  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 475.352264 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] -19747 
+Wheel base faulty
+
+
+---> Determinin
+2024-02-22 13:40:37,307 avc data: g Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,R,00500,000003625,ETX
+Going to Flush_Global_Data
+2024-02-22 13:40:37,810 avc data: S1F S1R S2F S2R
+2024-02-22 13:40:38,759 avc data: Go
+2024-02-22 13:40:39,261 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:40:39,796 avc data: ST
+2024-02-22 13:40:40,309 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:44,807 avc data: STX
+2024-02-22 13:40:45,308 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:40:49,817 avc data: ST
+2024-02-22 13:40:50,327 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:54,828 avc data: ST
+2024-02-22 13:40:55,334 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:40:59,837 avc data: ST
+2024-02-22 13:41:00,343 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:04,845 avc data: ST
+2024-02-22 13:41:05,359 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:06,000 avc data: S1
+2024-02-22 13:41:06,516 avc data: F S1R S1F S2F S1R S2R S2F S2R S1F S1R S1F S2F S1R S2R S2F S2R
+2024-02-22 13:41:07,451 avc data: Go
+2024-02-22 13:41:07,967 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:41:09,853 avc data: ST
+2024-02-22 13:41:10,367 avc data: X,01,S1F 11111111,11111111,ETX
+S2F S1R S2R S2F S2R S1F S1R S1F S2F S1R S2R S2F S2R
+2024-02-22 13:41:11,270 avc data: Go
+2024-02-22 13:41:11,776 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:41:14,861 avc data: ST
+2024-02-22 13:41:15,370 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:19,870 avc data: ST
+2024-02-22 13:41:20,381 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:24,879 avc data: ST
+2024-02-22 13:41:25,379 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:27,383 avc data: S1
+2024-02-22 13:41:27,893 avc data: F S1R S2F S1F S1R S2R S2F S2R S1F S1R S1F S2F S2R S1R S2F S2R
+2024-02-22 13:41:28,822 avc data: Go
+2024-02-22 13:41:29,330 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:41:29,886 avc data: ST
+2024-02-22 13:41:40,745 avc data: STX,01,11111111,11111111,ETX
+STX,01,11111111,11111111,ETX
+2024-02-22 13:41:44,911 avc data: ST
+2024-02-22 13:41:45,420 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:49,918 avc data: ST
+2024-02-22 13:41:50,434 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:54,927 avc data: ST
+2024-02-22 13:41:55,434 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:41:59,935 avc data: ST
+2024-02-22 13:42:00,447 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:04,944 avc data: STX
+2024-02-22 13:42:05,458 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:42:09,954 avc data: ST
+2024-02-22 13:42:10,464 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:12,507 avc data: L
+2024-02-22 13:42:13,019 avc data: oop Activated.......S1F 
+S2F S1R S2R S1F S2F S1R
+2024-02-22 13:42:13,533 avc data: S2R Loop Released time 740449
+
+XL1-F : 00040956  00407077  
+XL1-R : 00114923  00475397  
+
+XL2-F : 00080919  00517198  
+XL2-R : 00138753  00565688  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Li
+2024-02-22 13:42:14,048 avc data: fted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 22.318391 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2464 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003626,ETX
+Going to Flush_Global_Data
+2024-02-22 13:42:14,962 avc data: STX
+2024-02-22 13:42:15,474 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:42:19,969 avc data: ST
+2024-02-22 13:42:20,469 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:24,976 avc data: ST
+2024-02-22 13:42:25,490 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:27,050 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:42:27,565 avc data: S1F S2F S1R
+2024-02-22 13:42:28,078 avc data: S2R
+2024-02-22 13:42:28,593 avc data: S1F S2F
+2024-02-22 13:42:29,097 avc data: S1R S2R S1F S2F S1R
+2024-02-22 13:42:29,612 avc data: S2R Loop Released time 2978383
+
+XL1-F : 00226870  00780316  01908924  02294523  
+XL1-R : 00412822  00924573  021
+2024-02-22 13:42:30,127 avc data: 56830  02543463  
+
+XL2-F : 00305317  00850951  02003104  02398070  
+XL2-R : 00505012  00986928  02179817  02556113  
+Sequence is :                
+
+XL1_Length = 4, XL2_Length = 4
+
+Vehicle_Axle_Count = 4
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 14.450173 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] 2100 [2] 4722 [3] 4722 
+Final_Vehicle_Axle_Count = 4
+Vehicle_Class = MAV4Axle
+STX,02,06,04,F,02100,000003627,ETX
+2024-02-22 13:42:30,638 avc data: STX,01,11111111,11111111,ETX
+Going to Flush_Global_Data
+2024-02-22 13:42:34,992 avc data: STX
+2024-02-22 13:42:35,502 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:42:39,999 avc data: ST
+2024-02-22 13:42:40,516 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:45,008 avc data: ST
+2024-02-22 13:42:45,510 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:50,015 avc data: ST
+2024-02-22 13:42:50,524 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:55,022 avc data: ST
+2024-02-22 13:42:55,531 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:42:59,673 avc data: Loop Activated..S1F .....
+S2F S1R S2R S1F S2F S1R S2R
+2024-02-22 13:43:00,185 avc data: Loop Released time 604871
+
+XL1-F : 00011301  00329368  
+XL1-R : 00121761  00408021  
+
+XL2-F : 00010088  00372946  
+XL2-R : 00077028  00403030  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Roll Back Flag Set
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 23.505981 km/Hr  RO-Out = 0
+2024-02-22 13:43:00,701 avc data: , Truck
+Wheel_Base = [1] 2110 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,R,00500,000003628,ETX
+STX,01,11111111,11111111,ETX
+Going to Flush_Global_Data
+2024-02-22 13:43:01,216 avc data: S2F S2R
+2024-02-22 13:43:02,199 avc data: Go
+2024-02-22 13:43:02,713 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+S1F S1R S1F S1R S1F S1R S1F S1R S2F S2R
+2024-02-22 13:43:03,905 avc data: Go
+2024-02-22 13:43:04,411 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:43:05,043 avc data: ST
+2024-02-22 13:43:05,548 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:10,054 avc data: STX
+2024-02-22 13:43:10,568 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:43:15,064 avc data: ST
+2024-02-22 13:43:15,579 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:20,075 avc data: ST
+2024-02-22 13:43:20,582 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:25,086 avc data: ST
+2024-02-22 13:43:25,587 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:30,097 avc data: ST
+2024-02-22 13:43:30,613 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:35,108 avc data: ST
+2024-02-22 13:43:35,612 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:40,118 avc data: ST
+2024-02-22 13:43:40,628 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:45,128 avc data: ST
+2024-02-22 13:43:45,642 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:50,139 avc data: ST
+2024-02-22 13:43:50,649 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:51,986 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:43:52,564 avc data: S1
+2024-02-22 13:43:53,066 avc data: F S2F S1R S2R S1F S2F
+2024-02-22 13:43:53,581 avc data: S1R S2R Loop Released time 1860318
+
+XL1-F : 00147186  01098879  01503113  
+XL1-R : 00390577  01256270  01644216  
+
+XL2-F : 00221302  01166240  01529189  
+XL2-R : 00476556  01365116  01708693  
+Sequenc
+2024-02-22 13:43:54,094 avc data: e is :            
+
+XL1_Length = 3, XL2_Length = 3
+
+Vehicle_Axle_Count = 4
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 17.447380 km/Hr  RO-Out = 2, MiniBus
+Wheel_Base = [1] 1253 [2] 4218 [3] 4218 
+Final_Vehicle_Axle_Count = 4
+Vehicle_Class = MAV4Axle
+STX,02,06,04,F,00500,000003629,ETX
+Going to Flush_Global_Data
+2024-02-22 13:43:55,150 avc data: ST
+2024-02-22 13:43:55,664 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:43:56,520 avc data: S1F
+2024-02-22 13:43:57,022 avc data: S2F S1R S2R S1F
+2024-02-22 13:43:57,525 avc data: S2F S1R S2R
+2024-02-22 13:43:58,026 avc data: Going to Flush_Global_Data
+
+LOOP
+2024-02-22 13:43:58,541 avc data: NOT DETECTED.....
+2024-02-22 13:44:00,160 avc data: ST
+2024-02-22 13:44:00,665 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:05,169 avc data: ST
+2024-02-22 13:44:05,678 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:10,180 avc data: ST
+2024-02-22 13:44:10,696 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:11,210 avc data: S1F S1R S1F S1R S2F S1F S2R S1R S1F S1R S2F S1F S2R S1R S2F
+2024-02-22 13:44:11,723 avc data: S2R S1F S1R S1F S2F S1R S2R S2F S2R
+2024-02-22 13:44:12,239 avc data: Go
+2024-02-22 13:44:12,741 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:44:15,194 avc data: ST
+2024-02-22 13:44:15,703 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:16,287 avc data: S1F
+2024-02-22 13:44:16,791 avc data: S2F 
+LS1R oop Activated.......
+S2R S1F S2F S1R S2R
+2024-02-22 13:44:17,293 avc data: Loop Released time 672769
+
+XL1-F : 00008749  00369127  
+XL1-R : 00085428  00448021  
+
+XL2-F : 00025679  00358923  
+XL2-R : 00122739  00460165  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+2024-02-22 13:44:17,809 avc data: VAvg = 576.611816 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] -9732 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003630,ETX
+Going to Flush_Global_Data
+2024-02-22 13:44:20,205 avc data: ST
+2024-02-22 13:44:20,708 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:25,215 avc data: ST
+2024-02-22 13:44:25,717 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:30,226 avc data: ST
+2024-02-22 13:44:30,741 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:32,572 avc data: S1
+2024-02-22 13:44:33,082 avc data: F S2F S1R S2R 
+Loop Activated.......
+S1F
+2024-02-22 13:44:33,598 avc data: S2F S1R S2R Loop Released time 820317
+
+XL1-F : 00039506  00507138  
+XL1-R : 00126359  00593144  
+
+XL2-F : 00109856  00583040  
+XL2-R : 00172452  00707417  
+Sequence is :        
+
+XL1
+2024-02-22 13:44:34,114 avc data: _Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 14.953855 km/Hr  RO-Out = 0, Truck
+WS1F heel_Base = [1] 2017 overlapping in TataAce Auto Tractor ChS2F ecking Tractor (120S1R 0-2200,Default-2,Modified-2)...
+Tractor tyre size = 120370S2R   S_tyre = -6695, F_tyre = 1, -2940% Percent = 0   F1+Percent = 20  ..Matched Matched
+
+S1F STX,02,02,02,F,02017,000003631,ETX
+Going toS
+2024-02-22 13:44:34,627 avc data: 2F  Flush_Global_Data
+S1R S2R
+2024-02-22 13:44:35,220 avc data: Go
+2024-02-22 13:44:35,737 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+STX,01,11111111,11111111,ETX
+2024-02-22 13:44:40,247 avc data: ST
+2024-02-22 13:44:40,751 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:45,258 avc data: ST
+2024-02-22 13:44:45,771 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:44:47,571 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:44:48,101 avc data: S1
+2024-02-22 13:44:48,609 avc data: F S2F S1R S2R S1F S1F S2F
+2024-02-22 13:44:49,123 avc data: S1R S2R S1F S2F S1R S2R
+2024-02-22 13:44:49,638 avc data: Loop Released time 2358131
+
+XL1-F : 00246288  01019195  01322493  01378091  01711097  
+XL1-R : 00445089  01197167  01560489  01929465  00000000  
+
+XL2-F : 00304117  01131133  01496897  01804463  
+XL2-R : 00495492  01265723  01646173  01993047  
+Sequence
+2024-02-22 13:44:50,154 avc data: is :                 
+
+
+Found axle timing Data Missed, after correction data is ....
+
+XL1-F : 00246288  01019195  01322493  01378091  01711097  
+XL1-R : 00445089  01197167  01560489  01929465  02262471  
+
+XL2-F : 00304117  01131133  01496897  01804463  
+XL2-R : 00495492  01265723  01646173  01993047  
+XL1_Length = 5, XL2_Length = 4
+
+Vehicle_Axle_Count = 4
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 1.704291 km/Hr  RO-Out
+2024-02-22 13:44:50,668 avc data: = 0, Truck
+Wheel_Base = [1] 239 [2] 88 [3] 88 
+Final_Vehicle_Axle_Count = 4
+Vehicle_Class = MAV4Axle
+STX,02,06,04,R,00500,000003632,ETX
+STX,01,11111111,11111111,ETX
+Going to Flush_Global_Data
+2024-02-22 13:44:55,277 avc data: ST
+2024-02-22 13:44:55,790 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:00,286 avc data: ST
+2024-02-22 13:45:00,791 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:05,297 avc data: ST
+2024-02-22 13:45:05,812 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:10,307 avc data: ST
+2024-02-22 13:45:10,810 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:15,316 avc data: ST
+2024-02-22 13:45:15,826 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:20,328 avc data: ST
+2024-02-22 13:45:20,832 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:25,337 avc data: ST
+2024-02-22 13:45:25,839 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:30,346 avc data: ST
+2024-02-22 13:45:30,863 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:35,357 avc data: ST
+2024-02-22 13:45:35,869 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:36,382 avc data: Loop Activated.......
+2024-02-22 13:45:36,890 avc data: S1F S2F S1R S2R
+2024-02-22 13:45:37,463 avc data: S1
+2024-02-22 13:45:37,965 avc data: F S2F S1R S2R S1F S2F S1R
+2024-02-22 13:45:38,469 avc data: S2R Loop Released time 2016452
+
+XL1-F : 00096653  01176669  01502924  
+XL1-R : 00285598  01282231  01596116  
+
+XL2-F : 00179142  01189
+2024-02-22 13:45:38,971 avc data: 091  01560461  
+XL2-R : 00338363  01346230  01684781  
+Sequence is :            
+
+XL1_Length = 3, XL2_Length = 3
+
+Vehicle_Axle_Count = 4
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 15.102969 km/Hr  RO-Out = 2, MiniBus
+Wheel_Base = [1] 466 [2] 2304 [3] 2304 
+Final_Vehicle_Axle_Count = 4
+Vehicle_Class = MAV4Axle
+STX,02,06,04,F,00500,000003633,ETX
+Going to Flush_Global_
+2024-02-22 13:45:39,486 avc data: Data
+2024-02-22 13:45:40,366 avc data: ST
+2024-02-22 13:45:40,880 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:45,373 avc data: ST
+2024-02-22 13:45:45,879 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:50,382 avc data: ST
+2024-02-22 13:45:50,886 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:45:55,392 avc data: ST
+2024-02-22 13:45:55,894 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:00,400 avc data: ST
+2024-02-22 13:46:00,914 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:05,407 avc data: ST
+2024-02-22 13:46:05,916 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:06,418 avc data: Loop Activated.......
+S1F
+2024-02-22 13:46:06,919 avc data: S2F S1R S2R
+2024-02-22 13:46:07,420 avc data: S1F S2F S1R
+2024-02-22 13:46:07,922 avc data: S1F S1R S2R S2F S2R Loop Released time 1526504
+
+XL1-F : 00125306  00921638  01117545  
+XL1-R : 00261833  01110959  01120
+2024-02-22 13:46:08,427 avc data: 259  
+
+XL2-F : 00149908  01017432  01224007  
+XL2-R : 00300975  01123449  01234362  
+Sequence is :            
+
+XL1_Length = 3, XL2_Length = 3
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 26.916542 km/Hr  RO-Out = 2, MiniBus
+Wheel_Base = [1] 6234 overlapping in Big_Bus Heavy_Truck Checking Big BusNot Matched, Reason- H4 not interrupted
+Checking Heavy TruckNot Matched, Reason-H4 not interrupted
+
+No match found,considering
+2024-02-22 13:46:08,929 avc data: Lowest WheelBase range.....
+
+STX,02,03,02,F,06234,000003634,ETX
+Going to Flush_Global_Data
+2024-02-22 13:46:10,417 avc data: ST
+2024-02-22 13:46:10,920 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:15,426 avc data: ST
+2024-02-22 13:46:15,942 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:20,435 avc data: ST
+2024-02-22 13:46:20,948 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:25,443 avc data: STX
+2024-02-22 13:46:25,948 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:46:30,452 avc data: ST
+2024-02-22 13:46:30,955 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:35,460 avc data: ST
+2024-02-22 13:46:35,966 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:40,469 avc data: STX
+2024-02-22 13:46:40,978 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:46:45,479 avc data: ST
+2024-02-22 13:46:45,994 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:50,488 avc data: ST
+2024-02-22 13:46:50,997 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:46:55,498 avc data: STX
+2024-02-22 13:46:56,010 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:47:00,507 avc data: STX
+2024-02-22 13:47:01,009 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:47:05,515 avc data: ST
+2024-02-22 13:47:06,023 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:10,524 avc data: STX
+2024-02-22 13:47:11,027 avc data: ,01,11111111,11111111,ETX
+
+Loop Activated.......
+S1F
+2024-02-22 13:47:11,531 avc data: S2F S1R S2R S1F S2F
+2024-02-22 13:47:12,032 avc data: S1R S2R Loop Released time 854183
+
+XL1-F : 00040079  00561201  
+XL1-R : 00165414  00637295  
+
+XL2-F : 00065823  00589571  
+XL2-R : 00216190  00689643  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+V
+2024-02-22 13:47:12,546 avc data: ehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 27.493869 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 3799 overlapping in MiniBus Medium_Truck Lcv Bolero Checking MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+Checking Pick -upNot Matched, Reason-Any H sensor interrupted
+
+No match found,considering Lowest WheelBase ran
+2024-02-22 13:47:13,060 avc data: ge.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,03799,000003635,ETX
+Going to Flush_Global_Data
+2024-02-22 13:47:15,533 avc data: ST
+2024-02-22 13:47:16,047 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:20,541 avc data: ST
+2024-02-22 13:47:21,055 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:25,550 avc data: ST
+2024-02-22 13:47:26,062 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:30,557 avc data: ST
+2024-02-22 13:47:31,063 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:35,567 avc data: ST
+2024-02-22 13:47:36,071 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:40,577 avc data: ST
+2024-02-22 13:47:41,081 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:42,092 avc data: S1F
+2024-02-22 13:47:42,602 avc data: S2F 
+Loop ActivaS1R ted.......
+S2R S1F S2F S1R
+2024-02-22 13:47:43,108 avc data: S2R Loop Released time 722996
+
+XL1-F : 00024315  00366406  
+XL1-R : 00105542  00475352  
+
+XL2-F : 00028032  00404324  
+XL2-R : 00185969  00483960  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count =
+2024-02-22 13:47:43,619 avc data: 0
+VAvg = 36.047966 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] 3470 overlapping in MiniBus Medium_Truck Lcv Bolero Checking MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+Checking Pick -upNot Matched, Reason-Any H sensor interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height S
+2024-02-22 13:47:44,121 avc data: ensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,03470,000003636,ETX
+Going to Flush_Global_Data
+2024-02-22 13:47:45,587 avc data: ST
+2024-02-22 13:47:46,091 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:50,598 avc data: ST
+2024-02-22 13:47:51,110 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:47:55,609 avc data: ST
+2024-02-22 13:47:56,117 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:00,618 avc data: ST
+2024-02-22 13:48:01,120 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:05,630 avc data: ST
+2024-02-22 13:48:06,143 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:10,641 avc data: ST
+2024-02-22 13:48:11,142 avc data: X,01,11111111,11111111,ETX
+
+Loop AS1F ctivated.......
+S2F S1R
+2024-02-22 13:48:11,657 avc data: S2R S1F S2F S1R S2R
+2024-02-22 13:48:12,171 avc data: Loop Released time 672150
+
+XL1-F : 00001700  00458122  
+XL1-R : 00109740  00505415  
+
+XL2-F : 00049047  00408974  
+XL2-R : 00188879  00553790  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 8.538620 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 935 
+Wheel base faulty
+
+
+---> Determining Clas
+2024-02-22 13:48:12,672 avc data: s from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003637,ETX
+Going to Flush_Global_Data
+2024-02-22 13:48:15,651 avc data: ST
+2024-02-22 13:48:16,154 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:20,660 avc data: ST
+2024-02-22 13:48:21,171 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:25,670 avc data: ST
+2024-02-22 13:48:26,185 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:30,679 avc data: ST
+2024-02-22 13:48:31,181 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:34,086 avc data: S1
+2024-02-22 13:48:34,597 avc data: F 
+Loop Activated.......
+S2F S1R S2R S1F S2F
+2024-02-22 13:48:35,100 avc data: S1R S2R Loop Released time 809867
+
+XL1-F : 00038890  00457389  
+XL1-R : 00080423  00582356  
+
+XL2-F : 00007786  00481481  
+XL2-R : 00156091  00574838  
+Sequence is :        
+
+XL1_Length = 2, XL2_Lengt
+2024-02-22 13:48:35,600 avc data: h = 2
+
+Roll Back Flag Set
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 89.397109 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] 11254 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003638,ETX
+Going to Flush_Global_Data
+2024-02-22 13:48:36,115 avc data: STX,01,11111111,11111111,ETX
+S1F S2F S1R S2R S1F S2F S1R S2R
+2024-02-22 13:48:37,201 avc data: Go
+2024-02-22 13:48:37,709 avc data: ing to Flush_Global_Data
+
+LOOP NOT DETECTED.....
+2024-02-22 13:48:40,698 avc data: ST
+2024-02-22 13:48:41,200 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:45,707 avc data: ST
+2024-02-22 13:48:46,208 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:50,716 avc data: ST
+2024-02-22 13:48:51,231 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:48:54,661 avc data: Loop Activated.......
+S1F S2F S1R
+2024-02-22 13:48:55,163 avc data: S2R S1F S1R S2F S2R
+2024-02-22 13:48:55,678 avc data: S1F S2F S1R
+2024-02-22 13:48:56,193 avc data: S2R S2F S2R
+2024-02-22 13:48:56,863 avc data: S1
+2024-02-22 13:48:57,365 avc data: F S2F S1R S2R S1F S2F
+2024-02-22 13:48:57,879 avc data: S1R S2R S1F S2F S1R
+2024-02-22 13:48:58,395 avc data: S2R Loop Released time 423948
+2024-02-22 13:48:58,904 avc data: 2
+
+XL1-F : 00280365  00677414  01209363  02714966  03090614  03511060  
+XL1-R : 00523444  00723772  01393077  02935443  03313337  03707513  
+
+XL2-F : 00375185  00812113  01333134  01680717  02756587  03155802  03554630  
+XL2-R : 00622948  00820066  01596374  01646276  03013960  03355779  03740513  
+Sequence is :                          
+
+XL1_Length = 6, XL2_Length = 7
+
+Vehicle_Axle_Count = 5
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 8.859795 km/Hr
+2024-02-22 13:48:59,416 avc data: RO-Out = 1, Bus
+Wheel_Base = [1] 2294 [2] 0 [3] 0 [4] 0 Vehicle_Class = MAV5Axle
+STX,02,06,05,F,02294,000003639,ETX
+Going to Flush_Global_Data
+2024-02-22 13:49:00,736 avc data: ST
+2024-02-22 13:49:01,243 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:05,745 avc data: ST
+2024-02-22 13:49:06,257 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:10,754 avc data: STX
+2024-02-22 13:49:11,259 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:49:13,248 avc data: L
+2024-02-22 13:49:13,749 avc data: oop Activated.......
+S1F S2F
+2024-02-22 13:49:14,265 avc data: S1R S2R S2F S2R
+2024-02-22 13:49:14,930 avc data: S1
+2024-02-22 13:49:15,434 avc data: F S2F S1R S2R
+2024-02-22 13:49:17,116 avc data: S1F
+2024-02-22 13:49:17,632 avc data: S2F S1R S2R
+2024-02-22 13:49:18,132 avc data: S1F S2F S1R S2R
+2024-02-22 13:49:18,647 avc data: S1F S2F S1R S2R
+2024-02-22 13:49:19,147 avc data: Loop Released time 5785951
+
+XL1-F : 00344563  01687916  03869569  04455173  04926651  
+XL1-R : 00698925
+2024-02-22 13:49:19,661 avc data: 01908223  04154760  04695476  05228489  
+
+XL2-F : 00517788  00857894  01789748  03936007  04534994  05048986  
+XL2-R : 00804544  00955683  02087808  04202373  04831281  05286051  
+Sequence is :                      
+
+XL1_Length = 5, XL2_Length = 6
+
+Vehicle_Axle_Count = 5
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 7.710841 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] 2735 [2] 0 [3] 0 [4] 0 Vehicle_Class = MAV5Axle
+2024-02-22 13:49:20,162 avc data: STX,02,06,05,F,02735,000003640,ETX
+Going to Flush_Global_Data
+2024-02-22 13:49:20,773 avc data: ST
+2024-02-22 13:49:21,284 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:25,782 avc data: ST
+2024-02-22 13:49:26,289 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:30,791 avc data: ST
+2024-02-22 13:49:31,303 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:35,801 avc data: ST
+2024-02-22 13:49:36,316 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:40,810 avc data: ST
+2024-02-22 13:49:41,313 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:45,821 avc data: STX
+2024-02-22 13:49:46,321 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:49:50,829 avc data: ST
+2024-02-22 13:49:51,338 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:49:55,836 avc data: ST
+2024-02-22 13:49:56,349 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:00,846 avc data: ST
+2024-02-22 13:50:01,352 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:05,856 avc data: ST
+2024-02-22 13:50:06,365 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:10,861 avc data: ST
+2024-02-22 13:50:11,366 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:15,869 avc data: ST
+2024-02-22 13:50:16,386 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:20,880 avc data: ST
+2024-02-22 13:50:21,382 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:25,889 avc data: ST
+2024-02-22 13:50:26,391 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:30,896 avc data: ST
+2024-02-22 13:50:31,398 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:35,905 avc data: ST
+2024-02-22 13:50:36,418 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:40,914 avc data: ST
+2024-02-22 13:50:41,427 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:45,924 avc data: ST
+2024-02-22 13:50:46,429 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:50,932 avc data: ST
+2024-02-22 13:50:51,439 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:50:55,941 avc data: ST
+2024-02-22 13:50:56,452 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:00,949 avc data: ST
+2024-02-22 13:51:01,451 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:05,957 avc data: ST
+2024-02-22 13:51:06,470 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:10,966 avc data: STX
+2024-02-22 13:51:11,478 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:51:15,973 avc data: ST
+2024-02-22 13:51:16,477 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:20,981 avc data: ST
+2024-02-22 13:51:21,482 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:25,989 avc data: ST
+2024-02-22 13:51:26,492 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:30,997 avc data: ST
+2024-02-22 13:51:31,502 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:36,006 avc data: STX
+2024-02-22 13:51:36,521 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:51:41,014 avc data: ST
+2024-02-22 13:51:41,529 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:46,024 avc data: ST
+2024-02-22 13:51:46,526 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:51:51,033 avc data: STX
+2024-02-22 13:51:51,540 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:51:56,042 avc data: ST
+2024-02-22 13:51:56,552 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:01,049 avc data: ST
+2024-02-22 13:52:01,562 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:06,057 avc data: ST
+2024-02-22 13:52:06,572 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:10,907 avc data: Loop Activated.......
+S1F S2F S1R S2R S1F S2F
+2024-02-22 13:52:11,422 avc data: S1R S2R Loop Released time 760622
+
+XL1-F : 00075329  00446604  
+XL1-R : 00150014  00559051  
+
+XL2-F : 00082855  00510554  
+XL2-R : 00257128  00598102  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_C
+2024-02-22 13:52:11,934 avc data: ount = 0
+
+
+Lifted Axle Count = 0
+VAvg = 19.906026 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2141 overlapping in Car TataAce Auto Tractor Checking Tractor (1200-2200,Default-2,Modified-2)...
+Tractor tyre size = 90425  S_tyre = 22012, F_tyre = 1, -22335% Percent = 2   F1+Percent = 20  ..tyre_width condition not Matched  Not Matched
+Checking Car (2100-2600,Default-1,Modified-1)...Not Matched, Reason-Any Height sensor interrupted
+Checking TataAceNot Matched, Reason-H1 or H2 or H3
+2024-02-22 13:52:12,446 avc data: or H4 not interrupted
+Checking Auto (1300-2300,Default-1,Modified-1)...Not Matched, Reason-Any Height sensor interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height Sensors.......
+
+Matched LCV, H1 H2 or H3 found interrupted
+STX,02,02,02,F,02141,000003641,ETX
+Going to Flush_Global_Data
+2024-02-22 13:52:16,073 avc data: ST
+2024-02-22 13:52:16,576 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:18,650 avc data: Loop Activated.......
+S1F S2F S1R S2R S1F
+2024-02-22 13:52:19,163 avc data: S2F S1R S2R Loop Released time 731830
+
+XL1-F : 00042387  00470717  
+XL1-R : 00128976  00541090  
+
+XL2-F : 00106512  00560499  
+XL2-R : 00151160  00653433  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+2024-02-22 13:52:19,664 avc data: Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 17.856237 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2227 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003642,ETX
+Going to Flush_Global_Data
+2024-02-22 13:52:21,081 avc data: ST
+2024-02-22 13:52:21,588 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:23,618 avc data: Loop Activated.......
+S1F S2F S1R S2R S2F S2R
+2024-02-22 13:52:24,132 avc data: S1F S2F S1R S2R
+2024-02-22 13:52:24,647 avc data: Loop Released time 1057552
+
+XL1-F : 00104765  00782482  
+XL1-R : 00201639  00827277  
+
+XL2-F : 00137033  00314417  00831219  
+XL2-R : 00280436  00302084  00867145  
+Sequence is :          
+
+XL1_Length = 2, XL2_Length = 3
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 21.912912 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 3932 overlapping in MiniBus Medium_Truck Lcv Check
+2024-02-22 13:52:25,159 avc data: ing MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvMatched, Reason- Any of H1 H2 H3 sensor Cut
+
+STX,02,02,02,F,03932,000003643,ETX
+Going to Flush_Global_Data
+2024-02-22 13:52:26,090 avc data: ST
+2024-02-22 13:52:26,592 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:30,706 avc data: S1F
+2024-02-22 13:52:31,219 avc data: Loop Activated.......
+S2F S1R S2R
+2024-02-22 13:52:31,734 avc data: S1F S2F S1R S2R
+2024-02-22 13:52:32,236 avc data: Loop Released time 1120673
+
+XL1-F : 00047707  00680410  
+XL1-R : 00112145  00801135  
+
+XL2-F : 00096852  00757336  
+XL2-R : 00140057  00868235  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 21.514429 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 4049 overlapping in MiniBus Medium_Truck
+2024-02-22 13:52:32,750 avc data: Lcv Checking MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+STX,02,02,02,F,04049,000003644,ETX
+Going to Flush_Global_Data
+2024-02-22 13:52:36,105 avc data: ST
+2024-02-22 13:52:36,617 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:41,112 avc data: ST
+2024-02-22 13:52:41,618 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:46,120 avc data: STX
+2024-02-22 13:52:46,624 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:52:51,126 avc data: ST
+2024-02-22 13:52:51,627 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:52:56,133 avc data: ST
+2024-02-22 13:52:56,636 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:01,139 avc data: ST
+2024-02-22 13:53:01,645 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:06,146 avc data: STX
+2024-02-22 13:53:06,661 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:53:11,153 avc data: ST
+2024-02-22 13:53:11,654 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:16,159 avc data: ST
+2024-02-22 13:53:16,668 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:21,167 avc data: ST
+2024-02-22 13:53:21,673 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:26,174 avc data: ST
+2024-02-22 13:53:26,679 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:31,181 avc data: ST
+2024-02-22 13:53:31,686 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:36,189 avc data: ST
+2024-02-22 13:53:36,692 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:41,197 avc data: STX
+2024-02-22 13:53:41,707 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:53:46,206 avc data: STX
+2024-02-22 13:53:46,710 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:53:47,911 avc data: S1
+2024-02-22 13:53:48,424 avc data: F 
+Loop Activated.S2F ......
+S1R S2R S1F S2F
+2024-02-22 13:53:48,938 avc data: S1R S2R Loop Released time 845264
+
+XL1-F : 00045336  00470331  
+XL1-R : 00122149  00554210  
+
+XL2-F : 00002017  00489185  
+XL2-R : 00108595  00548669  
+Sequence is :        
+
+XL1_Length =
+2024-02-22 13:53:49,442 avc data: 2, XL2_Length = 2
+
+Roll Back Flag Set
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 18.990137 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2353 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,R,00500,000003645,ETX
+Going to Flush_Global_Data
+2024-02-22 13:53:51,213 avc data: ST
+2024-02-22 13:53:51,724 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:53:52,602 avc data: L
+2024-02-22 13:53:53,108 avc data: oop Activated.......
+S1F S2F S1R S2R S1F
+2024-02-22 13:53:53,609 avc data: S2F S1R S2R Loop Released time 744109
+
+XL1-F : 00013814  00520571  
+XL1-R : 00153513  00578216  
+
+XL2-F : 00104017  00502605  
+XL2-R : 00148091  00591104  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_
+2024-02-22 13:53:54,124 avc data: Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 12.738678 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 1568 
+Wheel base faulty
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,00500,000003646,ETX
+Going to Flush_Global_Data
+2024-02-22 13:53:56,222 avc data: STX
+2024-02-22 13:53:56,729 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:54:01,230 avc data: ST
+2024-02-22 13:54:01,742 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:04,188 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:54:05,041 avc data: S1
+2024-02-22 13:54:05,543 avc data: F S2F S1R S2R S1F S2F S1R
+2024-02-22 13:54:06,057 avc data: S2R Loop Released time 2152332
+
+XL1-F : 00164686  01371861  01682299  
+XL1-R : 00369891  01523019  01842187  
+
+XL2-F : 00216992  01423374  01764968  
+XL2-R : 00415770  01578721  01960901  
+Sequence is :            
+
+XL1_Length = 3, XL2_Length = 3
+2024-02-22 13:54:06,571 avc data: Vehicle_Axle_Count = 6
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Wheel_Base = [1] 0 [2] 0 [3] 0 [4] 0 [5] 1 Vehicle_Class = MAV6Axle
+STX,02,06,06,F,00000,000003647,ETX
+STX,01,11111111,11111111,ETX
+Going to Flush_Global_Data
+2024-02-22 13:54:09,501 avc data: Loop Activated.......
+S1F S2F S1R S2R S1F
+2024-02-22 13:54:10,016 avc data: S2F S1R S2R Loop Released time 816756
+
+XL1-F : 00005083  00482610  
+XL1-R : 00134550  00557454  
+
+XL2-F : 00074921  00485463  
+XL2-R : 00163798  00649796  
+Sequence is :        
+
+XL1_Length = 2, XL2_Leng
+2024-02-22 13:54:10,530 avc data: th = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 22.244874 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2775 overlapping in Lcv Bolero Innova_car Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+Checking Pick -upNot Matched, Reason-Any H sensor interrupted
+Checking Innova carMatched, Reason-Height sensors not interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+defaultClasses.undefined
+
+
+---> Determini
+2024-02-22 13:54:11,043 avc data: ng Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,02775,000003648,ETX
+Going to Flush_Global_Data
+2024-02-22 13:54:11,558 avc data: STX,01,11111111,11111111,ETX
+2024-02-22 13:54:15,367 avc data: L
+2024-02-22 13:54:15,870 avc data: oop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:54:16,386 avc data: S1F S2F S1R
+2024-02-22 13:54:16,900 avc data: S2R Loop Released time 1363699
+
+XL1-F : 00110513  00792592  
+XL1-R : 00239599  00964703  
+
+XL2-F : 00160225  00910818  
+XL2-R : 00279951  01004822  
+Sequence is
+2024-02-22 13:54:17,414 avc data: :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 18.811979 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 3765 overlapping in MiniBus Medium_Truck Lcv Bolero Checking MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvMatched, Reason- Any of H1 H2 H3 sensor Cut
+
+STX,02,02,02,F,03765,0
+2024-02-22 13:54:17,929 avc data: 00003649,ETX
+Going to Flush_Global_Data
+2024-02-22 13:54:21,272 avc data: ST
+2024-02-22 13:54:21,780 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:26,278 avc data: ST
+2024-02-22 13:54:26,786 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:31,287 avc data: ST
+2024-02-22 13:54:31,794 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:36,295 avc data: ST
+2024-02-22 13:54:36,809 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:41,304 avc data: STX
+2024-02-22 13:54:41,817 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:54:43,959 avc data: L
+2024-02-22 13:54:44,475 avc data: oop Activated.......
+S1F S2F S1R
+2024-02-22 13:54:44,989 avc data: S2R S1F S1R S2F S2R
+2024-02-22 13:54:45,492 avc data: S1F S2F S1R S2R
+2024-02-22 13:54:45,994 avc data: S1F S2F S1R S2R
+2024-02-22 13:54:46,506 avc data: S1F S2F S1R S2R
+2024-02-22 13:54:47,019 avc data: Loop Released time 2968608
+
+XL1-F : 00232210  00779379  01128731  01690963  02079855  
+XL1-R
+2024-02-22 13:54:47,533 avc data: : 00425173  00779012  01348734  01876976  02309966  
+
+XL2-F : 00279038  00810866  01235536  01726678  02181074  
+XL2-R : 00577780  00904305  01499949  02008112  02394687  
+Sequence is :                    
+
+XL1_Length = 5, XL2_Length = 5
+
+Vehicle_Axle_Count = 4
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 9.600992 km/Hr  RO-Out = 1, Bus
+Wheel_Base = [1] 2466 [2] 1393 [3] 1393 
+Final_Vehicle_Axle_Count = 4
+Vehicle_Class = MAV4Axle
+2024-02-22 13:54:48,048 avc data: STX,02,06,04,F,02466,000003650,ETX
+Going to Flush_Global_Data
+2024-02-22 13:54:48,550 avc data: S1F S1R S1F S2F S1R S2R S2F S2R S1F S1R S2F S1F S2R S1R
+2024-02-22 13:54:49,063 avc data: S2F S2R
+2024-02-22 13:54:49,577 avc data: Going to Flush_Global_Data
+
+LOOP NOT DETE
+2024-02-22 13:54:50,092 avc data: CTED.....
+2024-02-22 13:54:51,319 avc data: ST
+2024-02-22 13:54:51,824 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:54:56,326 avc data: ST
+2024-02-22 13:54:56,831 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:01,334 avc data: ST
+2024-02-22 13:55:01,837 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:06,340 avc data: ST
+2024-02-22 13:55:06,853 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:11,347 avc data: ST
+2024-02-22 13:55:11,860 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:16,355 avc data: STX
+2024-02-22 13:55:16,863 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:55:21,362 avc data: STX
+2024-02-22 13:55:21,874 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:55:26,369 avc data: ST
+2024-02-22 13:55:26,883 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:31,376 avc data: ST
+2024-02-22 13:55:31,885 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:36,384 avc data: STX
+2024-02-22 13:55:36,889 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:55:39,962 avc data: Loop Activated.......
+S1F S2F S1R S2R S1F S1R S2F S2R
+2024-02-22 13:55:40,553 avc data: S1
+2024-02-22 13:55:41,068 avc data: F S2F S1R S2R
+2024-02-22 13:55:41,583 avc data: Loop Released time 1760592
+
+XL1-F : 00132062  00381193  01061978  
+XL1-R : 00313770  00344619  01216086  
+
+XL2-F : 00242624  00417821  01163324  
+XL2-R : 00365385  00399152  01247045  
+Sequence is :            
+
+XL1_Length = 3, XL2_Length = 3
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 14.822452 km/Hr  RO-Out = 2, MiniBus
+Wheel_Bas
+2024-02-22 13:55:42,097 avc data: e = [1] 3741 overlapping in MiniBus Medium_Truck Lcv Bolero Checking MBusMatched, Reason- H1 H2 H3 cut and overhang matched
+
+STX,02,02,02,F,03741,000003651,ETX
+STX,01,11111111,11111111,ETX
+Going to Flush_Global_Data
+2024-02-22 13:55:46,399 avc data: STX
+2024-02-22 13:55:46,900 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:55:51,404 avc data: ST
+2024-02-22 13:55:51,914 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:55:56,412 avc data: STX
+2024-02-22 13:55:56,918 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:56:01,420 avc data: ST
+2024-02-22 13:56:01,936 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:06,429 avc data: ST
+2024-02-22 13:56:06,945 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:09,443 avc data: S1
+2024-02-22 13:56:09,957 avc data: F S2F 
+Loop Activated.......
+S1R S2R S1F S2F
+2024-02-22 13:56:10,469 avc data: S1R S2R Loop Released time 698005
+
+XL1-F : 00029904  00434719  
+XL1-R : 00085051  00513047  
+
+XL2-F : 00022637  00509566  
+XL2-R : 00169322  00549709  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg =
+2024-02-22 13:56:10,983 avc data: 23.710649 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2799 overlapping in Lcv Bolero Innova_car Checking LcvNot Matched, Reason-None of H1 H2 H3 interrupted
+Checking Pick -upNot Matched, Reason-Any H sensor interrupted
+Checking Innova carMatched, Reason-Height sensors not interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+2024-02-22 13:56:11,493 avc data: STX,02,01,02,F,02799,000003652,ETX
+Going to Flush_Global_Data
+STX,01,11111111,11111111,ETX
+2024-02-22 13:56:16,447 avc data: ST
+2024-02-22 13:56:16,963 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:21,457 avc data: ST
+2024-02-22 13:56:21,963 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:22,465 avc data: Loop Activated.......
+2024-02-22 13:56:22,968 avc data: S1F S2F S1R S2R
+2024-02-22 13:56:23,611 avc data: S1
+2024-02-22 13:56:24,118 avc data: F S2F S1R S2R
+2024-02-22 13:56:24,619 avc data: Loop Released time 1916263
+
+XL1-F : 00233391  01266444  
+XL1-R : 00389331  01423186  
+
+XL2-F : 00308360  01326177  
+XL2-R : 00454363  01500859  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 15
+2024-02-22 13:56:25,134 avc data: .574205 km/Hr  RO-Out = 2, MiniBus
+Wheel_Base = [1] 4468 overlapping in Heavy_Truck MiniBus Medium_Truck Lcv Checking Heavy TruckNot Matched, Reason-H4 not interrupted
+Checking MBusNot Matched, Reason-H1 H2 and H3 not interrupted
+Checking Medim TruckNot Matched, Reason-H4 not interrupted
+Checking LcvMatched, Reason- Any of H1 H2 H3 sensor Cut
+
+STX,02,02,02,F,04468,000003653,ETX
+Going to Flush_Global_Data
+2024-02-22 13:56:26,466 avc data: ST
+2024-02-22 13:56:26,983 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:27,495 avc data: S1F 
+Loop Activated.......
+S2F S1R S2R
+2024-02-22 13:56:28,008 avc data: S1F S2F S1R S2R Loop Released time 836523
+
+XL1-F : 00054507  00478038  
+XL1-R : 00075853  0063282
+2024-02-22 13:56:28,523 avc data: 4  
+
+XL2-F : 00085021  00582184  
+XL2-R : 00196387  00657531  
+Sequence is :        
+
+XL1_Length = 2, XL2_Length = 2
+
+Vehicle_Axle_Count = 2
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0
+VAvg = 15.531754 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 2091 overlapping in TataAce Auto Tractor Checking Tractor (1200-2200,Default-2,Modified-2)...
+Tractor tyre size = 115892  S_tyre = 9811, F_tyre = 1, -19706% Percent = 1   F1+Percent = 20  ..tyre_width condition not Match
+2024-02-22 13:56:29,036 avc data: ed  Not Matched
+Checking TataAceNot Matched, Reason-H1 or H2 or H3 or H4 not interrupted
+Checking Auto (1300-2300,Default-1,Modified-1)...Matched, Reason-Height sensors not interrupted
+
+No match found,considering Lowest WheelBase range.....
+
+defaultClasses.undefined
+
+
+---> Determining Class from Height Sensors.......
+
+Matched Car, Reason-Height sensors not interrupted
+STX,02,01,02,F,02091,000003654,ETX
+Going to Flush_Global_Data
+2024-02-22 13:56:31,474 avc data: ST
+2024-02-22 13:56:31,976 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:36,483 avc data: ST
+2024-02-22 13:56:36,996 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:41,490 avc data: ST
+2024-02-22 13:56:41,992 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:46,499 avc data: STX
+2024-02-22 13:56:47,004 avc data: ,01,11111111,11111111,ETX
+2024-02-22 13:56:51,506 avc data: ST
+2024-02-22 13:56:52,015 avc data: X,01,11111111,11111111,ETX
+2024-02-22 13:56:53,377 avc data: Loop Activated.......
+S1F S2F S1R S2R
+2024-02-22 13:56:53,889 avc data: S1F S2F S1R S2R
+2024-02-22 13:56:54,526 avc data: S1
+2024-02-22 13:56:55,029 avc data: F S2F S1R S2R S1F S2F S1R
+2024-02-22 13:56:55,531 avc data: S2R Loop Released time 2448921
+
+XL1-F : 00237972  00705893  01678394  02013517  
+XL1-R : 00430967  00898023  01809296  02101091  
+
+XL2-F : 00266233  00772260  01753570  02031746  
+XL2-R : 00511501  00951490  0188674
+2024-02-22 13:56:56,046 avc data: 2  02229032  
+Sequence is :                
+
+XL1_Length = 4, XL2_Length = 4
+
+Vehicle_Axle_Count = 6
+Lifted_Axle_Release_Count = 0
+
+
+Lifted Axle Count = 0Garbage Velocity Wheel_Base = 0
+
+VAvg = 3.618262 km/Hr  RO-Out = 0, Truck
+Wheel_Base = [1] 276 [2] 0 [3] 0 [4] 0 [5] 1 Vehicle_Class = MAV6Axle
+STX,02,06,06,R,00500,000003655,ETX
+Going to Flush_Global_Data
+2024-02-22 13:56:56,549 avc data: STX,01,11111111,11111111,ETX

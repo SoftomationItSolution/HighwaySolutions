@@ -18,6 +18,7 @@ router.get('/SystemVehicleClassDetails', SystemVehicleClassGetActive);
 router.get('/SystemVehicleSubClassDetails', SystemVehicleSubClassDetails);
 router.get('/DenominationDetails', DenominationGetActive);
 router.get('/EquipmentTypeDetails', EquipmentTypeGetActive);
+router.get('/ProtocolTypeMasterGetAll', ProtocolTypeMasterGetAll);
 router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
 router.get('/LaneDetails', LaneGetByIpAddress);
 router.get('/PlazaDetails', PlazaGetById);
@@ -247,6 +248,20 @@ async function EquipmentTypeGetActive(req, res, next) {
     }
 }
 
+async function ProtocolTypeMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_ProtocolTypeMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'ProtocolTypeMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
 async function EquipmentDetailsGetByLane(req, res, next) {
     try {
         const LaneId = req.query.LaneId | 0;
@@ -259,7 +274,7 @@ async function EquipmentDetailsGetByLane(req, res, next) {
             res.status(200).json(out);
         }
         else {
-            let out = constants.ResponseMessage("success", result.recordset[0]);
+            let out = constants.ResponseMessage("success", result.recordset);
             res.status(200).json(out);
         }
     } catch (error) {

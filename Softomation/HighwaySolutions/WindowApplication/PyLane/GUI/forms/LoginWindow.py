@@ -1,15 +1,15 @@
 import json
 from PySide6.QtCore import Qt,Signal
 from PySide6.QtWidgets import QMainWindow
+from gui.ui.messBox import show_custom_message_box
+from gui.ui.ui_LoginWindow import Ui_Login
 from models.userModel import UserDetailsGetByLoginId
-from GUI.ui.messBox import show_custom_message_box
-from GUI.ui.ui_LoginWindow import Ui_Login
 from utils.crypt import decrypt_aes_256_cbc, encrypt_aes_256_cbc
 
 
 
 class LoginUI(QMainWindow, Ui_Login):
-    switch_window = Signal(str)
+    switch_window = Signal()
     def __init__(self,dbConnectionObj):
         super(LoginUI, self).__init__()
         self.db=dbConnectionObj

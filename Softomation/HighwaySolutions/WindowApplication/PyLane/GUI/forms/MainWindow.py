@@ -2,18 +2,18 @@ import json
 from PySide6.QtCore import QDateTime,Signal
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget,QHBoxLayout, QVBoxLayout
-from GUI.ui.messBox import confirmation_box, show_custom_message_box
-from GUI.widgets.Header import Header
-from GUI.widgets.LeftFrame import LeftFrame
-from GUI.widgets.RightFrame import RightFrame
-from GUI.widgets.Footer import Footer
+from gui.ui.messBox import confirmation_box, show_custom_message_box
+from gui.widgets.Header import Header
+from gui.widgets.LeftFrame import LeftFrame
+from gui.widgets.RightFrame import RightFrame
+from gui.widgets.Footer import Footer
 from models.SystemSettingModel import GetSystemSetting
 from models.shiftTimingModel import getShiftDetails
 from models.transactionTypeModel import GetTransactionType
 from models.vehicleClassModel import GetsystemVehicleClass, GetsystemVehicleSubClass
 
 class MainWindow(QMainWindow):
-    switch_window = Signal()
+    switch_window = Signal(str)
     def __init__(self,dbConnectionObj,user_Details):
         super(MainWindow, self).__init__()
         self.setStyleSheet("background-color: rgb(1, 27, 65);")

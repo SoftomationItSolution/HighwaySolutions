@@ -35,18 +35,21 @@ class Text:
     def main(self, connection_string):
         reader_ = ReaderInstance(connection_string)
         reader = reader_.get_reader_instance()
-        for i in range(100):
+        i=0
+        while True:
             readList = []
             reader.read(500, readList)
             for tag in readList:
+                #print(tag)
                 print("ReaderName:", tag._ReaderName)
                 print("EPC:", tag._EPC)
                 if hasattr(tag, '_TID'):
                     print("TID:", tag._TID)
                 else:
                     print("TID information not available")
-            reader.stop()
-            print(i)
+            #reader.stop()
+            i=i+1
+            #print(i)
             #time.sleep(0.5)
 def get_cs(con_type, ip_address, port):
     connection_string=f"{con_type}:{ip_address}:{port}"
@@ -59,5 +62,5 @@ if __name__ == '__main__':
     # if status is not False:
     #     print("here")
     s = Text()
-    con_str=get_cs("TCP", "192.168.1.116", 9090)
+    con_str=get_cs("TCP", "192.168.10.36", 9090)
     s.main(con_str)

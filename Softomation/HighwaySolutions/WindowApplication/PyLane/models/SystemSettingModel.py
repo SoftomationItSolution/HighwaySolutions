@@ -12,10 +12,13 @@ def systemSettingImport(api_base_url,db):
                     d['DataStatus'],d['CreatedDate'],d['CreatedBy'],d['ModifiedDate'],d['ModifiedBy']]
             resultData=db.execute_procedure('USP_SystemSettingInsertUpdate', params)
             print(resultData)
+            return d['DefaultPlazaId']
         else:
             print(f"Error: {response.status_code} - {response.text}")
+            return 0
     except Exception as e:
         print(f"Error fetching or storing data: {e}")
+        return 0
 
 def GetSystemSetting(db):
     try:

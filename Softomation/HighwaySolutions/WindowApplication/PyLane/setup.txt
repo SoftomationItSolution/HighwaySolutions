@@ -1,11 +1,13 @@
 pyside6
-<<<<<<< Updated upstream
 opencv-python
-=======
->>>>>>> Stashed changes
 mysql-connector-python
 mysqlclient
 pandas
 cryptography
 PyJwt
 PyPubSub
+python-escpos
+gmssl
+hidapi
+pyserial
+pyusb

@@ -34,10 +34,10 @@ class WinDataClient:
     def process_axel_data(self, axel_data_str):
         axel = axel_data_str.split(',')
         if len(axel) == 4:
-            x = {'number': axel[0].replace('#', ''),
-                'weight': axel[1].replace('w', ''),
-                'speed': axel[2].replace('s', ''),
-                'distance': axel[3].replace('d', '')}
+            x = {'number': axel[0].replace('#', '').strip(),
+                'weight': axel[1].replace('w', '').strip(),
+                'speed': axel[2].replace('s', '').strip(),
+                'distance': axel[3].replace('d', '').strip()}
         else:
             x = axel_data_str.replace('#', '')
         self.axelData.append(x)
@@ -71,7 +71,7 @@ class WinDataClient:
                     self.logger.logInfo("wim data: {}".format(echoed_transaction_number))
                     self.process_data(echoed_transaction_number)
                     self.client_socket.send("ACK\r\n".encode('utf-8'))
-                time.sleep(self.timeout)
+                #time.sleep(self.timeout)
         except Exception as e:
             self.logger.logError("Exception occurred: {}".format(str(e)))
         finally:
