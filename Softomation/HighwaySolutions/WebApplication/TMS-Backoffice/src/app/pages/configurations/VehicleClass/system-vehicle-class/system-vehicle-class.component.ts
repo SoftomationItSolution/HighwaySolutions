@@ -36,7 +36,7 @@ export class SystemVehicleClassComponent implements OnInit {
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.spinner.hide();
+        
         this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
@@ -44,7 +44,8 @@ export class SystemVehicleClassComponent implements OnInit {
         if (this.DataView != 1) {
           this.dm.unauthorized();
         }
-        this.GetAllData();
+        else
+          this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
@@ -64,7 +65,6 @@ export class SystemVehicleClassComponent implements OnInit {
  
  
   GetAllData() {
-    this.spinner.show();
     this.dbService.SystemVehicleClassGetAll().subscribe(
       data => {
         this.spinner.hide();

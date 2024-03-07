@@ -9,42 +9,40 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="ManufactureName">Manufacture Name</label>
-                    <input formControlName="ManufactureName" type="text" pInputText required autofocus
+                    <label for="Name">Name</label>
+                    <input formControlName="Name" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureName')">Manufacture Name is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Name')"> Name is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="ManufactureAddress">Manufacture Address</label>
-                    <input formControlName="ManufactureAddress" type="text" pInputText required autofocus
+                    <label for="Address"> Address</label>
+                    <input formControlName="Address" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureAddress')">Manufacture Address is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Address')"> Address is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="ManufactureEmailId">Manufacture EmailId</label>
-                    <input formControlName="ManufactureEmailId" type="text" pInputText required autofocus
+                    <label for="EmailId"> EmailId</label>
+                    <input formControlName="EmailId" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureEmailId')">Manufacture Email id is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EmailId')"> Email id is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EquipmentManufactureEmailId')">Vaild
-                        Manufacture Email Id is required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EmailId')">{{error['EmailId']}}</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="ManufactureMobileNumber">Manufacture Mobile</label>
-                    <input formControlName="ManufactureMobileNumber" type="text" pInputText required autofocus
+                    <label for="MobileNumber"> Mobile</label>
+                    <input formControlName="MobileNumber" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ManufactureMobileNumber')">Manufacture Mobile Number is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','MobileNumber')"> Mobile Number is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','ManufactureMobileNumber')">Vaild
-                        Manufacture Mobile Number is required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','MobileNumber')">{{error['MobileNumber']}}</small>
                 </div>
             </div>
             <div class="row">

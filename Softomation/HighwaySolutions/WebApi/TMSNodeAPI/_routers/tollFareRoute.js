@@ -14,6 +14,7 @@ module.exports = router;
 
 async function TollFareSetUp(req, res, next) {
     try {
+        const currentDateTime = new Date();
         const SessionId = constants.RandonString(10)
         const array = req.body.TollFareConfigurations;
         const table = new sql.Table('temp_TollFareConfiguration');
@@ -44,8 +45,8 @@ async function TollFareSetUp(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_TollFareSetup');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

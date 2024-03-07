@@ -14,7 +14,7 @@ app.use(apiPrefix, require('./_routers/commonRoute'));
 app.use(apiPrefix, require('./_routers/dashboardRoute'));
 app.use(apiPrefix, require('./_routers/userRoute'));
 app.use(apiPrefix, require('./_routers/rolesRoute'));
-app.use(apiPrefix, require('./_routers/manufactureRoute'));
+app.use(apiPrefix, require('./_routers/manufacturerRoute'));
 app.use(apiPrefix, require('./_routers/systemIntegratorRoute'));
 app.use(apiPrefix, require('./_routers/plazaRoute'));
 app.use(apiPrefix, require('./_routers/vehicleClassRoute'));

@@ -9,8 +9,8 @@ from utils.crypt import decrypt_aes_256_cbc, encrypt_aes_256_cbc
 
 
 class LoginUI(QMainWindow, Ui_Login):
-    switch_window = Signal()
-    def __init__(self,dbConnectionObj):
+    switch_window = Signal(str)
+    def __init__(self,dbConnectionObj,user_details):
         super(LoginUI, self).__init__()
         self.db=dbConnectionObj
         self.setupUi(self)

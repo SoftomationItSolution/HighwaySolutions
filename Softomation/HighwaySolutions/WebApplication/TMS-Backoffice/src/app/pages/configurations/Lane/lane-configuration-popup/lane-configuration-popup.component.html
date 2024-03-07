@@ -91,7 +91,7 @@
                     <input formControlName="LaneSystemIpAddress" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LaneSystemIpAddress')">Lane System IP is required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LaneSystemIpAddress')">Valid Lane System IP.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LaneSystemIpAddress')">{{error['IpAddress']}}</small>
                 </div>
                 <div class="col-md-6">
                     <div class="form-check">

@@ -21,6 +21,7 @@ export class ChangePasswordPopUpComponent implements OnInit {
   PasswordForm!: FormGroup;
   hide = true;
   hide1 = true;
+  hide2 = true;
   userData: any;
   submitted = false;
   constructor(private dm: DataModel, private router: Router,

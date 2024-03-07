@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt,QDateTime,QTimer
 from PySide6.QtGui import QFont, QIcon
 from PySide6.QtCore import QSize, Qt
 
-from GUI.ui.messBox import confirmation_box
+from gui.ui.messBox import confirmation_box
 class Header(QFrame):
     def __init__(self, width, height,userDetails,shiftDetails):
         super().__init__()

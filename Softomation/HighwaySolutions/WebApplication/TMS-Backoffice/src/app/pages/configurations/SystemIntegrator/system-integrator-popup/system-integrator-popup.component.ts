@@ -19,6 +19,7 @@ export class SystemIntegratorPopupComponent implements OnInit {
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
+  hide=true
   ErrorData: any;
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<SystemIntegratorPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
@@ -30,12 +31,12 @@ export class SystemIntegratorPopupComponent implements OnInit {
     this.PageTitle = "Create System Integrator Details";
     this.DataDetailsForm = new FormGroup({
       SystemIntegratorId: new FormControl(this.SystemIntegratorId, [Validators.required]),
-      SystemIntegratorName: new FormControl('', [Validators.required, Validators.pattern(regExps["AlphaNumericSingleSpace"])]),
-      SystemIntegratorEmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
-      SystemIntegratorMobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
-      SystemIntegratorAddress: new FormControl('', [Validators.required]),
-      SystemIntegratorLoginId: new FormControl(''),
-      SystemIntegratorLoginPassword: new FormControl(''),
+      Name: new FormControl('', [Validators.required]),
+      EmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
+      MobileNumber: new FormControl('', [Validators.required, Validators.pattern(regExps["MobileNumber"])]),
+      Address: new FormControl('', [Validators.required]),
+      LoginId: new FormControl(''),
+      Password: new FormControl(''),
       DataStatus: new FormControl(true),
     });
     if (this.SystemIntegratorId > 0) {
@@ -53,12 +54,12 @@ export class SystemIntegratorPopupComponent implements OnInit {
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
           this.DataDetailsForm.controls['SystemIntegratorId'].setValue(DetailData.SystemIntegratorId);
-          this.DataDetailsForm.controls['SystemIntegratorName'].setValue(DetailData.SystemIntegratorName);
-          this.DataDetailsForm.controls['SystemIntegratorAddress'].setValue(DetailData.SystemIntegratorAddress);
-          this.DataDetailsForm.controls['SystemIntegratorMobileNumber'].setValue(DetailData.SystemIntegratorMobileNumber);
-          this.DataDetailsForm.controls['SystemIntegratorEmailId'].setValue(DetailData.SystemIntegratorEmailId);
-          this.DataDetailsForm.controls['SystemIntegratorLoginId'].setValue(DetailData.SystemIntegratorLoginId);
-          this.DataDetailsForm.controls['SystemIntegratorLoginPassword'].setValue(DetailData.SystemIntegratorLoginPassword);
+          this.DataDetailsForm.controls['Name'].setValue(DetailData.Name);
+          this.DataDetailsForm.controls['Address'].setValue(DetailData.Address);
+          this.DataDetailsForm.controls['MobileNumber'].setValue(DetailData.MobileNumber);
+          this.DataDetailsForm.controls['EmailId'].setValue(DetailData.EmailId);
+          this.DataDetailsForm.controls['LoginId'].setValue(DetailData.LoginId);
+          this.DataDetailsForm.controls['Password'].setValue(DetailData.Password);
           if (DetailData.DataStatus == 1)
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
           else
@@ -92,12 +93,12 @@ export class SystemIntegratorPopupComponent implements OnInit {
     }
     const Obj = {
       SystemIntegratorId: this.SystemIntegratorId,
-      SystemIntegratorName: this.DataDetailsForm.value.SystemIntegratorName,
-      SystemIntegratorAddress: this.DataDetailsForm.value.SystemIntegratorAddress,
-      SystemIntegratorMobileNumber: this.DataDetailsForm.value.SystemIntegratorMobileNumber,
-      SystemIntegratorEmailId: this.DataDetailsForm.value.SystemIntegratorEmailId,
-      SystemIntegratorLoginId: this.DataDetailsForm.value.SystemIntegratorLoginId,
-      SystemIntegratorLoginPassword: this.DataDetailsForm.value.SystemIntegratorLoginPassword,
+      Name: this.DataDetailsForm.value.Name,
+      Address: this.DataDetailsForm.value.Address,
+      MobileNumber: this.DataDetailsForm.value.MobileNumber,
+      EmailId: this.DataDetailsForm.value.EmailId,
+      LoginId: this.DataDetailsForm.value.LoginId,
+      Password: this.DataDetailsForm.value.Password,
       DataStatus: this.DataDetailsForm.value.DataStatus == true ? 1 : 2,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId

@@ -6,14 +6,9 @@
     "auditLog": "apilogs\\.02461507707aa46329379c93cc50130a2c7cb4f9-audit.json",
     "files": [
         {
-            "date": 1708504961173,
-            "name": "apilogs\\2024-02-21-logfile.log",
-            "hash": "66ba45f3acc0d71ff6c9d1c4b0f9f63093e990b94c9c0b1d2178156c78215e87"
-        },
-        {
-            "date": 1708624485578,
-            "name": "apilogs\\2024-02-22-logfile.log",
-            "hash": "59b0d77b71ff636f0577cf4cce02e587c7409bb16ae3465637a22708ffef264e"
+            "date": 1709788628745,
+            "name": "apilogs\\2024-03-07-logfile.log",
+            "hash": "866bcd3c4b6c0f06f53f563bda5f28716d50b46eeac29df019e633d292cbf3c8"
         }
     ],
     "hashType": "sha256"

@@ -15,18 +15,19 @@ module.exports = router;
 async function SystemIntegratorInsertUpdate(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request().input('SystemIntegratorId', sql.Int, req.body.SystemIntegratorId)
-            .input('SystemIntegratorName', sql.VarChar(100), req.body.SystemIntegratorName)
-            .input('SystemIntegratorAddress', sql.VarChar(100), req.body.SystemIntegratorAddress)
-            .input('SystemIntegratorEmailId', sql.VarChar(100), req.body.SystemIntegratorEmailId)
-            .input('SystemIntegratorMobileNumber', sql.VarChar(15), req.body.SystemIntegratorMobileNumber)
-            .input('SystemIntegratorLoginId', sql.VarChar(255), req.body.SystemIntegratorLoginId)
-            .input('SystemIntegratorLoginPassword', sql.VarChar(255), req.body.SystemIntegratorLoginPassword)
+            .input('Name', sql.VarChar(100), req.body.Name)
+            .input('Address', sql.VarChar(100), req.body.Address)
+            .input('EmailId', sql.VarChar(100), req.body.EmailId)
+            .input('MobileNumber', sql.VarChar(15), req.body.MobileNumber)
+            .input('LoginId', sql.VarChar(255), req.body.LoginId)
+            .input('Password', sql.VarChar(255), req.body.Password)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemIntegratorInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

@@ -15,7 +15,7 @@ if __name__ == "__main__":
     db_json_data=read_json_file(config_manager.get_path('Paths', 'db_dir'))
     dbConnectionObj  = MySQLConnection(host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
     controller = WindowController(dbConnectionObj,config_manager)
-    controller.show_login()
+    controller.show_login(None)
     # w=MainWindow(dbConnectionObj,None)
     # w.show()
     sys.exit(app.exec())

@@ -123,13 +123,13 @@
                                     is required.</small>
                             </div>
                             <div class="col-md-6">
-                                <label for="ManufactureId">Manufacturer</label>
-                                <p-dropdown appendTo="body" formControlName="ManufactureId" inputId="ManufactureId"
-                                    [options]="ManufactureList" optionLabel="ManufactureName"
-                                    optionValue="ManufactureId" placeholder="Select"
+                                <label for="ManufacturerId">Manufacturer</label>
+                                <p-dropdown appendTo="body" formControlName="ManufacturerId" inputId="ManufacturerId"
+                                    [options]="ManufacturerList" optionLabel="Name"
+                                    optionValue="ManufacturerId" placeholder="Select"
                                     class="form-control select2"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ManufactureId')">Manufacturer
+                                    *ngIf="submitted && LocationDetailsForm.hasError('required','ManufacturerId')">Manufacturer
                                     is
                                     required.</small>
                             </div>

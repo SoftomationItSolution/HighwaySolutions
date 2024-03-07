@@ -48,7 +48,7 @@ export class SystemSettingComponent {
       ExemptAccess: new FormControl(false),
       FleetAccess: new FormControl(false),
       SubClassRequired: new FormControl(false),
-      OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["DecimalTwoDigit"])])
+      OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["Amount"])])
     });
     this.GetPermissionData();
   }
@@ -68,6 +68,7 @@ export class SystemSettingComponent {
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
           this.spinner.hide();
+          this.Dialogref.close(false);
           this.dm.unauthorized();
         }else{
           this.GetPlaza();

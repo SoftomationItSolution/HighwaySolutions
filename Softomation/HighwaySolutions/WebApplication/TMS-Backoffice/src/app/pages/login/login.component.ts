@@ -20,7 +20,6 @@ export class LoginComponent implements OnInit {
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-
     this.loginForm = new FormGroup({
       UserName: new FormControl('', [
         Validators.required
@@ -89,6 +88,7 @@ export class LoginComponent implements OnInit {
     this.api.SystemSettingGet().subscribe(
       data => {
         this.dataModel.setSSData(JSON.stringify(data.ResponseData));
+        this.spinner.hide();
         this.router.navigate(['/dashboard']);
       },
       (error) => {

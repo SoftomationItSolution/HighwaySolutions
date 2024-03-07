@@ -3,15 +3,16 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { EquipmentManufacturePopupComponent } from '../equipment-manufacture-popup/equipment-manufacture-popup.component';
+import { ManufacturerPopupComponent } from '../manufacturer-popup/manufacturer-popup.component';
+
 
 
 @Component({
-  selector: 'app-equipment-manufacture-master',
-  templateUrl: './equipment-manufacture-master.component.html',
-  styleUrls: ['./equipment-manufacture-master.component.css']
+  selector: 'app-manufacturer-master',
+  templateUrl: './manufacturer-master.component.html',
+  styleUrls: ['./manufacturer-master.component.css']
 })
-export class EquipmentManufactureMasterComponent implements OnInit {
+export class ManufacturerMasterComponent implements OnInit {
   DevicesData: any;
   PermissionData:any;
   ErrorData: any;
@@ -37,15 +38,17 @@ export class EquipmentManufactureMasterComponent implements OnInit {
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.spinner.hide();
+        
         this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
+          this.spinner.hide();
           this.dm.unauthorized();
         }
-        this.GetAllData();
+        else
+          this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
@@ -65,8 +68,7 @@ export class EquipmentManufactureMasterComponent implements OnInit {
  
  
   GetAllData() {
-    this.spinner.show();
-    this.dbService.EquipmentManufactureGetAll().subscribe(
+    this.dbService.ManufacturerGetAll().subscribe(
       data => {
         this.spinner.hide();
         this.DevicesData = data.ResponseData;
@@ -91,8 +93,8 @@ export class EquipmentManufactureMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '329px';
-      dialogConfig.data = { action: 'Save', ManufactureId: 0 };
-      const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
+      dialogConfig.data = { action: 'Save', ManufacturerId: 0 };
+      const dialogRef = this.dialog.open(ManufacturerPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {
@@ -114,8 +116,8 @@ export class EquipmentManufactureMasterComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '329px';
-      dialogConfig.data = { action: 'Update', ManufactureId: data.ManufactureId };
-      const dialogRef = this.dialog.open(EquipmentManufacturePopupComponent, dialogConfig);
+      dialogConfig.data = { action: 'Update', ManufacturerId: data.ManufacturerId };
+      const dialogRef = this.dialog.open(ManufacturerPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
           if (data) {

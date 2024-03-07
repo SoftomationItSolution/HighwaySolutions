@@ -11,7 +11,7 @@
                 <div class="col-md-6">
                     <label for="SystemIntegratorName">System Integrator</label>
                     <p-dropdown appendTo="body" formControlName="SystemIntegratorId" inputId="SystemIntegratorId"
-                        [options]="SIData" optionLabel="SystemIntegratorName" optionValue="SystemIntegratorId"
+                        [options]="SIData" optionLabel="Name" optionValue="SystemIntegratorId"
                         placeholder="Select" class="form-control select2"></p-dropdown>
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System Integrator is
@@ -28,14 +28,14 @@
                     <input formControlName="PlazaServerIpAddress" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaServerIpAddress')">Plaza Server IP is required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaServerIpAddress')">Valid Plaza Server IP.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaServerIpAddress')">{{error['IpAddress']}}</small>
                 </div>
                 <div class="col-md-6">
                     <label for="PlazaZoneId">Plaza Zone Id</label>
                     <input formControlName="PlazaZoneId" type="text" pInputText required autofocus
                         class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaZoneId')">Plaza Server IP is required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaZoneId')">Valid Plaza Server IP.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaZoneId')">Plaza zone id is required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaZoneId')">{{error["OnlyDigit"]}}</small>
                 </div>
                 <div class="col-md-6">
                     <label for="Ip">Chainage</label>
@@ -46,8 +46,7 @@
                         Number
                         is required.</small>
                     <small class="p-error"
-                        *ngIf="DataDetailsForm.hasError('pattern','ChainageNumber')">Valid Chainage
-                        Number is required.</small>
+                        *ngIf="DataDetailsForm.hasError('pattern','ChainageNumber')">{{error['ChainageNumber']}}</small>
                 </div>
                 <div class="col-md-6">
                     <label for="Latitude">Latitude</label>
@@ -56,9 +55,7 @@
                     <small class="p-error"
                         *ngIf="submitted && DataDetailsForm.hasError('required','Latitude')">Latitude
                         is required.</small>
-                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Latitude')">Valid
-                        Latitude is
-                        required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Latitude')">{{error["Latitude"]}}</small>
                 </div>
                 <div class="col-md-6">
                     <label for="Longitude">Longitude</label>
@@ -68,9 +65,7 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','Longitude')">Longitude
                         is
                         required.</small>
-                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Longitude')">Valid
-                        Longitude is
-                        required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Longitude')">{{error["Longitude"]}}</small>
                 </div>
             </div>
             <div class="row">

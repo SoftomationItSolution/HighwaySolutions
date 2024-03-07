@@ -290,26 +290,26 @@ export class apiIntegrationService {
   }
   //#endregion
 
-  //#region Equipment Manufacture
-  EquipmentManufactureGetAll(): Observable<any> {
+  //#region Equipment Manufacturer
+  ManufacturerGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetAll', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/manufacturerGetAll', { headers: headers_object });
   }
-  EquipmentManufactureGetActive(): Observable<any> {
+  ManufacturerGetActive(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetActive', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufacturerGetActive', { headers: headers_object });
   }
-  EquipmentManufactureGetById(ManufactureId: any): Observable<any> {
+  ManufacturerGetById(ManufacturerId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufactureGetById?ManufactureId=' + ManufactureId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ManufacturerGetById?ManufacturerId=' + ManufacturerId, { headers: headers_object });
   }
-  EquipmentManufactureInsertUpdate(data: {}): Observable<any> {
+  ManufacturerInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ManufactureInsertUpdate', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ManufacturerInsertUpdate', data, { headers: headers_object });
   }
   //#endregion
 

@@ -61,7 +61,7 @@ async function UserUpdatePassword(req, res, next) {
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .execute('USP_UserUpdatePassword');
         await database.disconnect();
-        let out = constants.ResponseMessage("User Details not found", result.recordset);
+        let out = constants.ResponseMessage("User updated successfully", result.recordset);
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'UserUpdatePassword');
@@ -73,6 +73,7 @@ async function UserUpdatePassword(req, res, next) {
 async function UserConfigurationSetUp(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request().input('UserId', sql.Int, req.body.UserId)
             .input('LoginId', sql.VarChar(40), req.body.LoginId)
             .input('LoginPassword', sql.VarChar(200), crypto.encrypt(req.body.LoginPassword))
@@ -87,8 +88,8 @@ async function UserConfigurationSetUp(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_UserInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

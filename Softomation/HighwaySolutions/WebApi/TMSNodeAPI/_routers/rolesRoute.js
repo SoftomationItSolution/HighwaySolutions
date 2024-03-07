@@ -18,13 +18,14 @@ module.exports = router;
 async function RoleConfigurationSetUp(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         const result = await pool.request().input('RoleId', sql.Int, req.body.RoleId)
             .input('RoleName', sql.VarChar(200), req.body.RoleName)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_RoleInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -54,13 +55,14 @@ async function RolePermissionSetup(req, res, next) {
         }
         const pool = await database.connect();
         const resultU = await pool.request().bulk(table);
+        const currentDateTime = new Date();
         const result = await pool.request().input('SessionId', sql.VarChar(200), SessionId)
             .input('RoleId', sql.Int, req.body.RoleId)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_RolePermissionInsertUpdate');
         database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -125,7 +127,7 @@ async function RolePermissionGetByRoleId(req, res, next) {
     try {
         const RoleId = req.query.RoleId | 0;
         const pool = await database.connect();
-        const result = await pool.request().input('RoleId', sql.Int, RoleId).execute('USP_RolesPersmissionGetByRoleId');
+        const result = await pool.request().input('RoleId', sql.Int, RoleId).execute('USP_RolesPermissionGetByRoleId');
         await database.disconnect();
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);

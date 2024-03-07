@@ -1,9 +1,9 @@
 from PySide6.QtWidgets import QWidget, QFrame, QHBoxLayout, QVBoxLayout
-from GUI.widgets.CameraViewFrame import CameraLiveView
-from GUI.widgets.RecentTransactionFrame import RecentTransactionBox
-from GUI.widgets.CurrentTransactionFrame import CurrentTransactionBox
-from GUI.widgets.TransactionTypeFrame import TransactionTypeBox
-from GUI.widgets.WimDataFrame import WimDataQueueBox
+from gui.widgets.CameraViewFrame import CameraLiveView
+from gui.widgets.RecentTransactionFrame import RecentTransactionBox
+from gui.widgets.CurrentTransactionFrame import CurrentTransactionBox
+from gui.widgets.TransactionTypeFrame import TransactionTypeBox
+from gui.widgets.WimDataFrame import WimDataQueueBox
 
 class RightFrame(QFrame):
     def __init__(self, width, height,TransactionTypeDetails,camDetails):

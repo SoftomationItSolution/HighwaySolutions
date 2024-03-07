@@ -30,6 +30,7 @@ async function FloatProcessSetUp(req, res, next) {
         }
         const pool = await database.connect();
         const resultU = await pool.request().bulk(table);
+        const currentDateTime = new Date();
         const result = await pool.request().input('SessionId', sql.VarChar(200), SessionId)
             .input('FloatProcessId', sql.BigInt, req.body.FloatProcessId)
             .input('PlazaId', sql.SmallInt, req.body.PlazaId)
@@ -45,8 +46,8 @@ async function FloatProcessSetUp(req, res, next) {
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_FloatProcessInsertUpdate');
         database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

@@ -40,6 +40,7 @@ async function SystemSettingGet(req, res, next) {
 async function SystemSettingSetup(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request()
             .input('DefaultPlazaId', sql.SmallInt, req.body.DefaultPlazaId)
             .input('AllotmentDays', sql.SmallInt, req.body.AllotmentDays)
@@ -53,8 +54,8 @@ async function SystemSettingSetup(req, res, next) {
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemSettingInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessage("success", result.recordset[0]);
@@ -129,9 +130,15 @@ async function ValidateUser(req, res, next) {
             }
             else {
                 const userData = result.recordset[0];
+                const AccountExpiredDate=moment(userData.AccountExpiredDate)
+                const currentDate = new Date();
                 if (req.body.LoginPassword == crypto.decrypt(userData.LoginPassword)) {
                     if (userData.DataStatus != 1) {
                         let out = constants.ResponseMessage("Account has inactive", null);
+                        res.status(200).json(out);
+                    }
+                    else if (AccountExpiredDate < currentDate) {
+                        let out = constants.ResponseMessage("Account has expired", null);
                         res.status(200).json(out);
                     }
                     else {
@@ -239,7 +246,7 @@ async function RolePermissionGetByMenu(req, res, next) {
         const result = await pool.request().input('MenuURL', sql.VarChar(50), req.body.MenuUrl)
             .input('SystemId', sql.Int, req.body.SystemId)
             .input('RoleId', sql.Int, req.body.RoleId)
-            .execute('USP_RolesPersmissionGetByMenu');
+            .execute('USP_RolesPermissionGetByMenu');
         await database.disconnect();
         if (result.recordset == []) {
             let out = constants.ResponseMessage("unauthorized", null);

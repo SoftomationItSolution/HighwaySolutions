@@ -35,8 +35,9 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','OpeningBalance')">Opening Balance must
                         be required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','OpeningBalance')">Vaild >Opening Balance
-                        must be required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','Amount')">
+                        {{error['Amount']}}
+                    </small>
                 </div>
                 <div class="col-md-2">
                     <div class="form-check" style="padding-bottom: 20px;">

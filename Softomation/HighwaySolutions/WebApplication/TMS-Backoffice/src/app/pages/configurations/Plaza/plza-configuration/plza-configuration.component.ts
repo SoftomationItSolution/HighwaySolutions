@@ -37,15 +37,17 @@ export class PlzaConfigurationComponent implements OnInit {
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.spinner.hide();
+        
         this.PermissionData = data.ResponseData;
         this.DataAdd = this.PermissionData.DataAdd;
         this.DataUpdate = this.PermissionData.DataUpdate;
         this.DataView = this.PermissionData.DataView;
         if (this.DataView != 1) {
+          this.spinner.hide();
           this.dm.unauthorized();
         }
-        this.GetAllData();
+        else
+          this.GetAllData();
       },
       (error) => {
         this.spinner.hide();
@@ -65,7 +67,6 @@ export class PlzaConfigurationComponent implements OnInit {
  
  
   GetAllData() {
-    this.spinner.show();
     this.dbService.PlazaGetAll().subscribe(
       data => {
         this.spinner.hide();

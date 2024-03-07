@@ -1,7 +1,7 @@
 
 
-from GUI.forms.LoginWindow import LoginUI
-from GUI.forms.MainWindow import MainWindow
+from gui.forms.LoginWindow import LoginUI
+from gui.forms.MainWindow import MainWindow
 
 
 class WindowController:
@@ -9,8 +9,8 @@ class WindowController:
         self.db=dbConnectionObj
         self.config_manager=config_manager
      
-    def show_login(self):
-        self.login = LoginUI(self.db)
+    def show_login(self,user_details):
+        self.login = LoginUI(self.db,user_details)
         self.login.switch_window.connect(self.show_main)
         self.login.show()
 

@@ -71,7 +71,7 @@ class WinDataClient:
                     self.logger.logInfo("wim data: {}".format(echoed_transaction_number))
                     self.process_data(echoed_transaction_number)
                     self.client_socket.send("ACK\r\n".encode('utf-8'))
-                #time.sleep(self.timeout)
+                time.sleep(self.timeout)
         except Exception as e:
             self.logger.logError("Exception occurred: {}".format(str(e)))
         finally:

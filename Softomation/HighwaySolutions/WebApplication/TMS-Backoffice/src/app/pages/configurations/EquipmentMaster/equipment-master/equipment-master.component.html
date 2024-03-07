@@ -18,7 +18,7 @@
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
                         selectionMode="single" 
-                        [globalFilterFields]="['EquipmentTypeName','EquipmentName','ProtocolTypeName','ManufactureName','DataStatusName','IpAddress']">
+                        [globalFilterFields]="['EquipmentTypeName','EquipmentName','ProtocolTypeName','ManufacturerName','DataStatusName','IpAddress']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
@@ -31,8 +31,8 @@
                                 </th>
                                 <th pSortableColumn="IpAddress">IP-Address <p-sortIcon field="IpAddress"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ManufactureName">Manufacture <p-sortIcon
-                                        field="ManufactureName"></p-sortIcon>
+                                <th pSortableColumn="ManufacturerName">Manufacturer <p-sortIcon
+                                        field="ManufacturerName"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
@@ -47,7 +47,7 @@
                                 <td>{{rowData.ProtocolTypeName}}</td>
                                 <td>{{rowData.EquipmentName}}</td>
                                 <td>{{rowData.IpAddress}}</td>
-                                <td>{{rowData.ManufactureName}}</td>
+                                <td>{{rowData.ManufacturerName}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

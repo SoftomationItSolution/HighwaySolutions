@@ -39,8 +39,8 @@ export class RolePermissionPopupComponent implements OnInit {
         let returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           this.DetailData = data.ResponseData;
-          //console.log(this.DetailData)
         } else {
+
           this.ClosePoup();
           this.ErrorData = [{ AlertMessage: 'permission details not found.' }];
           this.dm.openSnackBar(this.ErrorData, false);
@@ -99,6 +99,21 @@ export class RolePermissionPopupComponent implements OnInit {
       }
     }
   }
+
+  handleCheckAll(event: any, eventfor: any) {
+    if (eventfor == 'V') {
+      const objectToUpdate = this.DetailData.find(item => item.DataView != 2);
+      if (objectToUpdate) {
+        this.DetailData = this.DetailData.map(item => {
+          if (item === objectToUpdate) {
+            return { ...item, DataView: event == true ? 1 : 0 };
+          }
+          return item; // Return the original object if it's not the one to update
+        });
+      }
+    }
+  }
+
   SaveDetails() {
     this.spinner.show();
     for (let index = 0; index < this.DetailData.length; index++) {
@@ -159,7 +174,7 @@ export class RolePermissionPopupComponent implements OnInit {
     );
   }
 
-  exCol(event:any,rowData:any){
+  exCol(event: any, rowData: any) {
     event.target.parentNode.parentNode.querySelector(".nested").classList.toggle("nested-active")
     event.target.classList.toggle("parentNode-down")
   }

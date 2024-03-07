@@ -20,6 +20,7 @@ module.exports = router;
 async function FasTagVehicleClassInsertUpdate(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request().input('FasTagVehicleClassId', sql.Int, req.body.FasTagVehicleClassId)
             .input('FasTagVehicleClassName', sql.VarChar(100), req.body.FasTagVehicleClassName)
             .input('FasTagVehicleClassDescription', sql.VarChar(100), req.body.FasTagVehicleClassDescription)
@@ -27,8 +28,8 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_FasTagVehicleClassInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -43,6 +44,7 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
 async function SystemVehicleClassInsertUpdate(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request().input('SystemVehicleClassId', sql.Int, req.body.SystemVehicleClassId)
             .input('SystemVehicleClassName', sql.VarChar(100), req.body.SystemVehicleClassName)
             .input('SystemVehicleClassDescription', sql.VarChar(100), req.body.SystemVehicleClassDescription)
@@ -51,8 +53,8 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemVehicleClassInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

@@ -9,74 +9,58 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="SystemIntegratorName">System Integrator Name</label>
-                    <input formControlName="SystemIntegratorName" type="text" pInputText required autofocus
+                    <label for="Name">Name</label>
+                    <input formControlName="Name" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Name')">System
                         Integrator Name is
                         required.</small>
-                        <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('AlphaNumericSingleSpace','SystemIntegratorName')">Single space is required</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemIntegratorAddress">System Integrator Address</label>
-                    <input formControlName="SystemIntegratorAddress" type="text" pInputText required autofocus
+                    <label for="Address"> Address</label>
+                    <input formControlName="Address" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorAddress')">System
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Address')">System
                         Integrator Address is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemIntegratorEmailId">System Integrator EmailId</label>
-                    <input formControlName="SystemIntegratorEmailId" type="text" pInputText required autofocus
+                    <label for="EmailId"> EmailId</label>
+                    <input formControlName="EmailId" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorEmailId')">System
+                        *ngIf="submitted && DataDetailsForm.hasError('required','EmailId')">System
                         Integrator Email id is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorEmailId')">Vaild
-                        System Integrator Email Id is
-                        required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','EmailId')">{{error['EmailId']}}</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemIntegratorMobileNumber">System Integrator Mobile</label>
-                    <input formControlName="SystemIntegratorMobileNumber" type="text" pInputText required autofocus
+                    <label for="MobileNumber"> Mobile</label>
+                    <input formControlName="MobileNumber" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorMobileNumber')">System
+                        *ngIf="submitted && DataDetailsForm.hasError('required','MobileNumber')">System
                         Integrator Mobile Number is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorMobileNumber')">Vaild
-                        Mobile Number
-                        is
-                        required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','MobileNumber')">{{error['MobileNumber']}}</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemIntegratorLoginId">Login Id</label>
-                    <input formControlName="SystemIntegratorLoginId" type="text" pInputText autofocus
+                    <label for="LoginId">Login Id</label>
+                    <input formControlName="LoginId" type="text" pInputText autofocus
                         class="form-control" />
-                    <!-- <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginId')">Login
-                        Id is
-                        required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginId')">Vaild
-                        Login Id is
-                        required.</small> -->
                 </div>
                 <div class="col-md-6">
-                    <label for="SystemIntegratorLoginPassword">Login Password</label>
-                    <input formControlName="SystemIntegratorLoginPassword" type="text" pInputText autofocus
-                        class="form-control" />
-                    <!-- <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorLoginPassword')">Login Password is
-                        required.</small>
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','SystemIntegratorLoginPassword')">Vaild Login
-                        Password is
-                        required.</small> -->
+                    <label for="Password">Login Password</label>
+                        <div class="input-group grouplist-border">
+                            <input class="form-control" formControlName="Password" placeholder="Enter password Here"
+                                [type]="hide ? 'password' : 'text'">
+                            <i class="mdi  user-icon" [ngClass]="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                                (click)="hide = !hide"></i>
+                        </div>
                 </div>
             </div>
             <div class="row">

@@ -1,0 +1,274 @@
+2024-03-07T05:17:09.417Z [INFO]: Server listening on port 5001
+2024-03-07T05:17:09.419Z [WARN]: Server listening on port 5001
+2024-03-07T05:17:09.419Z [ERROR]: Server listening on port 5001
+2024-03-07T05:34:02.355Z [INFO]: Server listening on port 5001
+2024-03-07T05:34:02.356Z [WARN]: Server listening on port 5001
+2024-03-07T05:34:02.357Z [ERROR]: Server listening on port 5001
+2024-03-07T05:34:15.650Z [ERROR]: Caught an error in :ValidateUser : print is not defined
+2024-03-07T05:34:15.651Z [ERROR]: ReferenceError: print is not defined
+    at ValidateUser (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\commonRoute.js:133:17)
+2024-03-07T05:34:30.939Z [INFO]: Server listening on port 5001
+2024-03-07T05:34:30.941Z [WARN]: Server listening on port 5001
+2024-03-07T05:34:30.941Z [ERROR]: Server listening on port 5001
+2024-03-07T05:35:23.428Z [INFO]: Server listening on port 5001
+2024-03-07T05:35:23.429Z [WARN]: Server listening on port 5001
+2024-03-07T05:35:23.430Z [ERROR]: Server listening on port 5001
+2024-03-07T05:37:11.001Z [INFO]: Server listening on port 5001
+2024-03-07T05:37:11.003Z [WARN]: Server listening on port 5001
+2024-03-07T05:37:11.004Z [ERROR]: Server listening on port 5001
+2024-03-07T05:37:15.674Z [INFO]: Server listening on port 5001
+2024-03-07T05:37:15.676Z [WARN]: Server listening on port 5001
+2024-03-07T05:37:15.676Z [ERROR]: Server listening on port 5001
+2024-03-07T06:15:13.103Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T06:15:13.105Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T06:17:05.683Z [ERROR]: Caught an error in :GetMenu : aborted
+2024-03-07T06:17:05.683Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T06:47:14.511Z [INFO]: Server listening on port 5001
+2024-03-07T06:47:14.513Z [WARN]: Server listening on port 5001
+2024-03-07T06:47:14.513Z [ERROR]: Server listening on port 5001
+2024-03-07T06:48:18.400Z [ERROR]: Caught an error in :GetMenu : aborted
+2024-03-07T06:48:18.401Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T08:01:45.441Z [ERROR]: Caught an error in :GetMenu : Invalid column name 'OderBy'.
+2024-03-07T08:01:45.442Z [ERROR]: RequestError: Invalid column name 'OderBy'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T08:03:13.332Z [ERROR]: Caught an error in :GetMenu : Invalid column name 'OderBy'.
+2024-03-07T08:03:13.333Z [ERROR]: RequestError: Invalid column name 'OderBy'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T08:10:39.043Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T08:10:39.043Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T08:14:14.308Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T08:14:14.309Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T09:20:07.558Z [ERROR]: Caught an error in :TollFareSetUp : Connection is closed.
+2024-03-07T09:20:07.559Z [ERROR]: ConnectionError: Connection is closed.
+    at Request._execute (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\base\request.js:583:37)
+    at Request._execute (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:718:11)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\base\request.js:545:12
+    at new Promise (<anonymous>)
+    at Request.execute (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\base\request.js:544:12)
+    at TollFareSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\tollFareRoute.js:49:14)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T09:37:00.508Z [INFO]: Server listening on port 5001
+2024-03-07T09:37:00.510Z [WARN]: Server listening on port 5001
+2024-03-07T09:37:00.511Z [ERROR]: Server listening on port 5001
+2024-03-07T09:55:17.068Z [ERROR]: Caught an error in :DashboardGetData : aborted
+2024-03-07T09:55:17.069Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T10:41:23.318Z [INFO]: Server listening on port 5001
+2024-03-07T10:41:23.320Z [WARN]: Server listening on port 5001
+2024-03-07T10:41:23.320Z [ERROR]: Server listening on port 5001
+2024-03-07T10:41:35.204Z [ERROR]: Caught an error in :ManufacturerGetAll : Could not find stored procedure 'USP_ManufacturerGetAll'.
+2024-03-07T10:41:35.205Z [ERROR]: RequestError: Could not find stored procedure 'USP_ManufacturerGetAll'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T10:42:11.245Z [ERROR]: Caught an error in :ManufacturerGetAll : Could not find stored procedure 'USP_ManufacturerGetAll'.
+2024-03-07T10:42:11.245Z [ERROR]: RequestError: Could not find stored procedure 'USP_ManufacturerGetAll'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T10:42:26.647Z [INFO]: Server listening on port 5001
+2024-03-07T10:42:26.649Z [WARN]: Server listening on port 5001
+2024-03-07T10:42:26.649Z [ERROR]: Server listening on port 5001
+2024-03-07T10:42:39.426Z [ERROR]: Caught an error in :ManufacturerGetAll : Could not find stored procedure 'USP_ManufacturerGetAll'.
+2024-03-07T10:42:39.427Z [ERROR]: RequestError: Could not find stored procedure 'USP_ManufacturerGetAll'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T10:59:56.037Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T10:59:56.037Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T11:00:55.206Z [ERROR]: Caught an error in :GetMenu : aborted
+2024-03-07T11:00:55.207Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T11:05:03.760Z [INFO]: Server listening on port 5001
+2024-03-07T11:05:03.761Z [WARN]: Server listening on port 5001
+2024-03-07T11:05:03.762Z [ERROR]: Server listening on port 5001
+2024-03-07T11:18:33.736Z [ERROR]: Caught an error in :PlazaGetAll : Invalid column name 'SystemIntegratorName'.
+2024-03-07T11:18:33.737Z [ERROR]: RequestError: Invalid column name 'SystemIntegratorName'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T11:24:23.445Z [ERROR]: Caught an error in :PlazaGetAll : Invalid column name 'SystemIntegratorName'.
+2024-03-07T11:24:23.446Z [ERROR]: RequestError: Invalid column name 'SystemIntegratorName'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T11:49:34.308Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T11:49:34.309Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T12:07:12.690Z [ERROR]: Caught an error in :LaneGetAll : Invalid column name 'SystemIntegratorName'.
+2024-03-07T12:07:12.691Z [ERROR]: RequestError: Invalid column name 'SystemIntegratorName'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T12:10:32.595Z [ERROR]: Caught an error in :EquipmentDetailsGetAll : Invalid object name 'tbl_ManufactureDetails'.
+2024-03-07T12:10:32.596Z [ERROR]: RequestError: Invalid object name 'tbl_ManufactureDetails'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T12:10:54.313Z [ERROR]: Caught an error in :EquipmentDetailsGetAll : Invalid object name 'tbl_ManufactureDetails'.
+2024-03-07T12:10:54.313Z [ERROR]: RequestError: Invalid object name 'tbl_ManufactureDetails'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T12:12:19.071Z [ERROR]: Caught an error in :EquipmentDetailsGetAll : Invalid object name 'tbl_ManufactureDetails'.
+2024-03-07T12:12:19.072Z [ERROR]: RequestError: Invalid object name 'tbl_ManufactureDetails'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T12:36:23.575Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T12:36:23.576Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T12:39:48.100Z [ERROR]: Caught an error in :GetMenu : aborted
+2024-03-07T12:39:48.101Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T12:46:41.527Z [INFO]: Server listening on port 5001
+2024-03-07T12:46:41.528Z [WARN]: Server listening on port 5001
+2024-03-07T12:46:41.528Z [ERROR]: Server listening on port 5001
+2024-03-07T12:49:13.544Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T12:49:13.545Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T12:49:59.428Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T12:49:59.430Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T18:06:34.749Z [INFO]: Server listening on port 5001
+2024-03-07T18:06:34.751Z [WARN]: Server listening on port 5001
+2024-03-07T18:06:34.751Z [ERROR]: Server listening on port 5001

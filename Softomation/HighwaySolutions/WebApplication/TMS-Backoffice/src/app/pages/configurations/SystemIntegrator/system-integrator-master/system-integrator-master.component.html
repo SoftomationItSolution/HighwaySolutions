@@ -17,18 +17,18 @@
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
                         selectionMode="single" 
-                        [globalFilterFields]="['SystemIntegratorName','SystemIntegratorMobileNumber','SystemIntegratorEmailId','SystemIntegratorAddress',
+                        [globalFilterFields]="['Name','MobileNumber','EmailId','Address',
                         'DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="SystemIntegratorName">Name <p-sortIcon field="SystemIntegratorName"></p-sortIcon>
+                                <th pSortableColumn="Name">Name <p-sortIcon field="Name"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="SystemIntegratorMobileNumber">Mobile Number <p-sortIcon field="SystemIntegratorMobileNumber"></p-sortIcon>
+                                <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon field="MobileNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="SystemIntegratorEmailId">Email Id <p-sortIcon field="SystemIntegratorEmailId"></p-sortIcon>
+                                <th pSortableColumn="EmailId">Email Id <p-sortIcon field="EmailId"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="SystemIntegratorAddress">Address <p-sortIcon field="SystemIntegratorAddress"></p-sortIcon>
+                                <th pSortableColumn="Address">Address <p-sortIcon field="Address"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
@@ -39,10 +39,10 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.SystemIntegratorName}}</td>
-                                <td>{{rowData.SystemIntegratorMobileNumber}}</td>
-                                <td>{{rowData.SystemIntegratorEmailId}}</td>
-                                <td>{{rowData.SystemIntegratorAddress}}</td>
+                                <td>{{rowData.Name}}</td>
+                                <td>{{rowData.MobileNumber}}</td>
+                                <td>{{rowData.EmailId}}</td>
+                                <td>{{rowData.Address}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

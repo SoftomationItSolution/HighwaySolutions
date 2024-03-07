@@ -23,7 +23,6 @@ export class EquipmentMasterPopupComponent implements OnInit {
   error = errorMessages;
   EquipmentId: number;
   DataStatus = true;
-  LoginUserId: any;
   ErrorData: any;
   DetailData: any;
   DeviceTypeList: any;
@@ -43,7 +42,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
   LaneFilter: any;
   EquipmentTypeData: any;
   EquipmentTypeFilter: any;
-  ManufactureList: any;
+  ManufacturerList: any;
   SystemTypeData: any;
 
   submitted = false;
@@ -84,7 +83,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
       MacAddress: new FormControl('', [Validators.required,Validators.pattern(regExps['MacAddress'])]),
       ModelNumber: new FormControl('', Validators.required,),
       SerialNumber: new FormControl('', Validators.required,),
-      ManufactureId: new FormControl('', Validators.required,),
+      ManufacturerId: new FormControl('', Validators.required,),
       ManufacturerDate: new FormControl('', Validators.required,),
       PurchageDate: new FormControl('', Validators.required,),
       WarrantyExpireDate: new FormControl('', Validators.required,),
@@ -111,7 +110,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
     this.spinner.show();
     this.dbService.PlazaGetActive().subscribe(
       data => {
-        this.spinner.hide();
+       
         this.PlazaList = data.ResponseData;
         this.GetLane();
       },
@@ -130,10 +129,10 @@ export class EquipmentMasterPopupComponent implements OnInit {
   }
 
   GetLane() {
-    this.spinner.show();
+    
     this.dbService.LaneGetActive().subscribe(
       data => {
-        this.spinner.hide();
+       
         this.LaneList = data.ResponseData;
         this.GetEquipmentType();
       },
@@ -155,9 +154,9 @@ export class EquipmentMasterPopupComponent implements OnInit {
     this.spinner.show();
     this.dbService.EquipmentTypeGetActive().subscribe(
       data => {
-        this.spinner.hide();
+        
         this.EquipmentTypeData = data.ResponseData;
-        this.GetManufacture();
+        this.GetManufacturer();
       },
       (error) => {
         this.spinner.hide();
@@ -173,15 +172,17 @@ export class EquipmentMasterPopupComponent implements OnInit {
     );
   }
 
-  GetManufacture() {
-    this.spinner.show();
-    this.dbService.EquipmentManufactureGetActive().subscribe(
+  GetManufacturer() {
+   
+    this.dbService.ManufacturerGetActive().subscribe(
       data => {
-        this.spinner.hide();
-        this.ManufactureList = data.ResponseData;
+       
+        this.ManufacturerList = data.ResponseData;
         if (this.EquipmentId > 0) {
           this.DetailsbyId();
         }
+        else
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
@@ -198,12 +199,10 @@ export class EquipmentMasterPopupComponent implements OnInit {
   }
 
   DetailsbyId() {
-    this.spinner.show();
     this.dbService.EquipmentDetailsGetById(this.EquipmentId).subscribe(
       data => {
         this.spinner.hide();
         this.DetailData = data.ResponseData;
-        console.log(this.DetailData)
         this.LocationDetailsForm.controls['PlazaId'].setValue(this.DetailData.PlazaId);
         this.PlazaChange(this.DetailData.PlazaId)
         this.LocationDetailsForm.controls['LaneId'].setValue(this.DetailData.LaneId);
@@ -211,7 +210,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
         this.DeviceDetailsForm.controls['MacAddress'].setValue(this.DetailData.MacAddress);
         this.DeviceDetailsForm.controls['ModelNumber'].setValue(this.DetailData.ModelNumber);
         this.DeviceDetailsForm.controls['SerialNumber'].setValue(this.DetailData.SerialNumber);
-        this.DeviceDetailsForm.controls['ManufactureId'].setValue(this.DetailData.ManufactureId);
+        this.DeviceDetailsForm.controls['ManufacturerId'].setValue(this.DetailData.ManufacturerId);
         this.DeviceDetailsForm.controls['ManufacturerDate'].setValue(new Date(this.DetailData.ManufacturerDate));
         this.DeviceDetailsForm.controls['PurchageDate'].setValue(new Date(this.DetailData.PurchageDate));
         this.DeviceDetailsForm.controls['WarrantyExpireDate'].setValue(new Date(this.DetailData.WarrantyExpireDate));
@@ -373,7 +372,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
       MacAddress: this.DeviceDetailsForm.value.MacAddress,
       ModelNumber: this.DeviceDetailsForm.value.ModelNumber,
       SerialNumber: this.DeviceDetailsForm.value.SerialNumber,
-      ManufactureId: this.DeviceDetailsForm.value.ManufactureId,
+      ManufacturerId: this.DeviceDetailsForm.value.ManufacturerId,
       ManufacturerDate: this.datepipe.transform(this.DeviceDetailsForm.value.ManufacturerDate, 'dd-MMM-yyyy'),
       PurchageDate: this.datepipe.transform(this.DeviceDetailsForm.value.PurchageDate, 'dd-MMM-yyyy'),
       WarrantyExpireDate: this.datepipe.transform(this.DeviceDetailsForm.value.WarrantyExpireDate, 'dd-MMM-yyyy'),
@@ -384,8 +383,8 @@ export class EquipmentMasterPopupComponent implements OnInit {
       LoginId: this.DeviceCommunicationForm.value.LoginId,
       LoginPassword: this.DeviceCommunicationForm.value.LoginPassword,
       DataStatus: this.DeviceDetailsForm.value.DataStatus == true ? 1 : 2,
-      CreatedBy: this.LoginUserId,
-      ModifiedBy: this.LoginUserId
+      CreatedBy: this.LogedUserId,
+      ModifiedBy: this.LogedUserId
     };
     this.spinner.show();
     this.dbService.EquipmentDetailsInsertUpdate(Obj).subscribe(

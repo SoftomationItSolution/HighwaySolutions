@@ -51,8 +51,8 @@ import { PlzaConfigurationComponent } from './pages/configurations/Plaza/plza-co
 import { PlzaConfigurationPopupComponent } from './pages/configurations/Plaza/plza-configuration-popup/plza-configuration-popup.component';
 import { LaneConfigurationComponent } from './pages/configurations/Lane/lane-configuration/lane-configuration.component';
 import { LaneConfigurationPopupComponent } from './pages/configurations/Lane/lane-configuration-popup/lane-configuration-popup.component';
-import { EquipmentManufactureMasterComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
-import { EquipmentManufacturePopupComponent } from './pages/configurations/EquipmentManufacture/equipment-manufacture-popup/equipment-manufacture-popup.component';
+import { ManufacturerMasterComponent } from './pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
+import { ManufacturerPopupComponent } from './pages/configurations/Manufacturer/manufacturer-popup/manufacturer-popup.component';
 import { EquipmentMasterComponent } from './pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
 import { EquipmentMasterPopupComponent } from './pages/configurations/EquipmentMaster/equipment-master-popup/equipment-master-popup.component';
 import { FastagVehicleClassComponent } from './pages/configurations/VehicleClass/fastag-vehicle-class/fastag-vehicle-class.component';
@@ -84,6 +84,8 @@ import { ReportMasterComponent } from './pages/report-master/report-master.compo
 import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
+
+
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -122,8 +124,8 @@ export const MY_CUSTOM_FORMATS = {
     PlzaConfigurationPopupComponent,
     LaneConfigurationComponent,
     LaneConfigurationPopupComponent,
-    EquipmentManufactureMasterComponent,    
-    EquipmentManufacturePopupComponent,
+    ManufacturerMasterComponent,    
+    ManufacturerPopupComponent,
     EquipmentMasterComponent,
     EquipmentMasterPopupComponent,
     FastagVehicleClassComponent,

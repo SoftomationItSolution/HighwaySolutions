@@ -31,26 +31,29 @@ export class PlzaConfigurationPopupComponent implements OnInit {
     this.PageTitle = "Create Plaza Master Details";
     this.DataDetailsForm = new FormGroup({
       SystemIntegratorId: new FormControl('', [Validators.required]),
-      PlazaName: new FormControl('', [Validators.required, Validators.pattern(regExps["AlphaNumericSingleSpace"])]),
+      PlazaName: new FormControl('', [Validators.required]),
       PlazaServerIpAddress: new FormControl('', [Validators.required, Validators.pattern(regExps["IpAddress"])]),
-      PlazaZoneId: new FormControl('', [Validators.pattern(regExps["NumericValue"])]),
+      PlazaZoneId: new FormControl('', [Validators.pattern(regExps["OnlyDigit"])]),
       ChainageNumber: new FormControl('', [Validators.required,Validators.pattern(regExps['ChainageNumber'])]),
       Latitude: new FormControl('', [Validators.required,Validators.pattern(regExps['Latitude'])]),
       Longitude: new FormControl('', [Validators.required,Validators.pattern(regExps['Longitude'])]),
       DataStatus: new FormControl(true),
     });
     this.GetSIData();
-    if (this.PlazaId > 0) {
-      this.PageTitle = "Update Plaza Master Details";
-      this.DetailsbyId();
-    }
+    
   }
   GetSIData() {
     this.spinner.show();
     this.dbService.SystemIntegratorGetActive().subscribe(
       data => {
-        this.spinner.hide();
+        
         this.SIData = data.ResponseData;
+        if (this.PlazaId > 0) {
+          this.PageTitle = "Update Plaza Master Details";
+          this.DetailsbyId();
+        }
+        else
+          this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
@@ -66,7 +69,6 @@ export class PlzaConfigurationPopupComponent implements OnInit {
   }
 
   DetailsbyId() {
-    this.spinner.show();
     this.dbService.PlazaGetById(this.PlazaId).subscribe(
       data => {
         this.spinner.hide();

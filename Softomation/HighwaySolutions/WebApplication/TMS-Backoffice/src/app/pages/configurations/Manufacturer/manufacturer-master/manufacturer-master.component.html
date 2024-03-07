@@ -4,7 +4,7 @@
             <div class="card-body">
                 <div>
                     <a href="javascript:void(0);" (click)="NewEntry()" class="btn btn-success mb-2">
-                        <i class="mdi mdi-plus me-2"></i> Add Manufacture
+                        <i class="mdi mdi-plus me-2"></i> Add Manufacturer
                     </a>
                     <div class="dropdown d-inline-block float-right">
                         <span class="p-input-icon-left">
@@ -17,18 +17,18 @@
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap"
                         selectionMode="single" 
-                        [globalFilterFields]="['ManufactureName','ManufactureMobileNumber','ManufactureEmailId','ManufactureAddress',
+                        [globalFilterFields]="['Name','MobileNumber','EmailId','Address',
                         'DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="ManufactureName">Name <p-sortIcon field="ManufactureName"></p-sortIcon>
+                                <th pSortableColumn="Name">Name <p-sortIcon field="Name"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ManufactureMobileNumber">Mobile Number <p-sortIcon field="ManufactureMobileNumber"></p-sortIcon>
+                                <th pSortableColumn="MobileNumber">Mobile Number <p-sortIcon field="MobileNumber"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ManufactureEmailId">Email Id <p-sortIcon field="ManufactureEmailId"></p-sortIcon>
+                                <th pSortableColumn="EmailId">Email Id <p-sortIcon field="EmailId"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ManufactureAddress">Address <p-sortIcon field="ManufactureAddress"></p-sortIcon>
+                                <th pSortableColumn="Address">Address <p-sortIcon field="Address"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="DataStatusName">Status <p-sortIcon
                                         field="DataStatusName"></p-sortIcon>
@@ -39,10 +39,10 @@
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
-                                <td>{{rowData.ManufactureName}}</td>
-                                <td>{{rowData.ManufactureMobileNumber}}</td>
-                                <td>{{rowData.ManufactureEmailId}}</td>
-                                <td>{{rowData.ManufactureAddress}}</td>
+                                <td>{{rowData.Name}}</td>
+                                <td>{{rowData.MobileNumber}}</td>
+                                <td>{{rowData.EmailId}}</td>
+                                <td>{{rowData.Address}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"

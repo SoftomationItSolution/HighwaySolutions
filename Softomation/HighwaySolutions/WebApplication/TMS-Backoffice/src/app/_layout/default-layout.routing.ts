@@ -4,7 +4,6 @@ import { PageNotFoundComponent } from '../pages/page-not-found/page-not-found.co
 import { SystemIntegratorMasterComponent } from '../pages/configurations/SystemIntegrator/system-integrator-master/system-integrator-master.component';
 import { PlzaConfigurationComponent } from '../pages/configurations/Plaza/plza-configuration/plza-configuration.component';
 import { LaneConfigurationComponent } from '../pages/configurations/Lane/lane-configuration/lane-configuration.component';
-import { EquipmentManufactureMasterComponent } from '../pages/configurations/EquipmentManufacture/equipment-manufacture-master/equipment-manufacture-master.component';
 import { FastagVehicleClassComponent } from '../pages/configurations/VehicleClass/fastag-vehicle-class/fastag-vehicle-class.component';
 import { SystemVehicleClassComponent } from '../pages/configurations/VehicleClass/system-vehicle-class/system-vehicle-class.component';
 import { EquipmentMasterComponent } from '../pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
@@ -22,13 +21,14 @@ import { TransactionalValidatedComponent } from '../pages/Transactions/transacti
 import { ReportMasterComponent } from '../pages/report-master/report-master.component';
 import { FasTagDataPending } from '../pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
+import { ManufacturerMasterComponent } from '../pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
     { path: 'systemIntegrator', component: SystemIntegratorMasterComponent },
     { path: 'plazaMaster', component: PlzaConfigurationComponent },
     { path: 'laneMaster', component: LaneConfigurationComponent },
-    { path: 'equipmentManufacture', component: EquipmentManufactureMasterComponent },
+    { path: 'manufacturer', component: ManufacturerMasterComponent },
     { path: 'equipmentMaster', component: EquipmentMasterComponent },
     { path: 'fasTagVehicleClass', component: FastagVehicleClassComponent },
     { path: 'systemVehicleClass', component: SystemVehicleClassComponent },

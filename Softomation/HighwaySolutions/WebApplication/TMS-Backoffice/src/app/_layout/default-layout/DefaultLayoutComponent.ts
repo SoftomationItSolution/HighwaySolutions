@@ -77,6 +77,10 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
         if (returnMessage == 'success') {
           this.MenuList = data.ResponseData.filter((e: { MenuUrl: any; }) => e.MenuUrl.indexOf('#PopUp') != 0);
           this.getTitle();
+          const ss=this.dataModel.getSSData()
+          if(ss!=null){
+            this.NotificationTest="Welcome to "+ss.DefaultPlazaName;
+          }
         }
         else {
           this.Logout();

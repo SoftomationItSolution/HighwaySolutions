@@ -32,9 +32,7 @@
                         *ngIf="submitted && DataDetailsForm.hasError('required','PermissibleWeight')">Permissible Weight is
                         required.</small>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','PermissibleWeight')">Vaild
-                        Permissible Weight is
-                        required.</small>
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','PermissibleWeight')">{{error['DecimalThreeDigit']}}</small>
                 </div>
                 <div class="col-md-6">
                     <div class="form-check">

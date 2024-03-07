@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTitleSubtitle, ApexStroke, ApexGrid, ApexPlotOptions, ApexNonAxisChartSeries, ApexResponsive, ApexTheme, ApexYAxis, ApexMarkers, ApexFill, ApexForecastDataPoints, ApexLegend } from "ng-apexcharts";
+import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
 export type ChartOptions = {
@@ -43,15 +44,17 @@ export class DashboardComponent implements OnInit {
   transactionType: any;
   vehicleClassMaster: any;
 
-  constructor(private dbService: apiIntegrationService, private dm: DataModel) { }
+  constructor(private dbService: apiIntegrationService, private dm: DataModel,private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
     this.DashboardData();
   }
 
   DashboardData() {
+    this.spinner.show();
     this.dbService.DashboardGetData().subscribe(
       data => {
+        this.spinner.hide();
         var DashboardGetData = data.ResponseData;
         this.laneDetails = DashboardGetData[0];
         this.transactionType = DashboardGetData[1];
@@ -62,6 +65,7 @@ export class DashboardComponent implements OnInit {
 
       },
       (error) => {
+        this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dm.openSnackBar(this.ErrorData, false);
 

@@ -65,9 +65,9 @@ export class UserConfigurationPopupComponent implements OnInit {
         Validators.required,
         Validators.pattern(regExps['Password'])
       ]),
-      PlazaId: new FormControl('', [
-        Validators.required
-      ]),
+      // PlazaId: new FormControl('', [
+      //   Validators.required
+      // ]),
       UserTypeId: new FormControl('', [
         Validators.required
       ]),
@@ -80,10 +80,11 @@ export class UserConfigurationPopupComponent implements OnInit {
   }
 
   GetRoleData() {
+    this.spinner.show()
     this.dbService.RoleConfigurationGetActive().subscribe(
       data => {
         this.RoleData = data.ResponseData;
-        this.spinner.hide();
+        
         this.GetPlazaList();
       },
       (error) => {
@@ -100,13 +101,15 @@ export class UserConfigurationPopupComponent implements OnInit {
   }
 
   GetPlazaList() {
-    this.spinner.show();
+   
     this.dbService.PlazaGetActive().subscribe(
       data => {
-        this.spinner.hide();
+       
         this.PlazaList = data.ResponseData;
         if (this.UserId > 0)
           this.DetailsbyId();
+        else
+        this.spinner.hide();
       },
       (error) => {
         this.spinner.hide();
@@ -123,7 +126,6 @@ export class UserConfigurationPopupComponent implements OnInit {
   }
 
   DetailsbyId() {
-    this.spinner.show();
     this.dbService.UserConfigurationGetById(this.UserId).subscribe(
       data => {
         this.spinner.hide();
@@ -141,7 +143,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         this.DataDetailsForm.controls['FirstName'].setValue(this.DetailData.FirstName);
         this.DataDetailsForm.controls['LastName'].setValue(this.DetailData.LastName);
         this.DataDetailsForm.controls['AccountExpiredDate'].setValue(new Date(this.DetailData.AccountExpiredDate));
-        this.DataDetailsForm.controls['PlazaId'].setValue(this.DetailData.PlazaId);
+        //this.DataDetailsForm.controls['PlazaId'].setValue(this.DetailData.PlazaId);
         this.DataDetailsForm.controls['UserTypeId'].setValue(this.DetailData.UserTypeId);
       },
       (error) => {
@@ -175,7 +177,7 @@ export class UserConfigurationPopupComponent implements OnInit {
         LastName: this.DataDetailsForm.value.LastName,
         MobileNumber: this.DataDetailsForm.value.MobileNumber,
         EmailId: this.DataDetailsForm.value.EmailId,
-        PlazaId: this.DataDetailsForm.value.PlazaId,
+        PlazaId: 0,
         AccountExpiredDate: this.datepipe.transform(this.DataDetailsForm.value.AccountExpiredDate, 'dd-MMM-yyyy'),
         RoleId: this.DataDetailsForm.value.RoleId,
         UserTypeId: this.DataDetailsForm.value.UserTypeId,

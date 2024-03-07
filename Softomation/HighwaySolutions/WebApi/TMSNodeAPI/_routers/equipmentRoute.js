@@ -15,6 +15,7 @@ module.exports = router;
 
 async function EquipmentDetailsInsertUpdate(req, res, next) {
     try {
+        const currentDateTime = new Date();
         const pool = await database.connect();
         result = await pool.request().input('EquipmentId', sql.BigInt, req.body.EquipmentId)
             .input('PlazaId', sql.Int, req.body.PlazaId)
@@ -29,15 +30,15 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
             .input('MacAddress', sql.VarChar(100), req.body.MacAddress)
             .input('SerialNumber', sql.VarChar(100), req.body.SerialNumber)
             .input('ModelNumber', sql.VarChar(100), req.body.ModelNumber)
-            .input('ManufactureId', sql.SmallInt, req.body.ManufactureId)
+            .input('ManufacturerId', sql.SmallInt, req.body.ManufacturerId)
             .input('ManufacturerDate', sql.VarChar(20), req.body.ManufacturerDate)
             .input('PurchageDate', sql.VarChar(20), req.body.PurchageDate)
             .input('WarrantyExpireDate', sql.VarChar(20), req.body.WarrantyExpireDate)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
-            .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('ModifiedBy', sql.Int, req.body.ModifiedBy)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_EquipmentDetailsInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);

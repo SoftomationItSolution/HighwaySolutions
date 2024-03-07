@@ -17,6 +17,7 @@ module.exports = router;
 async function LaneInsertUpdate(req, res, next) {
     try {
         const pool = await database.connect();
+        const currentDateTime = new Date();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('PlazaId', sql.SmallInt, req.body.PlazaId)
             .input('LaneName', sql.VarChar(10), req.body.LaneName)
@@ -31,8 +32,8 @@ async function LaneInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, req.body.CreatedDate)
-            .input('ModifiedDate', sql.DateTime, req.body.ModifiedDate)
+            .input('CreatedDate', sql.DateTime, currentDateTime)
+            .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_LaneInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
