@@ -2,7 +2,6 @@ const fs = require('fs').promises;
 const crypto = require('crypto');
 const AppProvider = "Softomation";
 const mkdirp = require('mkdirp');
-//#region For encryption and decryption
 const issuer = "http://www.softomation.com";
 const passPhrase = "$0ft0m@ti0n";//Pas5pr@se        // can be any string
 const saltValue = "HP5502@$";//s@1tValue        // can be any string
@@ -193,19 +192,6 @@ function randomUUID() {
     return crypto.randomUUID();
 }
 function CreateDirectory(directoryPath) {
-    // fs.access(path, (error) => {
-    //     if (error) {
-    //         fs.mkdir(path, { recursive: true }, (error) => {
-    //             if (error) {
-    //                 return false;
-    //             } else {
-    //                 return true;
-    //             }
-    //         });
-    //     } else {
-    //         return true;
-    //     }
-    // });
     fs.mkdir(directoryPath, { recursive: true })
         .then(() => {
             console.log(`Directory created: ${directoryPath}`);
@@ -252,6 +238,7 @@ module.exports = {
     SaveImage,
     randomUUID,
     RandonString,
+    CreateDirectory,
     AppProvider,
-    JWTkey
+    JWTkey,
 };

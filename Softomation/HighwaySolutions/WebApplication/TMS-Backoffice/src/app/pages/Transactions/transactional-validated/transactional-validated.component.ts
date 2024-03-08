@@ -271,7 +271,7 @@ export class TransactionalValidatedComponent {
       StartDateTime: SD,
       EndDateTime: ED,
       AuditerFilterList:AuditerFilterList,
-      IsReviewedRequired:true,
+      IsReviewedRequired:false,
       IsReviewedStatus:true,
     }
     this.spinner.show();

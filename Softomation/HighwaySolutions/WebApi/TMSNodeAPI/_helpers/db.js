@@ -1,5 +1,7 @@
 const sql = require('mssql');
-const config = require('../config.json');
+const path = require('path');
+const configManagerPath = path.resolve('./configManager');
+const databaseConfig = require(path.join(configManagerPath, 'config.json'));
 
 class Database {
   constructor() {
@@ -9,7 +11,7 @@ class Database {
   async connect() {
     try {
       if (!this.pool) {
-        this.pool = await sql.connect(config);
+        this.pool = await sql.connect(databaseConfig);
       }
       return this.pool;
     } catch (error) {

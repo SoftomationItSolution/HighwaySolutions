@@ -1,0 +1,594 @@
+2024-03-07T18:40:30.636Z [INFO]: Server listening on port 5001
+2024-03-07T18:40:30.646Z [WARN]: Server listening on port 5001
+2024-03-07T18:40:30.647Z [ERROR]: Server listening on port 5001
+2024-03-07T18:41:54.610Z [INFO]: Server listening on port 5001
+2024-03-07T18:41:54.613Z [WARN]: Server listening on port 5001
+2024-03-07T18:41:54.613Z [ERROR]: Server listening on port 5001
+2024-03-07T18:45:23.024Z [ERROR]: Caught an error in :ReviewPendingGetLatest : Invalid column name 'SystemIntegratorName'.
+2024-03-07T18:45:23.025Z [ERROR]: RequestError: Invalid column name 'SystemIntegratorName'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T18:45:50.611Z [ERROR]: Caught an error in :ReviewPendingGetLatest : Invalid column name 'SystemIntegratorName'.
+2024-03-07T18:45:50.612Z [ERROR]: RequestError: Invalid column name 'SystemIntegratorName'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T18:50:13.774Z [ERROR]: Caught an error in :LaneTransactionGetByFilter : Could not find stored procedure 'USP_LaneTransactionGetByFilter'.
+2024-03-07T18:50:13.775Z [ERROR]: RequestError: Could not find stored procedure 'USP_LaneTransactionGetByFilter'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-07T19:02:27.891Z [INFO]: Server listening on port 5001
+2024-03-07T19:02:27.894Z [WARN]: Server listening on port 5001
+2024-03-07T19:02:27.895Z [ERROR]: Server listening on port 5001
+2024-03-07T19:13:07.536Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T19:13:07.537Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-07T19:17:33.042Z [ERROR]: Caught an error in :RolePermissionGetByMenu : aborted
+2024-03-07T19:17:33.044Z [ERROR]: Error: aborted
+    at PendingOperation.abort (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\PendingOperation.js:25:21)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:208:25
+    at Array.map (<anonymous>)
+    at D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tarn\dist\Pool.js:207:53
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T07:05:13.955Z [INFO]: Server listening on port 5001
+2024-03-08T07:05:13.956Z [WARN]: Server listening on port 5001
+2024-03-08T07:05:13.957Z [ERROR]: Server listening on port 5001
+2024-03-08T07:23:06.815Z [ERROR]: Caught an error in :FloatProcessSetUp : generatePdfContent is not defined
+2024-03-08T07:23:06.816Z [ERROR]: ReferenceError: generatePdfContent is not defined
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:53:28)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T07:23:48.267Z [INFO]: Server listening on port 5001
+2024-03-08T07:23:48.268Z [WARN]: Server listening on port 5001
+2024-03-08T07:23:48.269Z [ERROR]: Server listening on port 5001
+2024-03-08T07:26:11.747Z [INFO]: Server listening on port 5001
+2024-03-08T07:26:11.748Z [WARN]: Server listening on port 5001
+2024-03-08T07:26:11.748Z [ERROR]: Server listening on port 5001
+2024-03-08T07:26:54.492Z [ERROR]: Caught an error in :FloatProcessGeneratePDF : pdfMake is not defined
+2024-03-08T07:26:54.493Z [ERROR]: ReferenceError: pdfMake is not defined
+    at generatePdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:210:24)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:56:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T07:28:01.698Z [INFO]: Server listening on port 5001
+2024-03-08T07:28:01.700Z [WARN]: Server listening on port 5001
+2024-03-08T07:28:01.700Z [ERROR]: Server listening on port 5001
+2024-03-08T07:30:08.044Z [INFO]: Server listening on port 5001
+2024-03-08T07:30:08.046Z [WARN]: Server listening on port 5001
+2024-03-08T07:30:08.046Z [ERROR]: Server listening on port 5001
+2024-03-08T07:39:30.918Z [INFO]: Server listening on port 5001
+2024-03-08T07:39:30.919Z [WARN]: Server listening on port 5001
+2024-03-08T07:39:30.920Z [ERROR]: Server listening on port 5001
+2024-03-08T07:40:44.578Z [INFO]: Server listening on port 5001
+2024-03-08T07:40:44.579Z [WARN]: Server listening on port 5001
+2024-03-08T07:40:44.579Z [ERROR]: Server listening on port 5001
+2024-03-08T07:41:57.519Z [INFO]: Server listening on port 5001
+2024-03-08T07:41:57.521Z [WARN]: Server listening on port 5001
+2024-03-08T07:41:57.521Z [ERROR]: Server listening on port 5001
+2024-03-08T07:42:28.729Z [INFO]: Server listening on port 5001
+2024-03-08T07:42:28.730Z [WARN]: Server listening on port 5001
+2024-03-08T07:42:28.730Z [ERROR]: Server listening on port 5001
+2024-03-08T08:08:41.264Z [INFO]: Server listening on port 5001
+2024-03-08T08:08:41.265Z [WARN]: Server listening on port 5001
+2024-03-08T08:08:41.266Z [ERROR]: Server listening on port 5001
+2024-03-08T08:09:10.632Z [ERROR]: Caught an error in :FloatProcessGeneratePDF : pdfDoc.pipe is not a function
+2024-03-08T08:09:10.633Z [ERROR]: TypeError: pdfDoc.pipe is not a function
+    at generatePdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:216:16)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:61:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T08:10:09.079Z [INFO]: Server listening on port 5001
+2024-03-08T08:10:09.081Z [WARN]: Server listening on port 5001
+2024-03-08T08:10:09.081Z [ERROR]: Server listening on port 5001
+2024-03-08T08:10:20.683Z [INFO]: Server listening on port 5001
+2024-03-08T08:10:20.684Z [WARN]: Server listening on port 5001
+2024-03-08T08:10:20.684Z [ERROR]: Server listening on port 5001
+2024-03-08T08:10:34.195Z [ERROR]: Caught an error in :FloatProcessGeneratePDF : buffer is not defined
+2024-03-08T08:10:34.196Z [ERROR]: ReferenceError: buffer is not defined
+    at generatePdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:217:54)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:61:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T08:11:14.005Z [INFO]: Server listening on port 5001
+2024-03-08T08:11:14.006Z [WARN]: Server listening on port 5001
+2024-03-08T08:11:14.007Z [ERROR]: Server listening on port 5001
+2024-03-08T08:12:28.246Z [INFO]: Server listening on port 5001
+2024-03-08T08:12:28.247Z [WARN]: Server listening on port 5001
+2024-03-08T08:12:28.247Z [ERROR]: Server listening on port 5001
+2024-03-08T08:28:14.172Z [INFO]: Server listening on port 5001
+2024-03-08T08:28:14.173Z [WARN]: Server listening on port 5001
+2024-03-08T08:28:14.174Z [ERROR]: Server listening on port 5001
+2024-03-08T08:31:21.480Z [INFO]: Server listening on port 5001
+2024-03-08T08:31:21.481Z [WARN]: Server listening on port 5001
+2024-03-08T08:31:21.481Z [ERROR]: Server listening on port 5001
+2024-03-08T08:32:27.423Z [INFO]: Server listening on port 5001
+2024-03-08T08:32:27.424Z [WARN]: Server listening on port 5001
+2024-03-08T08:32:27.425Z [ERROR]: Server listening on port 5001
+2024-03-08T08:34:05.871Z [INFO]: Server listening on port 5001
+2024-03-08T08:34:05.872Z [WARN]: Server listening on port 5001
+2024-03-08T08:34:05.872Z [ERROR]: Server listening on port 5001
+2024-03-08T08:37:17.484Z [INFO]: Server listening on port 5001
+2024-03-08T08:37:17.485Z [WARN]: Server listening on port 5001
+2024-03-08T08:37:17.486Z [ERROR]: Server listening on port 5001
+2024-03-08T08:39:43.685Z [INFO]: Server listening on port 5001
+2024-03-08T08:39:43.687Z [WARN]: Server listening on port 5001
+2024-03-08T08:39:43.687Z [ERROR]: Server listening on port 5001
+2024-03-08T08:40:18.407Z [INFO]: Server listening on port 5001
+2024-03-08T08:40:18.408Z [WARN]: Server listening on port 5001
+2024-03-08T08:40:18.408Z [ERROR]: Server listening on port 5001
+2024-03-08T08:41:05.973Z [INFO]: Server listening on port 5001
+2024-03-08T08:41:05.974Z [WARN]: Server listening on port 5001
+2024-03-08T08:41:05.974Z [ERROR]: Server listening on port 5001
+2024-03-08T08:41:40.429Z [INFO]: Server listening on port 5001
+2024-03-08T08:41:40.431Z [WARN]: Server listening on port 5001
+2024-03-08T08:41:40.431Z [ERROR]: Server listening on port 5001
+2024-03-08T08:41:56.872Z [INFO]: Server listening on port 5001
+2024-03-08T08:41:56.873Z [WARN]: Server listening on port 5001
+2024-03-08T08:41:56.874Z [ERROR]: Server listening on port 5001
+2024-03-08T08:42:11.692Z [INFO]: Server listening on port 5001
+2024-03-08T08:42:11.693Z [WARN]: Server listening on port 5001
+2024-03-08T08:42:11.693Z [ERROR]: Server listening on port 5001
+2024-03-08T08:42:58.385Z [INFO]: Server listening on port 5001
+2024-03-08T08:42:58.387Z [WARN]: Server listening on port 5001
+2024-03-08T08:42:58.387Z [ERROR]: Server listening on port 5001
+2024-03-08T08:45:48.771Z [INFO]: Server listening on port 5001
+2024-03-08T08:45:48.772Z [WARN]: Server listening on port 5001
+2024-03-08T08:45:48.773Z [ERROR]: Server listening on port 5001
+2024-03-08T08:46:00.764Z [ERROR]: Caught an error in :FloatProcessGeneratePDF : path is not defined
+2024-03-08T08:46:00.765Z [ERROR]: ReferenceError: path is not defined
+    at generatePdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:195:29)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:61:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T08:46:28.272Z [INFO]: Server listening on port 5001
+2024-03-08T08:46:28.274Z [WARN]: Server listening on port 5001
+2024-03-08T08:46:28.274Z [ERROR]: Server listening on port 5001
+2024-03-08T08:46:55.716Z [INFO]: Server listening on port 5001
+2024-03-08T08:46:55.718Z [WARN]: Server listening on port 5001
+2024-03-08T08:46:55.718Z [ERROR]: Server listening on port 5001
+2024-03-08T08:47:35.464Z [INFO]: Server listening on port 5001
+2024-03-08T08:47:35.465Z [WARN]: Server listening on port 5001
+2024-03-08T08:47:35.466Z [ERROR]: Server listening on port 5001
+2024-03-08T08:53:38.122Z [INFO]: Server listening on port 5001
+2024-03-08T08:53:38.123Z [WARN]: Server listening on port 5001
+2024-03-08T08:53:38.124Z [ERROR]: Server listening on port 5001
+2024-03-08T08:57:08.738Z [INFO]: Server listening on port 5001
+2024-03-08T08:57:08.740Z [WARN]: Server listening on port 5001
+2024-03-08T08:57:08.740Z [ERROR]: Server listening on port 5001
+2024-03-08T09:07:07.022Z [INFO]: Server listening on port 5001
+2024-03-08T09:07:07.023Z [WARN]: Server listening on port 5001
+2024-03-08T09:07:07.024Z [ERROR]: Server listening on port 5001
+2024-03-08T09:07:13.302Z [ERROR]: Caught an error in :FloatProcessGeneratePDF : fileToBase64 is not defined
+2024-03-08T09:07:13.303Z [ERROR]: ReferenceError: fileToBase64 is not defined
+    at generatePdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:197:9)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:61:9)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T09:08:00.709Z [INFO]: Server listening on port 5001
+2024-03-08T09:08:00.711Z [WARN]: Server listening on port 5001
+2024-03-08T09:08:00.712Z [ERROR]: Server listening on port 5001
+2024-03-08T09:09:08.002Z [INFO]: Server listening on port 5001
+2024-03-08T09:09:08.004Z [WARN]: Server listening on port 5001
+2024-03-08T09:09:08.004Z [ERROR]: Server listening on port 5001
+2024-03-08T09:10:38.448Z [INFO]: Server listening on port 5001
+2024-03-08T09:10:38.449Z [WARN]: Server listening on port 5001
+2024-03-08T09:10:38.449Z [ERROR]: Server listening on port 5001
+2024-03-08T09:11:38.891Z [INFO]: Server listening on port 5001
+2024-03-08T09:11:38.892Z [WARN]: Server listening on port 5001
+2024-03-08T09:11:38.892Z [ERROR]: Server listening on port 5001
+2024-03-08T09:13:25.489Z [INFO]: Server listening on port 5001
+2024-03-08T09:13:25.490Z [WARN]: Server listening on port 5001
+2024-03-08T09:13:25.491Z [ERROR]: Server listening on port 5001
+2024-03-08T09:30:36.155Z [INFO]: Server listening on port 5001
+2024-03-08T09:30:36.156Z [WARN]: Server listening on port 5001
+2024-03-08T09:30:36.157Z [ERROR]: Server listening on port 5001
+2024-03-08T09:30:39.374Z [ERROR]: Caught an error in :FloatProcessSetUp : pdfContent is not defined
+2024-03-08T09:30:39.375Z [ERROR]: ReferenceError: pdfContent is not defined
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:64:29)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T09:31:16.930Z [INFO]: Server listening on port 5001
+2024-03-08T09:31:16.931Z [WARN]: Server listening on port 5001
+2024-03-08T09:31:16.931Z [ERROR]: Server listening on port 5001
+2024-03-08T09:31:41.169Z [INFO]: Server listening on port 5001
+2024-03-08T09:31:41.171Z [WARN]: Server listening on port 5001
+2024-03-08T09:31:41.171Z [ERROR]: Server listening on port 5001
+2024-03-08T09:32:29.889Z [INFO]: Server listening on port 5001
+2024-03-08T09:32:29.891Z [WARN]: Server listening on port 5001
+2024-03-08T09:32:29.892Z [ERROR]: Server listening on port 5001
+2024-03-08T09:33:17.645Z [INFO]: Server listening on port 5001
+2024-03-08T09:33:17.646Z [WARN]: Server listening on port 5001
+2024-03-08T09:33:17.647Z [ERROR]: Server listening on port 5001
+2024-03-08T09:34:09.259Z [INFO]: Server listening on port 5001
+2024-03-08T09:34:09.261Z [WARN]: Server listening on port 5001
+2024-03-08T09:34:09.261Z [ERROR]: Server listening on port 5001
+2024-03-08T09:34:19.182Z [INFO]: Server listening on port 5001
+2024-03-08T09:34:19.184Z [WARN]: Server listening on port 5001
+2024-03-08T09:34:19.184Z [ERROR]: Server listening on port 5001
+2024-03-08T09:35:14.568Z [INFO]: Server listening on port 5001
+2024-03-08T09:35:14.570Z [WARN]: Server listening on port 5001
+2024-03-08T09:35:14.570Z [ERROR]: Server listening on port 5001
+2024-03-08T09:36:06.915Z [INFO]: Server listening on port 5001
+2024-03-08T09:36:06.916Z [WARN]: Server listening on port 5001
+2024-03-08T09:36:06.916Z [ERROR]: Server listening on port 5001
+2024-03-08T09:38:43.480Z [INFO]: Server listening on port 5001
+2024-03-08T09:38:43.481Z [WARN]: Server listening on port 5001
+2024-03-08T09:38:43.482Z [ERROR]: Server listening on port 5001
+2024-03-08T09:41:25.185Z [INFO]: Server listening on port 5001
+2024-03-08T09:41:25.186Z [WARN]: Server listening on port 5001
+2024-03-08T09:41:25.187Z [ERROR]: Server listening on port 5001
+2024-03-08T11:02:19.162Z [INFO]: Server listening on port 5001
+2024-03-08T11:02:19.164Z [WARN]: Server listening on port 5001
+2024-03-08T11:02:19.164Z [ERROR]: Server listening on port 5001
+2024-03-08T11:04:37.874Z [INFO]: Server listening on port 5001
+2024-03-08T11:04:37.876Z [WARN]: Server listening on port 5001
+2024-03-08T11:04:37.876Z [ERROR]: Server listening on port 5001
+2024-03-08T11:05:38.111Z [INFO]: Server listening on port 5001
+2024-03-08T11:05:38.112Z [WARN]: Server listening on port 5001
+2024-03-08T11:05:38.113Z [ERROR]: Server listening on port 5001
+2024-03-08T11:07:28.296Z [INFO]: Server listening on port 5001
+2024-03-08T11:07:28.297Z [WARN]: Server listening on port 5001
+2024-03-08T11:07:28.297Z [ERROR]: Server listening on port 5001
+2024-03-08T11:08:06.585Z [INFO]: Server listening on port 5001
+2024-03-08T11:08:06.586Z [WARN]: Server listening on port 5001
+2024-03-08T11:08:06.587Z [ERROR]: Server listening on port 5001
+2024-03-08T11:09:03.699Z [INFO]: Server listening on port 5001
+2024-03-08T11:09:03.700Z [WARN]: Server listening on port 5001
+2024-03-08T11:09:03.700Z [ERROR]: Server listening on port 5001
+2024-03-08T11:10:13.728Z [INFO]: Server listening on port 5001
+2024-03-08T11:10:13.729Z [WARN]: Server listening on port 5001
+2024-03-08T11:10:13.730Z [ERROR]: Server listening on port 5001
+2024-03-08T11:15:13.543Z [INFO]: Server listening on port 5001
+2024-03-08T11:15:13.545Z [WARN]: Server listening on port 5001
+2024-03-08T11:15:13.545Z [ERROR]: Server listening on port 5001
+2024-03-08T11:16:22.028Z [INFO]: Server listening on port 5001
+2024-03-08T11:16:22.029Z [WARN]: Server listening on port 5001
+2024-03-08T11:16:22.029Z [ERROR]: Server listening on port 5001
+2024-03-08T11:17:10.653Z [INFO]: Server listening on port 5001
+2024-03-08T11:17:10.655Z [WARN]: Server listening on port 5001
+2024-03-08T11:17:10.655Z [ERROR]: Server listening on port 5001
+2024-03-08T11:18:35.473Z [INFO]: Server listening on port 5001
+2024-03-08T11:18:35.474Z [WARN]: Server listening on port 5001
+2024-03-08T11:18:35.475Z [ERROR]: Server listening on port 5001
+2024-03-08T11:21:41.214Z [INFO]: Server listening on port 5001
+2024-03-08T11:21:41.215Z [WARN]: Server listening on port 5001
+2024-03-08T11:21:41.216Z [ERROR]: Server listening on port 5001
+2024-03-08T11:23:57.502Z [INFO]: Server listening on port 5001
+2024-03-08T11:23:57.503Z [WARN]: Server listening on port 5001
+2024-03-08T11:23:57.504Z [ERROR]: Server listening on port 5001
+2024-03-08T11:25:54.310Z [INFO]: Server listening on port 5001
+2024-03-08T11:25:54.311Z [WARN]: Server listening on port 5001
+2024-03-08T11:25:54.312Z [ERROR]: Server listening on port 5001
+2024-03-08T11:26:24.783Z [INFO]: Server listening on port 5001
+2024-03-08T11:26:24.784Z [WARN]: Server listening on port 5001
+2024-03-08T11:26:24.785Z [ERROR]: Server listening on port 5001
+2024-03-08T11:27:52.380Z [INFO]: Server listening on port 5001
+2024-03-08T11:27:52.382Z [WARN]: Server listening on port 5001
+2024-03-08T11:27:52.382Z [ERROR]: Server listening on port 5001
+2024-03-08T11:29:13.442Z [INFO]: Server listening on port 5001
+2024-03-08T11:29:13.443Z [WARN]: Server listening on port 5001
+2024-03-08T11:29:13.444Z [ERROR]: Server listening on port 5001
+2024-03-08T11:31:35.699Z [INFO]: Server listening on port 5001
+2024-03-08T11:31:35.700Z [WARN]: Server listening on port 5001
+2024-03-08T11:31:35.700Z [ERROR]: Server listening on port 5001
+2024-03-08T11:32:10.623Z [INFO]: Server listening on port 5001
+2024-03-08T11:32:10.625Z [WARN]: Server listening on port 5001
+2024-03-08T11:32:10.625Z [ERROR]: Server listening on port 5001
+2024-03-08T11:32:48.046Z [INFO]: Server listening on port 5001
+2024-03-08T11:32:48.048Z [WARN]: Server listening on port 5001
+2024-03-08T11:32:48.048Z [ERROR]: Server listening on port 5001
+2024-03-08T11:33:26.442Z [INFO]: Server listening on port 5001
+2024-03-08T11:33:26.443Z [WARN]: Server listening on port 5001
+2024-03-08T11:33:26.443Z [ERROR]: Server listening on port 5001
+2024-03-08T11:33:49.346Z [INFO]: Server listening on port 5001
+2024-03-08T11:33:49.347Z [WARN]: Server listening on port 5001
+2024-03-08T11:33:49.347Z [ERROR]: Server listening on port 5001
+2024-03-08T11:35:21.633Z [INFO]: Server listening on port 5001
+2024-03-08T11:35:21.634Z [WARN]: Server listening on port 5001
+2024-03-08T11:35:21.635Z [ERROR]: Server listening on port 5001
+2024-03-08T11:36:44.165Z [INFO]: Server listening on port 5001
+2024-03-08T11:36:44.166Z [WARN]: Server listening on port 5001
+2024-03-08T11:36:44.167Z [ERROR]: Server listening on port 5001
+2024-03-08T11:37:21.563Z [INFO]: Server listening on port 5001
+2024-03-08T11:37:21.564Z [WARN]: Server listening on port 5001
+2024-03-08T11:37:21.564Z [ERROR]: Server listening on port 5001
+2024-03-08T11:37:41.178Z [INFO]: Server listening on port 5001
+2024-03-08T11:37:41.179Z [WARN]: Server listening on port 5001
+2024-03-08T11:37:41.180Z [ERROR]: Server listening on port 5001
+2024-03-08T11:38:33.639Z [INFO]: Server listening on port 5001
+2024-03-08T11:38:33.640Z [WARN]: Server listening on port 5001
+2024-03-08T11:38:33.641Z [ERROR]: Server listening on port 5001
+2024-03-08T11:39:42.591Z [INFO]: Server listening on port 5001
+2024-03-08T11:39:42.592Z [WARN]: Server listening on port 5001
+2024-03-08T11:39:42.592Z [ERROR]: Server listening on port 5001
+2024-03-08T11:41:55.368Z [INFO]: Server listening on port 5001
+2024-03-08T11:41:55.369Z [WARN]: Server listening on port 5001
+2024-03-08T11:41:55.370Z [ERROR]: Server listening on port 5001
+2024-03-08T11:43:28.462Z [INFO]: Server listening on port 5001
+2024-03-08T11:43:28.463Z [WARN]: Server listening on port 5001
+2024-03-08T11:43:28.464Z [ERROR]: Server listening on port 5001
+2024-03-08T11:45:59.306Z [INFO]: Server listening on port 5001
+2024-03-08T11:45:59.307Z [WARN]: Server listening on port 5001
+2024-03-08T11:45:59.307Z [ERROR]: Server listening on port 5001
+2024-03-08T11:46:41.953Z [INFO]: Server listening on port 5001
+2024-03-08T11:46:41.955Z [WARN]: Server listening on port 5001
+2024-03-08T11:46:41.955Z [ERROR]: Server listening on port 5001
+2024-03-08T11:47:14.982Z [INFO]: Server listening on port 5001
+2024-03-08T11:47:14.984Z [WARN]: Server listening on port 5001
+2024-03-08T11:47:14.984Z [ERROR]: Server listening on port 5001
+2024-03-08T11:48:00.150Z [INFO]: Server listening on port 5001
+2024-03-08T11:48:00.152Z [WARN]: Server listening on port 5001
+2024-03-08T11:48:00.152Z [ERROR]: Server listening on port 5001
+2024-03-08T11:48:55.878Z [INFO]: Server listening on port 5001
+2024-03-08T11:48:55.879Z [WARN]: Server listening on port 5001
+2024-03-08T11:48:55.879Z [ERROR]: Server listening on port 5001
+2024-03-08T11:49:18.500Z [INFO]: Server listening on port 5001
+2024-03-08T11:49:18.501Z [WARN]: Server listening on port 5001
+2024-03-08T11:49:18.502Z [ERROR]: Server listening on port 5001
+2024-03-08T11:49:40.935Z [INFO]: Server listening on port 5001
+2024-03-08T11:49:40.936Z [WARN]: Server listening on port 5001
+2024-03-08T11:49:40.937Z [ERROR]: Server listening on port 5001
+2024-03-08T11:50:26.664Z [INFO]: Server listening on port 5001
+2024-03-08T11:50:26.666Z [WARN]: Server listening on port 5001
+2024-03-08T11:50:26.666Z [ERROR]: Server listening on port 5001
+2024-03-08T11:50:44.363Z [INFO]: Server listening on port 5001
+2024-03-08T11:50:44.364Z [WARN]: Server listening on port 5001
+2024-03-08T11:50:44.365Z [ERROR]: Server listening on port 5001
+2024-03-08T12:19:26.828Z [INFO]: Server listening on port 5001
+2024-03-08T12:19:26.829Z [WARN]: Server listening on port 5001
+2024-03-08T12:19:26.830Z [ERROR]: Server listening on port 5001
+2024-03-08T12:20:52.114Z [INFO]: Server listening on port 5001
+2024-03-08T12:20:52.115Z [WARN]: Server listening on port 5001
+2024-03-08T12:20:52.116Z [ERROR]: Server listening on port 5001
+2024-03-08T12:23:38.810Z [INFO]: Server listening on port 5001
+2024-03-08T12:23:38.812Z [WARN]: Server listening on port 5001
+2024-03-08T12:23:38.812Z [ERROR]: Server listening on port 5001
+2024-03-08T12:26:54.893Z [INFO]: Server listening on port 5001
+2024-03-08T12:26:54.895Z [WARN]: Server listening on port 5001
+2024-03-08T12:26:54.895Z [ERROR]: Server listening on port 5001
+2024-03-08T12:27:20.945Z [INFO]: Server listening on port 5001
+2024-03-08T12:27:20.946Z [WARN]: Server listening on port 5001
+2024-03-08T12:27:20.946Z [ERROR]: Server listening on port 5001
+2024-03-08T12:27:38.723Z [INFO]: Server listening on port 5001
+2024-03-08T12:27:38.724Z [WARN]: Server listening on port 5001
+2024-03-08T12:27:38.724Z [ERROR]: Server listening on port 5001
+2024-03-08T12:28:11.849Z [INFO]: Server listening on port 5001
+2024-03-08T12:28:11.850Z [WARN]: Server listening on port 5001
+2024-03-08T12:28:11.850Z [ERROR]: Server listening on port 5001
+2024-03-08T12:29:38.096Z [INFO]: Server listening on port 5001
+2024-03-08T12:29:38.097Z [WARN]: Server listening on port 5001
+2024-03-08T12:29:38.097Z [ERROR]: Server listening on port 5001
+2024-03-08T12:37:32.471Z [INFO]: Server listening on port 5001
+2024-03-08T12:37:32.473Z [WARN]: Server listening on port 5001
+2024-03-08T12:37:32.473Z [ERROR]: Server listening on port 5001
+2024-03-08T12:37:59.568Z [ERROR]: Caught an error in :FloatProcessSetUp : The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
+2024-03-08T12:37:59.569Z [ERROR]: TypeError [ERR_INVALID_ARG_TYPE]: The "path" argument must be of type string or an instance of Buffer or URL. Received undefined
+    at Object.readFile (node:fs:411:10)
+    at fileToBase64 (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:29:8)
+    at Object.generateFloatPdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:56:9)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:81:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T12:38:35.317Z [INFO]: Server listening on port 5001
+2024-03-08T12:38:35.318Z [WARN]: Server listening on port 5001
+2024-03-08T12:38:35.319Z [ERROR]: Server listening on port 5001
+2024-03-08T12:41:36.133Z [INFO]: Server listening on port 5001
+2024-03-08T12:41:36.134Z [WARN]: Server listening on port 5001
+2024-03-08T12:41:36.134Z [ERROR]: Server listening on port 5001
+2024-03-08T12:42:30.335Z [ERROR]: Caught an error in :FloatProcessSetUp : res.status is not a function
+2024-03-08T12:42:30.336Z [ERROR]: TypeError: res.status is not a function
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:87:13)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T13:06:11.560Z [INFO]: Server listening on port 5001
+2024-03-08T13:06:11.562Z [WARN]: Server listening on port 5001
+2024-03-08T13:06:11.562Z [ERROR]: Server listening on port 5001
+2024-03-08T13:07:54.308Z [INFO]: Server listening on port 5001
+2024-03-08T13:07:54.309Z [WARN]: Server listening on port 5001
+2024-03-08T13:07:54.310Z [ERROR]: Server listening on port 5001
+2024-03-08T13:09:58.116Z [INFO]: Server listening on port 5001
+2024-03-08T13:09:58.118Z [WARN]: Server listening on port 5001
+2024-03-08T13:09:58.118Z [ERROR]: Server listening on port 5001
+2024-03-08T13:13:49.624Z [INFO]: Server listening on port 5001
+2024-03-08T13:13:49.625Z [WARN]: Server listening on port 5001
+2024-03-08T13:13:49.625Z [ERROR]: Server listening on port 5001
+2024-03-08T13:18:31.559Z [INFO]: Server listening on port 5001
+2024-03-08T13:18:31.560Z [WARN]: Server listening on port 5001
+2024-03-08T13:18:31.560Z [ERROR]: Server listening on port 5001
+2024-03-08T13:19:09.958Z [ERROR]: Caught an error in :FloatProcessSetUp : The incoming tabular data stream (TDS) remote procedure call (RPC) protocol stream is incorrect. Parameter 9 ("@ReceiptNumber"): Data type 0xA7 has an invalid data length or metadata length.
+2024-03-08T13:19:09.959Z [ERROR]: RequestError: The incoming tabular data stream (TDS) remote procedure call (RPC) protocol stream is incorrect. Parameter 9 ("@ReceiptNumber"): Data type 0xA7 has an invalid data length or metadata length.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-08T13:19:23.029Z [INFO]: Server listening on port 5001
+2024-03-08T13:19:23.031Z [WARN]: Server listening on port 5001
+2024-03-08T13:19:23.031Z [ERROR]: Server listening on port 5001
+2024-03-08T13:20:31.072Z [INFO]: Server listening on port 5001
+2024-03-08T13:20:31.073Z [WARN]: Server listening on port 5001
+2024-03-08T13:20:31.073Z [ERROR]: Server listening on port 5001
+2024-03-08T13:21:37.328Z [ERROR]: Caught an error in :FloatProcessSetUp : req is not defined
+2024-03-08T13:21:37.329Z [ERROR]: ReferenceError: req is not defined
+    at generateReceipt (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:169:21)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:58:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T13:22:01.412Z [INFO]: Server listening on port 5001
+2024-03-08T13:22:01.413Z [WARN]: Server listening on port 5001
+2024-03-08T13:22:01.413Z [ERROR]: Server listening on port 5001
+2024-03-08T13:23:23.042Z [INFO]: Server listening on port 5001
+2024-03-08T13:23:23.043Z [WARN]: Server listening on port 5001
+2024-03-08T13:23:23.044Z [ERROR]: Server listening on port 5001
+2024-03-08T13:33:34.805Z [INFO]: Server listening on port 5001
+2024-03-08T13:33:34.806Z [WARN]: Server listening on port 5001
+2024-03-08T13:33:34.806Z [ERROR]: Server listening on port 5001
+2024-03-08T13:37:11.110Z [INFO]: Server listening on port 5001
+2024-03-08T13:37:11.111Z [WARN]: Server listening on port 5001
+2024-03-08T13:37:11.111Z [ERROR]: Server listening on port 5001
+2024-03-08T13:40:01.474Z [INFO]: Server listening on port 5001
+2024-03-08T13:40:01.476Z [WARN]: Server listening on port 5001
+2024-03-08T13:40:01.476Z [ERROR]: Server listening on port 5001
+2024-03-08T13:40:09.164Z [INFO]: Server listening on port 5001
+2024-03-08T13:40:09.165Z [WARN]: Server listening on port 5001
+2024-03-08T13:40:09.166Z [ERROR]: Server listening on port 5001
+2024-03-08T13:54:27.193Z [INFO]: Server listening on port 5001
+2024-03-08T13:54:27.194Z [WARN]: Server listening on port 5001
+2024-03-08T13:54:27.194Z [ERROR]: Server listening on port 5001
+2024-03-08T13:54:43.729Z [ERROR]: Caught an error in :FloatProcessSetUp : printedOn is not defined
+2024-03-08T13:54:43.729Z [ERROR]: ReferenceError: printedOn is not defined
+    at Object.generateFloatPdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:93:37)
+    at generateReceipt (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:203:13)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:58:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T13:55:08.282Z [INFO]: Server listening on port 5001
+2024-03-08T13:55:08.284Z [WARN]: Server listening on port 5001
+2024-03-08T13:55:08.284Z [ERROR]: Server listening on port 5001
+2024-03-08T13:59:18.013Z [INFO]: Server listening on port 5001
+2024-03-08T13:59:18.014Z [WARN]: Server listening on port 5001
+2024-03-08T13:59:18.014Z [ERROR]: Server listening on port 5001
+2024-03-08T13:59:35.242Z [ERROR]: Caught an error in :FloatProcessSetUp : headerDetails is not defined
+2024-03-08T13:59:35.242Z [ERROR]: ReferenceError: headerDetails is not defined
+    at Object.generateFloatPdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:90:18)
+    at generateReceipt (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:197:13)
+    at FloatProcessSetUp (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:58:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T13:59:49.195Z [INFO]: Server listening on port 5001
+2024-03-08T13:59:49.196Z [WARN]: Server listening on port 5001
+2024-03-08T13:59:49.197Z [ERROR]: Server listening on port 5001
+2024-03-08T14:01:46.707Z [INFO]: Server listening on port 5001
+2024-03-08T14:01:46.708Z [WARN]: Server listening on port 5001
+2024-03-08T14:01:46.708Z [ERROR]: Server listening on port 5001
+2024-03-08T14:03:08.233Z [INFO]: Server listening on port 5001
+2024-03-08T14:03:08.234Z [WARN]: Server listening on port 5001
+2024-03-08T14:03:08.235Z [ERROR]: Server listening on port 5001
+2024-03-08T14:04:19.670Z [INFO]: Server listening on port 5001
+2024-03-08T14:04:19.671Z [WARN]: Server listening on port 5001
+2024-03-08T14:04:19.672Z [ERROR]: Server listening on port 5001
+2024-03-08T14:06:01.145Z [INFO]: Server listening on port 5001
+2024-03-08T14:06:01.146Z [WARN]: Server listening on port 5001
+2024-03-08T14:06:01.146Z [ERROR]: Server listening on port 5001
+2024-03-08T14:07:20.987Z [INFO]: Server listening on port 5001
+2024-03-08T14:07:20.989Z [WARN]: Server listening on port 5001
+2024-03-08T14:07:20.989Z [ERROR]: Server listening on port 5001
+2024-03-08T14:08:07.863Z [INFO]: Server listening on port 5001
+2024-03-08T14:08:07.864Z [WARN]: Server listening on port 5001
+2024-03-08T14:08:07.865Z [ERROR]: Server listening on port 5001
+2024-03-08T14:08:53.918Z [INFO]: Server listening on port 5001
+2024-03-08T14:08:53.919Z [WARN]: Server listening on port 5001
+2024-03-08T14:08:53.920Z [ERROR]: Server listening on port 5001
+2024-03-08T14:09:39.575Z [INFO]: Server listening on port 5001
+2024-03-08T14:09:39.577Z [WARN]: Server listening on port 5001
+2024-03-08T14:09:39.577Z [ERROR]: Server listening on port 5001
+2024-03-08T14:12:03.340Z [INFO]: Server listening on port 5001
+2024-03-08T14:12:03.341Z [WARN]: Server listening on port 5001
+2024-03-08T14:12:03.342Z [ERROR]: Server listening on port 5001
+2024-03-08T14:13:08.968Z [INFO]: Server listening on port 5001
+2024-03-08T14:13:08.969Z [WARN]: Server listening on port 5001
+2024-03-08T14:13:08.970Z [ERROR]: Server listening on port 5001
+2024-03-08T14:14:09.819Z [INFO]: Server listening on port 5001
+2024-03-08T14:14:09.820Z [WARN]: Server listening on port 5001
+2024-03-08T14:14:09.820Z [ERROR]: Server listening on port 5001
+2024-03-08T14:14:54.615Z [INFO]: Server listening on port 5001
+2024-03-08T14:14:54.616Z [WARN]: Server listening on port 5001
+2024-03-08T14:14:54.617Z [ERROR]: Server listening on port 5001
+2024-03-08T14:15:36.157Z [INFO]: Server listening on port 5001
+2024-03-08T14:15:36.159Z [WARN]: Server listening on port 5001
+2024-03-08T14:15:36.159Z [ERROR]: Server listening on port 5001
+2024-03-08T14:16:20.283Z [INFO]: Server listening on port 5001
+2024-03-08T14:16:20.284Z [WARN]: Server listening on port 5001
+2024-03-08T14:16:20.284Z [ERROR]: Server listening on port 5001
+2024-03-08T14:17:30.516Z [INFO]: Server listening on port 5001
+2024-03-08T14:17:30.518Z [WARN]: Server listening on port 5001
+2024-03-08T14:17:30.518Z [ERROR]: Server listening on port 5001
+2024-03-08T14:19:34.060Z [INFO]: Server listening on port 5001
+2024-03-08T14:19:34.062Z [WARN]: Server listening on port 5001
+2024-03-08T14:19:34.062Z [ERROR]: Server listening on port 5001
+2024-03-08T14:20:37.314Z [INFO]: Server listening on port 5001
+2024-03-08T14:20:37.315Z [WARN]: Server listening on port 5001
+2024-03-08T14:20:37.315Z [ERROR]: Server listening on port 5001
+2024-03-08T14:21:29.634Z [INFO]: Server listening on port 5001
+2024-03-08T14:21:29.635Z [WARN]: Server listening on port 5001
+2024-03-08T14:21:29.636Z [ERROR]: Server listening on port 5001
+2024-03-08T14:22:27.604Z [INFO]: Server listening on port 5001
+2024-03-08T14:22:27.605Z [WARN]: Server listening on port 5001
+2024-03-08T14:22:27.606Z [ERROR]: Server listening on port 5001
+2024-03-08T14:23:16.043Z [INFO]: Server listening on port 5001
+2024-03-08T14:23:16.044Z [WARN]: Server listening on port 5001
+2024-03-08T14:23:16.045Z [ERROR]: Server listening on port 5001
+2024-03-08T14:23:39.012Z [INFO]: Server listening on port 5001
+2024-03-08T14:23:39.013Z [WARN]: Server listening on port 5001
+2024-03-08T14:23:39.014Z [ERROR]: Server listening on port 5001
+2024-03-08T14:25:03.518Z [INFO]: Server listening on port 5001
+2024-03-08T14:25:03.519Z [WARN]: Server listening on port 5001
+2024-03-08T14:25:03.519Z [ERROR]: Server listening on port 5001
+2024-03-08T14:25:43.464Z [INFO]: Server listening on port 5001
+2024-03-08T14:25:43.466Z [WARN]: Server listening on port 5001
+2024-03-08T14:25:43.466Z [ERROR]: Server listening on port 5001
+2024-03-08T14:26:43.587Z [INFO]: Server listening on port 5001
+2024-03-08T14:26:43.588Z [WARN]: Server listening on port 5001
+2024-03-08T14:26:43.589Z [ERROR]: Server listening on port 5001
+2024-03-08T14:28:06.021Z [INFO]: Server listening on port 5001
+2024-03-08T14:28:06.022Z [WARN]: Server listening on port 5001
+2024-03-08T14:28:06.023Z [ERROR]: Server listening on port 5001
+2024-03-08T14:29:14.528Z [INFO]: Server listening on port 5001
+2024-03-08T14:29:14.529Z [WARN]: Server listening on port 5001
+2024-03-08T14:29:14.530Z [ERROR]: Server listening on port 5001
+2024-03-08T14:29:43.173Z [INFO]: Server listening on port 5001
+2024-03-08T14:29:43.174Z [WARN]: Server listening on port 5001
+2024-03-08T14:29:43.174Z [ERROR]: Server listening on port 5001
+2024-03-08T15:10:13.430Z [INFO]: Server listening on port 5001
+2024-03-08T15:10:13.431Z [WARN]: Server listening on port 5001
+2024-03-08T15:10:13.431Z [ERROR]: Server listening on port 5001
+2024-03-08T15:10:46.427Z [ERROR]: Caught an error in :FloatProcessSetUp : Assignment to constant variable.
+2024-03-08T15:10:46.428Z [ERROR]: TypeError: Assignment to constant variable.
+    at Object.generateFloatPdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:39:19)
+    at generateReceipt (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:194:13)
+    at FloatProcessSetup (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:55:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T15:11:19.764Z [ERROR]: Caught an error in :FloatProcessSetUp : Assignment to constant variable.
+2024-03-08T15:11:19.764Z [ERROR]: TypeError: Assignment to constant variable.
+    at Object.generateFloatPdf (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_reports\reportmaster.js:39:19)
+    at generateReceipt (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:194:13)
+    at FloatProcessSetup (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\_routers\floatProcessRoute.js:55:17)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+2024-03-08T15:11:48.735Z [INFO]: Server listening on port 5001
+2024-03-08T15:11:48.736Z [WARN]: Server listening on port 5001
+2024-03-08T15:11:48.737Z [ERROR]: Server listening on port 5001
+2024-03-08T15:12:33.338Z [INFO]: Server listening on port 5001
+2024-03-08T15:12:33.339Z [WARN]: Server listening on port 5001
+2024-03-08T15:12:33.340Z [ERROR]: Server listening on port 5001
+2024-03-08T15:13:30.045Z [INFO]: Server listening on port 5001
+2024-03-08T15:13:30.046Z [WARN]: Server listening on port 5001
+2024-03-08T15:13:30.046Z [ERROR]: Server listening on port 5001
+2024-03-08T15:14:18.797Z [INFO]: Server listening on port 5001
+2024-03-08T15:14:18.799Z [WARN]: Server listening on port 5001
+2024-03-08T15:14:18.799Z [ERROR]: Server listening on port 5001
+2024-03-08T15:15:02.155Z [INFO]: Server listening on port 5001
+2024-03-08T15:15:02.157Z [WARN]: Server listening on port 5001
+2024-03-08T15:15:02.157Z [ERROR]: Server listening on port 5001
+2024-03-08T15:15:38.023Z [INFO]: Server listening on port 5001
+2024-03-08T15:15:38.025Z [WARN]: Server listening on port 5001
+2024-03-08T15:15:38.025Z [ERROR]: Server listening on port 5001

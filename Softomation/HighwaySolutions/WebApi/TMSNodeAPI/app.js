@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const corsOpts = require('./configCros.json');
+const path = require('path');
+const configManagerPath = path.resolve('configManager');
+const corsOpts = require(path.join(configManagerPath, 'configCros.json'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));

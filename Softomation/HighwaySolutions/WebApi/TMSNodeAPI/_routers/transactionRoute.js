@@ -129,6 +129,7 @@ async function LaneTransactionGetByFilter(req, res, next) {
 
 async function LaneTransactionValidation(req, res, next) {
     try {
+        const currentDateTime = new Date();
         let data = req.body;
         const pool = await database.connect();
         result = await pool.request()
@@ -140,7 +141,7 @@ async function LaneTransactionValidation(req, res, next) {
             .input('ReviewedTransactionAmount', sql.Decimal, data.ReviewedTransactionAmount)
             .input('DifferenceAmount', sql.Decimal, data.DifferenceAmount)
             .input('ReviewedById', sql.BigInt, data.ReviewedById)
-            .input('ReviewedDateTime', sql.VarChar(50), data.ReviewedDateTime)
+            .input('ReviewedDateTime', sql.DateTime, currentDateTime)
             .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
             .execute('USP_LaneTransactionReviewUpdate');
         await database.disconnect();

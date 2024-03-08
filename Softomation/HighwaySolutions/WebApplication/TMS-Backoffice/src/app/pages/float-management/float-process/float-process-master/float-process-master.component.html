@@ -67,6 +67,13 @@
                                 <td>{{rowData.AssignedToLoginId}}</td>
                                 <td>{{rowData.ReceiptNumber}}</td>
                                 <td style="text-align: center;">
+                                    <a href="javascript:void(0);" (click)="onReceiptDoanload(rowData.ReceiptNumber)"
+                                        class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                        data-bs-toggle="tooltip" data-bs-placement="top" title="download">
+                                        <i class="mdi mdi-file-pdf-box font-size-18"></i>
+                                    </a>
+                                </td>
+                                <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
                                         class="me-3 text-primary" data-bs-container="#tooltip-container0"
                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">

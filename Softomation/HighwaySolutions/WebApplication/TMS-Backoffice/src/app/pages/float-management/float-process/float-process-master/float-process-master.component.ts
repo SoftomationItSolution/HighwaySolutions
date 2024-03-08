@@ -19,10 +19,12 @@ export class FloatProcessMasterComponent implements OnInit {
   DataUpdate: Number = 0;
   DataAdd: Number = 0;
   DataView: Number = 0;
+  MediaPrefix=''
   constructor(public dialog: MatDialog, private spinner: NgxSpinnerService, private dm: DataModel,
     private dbService: apiIntegrationService) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
     this.GetPermissionData();
   }
 
@@ -128,5 +130,10 @@ export class FloatProcessMasterComponent implements OnInit {
       this.ErrorData = [{ AlertMessage: 'You dont have right!' }];
       this.dm.openSnackBar(this.ErrorData, false);
     }
+  }
+
+  onReceiptDoanload(ReceiptNumber:string){
+    const url = `${this.MediaPrefix}/reports/${ReceiptNumber}.pdf`;
+    window.open(url)
   }
 }

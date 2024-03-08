@@ -13,6 +13,7 @@ import { DataModel } from 'src/services/data-model.model';
   styleUrls: ['./float-process-popup.component.css']
 })
 export class FloatProcessPopupComponent implements OnInit {
+  
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
@@ -28,11 +29,17 @@ export class FloatProcessPopupComponent implements OnInit {
   DenominationData: any;
   AmountAlloted = 0;
   FloatTransactionTypeId = 0;
+  LoginId = '';
+  MediaPrefix=''
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<FloatProcessPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel, public datepipe: DatePipe,) {
-    this.LogedUserId = this.dm.getUserId();
+    const UserData = this.dm.getUserData()
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
+    this.LogedUserId = UserData.UserId;
+    this.LoginId = UserData.LoginId;
     this.FloatProcessId = parentData.FloatProcessId;
     this.FloatTransactionTypeId = parentData.FloatTransactionTypeId;
+    
     this.DefaultPlazaId = this.dm.getDefaultPlazaId();
   }
 
@@ -191,6 +198,7 @@ export class FloatProcessPopupComponent implements OnInit {
       return;
     }
     const Obj = {
+      ReceiptNumber:this.generateReceiptNumber(),
       FloatProcessId: this.FloatProcessId,
       PlazaId: this.DefaultPlazaId,
       TransactionAmount: this.AmountAlloted,
@@ -203,7 +211,8 @@ export class FloatProcessPopupComponent implements OnInit {
       FloatTransactionTypeId: this.FloatTransactionTypeId,
       DataStatus: 1,
       CreatedBy: this.LogedUserId,
-      ModifiedBy: this.LogedUserId
+      ModifiedBy: this.LogedUserId,
+      GeneratedBy: this.LoginId
     }
     this.spinner.show();
     this.dbService.FloatProcessSetUp(Obj).subscribe(
@@ -213,6 +222,8 @@ export class FloatProcessPopupComponent implements OnInit {
         if (returnMessage.indexOf('success') > -1) {
           this.ErrorData = [{ AlertMessage: 'Success' }];
           this.dm.openSnackBar(this.ErrorData, true);
+          const url = `${this.MediaPrefix}/reports/${Obj.ReceiptNumber}.pdf`;
+          window.open(url)
           this.Dialogref.close(true);
         } else {
           this.ErrorData = data.Message;
@@ -231,4 +242,12 @@ export class FloatProcessPopupComponent implements OnInit {
       }
     );
   }
+
+  generateReceiptNumber(): string {
+    const timestamp: number = Date.now(); // Get current timestamp
+    const random: number = Math.floor(Math.random() * 10000); // Generate random number between 0 and 9999
+    const paddedRandom: string = random.toString().padStart(4, '0'); // Pad random number to have 4 digits
+    const receiptNumber: string = `${timestamp}${paddedRandom}`; // Concatenate timestamp and padded random number
+    return receiptNumber.substring(0, 20); // Ensure the length is 20 characters
+}
 }

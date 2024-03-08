@@ -3,41 +3,38 @@ const router = express.Router();
 const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
+const reports = require('../_reports/reportmaster');
 const sql = require('mssql');
 const moment = require('moment');
 
-router.post('/FloatProcessSetUp', FloatProcessSetUp);
 
+router.post('/FloatProcessSetUp', FloatProcessSetup);
 router.get('/FloatProcessGetAll', FloatProcessGetAll);
 router.get('/FloatProcessGetById', FloatProcessGetById);
 
 module.exports = router;
 
-async function FloatProcessSetUp(req, res, next) {
+async function FloatProcessSetup(req, res, next) {
     try {
-        const SessionId = constants.RandonString(10)
         const array = req.body.FloatProcessDenominationList;
         const table = new sql.Table('temp_DenominationDetails');
-        table.create = true; // If the table doesn't exist, create it
-
-        // Add columns to the table
+        table.create = true;
         table.columns.add('DenominationId', sql.SmallInt, { nullable: false });
         table.columns.add('DenominationValue', sql.SmallInt, { nullable: false });
         table.columns.add('DenominationCount', sql.SmallInt, { nullable: false });
         table.columns.add('SessionId', sql.VarChar(20), { nullable: false });
         for (let i = 0; i < array.length; i++) {
-            table.rows.add(parseInt(array[i].DenominationId), array[i].DenominationValue, array[i].DenominationCount, SessionId);
+            table.rows.add(parseInt(array[i].DenominationId), array[i].DenominationValue, array[i].DenominationCount, req.body.ReceiptNumber);
         }
         const pool = await database.connect();
         const resultU = await pool.request().bulk(table);
         const currentDateTime = new Date();
-        const result = await pool.request().input('SessionId', sql.VarChar(200), SessionId)
-            .input('FloatProcessId', sql.BigInt, req.body.FloatProcessId)
+        const result = await pool.request().input('FloatProcessId', sql.BigInt, req.body.FloatProcessId)
             .input('PlazaId', sql.SmallInt, req.body.PlazaId)
             .input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('ShiftId', sql.SmallInt, req.body.ShiftId)
             .input('FloatTransactionTypeId', sql.SmallInt, req.body.FloatTransactionTypeId)
-            .input('TransactionDate', sql.VarChar(20), req.body.TransactionDate)
+            .input('TransactionDate', sql.VarChar(20), req.body.TransactionDateStamp)
             .input('TransactionAmount', sql.Decimal, req.body.TransactionAmount)
             .input('ReceiptNumber', sql.VarChar(20), req.body.ReceiptNumber)
             .input('AssignedBy', sql.BigInt, req.body.AssignedBy)
@@ -50,7 +47,14 @@ async function FloatProcessSetUp(req, res, next) {
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_FloatProcessInsertUpdate');
         database.disconnect();
-        let out = constants.ResponseMessageList(result.recordset, null);
+        const ds = result.recordsets;
+        let out = constants.ResponseMessageList(ds[0], null);
+        if (req.body.FloatTransactionTypeId >= 3 && req.body.FloatTransactionTypeId <= 6) {
+            let returnMessage = out.Message[0].AlertMessage;
+            if (returnMessage.indexOf('success') > -1) {
+                generateReceipt(req.body, ds[1]);
+            }
+        }
         res.status(200).json(out);
     } catch (error) {
         errorlogMessage(error, 'FloatProcessSetUp');
@@ -156,4 +160,36 @@ function errorlogMessage(error, method) {
     catch (error) {
         logger.error(`Caught an error in :${method}`);
     }
+}
+
+function generateReceipt(input, headerDetails) {
+    jsonData = headerDetails[0];
+    const pdfName = input.ReceiptNumber + ".pdf";
+    const tableRows = input.FloatProcessDenominationList.map(item => {
+        const total = item.DenominationValue * item.DenominationCount;
+        return [
+            { text: '₹' + item.DenominationValue.toString(), alignment: 'right' },
+            { text: item.DenominationCount.toString(), alignment: 'right' },
+            { text: '₹' + total.toString(), alignment: 'right' }
+        ];
+    });
+    const totalAmount = input.FloatProcessDenominationList.reduce((acc, item) => {
+        return acc + (item.DenominationValue * item.DenominationCount);
+    }, 0);
+    const totalRow = [
+        { text: 'Total', colSpan: 2, alignment: 'right', bold: true },
+        {},
+        { text: '₹' + totalAmount.toString(), alignment: 'right', bold: true }
+    ];
+
+    let tab = {
+        headerRows: 1,
+        widths: ['*', '*', '*'],
+        body: [
+            [{ text: 'Denomination', style: 'tableHeader' }, { text: 'Count', style: 'tableHeader' }, { text: 'Total', style: 'tableHeader' }],
+            ...tableRows,
+            totalRow
+        ]
+    }
+    reports.generateFloatPdf(jsonData["FloatType"]+" Receipt", input["GeneratedBy"], tab, jsonData, pdfName);
 }

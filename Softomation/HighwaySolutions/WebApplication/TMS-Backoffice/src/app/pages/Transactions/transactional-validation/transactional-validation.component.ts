@@ -84,6 +84,7 @@ export class TransactionalValidationComponent {
     });
     this.Reviewedform = new FormGroup({
       ReviewedSubClassId: new FormControl('', [Validators.required]),
+      ReviewedPlateNumber: new FormControl(''),
       ReviewedTransactionTypeId: new FormControl('', [Validators.required]),
       ReviewedRemark: new FormControl(''),
       ReviewedClassCorrectionId: new FormControl(0, []),
@@ -365,6 +366,7 @@ export class TransactionalValidationComponent {
       this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
       this.getTollFare(new Date(this.SelectedRow.TransactionDateTimeStamp));
       this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
+      this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
       this.Reviewedform.controls['ReviewedTransactionTypeId'].setValue(this.SelectedRow.TransactionTypeId);
       this.Reviewedform.controls['ReviewedRemark'].reset();
       if (this.SelectedRow.VehicleSubClassId == this.SelectedRow.AvcClassId) {
@@ -417,7 +419,7 @@ export class TransactionalValidationComponent {
       this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleAvcClassId
     else
       this.SelectedRow.ReviewedSubClassId = this.Reviewedform.value.ReviewedSubClassId;
-    this.SelectedRow.ReviewedPlateNumber = this.Reviewedform.value.PlateNumber;
+    this.SelectedRow.ReviewedPlateNumber = this.Reviewedform.value.ReviewedPlateNumber;
     this.SelectedRow.ReviewedTransactionTypeId = this.Reviewedform.value.ReviewedTransactionTypeId;
     this.SelectedRow.ReviewedRemark = this.Reviewedform.value.ReviewedRemark;
     this.SelectedRow.ReviewedClassCorrectionId = this.Reviewedform.value.ReviewedClassCorrectionId
@@ -444,6 +446,10 @@ export class TransactionalValidationComponent {
         this.dm.openSnackBar(this.ErrorData, false);
       }
     );
+  }
+
+  CancelEntry(){
+
   }
 
   ProcessNextRecord() {

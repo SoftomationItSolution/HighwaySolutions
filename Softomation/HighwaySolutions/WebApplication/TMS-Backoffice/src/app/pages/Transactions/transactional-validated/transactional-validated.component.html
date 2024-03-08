@@ -147,6 +147,7 @@
                                 <th>Reviewed <br/>Correct Class</th>
                                 <th>Reviewed <br/>Class</th>
                                 <th>Reviewed <br/>Type</th>
+                                <th>Reviewed <br/>Remark</th>
                                 <th>Difference<br/> Amount</th>
                                 <th>Media</th>
                             </tr>
@@ -174,6 +175,7 @@
                                 <td>{{rowData.ReviewedClassCorrectionName}}</td>
                                 <td>{{rowData.ReviewedSubClassName}}</td>
                                 <td>{{rowData.ReviewedTransactionTypeName}}</td>
+                                <td>{{rowData.ReviewedRemark}}</td>
                                 <td class="td-amt">{{rowData.DifferenceAmount | number:'1.0-3'}}</td>
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
