@@ -191,6 +191,7 @@ function ResponseMessage(model, Data) {
 function randomUUID() {
     return crypto.randomUUID();
 }
+
 function CreateDirectory(directoryPath) {
     fs.mkdir(directoryPath, { recursive: true })
         .then(() => {
@@ -200,6 +201,7 @@ function CreateDirectory(directoryPath) {
             console.error(err);
         });
 }
+
 function SaveImage(base64String, filePath, filename, ext, path) {
     try {
         let preExt = "";

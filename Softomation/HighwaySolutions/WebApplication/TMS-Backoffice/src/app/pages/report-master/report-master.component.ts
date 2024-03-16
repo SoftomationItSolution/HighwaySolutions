@@ -1,10 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, RequiredValidator, Validators } from '@angular/forms';
-import { MatOption } from '@angular/material/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { Subscription } from 'rxjs';
-import { errorMessages } from 'src/services/CustomValidation';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
 
@@ -13,17 +10,14 @@ import { DataModel } from 'src/services/data-model.model';
   templateUrl: './report-master.component.html',
   styleUrls: ['./report-master.component.css']
 })
-export class ReportMasterComponent implements OnInit{
+export class ReportMasterComponent implements OnInit {
   FilterDetailsForm!: FormGroup;
-  subscription!: Subscription;
-  error = errorMessages;
   ErrorData: any;
-  MediaPrefix:any;
-  ReportMasterData:any;
-  SubReportMasterData:any
+  MediaPrefix: any;
+  ReportMasterData: any;
+  SubReportMasterData: any
   LogedUserId = 0;
   LogedRoleId: any;
-  PermissionData: any;
   DataAdd: Number = 0;
   DataView: Number = 0;
   DataUpdate: Number = 0;
@@ -31,21 +25,24 @@ export class ReportMasterComponent implements OnInit{
   ShiftData: any;
   LaneUserData: any;
   TransactionTypeData: any;
-  LaneDataList: any;
-  LaneData:any;
+  LaneData: any;
   LaneList: any = [];
-  ClassData:any;
-  SubClassData:any;
-  SubClassList:any=[];
-  SubCategoryId:any;
-  ExemptTypeData:any
-  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService, 
+  ClassData: any;
+  SubClassData: any;
+  SubClassList: any = [];
+  SubCategoryId: any;
+  ExemptTypeData: any
+  submitted = false;
+  LoginId = ''
+  constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,
     public datepipe: DatePipe) {
-      this.MediaPrefix = this.dm.getMediaAPI()?.toString();
-      this.LogedUserId = this.dm.getUserId();
-      this.LogedRoleId = this.dm.getRoleId();
-      this.GetPermissionData();
+    const UserData = this.dm.getUserData()
+    this.LogedUserId = UserData.UserId;
+    this.LogedRoleId = UserData.RoleId;
+    this.LoginId = UserData.LoginId;
+    this.MediaPrefix = this.dm.getMediaAPI()?.toString();
+    this.GetPermissionData();
   }
 
   ngOnInit(): void {
@@ -61,14 +58,11 @@ export class ReportMasterComponent implements OnInit{
       VehicleSubClassFilterList: new FormControl(''),
       PlateNumber: new FormControl(''),
       TransactionId: new FormControl(''),
-      CategoryId :new FormControl('', [Validators.required]),
-      ReportId :new FormControl('', [Validators.required]),
+      CategoryId: new FormControl('', [Validators.required]),
+      ReportId: new FormControl('', [Validators.required]),
     });
-    const today = new Date();
-    const month = today.getMonth();
-    const year = today.getFullYear();
   }
- 
+
   GetPermissionData() {
     var MenuUrl = window.location.pathname.replace('/', '');
     const Obj = {
@@ -78,10 +72,10 @@ export class ReportMasterComponent implements OnInit{
     };
     this.dbService.RolePermissionGetByMenu(Obj).subscribe(
       data => {
-        this.PermissionData = data.ResponseData;
-        this.DataAdd = this.PermissionData.DataAdd;
-        this.DataUpdate = this.PermissionData.DataUpdate;
-        this.DataView = this.PermissionData.DataView;
+        const PermissionData = data.ResponseData;
+        this.DataAdd = PermissionData.DataAdd;
+        this.DataUpdate = PermissionData.DataUpdate;
+        this.DataView = PermissionData.DataView;
         if (this.DataView != 1) {
           this.spinner.hide();
           this.dm.unauthorized();
@@ -93,25 +87,20 @@ export class ReportMasterComponent implements OnInit{
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
 
   GetMasterData() {
-    this.subscription = this.dbService.FilterMasterGet().subscribe(
+    this.dbService.FilterMasterGet().subscribe(
       data => {
-        var MaserData=data.ResponseData;
-        this.ShiftData=MaserData.ShiftTiminingList;
-        this.LaneUserData=MaserData.TCMasterList;
-        this.PlazaDataList=MaserData.PlazaDataList;
-        this.LaneData=MaserData.LaneDataList;
+        var MaserData = data.ResponseData;
+        this.ShiftData = MaserData.ShiftTiminingList;
+        this.LaneUserData = MaserData.TCMasterList;
+        this.PlazaDataList = MaserData.PlazaDataList;
+        this.LaneData = MaserData.LaneDataList;
         this.ClassData = MaserData.SystemClassList;
         this.SubClassData = MaserData.SystemSubClassList;
         this.TransactionTypeData = MaserData.TransactionTypeList;
@@ -131,7 +120,7 @@ export class ReportMasterComponent implements OnInit{
 
   GetReportMasterData() {
     this.spinner.show();
-    this.subscription =this.dbService.GetReportCategory().subscribe(
+    this.dbService.GetReportCategory().subscribe(
       data => {
         this.spinner.hide();
         this.ReportMasterData = data.ResponseData;
@@ -149,7 +138,7 @@ export class ReportMasterComponent implements OnInit{
     );
   }
 
-  CategoryChange(vale:any) {
+  CategoryChange(vale: any) {
     this.spinner.show();
     this.dbService.GetSubReportCategory(this.FilterDetailsForm.value.CategoryId).subscribe(
       data => {
@@ -205,6 +194,10 @@ export class ReportMasterComponent implements OnInit{
   }
 
   FilterAllData() {
+    this.submitted = true;
+    if (this.FilterDetailsForm.invalid) {
+      return;
+    }
     let ShiftFilterList = "0"
     if (this.FilterDetailsForm.value.ShiftFilterList != null && this.FilterDetailsForm.value.ShiftFilterList != '') {
       let crData = this.FilterDetailsForm.value.ShiftFilterList.toString();
@@ -264,7 +257,8 @@ export class ReportMasterComponent implements OnInit{
     let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
-      ReportId:this.FilterDetailsForm.value.ReportId,
+      CategoryId: this.FilterDetailsForm.value.CategoryId,
+      ReportId: this.FilterDetailsForm.value.ReportId,
       ShiftFilterList: ShiftFilterList,
       TCUserFilterList: TCUserFilterList,
       PlazaFilterList: PlazaFilterList,
@@ -272,27 +266,32 @@ export class ReportMasterComponent implements OnInit{
       VehicleClassFilterList: VehicleClassFilterList,
       VehicleSubClassFilterList: VehicleSubClassFilterList,
       TransactionTypeFilterList: TransactionTypeFilterList,
-      PlateNumber:this.FilterDetailsForm.value.PlateNumber,
-      TransactionId:this.FilterDetailsForm.value.TransactionId,
+      AuditerFilterList: AuditerFilterList,
+      PlateNumber: this.FilterDetailsForm.value.PlateNumber,
+      TransactionId: this.FilterDetailsForm.value.TransactionId,
       StartDateTime: SD,
       EndDateTime: ED,
-      AuditerFilterList:AuditerFilterList
+      GeneratedBy: this.LoginId
     }
     this.spinner.show();
     this.dbService.GetReport(obj).subscribe(
       data => {
         this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage.indexOf('pdf') > -1) {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          const url = `${this.MediaPrefix}/reports/${returnMessage}`;
+          window.open(url)
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
       },
       (error) => {
         this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }

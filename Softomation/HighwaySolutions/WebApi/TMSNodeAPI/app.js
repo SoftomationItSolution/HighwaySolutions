@@ -30,6 +30,7 @@ app.use(apiPrefix, require('./_routers/floatProcessRoute'));
 app.use(apiPrefix, require('./_routers/shiftRoute'));
 app.use(apiPrefix, require('./_routers/transactionRoute'));
 app.use(apiPrefix, require('./_routers/fasTagProcessRoute'));
+app.use(apiPrefix, require('./_routers/reportRoute'));
 app.use(laneApiPrefix, require('./_routers/laneTransactionRoute'));
 app.use(laneApiPrefix, require('./_routers/laneMasterDataRoute'));
 app.get("/", (request, response) => {

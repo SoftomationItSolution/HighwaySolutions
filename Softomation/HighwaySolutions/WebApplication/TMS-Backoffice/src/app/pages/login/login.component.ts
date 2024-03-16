@@ -16,7 +16,8 @@ export class LoginComponent implements OnInit {
   ErrorData: any;
   loginReposnse: any;
   hide = true;
-  constructor(public router: Router, public api: apiIntegrationService, public dataModel: DataModel,
+  ConfigData:any;
+  constructor(public router: Router, public api: apiIntegrationService, public dm: DataModel,
     private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -37,9 +38,67 @@ export class LoginComponent implements OnInit {
         this.loginForm.controls['RememberMe'].setValue(true);
       }
     }
+    this.GetDetails();
+  }
 
-    this.api.GetUrl();
-    this.ProjectDetails = this.dataModel.getProjectDetails();
+  GetDetails() {
+    this.spinner.show();
+    this.api.appConfigGet().subscribe(
+      data => {
+       
+        let curretURL = (window.location.href).split(':')
+        let mediaPath="";
+        let apiPath="";
+        let currentIP = curretURL[1].replace("//", "").replace("/","");
+        this.ConfigData=data;
+        if (currentIP != "localhost") {
+          if (this.ConfigData.BaseURL == "localhost")
+            this.ConfigData.BaseURL = currentIP;
+        }
+        if(this.ConfigData.ApiPort==0){
+          apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/" + this.ConfigData.ApiAdminPath + "/";
+          mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/EventMedia/"
+        }
+        else{
+          apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
+          mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+        }
+       
+        this.dm.setMediaAPI(mediaPath);
+        this.dm.setDataAPI(apiPath)
+        this.GetProjectDetails();
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
+  GetProjectDetails(){
+    this.api.ProjectConfigGet().subscribe(
+      data => {
+        this.spinner.hide();
+        this.ProjectDetails = data.ResponseData;
+        this.dm.setProjectDetails(JSON.stringify(data.ResponseData));
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 
 
@@ -68,26 +127,26 @@ export class LoginComponent implements OnInit {
         if (returnMessage == 'success') {
 
           this.loginReposnse = data.ResponseData;
-          this.dataModel.setLoggedIn(true);
-          this.dataModel.setTokenVale(data.ResponseData.AccessToken);
-          this.dataModel.setUserData(JSON.stringify(data.ResponseData.UserData));
+          this.dm.setLoggedIn(true);
+          this.dm.setTokenVale(data.ResponseData.AccessToken);
+          this.dm.setUserData(JSON.stringify(data.ResponseData.UserData));
           this.GetSystemSetting();
         } else {
           this.ErrorData = data.Message;
-          this.dataModel.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       },
       (error) => {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-        this.dataModel.openSnackBar(this.ErrorData, false);
+        this.dm.openSnackBar(this.ErrorData, false);
       }
     );
   }
   GetSystemSetting() {
     this.api.SystemSettingGet().subscribe(
       data => {
-        this.dataModel.setSSData(JSON.stringify(data.ResponseData));
+        this.dm.setSSData(JSON.stringify(data.ResponseData));
         this.spinner.hide();
         this.router.navigate(['/dashboard']);
       },
@@ -95,10 +154,10 @@ export class LoginComponent implements OnInit {
         this.spinner.hide();
         try {
           this.ErrorData = error.error.Message;
-          this.dataModel.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         } catch (error) {
           this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dataModel.openSnackBar(this.ErrorData, false);
+          this.dm.openSnackBar(this.ErrorData, false);
         }
       }
     );

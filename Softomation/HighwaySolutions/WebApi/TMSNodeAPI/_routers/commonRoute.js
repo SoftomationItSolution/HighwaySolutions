@@ -1,19 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const fs = require('fs');
+const sql = require('mssql');
+const path = require('path');
 const database = require('../_helpers/db');
 const token = require("../_helpers/jwtToken");
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
-const sql = require('mssql');
-
+const configManagerPath = path.resolve('./configManager');
+const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
 router.post('/ValidateUser', ValidateUser);
 router.post('/LogoutUser', LogoutUser);
 router.post('/RolePermissionGetByMenu', RolePermissionGetByMenu);
 router.post('/SystemSettingSetup', SystemSettingSetup);
+router.post('/UpdateProjectConfig', UpdateProjectConfig);
 
 router.get('/GetMenu', GetMenu);
+router.get('/ProjectConfigGet', ProjectConfigGet);
 router.get('/SystemSettingGet', SystemSettingGet);
 router.get('/DenominationGetActive', DenominationGetActive);
 router.get('/FilterMasterGet', FilterMasterGet);
@@ -130,7 +135,7 @@ async function ValidateUser(req, res, next) {
             }
             else {
                 const userData = result.recordset[0];
-                const AccountExpiredDate=moment(userData.AccountExpiredDate)
+                const AccountExpiredDate = moment(userData.AccountExpiredDate)
                 const currentDate = new Date();
                 if (req.body.LoginPassword == crypto.decrypt(userData.LoginPassword)) {
                     if (userData.DataStatus != 1) {
@@ -209,7 +214,6 @@ async function GetMenu(req, res, next) {
 
 async function GetReportCategory(req, res, next) {
     try {
-        const RoleId = req.query.RoleId | 0;
         let result = null
         const pool = await database.connect();
         result = await pool.request().execute('USP_ReportCategory')
@@ -277,6 +281,8 @@ async function DenominationGetActive(req, res, next) {
     }
 }
 
+
+
 async function FilterMasterGet(req, res, next) {
     try {
         const pool = await database.connect();
@@ -331,6 +337,46 @@ async function FilterMasterGet(req, res, next) {
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out)
     }
+}
+
+async function ProjectConfigGet(req, res, next) {
+    try {
+        let out = constants.ResponseMessage("success", require(ProjectConfigurationPath));
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'ProjectConfigGet');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+
+}
+
+async function UpdateProjectConfig(req, res, next) {
+    const updatedData = req.body;
+    fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+        if (err) {
+            errorlogMessage(err, 'ProjectConfiguration Read File');
+            let out = constants.ResponseMessage(err.message, null);
+            res.status(500).json(out)
+        }
+        try {
+            const jsonData = JSON.parse(data);
+            Object.assign(jsonData, updatedData);
+            fs.writeFile(ProjectConfigurationPath, JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
+                if (err) {
+                    errorlogMessage(err, 'ProjectConfiguration write File');
+                    let out = constants.ResponseMessage(err.message, null);
+                    res.status(500).json(out)
+                }
+                let out = constants.ResponseMessage("success", null);
+                res.status(200).json(out);
+            });
+        } catch (err) {
+            errorlogMessage(err, 'ProjectConfiguration parsing File');
+            let out = constants.ResponseMessage(err.message, null);
+            res.status(500).json(out)
+        }
+    });
 }
 
 function CreateObjectForShiftTimining(row) {
@@ -442,6 +488,7 @@ function CreateObjectForSystemVehicleSubClass(row) {
         throw error;
     }
 }
+
 function errorlogMessage(error, method) {
     try {
         logger.error(`Caught an error in :${method} : ${error.message}`);

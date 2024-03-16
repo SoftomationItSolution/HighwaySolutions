@@ -32,7 +32,8 @@ export const regExps: { [key: string]: RegExp } = {
     DigitSpaceAlphabetOnly: /^[a-zA-Z0-9 ]*$/,
     AlphaNumericSingleSpace: /^([a-zA-Z0-9]+\s?)*$/,
     OnlyDigit: /^(0|[1-9][0-9]*)$/,
-    ChainageNumber:/^(\d{1,3}|\d{1,3}\.\d{0,3})$/
+    ChainageNumber:/^(\d{1,3}|\d{1,3}\.\d{0,3})$/,
+    IndianPinCode: /^(0|[1-9][0-9]{6})$/
  };
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
@@ -80,5 +81,6 @@ export const errorMessages: { [key: string]: string } = {
     DigitSpaceAlphabetOnly: 'No spacial characters',
     AlphaNumericSingleSpace: 'Single space required',
     OnlyDigit: 'Only numeric values allowed',
-    ChainageNumber:"Please enter valid chainage"
+    ChainageNumber:"Please enter valid chainage",
+    IndianPinCode:"Please enter valid pincode"
 };

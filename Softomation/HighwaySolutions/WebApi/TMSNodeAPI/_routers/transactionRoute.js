@@ -154,7 +154,6 @@ async function LaneTransactionValidation(req, res, next) {
     }
 }
 
-
 function CreateObjectForLaneData(row) {
     try {
         const data = {
@@ -236,6 +235,7 @@ function CreateObjectForLaneData(row) {
         throw error;
     }
 }
+
 function errorlogMessage(error, method) {
     try {
         logger.error(`Caught an error in :${method} : ${error.message}`);

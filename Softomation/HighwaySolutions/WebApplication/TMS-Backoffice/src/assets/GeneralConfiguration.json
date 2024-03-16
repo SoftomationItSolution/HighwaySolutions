@@ -4,11 +4,5 @@
     "ApiPort": 5001,
     "ApiAdminPath": "Softomation",
     "Latitude": "28.457267",
-    "Longitude": "77.306759",
-    "RoadName": "NH-1",
-    "ProjectName": "Project Name",
-    "ControlRoomName": "Plaza Name",
-    "Address": "City- Faridabad, A Road Near Faridabad ",
-    "State": "Harayana",
-    "Pincode": "2001002"
+    "Longitude": "77.306759"
 }

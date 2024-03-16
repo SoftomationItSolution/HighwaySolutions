@@ -40,7 +40,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
 
 import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
-import { DefaultLayoutComponent } from './_layout/default-layout/DefaultLayoutComponent';
+import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
 import { SnakbarComponent } from './pages/snakbar/snakbar.component';
 import { LoginComponent } from './pages/login/login.component';
 import { MediaViewComponent } from './pages/media-view/media-view.component';
@@ -84,6 +84,7 @@ import { ReportMasterComponent } from './pages/report-master/report-master.compo
 import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
+import { ProjectConfigComponent } from './pages/project-config/project-config.component';
 
 
 
@@ -145,6 +146,7 @@ export const MY_CUSTOM_FORMATS = {
     FareConfigurationComponent,
     DenominationPoupComponent,
     SystemSettingComponent,
+    ProjectConfigComponent,
     AppLockComponent,
     FloatProcessMasterComponent,
     FloatProcessPopupComponent,

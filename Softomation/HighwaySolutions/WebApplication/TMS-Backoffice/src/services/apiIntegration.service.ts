@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigIntrface, DataModel } from './data-model.model';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
@@ -14,54 +15,63 @@ export class apiIntegrationService {
   Prefix = "FastTrackHighway-TMS";
   header: any = new Headers({ 'Content-Type': 'application/json; charset = utf-8;' });
   TokenHeader: any;
-  constructor(private objHttp: HttpClient, public dataModel: DataModel) {
-    //#region Data API URL
-    if (this.dataModel.getDataAPI() == '' ||
-      this.dataModel.getDataAPI() == 'null' ||
-      this.dataModel.getDataAPI() == null ||
-      this.dataModel.getDataAPI() == undefined) {
-      this.GetUrl();
-    }
-    else {
-      this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+  constructor(private objHttp: HttpClient, public dataModel: DataModel, private spinner: NgxSpinnerService) {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    if (this.ApiCallUrl == '' ||
+      this.ApiCallUrl == 'null' ||
+      this.ApiCallUrl == null ||
+      this.ApiCallUrl == undefined) {
+      this.GetApiUrl()
     }
     //#endregion 
   }
 
-  GetUrl() {
+  GetApiUrl() {
+    this.spinner.show();
+    this.appConfigGet().subscribe(
+      data => {
+        this.spinner.hide();
+        let curretURL = (window.location.href).split(':')
+        let mediaPath = "";
+        let apiPath = "";
+        let currentIP = curretURL[1].replace("//", "").replace("/", "");
+        this.ConfigData = data;
+        if (currentIP != "localhost") {
+          if (this.ConfigData.BaseURL == "localhost")
+            this.ConfigData.BaseURL = currentIP;
+        }
+        if (this.ConfigData.ApiPort == 0) {
+          apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/" + this.ConfigData.ApiAdminPath + "/";
+          mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/EventMedia/"
+        }
+        else {
+          apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
+          mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+        }
+        this.ApiCallUrl = apiPath
+        this.dataModel.setMediaAPI(mediaPath);
+        this.dataModel.setDataAPI(apiPath)
+      },
+      (error) => {
+        this.spinner.hide();
+        this.dataModel.openSnackBar([{ AlertMessage: 'Something went wrong.' }], false);
+      }
+    );
+  }
+
+
+  ProjectDetails() {
     let returnURL;
-    let mediaPath;
-    returnURL = this.dataModel.getDataAPI();
+    returnURL = this.dataModel.getProjectDetails();
     if (returnURL == "" || returnURL == null || returnURL == 'null' || returnURL == undefined) {
-      var curretURL = (window.location.href).split(':')
-      var currentIP = curretURL[1].replace("//", "").replace("/","");
       if (this.ConfigData == null || this.ConfigData == undefined) {
         const promise = new Promise<any>((resolve, reject) => {
-          const apiURL = '/assets/GeneralConfiguration.json';
+          const apiURL = '/assets/ProjectConfiguration.json';
           this.objHttp.get(apiURL).subscribe({
             next: (res: any) => {
               this.ConfigData = res;
-              if (currentIP != "localhost") {
-                if (this.ConfigData.BaseURL == "localhost")
-                  this.ConfigData.BaseURL = currentIP;
-              }
-              if(this.ConfigData.ApiPort==0){
-                returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + "/" + this.ConfigData.ApiAdminPath + "/";
-                mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/EventMedia/"
-              }
-              else{
-                returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
-                mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
-              }
-              this.ApiCallUrl = returnURL;
-              this.dataModel.setMediaAPI(mediaPath);
-              this.dataModel.setDataAPI(this.ApiCallUrl)
-              const obj = {
-                "RoadName": this.ConfigData.RoadName, "ProjectName": this.ConfigData.ProjectName, "ControlRoomName": this.ConfigData.ControlRoomName,
-                "Address": this.ConfigData.Address, "State": this.ConfigData.State, "Pincode": this.ConfigData.Pincode
-              };
-              this.dataModel.setProjectDetails(obj);
-              resolve(returnURL);
+              this.dataModel.setProjectDetails(res);
+              resolve(res);
             },
             error: (err: any) => {
               reject(err);
@@ -73,16 +83,26 @@ export class apiIntegrationService {
         });
         return promise;
       }
-      else {
-        if (currentIP != "localhost") {
-          if (this.ConfigData.BaseURL == "localhost")
-            this.ConfigData.BaseURL = currentIP;
-        }
-        returnURL = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
-        this.ApiCallUrl = returnURL;
-      }
     }
     return returnURL
+  }
+
+  UpdateProjectConfig(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/UpdateProjectConfig', data, { headers: headers_object });
+  }
+
+  ProjectConfigGet(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/ProjectConfigGet', { headers: headers_object });
+  }
+
+  appConfigGet(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get('/assets/GeneralConfiguration.json', { headers: headers_object });
   }
 
   //#region Login
@@ -187,7 +207,7 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/UserConfigurationGetByUserType?UserTypeId=' + UserTypeId + '&SystemId=' + SystemId, { headers: headers_object });
   }
 
-  
+
   UserConfigurationGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -555,10 +575,10 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagRequestCode', { headers: headers_object });
   }
-  FasTagGetByStatus(RequestStatusId:any): Observable<any> {
+  FasTagGetByStatus(RequestStatusId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagGetByStatus?RequestStatusId='+RequestStatusId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FasTagGetByStatus?RequestStatusId=' + RequestStatusId, { headers: headers_object });
   }
   FasTagProcessedGetLatest(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
