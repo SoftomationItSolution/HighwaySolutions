@@ -1,0 +1,4 @@
+2024-03-20 13:40:54,357 Error fetching GetTollfare: MySQL Connection not available.
+2024-03-20 18:58:58,421 Error fetching GetLaneDetails: Failed getting connection; pool exhausted
+2024-03-20 18:59:13,651 No lane detail found in update_ld
+2024-03-20 19:03:29,159 Error fetching GetLaneDetails: Failed getting connection; pool exhausted

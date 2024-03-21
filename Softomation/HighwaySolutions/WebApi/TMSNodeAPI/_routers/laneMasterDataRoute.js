@@ -6,6 +6,9 @@ const logger = require('../_helpers/logger');
 const sql = require('mssql');
 const crypto = require("../_helpers/crypto");
 const moment = require('moment');
+const path = require('path');
+const configManagerPath = path.resolve('./configManager');
+const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
 
 router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
 router.get('/SystemSettingGet', SystemSettingGet);
@@ -23,7 +26,155 @@ router.get('/TollFareGetByEffectedFrom', TollFareGetByEffectedFrom);
 router.get('/LaneDetails', LaneGetByIpAddress);
 router.get('/PlazaDetails', PlazaGetById);
 router.get('/EquipmentDetails', EquipmentDetailsGetByLane);
+router.get('/DataStatusMasterGetAll', DataStatusMasterGetAll);
+router.get('/LaneModeMasterGetAll', LaneModeMasterGetAll);
+router.get('/LanePointMasterGetAll', LanePointMasterGetAll);
+router.get('/LanePositionMasterGetAll', LanePositionMasterGetAll);
+router.get('/LaneStatusMasterGetAll', LaneStatusMasterGetAll);
+router.get('/LaneTypeMasterGetAll', LaneTypeMasterGetAll);
+router.get('/LaneDirectionMasterGetAll', LaneDirectionMasterGetAll);
+router.get('/SystemIntegratorGetAll', SystemIntegratorGetAll);
+router.get('/ManufacturerGetAll', ManufacturerGetAll);
+router.get('/ProjectConfigGet', ProjectConfigGet);
 module.exports = router;
+
+async function ProjectConfigGet(req, res, next) {
+    try {
+        let out = constants.ResponseMessage("success", require(ProjectConfigurationPath));
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'ProjectConfigGet');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+
+}
+
+async function DataStatusMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_DataStatusMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'DataStatusMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function SystemIntegratorGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_SystemIntegratorGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'SystemIntegratorGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ManufacturerGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_ManufacturerGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'ManufacturerGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LaneTypeMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LaneTypeMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LaneTypeMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LaneDirectionMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LaneDirectionMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'USP_LaneDirectionMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LaneModeMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LaneModeMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LaneModeMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LanePointMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LanePointMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LanePointMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LanePositionMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LanePositionMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LanePositionMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function LaneStatusMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_LaneStatusMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LaneStatusMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
 
 async function TollFareGetByEffectedFrom(req, res, next) {
     try {

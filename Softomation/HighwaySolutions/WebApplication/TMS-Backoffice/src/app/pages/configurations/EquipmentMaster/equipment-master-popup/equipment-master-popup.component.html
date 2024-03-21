@@ -201,7 +201,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
                                     Type must be selected.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4">
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
                                 <label class="form-label" for="IpAddress">IP-Address</label>
                                 <input formControlName="IpAddress" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
@@ -212,7 +212,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','IpAddress')">Vaild
                                     IP-Address must be required.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4">
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
                                 <label class="form-label" for="PortNumber">Port Number</label>
                                 <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
@@ -242,12 +242,12 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
                                     must be selected.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId>4">
-                                <label class="form-label" for="OtherAddress">Path</label>
-                                <input formControlName="OtherAddress" type="text" pInputText required autocomplete="off"
+                            <div class="col-md-6" *ngIf="ProtocolTypeId>3">
+                                <label class="form-label" for="UrlAddress">Other Url</label>
+                                <input formControlName="UrlAddress" type="text" pInputText required autocomplete="off"
                                     class="form-control" />
                                 <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','OtherAddress')">Path
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','UrlAddress')">Other Url
                                     must be required.</small>
                             </div>
                             <div class="col-md-6">

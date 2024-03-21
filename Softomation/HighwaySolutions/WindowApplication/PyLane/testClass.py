@@ -5,11 +5,11 @@ from utils.wim_data import WinDataClient
 
 
 def handle_transaction_info(transactionInfo):
-    print("WIM Transaction Info:")
+    #print("WIM Transaction Info:")
     print(transactionInfo)
 
 def avc_handle_transaction_info(transactionInfo):
-    print("AVC Transaction Info:")
+    #print("AVC Transaction Info:")
     print(transactionInfo)
 
 def start_client_in_thread(client):

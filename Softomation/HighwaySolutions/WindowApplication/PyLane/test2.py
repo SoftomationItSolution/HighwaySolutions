@@ -34,7 +34,7 @@ def process_data(data):
                 axel_data = []
                 total_weight = None
                 transaction_id = None
-                print(transaction_info)
+                #print(transaction_info)
 
 def client():
     # Connect to the server

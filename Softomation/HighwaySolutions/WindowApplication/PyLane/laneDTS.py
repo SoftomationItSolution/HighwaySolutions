@@ -1,46 +1,48 @@
 
-from models.SystemSettingModel import systemSettingImport
-from models.laneModel import laneImport
-from models.plazaModel import plazaImport
-from models.tollFareModle import tollFareFutureImport, tollFareImport
+import os
+from models.DataImporter import DataImporter
+from utils.ConfigManager import ConfigManager
 from utils.constants import read_json_file
 from utils.database import MySQLConnection
-from models.denominationModel import denominationTypeImport
-from models.equipmentModle import equipmentDetailsImport, equipmentTypeImport, protocolTypeImport
-from models.exemptTypeModel import exemptTypeImport
-from models.paymentTypeModel import paymentTypeImport
-from models.shiftTimingModel import shiftTimingImport
-from models.transactionTypeModel import transactionTypeImport
-from models.userModel import  userDetailsImport
-from models.vehicleClassModel import fasTagVehicleClassImport, systemVehicleClassImport, systemVehicleSubClassImport
 from utils.log_master import CustomLogger
 
-def fetch_and_store_data(logger):
+logger = CustomLogger('data_import')
+script_dir = os.path.dirname(os.path.abspath(__file__))
+config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
+config_manager = ConfigManager(config_file,script_dir)
+
+def fetch_and_store_data():
     try:
-        api_base_url = 'https://tmsapi.avsrealtor.in/'
-        db_json_data=read_json_file(r'C:\ProjectConfig\TMSLane\MasterConfig\dbConfig.json')
+        db_path=config_manager.get_setting('Paths', 'db_dir')
+        db_json_data=read_json_file(db_path)
         db = MySQLConnection(host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
-        DefaultPlazaId=systemSettingImport(api_base_url,db)
-        transactionTypeImport(api_base_url,db)
-        paymentTypeImport(api_base_url,db)
-        exemptTypeImport(api_base_url,db)
-        shiftTimingImport(api_base_url,db)
-        userDetailsImport(api_base_url,db)
-        fasTagVehicleClassImport(api_base_url,db)
-        systemVehicleClassImport(api_base_url,db)
-        systemVehicleSubClassImport(api_base_url,db)
-        denominationTypeImport(api_base_url,db)
-        equipmentTypeImport(api_base_url,db)
-        protocolTypeImport(api_base_url,db)
-        plazaImport(api_base_url,db,DefaultPlazaId)
-        LaneId=laneImport(api_base_url,db)
-        equipmentDetailsImport(api_base_url,db,LaneId)
-        tollFareImport(api_base_url,db)
-        tollFareFutureImport(api_base_url,db)
+        data_importer = DataImporter(config_manager,db)
+        data_importer.data_status_import()
+        data_importer.lane_mode_import()
+        data_importer.lane_point_import()
+        data_importer.lane_position_import()
+        data_importer.lane_status_import()
+        data_importer.transaction_type_import()
+        data_importer.payment_type_import()
+        data_importer.exempt_type_import()
+        data_importer.shift_timing_import()
+        data_importer.denomination_type_Import()
+        data_importer.equipment_type_Import()
+        data_importer.protocol_type_Import()
+        data_importer.fasTag_vehicleclass_Import()
+        data_importer.system_vehicleclass_Import()
+        data_importer.system_vehicle_subclass_Import()
+        data_importer.users_Import()
+        data_importer.system_setting_Import()
+        data_importer.plaza_import()
+        data_importer.lane_import()
+        data_importer.equipments_Import()
+        data_importer.toll_fare_Import()
+        data_importer.toll_fare_Future_Import()
+        #print("Import Done !")
     except Exception as e:
         logger.logError(f"Error fetching or storing data: {e}")
 
 
 if __name__ == '__main__':
-    logger = CustomLogger('data_import')
-    fetch_and_store_data(logger)
+    fetch_and_store_data()

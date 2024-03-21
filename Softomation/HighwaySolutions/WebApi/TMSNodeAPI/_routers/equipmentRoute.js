@@ -34,6 +34,7 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
             .input('ManufacturerDate', sql.VarChar(20), req.body.ManufacturerDate)
             .input('PurchageDate', sql.VarChar(20), req.body.PurchageDate)
             .input('WarrantyExpireDate', sql.VarChar(20), req.body.WarrantyExpireDate)
+            .input('UrlAddress', sql.VarChar(255), req.body.UrlAddress)
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.ModifiedBy)

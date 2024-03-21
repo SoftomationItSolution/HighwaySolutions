@@ -1,19 +1,21 @@
 from datetime import datetime
-from PySide6.QtWidgets import QWidget,QFrame, QHBoxLayout, QPushButton,QLabel
+from PySide6.QtWidgets import QFrame, QHBoxLayout, QPushButton,QLabel
 from PySide6.QtCore import Qt,QDateTime,QTimer
-from PySide6.QtGui import QFont, QIcon
-from PySide6.QtCore import QSize, Qt
+from PySide6.QtGui import QIcon
+from PySide6.QtCore import QSize, Qt,Signal
 
-from gui.ui.messBox import confirmation_box
 class Header(QFrame):
-    def __init__(self, width, height,userDetails,shiftDetails):
+    update_label_signal = Signal(str)
+    auto_logout = Signal(bool)
+    def __init__(self, width, height,userDetails):
         super().__init__()
-        self.initUI(width, height,userDetails,shiftDetails)
+        self.initUI(width, height,userDetails)
 
-    def initUI(self, width, height,userDetails,shiftDetails):
+    def initUI(self, width, height,userDetails):
+        self.current_shift=None
         self.setFixedWidth(width)
         self.setFixedHeight(height)
-        
+        self.update_label_signal.connect(self.update_label)
         layout = QHBoxLayout(self)
         layout.setContentsMargins(0,0,0,0)
         layout.setSpacing(0)
@@ -22,6 +24,7 @@ class Header(QFrame):
         login_label = QLabel()
         login_label.setFixedWidth(lab_width)
         login_label.setStyleSheet("color: white;border: none;")
+        
         if userDetails == None:
             login_label.setText("<b>Login By: ADMIN</b>")
         else:
@@ -44,11 +47,18 @@ class Header(QFrame):
         self.datetime_label.setStyleSheet("color: white;border: none;")
         layout.addWidget(self.datetime_label, alignment=Qt.AlignRight | Qt.AlignVCenter)
 
+        self.Rdatetime_label = QLabel()
+        self.Rdatetime_label.setFixedWidth(lab_width)
+        self.Rdatetime_label.setStyleSheet("color: red;border: none;")
+        layout.addWidget(self.Rdatetime_label, alignment=Qt.AlignRight | Qt.AlignVCenter)
+
         lblVersion = QLabel()
         lblVersion.setFixedWidth(lab_width)
         lblVersion.setText('<b>TMSv1</b>')
         lblVersion.setStyleSheet("color: white;border: none;")
         layout.addWidget(lblVersion, alignment=Qt.AlignRight | Qt.AlignVCenter)
+
+        
 
         self.logout_button = QPushButton()
         self.logout_button.setIcon(QIcon("assets/images/logout.png"))
@@ -56,28 +66,40 @@ class Header(QFrame):
         self.logout_button.setStyleSheet("background-color: white; border: none;")
         layout.addWidget(self.logout_button, alignment=Qt.AlignRight | Qt.AlignVCenter)
         self.setStyleSheet("border-bottom: 1px solid white;")
-        self.update_shift(shiftDetails)
         self.update_timer()
 
-    def update_shift(self,shiftDetails):
-        current_datetime = QDateTime.currentDateTime()
-        current_date = current_datetime.toString('dd-MMM-yyyy')
-        current_date_time = current_datetime.toString('dd-MMM-yyyy HH:mm:ss')
-        date_format = "%d-%b-%Y %H:%M:%S"
-        for shift in shiftDetails:
-            start_datetime = datetime.strptime(current_date + ' ' + shift['StartTimmng'], date_format)
-            end_datetime = datetime.strptime(current_date + ' ' + shift['EndTimming'], date_format)
-            formatted_datetime = datetime.strptime(current_date_time, date_format)
-            if start_datetime <= formatted_datetime <= end_datetime:
-                self.shift_label.setText("<b>Shift: " + str(shift['ShiftId']) + " " + shift['StartTimmng'] + "-" + shift['EndTimming']+"</b>")
-                break
+    def update_shift(self, json_data):    
+        self.current_shift=json_data
 
+    def update_label(self, new_text):
+        self.shift_label.setText(new_text)
+
+    
     def update_timer(self):
-        timer = QTimer(self)
-        timer.timeout.connect(self.update_datetime)
-        timer.start(1000)
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_datetime)
+        self.timer.start(1000)
     
     def update_datetime(self):
         current_datetime = QDateTime.currentDateTime()
         formatted_datetime = current_datetime.toString('HH:mm:ss')
-        self.datetime_label.setText("<b>Current Time: "+formatted_datetime)
+        self.datetime_label.setText(f"<b>Current Time: {formatted_datetime}</b>")
+        if self.current_shift is not None:
+            StartTiming = datetime.strptime(self.current_shift['StartTimmng'], "%H:%M:%S").time()
+            EndTiming = datetime.strptime(self.current_shift['EndTimming'], "%H:%M:%S").time()
+            CurrentTiming = datetime.strptime(formatted_datetime, "%H:%M:%S").time()
+            if CurrentTiming < StartTiming:
+                remaining_time = datetime.combine(datetime.today(), StartTiming) - datetime.combine(datetime.today(), CurrentTiming)
+                remaining_minutes = remaining_time.total_seconds() // 60
+                print(f"Current timing is before the start timing. There are {remaining_minutes} minutes remaining until the next shift starts.")
+            elif CurrentTiming > EndTiming:
+                remaining_minutes=0
+                self.timer.stop()
+                self.auto_logout.emit(True)
+            else:
+                remaining_time = datetime.combine(datetime.today(), EndTiming) - datetime.combine(datetime.today(), CurrentTiming)
+                remaining_minutes = remaining_time.total_seconds() // 60
+            
+            self.Rdatetime_label.setText(f"<b>Time Left: {str(int(remaining_minutes))}</b>") 
+            if remaining_minutes>0 and remaining_minutes<2:
+                self.Rdatetime_label.setText(f"<b>Time Left: {str(int(remaining_minutes))}</b>") 

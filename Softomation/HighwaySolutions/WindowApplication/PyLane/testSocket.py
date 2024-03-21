@@ -27,7 +27,8 @@ def process_data(input):
             TotalWeight=None
             TranscationId=None
     if processData:            
-        print(transaction_info)
+        #print(transaction_info)
+        pass
 
 def client():
     server_ip = '192.168.10.35'  # Assuming server is running on localhost

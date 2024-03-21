@@ -6,24 +6,14 @@
     "auditLog": "apilogs\\.02461507707aa46329379c93cc50130a2c7cb4f9-audit.json",
     "files": [
         {
-            "date": 1709788628745,
-            "name": "apilogs\\2024-03-07-logfile.log",
-            "hash": "866bcd3c4b6c0f06f53f563bda5f28716d50b46eeac29df019e633d292cbf3c8"
+            "date": 1710923761409,
+            "name": "apilogs\\2024-03-20-logfile.log",
+            "hash": "98817ff5001fc4dd9eab1266ecba48c5b4758614f13636973d9065d9e5b87409"
         },
         {
-            "date": 1709836829767,
-            "name": "apilogs\\2024-03-08-logfile.log",
-            "hash": "d9e4486b5a1d11d665023de2f55b0be59411fce101de99e1300114ff70c1281e"
-        },
-        {
-            "date": 1709962057773,
-            "name": "apilogs\\2024-03-09-logfile.log",
-            "hash": "ed4fbb32ee9cb39863562c9b7b83ee01388ea3174fbd2d9c2d47a14e99ec2f77"
-        },
-        {
-            "date": 1710061557636,
-            "name": "apilogs\\2024-03-10-logfile.log",
-            "hash": "56d18f848d6ce4c892d2205c16918cd272937403ee3a89097462f9c38d72fff1"
+            "date": 1711003343884,
+            "name": "apilogs\\2024-03-21-logfile.log",
+            "hash": "8c09244dcc83ed50b1ef011b7d60c83ed893dd0f3cb3c73007a299d415c86091"
         }
     ],
     "hashType": "sha256"

@@ -1,0 +1,13 @@
+
+2024-03-20 20:25:30,493 Error:Softomation/FTH-TMS-RSD/ManufacturerGetAll 404 - <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Error</title>
+</head>
+<body>
+<pre>Cannot GET /Softomation/FTH-TMS-RSD/ManufacturerGetAll</pre>
+</body>
+</html>
+2024-03-20 20:26:03,649 Error fetching or storing data:Softomation/FTH-TMS-RSD/SystemIntegratorGetAll 1136 (21S01): Column count doesn't match value count at row 1
+2024-03-20 20:27:36,885 [{'AlertMessage': 'Cannot update toll fare. EffectedFrom must be greater than the current date;'}]

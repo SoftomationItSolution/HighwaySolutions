@@ -17,6 +17,7 @@ router.post('/RolePermissionGetByMenu', RolePermissionGetByMenu);
 router.post('/SystemSettingSetup', SystemSettingSetup);
 router.post('/UpdateProjectConfig', UpdateProjectConfig);
 
+router.get('/DataStatusMasterGetAll', DataStatusMasterGetAll);
 router.get('/GetMenu', GetMenu);
 router.get('/ProjectConfigGet', ProjectConfigGet);
 router.get('/SystemSettingGet', SystemSettingGet);
@@ -26,6 +27,20 @@ router.get('/GetReportCategory', GetReportCategory);
 router.get('/GetReportCategoryById', GetReportCategoryById);
 
 module.exports = router;
+
+async function DataStatusMasterGetAll(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().execute('USP_DataStatusMasterGetAll');
+        await database.disconnect();
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'DataStatusMasterGetAll');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
 
 async function SystemSettingGet(req, res, next) {
     try {
@@ -39,7 +54,6 @@ async function SystemSettingGet(req, res, next) {
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
-
 }
 
 async function SystemSettingSetup(req, res, next) {

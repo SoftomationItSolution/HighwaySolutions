@@ -1,0 +1,54 @@
+2024-03-20T08:36:01.929Z [INFO]: Server listening on port 5001
+2024-03-20T08:36:01.930Z [WARN]: Server listening on port 5001
+2024-03-20T08:36:01.930Z [ERROR]: Server listening on port 5001
+2024-03-20T10:28:46.299Z [INFO]: Server listening on port 5001
+2024-03-20T10:28:46.300Z [WARN]: Server listening on port 5001
+2024-03-20T10:28:46.300Z [ERROR]: Server listening on port 5001
+2024-03-20T10:44:53.027Z [INFO]: Server listening on port 5001
+2024-03-20T10:44:53.028Z [WARN]: Server listening on port 5001
+2024-03-20T10:44:53.029Z [ERROR]: Server listening on port 5001
+2024-03-20T10:58:45.848Z [INFO]: Server listening on port 5001
+2024-03-20T10:58:45.850Z [WARN]: Server listening on port 5001
+2024-03-20T10:58:45.850Z [ERROR]: Server listening on port 5001
+2024-03-20T10:59:02.267Z [ERROR]: Caught an error in :USP_LaneDirectionMasterGetAll : Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+2024-03-20T10:59:02.269Z [ERROR]: RequestError: Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-20T11:00:51.247Z [ERROR]: Caught an error in :USP_LaneDirectionMasterGetAll : Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+2024-03-20T11:00:51.248Z [ERROR]: RequestError: Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-20T11:01:16.633Z [ERROR]: Caught an error in :USP_LaneDirectionMasterGetAll : Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+2024-03-20T11:01:16.634Z [ERROR]: RequestError: Could not find stored procedure 'USP_LaneDirectionInsertUpdate'.
+    at handleError (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\mssql\lib\tedious\request.js:738:15)
+    at Connection.emit (node:events:514:28)
+    at Connection.emit (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\connection.js:959:18)
+    at RequestTokenHandler.onErrorMessage (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\handler.js:285:21)
+    at Readable.<anonymous> (D:\Softomation\Projects\HighwaySoluations\Softomation\HighwaySolutions\WebApi\TMSNodeAPI\node_modules\tedious\lib\token\token-stream-parser.js:18:33)
+    at Readable.emit (node:events:514:28)
+    at addChunk (node:internal/streams/readable:324:12)
+    at readableAddChunk (node:internal/streams/readable:297:9)
+    at Readable.push (node:internal/streams/readable:234:10)
+    at next (node:internal/streams/from:98:31)
+2024-03-20T11:02:44.019Z [INFO]: Server listening on port 5001
+2024-03-20T11:02:44.021Z [WARN]: Server listening on port 5001
+2024-03-20T11:02:44.021Z [ERROR]: Server listening on port 5001
+2024-03-20T14:03:47.145Z [INFO]: Server listening on port 5001
+2024-03-20T14:03:47.146Z [WARN]: Server listening on port 5001
+2024-03-20T14:03:47.147Z [ERROR]: Server listening on port 5001

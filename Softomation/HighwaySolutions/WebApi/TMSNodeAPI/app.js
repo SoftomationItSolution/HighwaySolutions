@@ -50,4 +50,5 @@ function logMessage(msg) {
 }
 
 let port = process.env.PORT || 5001;
-app.listen(port, () => logMessage('Server listening on port ' + port));
+let host = process.env.Host || "0.0.0.0";
+app.listen(port,host, () => logMessage('Server listening on port ' + port));

@@ -11,3 +11,4 @@ gmssl
 hidapi
 pyserial
 pyusb
+schedule
