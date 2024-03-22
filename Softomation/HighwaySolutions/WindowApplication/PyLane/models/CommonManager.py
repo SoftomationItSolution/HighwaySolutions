@@ -85,3 +85,10 @@ class CommonManager:
             return resultData
         except Exception as e:
             raise e
+        
+    def GetLatestLaneTransaction(self):
+        try:
+            resultData = self.db_instance.execute_procedure('USP_LaneTransactionGetLatest', None)
+            return resultData
+        except Exception as e:
+            raise e

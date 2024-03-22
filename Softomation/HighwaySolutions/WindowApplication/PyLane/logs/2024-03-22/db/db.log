@@ -1,0 +1,16 @@
+2024-03-22 16:42:45,171 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 16:47:55,233 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 16:48:15,631 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 17:08:08,514 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 17:11:19,507 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 17:18:32,095 Error executing procedure: 1267 (HY000): Illegal mix of collations (utf8mb4_unicode_ci,IMPLICIT) and (utf8mb4_0900_ai_ci,IMPLICIT) for operation '='
+2024-03-22 18:11:42,899 Error executing procedure: Failed calling stored routine; Python type list cannot be converted
+2024-03-22 18:15:58,661 Error executing procedure: 1318 (42000): Incorrect number of arguments for PROCEDURE tmsv1_lane.USP_LaneTransactionInsert; expected 45, got 46
+2024-03-22 18:25:40,140 Error executing procedure: 1366 (HY000): Incorrect integer value: '' for column 'p_TagClassId' at row 1
+2024-03-22 18:26:51,434 Error executing procedure: 1292 (22007): Incorrect datetime value: '22-Mar-2024 18:26:41.520585' for column 'p_TagReadDateTime' at row 1
+2024-03-22 18:31:03,001 Error executing procedure: 1292 (22007): Incorrect datetime value: '22-Mar-2024 18:26:41.520585' for column 'p_TagReadDateTime' at row 1
+2024-03-22 19:39:19,627 Error executing procedure: unsupported operand type(s) for /: 'Timestamp' and 'int'
+2024-03-22 19:43:41,520 Error executing procedure: [Errno 22] Invalid argument
+2024-03-22 19:44:19,979 Error executing procedure: [Errno 22] Invalid argument
+2024-03-22 19:45:15,168 Error executing procedure: [Errno 22] Invalid argument
+2024-03-22 19:46:22,920 Error executing procedure: [Errno 22] Invalid argument

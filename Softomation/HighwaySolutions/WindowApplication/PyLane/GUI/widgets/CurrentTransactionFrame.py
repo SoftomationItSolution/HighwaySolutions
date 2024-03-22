@@ -79,12 +79,14 @@ class CurrentTransactionBox(QFrame):
         lblReceipt=QLabel("Receipt Number:")
         lblReceipt.setStyleSheet("color: white;border: none;")
         self.txtReceipt=QLineEdit("N/A")
+        self.txtReceipt.setPlaceholderText("Receipt Number")
         self.txtReceipt.setStyleSheet("border: none;background-color: white;")
         
         lblVRN=QLabel("Plate Number:")
         lblVRN.setStyleSheet("color: white;border: none;")
         self.txtVRN=QLineEdit("N/A")
-        self.txtVRN.setStyleSheet("background-color: white;") #;
+        self.txtVRN.setPlaceholderText("Plate Number")
+        self.txtVRN.setStyleSheet("background-color: white;")
 
         
 
@@ -326,32 +328,26 @@ class CurrentTransactionBox(QFrame):
     
     def current_trans(self):
         self.current_Transaction = {
-            "MasterTransactionId": 0,
-            "PlazaTransactionId": 0,
             "LaneTransactionId": 0,
             "SystemIntegratorId": 0,
             "JourneyId": 0,
             "PlazaId": self.systemSettingDetails["DefaultPlazaId"],
-            "PlazaName": "",
             "LaneId": 0,
-            "LaneName":"",
             "LaneStatusId": True,
             "LaneModeId": True,
+            "LaneDirectionId":0,
             "ShiftId": 0,
             "TransactionTypeId": 0,
             "PaymentTypeId": 0,
-            "PaymentTypeName": "",
             "ExemptTypeId": 0,
             "ExemptSubTypeId": 0,
-            "RCTNumber": "",
-            "PlateNumber": "",
             "VehicleClassId": 0,
-            "VehicleClassName": "",
             "VehicleSubClassId": 0,
-            "VehicleSubClassName": 0,
             "VehicleAvcClassId": 0,
-            "EPC": "",
-            "TagClassId": "",
+            "PlateNumber": "",
+            "RCTNumber": "",
+            "TagEPC": "",
+            "TagClassId": 0,
             "TagPlateNumber": "",
             "TagReadDateTime": current_date_time_JSON(),
             "TagReadCount": 0,
@@ -376,5 +372,13 @@ class CurrentTransactionBox(QFrame):
             "IsBarrierAutoClose": True,
             "IsTowVehicle": False,
             "IsFleetTranscation": False,
-            "FleetCount": 0
+            "FleetCount": 0,
+            "PlazaName": "",
+            "LaneName":"",
+            "TransactionTypeName": "",
+            "PaymentTypeName": "",
+            "ExemptTypeName":"",
+            "ExemptSubTypeName":"",
+            "VehicleClassName": "",
+            "VehicleSubClassName": "",
         }

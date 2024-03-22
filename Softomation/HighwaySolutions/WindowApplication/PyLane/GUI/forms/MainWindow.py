@@ -88,6 +88,7 @@ class MainWindow(QMainWindow):
         et_thread = threading.Thread(target=self.updateExemptTypeDetails)
         tf_thread = threading.Thread(target=self.updateTollFareDetails)
         ld_thread = threading.Thread(target=self.updateLaneDetails)
+        lt_thread = threading.Thread(target=self.updateLatestLaneTransaction)
         
         sh_thread.start()
         tf_thread.start()
@@ -96,6 +97,7 @@ class MainWindow(QMainWindow):
         pt_thread.start()
         et_thread.start()
         ld_thread.start()
+        lt_thread.start()
         
     def updateShiftDetails(self):
         try:
@@ -166,13 +168,29 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in updateVSDetails: {e}")
 
+    def updateLatestLaneTransaction(self):
+        try:
+            self.latest_lane_txn=self.db_cm.GetLatestLaneTransaction()
+            if self.latest_lane_txn is not None and len(self.latest_lane_txn)>0:
+                self.right_frame.recent_transaction_box.update_lt(self.latest_lane_txn)
+                print(self.latest_lane_txn)
+        except Exception as e:
+            self.logger.logError(f"Error in updateLatestLaneTransaction: {e}")
+
     def save_transctions(self):
         try:
             ct=datetime.now()
-            self.right_frame.current_transaction_box.current_Transaction["LaneTransactionId"]=lane_txn_Number(ct)
-            self.right_frame.current_transaction_box.current_Transaction["RCTNumber"]=receipt_Number(ct)
+            self.right_frame.current_transaction_box.current_Transaction["LaneTransactionId"]=lane_txn_Number(self.LaneDetail["LaneId"],ct)
+            self.right_frame.current_transaction_box.current_Transaction["RCTNumber"]=receipt_Number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],ct)
             self.right_frame.current_transaction_box.current_Transaction["TransactionDateTime"]=current_date_time_JSON(ct)
-            self.print_receipt()
+            #self.print_receipt()
+            resultData=self.db_lm.lane_data_insert(self.right_frame.current_transaction_box.current_Transaction)
+            if(resultData is not None and len(resultData)>0):
+                if resultData[0]["AlertMessage"]=="successfully":
+                    show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
+                    self.reset_transctions()
+                else:
+                    show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
         except Exception as e:
             self.logger.logError(f"Error in save_transctions: {e}")
             show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')

@@ -79,13 +79,18 @@ def current_date_time_JSON(dt=None):
 def receipt_Number(plazaId,LaneId,dt=None):
     if dt==None:
         dt = datetime.datetime.now()
-    formatted_Number = dt.strftime("%d%m%y%H%M%S")
+    formatted_Number = dt.strftime("%y%m%d%H%M%S")
     formatted_Number=formatted_Number+'{:02d}'.format(plazaId)+'{:02d}'.format(LaneId)
     return formatted_Number
 
 def lane_txn_Number(LaneId,dt=None):
     if dt==None:
         dt = datetime.datetime.now()
-    formatted_Number = dt.strftime("%d%m%Y%H%M%S")
+    formatted_Number = dt.strftime("%Y%m%d%H%M%S")
     formatted_Number=formatted_Number+'{:02d}'.format(LaneId)
     return formatted_Number
+
+def JsonDT_mySqlDT(inputDate):
+    input_datetime_obj = datetime.datetime.strptime(inputDate, '%d-%b-%Y %H:%M:%S.%f')
+    mysql_datetime_str = input_datetime_obj.strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+    return mysql_datetime_str

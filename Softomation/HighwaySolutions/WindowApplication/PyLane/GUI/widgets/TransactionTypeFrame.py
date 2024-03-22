@@ -31,20 +31,21 @@ class TransactionTypeBox(QFrame):
         self.tt_list = QListWidget(self)
         self.tt_list.setFixedHeight(self.list_height)
         self.tt_list.setStyleSheet("QListWidget::item { color: white;border: 1px solid white; } QListWidget::item:selected { background-color: #808080; color: white; }"  
-                                     "color: white;border: none;border-top: 1px solid white;")
+                                   "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
+
         box_layout.addWidget(self.tt_list)
 
         self.pt_list = QListWidget(self)
         self.pt_list.setFixedHeight(self.list_height)
         self.pt_list.setStyleSheet("QListWidget::item { color: white;border: 1px solid white; } QListWidget::item:selected { background-color: #808080; color: white; }"  
-                                     "color: white;border: none;border-top: 1px solid white;")
+                                   "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
         box_layout.addWidget(self.pt_list)
         self.pt_list.setVisible(False)
 
         self.et_list = QListWidget(self)
         self.et_list.setFixedHeight(self.list_height)
         self.et_list.setStyleSheet("QListWidget::item { color: white;border: 1px solid white; } QListWidget::item:selected { background-color: #808080; color: white; }"  
-                                     "color: white;border: none;border-top: 1px solid white;")
+                                   "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
         box_layout.addWidget(self.et_list)
         self.et_list.setVisible(False)
 

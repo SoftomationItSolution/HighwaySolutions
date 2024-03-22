@@ -2,7 +2,7 @@ import json
 import mysql.connector.pooling
 import pandas as pd
 from utils.log_master import CustomLogger
-
+from datetime import datetime
 class MySQLConnections:
     _instance = None
     _pool = None
@@ -69,6 +69,8 @@ class MySQLConnections:
             for result_data in result:
                 columns = result_data.column_names
                 result_df = pd.DataFrame(result_data.fetchall(), columns=columns)
+                for col in result_df.select_dtypes(include='datetime64[ns]').columns:
+                    result_df[col] = result_df[col].apply(lambda x: x.to_pydatetime().strftime('%d-%b-%Y %H:%M:%S.%f') if isinstance(x, pd.Timestamp) else x)
                 result_json = result_df.to_json(orient='records')
                 return json.loads(result_json)
             return None

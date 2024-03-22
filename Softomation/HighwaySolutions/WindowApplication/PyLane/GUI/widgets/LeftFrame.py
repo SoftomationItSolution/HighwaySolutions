@@ -25,7 +25,7 @@ class LeftFrame(QFrame):
         
         self.vc_list = QListWidget(self)
         self.vc_list.setStyleSheet("QListWidget::item { color: white;border: 1px solid white; } QListWidget::item:selected { background-color: #808080; color: white; }"  
-                                     "color: white;border: none;border-top: 1px solid white;")
+                                   "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
         self.vc_list.setFixedHeight(self.list_height)
         box_layout.addWidget(self.vc_list)
         
