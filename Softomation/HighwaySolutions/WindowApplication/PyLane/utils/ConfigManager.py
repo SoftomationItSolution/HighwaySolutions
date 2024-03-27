@@ -1,5 +1,7 @@
 import configparser
-from utils.constants import get_absolute_file_path
+
+from utils.constants import Utilities
+
 
 class ConfigManager:
     def __init__(self, config_file,script_dir):
@@ -8,7 +10,7 @@ class ConfigManager:
         self.script_dir=script_dir
 
     def get_path(self, section, option):
-        return get_absolute_file_path(self.script_dir,self.config.get(section, option))
+        return Utilities.get_absolute_file_path(self.script_dir,self.config.get(section, option))
 
     def get_setting(self, section, option):
         return self.config.get(section, option)

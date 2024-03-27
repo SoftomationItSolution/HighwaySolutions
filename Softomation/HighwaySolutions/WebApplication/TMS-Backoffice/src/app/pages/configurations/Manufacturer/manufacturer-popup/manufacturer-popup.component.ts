@@ -27,7 +27,7 @@ export class ManufacturerPopupComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.PageTitle = "Create System Integrator Details";
+    this.PageTitle = "Create manufacturer Details";
     this.DataDetailsForm = new FormGroup({
       Name: new FormControl('', [Validators.required]),
       EmailId: new FormControl('', [Validators.required, Validators.pattern(regExps["EmailId"])]),
@@ -37,7 +37,7 @@ export class ManufacturerPopupComponent implements OnInit {
     });
     
     if (this.ManufacturerId > 0) {
-      this.PageTitle = "Update System Integrator Details";
+      this.PageTitle = "Update manufacturer Details";
       this.DetailsbyId();
     }
   }
@@ -50,7 +50,6 @@ export class ManufacturerPopupComponent implements OnInit {
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
-          this.DataDetailsForm.controls['ManufacturerId'].setValue(DetailData.ManufacturerId);
           this.DataDetailsForm.controls['Name'].setValue(DetailData.Name);
           this.DataDetailsForm.controls['Address'].setValue(DetailData.Address);
           this.DataDetailsForm.controls['MobileNumber'].setValue(DetailData.MobileNumber);

@@ -12,3 +12,5 @@ hidapi
 pyserial
 pyusb
 schedule
+netifaces
+scapy

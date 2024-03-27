@@ -13,9 +13,8 @@ class LoginUI(QMainWindow, Ui_Login):
 
     def __init__(self, dbConnectionObj, user_details, logger):
         super(LoginUI, self).__init__()
-        self.db = dbConnectionObj
+        self.dbConnectionObj = dbConnectionObj
         self.logger = logger
-        self.db_cm = CommonManager(dbConnectionObj)
         self.setupUi(self)
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
@@ -31,7 +30,7 @@ class LoginUI(QMainWindow, Ui_Login):
             return
         else:
             try:
-                res = self.db_cm.GetUserByLoginId(username)
+                res = CommonManager.GetUserByLoginId(self.dbConnectionObj,username)
                 if res is None:
                     show_custom_message_box(
                         "Login Failed", "Invalid Username", 'inf')

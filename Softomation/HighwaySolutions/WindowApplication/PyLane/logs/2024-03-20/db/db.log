@@ -1,5 +1,0 @@
-2024-03-20 18:58:57,954 Error connecting to MySQL: Failed getting connection; pool exhausted
-2024-03-20 18:58:58,104 Error executing procedure: Failed getting connection; pool exhausted
-2024-03-20 19:03:29,157 Error connecting to MySQL: Failed getting connection; pool exhausted
-2024-03-20 19:03:29,159 Error executing procedure: Failed getting connection; pool exhausted
-2024-03-20 20:26:03,277 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1

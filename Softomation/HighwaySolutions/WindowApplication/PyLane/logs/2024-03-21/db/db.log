@@ -1,7 +1,0 @@
-2024-03-21 12:18:16,598 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 12:20:03,906 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 12:21:36,138 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 12:23:39,609 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 12:25:37,642 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 12:28:06,501 Error executing procedure: 1136 (21S01): Column count doesn't match value count at row 1
-2024-03-21 13:05:16,315 Error executing procedure: MySQL Connection not available.

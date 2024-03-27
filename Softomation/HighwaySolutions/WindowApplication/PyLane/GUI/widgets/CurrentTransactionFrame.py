@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton, QWidget, QGridLayout, QLineEdit, QHBoxLayout,QRadioButton
 from PySide6.QtCore import Qt
 from gui.ui.messBox import show_custom_message_box
-from utils.constants import current_date_time_JSON
+from utils.constants import Utilities
 from utils.toll_receipt_printer import TollReceiptPrinter
 
 class HorizontalLine(QFrame):
@@ -78,17 +78,15 @@ class CurrentTransactionBox(QFrame):
         
         lblReceipt=QLabel("Receipt Number:")
         lblReceipt.setStyleSheet("color: white;border: none;")
-        self.txtReceipt=QLineEdit("N/A")
+        self.txtReceipt=QLineEdit()
         self.txtReceipt.setPlaceholderText("Receipt Number")
         self.txtReceipt.setStyleSheet("border: none;background-color: white;")
         
         lblVRN=QLabel("Plate Number:")
         lblVRN.setStyleSheet("color: white;border: none;")
-        self.txtVRN=QLineEdit("N/A")
+        self.txtVRN=QLineEdit()
         self.txtVRN.setPlaceholderText("Plate Number")
         self.txtVRN.setStyleSheet("background-color: white;")
-
-        
 
         self.rblS = QRadioButton("Single")
         self.rblR = QRadioButton("Retrun")
@@ -163,6 +161,7 @@ class CurrentTransactionBox(QFrame):
 
     def update_tt(self, item_id, item_name):
         self.current_Transaction["TransactionTypeId"] = item_id
+        self.current_Transaction["TransactionTypeName"] = item_name
         self.update_field("txtTransactionType", item_name)
         self.rblS.setChecked(True)
         self.rblS.setEnabled(False)
@@ -172,18 +171,23 @@ class CurrentTransactionBox(QFrame):
             self.rblR.setEnabled(True)
         self.get_toll_fare()
 
-    def update_vc(self, item_id, item_name,PermissibleWeight):
+    def update_vc(self, item_id, item_name,item):
         self.update_field("txtVehicleClass", item_name)
         self.current_Transaction["VehicleClassId"] = item_id
-        self.current_Transaction["VehicleClassName"] = item_name
-        self.current_Transaction["PermissibleVehicleWeight"] = PermissibleWeight
+        if item is not None:
+            self.current_Transaction["VehicleClassId"] = item["FasTagSystemVehicleClassId"]
+            self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
+            self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
         self.get_toll_fare()
 
-    def update_svc(self, item_id, item_name,PermissibleWeight):
+    def update_svc(self, item_id, item_name,item):
         self.update_field("txtVehicleClass", item_name)
         self.current_Transaction["VehicleSubClassId"] = item_id
         self.current_Transaction["VehicleSubClassName"] = item_name
-        self.current_Transaction["PermissibleVehicleWeight"] = PermissibleWeight
+        if item is not None:
+            self.current_Transaction["VehicleClassId"] = item["FasTagSystemVehicleClassId"]
+            self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
+            self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
         self.get_toll_fare()
 
     def update_et(self, item_id, item_name):
@@ -313,9 +317,9 @@ class CurrentTransactionBox(QFrame):
         self.update_field("txtVehicleClass", "N/A")
         self.update_field("txtPaymentType", "N/A")
         self.update_field("txtExemptType", "N/A")
-        self.update_field("txtReceipt", "N/A")
+        self.update_field("txtReceipt", "")
         self.update_field("txtTagId", "N/A")
-        self.update_field("txtVRN", "N/A")
+        self.update_field("txtVRN", "")
         self.update_field("txtWimWeight", "0.000")
         self.update_field("txtTollFare", "0.00")
         self.update_field("txtOverweight", "0.00")
@@ -349,7 +353,7 @@ class CurrentTransactionBox(QFrame):
             "TagEPC": "",
             "TagClassId": 0,
             "TagPlateNumber": "",
-            "TagReadDateTime": current_date_time_JSON(),
+            "TagReadDateTime": Utilities.current_date_time_json(),
             "TagReadCount": 0,
             "IsReadByReader": False,
             "PermissibleVehicleWeight": 0.00,
@@ -358,7 +362,7 @@ class CurrentTransactionBox(QFrame):
             "OverWeightAmount": 0.00,
             "TagPenaltyAmount": 0.00,
             "TransactionAmount": 0.00,
-            "TransactionDateTime": current_date_time_JSON(),
+            "TransactionDateTime": Utilities.current_date_time_json(),
             "TransactionFrontImage": "",
             "TransactionBackImage": "",
             "TransactionAvcImage": "",

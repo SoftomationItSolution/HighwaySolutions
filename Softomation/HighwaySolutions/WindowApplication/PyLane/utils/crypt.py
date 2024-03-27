@@ -4,7 +4,9 @@ from cryptography.hazmat.primitives import padding
 from base64 import b64encode, b64decode
 import jwt
 from datetime import datetime, timedelta
-from utils.constants import json_date_time_format
+
+from utils.constants import Utilities
+
 
 key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
 iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
@@ -35,7 +37,7 @@ def get_token(user_id,hours):
         'sub': user_id  # You can include additional claims as needed
     }
     token = jwt.encode(payload, iv, algorithm='HS256')
-    res={"token": token,"expiresIn": expiration_time.strftime(json_date_time_format)}
+    res={"token": token,"expiresIn": expiration_time.strftime(Utilities.json_date_time_format)}
     return res
 
 #Example usage

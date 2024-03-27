@@ -11,13 +11,10 @@ from gui.widgets.RightFrame import RightFrame
 from gui.widgets.Footer import Footer
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
-from utils.constants import current_date_time_JSON, lane_txn_Number, receipt_Number
-
+from utils.constants import Utilities
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
-    
-    #update_label_signal = Signal(str)
     def __init__(self,dbConnectionObj,config_manager,user_Details,systemSettingDetails,project_config_data,logger,default_plaza_Id,system_ip):
         super(MainWindow, self).__init__()
         self.setStyleSheet("background-color: rgb(1, 27, 65);")
@@ -26,18 +23,17 @@ class MainWindow(QMainWindow):
         self.config_manager=config_manager
         self.project_config_data=project_config_data
         self.showFullScreen()
-        self.userDetails=None
+        self.userDetails = json.loads(user_Details) if user_Details else None
         self.logger=logger
         self.systemSettingDetails=systemSettingDetails
-        self.db_cm = CommonManager(dbConnectionObj)
-        self.db_lm = LaneManager(dbConnectionObj)
         self.default_plaza_Id=default_plaza_Id
         self.system_ip=system_ip
+        self.initUI()
+        self.initThreads()
+    
+    def initUI(self):
         main_window_height = self.height()
         main_window_width = self.width()
-
-        if user_Details is not None:
-            self.userDetails=json.loads(user_Details)
         
         central_widget = QWidget() 
         self.setCentralWidget(central_widget)
@@ -77,31 +73,31 @@ class MainWindow(QMainWindow):
        
         main_layout.addLayout(frames_layout)
 
-        footer_widget = Footer(main_window_width, 50)
-        main_layout.addWidget(footer_widget)
+        self.footer_widget = Footer(main_window_width, 50,self.config_manager)
+        main_layout.addWidget(self.footer_widget)
 
         self.setLayout(main_layout)
-        sh_thread = threading.Thread(target=self.updateShiftDetails)
-        vc_thread = threading.Thread(target=self.updateVSDetails)
-        tt_thread = threading.Thread(target=self.updateTransactionTypeDetails)
-        pt_thread = threading.Thread(target=self.updatePaymentTypeDetails)
-        et_thread = threading.Thread(target=self.updateExemptTypeDetails)
-        tf_thread = threading.Thread(target=self.updateTollFareDetails)
-        ld_thread = threading.Thread(target=self.updateLaneDetails)
-        lt_thread = threading.Thread(target=self.updateLatestLaneTransaction)
         
-        sh_thread.start()
-        tf_thread.start()
-        vc_thread.start()
-        tt_thread.start()
-        pt_thread.start()
-        et_thread.start()
-        ld_thread.start()
-        lt_thread.start()
-        
+    def initThreads(self):
+        threads = [
+            self.createThread(self.updateShiftDetails),
+            self.createThread(self.updateVSDetails),
+            self.createThread(self.updateTransactionTypeDetails),
+            self.createThread(self.updatePaymentTypeDetails),
+            self.createThread(self.updateExemptTypeDetails),
+            self.createThread(self.updateTollFareDetails),
+            self.createThread(self.updateLaneDetails),
+            self.createThread(self.updateLatestLaneTransaction)
+        ]
+        for thread in threads:
+            thread.start()
+
+    def createThread(self, target):
+        return threading.Thread(target=target)
+
     def updateShiftDetails(self):
         try:
-            self.shiftDetails=self.db_cm.GetShiftTimining()
+            self.shiftDetails=CommonManager.GetShiftTimining(self.dbConnectionObj)
             self.get_current_shift()
             
         except Exception as e:
@@ -109,22 +105,21 @@ class MainWindow(QMainWindow):
    
     def updateTransactionTypeDetails(self):
         try:
-            self.TransactionTypeDetails=self.db_cm.GetTransactionType()
+            self.TransactionTypeDetails=CommonManager.GetTransactionType(self.dbConnectionObj)
             self.right_frame.transaction_type_box.update_tt(self.TransactionTypeDetails)
         except Exception as e:
             self.logger.logError(f"Error in updateTransactionTypeDetails: {e}")
-        
 
     def updatePaymentTypeDetails(self):
         try:
-            self.PaymentTypeDetails=self.db_cm.GetPaymentType()
+            self.PaymentTypeDetails=CommonManager.GetPaymentType(self.dbConnectionObj)
             self.right_frame.transaction_type_box.update_pt(self.PaymentTypeDetails)
         except Exception as e:
             self.logger.logError(f"Error in updatePaymentTypeDetails: {e}")
         
     def updateExemptTypeDetails(self):
         try:
-            self.ExemptTypeDetails=self.db_cm.GetExemptType()
+            self.ExemptTypeDetails=CommonManager.GetExemptType(self.dbConnectionObj)
             self.right_frame.transaction_type_box.update_et(self.ExemptTypeDetails)
         except Exception as e:
             self.logger.logError(f"Error in updateExemptTypeDetails: {e}")
@@ -132,16 +127,15 @@ class MainWindow(QMainWindow):
     def updateTollFareDetails(self):
         try:
             current_date = datetime.now().date()
-            self.toll_fare=self.db_cm.GetTollfare(current_date)
+            self.toll_fare=CommonManager.GetTollfare(self.dbConnectionObj,current_date)
             self.right_frame.current_transaction_box.update_tf(self.toll_fare)
         except Exception as e:
             self.logger.logError(f"Error in updateTollFareDetails: {e}")
 
     def updateLaneDetails(self):
         try:
-            self.LaneDetail=self.db_cm.GetLaneDetails(self.system_ip)
-            if self.LaneDetail is not None and len(self.LaneDetail)>0:
-                self.LaneDetail=self.LaneDetail[0]
+            self.LaneDetail=CommonManager.GetLaneDetails(self.dbConnectionObj,self.system_ip)
+            if self.LaneDetail is not None:
                 self.right_frame.current_transaction_box.update_ld(self.LaneDetail)
                 eq_thread = threading.Thread(target=self.updateEqDetails)
                 eq_thread.start()
@@ -150,45 +144,49 @@ class MainWindow(QMainWindow):
 
     def updateEqDetails(self):
         try:
-            self.equipments=self.db_cm.GetEquipmentDetails( self.LaneDetail["LaneId"])
+            self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
             if self.equipments is not None and len(self.equipments)>0:
                 filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 16, self.equipments))
                 if filtered_data is not None and len(filtered_data)>0:
                     self.right_frame.lane_view_box.set_cam_details(filtered_data[0])
+                    self.right_frame.lane_view_box.updateFinished.emit(True)
+                self.footer_widget.update_el(self.equipments)
+                self.footer_widget.updateFinished.emit(True)
         except Exception as e:
             self.logger.logError(f"Error in updateEqDetails: {e}")
 
     def updateVSDetails(self):
         try:
             if self.systemSettingDetails['SubClassRequired']==1:
-                self.vc=self.db_cm.GetsystemVehicleSubClass()
+                self.vc=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
             else:
-                self.vc=self.db_cm.GetsystemVehicleClass()
+                self.vc=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
             self.left_frame.update_vc(self.vc)
         except Exception as e:
             self.logger.logError(f"Error in updateVSDetails: {e}")
 
     def updateLatestLaneTransaction(self):
         try:
-            self.latest_lane_txn=self.db_cm.GetLatestLaneTransaction()
+            self.latest_lane_txn=CommonManager.GetLatestLaneTransaction(self.dbConnectionObj)
             if self.latest_lane_txn is not None and len(self.latest_lane_txn)>0:
                 self.right_frame.recent_transaction_box.update_lt(self.latest_lane_txn)
-                print(self.latest_lane_txn)
         except Exception as e:
             self.logger.logError(f"Error in updateLatestLaneTransaction: {e}")
 
     def save_transctions(self):
         try:
             ct=datetime.now()
-            self.right_frame.current_transaction_box.current_Transaction["LaneTransactionId"]=lane_txn_Number(self.LaneDetail["LaneId"],ct)
-            self.right_frame.current_transaction_box.current_Transaction["RCTNumber"]=receipt_Number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],ct)
-            self.right_frame.current_transaction_box.current_Transaction["TransactionDateTime"]=current_date_time_JSON(ct)
+            self.right_frame.current_transaction_box.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+            self.right_frame.current_transaction_box.current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],ct)
+            self.right_frame.current_transaction_box.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
             #self.print_receipt()
-            resultData=self.db_lm.lane_data_insert(self.right_frame.current_transaction_box.current_Transaction)
+            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.right_frame.current_transaction_box.current_Transaction)
             if(resultData is not None and len(resultData)>0):
                 if resultData[0]["AlertMessage"]=="successfully":
+                    self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
                     show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
                     self.reset_transctions()
+                   
                 else:
                     show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
         except Exception as e:
@@ -216,7 +214,6 @@ class MainWindow(QMainWindow):
     def onVCSelectionChanged(self):
         try:
             selected_items = self.left_frame.vc_list.selectedItems()
-            PermissibleWeight=0
             if selected_items:
                 selected_item = selected_items[0]
                 item_id = selected_item.data(32)
@@ -224,13 +221,13 @@ class MainWindow(QMainWindow):
                 if self.systemSettingDetails['SubClassRequired']==1:
                     filtered_data = list(filter(lambda item: item['SystemSubClassId'] == item_id, self.vc))
                     if filtered_data is not None and len(filtered_data) > 0:
-                        PermissibleWeight=filtered_data[0]["PermissibleWeight"]
-                    self.right_frame.current_transaction_box.update_svc(item_id, item_name,PermissibleWeight)
+                        filtered_data=filtered_data[0]
+                    self.right_frame.current_transaction_box.update_svc(item_id, item_name,filtered_data)
                 else:
                     filtered_data = list(filter(lambda item: item['SystemVehicleClassId'] == item_id, self.vc))
                     if filtered_data is not None and len(filtered_data) > 0:
-                        PermissibleWeight=filtered_data[0][filtered_data]
-                    self.right_frame.current_transaction_box.update_vc(item_id, item_name,PermissibleWeight)
+                        filtered_data=filtered_data[0]
+                    self.right_frame.current_transaction_box.update_vc(item_id, item_name,filtered_data)
         except Exception as e:
             self.logger.logError(f"Error in onVCSelectionChanged: {e}")
             show_custom_message_box("Vehicle Class", "Somthing went wrong!", 'cri')
@@ -282,7 +279,6 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in onExemptTypeSelect: {e}")
             show_custom_message_box("Exempt Type", "Somthing went wrong!", 'cri') 
 
-
     def get_current_shift(self):
         try:
             current_datetime = QDateTime.currentDateTime()
@@ -304,8 +300,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in get_current_shift: {e}")
             
-    
-            
     def logout(self):
         confirmation=confirmation_box("Logout","Are you sure you want to logout?")
         if confirmation == True:
@@ -314,5 +308,3 @@ class MainWindow(QMainWindow):
     def shift_auto_logout(self, auto_logout):
         if auto_logout:
             self.switch_window.emit(json.dumps(self.userDetails))
-
-    

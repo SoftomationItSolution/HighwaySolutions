@@ -37,7 +37,6 @@ app.get("/", (request, response) => {
    const status = {
       "Status": "Running"
    };
-
    response.send(status);
 });
 

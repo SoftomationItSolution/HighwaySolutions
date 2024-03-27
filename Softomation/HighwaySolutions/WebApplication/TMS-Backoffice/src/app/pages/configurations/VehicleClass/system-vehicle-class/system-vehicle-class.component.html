@@ -22,10 +22,11 @@
                     <p-table #dt [value]="DevicesData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
                         styleClass="table table-centered datatable dt-responsive nowrap" selectionMode="single"
                         [globalFilterFields]="['SystemVehicleClassName','SystemVehicleClassDescription',
-                        'SystemSubClassNames','PermissibleWeight','DataStatusName']">
+                        'SystemSubClassNames','PermissibleWeight','DataStatusName','AvcVehicleClassName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
-                                <th pSortableColumn="SystemVehicleClassId">Id <p-sortIcon field="SystemVehicleClassId"></p-sortIcon>
+                                <th pSortableColumn="SystemVehicleClassId">Id <p-sortIcon
+                                        field="SystemVehicleClassId"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="SystemVehicleClassName">Name <p-sortIcon
                                         field="SystemVehicleClassName"></p-sortIcon>
@@ -34,8 +35,11 @@
                                         field="SystemVehicleClassDescription"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="SystemSubClassNames">System Sub Class <p-sortIcon
-                                    field="SystemSubClassNames"></p-sortIcon>
-                            </th>
+                                        field="SystemSubClassNames"></p-sortIcon>
+                                </th>
+                                <th pSortableColumn="AvcVehicleClassName">AVC Class <p-sortIcon
+                                        field="AvcVehicleClassName"></p-sortIcon>
+                                </th>
                                 <th pSortableColumn="PermissibleWeight">Permissible Weight <p-sortIcon
                                         field="PermissibleWeight"></p-sortIcon>
                                 </th>
@@ -51,6 +55,7 @@
                                 <td>{{rowData.SystemVehicleClassName}}</td>
                                 <td>{{rowData.SystemVehicleClassDescription}}</td>
                                 <td>{{rowData.SystemSubClassNames}}</td>
+                                <td>{{rowData.AvcVehicleClassName}}</td>
                                 <td>{{rowData.PermissibleWeight}}</td>
                                 <td>{{rowData.DataStatusName}}</td>
                                 <td style="text-align: center;">

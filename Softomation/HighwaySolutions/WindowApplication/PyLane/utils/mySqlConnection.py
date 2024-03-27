@@ -14,7 +14,7 @@ class MySQLConnections:
             cls._instance.user = user
             cls._instance.password = password
             cls._instance.database = database
-            cls._instance.logger = CustomLogger('db')
+            cls._instance.logger = CustomLogger('db_connection')
             cls._instance.create_pool()
         return cls._instance
     

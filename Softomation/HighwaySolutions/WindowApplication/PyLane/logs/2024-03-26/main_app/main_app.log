@@ -1,0 +1,49 @@
+2024-03-26 18:56:55,034 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 18:56:55,076 Error in updatePaymentTypeDetails: 'MainWindow' object has no attribute 'db_cm'
+2024-03-26 18:56:55,112 Error in updateLaneDetails: 0
+2024-03-26 18:58:40,625 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 18:58:40,700 Error in updateLaneDetails: 0
+2024-03-26 18:59:21,037 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 18:59:56,788 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 19:48:48,932 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 19:51:06,040 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 19:55:47,588 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 19:56:26,552 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:14:48,431 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:15:48,783 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:17:04,201 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:18:32,356 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:19:15,658 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:22:37,353 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:23:22,492 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:25:27,392 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:27:08,644 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:38:26,987 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:48:21,342 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:51:02,721 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:55:40,866 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:57:04,557 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))
+2024-03-26 20:59:52,171 Error in printer: Device not found (Unable to open USB printer on ('0x154F', '0x1300'):
+USB device not found (Device ('0x154F', '0x1300') not found or cable not plugged in.))

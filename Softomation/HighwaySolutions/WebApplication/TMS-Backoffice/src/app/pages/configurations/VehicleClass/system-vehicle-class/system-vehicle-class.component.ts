@@ -89,7 +89,7 @@ export class SystemVehicleClassComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '330px';
+      dialogConfig.height = '400px';
       dialogConfig.data = { action: 'Save', SystemVehicleClassId: 0 };
       const dialogRef = this.dialog.open(SystemVehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
@@ -112,7 +112,7 @@ export class SystemVehicleClassComponent implements OnInit {
       dialogConfig.disableClose = true;
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
-      dialogConfig.height = '330px';
+      dialogConfig.height = '400px';
       dialogConfig.data = { action: 'Update', SystemVehicleClassId: data.SystemVehicleClassId };
       const dialogRef = this.dialog.open(SystemVehicleClassPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(

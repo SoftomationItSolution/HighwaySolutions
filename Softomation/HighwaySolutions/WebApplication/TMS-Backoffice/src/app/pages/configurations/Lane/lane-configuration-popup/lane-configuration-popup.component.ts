@@ -27,7 +27,7 @@ export class LaneConfigurationPopupComponent implements OnInit {
   LaneModeList = [{ DataId: 0, DataName: 'Maintenance' }, { DataId: 1, DataName: 'Normal' }];
   LaneStatusList = [{ DataId: 0, DataName: 'Open' }, { DataId: 1, DataName: 'Close' }];
   LanePointList = [{ DataId: 0, DataName: 'Normal' }, { DataId: 1, DataName: 'Entry' },{ DataId: 2, DataName: 'Exit' }];
-  LaneTypeList = [{ DataId: 0, DataName: 'Dedicated' },{ DataId: 1, DataName: 'Hybrid' }, { DataId: 2, DataName: 'Handheld' }];
+  LaneTypeList = [{ DataId: 0, DataName: 'Dedicated' },{ DataId: 1, DataName: 'Hybrid' }, { DataId: 2, DataName: 'Handheld' },{DataId:3,DataName:'Booth Less'}];
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<LaneConfigurationPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();

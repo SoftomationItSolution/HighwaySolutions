@@ -9,6 +9,14 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
+                    <label for="FasTagVehicleClassId">FasTag</label>
+                    <p-dropdown appendTo="body" formControlName="FasTagVehicleClassId" inputId="FasTagVehicleClassId"
+                        [options]="FasTagVehicleClassList" optionLabel="FasTagVehicleClassName" optionValue="FasTagVehicleClassId" placeholder="Select"
+                        class="form-control select2" [style]="{'width':'100%'}" (onChange)="FasTagVehicleClassChange($event.value)"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','FasTagVehicleClassId')">FasTag is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
                     <label for="SystemVehicleClassName">System Vehicle Class Name</label>
                     <input formControlName="SystemVehicleClassName" type="text" pInputText required autofocus
                         class="form-control" />
@@ -39,9 +47,21 @@
                         {{error['DecimalThreeDigit']}}</small>
                 </div>
                 <div class="col-md-6">
+                    <label for="AvcVehicleClassId">Avc vehicle class id</label>
+                    <input formControlName="AvcVehicleClassId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','AvcVehicleClassId')">Avc vehicle class id
+                        is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','AvcVehicleClassId')">
+                        {{error['OnlyDigit']}}</small>
+                </div>
+                <div class="col-md-6">
                     <label for="SystemSubClassIds">Sub Class</label>
                     <p-multiSelect appendTo="body" class="form-control select2"
-                        formControlName="SystemSubClassIds" inputId="SystemSubClassIds" [options]="FasTagVehicleClassList"
+                        formControlName="SystemSubClassIds" inputId="SystemSubClassIds" [options]="SystemSubVehicleClassList"
                         optionLabel="FasTagVehicleClassName" optionValue="FasTagVehicleClassId" placeholder="Sub Class" [style]="{'width':'100%'}">
                     </p-multiSelect>
                     <small class="p-error"

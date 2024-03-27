@@ -1,10 +1,8 @@
 class CommonManager:
-    def __init__(self, db_instance):
-        self.db_instance = db_instance
-
-    def GetSystemSetting(self):
+    @staticmethod
+    def GetSystemSetting(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_SystemSettingGet', None)
+            resultData = dbConnectionObj.execute_procedure('USP_SystemSettingGet', None)
             if len(resultData) > 0:
                 return resultData[0]
             else:
@@ -12,83 +10,109 @@ class CommonManager:
         except Exception as e:
             raise e
 
-    def GetShiftTimining(self):
+    @staticmethod
+    def GetShiftTimining(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_ShiftTiminingGetAll', None)
+            resultData = dbConnectionObj.execute_procedure('USP_ShiftTiminingGetAll', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetTransactionType(self):
+    @staticmethod
+    def GetTransactionType(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_TransactionTypeGetAll', None)
+            resultData = dbConnectionObj.execute_procedure('USP_TransactionTypeGetAll', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetExemptType(self):
+    @staticmethod
+    def GetExemptType(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_ExemptTypeGetAll', None)
+            resultData = dbConnectionObj.execute_procedure('USP_ExemptTypeGetAll', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetPaymentType(self):
+    @staticmethod
+    def GetPaymentType(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_PaymentTypeGetAll', None)
+            resultData = dbConnectionObj.execute_procedure('USP_PaymentTypeGetAll', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetsystemVehicleClass(self):
+    @staticmethod
+    def GetsystemVehicleClass(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_SystemVehicleClassGet', None)
+            resultData = dbConnectionObj.execute_procedure('USP_SystemVehicleClassGet', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetsystemVehicleSubClass(self):
+    @staticmethod
+    def GetsystemVehicleSubClass(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_SystemVehicleSubClassGet', None)
+            resultData = dbConnectionObj.execute_procedure('USP_SystemVehicleSubClassGet', None)
             return resultData
         except Exception as e:
             raise e
 
-    def GetUserByLoginId(self, LoginId):
+    @staticmethod
+    def GetUserByLoginId(dbConnectionObj, LoginId):
         try:
             params = [LoginId]
-            resultData = self.db_instance.execute_procedure('USP_UsersGetByLoginId', params)
+            resultData = dbConnectionObj.execute_procedure('USP_UsersGetByLoginId', params)
             return resultData
         except Exception as e:
             raise e
 
-    def GetTollfare(self, EffectedFrom):
+    @staticmethod
+    def GetTollfare(dbConnectionObj, EffectedFrom):
         try:
             params = [EffectedFrom]
-            resultData = self.db_instance.execute_procedure('USP_TollFareGetByEffectedFrom', params)
+            resultData = dbConnectionObj.execute_procedure('USP_TollFareGetByEffectedFrom', params)
             return resultData
         except Exception as e:
             raise e
 
-    def GetLaneDetails(self, LaneIp):
+    @staticmethod
+    def GetPlazaDetailsById(dbConnectionObj, PlazaId):
+        try:
+            params = [PlazaId]
+            resultData = dbConnectionObj.execute_procedure('USP_PlazaGetbyId', params)
+            if len(resultData) > 0:
+                return resultData[0]
+            else:
+                return resultData
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def GetLaneDetails(dbConnectionObj, LaneIp):
         try:
             params = [LaneIp]
-            resultData = self.db_instance.execute_procedure('USP_LaneGetbyIpAddress', params)
-            return resultData
+            resultData = dbConnectionObj.execute_procedure('USP_LaneGetbyIpAddress', params)
+            if len(resultData) > 0:
+                return resultData[0]
+            else:
+                return resultData
         except Exception as e:
             raise e
 
-    def GetEquipmentDetails(self, LaneId):
+    @staticmethod
+    def GetEquipmentDetails(dbConnectionObj, LaneId):
         try:
             params = [LaneId]
-            resultData = self.db_instance.execute_procedure('USP_EquipmentDetailsGetByLaneId', params)
+            resultData = dbConnectionObj.execute_procedure('USP_EquipmentDetailsGetByLaneId', params)
             return resultData
         except Exception as e:
             raise e
         
-    def GetLatestLaneTransaction(self):
+    @staticmethod
+    def GetLatestLaneTransaction(dbConnectionObj):
         try:
-            resultData = self.db_instance.execute_procedure('USP_LaneTransactionGetLatest', None)
+            resultData = dbConnectionObj.execute_procedure('USP_LaneTransactionGetLatest', None)
             return resultData
         except Exception as e:
             raise e

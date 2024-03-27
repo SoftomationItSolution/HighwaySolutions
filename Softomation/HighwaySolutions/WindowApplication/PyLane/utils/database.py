@@ -7,7 +7,7 @@ from utils.log_master import CustomLogger
 class MySQLConnection:
     _instance = None
     def __new__(cls, host, user, password, database):
-        cls.logger= CustomLogger('db')
+        cls.logger= CustomLogger('db_connection')
         if cls._instance is None:
             cls._instance = super(MySQLConnection, cls).__new__(cls)
             cls._instance.host = host

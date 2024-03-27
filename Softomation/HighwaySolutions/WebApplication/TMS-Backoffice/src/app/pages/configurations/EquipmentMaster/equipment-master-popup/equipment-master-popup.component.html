@@ -196,7 +196,7 @@
                                 <label for="ProtocolTypeId">Protocol Type</label>
                                 <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
                                     [options]="ProtocolList" optionLabel="DataName" optionValue="DataId"
-                                    placeholder="Select" class="form-control select2" (onChange)="ProtocolTypeChnage($event.value)"></p-dropdown>
+                                    placeholder="Select" class="form-control select2" (onChange)="ProtocolTypeChange($event.value)"></p-dropdown>
                                 <small class="p-error"
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
                                     Type must be selected.</small>

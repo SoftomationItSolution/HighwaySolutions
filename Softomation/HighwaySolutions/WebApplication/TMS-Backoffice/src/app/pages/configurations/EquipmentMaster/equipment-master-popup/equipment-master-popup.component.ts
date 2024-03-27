@@ -276,7 +276,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
     }
   }
 
-  ProtocolTypeChnage(ProtocolTypeId: any) {
+  ProtocolTypeChange(ProtocolTypeId: any) {
     this.ProtocolTypeId = ProtocolTypeId;
     if (this.ProtocolTypeId === 1 || this.ProtocolTypeId == 2) {
       this.DeviceCommunicationForm.controls['IpAddress'].reset();
