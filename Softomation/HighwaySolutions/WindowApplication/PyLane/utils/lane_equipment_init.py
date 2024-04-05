@@ -236,7 +236,6 @@ class LaneEquipmentSynchronization:
                 self.logger.logError(f"An exception occurred in loop_function: {e}")
             time.sleep(0.100)
 
-
     def on_start(self):
         if not self.is_running:
             self.is_running = True

@@ -1,0 +1,5 @@
+2024-04-05 15:17:22,385 Error executing procedure: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
+2024-04-05 15:18:33,396 Error executing procedure: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
+2024-04-05 15:31:17,368 Error executing procedure: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
+2024-04-05 15:34:51,505 Error executing procedure: 1406 (22001): Data too long for column 'p_LaneDirectionId' at row 1
+2024-04-05 15:37:37,472 Error executing procedure: 1406 (22001): Data too long for column 'p_LaneDirectionId' at row 1

@@ -6,8 +6,10 @@ import re
 import socket
 import string
 import netifaces
+import requests
 
 class Utilities:
+    
     @staticmethod
     def get_absolute_file_path(script_dir, file_name):
         try:
@@ -61,6 +63,7 @@ class Utilities:
             except Exception as e:
                 print("Error:", e)
                 return None
+    
     @staticmethod        
     def get_local_ips():
         interfaces = netifaces.interfaces()
@@ -87,11 +90,36 @@ class Utilities:
         dt = dt or datetime.datetime.now()
         return dt.strftime("%d-%b-%Y %H:%M:%S.%f")
 
+    # @staticmethod
+    # def receipt_number(plaza_id, lane_id, dt=None):
+    #     dt = dt or datetime.datetime.now()
+    #     formatted_number = dt.strftime("%m%d%H%M%S")
+    #     formatted_number += '{:02d}{:02d}'.format(plaza_id, lane_id)
+    #     return formatted_number
+
     @staticmethod
-    def receipt_number(plaza_id, lane_id, dt=None):
+    def receipt_number(plaza_id, lane_id,class_id, dt=None):
+        mapping = {
+        "01": "A", "02": "B", "03": "C", "04": "D", "05": "E",
+        "06": "F", "07": "G", "08": "H", "09": "I", "10": "J",
+        "11": "K", "12": "L", "13": "M", "14": "N", "15": "O",
+        "16": "P", "17": "Q", "18": "R", "19": "S", "20": "T",
+        "21": "U", "22": "V", "23": "W", "24": "X", "25": "Y", "26": "Z"
+    }
         dt = dt or datetime.datetime.now()
-        formatted_number = dt.strftime("%y%m%d%H%M%S")
-        formatted_number += '{:02d}{:02d}'.format(plaza_id, lane_id)
+        year= dt.strftime("%y")
+        month= mapping.get(dt.strftime("%m"))
+        day= mapping.get(dt.strftime("%d"))
+        hour= mapping.get(dt.strftime("%H"))
+        min= dt.strftime("%H")
+        sec= dt.strftime("%S")
+        plaza_id=mapping.get('{:02d}'.format(plaza_id))
+        lane_id=mapping.get('{:02d}'.format(lane_id))
+        class_id=mapping.get('{:02d}'.format(class_id))
+
+        
+        formatted_number = class_id+lane_id+plaza_id+'-'+month+day+hour+'-'+year+min+sec
+        #formatted_number += '{:02d}{:02d}'.format(plaza_id, lane_id)
         return formatted_number
 
     @staticmethod
@@ -156,6 +184,12 @@ class Utilities:
             return True
         else:
             return False
-    
 
-    
+    @staticmethod    
+    def upload_data_api(endpoint,data):
+        try:
+            
+            headers = {'Content-Type': 'application/json'}
+            return requests.post(endpoint, json=data, headers=headers)
+        except Exception as e:
+            raise e

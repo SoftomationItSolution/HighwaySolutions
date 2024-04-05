@@ -17,6 +17,7 @@ class CurrentTransactionBox(QFrame):
         self.layout_height = height - 60
         self.layout_width = width
         self.toll_fare=None
+        self.LaneDetail=None
         self.initUI(width, height)
 
     def initUI(self, width, height):
@@ -206,6 +207,22 @@ class CurrentTransactionBox(QFrame):
             self.logger.logError(f"No toll fare found in update_tf")
             show_custom_message_box("Toll Fare","No toll fare found","inf")
 
+    def update_printer(self, json_data):
+        if json_data is not None and len(json_data)>0:
+            self.PrinterDetail = json_data
+           
+        else:
+            self.PrinterDetail=None
+            self.logger.logError(f"No printer detail found in update_printer")
+            show_custom_message_box("printer Detail", "No printer detail found", "inf")
+
+        try:
+            self.printer=TollReceiptPrinter(self.project_config_data,self.config_manager,self.PrinterDetail)
+        except Exception as e:
+            self.printer=None
+            self.logger.logError(f"Error in printer: {e}")
+        
+
     def update_ld(self, json_data):
         if json_data is not None and len(json_data)>0:
             self.LaneDetail = json_data
@@ -215,6 +232,7 @@ class CurrentTransactionBox(QFrame):
             self.current_Transaction["LaneStatusId"] = self.LaneDetail["LaneStatusId"]
             self.current_Transaction["LaneModeId"] = self.LaneDetail["LaneModeId"]
             self.current_Transaction["SystemIntegratorId"] = self.LaneDetail["SystemIntegratorId"]
+            self.current_Transaction["LaneDirectionId"] = self.LaneDetail["LaneDirectionId"]
         else:
             self.logger.logError(f"No lane detail found in update_ld")
             show_custom_message_box("Lane Detail", "No lane detail found", "inf")
@@ -283,11 +301,7 @@ class CurrentTransactionBox(QFrame):
         self.systemSettingDetails=json_data
         self.user_Details=user_Details
         self.project_config_data=project_config_data
-        try:
-            self.printer=TollReceiptPrinter(project_config_data,config_manager)
-        except Exception as e:
-            self.printer=None
-            self.logger.logError(f"Error in printer: {e}")
+        self.config_manager=config_manager
         self.on_reset()
 
     def update_shift(self, json_data):    
@@ -305,11 +319,11 @@ class CurrentTransactionBox(QFrame):
     
     def on_print(self):
         try:
-            self.printer.print_toll_receipt(self.current_Transaction)
+            self.printer.generate_receipt(self.current_Transaction)
         except Exception as e:
             raise e
-        finally:
-            self.on_reset()
+        # finally:
+        #     self.on_reset()
         
     def on_reset(self):
         self.current_trans()
@@ -329,6 +343,8 @@ class CurrentTransactionBox(QFrame):
         self.rblS.setEnabled(False)
         self.rblR.setEnabled(False)
         self.current_trans()
+        if self.LaneDetail is not None:
+            self.setDefaultValue()
     
     def current_trans(self):
         self.current_Transaction = {
@@ -386,3 +402,13 @@ class CurrentTransactionBox(QFrame):
             "VehicleClassName": "",
             "VehicleSubClassName": "",
         }
+
+    def setDefaultValue(self):
+        self.current_Transaction["LaneId"] = self.LaneDetail["LaneId"]
+        self.current_Transaction["LaneName"] = self.LaneDetail["LaneName"]
+        self.current_Transaction["PlazaName"] = self.LaneDetail["PlazaName"]
+        self.current_Transaction["LaneStatusId"] = self.LaneDetail["LaneStatusId"]
+        self.current_Transaction["LaneModeId"] = self.LaneDetail["LaneModeId"]
+        self.current_Transaction["SystemIntegratorId"] = self.LaneDetail["SystemIntegratorId"]
+        self.current_Transaction["LaneDirectionId"] = self.LaneDetail["LaneDirectionId"]
+        self.current_Transaction["ShiftId"] = self.current_shift["ShiftId"]

@@ -1,9 +1,10 @@
-pyside6
-opencv-python
+pyside6==6.6.1
+opencv-python==4.5.*
 mysql-connector-python
 mysqlclient
 pandas
 cryptography
+paho-mqtt
 PyJwt
 PyPubSub
 python-escpos
@@ -12,5 +13,8 @@ hidapi
 pyserial
 pyusb
 schedule
-netifaces
+netifaces-plus
 scapy
+requests
+
+#conda install -c anaconda pyaudio

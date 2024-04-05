@@ -116,3 +116,4 @@ class CommonManager:
             return resultData
         except Exception as e:
             raise e
+        

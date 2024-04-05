@@ -56,8 +56,9 @@ class CameraLiveView(QFrame):
     def set_cam_details(self, equipment):
         if equipment is not None:
             #self.camDetails = json_data
-            #self.rtsp_url=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
-            self.rtsp_url="rtsp://admin:admin@192.168.1.181:554"
+            self.rtsp_url=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+            #self.rtsp_url="rtsp://admin:admin@192.168.1.181:554"
+            print(self.rtsp_url)
 
     def handle_media_status(self, playing):
         if not playing:  # If stream stops

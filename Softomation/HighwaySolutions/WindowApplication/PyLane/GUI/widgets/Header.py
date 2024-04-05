@@ -79,31 +79,35 @@ class Header(QFrame):
         self.timer.start(1000)
 
     def update_datetime(self):
-        current_datetime = QDateTime.currentDateTime()
-        formatted_datetime = current_datetime.toString('HH:mm:ss')
-        self.datetime_label.setText(f"<b>Current Time: {formatted_datetime}</b>")
-        if self.current_shift is not None:
-            StartTiming = datetime.strptime(self.current_shift['StartTimmng'], "%H:%M:%S").time()
-            EndTiming = datetime.strptime(self.current_shift['EndTimming'], "%H:%M:%S").time()
-            CurrentTiming = datetime.strptime(formatted_datetime, "%H:%M:%S").time()
-            if CurrentTiming < StartTiming:
-                remaining_time = datetime.combine(datetime.today(), StartTiming) - datetime.combine(datetime.today(), CurrentTiming)
-                remaining_minutes = remaining_time.total_seconds() // 60
-                print(f"Current timing is before the start timing. There are {remaining_minutes} minutes remaining until the next shift starts.")
-            elif CurrentTiming > EndTiming:
-                remaining_minutes = 0
-                self.timer.stop()
-                self.auto_logout.emit(True)
-            else:
-                remaining_time = datetime.combine(datetime.today(), EndTiming) - datetime.combine(datetime.today(), CurrentTiming)
-                remaining_minutes = remaining_time.total_seconds() // 60
+        try:
+            current_datetime = QDateTime.currentDateTime()
+            formatted_datetime = current_datetime.toString('HH:mm:ss')
+            self.datetime_label.setText(f"<b>Current Time: {formatted_datetime}</b>")
+            if self.current_shift is not None:
+                StartTiming = datetime.strptime(self.current_shift['StartTimmng'], "%H:%M:%S").time()
+                EndTiming = datetime.strptime(self.current_shift['EndTimming'], "%H:%M:%S").time()
+                CurrentTiming = datetime.strptime(formatted_datetime, "%H:%M:%S").time()
+                if CurrentTiming < StartTiming:
+                    remaining_time = datetime.combine(datetime.today(), StartTiming) - datetime.combine(datetime.today(), CurrentTiming)
+                    remaining_minutes = remaining_time.total_seconds() // 60
+                    print(f"Current timing is before the start timing. There are {remaining_minutes} minutes remaining until the next shift starts.")
+                elif CurrentTiming > EndTiming:
+                    remaining_minutes = 0
+                    self.timer.stop()
+                    self.auto_logout.emit(True)
+                else:
+                    remaining_time = datetime.combine(datetime.today(), EndTiming) - datetime.combine(datetime.today(), CurrentTiming)
+                    remaining_minutes = remaining_time.total_seconds() // 60
 
-            remaining_hours = int(remaining_minutes // 60)
-            remaining_minutes = int(remaining_minutes % 60)
-            remaining_seconds = int(remaining_time.total_seconds() % 60)
+                remaining_hours = int(remaining_minutes // 60)
+                remaining_minutes = int(remaining_minutes % 60)
+                remaining_seconds = int(remaining_time.total_seconds() % 60)
 
-            remaining_time_str = "{:02}:{:02}:{:02}".format(remaining_hours, remaining_minutes, remaining_seconds)
-            self.Rdatetime_label.setText(f"<b>Time Left: {remaining_time_str}</b>")
-            if remaining_minutes > 0 and remaining_minutes < 2:
+                remaining_time_str = "{:02}:{:02}:{:02}".format(remaining_hours, remaining_minutes, remaining_seconds)
                 self.Rdatetime_label.setText(f"<b>Time Left: {remaining_time_str}</b>")
+                if remaining_minutes > 0 and remaining_minutes < 2:
+                    self.Rdatetime_label.setText(f"<b>Time Left: {remaining_time_str}</b>")
+        except Exception as e:
+            print(f"Error in update_datetime: {e}")
+            #show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')
 

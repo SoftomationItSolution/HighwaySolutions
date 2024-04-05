@@ -152,6 +152,14 @@ class MainWindow(QMainWindow):
                     self.right_frame.lane_view_box.updateFinished.emit(True)
                 self.footer_widget.update_el(self.equipments)
                 self.footer_widget.updateFinished.emit(True)
+                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments))    
+                if filtered_data is not None and len(filtered_data)>0:
+                    self.right_frame.current_transaction_box.update_printer(filtered_data[0])
+                else:
+                    self.right_frame.current_transaction_box.update_printer(None)
+            else:
+                self.right_frame.current_transaction_box.update_printer(None)
+
         except Exception as e:
             self.logger.logError(f"Error in updateEqDetails: {e}")
 
@@ -176,11 +184,14 @@ class MainWindow(QMainWindow):
     def save_transctions(self):
         try:
             ct=datetime.now()
-            self.right_frame.current_transaction_box.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
-            self.right_frame.current_transaction_box.current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],ct)
-            self.right_frame.current_transaction_box.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-            #self.print_receipt()
-            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.right_frame.current_transaction_box.current_Transaction)
+            current_Transaction=self.right_frame.current_transaction_box.current_Transaction
+            vc=current_Transaction["VehicleClassId"]
+            current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
+            current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+            current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+            self.print_receipt()
+            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
             if(resultData is not None and len(resultData)>0):
                 if resultData[0]["AlertMessage"]=="successfully":
                     self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)

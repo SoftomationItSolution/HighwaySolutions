@@ -42,10 +42,10 @@ class NAWinDataClient(threading.Thread):
     def process_axel_data(self, axel_data_str):
         axel = axel_data_str.split(',')
         if len(axel) == 4:
-            x = {'number': axel[0].replace('#', '').strip(),
-                'weight': axel[1].replace('w', '').strip(),
-                'speed': axel[2].replace('s', '').strip(),
-                'distance': axel[3].replace('d', '').strip()}
+            x = {'AxleNumber': axel[0].replace('#', '').strip(),
+                'AxleWeight': axel[1].replace('w', '').strip(),
+                'Speed': axel[2].replace('s', '').strip(),
+                'AxleDistance': axel[3].replace('d', '').strip()}
         else:
             x = axel_data_str.replace('#', '')
         self.axleData.append(x)
@@ -72,8 +72,13 @@ class NAWinDataClient(threading.Thread):
     def process_db(self, transactionInfo):
         try:
             LaneManager.wim_data_insert(self.dbConnectionObj,transactionInfo)
+            if transactionInfo["axleData"] is not None:
+                for d in transactionInfo["axleData"]:
+                    d["TransactionId"] = transactionInfo["TransactionId"]
+                    d["LaneId"] = transactionInfo["LaneId"]
+                    LaneManager.wim_details_data_insert(self.dbConnectionObj,d)
         except Exception as e:
-            self.logger.logError("Exception occurred during wim data processing: {}".format(str(e)))
+            self.logger.logError("Exception occurred during wim data processing in db: {}".format(str(e)))
         finally:
             self.axleData = []
             self.totalWeight = None

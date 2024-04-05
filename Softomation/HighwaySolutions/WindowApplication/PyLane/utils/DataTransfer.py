@@ -16,7 +16,7 @@ class DataSynchronization(threading.Thread):
         self.timeout=timeout
         self.data_upload_running=False
         self.data_importer = DataImporter(self.config_manager, dbConnectionObj,self.logger,self.default_plaza_Id,self.default_lane_ip)
-
+        
     def fetch_and_store_master_data(self):
         try:
             self.data_importer.project_config_import(self.project_config_path)
