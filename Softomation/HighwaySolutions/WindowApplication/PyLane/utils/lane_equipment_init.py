@@ -205,7 +205,7 @@ class LaneEquipmentSynchronization:
     def loop_function(self):
         while self.is_running:
             try:
-                self.start_dts_thread()
+                #self.start_dts_thread()
                 if self.plaza_detail is None:
                     self.GetPlazaDetails()
                 else:
@@ -252,7 +252,7 @@ class LaneEquipmentSynchronization:
             self.start_wim_thread()
             self.stop_rfid_thread()
             self.stop_ping_thread()
-            self.stop_dts_thread()
+            #self.stop_dts_thread()
             self.mqtt_client.disconnect()
             self.plaza_detail=None
             self.lane_detail=None
