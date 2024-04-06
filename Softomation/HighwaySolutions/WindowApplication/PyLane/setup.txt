@@ -16,5 +16,6 @@ schedule
 netifaces-plus
 scapy
 requests
-
+ping3
+#D:\appTest\libs> pip install .\RFIDReaderAPI-1.1-py3-none-any.whl
 #conda install -c anaconda pyaudio

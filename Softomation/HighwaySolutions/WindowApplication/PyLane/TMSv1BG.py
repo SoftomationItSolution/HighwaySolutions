@@ -10,11 +10,12 @@ from utils.mySqlConnection import MySQLConnections
 
 
 if __name__ == '__main__':
-    logger = CustomLogger('main_app')
+    
     system_ip=Utilities.get_local_ips()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
     config_manager = ConfigManager(config_file, script_dir)
+    logger = CustomLogger(config_manager,'main_app')
     booth_lane = config_manager.get_setting('Settings', 'booth_lane')
     project_config_path = config_manager.get_path('Paths', 'pc_dir')
     db_path = config_manager.get_path('Paths', 'db_dir')

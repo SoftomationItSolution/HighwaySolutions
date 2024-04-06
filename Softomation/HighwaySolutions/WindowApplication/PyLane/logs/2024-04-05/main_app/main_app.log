@@ -1,7 +1,0 @@
-2024-04-05 14:40:26,819 Error in printer: No backend available
-2024-04-05 15:04:46,957 Error in print_receipt: 'TollReceiptPrinter' object has no attribute 'print_toll_receipt'
-2024-04-05 15:17:22,388 Error in save_transctions: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
-2024-04-05 15:18:33,397 Error in save_transctions: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
-2024-04-05 15:31:17,369 Error in save_transctions: 1062 (23000): Duplicate entry '0' for key 'tbl_lanetransaction.PRIMARY'
-2024-04-05 15:34:51,507 Error in save_transctions: 1406 (22001): Data too long for column 'p_LaneDirectionId' at row 1
-2024-04-05 15:37:37,474 Error in save_transctions: 1406 (22001): Data too long for column 'p_LaneDirectionId' at row 1

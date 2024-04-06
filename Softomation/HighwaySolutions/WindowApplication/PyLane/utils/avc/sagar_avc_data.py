@@ -7,14 +7,14 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class SagarAVCDataClient(threading.Thread):
-    def __init__(self,_handler,dbConnectionObj,LaneId,avc_detail,log_file_name,timeout=0.5):
+    def __init__(self,_handler,config_manager,dbConnectionObj,LaneId,avc_detail,log_file_name,timeout=0.5):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dbConnectionObj=dbConnectionObj
         self.LaneId=LaneId
         self.avc_detail=avc_detail
         self.timeout=timeout
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False

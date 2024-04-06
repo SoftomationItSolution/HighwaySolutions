@@ -7,14 +7,14 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class NAWinDataClient(threading.Thread):
-    def __init__(self,_handler,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
+    def __init__(self,_handler,config_manager,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dbConnectionObj=dbConnectionObj
         self.LaneId=LaneId
         self.wim_detail=wim_detail
         self.timeout=timeout
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.axleData = []
         self.totalWeight = None
         self.transactionId = None

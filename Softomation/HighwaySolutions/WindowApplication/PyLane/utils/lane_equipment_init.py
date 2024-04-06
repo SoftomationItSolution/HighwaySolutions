@@ -10,14 +10,16 @@ from utils.camera.CameraManager import CameraManager
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 from utils.rfid.mantra_rfid_reader import MantraRfidReader
+from utils.ufd.Kits_ufd import KistUFDClient
 from utils.wim.na_wim_data import NAWinDataClient
 from utils.PingThread import PingThread
 from utils.avc.sagar_avc_data import SagarAVCDataClient
 from utils.dio.kits_dio_card import KistDIOClient
+from pubsub import pub
 
 class LaneEquipmentSynchronization:
     def __init__(self, config_manager, dbConnectionObj,default_plaza_Id,system_ip):
-        self.logger = CustomLogger('lane_BG')
+        self.logger = CustomLogger(config_manager,'lane_BG')
         self.config_manager = config_manager
         self.dbConnectionObj = dbConnectionObj
         self.default_plaza_Id=default_plaza_Id
@@ -35,10 +37,11 @@ class LaneEquipmentSynchronization:
         self.dts_thread=None
         self.rfid_client_connected=False
         self.mqtt_client_connected=False
-        self.camera_manager = CameraManager(self,"lane_BG_camera")
+        self.ufd=None
+        self.camera_manager = CameraManager(self,config_manager,"lane_BG_camera")
         self.camera_details=[]
         self.create_mqtt_obj()
-        
+        pub.subscribe(self.lane_trans_start, "lane_process_start")
 
     def create_mqtt_obj(self):
         try:
@@ -79,8 +82,9 @@ class LaneEquipmentSynchronization:
 
     def send_message_to_mqtt(self,topic,data):
         try:
-            response_json = json.dumps(data)
-            self.mqtt_client.publish(topic, response_json)
+            if self.mqtt_client is not None:
+                response_json = json.dumps(data)
+                self.mqtt_client.publish(topic, response_json)
         except Exception as e:
             self.logger.logError(f"An exception occurred in send_message_to_mqtt: {e}")
 
@@ -98,25 +102,25 @@ class LaneEquipmentSynchronization:
     def start_dio_thread(self,equipment):
         if not self.dio_thread:
              if equipment["ManufacturerName"]=="KITS":
-                self.dio_thread = KistDIOClient(self, equipment, 'lane/devicePosition','lane_BG_dio')
+                self.dio_thread = KistDIOClient(self,self.config_manager, equipment, 'lane/devicePosition','lane_BG_dio')
                 self.dio_thread.start()
 
     def start_avc_thread(self,equipment):
         if not self.avc_thread:
              if equipment["ManufacturerName"]=="Sagar":
-                self.avc_thread = SagarAVCDataClient(self,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
+                self.avc_thread = SagarAVCDataClient(self,self.config_manager,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
                 self.avc_thread.start()
 
     def start_wim_thread(self,equipment):
         if not self.wim_thread:
              if equipment["ManufacturerName"]=="NagaArjun":
-                self.wim_thread = NAWinDataClient(self,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_wim')
+                self.wim_thread = NAWinDataClient(self,self.config_manager,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_wim')
                 self.wim_thread.start()
 
     def start_rfid_thread(self,equipment):
         if not self.rfid_thread:
              if equipment["ManufacturerName"]=="Mantra":
-               self.rfid_thread = MantraRfidReader(self, equipment, 'lane_BG_wim')
+               self.rfid_thread = MantraRfidReader(self,self.config_manager, equipment, 'lane_BG_wim')
                self.rfid_thread.start()
 
     def start_ping_thread(self):
@@ -134,8 +138,8 @@ class LaneEquipmentSynchronization:
         if any(cam["IpAddress"] == ip_address for cam in self.camera_details):
             return
         else:
-            #rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
-            rtsp="rtsp://admin:admin@192.168.1.181:554"
+            rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+            #rtsp="rtsp://admin:admin@192.168.1.181:554"
             x = {"IpAddress": ip_address, "rtsp": rtsp}
             self.camera_details.append(x)
             self.camera_manager.initialize_video_capture(rtsp, ip_address)
@@ -180,8 +184,8 @@ class LaneEquipmentSynchronization:
     def GetPlazaDetails(self):
         try:
             self.plaza_detail=CommonManager.GetPlazaDetailsById(self.dbConnectionObj,self.default_plaza_Id)
-            if self.plaza_detail is not None:
-                self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
+            # if self.plaza_detail is not None:
+            #     self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
         except Exception as e:
             self.logger.logError(f"An exception occurred in GetPlazaDetail: {e}")
             self.plaza_detail=None
@@ -210,7 +214,8 @@ class LaneEquipmentSynchronization:
                     self.GetPlazaDetails()
                 else:
                     if self.mqtt_client_connected==False:
-                        self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
+                        #self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
+                        pass
                 if self.lane_detail is None:
                     self.GetLaneDetails()
                 if self.equipment_detail is None:
@@ -219,17 +224,23 @@ class LaneEquipmentSynchronization:
                     self.equipment_detail
                     for equipment in self.equipment_detail:
                         if equipment["EquipmentTypeId"]==4:
-                            self.start_wim_thread(equipment)
-                        elif equipment["EquipmentTypeId"]==5:
-                            self.start_rfid_thread(equipment)
+                            #self.start_wim_thread(equipment)
+                            pass
+                        # elif equipment["EquipmentTypeId"]==5:
+                        #     self.start_rfid_thread(equipment)
                         elif equipment["EquipmentTypeId"]==7:
                             self.start_dio_thread(equipment)
                         elif equipment["EquipmentTypeId"]==15:
                             self.start_camera(equipment)
                         elif equipment["EquipmentTypeId"]==16:
                             self.start_camera(equipment)
-                        elif equipment["EquipmentTypeId"]==21:
-                            self.start_avc_thread(equipment)
+                        elif equipment["EquipmentTypeId"]==18:
+                            if self.ufd is None:
+                                if equipment["ManufacturerName"]=="KITS":
+                                    self.ufd=KistUFDClient(self,self.config_manager, equipment,'lane_BG_ufd')
+                                    self.lane_trans_done()
+                        # elif equipment["EquipmentTypeId"]==21:
+                        #     self.start_avc_thread(equipment)
                     self.start_ping_thread()
                     
             except Exception as e:
@@ -248,12 +259,12 @@ class LaneEquipmentSynchronization:
         if self.is_running:
             self.is_running = False
             self.stop_dio_thread() 
-            self.stop_avc_thread()
-            self.start_wim_thread()
-            self.stop_rfid_thread()
+            #self.stop_avc_thread()
+            #self.start_wim_thread()
+            #self.stop_rfid_thread()
             self.stop_ping_thread()
             #self.stop_dts_thread()
-            self.mqtt_client.disconnect()
+            #self.mqtt_client.disconnect()
             self.plaza_detail=None
             self.lane_detail=None
             self.equipment_detail=None
@@ -262,3 +273,23 @@ class LaneEquipmentSynchronization:
             self.mqtt_client_connected=False
             self.thread.join()
             self.logger.log_info("Lane Equipment Synchronization stopped.")
+
+    def lane_trans_start(self, transactionInfo):
+        try:
+            if self.ufd is not None:
+               self.ufd.clear_cmd()
+               self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
+               self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
+               self.ufd.go_cmd()
+        except Exception as e:
+            print(e)
+
+    def lane_trans_done(self):
+        try:
+            if self.ufd is not None:
+                self.ufd.clear_cmd()
+                if self.plaza_detail is not None:
+                    self.ufd.l1s_cmd(f'Welcome to {self.plaza_detail["PlazaName"]}')
+                self.ufd.stop_cmd()
+        except Exception as e:
+            print(e)

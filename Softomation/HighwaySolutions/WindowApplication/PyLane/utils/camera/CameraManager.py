@@ -3,9 +3,9 @@ import time
 from utils.log_master import CustomLogger
 
 class CameraManager:
-    def __init__(self,_handler,log_file_name):
+    def __init__(self,_handler,config_manager,log_file_name):
         self.handler=_handler
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.video_captures = {}
 
     def initialize_video_capture(self, rtsp_url, camera_ip):

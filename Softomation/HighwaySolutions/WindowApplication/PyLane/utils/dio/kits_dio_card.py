@@ -5,13 +5,13 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,_dio_detail,_topic_name,log_file_name,timeout=0.5):
+    def __init__(self,_handler,config_manager,_dio_detail,_topic_name,log_file_name,timeout=0.5):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
         self.topic_name=_topic_name
         self.timeout=timeout
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
@@ -21,16 +21,29 @@ class KistDIOClient(threading.Thread):
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 19, "EquipmentTypeName": "Boom Barrier", "Status": False},
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "Status": False}
         ]
-   
+        pub.subscribe(self.lane_trans_start, "lane_process_start")
+        self.barrier_loop_last=True
+        self.barrier_Status=False
+
     def formate_output(self, input):
         output_value = input.split(":")[1].strip()
         value = output_value.strip()
         for i in range(4):
             out_data= self.out_labels[i]
             out_data["Status"] = bool(int(value[i]))
-            self.handler.send_message_to_mqtt(self.topic_name,out_data)
-            pub.sendMessage("dio_processed_out", transactionInfo=out_data)
-    
+            try:
+                pub.sendMessage("dio_processed_out", transactionInfo=out_data)
+            except Exception as e:
+                self.logger.logError(f"An exception occurred in dio to PUB: {e}")
+            try:
+                self.handler.send_message_to_mqtt(self.topic_name,out_data)
+            except Exception as e:
+                self.logger.logError(f"An exception occurred in dio to MQTT: {e}")
+            finally:
+                if i==2:
+                    self.barrier_Status=bool(int(value[i]))
+            #print("barrier_Status: "+str(self.barrier_Status))
+
     def formate_in(self, input):
         in_data={}
         output_value = input.split(":")[1].strip()
@@ -38,7 +51,14 @@ class KistDIOClient(threading.Thread):
         value = output_value.strip()
         for i in range(data_len):
             key=f"IN-{str(i+1)}"
-            in_data[key] = bool(int(value[i]))
+            status=bool(int(value[i]))
+            if (i+1)==9:
+                if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
+                   pub.sendMessage("lane_process_stoped", transactionInfo=status)
+                   self.lane_trans_done()
+                if status!=self.barrier_loop_last:
+                    self.barrier_loop_last=status
+            in_data[key] = status
             in_d={"LaneId":self.dio_detail["LaneId"],key:in_data}
             pub.sendMessage("dio_processed_in", transactionInfo=in_d)
 
@@ -71,7 +91,6 @@ class KistDIOClient(threading.Thread):
                 self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
                 self.is_running = True
                 self.send_data('sSAe')
-                
                 while self.is_running:
                     echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
                     if len(echoed_transaction_number) != 0:
@@ -93,3 +112,19 @@ class KistDIOClient(threading.Thread):
     def stop(self):
         self.is_stopped = True
         self.client_stop()
+
+    def lane_trans_start(self, transactionInfo):
+        try:
+            if self.client_socket is not None:
+               self.send_data('s31e')
+               self.send_data('s21e')
+        except Exception as e:
+            print(e)
+
+    def lane_trans_done(self):
+        try:
+            if self.client_socket is not None:
+               self.send_data('s30e')
+               self.send_data('s20e')
+        except Exception as e:
+            print(e)

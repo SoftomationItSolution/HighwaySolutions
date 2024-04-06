@@ -4,10 +4,10 @@ import select
 from utils.log_master import CustomLogger
 
 class MultiTCPServer:
-    def __init__(self, host, port,log_file_name):
+    def __init__(self,config_manager, host, port,log_file_name):
         self.host = host
         self.port = port
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.socket_list = []
         self.clients = {}
 

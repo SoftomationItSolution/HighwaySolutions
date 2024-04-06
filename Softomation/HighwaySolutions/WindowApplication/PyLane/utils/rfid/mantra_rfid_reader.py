@@ -9,12 +9,12 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class MantraRfidReader(threading.Thread):
-    def __init__(self,_handler, rfid_detail, log_file_name, timeout=0.5):
+    def __init__(self,_handler,config_manager, rfid_detail, log_file_name, timeout=0.5):
         threading.Thread.__init__(self)
         self.handler = _handler
         self.rfid_detail = rfid_detail
         self.timeout = timeout
-        self.logger = CustomLogger(log_file_name)
+        self.logger = CustomLogger(config_manager,log_file_name)
         self.connection_string = f"{self.rfid_detail['ProtocolTypeName']}:{self.rfid_detail['IpAddress']}:{self.rfid_detail['PortNumber']}"
         self.reader = None
         self.is_running=False

@@ -6,7 +6,7 @@ from utils.log_master import CustomLogger
 class DataSynchronization(threading.Thread):
     def __init__(self, config_manager, dbConnectionObj,default_plaza_Id,system_ip,timeout=0.100):
         threading.Thread.__init__(self)
-        self.logger = CustomLogger('data_import')
+        self.logger = CustomLogger(config_manager,'data_import')
         self.config_manager = config_manager
         self.dbConnectionObj = dbConnectionObj
         self.default_plaza_Id=default_plaza_Id

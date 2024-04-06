@@ -12,6 +12,7 @@ from gui.widgets.Footer import Footer
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.constants import Utilities
+from pubsub import pub
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
@@ -146,7 +147,7 @@ class MainWindow(QMainWindow):
         try:
             self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
             if self.equipments is not None and len(self.equipments)>0:
-                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 16, self.equipments))
+                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15, self.equipments))
                 if filtered_data is not None and len(filtered_data)>0:
                     self.right_frame.lane_view_box.set_cam_details(filtered_data[0])
                     self.right_frame.lane_view_box.updateFinished.emit(True)
@@ -190,6 +191,7 @@ class MainWindow(QMainWindow):
             current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
             current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
             current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+            pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
             self.print_receipt()
             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
             if(resultData is not None and len(resultData)>0):
@@ -197,7 +199,6 @@ class MainWindow(QMainWindow):
                     self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
                     show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
                     self.reset_transctions()
-                   
                 else:
                     show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
         except Exception as e:

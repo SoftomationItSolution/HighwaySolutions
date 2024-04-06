@@ -4,8 +4,9 @@ from logging.handlers import RotatingFileHandler
 from datetime import datetime, timedelta
 
 class CustomLogger:
-    def __init__(self, log_file_name, log_file_size=10 * 1024 * 1024, backup_duration_days=30):
+    def __init__(self,config_manager, log_file_name, log_file_size=10 * 1024 * 1024, backup_duration_days=30):
         self.log_folder = "logs"
+        self.config_manager = config_manager
         self.log_file_folder = log_file_name
         self.log_file_name = log_file_name + '.log'
         self.log_file_size = log_file_size
@@ -16,9 +17,10 @@ class CustomLogger:
 
     def setup_logger(self):
         try:
+            log_dir = self.config_manager.get_path('Paths', 'log_dir')
             log_formatter = logging.Formatter('%(asctime)s %(message)s')
             today_date = datetime.now().strftime("%Y-%m-%d")
-            log_directory = os.path.join(self.log_folder, today_date)
+            log_directory = os.path.join(log_dir,self.log_folder, today_date)
             os.makedirs(log_directory, exist_ok=True)
             log_directory = os.path.join(log_directory, self.log_file_folder)
             os.makedirs(log_directory, exist_ok=True)
