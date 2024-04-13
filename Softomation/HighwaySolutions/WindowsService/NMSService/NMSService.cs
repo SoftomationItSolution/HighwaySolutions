@@ -354,11 +354,11 @@ namespace NMSService
                     lock (_locdevice)
                     {
                         equipmentDetailsList = EquipmentDetailsBL.GetActive();
-                        //LogMessage("equipmentDetailsList:" + equipmentDetailsList.Count);
+                        LogMessage("equipmentDetailsList:" + equipmentDetailsList.Count);
                     }
                     foreach (EquipmentDetailsIL item in equipmentDetailsList)
                     {
-                        //LogMessage("going to check:" + item.IpAddress);
+                        LogMessage("going to check:" + item.IpAddress);
                         if (SystemConstants.ValidateIP(item.IpAddress))
                         {
                             CheckStatus(item);

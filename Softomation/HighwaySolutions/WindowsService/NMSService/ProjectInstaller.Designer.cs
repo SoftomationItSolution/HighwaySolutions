@@ -40,9 +40,9 @@ namespace NMSService
             // 
             // serviceInstaller1
             // 
-            this.serviceInstaller1.Description = "Soft-NSM-IMCP-1.0.1";
-            this.serviceInstaller1.DisplayName = "Soft-NSM-IMCP-1.0.1";
-            this.serviceInstaller1.ServiceName = "Soft-NSM-IMCP-1.0.1";
+            this.serviceInstaller1.Description = "Soft-NMS-IMCP-1.0.1";
+            this.serviceInstaller1.DisplayName = "Soft-NMS-IMCP-1.0.1";
+            this.serviceInstaller1.ServiceName = "Soft-NMS-IMCP-1.0.1";
             // 
             // ProjectInstaller
             // 

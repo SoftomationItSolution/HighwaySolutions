@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Reflection;
 using System.ServiceProcess;
 using HighwaySoluations.Softomation.CommonLibrary.IL;

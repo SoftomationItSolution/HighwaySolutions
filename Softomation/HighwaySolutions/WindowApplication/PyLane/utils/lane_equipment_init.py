@@ -7,6 +7,7 @@ import paho.mqtt.client as mqtt
 from models.CommonManager import CommonManager
 from utils.DataTransfer import DataSynchronization
 from utils.camera.CameraManager import CameraManager
+from utils.camera.FrameCapture import RTSPVideoCapture
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 from utils.rfid.mantra_rfid_reader import MantraRfidReader
@@ -38,8 +39,10 @@ class LaneEquipmentSynchronization:
         self.rfid_client_connected=False
         self.mqtt_client_connected=False
         self.ufd=None
-        self.camera_manager = CameraManager(self,config_manager,"lane_BG_camera")
-        self.camera_details=[]
+        self.LPICCamera=None
+        self.ICCamera=None
+        # self.camera_manager = CameraManager(self,config_manager,"lane_BG_camera")
+        # self.camera_details=[]
         self.create_mqtt_obj()
         pub.subscribe(self.lane_trans_start, "lane_process_start")
 
@@ -133,17 +136,16 @@ class LaneEquipmentSynchronization:
             self.dts_thread=DataSynchronization(self.config_manager, self.dbConnectionObj,self.default_plaza_Id,self.default_lane_ip)
             self.dts_thread.start()
 
-    def start_camera(self, equipment):
-        ip_address = equipment["IpAddress"]
-        if any(cam["IpAddress"] == ip_address for cam in self.camera_details):
-            return
-        else:
-            rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
-            #rtsp="rtsp://admin:admin@192.168.1.181:554"
-            x = {"IpAddress": ip_address, "rtsp": rtsp}
-            self.camera_details.append(x)
-            self.camera_manager.initialize_video_capture(rtsp, ip_address)
-            #print(rtsp)
+    # def start_camera(self, equipment):
+    #     ip_address = equipment["IpAddress"]
+    #     if any(cam["IpAddress"] == ip_address for cam in self.camera_details):
+    #         return
+    #     else:
+    #         rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+    #         x = {"IpAddress": ip_address, "rtsp": rtsp,"EquipmentTypeId": equipment["EquipmentTypeId"]}
+    #         self.camera_details.append(x)
+    #         self.camera_manager.initialize_video_capture(rtsp, ip_address)
+    #         #print(rtsp)
 
     def stop_dio_thread(self):
         if self.dio_thread:
@@ -231,9 +233,14 @@ class LaneEquipmentSynchronization:
                         elif equipment["EquipmentTypeId"]==7:
                             self.start_dio_thread(equipment)
                         elif equipment["EquipmentTypeId"]==15:
-                            self.start_camera(equipment)
+                            if self.LPICCamera is None:
+                                rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+                                self.LPICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
+                            #self.start_camera(equipment)
                         elif equipment["EquipmentTypeId"]==16:
-                            self.start_camera(equipment)
+                            if self.ICCamera is None:
+                                rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+                                self.ICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
                         elif equipment["EquipmentTypeId"]==18:
                             if self.ufd is None:
                                 if equipment["ManufacturerName"]=="KITS":
@@ -277,10 +284,21 @@ class LaneEquipmentSynchronization:
     def lane_trans_start(self, transactionInfo):
         try:
             if self.ufd is not None:
+               self.LPICCamera.record_video(transactionInfo['LaneTransactionId']+'_lpic', snapshot=True)
                self.ufd.clear_cmd()
                self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
                self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
                self.ufd.go_cmd()
+
+            # lpic_cam=list(filter(lambda x: x['EquipmentTypeId'] == 15, self.camera_details))
+            # ic_cam=list(filter(lambda x: x['EquipmentTypeId'] == 16, self.camera_details))
+
+            # self.camera_details
+            # for camera_ip in self.camera_details:
+            #     videoname = f"{transactionInfo['LaneTransactionId']}_{camera_ip['IpAddress'].replace('.', '')}.avi"
+            #     snapshot = f"{transactionInfo['LaneTransactionId']}_{camera_ip['IpAddress'].replace('.', '')}.jpg"
+            #     self.camera_manager.record_video(camera_ip['IpAddress'], output_file=videoname, duration=10)
+            #     self.camera_manager.take_snapshot(camera_ip['IpAddress'], output_file=snapshot)
         except Exception as e:
             print(e)
 
