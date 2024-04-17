@@ -123,9 +123,9 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
       bubble = new H.ui.InfoBubble({ lat: data.Latitude, lng: data.Longitude }, {
         content: '<div class="d-flex flex-row justify-content-start" style="width:147px">' +
           '<div style="border-radius: 3px; background-color: rgba(57, 192, 237,.2);">' +
-          '<p class="small mb-0">Location:' + data.ChainageName + '-' + data.DirectionName + '</p>' +
-          '<p class="small mb-0">IP-Address:' + data.IpAddress + '</p>' +
-          '<p class="small mb-0">' + data.EquipmentTypeName + ':' + data.EquipmentName + '</p>' +
+          '<p class="small mb-0">CH.' + data.ChainageName + '(' + data.DirectionName + ')</p>' +
+          // '<p class="small mb-0">IP-Address:' + data.IpAddress + '</p>' +
+          '<p class="small mb-0">' + data.EquipmentTypeName.replace('Camera','') + ' - ' + data.EquipmentName + '</p>' +
           '</div>' +
           '</div>'
       });

@@ -4,11 +4,11 @@ import threading
 from PySide6.QtCore import Signal,QDateTime
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget,QHBoxLayout, QVBoxLayout
-from gui.ui.messBox import confirmation_box, show_custom_message_box
-from gui.widgets.Header import Header
-from gui.widgets.LeftFrame import LeftFrame
-from gui.widgets.RightFrame import RightFrame
-from gui.widgets.Footer import Footer
+from GUI.ui.messBox import confirmation_box, show_custom_message_box
+from GUI.widgets.Header import Header
+from GUI.widgets.LeftFrame import LeftFrame
+from GUI.widgets.RightFrame import RightFrame
+from GUI.widgets.Footer import Footer
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.constants import Utilities
@@ -16,6 +16,7 @@ from pubsub import pub
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
+    
     def __init__(self,dbConnectionObj,config_manager,user_Details,systemSettingDetails,project_config_data,logger,default_plaza_Id,system_ip):
         super(MainWindow, self).__init__()
         self.setStyleSheet("background-color: rgb(1, 27, 65);")
@@ -320,3 +321,5 @@ class MainWindow(QMainWindow):
     def shift_auto_logout(self, auto_logout):
         if auto_logout:
             self.switch_window.emit(json.dumps(self.userDetails))
+            
+    

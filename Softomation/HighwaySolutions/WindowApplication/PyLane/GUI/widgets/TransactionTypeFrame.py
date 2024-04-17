@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QListWidget, QListWidgetItem
 from PySide6.QtCore import Qt, QSize
 
-from gui.ui.messBox import show_custom_message_box
+from GUI.ui.messBox import show_custom_message_box
 
 class TransactionTypeBox(QFrame):
     def __init__(self, width, height,logger):

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton, QWidget, QGridLayout, QLineEdit, QHBoxLayout,QRadioButton
-from PySide6.QtCore import Qt
-from gui.ui.messBox import show_custom_message_box
+from PySide6.QtCore import Qt, Signal
+from GUI.ui.messBox import show_custom_message_box
 from utils.constants import Utilities
 from utils.toll_receipt_printer import TollReceiptPrinter
 
@@ -11,6 +11,7 @@ class HorizontalLine(QFrame):
         self.setFrameShadow(QFrame.Sunken)
 
 class CurrentTransactionBox(QFrame):
+    message_window = Signal(str)
     def __init__(self, width, height,logger):
         super().__init__()
         self.logger=logger
@@ -139,7 +140,7 @@ class CurrentTransactionBox(QFrame):
         button_layout.addWidget(self.btnReset)
         button_layout.addWidget(self.btnSubmit)
         box_layout.addLayout(button_layout)
-        
+        self.message_window.connect(self.message_window_display)
 
     def add_label_field(self, label_text, field_name,default, row_index, column_index, field_widget=None):
         label = QLabel(label_text)
@@ -214,7 +215,7 @@ class CurrentTransactionBox(QFrame):
         else:
             self.PrinterDetail=None
             self.logger.logError(f"No printer detail found in update_printer")
-            show_custom_message_box("printer Detail", "No printer detail found", "inf")
+            self.message_window.emit('printer Detail,No printer detail found,inf')
 
         try:
             self.printer=TollReceiptPrinter(self.project_config_data,self.config_manager,self.PrinterDetail)
@@ -235,7 +236,8 @@ class CurrentTransactionBox(QFrame):
             self.current_Transaction["LaneDirectionId"] = self.LaneDetail["LaneDirectionId"]
         else:
             self.logger.logError(f"No lane detail found in update_ld")
-            show_custom_message_box("Lane Detail", "No lane detail found", "inf")
+            self.message_window.emit('Lane Detail,No lane detail found,inf')
+            #show_custom_message_box("Lane Detail", "No lane detail found", "inf")
 
     def get_toll_fare(self):
         filtered_data = None
@@ -412,3 +414,9 @@ class CurrentTransactionBox(QFrame):
         self.current_Transaction["SystemIntegratorId"] = self.LaneDetail["SystemIntegratorId"]
         self.current_Transaction["LaneDirectionId"] = self.LaneDetail["LaneDirectionId"]
         self.current_Transaction["ShiftId"] = self.current_shift["ShiftId"]
+        
+
+    
+    def message_window_display(self,msg):
+        msg=msg.split(',')
+        show_custom_message_box(msg[0], msg[1], msg[2])

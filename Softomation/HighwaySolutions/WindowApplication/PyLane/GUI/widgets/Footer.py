@@ -1,6 +1,6 @@
 import os
 from PySide6.QtWidgets import QFrame, QHBoxLayout
-from gui.widgets.HardwareFrame import HardwareWidget
+from GUI.widgets.HardwareFrame import HardwareWidget
 from PySide6.QtCore import Signal
 from pubsub import pub
 class Footer(QFrame):

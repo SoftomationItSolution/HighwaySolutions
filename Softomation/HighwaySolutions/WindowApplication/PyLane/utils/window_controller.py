@@ -1,7 +1,7 @@
 
 
-from gui.forms.LoginWindow import LoginUI
-from gui.forms.MainWindow import MainWindow
+from GUI.forms.LoginWindow import LoginUI
+from GUI.forms.MainWindow import MainWindow
 
 
 class WindowController:

@@ -38,5 +38,5 @@ if __name__ == '__main__':
     if systemSetting is not None:
         default_plaza_Id=systemSetting['DefaultPlazaId']
     lane_equipments=LaneEquipmentSynchronization(config_manager,dbConnectionObj,default_plaza_Id,system_ip)
-    lane_equipments.on_start()
+    #lane_equipments.on_start()
     desktop_app(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip)

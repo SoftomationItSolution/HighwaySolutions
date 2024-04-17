@@ -1,0 +1,17 @@
+/* #map {
+    background: grey;
+    width: calc(100vw - 100px);
+    height: calc(100vh - 100px);
+  } */
+
+  .map_expand{
+    background: grey;
+    width: calc(100vw - 250px);
+    height: calc(100vh - 100px);
+  }
+
+  .map_collpase{
+    background: grey;
+    width: calc(100vw - 250px);
+    height: calc(100vh - 100px);
+  }

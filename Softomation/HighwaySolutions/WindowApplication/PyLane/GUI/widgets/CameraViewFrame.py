@@ -46,7 +46,7 @@ class CameraLiveView(QFrame):
         self.video_widget.setFixedWidth(width-2)
         self.video_widget.setStyleSheet("border: none;border-top: 1px solid white;")
         self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-        self.video_widget.setAspectRatioMode(Qt.IgnoreAspectRatio)
+        #self.video_widget.setAspectRatioMode(Qt.IgnoreAspectRatio)
         box_layout.addWidget(self.video_widget, alignment=Qt.AlignTop | Qt.AlignVCenter)
 
     

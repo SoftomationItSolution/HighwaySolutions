@@ -1,11 +1,7 @@
-import json
-import os
 import time
-import requests
 from models.LaneManager import LaneManager
 from utils.constants import Utilities
-from utils.crypt import encrypt_aes_256_cbc
-from datetime import date, timedelta
+from datetime import date
 
 class DataUploder:
     def __init__(self, config_manager,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):

@@ -108,6 +108,7 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { IncidentDataComponent } from './pages/IMS/incident-data/incident-data.component';
 import { ECBEquipmentConfigComponent } from './pages/ECB/ecb-equipment-config/ecb-equipment-config.component';
 import { ECBEventHistoryComponent } from './pages/ECB/ecb-event-history/ecb-event-history.component';
+import { JsmapComponent } from './pages/dashboard-master/jsmap/jsmap.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
@@ -199,7 +200,8 @@ export const MY_CUSTOM_FORMATS = {
     WeatherEventHistoryComponent,
     ECBEquipmentConfigComponent,
     ECBEventHistoryComponent,
-    ReportsComponent
+    ReportsComponent,
+    JsmapComponent
   ],
   imports: [
     BrowserAnimationsModule,
