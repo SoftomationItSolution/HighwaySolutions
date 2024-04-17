@@ -21,7 +21,7 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
   private platform: any;
   public map: any;
   public mapUI: any;
-  MapZoom = 14;
+  MapZoom = 8;
   DefaultCordinatelat = 20.0568644;
   DefaultCordinatelong = 85.542642;
   ErrorData: any;
@@ -85,7 +85,7 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
 
   DefaultCoordinates() {
     this.platform = new H.service.Platform({
-      "apikey": "97IzKs6qDY3ZxrIClkXxieDxFK1w78t9PG3YqZUQpzE"
+      "apikey": "Oyib6yC37a1SiQwuOIGdo9EBkUMvzQ9beIb23mNqwbo"
     });
     let defaultLayers = this.platform.createDefaultLayers();
     this.map = new H.Map(this.mapElement.nativeElement,

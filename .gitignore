@@ -50,3 +50,4 @@ Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/
 *.cache
 bin
 obj
+*.pyc
