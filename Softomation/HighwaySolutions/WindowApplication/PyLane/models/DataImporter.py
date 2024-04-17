@@ -1,10 +1,9 @@
 import json
 import os
 import requests
-
 from utils.constants import Utilities
-from utils.crypt import encrypt_aes_256_cbc
 from datetime import date, timedelta
+from utils.crypt import CryptoUtils
 
 class DataImporter:
     def __init__(self, config_manager,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):
@@ -230,7 +229,7 @@ class DataImporter:
     def users_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/UserDetails'
         params = lambda d: [d['UserId'],d['LoginId'],
-                            encrypt_aes_256_cbc(d['LoginPasswordPlan']),
+                            CryptoUtils.encrypt_aes_256_cbc(d['LoginPasswordPlan']),
                             d['FirstName'],d['LastName'],d['EmailId'],d['MobileNumber'],
                             Utilities.json_dt_mysql_d(d['AccountExpiredDate']),
                             d['PlazaId'],d['UserTypeId'],d['RoleId'],d['DataStatus'], 

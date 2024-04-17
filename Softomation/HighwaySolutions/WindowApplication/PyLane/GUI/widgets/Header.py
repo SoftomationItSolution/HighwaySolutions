@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton,QLabel
 from PySide6.QtCore import Qt,QDateTime,QTimer
 from PySide6.QtGui import QIcon
@@ -7,11 +8,11 @@ from PySide6.QtCore import QSize, Qt,Signal
 class Header(QFrame):
     update_label_signal = Signal(str)
     auto_logout = Signal(bool)
-    def __init__(self, width, height, userDetails):
+    def __init__(self, width, height, userDetails,config_manager):
         super().__init__()
-        self.initUI(width, height, userDetails)
+        self.initUI(width, height, userDetails,config_manager)
 
-    def initUI(self, width, height, userDetails):
+    def initUI(self, width, height, userDetails,config_manager):
         self.current_shift = None
         self.setFixedWidth(width)
         self.setFixedHeight(height)
@@ -58,8 +59,10 @@ class Header(QFrame):
         lblVersion.setStyleSheet("color: white; border: none;")
         layout.addWidget(lblVersion, 0, 5, alignment=Qt.AlignRight | Qt.AlignVCenter)
 
+        image_dir=config_manager.get_path('Paths', 'image_dir')
+        icon = os.path.join(image_dir, 'logout.png')
         self.logout_button = QPushButton()
-        self.logout_button.setIcon(QIcon("assets/images/logout.png"))
+        self.logout_button.setIcon(QIcon(icon))
         self.logout_button.setIconSize(QSize(24, 24))
         self.logout_button.setStyleSheet("background-color: white; border: none;")
         layout.addWidget(self.logout_button, 0, 6, alignment=Qt.AlignRight | Qt.AlignVCenter)

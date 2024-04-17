@@ -1,6 +1,6 @@
 
 
-from GUI.forms.LoginWindow import LoginUI
+from GUI.forms.LoginWindow import LoginForm
 from GUI.forms.MainWindow import MainWindow
 
 
@@ -16,7 +16,7 @@ class WindowController:
         self.window=None
         
     def show_login(self,user_details):
-        self.login = LoginUI(self.dbConnectionObj,user_details,self.logger)
+        self.login = LoginForm(self.dbConnectionObj,self.config_manager,self.logger)
         self.login.switch_window.connect(self.show_main)
         self.login.show()
         if self.window is not None:

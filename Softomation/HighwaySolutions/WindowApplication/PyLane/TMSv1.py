@@ -1,7 +1,7 @@
 import os
 import sys
 from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication
+from PySide6.QtWidgets import QApplication,QStyleFactory
 from models.CommonManager import CommonManager
 from utils.ConfigManager import ConfigManager
 from utils.constants import Utilities
@@ -13,6 +13,7 @@ from utils.window_controller import WindowController
 
 def desktop_app(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip):
     app = QApplication(sys.argv)
+    app.setStyle(QStyleFactory.create("Fusion"))
     image_dir=config_manager.get_path('Paths', 'image_dir')
     icon = os.path.join(image_dir, 'icon.ico')
     app.setWindowIcon(QIcon(icon))
@@ -27,6 +28,7 @@ if __name__ == '__main__':
     config_manager = ConfigManager(config_file, script_dir)
     logger = CustomLogger(config_manager,'main_app')
     system_ip=Utilities.get_local_ips()
+    system_ip='192.168.10.12'
     booth_lane = config_manager.get_setting('Settings', 'booth_lane')
     project_config_path = config_manager.get_path('Paths', 'pc_dir')
     db_path = config_manager.get_path('Paths', 'db_dir')

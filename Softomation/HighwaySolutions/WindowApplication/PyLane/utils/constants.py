@@ -9,7 +9,8 @@ import netifaces
 import requests
 
 class Utilities:
-    
+    key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
+    iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
     @staticmethod
     def get_absolute_file_path(script_dir, file_name):
         try:

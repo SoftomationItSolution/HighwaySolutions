@@ -44,7 +44,7 @@ class MainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0) 
         
-        self.header_widget = Header(main_window_width, 50,self.userDetails)
+        self.header_widget = Header(main_window_width, 50,self.userDetails,self.config_manager)
         self.header_widget.logout_button.clicked.connect(self.logout)
         self.header_widget.auto_logout.connect(self.shift_auto_logout)
         main_layout.addWidget(self.header_widget)
