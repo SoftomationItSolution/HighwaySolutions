@@ -15,6 +15,7 @@ class KistDIOClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
+        self.violation_duration=10
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},
@@ -22,7 +23,7 @@ class KistDIOClient(threading.Thread):
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "Status": False}
         ]
         pub.subscribe(self.lane_trans_start, "lane_process_start")
-        self.barrier_loop_last=True
+        self.barrier_loop_last=False
         self.barrier_Status=False
 
     def formate_output(self, input):
@@ -30,7 +31,7 @@ class KistDIOClient(threading.Thread):
         value = output_value.strip()
         for i in range(4):
             out_data= self.out_labels[i]
-            out_data["Status"] = bool(int(value[i]))
+            out_data["Status"] = False if int(value[i])==0 else True
             try:
                 pub.sendMessage("dio_processed_out", transactionInfo=out_data)
             except Exception as e:
@@ -41,8 +42,7 @@ class KistDIOClient(threading.Thread):
                 self.logger.logError(f"An exception occurred in dio to MQTT: {e}")
             finally:
                 if i==2:
-                    self.barrier_Status=bool(int(value[i]))
-            #print("barrier_Status: "+str(self.barrier_Status))
+                    self.barrier_Status=False if int(value[i])==0 else True
 
     def formate_in(self, input):
         in_data={}
@@ -51,11 +51,14 @@ class KistDIOClient(threading.Thread):
         value = output_value.strip()
         for i in range(data_len):
             key=f"IN-{str(i+1)}"
-            status=bool(int(value[i]))
+            status=True if int(value[i])==0 else False
             if (i+1)==9:
                 if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
                    pub.sendMessage("lane_process_stoped", transactionInfo=status)
                    self.lane_trans_done()
+                if status==False and self.barrier_loop_last==True and self.barrier_Status==False:
+                    
+                    self.violation_trigger('s41e')
                 if status!=self.barrier_loop_last:
                     self.barrier_loop_last=status
             in_data[key] = status
@@ -83,6 +86,23 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.logger.logError("Exception send_data: {}".format(str(e)))
             return False
+        
+
+    
+        
+    def violation_trigger(self,command):
+        def run():    
+            start_time = time.time()
+            self.send_data(command)
+            while not stop_event.is_set():
+                if time.time() - start_time >= self.violation_duration:
+                    self.send_data(command.replace('1','0'))
+                    break
+                time.sleep(0.100)
+        stop_event = threading.Event()
+        violation_thread = threading.Thread(target=run())
+        violation_thread.start()
+        violation_thread.join()
         
     def run(self):
         while not self.is_stopped:

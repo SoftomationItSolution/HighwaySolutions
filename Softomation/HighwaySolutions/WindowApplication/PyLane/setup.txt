@@ -1,7 +1,7 @@
 pyside6==6.6.1
 opencv-python==4.5.*
 mysql-connector-python
-mysqlclient
+#mysqlclient
 pandas
 cryptography
 paho-mqtt

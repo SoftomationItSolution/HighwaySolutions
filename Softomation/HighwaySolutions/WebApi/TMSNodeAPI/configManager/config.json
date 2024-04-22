@@ -1,7 +1,7 @@
   {
     "user": "sa",
     "password": "Softo@7890",
-    "server": "Softomation-Pundir",
+    "server": "192.168.10.254",
     "database": "TMSv1",
     "options": {
       "encrypt": true, 

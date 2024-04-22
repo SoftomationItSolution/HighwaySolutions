@@ -13,11 +13,15 @@ from utils.window_controller import WindowController
 
 def desktop_app(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip):
     app = QApplication(sys.argv)
+    primary_screen = app.primaryScreen()
+    screen_geometry = primary_screen.geometry()
+    screen_width = screen_geometry.width()
+    screen_height = screen_geometry.height()
     app.setStyle(QStyleFactory.create("Fusion"))
     image_dir=config_manager.get_path('Paths', 'image_dir')
     icon = os.path.join(image_dir, 'icon.ico')
     app.setWindowIcon(QIcon(icon))
-    controller = WindowController(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip)
+    controller = WindowController(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip,screen_width,screen_height)
     controller.show_login(None)
     sys.exit(app.exec())
 
@@ -40,5 +44,5 @@ if __name__ == '__main__':
     if systemSetting is not None:
         default_plaza_Id=systemSetting['DefaultPlazaId']
     lane_equipments=LaneEquipmentSynchronization(config_manager,dbConnectionObj,default_plaza_Id,system_ip)
-    #lane_equipments.on_start()
+    lane_equipments.on_start()
     desktop_app(dbConnectionObj, config_manager,systemSetting,project_config_data,logger,default_plaza_Id,system_ip)

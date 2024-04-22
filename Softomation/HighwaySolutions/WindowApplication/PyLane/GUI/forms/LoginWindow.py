@@ -10,7 +10,7 @@ from utils.crypt import CryptoUtils
 
 class LoginForm(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self, dbConnectionObj, config_manager,logger):
+    def __init__(self, dbConnectionObj, config_manager,logger,screen_width,screen_height):
         super().__init__()
         self.dbConnectionObj = dbConnectionObj
         self.config_manager = config_manager

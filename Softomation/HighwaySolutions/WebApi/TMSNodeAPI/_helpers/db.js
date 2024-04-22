@@ -15,6 +15,7 @@ class Database {
       }
       return this.pool;
     } catch (error) {
+      console.log(databaseConfig)
       console.error('Database connection error:', error);
     }
   }

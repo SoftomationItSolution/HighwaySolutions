@@ -12,12 +12,7 @@ class LeftFrame(QFrame):
         btn_height=0
         lbl_height=30
         self.list_height=height-(btn_height+lbl_height)
-        
-        # left_group_box = QGroupBox("Sensor View")
-        # left_group_box.setStyleSheet("QGroupBox { border: 1px solid gray; border-radius: 9px; margin-top: 0.5em; }"
-        #                              "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px; }")
-        # left_group_box.setLayout(QVBoxLayout())  
-
+      
         box_layout = QVBoxLayout(self)
         box_layout.setContentsMargins(0, 0, 0, 0)
         box_layout.setSpacing(0)

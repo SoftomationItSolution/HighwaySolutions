@@ -75,7 +75,7 @@ class CameraLiveView(QFrame):
 
     def update_image(self, image):
         pixmap = QPixmap.fromImage(image)
-        self.label.setPixmap(pixmap)
+        self.video_widget.setPixmap(pixmap)
 
 class CameraThread(QThread):
     image_data = Signal(QImage)

@@ -16,7 +16,7 @@ class ReaderInstance:
                 readerAntPlan = ReaderWorkingAntSet_Model([1])
                 print('Setting up the working antenna result:', cls._instance.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, readerAntPlan))
                 readTID = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
-                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 7, "")
+                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')#02100009010103000020020006
                 readExtendedAreaList = [readTID,readUserData]
                 print('Set Extended Read Result:TID & UserId')
                 print(cls._instance.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, readExtendedAreaList))
@@ -36,27 +36,31 @@ class Text:
     def main(self, connection_string):
         reader_ = ReaderInstance(connection_string)
         reader = reader_.get_reader_instance()
+        self.last_epc=''
         i=0
+        tagDetails={"ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
         while True:
             readList = []
-            reader.read(500, readList)
+            reader.read(100, readList)
             for tag in readList:
-                #print(tag)
-                print("ReaderName:", tag._ReaderName)
-                print("EPC:", tag._EPC)
-                if hasattr(tag, '_TID'):
-                    print("TID:", tag._TID)
-                else:
-                    print("TID information not available")
-
-                if hasattr(tag, '_UserData'):
-                    print("UserData:", tag._UserData)
-                else:
-                    print("UserData information not available")
-            #reader.stop()
+                if self.last_epc !=tag._EPC:
+                    self.last_epc=tag._EPC
+                    tagDetails["ReaderName"]=tag._ReaderName
+                    tagDetails["EPC"]=tag._EPC
+                    if hasattr(tag, '_TID'):
+                        tagDetails["TID"]=tag._TID
+                    else:
+                        tagDetails["TID"]=""
+                    if hasattr(tag, '_UserData'):
+                        tagDetails["UserData"]=bytes.fromhex(tag._UserData).decode('utf-8')
+                        tagDetails["Class"]= "00" if tagDetails["UserData"][:2]=="XX" else tagDetails["UserData"][:2]
+                        tagDetails["Plate"]=tagDetails["UserData"][2:]
+                    else:
+                        tagDetails["UserData"]=""
+                        tagDetails["Class"]="00"
+                        tagDetails["Plate"]="XXXXXXXXXX"
+                    print(tagDetails)
             i=i+1
-            #print(i)
-            #time.sleep(0.5)
 def get_cs(con_type, ip_address, port):
     connection_string=f"{con_type}:{ip_address}:{port}"
     return connection_string
@@ -68,5 +72,10 @@ if __name__ == '__main__':
     # if status is not False:
     #     print("here")
     s = Text()
-    con_str=get_cs("TCP", "192.168.10.36", 9090)
+    #con_str=get_cs("TCP", "192.168.10.85", 9090)
+    con_str=get_cs("TCP", "192.168.10.19", 9090)
     s.main(con_str)
+    # hex_string = "585858585858585858585858"
+    # decoded_string = bytes.fromhex(hex_string).decode('utf-8')
+    # print(len(decoded_string))
+

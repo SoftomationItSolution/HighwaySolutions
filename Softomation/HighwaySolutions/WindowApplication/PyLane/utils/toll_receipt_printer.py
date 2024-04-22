@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from escpos.printer import Usb, Serial
-9
+import platform
 class TollReceiptPrinter:
     def __init__(self,project_config_data,config_manager,printer_detail):
         self.config_manager = config_manager
@@ -11,7 +11,10 @@ class TollReceiptPrinter:
     def printer_setup(self):
         try:
             if self.printer_detail is not None and self.printer_detail["ProtocolTypeId"]==3:
-                self.p=Serial(devfile=self.printer_detail["IpAddress"],baudrate=self.printer_detail["PortNumber"])
+                if platform.system()=='Linux':
+                    self.p=Serial(devfile='/dev/ttyS0',baudrate=self.printer_detail["PortNumber"])
+                else:
+                    self.p=Serial(devfile=self.printer_detail["IpAddress"],baudrate=self.printer_detail["PortNumber"])
             else:
                 self.p = Usb(self.config_manager.get_setting('Settings', 'vendor_id'), self.config_manager.get_setting('Settings', 'product_id'))
             

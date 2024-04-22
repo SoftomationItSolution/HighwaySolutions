@@ -228,19 +228,19 @@ class LaneEquipmentSynchronization:
                         if equipment["EquipmentTypeId"]==4:
                             #self.start_wim_thread(equipment)
                             pass
-                        # elif equipment["EquipmentTypeId"]==5:
-                        #     self.start_rfid_thread(equipment)
+                        elif equipment["EquipmentTypeId"]==5:
+                            self.start_rfid_thread(equipment)
                         elif equipment["EquipmentTypeId"]==7:
                             self.start_dio_thread(equipment)
-                        elif equipment["EquipmentTypeId"]==15:
-                            if self.LPICCamera is None:
-                                rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
-                                self.LPICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
-                            #self.start_camera(equipment)
-                        elif equipment["EquipmentTypeId"]==16:
-                            if self.ICCamera is None:
-                                rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
-                                self.ICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
+                        # elif equipment["EquipmentTypeId"]==15:
+                        #     if self.LPICCamera is None:
+                        #         rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+                        #         self.LPICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
+                        #     #self.start_camera(equipment)
+                        # elif equipment["EquipmentTypeId"]==16:
+                        #     if self.ICCamera is None:
+                        #         rtsp=f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+                        #         self.ICCamera=RTSPVideoCapture(self.config_manager,"lane_BG_camera",rtsp)
                         elif equipment["EquipmentTypeId"]==18:
                             if self.ufd is None:
                                 if equipment["ManufacturerName"]=="KITS":
@@ -284,11 +284,14 @@ class LaneEquipmentSynchronization:
     def lane_trans_start(self, transactionInfo):
         try:
             if self.ufd is not None:
-               self.LPICCamera.record_video(transactionInfo['LaneTransactionId']+'_lpic', snapshot=True)
-               self.ufd.clear_cmd()
-               self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
-               self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
-               self.ufd.go_cmd()
+                self.LPICCamera.record_video(transactionInfo['LaneTransactionId']+'_lpic', snapshot=True)
+                self.ufd.clear_cmd()
+                self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
+                if transactionInfo["TransactionTypeId"]==1:
+                    self.ufd.l2_cmd(f'{transactionInfo["TagClassId"]} {transactionInfo["TagPlateNumber"]}')
+                else:
+                    self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
+                self.ufd.go_cmd()
 
             # lpic_cam=list(filter(lambda x: x['EquipmentTypeId'] == 15, self.camera_details))
             # ic_cam=list(filter(lambda x: x['EquipmentTypeId'] == 16, self.camera_details))

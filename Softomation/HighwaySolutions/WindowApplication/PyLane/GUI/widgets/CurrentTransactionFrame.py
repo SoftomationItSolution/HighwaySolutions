@@ -47,9 +47,6 @@ class CurrentTransactionBox(QFrame):
         self.ct_layout.setSpacing(0)
         self.row_height=self.layout_height/7
         
-        # self.line = QFrame()
-        # self.line.setFrameShape(QFrame.HLine)
-        # self.line.setFrameShadow(QFrame.Sunken)
         
         self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
         
@@ -144,10 +141,7 @@ class CurrentTransactionBox(QFrame):
 
     def add_label_field(self, label_text, field_name,default, row_index, column_index, field_widget=None):
         label = QLabel(label_text)
-        #if column_index == 0:
         label.setAlignment(Qt.AlignLeft | Qt.AlignVCenter)
-        #else:
-            #label.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
         field = field_widget if field_widget else QLabel(default)
         self.ct_layout.addWidget(label, row_index, column_index)
         self.ct_layout.addWidget(field, row_index, column_index+1)
@@ -171,7 +165,7 @@ class CurrentTransactionBox(QFrame):
         if item_id==2:
             self.rblS.setEnabled(True)
             self.rblR.setEnabled(True)
-        self.get_toll_fare()
+            self.get_toll_fare()
 
     def update_vc(self, item_id, item_name,item):
         self.update_field("txtVehicleClass", item_name)
@@ -414,9 +408,25 @@ class CurrentTransactionBox(QFrame):
         self.current_Transaction["SystemIntegratorId"] = self.LaneDetail["SystemIntegratorId"]
         self.current_Transaction["LaneDirectionId"] = self.LaneDetail["LaneDirectionId"]
         self.current_Transaction["ShiftId"] = self.current_shift["ShiftId"]
-        
-
     
     def message_window_display(self,msg):
         msg=msg.split(',')
         show_custom_message_box(msg[0], msg[1], msg[2])
+
+    def create_fasTag_trans(self,transData,IsReadByReader,TagStatus):
+        self.current_trans()
+        if self.LaneDetail is not None:
+            self.setDefaultValue()
+            self.current_Transaction["TagEPC"]= transData["EPC"]
+            self.current_Transaction["RCTNumber"]= transData["TID"]
+            self.current_Transaction["TagClassId"]=  transData["Class"]
+            self.current_Transaction["TagPlateNumber"]= transData["Plate"]
+            self.current_Transaction["TagReadDateTime"]= transData["TransactionDateTime"]
+            self.current_Transaction["TagReadCount"]=  0
+            self.current_Transaction["IsReadByReader"]= IsReadByReader
+            self.current_Transaction["TransactionTypeId"]= 1
+            self.current_Transaction["VehicleClassId"]= transData["Class"]
+            self.current_Transaction["VehicleSubClassId"]= transData["Class"]
+            self.update_field("txtTagId", TagStatus)
+            self.txtVRN.setText(transData["Plate"])
+            self.txtReceipt.setText(transData["TID"])

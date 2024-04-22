@@ -28,10 +28,10 @@ class MantraRfidReader(threading.Thread):
         if self.reader.initReader(self.connection_string):
             self.logger.logInfo(self.reader)
             reader_ant_plan = ReaderWorkingAntSet_Model([1])
-            self.logger.logInfo('Setting up the working antenna result:', self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, reader_ant_plan))
+            self.logger.logInfo(f'Setting up the working antenna result: {self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, reader_ant_plan)}')
             read_tid = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
-            read_UserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 7, "")
-            read_extended_area_list = [read_tid,read_UserData]
+            readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')
+            read_extended_area_list = [read_tid,readUserData]
             self.logger.logInfo('Set Extended Read Result:TID & UserData')
             self.logger.logInfo(self.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, read_extended_area_list))
             set_reader_buzzer = ReaderBuzzer_Model()
@@ -53,28 +53,33 @@ class MantraRfidReader(threading.Thread):
                     self.is_running=self.setup_reader()
                 else:
                     self.is_running=True
-                    
+                self.last_epc=''
+                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}    
                 while self.is_running:
                     read_list = []
-                    self.reader.read(500, read_list)
+                    self.reader.read(100, read_list)
                     for tag in read_list:
                         if self.EPC != tag._EPC:
-                            if hasattr(tag, '_TID'):
-                                self.TID=tag._TID
-                            else:
-                                self.TID=""
-                            
-                            if hasattr(tag, '_UserData'):
-                                self.UserData=tag._UserData
-                            else:
-                                self.UserData=""
-                            transactionInfo = {
-                                "TransactionDateTime":Utilities.current_date_time_json(),
-                                "EPC": self.EPC,
-                                "TID": self.TID,
-                                "UserData": self.UserData}
-                            pub.sendMessage("rfid_processed", transactionInfo=transactionInfo)
-                    time.sleep(self.timeout)
+                            if self.last_epc !=tag._EPC:
+                                self.last_epc=tag._EPC
+                                self.tagDetails["ReaderName"]=tag._ReaderName
+                                self.tagDetails["EPC"]=tag._EPC
+                                if hasattr(tag, '_TID'):
+                                    self.tagDetails["TID"]=tag._TID
+                                else:
+                                    self.tagDetails["TID"]=""
+                                if hasattr(tag, '_UserData'):
+                                    self.tagDetails["UserData"]=bytes.fromhex(tag._UserData).decode('utf-8')
+                                    self.tagDetails["Class"]= "00" if self.tagDetails["UserData"][:2]=="XX" else self.tagDetails["UserData"][:2]
+                                    self.tagDetails["Plate"]=self.tagDetails["UserData"][2:]
+                                else:
+                                    self.tagDetails["UserData"]=""
+                                    self.tagDetails["Class"]="00"
+                                    self.tagDetails["Plate"]="XXXXXXXXXX"
+                                self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
+                                pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
+                                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
+                                self.last_epc=''
             except Exception as e:
                 self.logger.logError("Exception occurred: {}".format(str(e)))
             finally:

@@ -143,3 +143,14 @@ class TransactionTypeBox(QFrame):
             self.et_list.setVisible(False)
             self.tt_list.setVisible(True)
             self.box_heading.setText("<b>Transaction Type</b>")
+
+    def set_tt_value(self,tt):
+        default_selected_index=0
+        self.tt_list.setVisible(True)
+        self.pt_list.setVisible(False)
+        self.et_list.setVisible(False)
+        for i, item in enumerate(self.transaction_Type):
+            if item.get('TransactionTypeId') == tt:
+                default_selected_index = i
+                break
+        self.tt_list.setCurrentRow(default_selected_index)

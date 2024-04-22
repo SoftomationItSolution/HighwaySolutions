@@ -17,13 +17,16 @@ from pubsub import pub
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
     
-    def __init__(self,dbConnectionObj,config_manager,user_Details,systemSettingDetails,project_config_data,logger,default_plaza_Id,system_ip):
+    def __init__(self,dbConnectionObj,config_manager,user_Details,systemSettingDetails,project_config_data,logger,default_plaza_Id,system_ip,screen_width,screen_height):
         super(MainWindow, self).__init__()
         self.setStyleSheet("background-color: rgb(1, 27, 65);")
         self.setWindowTitle("TMS Lane V1")
         self.dbConnectionObj=dbConnectionObj
         self.config_manager=config_manager
         self.project_config_data=project_config_data
+        self.resize(screen_width, screen_height)
+        self.screen_width=screen_width
+        self.screen_height=screen_height
         self.showFullScreen()
         self.userDetails = json.loads(user_Details) if user_Details else None
         self.logger=logger
@@ -34,8 +37,8 @@ class MainWindow(QMainWindow):
         self.initThreads()
     
     def initUI(self):
-        main_window_height = self.height()
-        main_window_width = self.width()
+        main_window_height = self.screen_height#self.height()
+        main_window_width = self.screen_width#self.width()
         
         central_widget = QWidget() 
         self.setCentralWidget(central_widget)
@@ -79,7 +82,7 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(self.footer_widget)
 
         self.setLayout(main_layout)
-        
+        pub.subscribe(self.get_RFID_detail, "rfid_processed")
     def initThreads(self):
         threads = [
             self.createThread(self.updateShiftDetails),
@@ -151,7 +154,7 @@ class MainWindow(QMainWindow):
                 filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15, self.equipments))
                 if filtered_data is not None and len(filtered_data)>0:
                     self.right_frame.lane_view_box.set_cam_details(filtered_data[0])
-                    self.right_frame.lane_view_box.updateFinished.emit(True)
+                    #self.right_frame.lane_view_box.updateFinished.emit(True)
                 self.footer_widget.update_el(self.equipments)
                 self.footer_widget.updateFinished.emit(True)
                 filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments))    
@@ -183,17 +186,24 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in updateLatestLaneTransaction: {e}")
 
+    def get_RFID_detail(self,transactionInfo):
+        self.right_frame.transaction_type_box.set_tt_value(1)
+        self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
+
     def save_transctions(self):
         try:
             ct=datetime.now()
             current_Transaction=self.right_frame.current_transaction_box.current_Transaction
             vc=current_Transaction["VehicleClassId"]
+            TransactionTypeId=current_Transaction["TransactionTypeId"]
             current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
             current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
-            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+            if TransactionTypeId !=1:
+                current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
             current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
             pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
-            self.print_receipt()
+            if TransactionTypeId !=1:
+                self.print_receipt()
             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
             if(resultData is not None and len(resultData)>0):
                 if resultData[0]["AlertMessage"]=="successfully":

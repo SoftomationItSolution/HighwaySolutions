@@ -6,34 +6,9 @@
     "auditLog": "apilogs\\.02461507707aa46329379c93cc50130a2c7cb4f9-audit.json",
     "files": [
         {
-            "date": 1710923761409,
-            "name": "apilogs\\2024-03-20-logfile.log",
-            "hash": "98817ff5001fc4dd9eab1266ecba48c5b4758614f13636973d9065d9e5b87409"
-        },
-        {
-            "date": 1711003343884,
-            "name": "apilogs\\2024-03-21-logfile.log",
-            "hash": "8c09244dcc83ed50b1ef011b7d60c83ed893dd0f3cb3c73007a299d415c86091"
-        },
-        {
-            "date": 1711118228611,
-            "name": "apilogs\\2024-03-22-logfile.log",
-            "hash": "72f3dca74de5abc8c44a579195753a0cc00c3d05b701900e21752c335773a0d6"
-        },
-        {
-            "date": 1711197565365,
-            "name": "apilogs\\2024-03-23-logfile.log",
-            "hash": "8937f304656e603571fb812baf01c22c0bbb9de4b1ac1ba3a4d4212afdd448cc"
-        },
-        {
-            "date": 1711436859660,
-            "name": "apilogs\\2024-03-26-logfile.log",
-            "hash": "d5e095d1e82cf7dc12e35ccf5dfbc272530665e81a34c9de166b1733473c565c"
-        },
-        {
-            "date": 1711522471900,
-            "name": "apilogs\\2024-03-27-logfile.log",
-            "hash": "9f2479212a241531ad3bc068fca5fe8a43ffb583d3cf44f6fd126ef2989d784a"
+            "date": 1713717965501,
+            "name": "apilogs\\2024-04-21-logfile.log",
+            "hash": "b8dfe9024105f911df393a676fea885f6d6aec35f1b2059267443d091b539594"
         }
     ],
     "hashType": "sha256"
