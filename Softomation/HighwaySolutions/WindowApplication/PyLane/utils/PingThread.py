@@ -4,47 +4,64 @@ import threading
 import time
 from pubsub import pub
 from utils.constants import Utilities
+from utils.log_master import CustomLogger
 
 class PingThread(threading.Thread):
-    def __init__(self, handler, equipment_list, mqtt_topic, interval=10):
+    def __init__(self, handler, equipment_list, mqtt_topic,default_directory,log_file_name, interval=10):
         threading.Thread.__init__(self)
         self.handler = handler
         self.equipment_list = equipment_list
         self.mqtt_topic = mqtt_topic
         self.interval = interval
         self.is_running = False
+        self.set_logger(default_directory,log_file_name)
+
+    def set_logger(self,default_directory,log_file_name):
+        try:
+            self.classname="PingThread"
+            self.logger = CustomLogger(default_directory,log_file_name)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+    
 
     def ping_equipment(self, ip_address):
         try:
             result = ping(ip_address, timeout=1)
             return result is not None
         except Exception as e:
+            self.logger.logError(f"Exception {self.classname} ping_equipment: {str(e)}")
             return False
         
     def ping_equipment_scapy(self, ip_address):
-        packet = IP(dst=ip_address)/ICMP()
-        response = sr1(packet, timeout=2, verbose=False)
-        if response:
-            return True
-        else:
-            return False
+        try:
+            packet = IP(dst=ip_address)/ICMP()
+            response = sr1(packet, timeout=2, verbose=False)
+            if response:
+                return True
+            else:
+                return False
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} ping_equipment_scapy: {str(e)}")
 
     def run(self):
-        self.is_running = True
-        last_call_time = time.time()-80
-        while self.is_running:
-            current_time = time.time()
-            if current_time - last_call_time >= self.interval:
-                if self.equipment_list is not None:
-                    for equipment in self.equipment_list:
-                        ip_address = equipment.get('IpAddress')
-                        if Utilities.is_valid_ipv4(ip_address):
-                            equipment["OnLineStatus"]=self.ping_equipment(ip_address)
-                            if self.mqtt_topic is not None:
-                                self.handler.send_message_to_mqtt(self.mqtt_topic, equipment)
-                            pub.sendMessage("ping_processed", transactionInfo=equipment)
-                last_call_time = current_time
-            time.sleep(0.1)
+        try:
+            self.is_running = True
+            last_call_time = time.time()-80
+            while self.is_running:
+                current_time = time.time()
+                if current_time - last_call_time >= self.interval:
+                    if self.equipment_list is not None:
+                        for equipment in self.equipment_list:
+                            ip_address = equipment.get('IpAddress')
+                            if Utilities.is_valid_ipv4(ip_address):
+                                equipment["OnLineStatus"]=self.ping_equipment(ip_address)
+                                if self.mqtt_topic is not None:
+                                    self.handler.send_message_to_mqtt(self.mqtt_topic, equipment)
+                                pub.sendMessage("ping_processed", transactionInfo=equipment)
+                    last_call_time = current_time
+                time.sleep(0.1)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run: {str(e)}")
 
     def stop(self):
         self.is_running = False

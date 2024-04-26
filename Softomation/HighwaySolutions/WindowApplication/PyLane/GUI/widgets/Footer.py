@@ -5,12 +5,11 @@ from PySide6.QtCore import Signal
 from pubsub import pub
 class Footer(QFrame):
     updateFinished = Signal(bool)
-    def __init__(self, width, height,config_manager):
+    def __init__(self, width, height,image_dir):
         super().__init__()
-        self.initUI(width, height,config_manager)
+        self.initUI(width, height,image_dir)
 
-    def initUI(self, width, height,config_manager):
-        self.config_manager=config_manager
+    def initUI(self, width, height,image_dir):
         self.width=width
         self.height=height
         self.setFixedWidth(width)
@@ -26,10 +25,10 @@ class Footer(QFrame):
         self.footer_frame.setContentsMargins(0, 0, 0, 0)
         self.footer_frame.setFrameStyle(QFrame.NoFrame)
         self.layout.addWidget(self.footer_frame)
-        self.image_dir=config_manager.get_path('Paths', 'image_dir')
+        self.image_dir=image_dir
         self.hardware_widgets=[]
         self.hardware_data_widget=[]
-        pub.subscribe(self.dio_transaction_info, "dio_processed_out")
+        pub.subscribe(self.dio_transaction_info, "hardware_on_off_status")
         pub.subscribe(self.ping_transaction_info, "ping_processed")
 
     def bind_hardware(self, status):

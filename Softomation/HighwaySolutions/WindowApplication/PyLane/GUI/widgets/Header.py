@@ -8,11 +8,11 @@ from PySide6.QtCore import QSize, Qt,Signal
 class Header(QFrame):
     update_label_signal = Signal(str)
     auto_logout = Signal(bool)
-    def __init__(self, width, height, userDetails,config_manager):
+    def __init__(self, width, height, userDetails,image_dir):
         super().__init__()
-        self.initUI(width, height, userDetails,config_manager)
+        self.initUI(width, height, userDetails,image_dir)
 
-    def initUI(self, width, height, userDetails,config_manager):
+    def initUI(self, width, height, userDetails,image_dir):
         self.current_shift = None
         self.setFixedWidth(width)
         self.setFixedHeight(height)
@@ -59,7 +59,6 @@ class Header(QFrame):
         lblVersion.setStyleSheet("color: white; border: none;")
         layout.addWidget(lblVersion, 0, 5, alignment=Qt.AlignRight | Qt.AlignVCenter)
 
-        image_dir=config_manager.get_path('Paths', 'image_dir')
         icon = os.path.join(image_dir, 'logout.png')
         self.logout_button = QPushButton()
         self.logout_button.setIcon(QIcon(icon))

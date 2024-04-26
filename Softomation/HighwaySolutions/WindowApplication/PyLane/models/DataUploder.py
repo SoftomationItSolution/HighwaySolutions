@@ -4,8 +4,8 @@ from utils.constants import Utilities
 from datetime import date
 
 class DataUploder:
-    def __init__(self, config_manager,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):
-        self.api_base_url = config_manager.get_setting('Settings', 'plaza_api')
+    def __init__(self, default_directory,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):
+        self.api_base_url = default_directory.get_setting('Settings', 'plaza_api')
         self.dbConnectionObj = dbConnectionObj
         self.logger = logger
         self.default_lane_ip=default_lane_ip

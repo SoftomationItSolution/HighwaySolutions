@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import os
 import threading
 from PySide6.QtCore import Signal,QDateTime
 from PySide6.QtWidgets import QMainWindow
@@ -16,23 +17,22 @@ from pubsub import pub
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
-    
-    def __init__(self,dbConnectionObj,config_manager,user_Details,systemSettingDetails,project_config_data,logger,default_plaza_Id,system_ip,screen_width,screen_height):
+    def __init__(self,dbConnectionObj,default_directory,image_dir,user_Details,systemSettingDetails,LaneDetail,logger,default_plaza_Id,screen_width,screen_height):
         super(MainWindow, self).__init__()
         self.setStyleSheet("background-color: rgb(1, 27, 65);")
         self.setWindowTitle("TMS Lane V1")
         self.dbConnectionObj=dbConnectionObj
-        self.config_manager=config_manager
-        self.project_config_data=project_config_data
-        self.resize(screen_width, screen_height)
+        self.default_directory=default_directory
+        self.image_dir=image_dir
+        self.systemSettingDetails=systemSettingDetails
+        self.LaneDetail=LaneDetail
         self.screen_width=screen_width
         self.screen_height=screen_height
+        self.resize(screen_width, screen_height)
         self.showFullScreen()
         self.userDetails = json.loads(user_Details) if user_Details else None
         self.logger=logger
-        self.systemSettingDetails=systemSettingDetails
         self.default_plaza_Id=default_plaza_Id
-        self.system_ip=system_ip
         self.initUI()
         self.initThreads()
     
@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         main_layout.setContentsMargins(0, 0, 0, 0)
         main_layout.setSpacing(0) 
         
-        self.header_widget = Header(main_window_width, 50,self.userDetails,self.config_manager)
+        self.header_widget = Header(main_window_width, 50,self.userDetails,self.image_dir)
         self.header_widget.logout_button.clicked.connect(self.logout)
         self.header_widget.auto_logout.connect(self.shift_auto_logout)
         main_layout.addWidget(self.header_widget)
@@ -71,14 +71,14 @@ class MainWindow(QMainWindow):
         self.right_frame.transaction_type_box.tt_list.itemSelectionChanged.connect(self.onTransactionTypeSelect)
         self.right_frame.transaction_type_box.pt_list.itemSelectionChanged.connect(self.onPaymentTypeSelect)
         self.right_frame.transaction_type_box.et_list.itemSelectionChanged.connect(self.onExemptTypeSelect)
-        self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.project_config_data,self.config_manager)
+        self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.LaneDetail,self.default_directory)
         self.right_frame.current_transaction_box.btnSubmit.clicked.connect(self.save_transctions)
         self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
         frames_layout.addWidget(self.right_frame)
        
         main_layout.addLayout(frames_layout)
 
-        self.footer_widget = Footer(main_window_width, 50,self.config_manager)
+        self.footer_widget = Footer(main_window_width, 50,self.image_dir)
         main_layout.addWidget(self.footer_widget)
 
         self.setLayout(main_layout)
@@ -91,7 +91,7 @@ class MainWindow(QMainWindow):
             self.createThread(self.updatePaymentTypeDetails),
             self.createThread(self.updateExemptTypeDetails),
             self.createThread(self.updateTollFareDetails),
-            self.createThread(self.updateLaneDetails),
+            self.createThread(self.updateEqDetails),
             self.createThread(self.updateLatestLaneTransaction)
         ]
         for thread in threads:
@@ -137,15 +137,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in updateTollFareDetails: {e}")
 
-    def updateLaneDetails(self):
-        try:
-            self.LaneDetail=CommonManager.GetLaneDetails(self.dbConnectionObj,self.system_ip)
-            if self.LaneDetail is not None:
-                self.right_frame.current_transaction_box.update_ld(self.LaneDetail)
-                eq_thread = threading.Thread(target=self.updateEqDetails)
-                eq_thread.start()
-        except Exception as e:
-            self.logger.logError(f"Error in updateLaneDetails: {e}")
+   
 
     def updateEqDetails(self):
         try:
@@ -154,7 +146,7 @@ class MainWindow(QMainWindow):
                 filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15, self.equipments))
                 if filtered_data is not None and len(filtered_data)>0:
                     self.right_frame.lane_view_box.set_cam_details(filtered_data[0])
-                    #self.right_frame.lane_view_box.updateFinished.emit(True)
+                    self.right_frame.lane_view_box.updateFinished.emit(True)
                 self.footer_widget.update_el(self.equipments)
                 self.footer_widget.updateFinished.emit(True)
                 filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments))    

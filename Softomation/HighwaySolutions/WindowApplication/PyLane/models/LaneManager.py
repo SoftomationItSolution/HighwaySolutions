@@ -27,6 +27,17 @@ class LaneManager:
         except Exception as e:
             raise e
         
+
+    @staticmethod
+    def lane_data_avc_update(dbConnectionObj,d):
+        try:
+            params=[d["LaneTransactionId"],d["VehicleAvcClassId"],
+                    d["TransactionAvcImage"]]
+            resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionUpdateAVC', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
     @staticmethod
     def GetLaneTransactionPending(dbConnectionObj):
         try:

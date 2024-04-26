@@ -16,7 +16,7 @@ class ReaderInstance:
                 readerAntPlan = ReaderWorkingAntSet_Model([1])
                 print('Setting up the working antenna result:', cls._instance.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, readerAntPlan))
                 readTID = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
-                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')#02100009010103000020020006
+                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 32, '00000000')#02100009010103000020020006
                 readExtendedAreaList = [readTID,readUserData]
                 print('Set Extended Read Result:TID & UserId')
                 print(cls._instance.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, readExtendedAreaList))
@@ -51,14 +51,14 @@ class Text:
                         tagDetails["TID"]=tag._TID
                     else:
                         tagDetails["TID"]=""
-                    if hasattr(tag, '_UserData'):
-                        tagDetails["UserData"]=bytes.fromhex(tag._UserData).decode('utf-8')
-                        tagDetails["Class"]= "00" if tagDetails["UserData"][:2]=="XX" else tagDetails["UserData"][:2]
-                        tagDetails["Plate"]=tagDetails["UserData"][2:]
-                    else:
-                        tagDetails["UserData"]=""
-                        tagDetails["Class"]="00"
-                        tagDetails["Plate"]="XXXXXXXXXX"
+                    # if hasattr(tag, '_UserData'):
+                    #     tagDetails["UserData"]=bytes.fromhex(tag._UserData).decode('utf-8')
+                    #     #tagDetails["Class"]= "00" if tagDetails["UserData"][:2]=="XX" else tagDetails["UserData"][:2]
+                    #     #tagDetails["Plate"]=tagDetails["UserData"][2:]
+                    # # else:
+                    # #     tagDetails["UserData"]=""
+                    # #     tagDetails["Class"]="00"
+                    # #     tagDetails["Plate"]="XXXXXXXXXX"
                     print(tagDetails)
             i=i+1
 def get_cs(con_type, ip_address, port):

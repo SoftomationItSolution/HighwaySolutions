@@ -26,7 +26,6 @@ class CameraLiveView(QFrame):
         self.rtsp_url=None
         self.cam_thread=None
         list_height=height-(btn_height+lbl_height)
-        #self.updateFinished.connect(self.start_stream)
         self.updateFinished.connect(self.start_cam_thread)
         box_layout = QVBoxLayout(self)
         box_layout.setContentsMargins(0, 0, 0, 0)
@@ -44,7 +43,7 @@ class CameraLiveView(QFrame):
         self.video_widget.setContentsMargins(0, 0, 0, 0)
         self.video_widget.setFixedHeight(list_height)
         self.video_widget.setFixedWidth(width-2)
-        self.video_widget.setStyleSheet("border: none;border-top: 1px solid white;")
+        self.video_widget.setStyleSheet("border: none;border-top: 1px solid white;border-bottom: 1px solid white;")
         self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         #self.video_widget.setAspectRatioMode(Qt.IgnoreAspectRatio)
         box_layout.addWidget(self.video_widget, alignment=Qt.AlignTop | Qt.AlignVCenter)

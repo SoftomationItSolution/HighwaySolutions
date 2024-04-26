@@ -1,7 +1,20 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\GitProjects\\HighwaySolutions\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|d:\\gitprojects\\highwaysolutions\\softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\dl\\systemsettingdl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|solutionrelative:softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\dl\\systemsettingdl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|d:\\gitprojects\\highwaysolutions\\softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\bl\\systemsettingbl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|solutionrelative:softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\bl\\systemsettingbl.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|d:\\gitprojects\\highwaysolutions\\softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\il\\systemsettingil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{686B8C11-7EA7-437E-8454-F8598EA29201}|Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\ATMSSystemLibrary.csproj|solutionrelative:softomation\\highwaysolutions\\libraries\\atmssystemlibrary\\il\\systemsettingil.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +22,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 231,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SystemSettingDL.cs",
+              "DocumentMoniker": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\DL\\SystemSettingDL.cs",
+              "RelativeDocumentMoniker": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\DL\\SystemSettingDL.cs",
+              "ToolTip": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\DL\\SystemSettingDL.cs",
+              "RelativeToolTip": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\DL\\SystemSettingDL.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAIYAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-24T05:13:47.965Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SystemSettingBL.cs",
+              "DocumentMoniker": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\BL\\SystemSettingBL.cs",
+              "RelativeDocumentMoniker": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\BL\\SystemSettingBL.cs",
+              "ToolTip": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\BL\\SystemSettingBL.cs",
+              "RelativeToolTip": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\BL\\SystemSettingBL.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAACEAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-24T05:13:14.496Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "SystemSettingIL.cs",
+              "DocumentMoniker": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\IL\\SystemSettingIL.cs",
+              "RelativeDocumentMoniker": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\IL\\SystemSettingIL.cs",
+              "ToolTip": "D:\\GitProjects\\HighwaySolutions\\Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\IL\\SystemSettingIL.cs",
+              "RelativeToolTip": "Softomation\\HighwaySolutions\\Libraries\\ATMSSystemLibrary\\IL\\SystemSettingIL.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAMAAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-24T05:10:39.726Z",
+              "EditorCaption": ""
             }
           ]
         }

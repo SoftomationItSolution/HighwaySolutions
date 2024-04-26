@@ -74,7 +74,8 @@ class Utilities:
             if netifaces.AF_INET in addresses:
                 for addr in addresses[netifaces.AF_INET]:
                     if 'addr' in addr:
-                        ip_addresses.append(addr['addr'])
+                        if addr['addr'] !='127.0.0.1':
+                            ip_addresses.append(addr['addr'])
         return ip_addresses[0]
 
     @staticmethod
@@ -194,3 +195,8 @@ class Utilities:
             return requests.post(endpoint, json=data, headers=headers)
         except Exception as e:
             raise e
+        
+    @staticmethod
+    def make_dir(directory):
+        if not os.path.exists(directory):
+            os.makedirs(directory)

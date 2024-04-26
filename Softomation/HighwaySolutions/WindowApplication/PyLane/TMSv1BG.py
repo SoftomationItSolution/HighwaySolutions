@@ -14,11 +14,11 @@ if __name__ == '__main__':
     system_ip=Utilities.get_local_ips()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     config_file = os.path.join(os.path.dirname(__file__), 'config.ini')
-    config_manager = ConfigManager(config_file, script_dir)
-    logger = CustomLogger(config_manager,'main_app')
-    booth_lane = config_manager.get_setting('Settings', 'booth_lane')
-    project_config_path = config_manager.get_path('Paths', 'pc_dir')
-    db_path = config_manager.get_path('Paths', 'db_dir')
+    default_directory = ConfigManager(config_file, script_dir)
+    logger = CustomLogger(default_directory,'main_app')
+    booth_lane = default_directory.get_setting('Settings', 'booth_lane')
+    project_config_path = default_directory.get_path('Paths', 'pc_dir')
+    db_path = default_directory.get_path('Paths', 'db_dir')
     db_json_data = Utilities.read_json_file(db_path)
     project_config_data = Utilities.read_json_file(project_config_path)
     dbConnectionObj = MySQLConnections(host=db_json_data['host'], user=db_json_data['user'],password=db_json_data['password'], database=db_json_data['database'])
@@ -28,7 +28,7 @@ if __name__ == '__main__':
         default_plaza_Id=systemSetting['DefaultPlazaId']
     
 
-    lane_equipments=LaneEquipmentSynchronization(config_manager,dbConnectionObj,default_plaza_Id,system_ip)
+    lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,system_ip)
     lane_equipments.on_start()
 
     

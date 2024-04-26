@@ -2,20 +2,18 @@ import json
 import mysql.connector.pooling
 import pandas as pd
 from utils.log_master import CustomLogger
-from datetime import datetime
 class MySQLConnections:
     _instance = None
     _pool = None
 
-    def __new__(cls, config_manager, host, user, password, database):
+    def __new__(cls, log_dir, host, user, password, database):
         if cls._instance is None:
             cls._instance = super(MySQLConnections, cls).__new__(cls)
-            cls._instance.config_manager = config_manager
             cls._instance.host = host
             cls._instance.user = user
             cls._instance.password = password
             cls._instance.database = database
-            cls._instance.logger = CustomLogger(config_manager,'db_connection')
+            cls._instance.logger = CustomLogger(log_dir,'db_connection')
             cls._instance.create_pool()
         return cls._instance
     

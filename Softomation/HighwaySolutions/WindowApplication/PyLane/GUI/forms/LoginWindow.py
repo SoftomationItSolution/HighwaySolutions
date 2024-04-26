@@ -10,13 +10,12 @@ from utils.crypt import CryptoUtils
 
 class LoginForm(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self, dbConnectionObj, config_manager,logger,screen_width,screen_height):
+    def __init__(self, dbConnectionObj,image_dir,logger,screen_width,screen_height):
         super().__init__()
         self.dbConnectionObj = dbConnectionObj
-        self.config_manager = config_manager
         self.logger = logger
+        self.resize(screen_width, screen_height)
         self.showFullScreen()
-        image_dir=config_manager.get_path('Paths', 'image_dir')
         icon = os.path.join(image_dir, 'title-img.png')
         self.background_image = QPixmap(icon)
 

@@ -6,14 +6,24 @@ from datetime import date, timedelta
 from utils.crypt import CryptoUtils
 
 class DataImporter:
-    def __init__(self, config_manager,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):
-        self.api_base_url = config_manager.get_setting('Settings', 'plaza_api')
+    def __init__(self, default_directory,dbConnectionObj,logger,default_plaza_Id,default_lane_ip):
         self.dbConnectionObj = dbConnectionObj
+        self.classname="DataImporter"
         self.logger = logger
         self.default_lane_ip=default_lane_ip
         self.default_plaza_Id=default_plaza_Id
         self.default_lane_Id=0
         self.headers = {'User-Agent': 'MyApp/1.0'}
+        self.get_plaza_url(default_directory)
+
+    def get_plaza_url(self,default_directory):
+        try:
+            plaza_config_path=os.path.join(default_directory, 'MasterConfig', 'plazaConfig.json')
+            plaza_config = Utilities.read_json_file(plaza_config_path)
+            self.api_base_url=plaza_config["plaza_api_p"]
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
+
 
     def import_data_list(self, endpoint, params, procedure_name):
         try:
@@ -29,7 +39,7 @@ class DataImporter:
                 self.logger.logError(f"Error:{endpoint} {response.status_code} - {response.text}")
                 return 0
         except Exception as e:
-            self.logger.logError(f"Error fetching or storing data:{endpoint} {e}")
+            self.logger.logError(f"Exception {self.classname} import_data_list: {str(e)}")
             return 0
         
     def import_data(self, endpoint, params, procedure_name):
@@ -46,7 +56,7 @@ class DataImporter:
                 self.logger.logError(f"Error:{endpoint} {response.status_code} - {response.text}")
                 return None
         except Exception as e:
-            self.logger.logError(f"Error fetching or storing data:{endpoint} {e}")
+            self.logger.logError(f"Exception {self.classname} import_data {endpoint}: {str(e)}")
             return None
 
     def import_fare_data(self, endpoint):
@@ -71,7 +81,7 @@ class DataImporter:
                 self.logger.logError(f"Error:{endpoint} {response.status_code} - {response.text}")
                 return None
         except Exception as e:
-            self.logger.logError(f"Error fetching or storing data:{endpoint} {e}")
+            self.logger.logError(f"Exception {self.classname} import_fare_data: {str(e)}")
             return None
 
     def fetch_and_save_json(self, endpoint,file_path):
@@ -299,10 +309,3 @@ class DataImporter:
         new_date=Utilities.JsonDateFormat(new_date)
         endpoint = 'Softomation/FTH-TMS-RSD/TollFareGetByEffectedFrom?EffectedFrom='+new_date
         self.import_fare_data(endpoint)
-
-    
-
-
-
-
-    

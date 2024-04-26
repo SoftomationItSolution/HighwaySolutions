@@ -7,21 +7,27 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class NAWinDataClient(threading.Thread):
-    def __init__(self,_handler,config_manager,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
+    def __init__(self,_handler,default_directory,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dbConnectionObj=dbConnectionObj
         self.LaneId=LaneId
         self.wim_detail=wim_detail
         self.timeout=timeout
-        self.logger = CustomLogger(config_manager,log_file_name)
         self.axleData = []
         self.totalWeight = None
         self.transactionId = None
         self.client_socket=None
         self.is_running=False
         self.is_stopped=False
+        self.set_logger(default_directory,log_file_name)
 
+    def set_logger(self,default_directory,log_file_name):
+        try:
+            self.classname="NAWinClient"
+            self.logger = CustomLogger(default_directory,log_file_name)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
 
     def process_data(self, data):
         try:
@@ -37,37 +43,48 @@ class NAWinDataClient(threading.Thread):
                 elif d == 'Done':
                     self.process_transaction_info()
         except Exception as e:
-            self.logger.logError("Exception occurred during data processing: {}".format(str(e)))
+            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
     
     def process_axel_data(self, axel_data_str):
-        axel = axel_data_str.split(',')
-        if len(axel) == 4:
-            x = {'AxleNumber': axel[0].replace('#', '').strip(),
-                'AxleWeight': axel[1].replace('w', '').strip(),
-                'Speed': axel[2].replace('s', '').strip(),
-                'AxleDistance': axel[3].replace('d', '').strip()}
-        else:
-            x = axel_data_str.replace('#', '')
-        self.axleData.append(x)
+        try:
+            axel = axel_data_str.split(',')
+            if len(axel) == 4:
+                x = {'AxleNumber': axel[0].replace('#', '').strip(),
+                    'AxleWeight': axel[1].replace('w', '').strip(),
+                    'Speed': axel[2].replace('s', '').strip(),
+                    'AxleDistance': axel[3].replace('d', '').strip()}
+            else:
+                x = axel_data_str.replace('#', '')
+            self.axleData.append(x)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_axel_data: {str(e)}")
 
     def process_total_weight(self, total_weight_str):
-        self.totalWeight = total_weight_str.split('=')[1].strip()
+        try:
+            self.totalWeight = total_weight_str.split('=')[1].strip()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_total_weight: {str(e)}")
 
     def process_transaction_id(self, transaction_id_str):
-        self.transactionId = transaction_id_str
+        try:
+            self.transactionId = transaction_id_str
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_transaction_id: {str(e)}")
 
     def process_transaction_info(self):
-        transactionInfo = {
-            "LaneId":self.LaneId,
-            "TransactionDateTime":Utilities.current_date_time_json(),
-            "AxleData": self.axleData,
-            "TotalWeight": self.totalWeight,
-            "TransactionId": self.transactionId,
-            'AxleCount': 0 if self.axleData is None else len(self.axleData),
-        }
-        pub.sendMessage("wim_processed", transactionInfo=transactionInfo)
-        self.process_db(transactionInfo)
-       
+        try:
+            transactionInfo = {
+                "LaneId":self.LaneId,
+                "TransactionDateTime":Utilities.current_date_time_json(),
+                "AxleData": self.axleData,
+                "TotalWeight": self.totalWeight,
+                "TransactionId": self.transactionId,
+                'AxleCount': 0 if self.axleData is None else len(self.axleData),
+            }
+            pub.sendMessage("wim_processed", transactionInfo=transactionInfo)
+            self.process_db(transactionInfo)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_transaction_info: {str(e)}")
 
     def process_db(self, transactionInfo):
         try:
@@ -78,12 +95,11 @@ class NAWinDataClient(threading.Thread):
                     d["LaneId"] = transactionInfo["LaneId"]
                     LaneManager.wim_details_data_insert(self.dbConnectionObj,d)
         except Exception as e:
-            self.logger.logError("Exception occurred during wim data processing in db: {}".format(str(e)))
+            self.logger.logError(f"Exception {self.classname} process_db: {str(e)}")
         finally:
             self.axleData = []
             self.totalWeight = None
             self.transactionId = None
-
 
     def run(self):
         while not self.is_stopped:
@@ -92,7 +108,6 @@ class NAWinDataClient(threading.Thread):
                 self.client_socket.connect((self.wim_detail["IpAddress"], self.wim_detail["PortNumber"]))
                 self.client_socket.send("ACK\r\n".encode('utf-8'))
                 self.is_running=True
-                
                 while self.is_running:
                     echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
                     if len(echoed_transaction_number) != 0:
@@ -101,18 +116,24 @@ class NAWinDataClient(threading.Thread):
                         self.client_socket.send("ACK\r\n".encode('utf-8'))
                     time.sleep(self.timeout)
             except ConnectionRefusedError:
-                self.logger.logInfo("Connection refused. Retrying in {} seconds...".format(self.timeout))
+                self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError("Exception occurred: {}".format(str(e)))
+                self.logger.logError(f"Exception {self.classname} wim_data_run: {str(e)}")
             finally:
                 self.client_stop()
 
     def client_stop(self):
-        self.is_running = False
-        if self.client_socket:
-            self.client_socket.close()
+        try:
+            self.is_running = False
+            if self.client_socket:
+                self.client_socket.close()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
 
     def stop(self):
-        self.is_stopped = True
-        self.client_stop()
+        try:
+            self.is_stopped = True
+            self.client_stop()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
