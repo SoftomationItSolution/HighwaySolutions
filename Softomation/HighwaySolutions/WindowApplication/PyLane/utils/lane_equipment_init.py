@@ -125,7 +125,7 @@ class LaneEquipmentSynchronization:
         try:
             if not self.dio_thread:
                 if equipment["ManufacturerName"]=="KITS":
-                    self.dio_thread = KistDIOClient(self,self.default_directory, 'lane/devicePosition','lane_BG_dio',equipment)
+                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment, 'lane/devicePosition','lane_BG_dio')
                     self.dio_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_dio_thread: {str(e)}")
@@ -161,7 +161,7 @@ class LaneEquipmentSynchronization:
     def start_ping_thread(self):
         try:
             if not self.ping_thread:
-                self.ping_thread = PingThread(self, self.equipment_detail, 'lane/deviceStatus', interval=60)
+                self.ping_thread = PingThread(self, self.equipment_detail, 'lane/deviceStatus',self.default_directory,'lane_BG_ping', interval=60)
                 self.ping_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ping_thread: {str(e)}")
