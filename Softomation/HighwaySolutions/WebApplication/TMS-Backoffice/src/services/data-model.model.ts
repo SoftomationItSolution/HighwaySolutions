@@ -62,6 +62,13 @@ export class DataModel {
     return localStorage.getItem('FthTmsLock');
   }
 
+  setCamAPI(path: string) {
+    return localStorage.setItem('FthTmsCamAPI', path);
+  }
+  getCamAPI() {
+    return localStorage.getItem('FthTmsCamAPI');
+  }
+
 
   setMediaAPI(path: string) {
     return localStorage.setItem('FthTmsMediaAPI', path);

@@ -9,11 +9,11 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="FasTagVehicleClassId">FasTag</label>
-                    <p-dropdown appendTo="body" formControlName="FasTagVehicleClassId" inputId="FasTagVehicleClassId"
+                    <label for="SystemVehicleClassId">System Class</label>
+                    <p-dropdown appendTo="body" formControlName="SystemVehicleClassId" inputId="SystemVehicleClassId"
                         [options]="FasTagVehicleClassList" optionLabel="FasTagVehicleClassName" optionValue="FasTagVehicleClassId" placeholder="Select"
                         class="form-control select2" [style]="{'width':'100%'}" (onChange)="FasTagVehicleClassChange($event.value)"></p-dropdown>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','FasTagVehicleClassId')">FasTag is
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','SystemVehicleClassId')">System Class is
                         required.</small>
                 </div>
                 <div class="col-md-6">

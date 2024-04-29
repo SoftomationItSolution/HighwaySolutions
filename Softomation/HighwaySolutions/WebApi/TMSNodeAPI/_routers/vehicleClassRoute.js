@@ -46,7 +46,6 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
         const pool = await database.connect();
         const currentDateTime = new Date();
         result = await pool.request().input('SystemVehicleClassId', sql.Int, req.body.SystemVehicleClassId)
-            .input('FasTagVehicleClassId', sql.Int, req.body.FasTagVehicleClassId)
             .input('AvcVehicleClassId', sql.Int, req.body.AvcVehicleClassId)
             .input('SystemVehicleClassName', sql.VarChar(100), req.body.SystemVehicleClassName)
             .input('SystemVehicleClassDescription', sql.VarChar(100), req.body.SystemVehicleClassDescription)

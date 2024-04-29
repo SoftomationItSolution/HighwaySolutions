@@ -54,9 +54,10 @@ if __name__ == '__main__':
     lane_details=CommonManager.GetLaneDetails(dbConnectionObj,system_ip)
     systemSetting=CommonManager.GetSystemSetting(dbConnectionObj)
 
-    default_plaza_Id=0
-    if systemSetting is not None:
+    default_plaza_Id=1
+    if systemSetting is not None and len(systemSetting) !=0:
         default_plaza_Id=systemSetting['DefaultPlazaId']
+
 
     lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
     lane_equipments.on_start()

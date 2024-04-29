@@ -4,7 +4,7 @@ const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
-
+const mqttClient = require('../_helpers/mqttHandler');
 router.post('/EquipmentDetailsInsertUpdate', EquipmentDetailsInsertUpdate);
 
 router.get('/EquipmentDetailsGetAll', EquipmentDetailsGetAll);
@@ -43,6 +43,7 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
             .execute('USP_EquipmentDetailsInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
+        pubData(out)
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'EquipmentDetailsInsertUpdate');
@@ -50,7 +51,6 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
         res.status(400).json(out);
     }
 }
-
 
 async function EquipmentDetailsGetAll(req, res, next) {
     try {
@@ -125,3 +125,14 @@ function errorlogMessage(error, method) {
         logger.error(`Caught an error in :${method}`);
     }
 }
+
+function pubData(out){
+    try {
+     if(out.Message[0].AlertMessage=='success'){
+         let d={ "update": "equipment","data": JSON.parse(out.Message[0].AlertData)}
+         constants.MqttpublishData(mqttClient,'system/update',d)
+     }
+    } catch (error) {
+     errorlogMessage(error, 'EquipmentDetailsInsertUpdate_pubData');
+    }
+ }

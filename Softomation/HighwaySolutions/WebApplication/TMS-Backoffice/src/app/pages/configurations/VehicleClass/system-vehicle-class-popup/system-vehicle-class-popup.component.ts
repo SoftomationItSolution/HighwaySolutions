@@ -16,7 +16,7 @@ export class SystemVehicleClassPopupComponent implements OnInit {
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
-  SystemVehicleClassId: number = 0;
+  SystemVehicleClass: number = 0;
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
@@ -26,12 +26,12 @@ export class SystemVehicleClassPopupComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<SystemVehicleClassPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
     this.LogedUserId = this.dm.getUserId();
-    this.SystemVehicleClassId = parentData.SystemVehicleClassId;
+    this.SystemVehicleClass = parentData.SystemVehicleClassId;
   }
   ngOnInit(): void {
     this.PageTitle = "Create Vehicle Class Details";
     this.DataDetailsForm = new FormGroup({
-      FasTagVehicleClassId: new FormControl('', [Validators.required]),
+      SystemVehicleClassId: new FormControl('', [Validators.required]),
       SystemVehicleClassName: new FormControl('', [Validators.required]),
       SystemVehicleClassDescription: new FormControl('', [Validators.required]),
       SystemSubClassIds: new FormControl('', [Validators.required]),
@@ -66,8 +66,9 @@ export class SystemVehicleClassPopupComponent implements OnInit {
   GetActiveSubClass() {
     this.dbService.FasTagVehicleClassGetActive().subscribe(
       data => {
+       
         this.SystemSubVehicleClassList = data.ResponseData;
-        if (this.SystemVehicleClassId > 0) {
+        if (this.SystemVehicleClass > 0) {
           this.PageTitle = "Update Vehicle Class Details";
           this.DetailsbyId();
         }
@@ -98,12 +99,13 @@ export class SystemVehicleClassPopupComponent implements OnInit {
   }
 
   DetailsbyId() {
-    this.dbService.SystemVehicleClassGetById(this.SystemVehicleClassId).subscribe(
+    this.dbService.SystemVehicleClassGetById(this.SystemVehicleClass).subscribe(
       data => {
         this.spinner.hide();
         var returnMessage = data.Message[0].AlertMessage;
         if (returnMessage == 'success') {
           var DetailData = data.ResponseData;
+          this.DataDetailsForm.controls['SystemVehicleClassId'].setValue(DetailData.SystemVehicleClassId.toString());
           this.DataDetailsForm.controls['SystemVehicleClassName'].setValue(DetailData.SystemVehicleClassName);
           this.DataDetailsForm.controls['SystemVehicleClassDescription'].setValue(DetailData.SystemVehicleClassDescription);
           this.DataDetailsForm.controls['PermissibleWeight'].setValue(DetailData.PermissibleWeight);
@@ -113,7 +115,6 @@ export class SystemVehicleClassPopupComponent implements OnInit {
             this.DataDetailsForm.controls['DataStatus'].setValue(true);
           else
             this.DataDetailsForm.controls['DataStatus'].setValue(false);
-            this.DataDetailsForm.controls['FasTagVehicleClassId'].setValue(DetailData.FasTagVehicleClassId);
         }
         else {
           this.ClosePoup();
@@ -141,8 +142,7 @@ export class SystemVehicleClassPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      SystemVehicleClassId: this.SystemVehicleClassId,
-      FasTagVehicleClassId: this.DataDetailsForm.value.FasTagVehicleClassId,
+      SystemVehicleClassId: this.DataDetailsForm.value.SystemVehicleClassId,
       SystemVehicleClassName: this.DataDetailsForm.value.SystemVehicleClassName,
       SystemVehicleClassDescription: this.DataDetailsForm.value.SystemVehicleClassDescription,
       PermissibleWeight: this.DataDetailsForm.value.PermissibleWeight,

@@ -203,9 +203,9 @@ async function UserConfigurationGetBySystemUserType(req, res, next) {
 
 async function UserProfileChange(req, res, next) {
     try {
-        const dir = './EventMedia/User/ProfileImage';
+        const dir = './EventMedia/ProfileImage';
         const currentPath = path.resolve('./EventMedia');
-        let FilePath = "\\User\\ProfileImage\\";
+        let FilePath = "\\ProfileImage\\";
         FilePath = constants.SaveImage(req.body.UserProfileImage, currentPath + FilePath, constants.randomUUID(), ".png", dir);
         if (FilePath != "") {
             FilePath = FilePath.replace(currentPath, "");

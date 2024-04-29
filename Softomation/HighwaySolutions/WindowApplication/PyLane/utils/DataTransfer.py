@@ -7,7 +7,7 @@ from utils.log_master import CustomLogger
 class DataSynchronization(threading.Thread):
     def __init__(self, default_directory, dbConnectionObj,default_plaza_Id,system_ip,timeout=0.100):
         threading.Thread.__init__(self)
-        self.logger = CustomLogger(default_directory,'data_import')
+        #self.logger = CustomLogger(default_directory,'data_import')
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
         self.default_plaza_Id=default_plaza_Id
@@ -16,13 +16,13 @@ class DataSynchronization(threading.Thread):
         self.is_running=True
         self.timeout=timeout
         self.data_upload_running=False
-        self.set_logger(default_directory)
-        self.data_impoter(default_directory)
+        self.set_logger(default_directory,'data_import')
+        self.data_impoter(dbConnectionObj)
         
         
     def set_logger(self,default_directory,log_file_name):
         try:
-            self.classname="PingThread"
+            self.classname="DataSynchronization"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
@@ -93,7 +93,8 @@ class DataSynchronization(threading.Thread):
             try:
                 result_data = self.dbConnectionObj.execute_procedure('USP_LaneTransactionPending')
                 for s in result_data:
-                    print(s)
+                    pass
+                    #print(s)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
             finally:

@@ -39,7 +39,7 @@
                         {{error['Amount']}}
                     </small>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="IsAccessControl"
                             formControlName="IsAccessControl">
@@ -48,15 +48,8 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-check" style="padding-bottom: 20px;">
-                        <input class="form-check-input" type="checkbox" id="CashPenalty" formControlName="CashPenalty">
-                        <label class="form-check-label" for="CashPenalty">
-                            Cash Penalty
-                        </label>
-                    </div>
-                </div>
-                <div class="col-md-2">
+                
+                <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="LoginAccess" formControlName="LoginAccess">
                         <label class="form-check-label" for="LoginAccess">
@@ -64,7 +57,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="ExemptAccess"
                             formControlName="ExemptAccess">
@@ -73,7 +66,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="FleetAccess" formControlName="FleetAccess">
                         <label class="form-check-label" for="FleetAccess">
@@ -81,7 +74,7 @@
                         </label>
                     </div>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3">
                     <div class="form-check" style="padding-bottom: 20px;">
                         <input class="form-check-input" type="checkbox" id="SubClassRequired"
                             formControlName="SubClassRequired">
@@ -89,6 +82,42 @@
                             Sub-Class Required
                         </label>
                     </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="FasTagPenalty" formControlName="FasTagPenalty" (change)="FasTagPenaltyChange($event)">
+                        <label class="form-check-label" for="FasTagPenalty">
+                            FasTag Penalty
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="FasTagPenaltyMultiply">FasTag Penalty(multiple)</label>
+                    <p-dropdown appendTo="body" formControlName="FasTagPenaltyMultiply" inputId="FasTagPenaltyMultiply"
+                        [options]="FasTagPenaltyList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','FasTagPenaltyMultiply')">FasTag Penalty
+                        must be selected.</small>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="CashReturn" formControlName="CashReturn" (change)="CashReturnChange($event)">
+                        <label class="form-check-label" for="CashReturn">
+                            Return Joureny(cash)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="CashReturnDiscount">Return Joureny(cash)</label>
+                    <p-dropdown appendTo="body" formControlName="CashReturnDiscount" inputId="CashReturnDiscount"
+                        [options]="CashReturnDiscountList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','CashReturnDiscount')">Return Joureny(cash) must be selected.</small>
                 </div>
             </div>
         </form>

@@ -42,10 +42,10 @@
                                 </th>
                                 <th pSortableColumn="TollFare">Toll Fare <p-sortIcon field="TollFare"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ReturnFare">Return Fare <p-sortIcon field="ReturnFare">
+                                <th pSortableColumn="ReturnFare" *ngIf="isCashReturnRequired">Return Fare <p-sortIcon field="ReturnFare" >
                                     </p-sortIcon>
                                 </th>
-                                <th pSortableColumn="FasTagPenalty">Penalty(FasTag) <p-sortIcon field="FasTagPenalty">
+                                <th pSortableColumn="FasTagPenalty" *ngIf="isFasTagPenaltyRequired">Penalty(FasTag) <p-sortIcon field="FasTagPenalty" >
                                     </p-sortIcon>
                                 </th>
                                 <th pSortableColumn="OverweightPenalty">Penalty(Overweight) <p-sortIcon
@@ -83,17 +83,17 @@
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <input inputNumber type="number" class="form-control"
-                                                [(ngModel)]="rowData.TollFare">
+                                                [(ngModel)]="rowData.TollFare" (ngModelChange)="updateData(rowData)">
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             &#8377; {{rowData.TollFare==null?0:rowData.TollFare}}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td pEditableColumn>
+                                <td pEditableColumn *ngIf="isCashReturnRequired">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.ReturnFare"
+                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.ReturnFare" 
                                                 prefix="&#8377; " mode="decimal">
                                             </p-inputNumber>
                                         </ng-template>
@@ -102,7 +102,7 @@
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
-                                <td pEditableColumn>
+                                <td pEditableColumn *ngIf="isFasTagPenaltyRequired">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
                                             <p-inputNumber class="form-control" [(ngModel)]="rowData.FasTagPenalty"

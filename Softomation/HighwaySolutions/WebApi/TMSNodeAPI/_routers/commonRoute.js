@@ -64,11 +64,14 @@ async function SystemSettingSetup(req, res, next) {
             .input('DefaultPlazaId', sql.SmallInt, req.body.DefaultPlazaId)
             .input('AllotmentDays', sql.SmallInt, req.body.AllotmentDays)
             .input('IsAccessControl', sql.Bit, req.body.IsAccessControl)
-            .input('CashPenalty', sql.Bit, req.body.CashPenalty)
             .input('LoginAccess', sql.Bit, req.body.LoginAccess)
             .input('ExemptAccess', sql.Bit, req.body.ExemptAccess)
             .input('FleetAccess', sql.Bit, req.body.FleetAccess)
             .input('SubClassRequired', sql.Bit, req.body.SubClassRequired)
+            .input('FasTagPenalty', sql.Bit, req.body.FasTagPenalty)
+            .input('FasTagPenaltyMultiply', sql.SmallInt, req.body.FasTagPenaltyMultiply)
+            .input('CashReturn', sql.Bit, req.body.CashReturn)
+            .input('CashReturnDiscount', sql.SmallInt, req.body.CashReturnDiscount)
             .input('OpeningBalance', sql.Decimal, req.body.OpeningBalance)
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
@@ -104,7 +107,7 @@ async function ValidateUser(req, res, next) {
                     "MobileNumber": "9999999999",
                     "UserTypeId": 0,
                     "UserTypeName": "Super",
-                    "UserProfileImage": "/User/ProfileImage/avatar-7.jpg",
+                    "UserProfileImage": "/ProfileImage/avatar-7.jpg",
                     "AccountExpiredDate": null,
                     "RoleId": 0,
                     "RoleName": "sysadmin",

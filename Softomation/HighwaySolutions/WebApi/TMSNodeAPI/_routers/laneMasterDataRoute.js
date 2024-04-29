@@ -182,7 +182,7 @@ async function TollFareGetByEffectedFrom(req, res, next) {
         result = await pool.request().input('EffectedFrom', sql.Date, req.query.EffectedFrom)
             .execute('USP_TollFareGetByEffectedFrom');
         await database.disconnect();
-        if (result.recordset == []) {
+        if (result.recordset == [] || result.recordset.length==0) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
         }

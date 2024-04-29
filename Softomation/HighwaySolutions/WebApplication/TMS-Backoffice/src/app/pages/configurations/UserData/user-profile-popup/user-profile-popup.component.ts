@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCroppedEvent, LoadedImage } from 'ngx-image-cropper';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';

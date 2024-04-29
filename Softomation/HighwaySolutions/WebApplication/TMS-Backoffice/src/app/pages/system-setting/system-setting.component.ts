@@ -29,6 +29,8 @@ export class SystemSettingComponent {
   AllotmentDaysList: any = [];
   PlazaData:any;
   TollingTypeList = [{ DataId: 1, DataName: 'Normal' }, { DataId: 2, DataName: 'Access Control' }, { DataId:3, DataName: 'Free Flow' }];
+  FasTagPenaltyList = [{ DataId: 0, DataName: 'None' }, { DataId: 1, DataName: '1x' }, { DataId: 2, DataName: '2x' }, { DataId: 3, DataName: '3x' }, { DataId: 4, DataName: '4x' }, { DataId: 5, DataName: "5x" }];
+  CashReturnDiscountList = [{ DataId: 0, DataName: '0%' }, { DataId: 10, DataName: '10%' }, { DataId: 20, DataName: '20%' }, { DataId: 25, DataName: '25%' }, { DataId: 30, DataName: '30%' }, { DataId: 40, DataName: "40%" }, { DataId: 50, DataName: "50%" }];
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,public Dialogref: MatDialogRef<SystemSettingComponent>) {
       this.LogedUserId = this.dm.getUserId();
@@ -41,13 +43,16 @@ export class SystemSettingComponent {
     }
     this.DataDetailsForm = new FormGroup({
       DefaultPlazaId: new FormControl('', [Validators.required]),
-      IsAccessControl: new FormControl('', [Validators.required]),
       AllotmentDays: new FormControl('', [Validators.required]),
-      CashPenalty: new FormControl(true),
+      IsAccessControl: new FormControl('', [Validators.required]),
       LoginAccess: new FormControl(false),
       ExemptAccess: new FormControl(false),
       FleetAccess: new FormControl(false),
       SubClassRequired: new FormControl(false),
+      FasTagPenalty: new FormControl(true),
+      FasTagPenaltyMultiply: new FormControl('', [Validators.required]),
+      CashReturn: new FormControl(true),
+      CashReturnDiscount: new FormControl('', [Validators.required]),
       OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["Amount"])])
     });
     this.GetPermissionData();
@@ -119,7 +124,10 @@ export class SystemSettingComponent {
         this.DataDetailsForm.controls['DefaultPlazaId'].setValue(this.DetailData.DefaultPlazaId);
         this.DataDetailsForm.controls['IsAccessControl'].setValue(this.DetailData.IsAccessControl);
         this.DataDetailsForm.controls['AllotmentDays'].setValue(this.DetailData.AllotmentDays);
-        this.DataDetailsForm.controls['CashPenalty'].setValue(this.DetailData.CashPenalty);
+        this.DataDetailsForm.controls['FasTagPenalty'].setValue(this.DetailData.FasTagPenalty);
+        this.DataDetailsForm.controls['FasTagPenaltyMultiply'].setValue(this.DetailData.FasTagPenaltyMultiply);
+        this.DataDetailsForm.controls['CashReturn'].setValue(this.DetailData.CashReturn);
+        this.DataDetailsForm.controls['CashReturnDiscount'].setValue(this.DetailData.CashReturnDiscount);
         this.DataDetailsForm.controls['LoginAccess'].setValue(this.DetailData.LoginAccess);
         this.DataDetailsForm.controls['ExemptAccess'].setValue(this.DetailData.ExemptAccess);
         this.DataDetailsForm.controls['FleetAccess'].setValue(this.DetailData.FleetAccess);
@@ -139,6 +147,28 @@ export class SystemSettingComponent {
     );
   }
 
+  FasTagPenaltyChange(event:any){
+    if(event.currentTarget.checked){
+      this.DataDetailsForm.controls['FasTagPenaltyMultiply'].setValue(this.DetailData.FasTagPenaltyMultiply);
+      this.DataDetailsForm.controls['FasTagPenaltyMultiply'].enable();
+    }
+    else{
+      this.DataDetailsForm.controls['FasTagPenaltyMultiply'].setValue(0);
+      this.DataDetailsForm.controls['FasTagPenaltyMultiply'].disable();
+    }
+  }
+
+  CashReturnChange(event:any){
+    if(event.currentTarget.checked){
+      this.DataDetailsForm.controls['CashReturnDiscount'].setValue(this.DetailData.CashReturnDiscount);
+      this.DataDetailsForm.controls['CashReturnDiscount'].enable();
+    }
+    else{
+      this.DataDetailsForm.controls['CashReturnDiscount'].setValue(0);
+      this.DataDetailsForm.controls['CashReturnDiscount'].disable();
+    }
+  }
+
   ClosePoup() { this.Dialogref.close(false); }
 
   SaveDetails() {
@@ -150,7 +180,10 @@ export class SystemSettingComponent {
       DefaultPlazaId: this.DataDetailsForm.value.DefaultPlazaId,
       IsAccessControl: this.DataDetailsForm.value.IsAccessControl,
       AllotmentDays: this.DataDetailsForm.value.AllotmentDays,
-      CashPenalty: this.DataDetailsForm.value.CashPenalty,
+      FasTagPenalty: this.DataDetailsForm.value.FasTagPenalty,
+      FasTagPenaltyMultiply: this.DataDetailsForm.value.FasTagPenaltyMultiply,
+      CashReturn: this.DataDetailsForm.value.CashReturn,
+      CashReturnDiscount: this.DataDetailsForm.value.CashReturnDiscount,
       LoginAccess: this.DataDetailsForm.value.LoginAccess,
       ExemptAccess: this.DataDetailsForm.value.ExemptAccess,
       FleetAccess: this.DataDetailsForm.value.FleetAccess,

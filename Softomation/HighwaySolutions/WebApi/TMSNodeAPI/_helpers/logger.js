@@ -3,7 +3,7 @@ const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
 
-const logDirectory = './apilogs';
+const logDirectory = 'C:\\ProjectConfig\\TMSv1\\log\\\BackOfficeAPI\\';
 //const logDirectory = __dirname + '/logs/apilogs';
 // Create log directory and its parent directories if they don't exist
 if (!fs.existsSync(logDirectory)) {
@@ -15,7 +15,7 @@ const logFormat = printf(({ level, message, timestamp }) => {
 });
 
 const transport = new DailyRotateFile({
-  filename: `${logDirectory}/%DATE%-logfile.log`,
+  filename: `${logDirectory}/%DATE%.log`,
   datePattern: 'YYYY-MM-DD',
   zippedArchive: true,
   maxSize: '20m',

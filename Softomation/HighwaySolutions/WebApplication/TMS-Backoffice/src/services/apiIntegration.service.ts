@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigIntrface, DataModel } from './data-model.model';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +48,11 @@ export class apiIntegrationService {
         else {
           apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
           mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
+          
         }
+        let camApi = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9999/"
         this.ApiCallUrl = apiPath
+        this.dataModel.setCamAPI(camApi);
         this.dataModel.setMediaAPI(mediaPath);
         this.dataModel.setDataAPI(apiPath)
       },
@@ -361,6 +365,14 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentTypeGetActive', { headers: headers_object });
   }
+
+  getCamDetails(data: {}): Observable<any> {
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    var url=this.dataModel.getCamAPI()?.toString() + 'stpl/onvif_get_cam'
+    console.log(url)
+    return this.objHttp.post(url, data, { headers: headers_object });
+  }
+
   //#endregion
 
   //#region Transection Type

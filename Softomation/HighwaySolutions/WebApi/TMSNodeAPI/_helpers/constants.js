@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const crypto = require('crypto');
+
 const AppProvider = "Softomation";
 const mkdirp = require('mkdirp');
 const issuer = "http://www.softomation.com";
@@ -152,13 +153,17 @@ const ICDFareType =
     RETURN: 4
 };
 
-
-
-
 function ResponseMessageList(model, Data) {
     let msg = [];
     for (let i = 0; i < model.length; i++) {
-        msg.push({ AlertMessage: model[i].AlertMessage })
+        if (model[i].hasOwnProperty('AlertData')) {
+            msg.push({ AlertMessage: model[i].AlertMessage,AlertData:model[i].AlertData })
+
+        } else {
+            msg.push({ AlertMessage: model[i].AlertMessage })
+        }
+
+        
     }
 
     let out = {
@@ -234,6 +239,14 @@ function SaveImage(base64String, filePath, filename, ext, path) {
     return filePath
 }
 
+function MqttpublishData(mqttClient,topic,data){
+    mqttClient.publishData(topic, JSON.stringify(data), (err) => {
+        if (err) {
+            throw err
+        } 
+    });
+}
+
 module.exports = {
     ResponseMessageList,
     ResponseMessage,
@@ -241,6 +254,7 @@ module.exports = {
     randomUUID,
     RandonString,
     CreateDirectory,
+    MqttpublishData,
     AppProvider,
     JWTkey,
 };

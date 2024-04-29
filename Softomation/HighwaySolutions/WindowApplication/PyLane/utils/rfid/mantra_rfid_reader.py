@@ -35,7 +35,8 @@ class MantraRfidReader(threading.Thread):
                 reader_ant_plan = ReaderWorkingAntSet_Model([1])
                 self.logger.logInfo(f'Setting up the working antenna result: {self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, reader_ant_plan)}')
                 read_tid = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
-                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')
+                #readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')
+                readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 32, '00000000')
                 read_extended_area_list = [read_tid,readUserData]
                 self.logger.logInfo('Set Extended Read Result:TID & UserData')
                 self.logger.logInfo(self.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, read_extended_area_list))
@@ -76,9 +77,7 @@ class MantraRfidReader(threading.Thread):
                                 else:
                                     self.tagDetails["TID"]=""
                                 if hasattr(tag, '_UserData'):
-                                    self.tagDetails["UserData"]=bytes.fromhex(tag._UserData).decode('utf-8')
-                                    self.tagDetails["Class"]= "00" if self.tagDetails["UserData"][:2]=="XX" else self.tagDetails["UserData"][:2]
-                                    self.tagDetails["Plate"]=self.tagDetails["UserData"][2:]
+                                    self.decrypt_user_data(tag._UserData)
                                 else:
                                     self.tagDetails["UserData"]=""
                                     self.tagDetails["Class"]="00"
@@ -91,6 +90,37 @@ class MantraRfidReader(threading.Thread):
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:
                 self.client_stop()
+
+    def decrypt_user_data(self,user_data):
+        try:
+            self.tagDetails["UserData"]=user_data
+            self.tagDetails["Class"]= self.convert_hex_to_int(user_data[24:26])
+            self.tagDetails["Plate"]=self.hex_to_string_vehicle_number(user_data[4:24])
+        except Exception as e:
+                self.logger.logError(f"Exception {self.classname} decrypt_user_data: {str(e)}")
+
+    def hex_to_string_vehicle_number(self,hex_string):
+        result = ""
+        try:
+            for i in range(0, len(hex_string), 2):
+                hex_pair = hex_string[i:i+2]
+                decimal = int(hex_pair, 16)
+                result += chr(decimal)
+        except Exception as e:
+                self.logger.logError(f"Exception {self.classname} hex_to_string_vehicle_number: {str(e)}")
+                result='XXXXXXXXXX'
+        finally:
+            return result
+    
+    def convert_hex_to_int(self,hex_string):
+        result='00'
+        try:
+            result=str(int(hex_string, 16))
+        except Exception as e:
+                self.logger.logError(f"Exception {self.classname} convert_hex_to_int: {str(e)}")
+                result='00'
+        finally:
+            return result
 
     def client_stop(self):
         try:

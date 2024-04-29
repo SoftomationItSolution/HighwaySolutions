@@ -8,6 +8,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));
 const logger = require('./_helpers/logger');
+
 //Route
 let apiPrefix = '/Softomation/FastTrackHighway-TMS/'
 let laneApiPrefix = '/Softomation/FTH-TMS-RSD/'

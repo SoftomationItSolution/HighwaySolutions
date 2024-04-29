@@ -44,7 +44,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
   EquipmentTypeFilter: any;
   ManufacturerList: any;
   SystemTypeData: any;
-
+  selectedEquipmentTypeId=0;
   submitted = false;
   ClosePoup() { this.Dialogref.close(false); }
   isEditable = true;
@@ -53,6 +53,8 @@ export class EquipmentMasterPopupComponent implements OnInit {
   btn1 = "Previous"//Close
   ProtocolTypeId = 1
   process = false;
+  MaxTabIndex=2
+  camBtn=false
   constructor(private dm: DataModel, private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any,
     public datepipe: DatePipe, public Dialogref: MatDialogRef<EquipmentMasterPopupComponent>, public dialog: MatDialog,
     private dbService: apiIntegrationService,) {
@@ -248,6 +250,8 @@ export class EquipmentMasterPopupComponent implements OnInit {
           this.DeviceDetailsForm.controls['DataStatus'].setValue(true);
         else
           this.DeviceDetailsForm.controls['DataStatus'].setValue(false);
+
+          this.EquipmentTypeChange(this.DetailData.EquipmentTypeId)
       },
       (error) => {
         this.spinner.hide();
@@ -274,6 +278,18 @@ export class EquipmentMasterPopupComponent implements OnInit {
       this.LocationDetailsForm.controls['Latitude'].setValue(DetailData.Latitude);
       this.LocationDetailsForm.controls['Longitude'].setValue(DetailData.Longitude);
     }
+  }
+
+  EquipmentTypeChange(value){
+    this.selectedEquipmentTypeId = value;
+    if(value==11 || value==15 || value==16 || value==28 || value==33){
+      this.camBtn=true;
+    }
+    else{
+      this.camBtn=false;
+    }
+
+  
   }
 
   ProtocolTypeChange(ProtocolTypeId: any) {
@@ -315,6 +331,40 @@ export class EquipmentMasterPopupComponent implements OnInit {
     }
   }
 
+  getCamDetails(){
+      var obj={
+        "EquipmentIp":this.DeviceCommunicationForm.value.IpAddress,
+        "EquipmentPort":this.DeviceCommunicationForm.value.PortNumber,
+        "UserName":this.DeviceCommunicationForm.value.LoginId,
+        "UserPassword":this.DeviceCommunicationForm.value.LoginPassword
+    }
+    this.spinner.show();
+    this.dbService.getCamDetails(obj).subscribe(
+      data => {
+        this.spinner.hide();
+        if(data.status){
+          let d=data.ResponseData
+          this.DeviceDetailsForm.controls['MacAddress'].setValue(d.MacAddress);
+          this.DeviceDetailsForm.controls['ModelNumber'].setValue(d.Model);
+          this.DeviceDetailsForm.controls['SerialNumber'].setValue(d.SerialNumber);
+          this.DeviceCommunicationForm.controls['UrlAddress'].setValue(d.Streamurl[0]);
+        }
+        
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+
+  }
+
 
 
   goBack() {
@@ -323,21 +373,10 @@ export class EquipmentMasterPopupComponent implements OnInit {
       return;
     this.selectedIndex = myStepper.selectedIndex;
     myStepper.previous();
-    if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
-      this.btnMain = "Next"
-      this.btn1 = "Previous"
-    }
-    else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
-      this.btnMain = "Next"
-      this.btn1 = "Previous"
-    }
-    else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
-      this.btnMain = "Next"
-      this.btn1 = "Previous"
-    }
+    
   }
 
-  goForward(event: any) {
+  goForward() {
     this.submitted = true;
     const myStepper = this.myStepper;
     if (myStepper == null)
@@ -345,30 +384,18 @@ export class EquipmentMasterPopupComponent implements OnInit {
     myStepper.next();
     this.selectedIndex = myStepper.selectedIndex;
     if (this.selectedIndex == 0 && this.LocationDetailsForm.valid == true) {
-      this.btnMain = "Next"
-      this.btn1 = "Previous"
       this.process = false;
     }
-    else if (this.selectedIndex == 1 && this.DeviceDetailsForm.valid == true) {
-      this.btnMain = "Next"
-      this.btn1 = "Previous"
+    else if (this.selectedIndex == 1 && this.DeviceCommunicationForm.valid == true) {
       this.process = false;
     }
-    else if (this.selectedIndex == 2 && this.DeviceCommunicationForm.valid == true) {
-      this.btnMain = "Save changes"
-      this.btn1 = "Previous"
+    else if (this.selectedIndex == 2 && this.DeviceDetailsForm.valid == true) {
       this.process = true;
     }
-    if (this.process && event.target.textContent == "Save changes") {
-      this.SaveDetails()
-    }
-
-
-
   }
 
   SaveDetails() {
-    if (this.DeviceDetailsForm.invalid) {
+    if (this.LocationDetailsForm.valid && this.DeviceDetailsForm.valid && this.DeviceDetailsForm.invalid) {
       return;
     }
     let ConnectionAddress = '';

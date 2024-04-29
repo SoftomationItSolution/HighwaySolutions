@@ -153,7 +153,8 @@ class DataImporter:
         endpoint = 'Softomation/FTH-TMS-RSD/DataStatusMasterGetAll'
         params = lambda d: [d['DataStatusId'], d['DataStatusName'],
                             d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
-                            d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]
+                            int(d['CreatedBy']), Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), 
+                            int(d['ModifiedBy'])]
         self.import_data_list(endpoint, params, 'USP_DataStatusInsertUpdate')
     
     def transaction_type_import(self):

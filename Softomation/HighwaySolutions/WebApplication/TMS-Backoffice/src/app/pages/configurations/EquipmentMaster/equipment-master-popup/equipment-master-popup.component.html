@@ -86,6 +86,99 @@
                     </div>
                 </form>
             </mat-step>
+            <mat-step [stepControl]="DeviceCommunicationForm" [editable]="isEditable">
+                <form [formGroup]="DeviceCommunicationForm">
+                    <ng-template matStepLabel>Connection</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="EquipmentTypeId">Equipment Type</label>
+                                <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
+                                    [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
+                                    optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
+                                    (onChange)="EquipmentTypeChange($event.value)"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
+                                    Type must be selected.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="ProtocolTypeId">Protocol Type</label>
+                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
+                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2" (onChange)="ProtocolTypeChange($event.value)"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
+                                    Type must be selected.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
+                                <label class="form-label" for="IpAddress">IP-Address</label>
+                                <input formControlName="IpAddress" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','IpAddress')">IP-Address
+                                    must be required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','IpAddress')">Vaild
+                                    IP-Address must be required.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
+                                <label class="form-label" for="PortNumber">Port Number</label>
+                                <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','PortNumber')">Port
+                                    Number
+                                    must be required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','PortNumber')">Vaild
+                                    Port Number must be required.</small>
+                            </div>
+                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
+                                <label class="form-label" for="ComPort">Com Port</label>
+                                <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
+                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
+                                    Port must be selected.</small>
+                            </div>
+                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
+                                <label class="form-label" for="BaudRate">Baud Rate</label>
+                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
+                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId"
+                                    placeholder="Select" class="form-control select2"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
+                                    must be selected.</small>
+                            </div>
+                            <div class="col-md-6" *ngIf="ProtocolTypeId>3">
+                                <label class="form-label" for="UrlAddress">Other Url</label>
+                                <input formControlName="UrlAddress" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','UrlAddress')">Other Url
+                                    must be required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="LoginId">Login Id</label>
+                                <input formControlName="LoginId" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginId')">Login Id
+                                    must be required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="LoginPassword">Password</label>
+                                <input formControlName="LoginPassword" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginPassword')">Password
+                                    must be required.</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
             <mat-step [stepControl]="DeviceDetailsForm" [editable]="isEditable">
                 <form [formGroup]="DeviceDetailsForm">
                     <ng-template matStepLabel>Assets</ng-template>
@@ -177,103 +270,18 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="DeviceCommunicationForm" [editable]="isEditable">
-                <form [formGroup]="DeviceCommunicationForm">
-                    <ng-template matStepLabel>Connection</ng-template>
-                    <div class="equipment-form-data">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label for="EquipmentTypeId">Equipment Type</label>
-                                <p-dropdown appendTo="body" formControlName="EquipmentTypeId" inputId="EquipmentTypeId"
-                                    [options]="EquipmentTypeData" optionLabel="EquipmentTypeName"
-                                    optionValue="EquipmentTypeId" placeholder="Select" class="form-control select2"
-                                    ></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','EquipmentTypeId')">Equipment
-                                    Type must be selected.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="ProtocolTypeId">Protocol Type</label>
-                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="ProtocolList" optionLabel="DataName" optionValue="DataId"
-                                    placeholder="Select" class="form-control select2" (onChange)="ProtocolTypeChange($event.value)"></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','ProtocolTypeId')">Protocol
-                                    Type must be selected.</small>
-                            </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
-                                <label class="form-label" for="IpAddress">IP-Address</label>
-                                <input formControlName="IpAddress" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','IpAddress')">IP-Address
-                                    must be required.</small>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','IpAddress')">Vaild
-                                    IP-Address must be required.</small>
-                            </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId===1 || ProtocolTypeId==2 || ProtocolTypeId==4 || ProtocolTypeId==5 || ProtocolTypeId==6">
-                                <label class="form-label" for="PortNumber">Port Number</label>
-                                <input formControlName="PortNumber" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','PortNumber')">Port
-                                    Number
-                                    must be required.</small>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('pattern','PortNumber')">Vaild
-                                    Port Number must be required.</small>
-                            </div>
-                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
-                                <label class="form-label" for="ComPort">Com Port</label>
-                                <p-dropdown appendTo="body" formControlName="ComPort" inputId="ComPort"
-                                    [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId"
-                                    placeholder="Select" class="form-control select2"></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
-                                    Port must be selected.</small>
-                            </div>
-                            <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
-                                <label class="form-label" for="BaudRate">Baud Rate</label>
-                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
-                                    [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId"
-                                    placeholder="Select" class="form-control select2"></p-dropdown>
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
-                                    must be selected.</small>
-                            </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId>3">
-                                <label class="form-label" for="UrlAddress">Other Url</label>
-                                <input formControlName="UrlAddress" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','UrlAddress')">Other Url
-                                    must be required.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="LoginId">Login Id</label>
-                                <input formControlName="LoginId" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginId')">Login Id
-                                    must be required.</small>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label" for="LoginPassword">Password</label>
-                                <input formControlName="LoginPassword" type="text" pInputText required autocomplete="off"
-                                    class="form-control" />
-                                <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','LoginPassword')">Password
-                                    must be required.</small>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </mat-step>
         </mat-stepper>
     </div>
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="goBack()" *ngIf="selectedIndex>0">{{btn1}}</button>
-        <button type="button" class="btn btn-success" (click)="goForward($event)">{{btnMain}}</button>
+        <button type="button" class="btn btn-info" (click)="getCamDetails()" *ngIf="selectedIndex==1 && camBtn==true">
+            Fetch Camera
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="goBack()" *ngIf="selectedIndex>0">
+            <span class="mdi mdi-chevron-left"></span> Previous
+        </button>
+        <button type="button" class="btn btn-secondary" (click)="goForward()" *ngIf="MaxTabIndex!=selectedIndex">
+            <span class="mdi mdi-chevron-right"></span> Next
+        </button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()" *ngIf="MaxTabIndex===selectedIndex">Save changes</button>
     </div>
 </div>

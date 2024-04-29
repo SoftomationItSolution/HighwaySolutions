@@ -23,11 +23,16 @@ export class FareConfigurationComponent implements OnInit {
   EffectiveFrom:any;
   SystemSetting:any
   isSubClassRequired=false;
+  isCashReturnRequired=false;
+  isFasTagPenaltyRequired=false;
   constructor(private spinner: NgxSpinnerService,private dm: DataModel,
     private dbService: apiIntegrationService,public datepipe: DatePipe) {
     this.LogedUserId = this.dm.getUserId();
     this.LogedRoleId = this.dm.getRoleId();
+    console.log(this.dm.getSSData())
     this.isSubClassRequired = this.dm.getSSData().SubClassRequired;
+    this.isCashReturnRequired = this.dm.getSSData().CashReturn;
+    this.isFasTagPenaltyRequired = this.dm.getSSData().FasTagPenalty;
     this.GetPermissionData();
   }
 
@@ -95,6 +100,13 @@ export class FareConfigurationComponent implements OnInit {
         }
       }
     );
+  }
+
+  updateData(rowData){
+    if(rowData.TollFare!=null){
+      rowData.ReturnFare=rowData.TollFare*(this.dm.getSSData().CashReturnDiscount/100);
+      rowData.FasTagPenalty=rowData.TollFare*this.dm.getSSData().FasTagPenaltyMultiply;
+    } 
   }
 
   SaveDetails(){

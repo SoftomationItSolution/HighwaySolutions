@@ -9,7 +9,7 @@ import paho.mqtt.client as mqtt
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.DataTransfer import DataSynchronization
-from utils.avc.softomation.softo_avcc_data import AVC_Handler
+#from utils.avc.softomation.softo_avcc_data import AVC_Handler
 from utils.camera.FrameCapture import RTSPVideoCapture
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
@@ -136,9 +136,7 @@ class LaneEquipmentSynchronization:
                 if equipment["ManufacturerName"]=="Sagar":
                     self.avc_thread = SagarAVCDataClient(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
                     self.avc_thread.start()
-                elif equipment["ManufacturerName"]=="Softomation":
-                    self.avc_thread=AVC_Handler(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
-                    self.avc_thread.start()
+                
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_avc_thread: {str(e)}")
 
