@@ -83,6 +83,7 @@ class MainWindow(QMainWindow):
 
         self.setLayout(main_layout)
         pub.subscribe(self.get_RFID_detail, "rfid_processed")
+    
     def initThreads(self):
         threads = [
             self.createThread(self.updateShiftDetails),
@@ -137,7 +138,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in updateTollFareDetails: {e}")
 
-   
 
     def updateEqDetails(self):
         try:
@@ -195,7 +195,7 @@ class MainWindow(QMainWindow):
             current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
             pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
             if TransactionTypeId !=1:
-                self.print_receipt()
+                self.print_receipt(current_Transaction)
             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
             if(resultData is not None and len(resultData)>0):
                 if resultData[0]["AlertMessage"]=="successfully":
@@ -208,12 +208,12 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in save_transctions: {e}")
             show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')
 
-    def print_receipt(self):
+    def print_receipt(self,current_Transaction):
         try:
-            self.right_frame.current_transaction_box.on_print()
+            self.right_frame.current_transaction_box.on_print(current_Transaction)
         except Exception as e:
             self.logger.logError(f"Error in print_receipt: {e}")
-            show_custom_message_box("Printer", "Somthing went wrong!", 'cri')
+            show_custom_message_box("Printer", "printer not working!", 'cri')
 
     def reset_transctions(self):
         try:
@@ -234,7 +234,7 @@ class MainWindow(QMainWindow):
                 item_id = selected_item.data(32)
                 item_name = selected_item.text()
                 if self.systemSettingDetails['SubClassRequired']==1:
-                    filtered_data = list(filter(lambda item: item['SystemSubClassId'] == item_id, self.vc))
+                    filtered_data = list(filter(lambda item: item['SystemVehicleSubClassId'] == item_id, self.vc))
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
                     self.right_frame.current_transaction_box.update_svc(item_id, item_name,filtered_data)

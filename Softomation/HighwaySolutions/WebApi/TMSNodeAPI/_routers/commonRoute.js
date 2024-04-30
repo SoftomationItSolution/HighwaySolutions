@@ -10,7 +10,7 @@ const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const configManagerPath = path.resolve('./configManager');
-const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+//let ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
 router.post('/ValidateUser', ValidateUser);
 router.post('/LogoutUser', LogoutUser);
 router.post('/RolePermissionGetByMenu', RolePermissionGetByMenu);
@@ -358,8 +358,23 @@ async function FilterMasterGet(req, res, next) {
 
 async function ProjectConfigGet(req, res, next) {
     try {
-        let out = constants.ResponseMessage("success", require(ProjectConfigurationPath));
-        res.status(200).json(out)
+        const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+        fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+            if (err) {
+                errorlogMessage(err, 'ProjectConfiguration Read File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+            try {
+                const jsonData = JSON.parse(data);
+                let out = constants.ResponseMessage("success", jsonData);
+                res.status(200).json(out)
+            } catch (err) {
+                errorlogMessage(err, 'ProjectConfiguration parsing File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+        });
     } catch (error) {
         errorlogMessage(error, 'ProjectConfigGet');
         let out = constants.ResponseMessage(error.message, null);
@@ -370,6 +385,7 @@ async function ProjectConfigGet(req, res, next) {
 
 async function UpdateProjectConfig(req, res, next) {
     const updatedData = req.body;
+    const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
     fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
         if (err) {
             errorlogMessage(err, 'ProjectConfiguration Read File');

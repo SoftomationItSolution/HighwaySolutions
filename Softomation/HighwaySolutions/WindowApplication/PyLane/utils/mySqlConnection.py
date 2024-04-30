@@ -2,6 +2,7 @@ import json
 import mysql.connector.pooling
 import pandas as pd
 from utils.log_master import CustomLogger
+
 class MySQLConnections:
     _instance = None
     _pool = None

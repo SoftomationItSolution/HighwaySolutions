@@ -231,10 +231,10 @@ export class EquipmentMasterPopupComponent implements OnInit {
           this.DeviceCommunicationForm.controls['UrlAddress'].setValue('N/R');
         }
         else if(this.ProtocolTypeId == 4 || this.ProtocolTypeId == 5 || this.ProtocolTypeId == 6){
-          this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DetailData.IpAddress);
-          this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DetailData.PortNumber);
-          this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
-          this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
+          this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
+          this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
+          this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
+          this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
           this.DeviceCommunicationForm.controls['UrlAddress'].setValue(this.DetailData.UrlAddress);
         }
         else {

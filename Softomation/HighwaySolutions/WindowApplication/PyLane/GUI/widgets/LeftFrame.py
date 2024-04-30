@@ -53,7 +53,7 @@ class LeftFrame(QFrame):
 
     def bindSubvc(self,json_data,list_item_height):
         for item_data in json_data:
-            list_item = QListWidgetItem(item_data["SystemSubClassNames"])
-            list_item.setData(32, item_data["SystemSubClassId"])
+            list_item = QListWidgetItem(item_data["SystemVehicleSubClassName"])
+            list_item.setData(32, item_data["SystemVehicleSubClassId"])
             list_item.setSizeHint(QSize(0, list_item_height))
             self.vc_list.addItem(list_item)

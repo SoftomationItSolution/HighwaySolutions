@@ -223,7 +223,7 @@ class DataImporter:
 
     def system_vehicleclass_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/SystemVehicleClassDetails'
-        params = lambda d: [d['SystemVehicleClassId'],d['FasTagVehicleClassId'],d['AvcVehicleClassId'],
+        params = lambda d: [d['SystemVehicleClassId'],d['AvcVehicleClassId'],
                             d['SystemVehicleClassName'],d['SystemVehicleClassDescription'],
                             d['SystemSubClassIds'],d['PermissibleWeight'],
                             d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
@@ -232,7 +232,7 @@ class DataImporter:
 
     def system_vehicle_subclass_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/SystemVehicleSubClassDetails'
-        params = lambda d: [d['SystemVehicleClassId'],d['SystemSubClassId'],
+        params = lambda d: [d['SystemVehicleClassId'],d['SystemVehicleSubClassId'],
                             d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
                             d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]
         self.import_data_list(endpoint, params, 'USP_SystemVehicleSubClassInsertUpdate')
@@ -260,9 +260,10 @@ class DataImporter:
     
     def system_setting_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/SystemSettingGet'
-        params = lambda d: [d['DefaultPlazaId'],d['AllotmentDays'],d['IsAccessControl'],d['CashPenalty'],d['LoginAccess'],
-                            d['ExemptAccess'],d['FleetAccess'],d['SubClassRequired'],d['OpeningBalance'],
-                            d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
+        params = lambda d: [d['DefaultPlazaId'],d['AllotmentDays'],d['IsAccessControl'],d['LoginAccess'],
+                            d['ExemptAccess'],d['FleetAccess'],d['SubClassRequired'],
+                            d['FasTagPenalty'],d['FasTagPenaltyMultiply'],d['CashReturn'],d['CashReturnDiscount'],
+                            d['OpeningBalance'],d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
                             d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]
         data=self.import_data(endpoint, params, 'USP_SystemSettingInsertUpdate')
         if data is not None:

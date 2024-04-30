@@ -8,7 +8,7 @@ const crypto = require("../_helpers/crypto");
 const moment = require('moment');
 const path = require('path');
 const configManagerPath = path.resolve('./configManager');
-const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+//const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
 
 router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
 router.get('/SystemSettingGet', SystemSettingGet);
@@ -40,8 +40,23 @@ module.exports = router;
 
 async function ProjectConfigGet(req, res, next) {
     try {
-        let out = constants.ResponseMessage("success", require(ProjectConfigurationPath));
-        res.status(200).json(out)
+        const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+        fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+            if (err) {
+                errorlogMessage(err, 'ProjectConfiguration Read File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+            try {
+                const jsonData = JSON.parse(data);
+                let out = constants.ResponseMessage("success", jsonData);
+                res.status(200).json(out)
+            } catch (err) {
+                errorlogMessage(err, 'ProjectConfiguration parsing File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+        });
     } catch (error) {
         errorlogMessage(error, 'ProjectConfigGet');
         let out = constants.ResponseMessage(error.message, null);

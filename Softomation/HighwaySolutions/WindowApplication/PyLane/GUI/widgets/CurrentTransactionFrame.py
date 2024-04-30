@@ -173,7 +173,7 @@ class CurrentTransactionBox(QFrame):
         self.update_field("txtVehicleClass", item_name)
         self.current_Transaction["VehicleClassId"] = item_id
         if item is not None:
-            self.current_Transaction["VehicleClassId"] = item["FasTagSystemVehicleClassId"]
+            self.current_Transaction["VehicleClassId"] = item["SystemVehicleClassId"]
             self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
             self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
         self.get_toll_fare()
@@ -183,7 +183,7 @@ class CurrentTransactionBox(QFrame):
         self.current_Transaction["VehicleSubClassId"] = item_id
         self.current_Transaction["VehicleSubClassName"] = item_name
         if item is not None:
-            self.current_Transaction["VehicleClassId"] = item["FasTagSystemVehicleClassId"]
+            self.current_Transaction["VehicleClassId"] = item["SystemVehicleClassId"]
             self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
             self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
         self.get_toll_fare()
@@ -280,7 +280,8 @@ class CurrentTransactionBox(QFrame):
         self.update_field("txtTotalAmount", str(total))
 
     def update_ss(self, json_data,user_Details,LaneDetail,default_directory):
-        self.project_config_data=os.path.join(default_directory, 'MasterConfig', 'ProjectConfiguration.json')    
+        project_config_path=os.path.join(default_directory, 'MasterConfig', 'ProjectConfiguration.json')
+        self.project_config_data = Utilities.read_json_file(project_config_path)    
         self.systemSettingDetails=json_data
         self.user_Details=user_Details
         self.LaneDetail=LaneDetail
@@ -299,9 +300,9 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["IsReturnJourney"]=False
         self.get_toll_fare()
     
-    def on_print(self):
+    def on_print(self,current_Transaction):
         try:
-            self.printer.generate_receipt(self.current_Transaction)
+            self.printer.generate_receipt(current_Transaction)
         except Exception as e:
             raise e
         
@@ -413,5 +414,5 @@ class CurrentTransactionBox(QFrame):
             self.current_Transaction["VehicleClassId"]= transData["Class"]
             self.current_Transaction["VehicleSubClassId"]= transData["Class"]
             self.update_field("txtTagId", TagStatus)
-            self.txtVRN.setText(transData["Plate"])
+            #self.txtVRN.setText(transData["Plate"])
             self.txtReceipt.setText(transData["TID"])

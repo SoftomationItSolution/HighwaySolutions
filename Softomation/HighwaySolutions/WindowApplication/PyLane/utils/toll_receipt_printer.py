@@ -39,6 +39,7 @@ class TollReceiptPrinter:
             self.p.text(f"Plaza        : {printData['PlazaName']}\n")
             self.p.text(f"Lane         : {printData['LaneName']}\n")
             self.p.text(f"TC ID        : {printData['LoginId']}\n")
+            self.p.text(f"Plate Number : {printData['PlateNumber']}\n")
             if printData["VehicleClassName"]=="":
                 self.p.text(f"Class        : {printData['VehicleSubClassName']}\n")
             else:
@@ -54,9 +55,7 @@ class TollReceiptPrinter:
             self.p.text(f"Overload     : Rs. {printData['OverWeightAmount']}/-\n")
             total_fare = printData["TransactionAmount"] + printData["TagPenaltyAmount"] + printData["OverWeightAmount"]
             self.p.text(f"Total Fare   : Rs. {total_fare}/-\n")
-
             self.p.text("--------------------------------------------\n")
-
             barcode_data = str(printData["RCTNumber"])
             self.p.barcode(barcode_data, "CODE39", 60, 2, function_type="A")
             self.set_default()
