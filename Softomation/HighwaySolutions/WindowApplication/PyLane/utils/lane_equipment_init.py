@@ -178,7 +178,7 @@ class LaneEquipmentSynchronization:
         try:
             if not self.dts_thread:
                 self.dts_thread=DataSynchronization(self.default_directory, self.dbConnectionObj,self.default_plaza_Id,self.default_lane_ip)
-                self.dts_thread.start()
+                #self.dts_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_dts_thread: {str(e)}")
 
@@ -367,6 +367,7 @@ class LaneEquipmentSynchronization:
                     self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
             if self.dio_thread is not None:
                     self.dio_thread.lane_trans_start(transactionInfo)
+                    #self.start_ic_record(transactionInfo,10,True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
 
@@ -388,11 +389,17 @@ class LaneEquipmentSynchronization:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
 
+    def stop_ic_record(self):
+        try:
+            self.ICCamera.stop_recording(snapshot=True)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
+
     def screenshort_ic(self,transactionInfo):
         try:
             return self.ICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_ic.png','ic')
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} screenshort_ic: {str(e)}")
             return False
     
     def stop_ic_record(self):
@@ -429,7 +436,6 @@ class LaneEquipmentSynchronization:
                 self.current_Transaction["VehicleSubClassId"]= transData["Class"]
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} reset_default_ufd: {str(e)}")
-    
 
     def create_wim_txn(self,wt):
         ct=datetime.now()
@@ -446,7 +452,6 @@ class LaneEquipmentSynchronization:
             if self.current_Transaction is None:
                 ct=datetime.now()
                 self.current_trans()
-                
                 if self.lane_detail is not None:
                     self.setDefaultValue()
                     self.current_Transaction["TransactionTypeId"]= 4
@@ -466,7 +471,6 @@ class LaneEquipmentSynchronization:
             self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
         finally:
             self.current_Transaction=None
-            
 
     def setDefaultValue(self):
         try:

@@ -1,5 +1,5 @@
 from __future__ import unicode_literals
-from escpos.printer import Serial
+from escpos.printer import Serial,Usb
 import platform
 class TollReceiptPrinter:
     def __init__(self,project_config_data,printer_detail):
@@ -14,9 +14,8 @@ class TollReceiptPrinter:
                     self.p=Serial(devfile='/dev/ttyS0',baudrate=self.printer_detail["PortNumber"])
                 else:
                     self.p=Serial(devfile=self.printer_detail["IpAddress"],baudrate=self.printer_detail["PortNumber"])
-            # else:
-            #     self.p = Usb(self.default_directory.get_setting('Settings', 'vendor_id'), self.default_directory.get_setting('Settings', 'product_id'))
-            
+            else:
+                self.p = Usb(self.printer_detail["UrlAddress"])
             self.set_default()
         except Exception as e:
             raise e

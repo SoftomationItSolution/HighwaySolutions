@@ -203,13 +203,13 @@ class MainWindow(QMainWindow):
                 current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
             current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
             pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
-            if TransactionTypeId !=1:
-                self.print_receipt(current_Transaction)
+            # if TransactionTypeId !=1:
+            #     self.print_receipt(current_Transaction)
             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
             if(resultData is not None and len(resultData)>0):
                 if resultData[0]["AlertMessage"]=="successfully":
                     self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                    show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
+                    #show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
                     self.reset_transctions()
                 else:
                     show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
@@ -345,5 +345,3 @@ class MainWindow(QMainWindow):
     def shift_auto_logout(self, auto_logout):
         if auto_logout:
             self.switch_window.emit(json.dumps(self.userDetails))
-            
-    

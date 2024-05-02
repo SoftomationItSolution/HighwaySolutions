@@ -17,6 +17,7 @@ class RTSPVideoCapture:
         self.total_retries = 1
         self.capture = None
         self.recording = False
+        self.runtime_screenshort = False
         self.recording_thread = None
         self.set_logger(default_directory,log_file_name)
         self.set_cam_file_path_dir(default_directory)
@@ -109,7 +110,7 @@ class RTSPVideoCapture:
             snapshot_file_dir=os.path.join(self.file_path_dir, folder_name)
             Utilities.make_dir(snapshot_file_dir)
             snapshot_file_path = os.path.join(snapshot_file_dir, output_file)
-            frame = self.capture.read()[1]
+            frame = self.start_capture()
             if frame is not None:
                 cv2.imwrite(snapshot_file_path, frame)
                 return True
@@ -119,7 +120,7 @@ class RTSPVideoCapture:
             self.logger.logError(f"Exception {self.classname} take_screenshot: {str(e)}")
             return False
 
-    def record_video(self,folder_name, output_file="output.mp4", duration=10, snapshot=False):
+    def record_video(self,folder_name, output_file="output.avi", duration=10, snapshot=False):
         try:
             if self.recording:
                 self.logger.logInfo("Already recording. Stop the current recording before starting a new one.")
@@ -127,14 +128,11 @@ class RTSPVideoCapture:
             self.recording = True
             self.folder_name=folder_name
             self.img_file_name=output_file+".jpg"
-            self.video_file_name=output_file+".mp4"
-
+            self.video_file_name=output_file+".avi"
             record_file_dir=os.path.join(self.file_path_dir, folder_name)
             Utilities.make_dir(record_file_dir)
             record_file_path = os.path.join(record_file_dir, self.video_file_name)
             image_file_path = os.path.join(record_file_dir, self.img_file_name)
-
-
             frame_generator = self.start_capture()
             self.recording_thread = Thread(target=self._record_video, args=(frame_generator, record_file_path,image_file_path, duration, snapshot))
             self.recording_thread.start()
@@ -145,8 +143,7 @@ class RTSPVideoCapture:
         try:
             frame_height, frame_width, _ = frame.shape
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            file_path = os.path.join(self.directory, f"{output_file}.mp4")
-            out = cv2.VideoWriter(file_path, fourcc, 25.0, (frame_width, frame_height))
+            out = cv2.VideoWriter(output_file, fourcc, 25.0, (frame_width, frame_height))
             return out
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} writer_init: {str(e)}")
@@ -162,10 +159,12 @@ class RTSPVideoCapture:
                 if frame is not None and frame.shape[0] > 0 and frame.shape[1] > 0:
                     if my_writer is None:
                         my_writer = self.writer_init(frame, record_file_path)
-
                     if not snapshot_done and snapshot:
                         cv2.imwrite(image_file_path, frame)
                         snapshot_done = True
+                    if self.runtime_screenshort:
+                        cv2.imwrite(image_file_path, frame)
+                        self.runtime_screenshort=False
                     my_writer.write(frame)
                     if start_time is None:
                         start_time = cv2.getTickCount()
@@ -187,8 +186,8 @@ class RTSPVideoCapture:
     def stop_recording(self,snapshot=False):
         try:
             if self.recording_thread is not None:
-                if snapshot and self.folder_name is not None and self.file_name is not None:
-                  self.take_screenshot(self.file_name,self.folder_name)
+                if snapshot and self.folder_name is not None and self.img_file_name is not None:
+                    self.runtime_screenshort=True
                 self.recording = False
                 self.recording_thread.join()
                 self.recording_thread = None

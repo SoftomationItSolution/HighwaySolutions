@@ -1,6 +1,8 @@
 import socket
 import threading
 import time
+
+import serial
 from utils.log_master import CustomLogger
 from pubsub import pub
 
@@ -16,6 +18,7 @@ class KistDIOClient(threading.Thread):
         self.transactionInfo=None
         self.is_running=False
         self.is_stopped = False
+        self.record_status=False
         self.violation_duration=10
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
@@ -68,7 +71,11 @@ class KistDIOClient(threading.Thread):
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
                         self.lane_trans_end()
                     if status==False and self.barrier_Status==True:
-                        self.handler.start_lpic_record(self.transactionInfo)
+                        self.record_status=True
+                        self.handler.start_ic_record(self.transactionInfo)
+                    if status==False and self.barrier_Status==True and self.record_status==True:
+                        self.record_status==False
+                        self.handler.stop_ic_record()
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==False:
                         self.violation_trigger('s41e')
                     if status!=self.barrier_loop_last:
@@ -93,7 +100,10 @@ class KistDIOClient(threading.Thread):
     def send_data(self,input):
         try:
             bytes_data = input.encode('ascii')
-            self.client_socket.sendall(bytes_data)
+            if self.dio_detail["ProtocolTypeId"]==1:
+                self.client_socket.sendall(bytes_data)
+            elif self.dio_detail["ProtocolTypeId"]==3:
+                self.client_socket.write(bytes_data)
             return True
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
@@ -123,15 +133,10 @@ class KistDIOClient(threading.Thread):
     def run(self):
         while not self.is_stopped:
             try:
-                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
-                self.is_running = True
-                self.send_data('sSAe')
-                while self.is_running:
-                    echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
-                    if len(echoed_transaction_number) != 0:
-                        self.process_data(echoed_transaction_number)
-                    time.sleep(self.timeout)
+                if self.dio_detail["ProtocolTypeId"]==1:
+                    self.tcp_conn()
+                elif self.dio_detail["ProtocolTypeId"]==3:
+                    self.serial_conn()
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
@@ -139,6 +144,33 @@ class KistDIOClient(threading.Thread):
                 self.logger.logError(f"Exception {self.classname} run: {str(e)}")
             finally:
                 self.client_stop()
+
+    def tcp_conn(self):
+        try:
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
+            self.is_running = True
+            self.send_data('sSAe')
+            while self.is_running:
+                echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
+                if len(echoed_transaction_number) != 0:
+                    self.process_data(echoed_transaction_number)
+                time.sleep(self.timeout)
+        except Exception as e:
+            raise e
+
+    def serial_conn(self):
+        try:
+            self.client_socket = serial.Serial(self.dio_detail["IpAddress"], self.dio_detail["PortNumber"])
+            self.is_running = True
+            self.send_data('sSAe')
+            while self.is_running:
+                received_data = self.client_socket.readline().decode('utf-8').strip()
+                if len(received_data) != 0:
+                    self.process_data(received_data)
+                time.sleep(self.timeout)
+        except Exception as e:
+            raise e    
 
     def client_stop(self):
         try:

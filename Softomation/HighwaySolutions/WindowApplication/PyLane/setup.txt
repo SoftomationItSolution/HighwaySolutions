@@ -17,6 +17,10 @@ netifaces-plus
 scapy
 requests
 ping3
-openvino==2023.3.0
+paramiko
+QtAwesome
+./libs/RFIDReaderAPI-1.1-py3-none-any.whl
+#openvino==2023.3.0
 #D:\appTest\libs> pip install .\RFIDReaderAPI-1.1-py3-none-any.whl
 #conda install -c anaconda pyaudio
+# sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
