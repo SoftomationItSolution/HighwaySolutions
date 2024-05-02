@@ -17,6 +17,8 @@ class SagarAVCDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
+        self.last_trans=None
+        self.LaneTransactionId=0
         self.set_logger(default_directory,log_file_name)
         self.set_avc_image_path(default_directory)
     
@@ -55,10 +57,13 @@ class SagarAVCDataClient(threading.Thread):
                     'AxleCount': avc_data[3].strip(),
                     'IsReverseDirection': False if avc_data[4].strip()=='F' else True,
                     'WheelBase': avc_data[5].strip(),
-                    'TransactionCount': avc_data[6].strip()}
+                    'TransactionCount': avc_data[6].strip(),
+                    'ImageName':''}
             else:
                 transactionInfo = avc_data_str
-            #pub.sendMessage("avc_processed", transactionInfo=transactionInfo)
+            self.last_trans=transactionInfo
+            if self.LaneTransactionId!=0:
+                self.update_db_lane_trans(self.LaneTransactionId)
             self.process_db(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
@@ -81,7 +86,6 @@ class SagarAVCDataClient(threading.Thread):
                         self.logger.logInfo("avc data: {}".format(echoed_transaction_number))
                         self.process_data(echoed_transaction_number)
                     time.sleep(self.timeout)
-
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
@@ -89,6 +93,24 @@ class SagarAVCDataClient(threading.Thread):
                 self.logger.logError(f"Exception {self.classname} avc_run: {str(e)}")
             finally:
                 self.client_stop()
+
+    def getavc(self,TID):
+        try:
+            if self.last_trans is not None:
+                self.update_db_lane_trans(TID)
+            else:
+                self.LaneTransactionId=TID
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} getavc: {str(e)}")
+
+    def update_db_lane_trans(self,LaneTransactionId):
+        try:
+            d={"LaneTransactionId":LaneTransactionId,"VehicleAvcClassId":self.last_trans["AvcClassId"],"TransactionAvcImage":self.last_trans["ImageName"]}
+            self.last_trans=None
+            LaneManager.lane_data_avc_update(self.dbConnectionObj,d)
+            self.LaneTransactionId=0
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_db_lane_trans: {str(e)}")
 
     def client_stop(self):
         try:

@@ -25,19 +25,17 @@ def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,de
     controller.show_login(None)
     sys.exit(app.exec())
 
-
 def check_default_dir():
     try:
         if platform.system()=='Linux':
-            default_directory='/home/TMSLane/'
+            default_directory='/home/lane1/Desktop/TMSLane/'
         else:
-            default_directory='C:\\ProjectConfig\\TMSLane\\'
+            default_directory="E:\\ServerUpdate\\TMSLane\\" #'C:\\ProjectConfig\\TMSLane\\'
         if not os.path.exists(default_directory):
             os.makedirs(default_directory)
         return default_directory
     except Exception as e:
             print(str(e))
-
 
 if __name__ == '__main__':
     default_directory=check_default_dir()
@@ -58,8 +56,7 @@ if __name__ == '__main__':
     if systemSetting is not None and len(systemSetting) !=0:
         default_plaza_Id=systemSetting['DefaultPlazaId']
 
-
     lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
     lane_equipments.on_start()
 
-    desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
+    #desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)

@@ -51,9 +51,9 @@ class RightFrame(QFrame):
         bot_layout.setContentsMargins(0, 0, 0, 0)
         bot_layout.setSpacing(0)
 
-        wim_data_queue_box = WimDataQueueBox(bot_width,bot_height)
+        self.wim_data_queue_box = WimDataQueueBox(bot_width,bot_height)
         self.recent_transaction_box = RecentTransactionBox(bot_width,bot_height)
-        bot_layout.addWidget(wim_data_queue_box)
+        bot_layout.addWidget(self.wim_data_queue_box)
         bot_layout.addWidget(self.recent_transaction_box)
 
         bot_widget.setLayout(bot_layout)

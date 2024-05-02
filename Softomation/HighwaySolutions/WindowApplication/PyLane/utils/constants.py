@@ -7,7 +7,8 @@ import socket
 import string
 import netifaces
 import requests
-
+from ftplib import FTP
+import paramiko
 class Utilities:
     key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
     iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
@@ -92,12 +93,12 @@ class Utilities:
         dt = dt or datetime.datetime.now()
         return dt.strftime("%d-%b-%Y %H:%M:%S.%f")
 
-    # @staticmethod
-    # def receipt_number(plaza_id, lane_id, dt=None):
-    #     dt = dt or datetime.datetime.now()
-    #     formatted_number = dt.strftime("%m%d%H%M%S")
-    #     formatted_number += '{:02d}{:02d}'.format(plaza_id, lane_id)
-    #     return formatted_number
+    @staticmethod
+    def create_txn_id(dt=None):
+        dt = dt or datetime.datetime.now()
+        milliseconds = dt.microsecond // 1000
+        formatted_number = dt.strftime("%y%m%d%H%M%S") + "{:02}".format(milliseconds)
+        return formatted_number
 
     @staticmethod
     def receipt_number(plaza_id, lane_id,class_id, dt=None):
@@ -119,8 +120,6 @@ class Utilities:
         plaza_id=mapping.get('{:02d}'.format(plaza_id))
         lane_id=mapping.get('{:02d}'.format(lane_id))
         class_id=mapping.get('{:02d}'.format(class_id))
-
-        
         formatted_number = class_id+lane_id+plaza_id+'-'+month+day+hour+'-'+year+min+sec
         #formatted_number += '{:02d}{:02d}'.format(plaza_id, lane_id)
         return formatted_number
@@ -128,7 +127,9 @@ class Utilities:
     @staticmethod
     def lane_txn_number(lane_id, dt=None):
         dt = dt or datetime.datetime.now()
-        formatted_number = dt.strftime("%Y%m%d%H%M%S")
+        milliseconds = dt.microsecond // 1000
+        formatted_number = dt.strftime("%y%m%d%H%M%S") 
+        #formatted_number += "{:02d}".format(milliseconds)
         formatted_number += '{:02d}'.format(lane_id)
         return formatted_number
 
@@ -191,7 +192,6 @@ class Utilities:
     @staticmethod    
     def upload_data_api(endpoint,data):
         try:
-            
             headers = {'Content-Type': 'application/json'}
             return requests.post(endpoint, json=data, headers=headers)
         except Exception as e:
@@ -201,3 +201,69 @@ class Utilities:
     def make_dir(directory):
         if not os.path.exists(directory):
             os.makedirs(directory)
+
+    @staticmethod
+    def starts_with_F_ends_with_E(input_string):
+        pattern = r'^F.*E$'
+        return bool(re.match(pattern, input_string))
+    
+
+    @staticmethod
+    def is_valid_json(my_json_str):
+        try:
+            return json.loads(my_json_str)
+        except ValueError:
+            return False
+        
+    @staticmethod
+    def check_file_exists(file_path):
+        return os.path.exists(file_path)
+        
+    @staticmethod
+    def upload_ftp(image_path, ftp_server, ftp_username, ftp_password, ftp_directory):
+        try:
+            ftp = FTP(ftp_server)
+            ftp.login(ftp_username, ftp_password)
+            ftp.mkd(ftp_directory)
+            ftp.cwd(ftp_directory)
+            with open(image_path, 'rb') as file:
+                ftp.storbinary('STOR ' + image_path.split('/')[-1], file)
+            ftp.quit()
+            return True
+        except Exception as e:
+            raise e
+    @staticmethod
+    def create_remote_directory_recursive(sftp, remote_path):
+        remote_dir = '/'.join(remote_path.split('/')[:-1])
+        dirs = remote_dir.split('/')
+        current_dir = ''
+        for dir in dirs:
+            if not dir:
+                continue
+            current_dir += '/' + dir
+            try:
+                sftp.stat(current_dir)
+            except FileNotFoundError:
+                sftp.mkdir(current_dir, mode=0o777)
+
+    @staticmethod
+    def upload_file_ssh(local_path, remote_path, ssh_host, ssh_username, ssh_password):
+        try:
+            ssh = paramiko.SSHClient()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect(hostname=ssh_host, username=ssh_username, password=ssh_password)
+            sftp = ssh.open_sftp()
+            Utilities.create_remote_directory_recursive(sftp, remote_path)
+            sftp.put(local_path, remote_path)
+            sftp.close()
+            ssh.close()
+            return True
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def is_integer(value):
+        try:
+            return int(value)
+        except:
+            return 0

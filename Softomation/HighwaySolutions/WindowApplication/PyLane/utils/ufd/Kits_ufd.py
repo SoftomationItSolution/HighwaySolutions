@@ -52,7 +52,7 @@ class KistUFDClient():
         self.send_data(f"CD{message}")
 
     def single_line_cmd(self,message):
-        self.send_data(f"CD{message}")
+        self.send_data(f"S1{message}")
 
     def l1_cmd(self,message):
         self.send_data(f"L1{message}")

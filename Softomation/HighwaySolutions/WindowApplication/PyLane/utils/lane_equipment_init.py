@@ -1,7 +1,6 @@
 
 from datetime import datetime
 import json
-import os
 import threading
 import time
 import pkg_resources
@@ -9,12 +8,13 @@ import paho.mqtt.client as mqtt
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.DataTransfer import DataSynchronization
-#from utils.avc.softomation.softo_avcc_data import AVC_Handler
+from utils.avc.soft_avc_data import STPLAVCDataClient
 from utils.camera.FrameCapture import RTSPVideoCapture
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 from utils.rfid.mantra_rfid_reader import MantraRfidReader
 from utils.ufd.Kits_ufd import KistUFDClient
+from utils.wim.appalto_wim_data import AppaltoWinDataClient
 from utils.wim.na_wim_data import NAWinDataClient
 from utils.PingThread import PingThread
 from utils.avc.sagar_avc_data import SagarAVCDataClient
@@ -47,8 +47,9 @@ class LaneEquipmentSynchronization:
         self.LPICCamera=None
         self.ICCamera=None
         self.create_mqtt_obj()
+        self.current_Transaction=None
         self.set_logger(default_directory,'lane_BG')
-        #pub.subscribe(self.lane_trans_start, "lane_process_start")
+        pub.subscribe(self.lane_trans_start, "lane_process_start")
         #pub.subscribe(self.avc_data_process, "avc_data")
         #pub.subscribe(self.create_violation_trans, "violation_generated")
 
@@ -113,6 +114,7 @@ class LaneEquipmentSynchronization:
 
     def mqtt_on_connet(self,broker_ip,broker_port=1883):
         try:
+            print(broker_ip)
             self.mqtt_client.on_connect = self.on_connect
             self.mqtt_client.on_disconnect = self.on_disconnect
             self.mqtt_client.on_message = self.on_message
@@ -136,6 +138,9 @@ class LaneEquipmentSynchronization:
                 if equipment["ManufacturerName"]=="Sagar":
                     self.avc_thread = SagarAVCDataClient(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
                     self.avc_thread.start()
+                elif equipment["ManufacturerName"]=="Softomation":
+                    self.avc_thread = STPLAVCDataClient(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_avc')
+                    #self.avc_thread.start()
                 
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_avc_thread: {str(e)}")
@@ -145,6 +150,9 @@ class LaneEquipmentSynchronization:
             if not self.wim_thread:
                 if equipment["ManufacturerName"]=="NagaArjun":
                     self.wim_thread = NAWinDataClient(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_wim')
+                    self.wim_thread.start()
+                elif equipment["ManufacturerName"]=="Appalto":
+                    self.wim_thread = AppaltoWinDataClient(self,self.default_directory,self.dbConnectionObj,self.lane_detail["LaneId"], equipment, 'lane_BG_wim')
                     self.wim_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_wim_thread: {str(e)}")
@@ -349,8 +357,7 @@ class LaneEquipmentSynchronization:
     def lane_trans_start(self, transactionInfo):
         try:
             if self.ufd is not None:
-                self.LPICCamera.take_screenshot(transactionInfo['LaneTransactionId']+'_lpic.jpg','lpic')
-                #self.LPICCamera.record_video(transactionInfo['LaneTransactionId']+'_lpic', snapshot=True)
+                self.LPICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_lpic.jpg','lpic')
                 self.ufd.clear_cmd()
                 self.ufd.go_cmd()
                 self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
@@ -380,6 +387,13 @@ class LaneEquipmentSynchronization:
             self.ICCamera.record_video('ic',transactionInfo['LaneTransactionId']+'_ic',duration=0, snapshot=False)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
+
+    def screenshort_ic(self,transactionInfo):
+        try:
+            return self.ICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_ic.png','ic')
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
+            return False
     
     def stop_ic_record(self):
         try:
@@ -416,22 +430,43 @@ class LaneEquipmentSynchronization:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} reset_default_ufd: {str(e)}")
     
+
+    def create_wim_txn(self,wt):
+        ct=datetime.now()
+        self.current_trans()
+        if self.lane_detail is not None:
+            self.setDefaultValue()
+            self.current_Transaction["ActualVehicleWeight"]= wt
+            self.current_Transaction["VehicleAvcClassId"]= 0
+            self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
+            self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+        
     def create_violation_trans(self):
         try:
-            ct=datetime.now()
-            self.current_trans()
-            if self.lane_detail is not None:
-                self.setDefaultValue()
+            if self.current_Transaction is None:
+                ct=datetime.now()
+                self.current_trans()
+                
+                if self.lane_detail is not None:
+                    self.setDefaultValue()
+                    self.current_Transaction["TransactionTypeId"]= 4
+                    self.current_Transaction["VehicleAvcClassId"]= 0
+                    self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
+                    self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+            else:
                 self.current_Transaction["TransactionTypeId"]= 4
-                self.current_Transaction["VehicleAvcClassId"]= 0
-                self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
-                self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                lID=self.current_Transaction["LaneTransactionId"]
-                pub.sendMessage('avc_data_id',id=lID)
-                resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
-                self.logger.logInfo(f"create_violation_trans: {resultData}") 
+            lID=self.current_Transaction["LaneTransactionId"]
+            res=self.screenshort_ic(self.current_Transaction)
+            if res:
+                self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.png"
+            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
+            self.avc_thread.getavc(lID)
+            self.logger.logInfo(f"create_violation_trans: {resultData}") 
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
+        finally:
+            self.current_Transaction=None
+            
 
     def setDefaultValue(self):
         try:

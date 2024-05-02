@@ -80,6 +80,7 @@ class NAWinDataClient(threading.Thread):
                 "TotalWeight": self.totalWeight,
                 "TransactionId": self.transactionId,
                 'AxleCount': 0 if self.axleData is None else len(self.axleData),
+                'IsReverseDirection':False
             }
             pub.sendMessage("wim_processed", transactionInfo=transactionInfo)
             self.process_db(transactionInfo)

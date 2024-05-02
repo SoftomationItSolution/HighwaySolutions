@@ -1,3 +1,4 @@
+import decimal
 import os
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QPushButton, QWidget, QGridLayout, QLineEdit, QHBoxLayout,QRadioButton
 from PySide6.QtCore import Qt, Signal
@@ -157,6 +158,12 @@ class CurrentTransactionBox(QFrame):
     def update_field(self, field_name, value):
         getattr(self, field_name).setText(value)
 
+    def update_wt(self, wt):
+        wt_decimal = decimal.Decimal(str(wt))
+        self.current_Transaction["ActualVehicleWeight"] = wt_decimal
+        self.update_field("txtWimWeight", wt)
+        self.get_toll_fare()    
+
     def update_tt(self, item_id, item_name):
         self.current_Transaction["TransactionTypeId"] = item_id
         self.current_Transaction["TransactionTypeName"] = item_name
@@ -222,23 +229,23 @@ class CurrentTransactionBox(QFrame):
     def get_toll_fare(self):
         filtered_data = None
         if self.toll_fare is not None:
-            if self.current_Transaction["TransactionTypeId"] > 0 and len(self.toll_fare) > 0 and (self.current_Transaction["VehicleClassId"] > 0 or self.current_Transaction["VehicleSubClassId"] > 0):
-                if self.current_Transaction["VehicleClassId"] > 0:
+            if int(self.current_Transaction["TransactionTypeId"]) > 0 and len(self.toll_fare) > 0 and (int(self.current_Transaction["VehicleClassId"]) > 0 or int(self.current_Transaction["VehicleSubClassId"]) > 0):
+                if int(self.current_Transaction["VehicleClassId"]) > 0:
                     filtered_data = list(filter(
-                        lambda item: item['SystemVehicleClassId'] == self.current_Transaction["VehicleClassId"], self.toll_fare))
-                elif self.current_Transaction["VehicleSubClassId"] > 0:
+                        lambda item: int(item['SystemVehicleClassId']) == int(self.current_Transaction["VehicleClassId"]), self.toll_fare))
+                elif int(self.current_Transaction["VehicleSubClassId"]) > 0:
                     filtered_data = list(filter(
-                        lambda item: item['SubVehicleClassId'] == self.current_Transaction["VehicleSubClassId"], self.toll_fare))
+                        lambda item: int(item['SubVehicleClassId']) == int(self.current_Transaction["VehicleSubClassId"]), self.toll_fare))
                 if filtered_data is not None and len(filtered_data) > 0:
                     self.calulate_fare(filtered_data[0])
 
     def calulate_fare(self, filtered_data):
-        if self.current_Transaction["TransactionTypeId"]==1:
+        if int(self.current_Transaction["TransactionTypeId"])==1:
             self.update_field("txtTollFare", str(filtered_data['TollFare']))
             self.update_field("txtTagPenalty", "0.00")
             self.update_field("txtOverweight", "0.00")
             self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
-            if self.current_Transaction["ActualVehicleWeight"]>self.current_Transaction["PermissibleVehicleWeight"]:
+            if int(self.current_Transaction["ActualVehicleWeight"])>int(self.current_Transaction["PermissibleVehicleWeight"]):
                 self.update_field("txtOverweight", str(filtered_data['OverweightPenalty']))
                 self.current_Transaction["OverWeightAmount"]=filtered_data['OverweightPenalty']
         elif self.current_Transaction["TransactionTypeId"]==2:
@@ -251,7 +258,7 @@ class CurrentTransactionBox(QFrame):
             self.update_field("txtTollFare", str(self.current_Transaction["TransactionAmount"]))
             self.current_Transaction["TagPenaltyAmount"]=filtered_data['FasTagPenalty']
             
-            if self.current_Transaction["ActualVehicleWeight"]>self.current_Transaction["PermissibleVehicleWeight"]:
+            if int(self.current_Transaction["ActualVehicleWeight"])>int(self.current_Transaction["PermissibleVehicleWeight"]):
                 self.update_field("txtOverweight", str(filtered_data['OverweightPenalty']))
                 self.current_Transaction["OverWeightAmount"]=filtered_data['OverweightPenalty']
         

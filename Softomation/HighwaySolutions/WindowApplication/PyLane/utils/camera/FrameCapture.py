@@ -9,7 +9,8 @@ from utils.log_master import CustomLogger
 class RTSPVideoCapture:
     def __init__(self, default_directory,log_file_name,equipment, gstream_enabled=False, retry_delay=10):
         self.equipment=equipment
-        self.rtsp_url = f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
+        self.rtsp_url = equipment['UrlAddress']
+        #self.rtsp_url = f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
         self.gstream_enabled = gstream_enabled
         self.retry_delay = retry_delay
         self.online = False
@@ -19,6 +20,7 @@ class RTSPVideoCapture:
         self.recording_thread = None
         self.set_logger(default_directory,log_file_name)
         self.set_cam_file_path_dir(default_directory)
+        self.capture_frame=True
         self.img_file_name=None
         self.video_file_name=None
         self.folder_name=None
@@ -37,18 +39,24 @@ class RTSPVideoCapture:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_cam_file_path_dir: {str(e)}")
 
-    def start_capture(self):
+    def start_capture(self,retry=True):
         try:
-            while True:
+            self.capture_frame=True
+            while self.capture_frame:
                 if not self.online:
                     while True:
                         self.capture = self.initialize_capture()
                         if self.capture.isOpened():
                             self.online = True
+                            self.capture_frame=False
                             self.total_retries = 1
+                            break
+                        if retry==False:
+                            self.capture_frame=False
                             break
                         self.logger.logInfo(f"Retry/{self.rtsp_url} {self.total_retries}: Connection failed. Retrying in {self.retry_delay} seconds...")
                         self.total_retries += 1
+                        
                         time.sleep(self.retry_delay)
                 if self.online:
                     ret, frame = self.capture.read()
@@ -57,9 +65,9 @@ class RTSPVideoCapture:
                     else:
                         self.capture.release()
                         self.online = False
-                key = cv2.waitKey(1) & 0xFF
-                if key == ord('q'):
-                    break
+                # key = cv2.waitKey(1) & 0xFF
+                # if key == ord('q'):
+                #     break
             if self.capture is not None:
                 self.capture.release()
         except Exception as e:
@@ -74,6 +82,25 @@ class RTSPVideoCapture:
                 return cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} initialize_capture: {str(e)}")
+
+    def take_only_screenshot(self, output_file,folder_name):
+        result=False
+        try:
+            self.folder_name=folder_name
+            self.img_file_name=output_file
+            snapshot_file_dir=os.path.join(self.file_path_dir, folder_name)
+            Utilities.make_dir(snapshot_file_dir)
+            snapshot_file_path = os.path.join(snapshot_file_dir, output_file)
+            frame_generator = self.start_capture(False)
+            for frame in frame_generator:
+                if frame is not None and frame.shape[0] > 0 and frame.shape[1] > 0:
+                        cv2.imwrite(snapshot_file_path, frame)
+                        result=True
+                        break
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} take_screenshot: {str(e)}")
+        finally:
+            return result    
         
     def take_screenshot(self, output_file,folder_name):
         try:
@@ -82,7 +109,6 @@ class RTSPVideoCapture:
             snapshot_file_dir=os.path.join(self.file_path_dir, folder_name)
             Utilities.make_dir(snapshot_file_dir)
             snapshot_file_path = os.path.join(snapshot_file_dir, output_file)
-
             frame = self.capture.read()[1]
             if frame is not None:
                 cv2.imwrite(snapshot_file_path, frame)

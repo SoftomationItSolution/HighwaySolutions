@@ -1,10 +1,10 @@
 from datetime import datetime
 import json
-import os
 import threading
 from PySide6.QtCore import Signal,QDateTime
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget,QHBoxLayout, QVBoxLayout
+from PySide6.QtCore import Qt
 from GUI.ui.messBox import confirmation_box, show_custom_message_box
 from GUI.widgets.Header import Header
 from GUI.widgets.LeftFrame import LeftFrame
@@ -74,6 +74,7 @@ class MainWindow(QMainWindow):
         self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.LaneDetail,self.default_directory)
         self.right_frame.current_transaction_box.btnSubmit.clicked.connect(self.save_transctions)
         self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
+        self.right_frame.wim_data_queue_box.tblWim.itemSelectionChanged.connect(self.on_weight_selection)
         frames_layout.addWidget(self.right_frame)
        
         main_layout.addLayout(frames_layout)
@@ -83,6 +84,13 @@ class MainWindow(QMainWindow):
 
         self.setLayout(main_layout)
         pub.subscribe(self.get_RFID_detail, "rfid_processed")
+
+    def keyPressEvent(self, event):
+        if event.key() == Qt.Key_F11:
+            if self.isFullScreen():
+                self.showNormal()
+            else:
+                self.showFullScreen()
     
     def initThreads(self):
         threads = [
@@ -179,6 +187,7 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in updateLatestLaneTransaction: {e}")
 
     def get_RFID_detail(self,transactionInfo):
+        self.left_frame.set_vc(transactionInfo['Class'])
         self.right_frame.transaction_type_box.set_tt_value(1)
         self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
 
@@ -225,6 +234,19 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in reset_transctions: {e}")
             show_custom_message_box("Reset Transactions", "Somthing went wrong!", 'cri')
+
+    def on_weight_selection(self):
+        try:
+            selected_rows = set(item.row() for item in self.right_frame.wim_data_queue_box.tblWim.selectedItems())
+            for row in sorted(selected_rows, reverse=True):
+                item = self.right_frame.wim_data_queue_box.tblWim.item(row, 1)
+                if item:
+                    self.right_frame.current_transaction_box.update_wt(item.text())
+                self.right_frame.wim_data_queue_box.tblWim.removeRow(row)
+                del self.right_frame.wim_data_queue_box.wim_q[row]
+        except Exception as e:
+            self.logger.logError(f"Error in on_weight_selection: {e}")
+            show_custom_message_box("WIM Weight", "Somthing went wrong!", 'cri')            
 
     def onVCSelectionChanged(self):
         try:

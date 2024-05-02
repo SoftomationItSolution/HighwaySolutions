@@ -66,7 +66,7 @@ class KistDIOClient(threading.Thread):
                 status=True if int(value[i])==0 else False
                 if (i+1)==9:
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
-                        self.lane_trans_end(status)
+                        self.lane_trans_end()
                     if status==False and self.barrier_Status==True:
                         self.handler.start_lpic_record(self.transactionInfo)
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==False:
