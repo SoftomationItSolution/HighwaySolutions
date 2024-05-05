@@ -32,6 +32,7 @@ class CameraLiveView(QFrame):
             self.video_widget.setFixedHeight(height - 20)
             self.video_widget.setFixedWidth(width - 5)
             self.video_widget.setStyleSheet("border: none;")
+            self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             group_box_layout.addWidget(self.video_widget, alignment=Qt.AlignBottom | Qt.AlignVCenter)
 
             self.updateFinished.connect(self.start_stream)

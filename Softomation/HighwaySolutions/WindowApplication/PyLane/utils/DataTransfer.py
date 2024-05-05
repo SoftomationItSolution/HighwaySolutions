@@ -89,16 +89,16 @@ class DataSynchronization(threading.Thread):
                 if self.data_upload_running==False:
                     self.data_upload_running=True
                     lane_push_thread = threading.Thread(target=self.lane_data_uploading)
-                    #lane_push_thread.start()
+                    lane_push_thread.start()
 
                     avc_push_thread = threading.Thread(target=self.avc_data_uploading)
-                    #avc_push_thread.start()
+                    avc_push_thread.start()
 
                     wim_push_thread = threading.Thread(target=self.wim_data_uploading)
-                    #wim_push_thread.start()
+                    wim_push_thread.start()
 
                     wimDetails_push_thread = threading.Thread(target=self.wim_details_uploading)
-                    #wimDetails_push_thread.start()
+                    wimDetails_push_thread.start()
                 current_time = time.time()
                 if current_time - last_call_time >= 21600:
                     self.fetch_and_store_master_data()

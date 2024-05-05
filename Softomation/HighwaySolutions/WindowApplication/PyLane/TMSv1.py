@@ -46,7 +46,7 @@ if __name__ == '__main__':
     logger = CustomLogger(default_directory,'main_app')
    
     system_ip=Utilities.get_local_ips()
-    #system_ip='192.168.10.12'
+    system_ip='192.168.10.12'
     
     dbConnectionObj = MySQLConnections(default_directory,host=db_json_data['host'], user=db_json_data['user'],password=db_json_data['password'], database=db_json_data['database'])
     lane_details=CommonManager.GetLaneDetails(dbConnectionObj,system_ip)
