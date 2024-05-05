@@ -139,12 +139,12 @@
                                     [options]="ComPortSetting" optionLabel="DataName" optionValue="DataId"
                                     placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"
-                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Com
+                                    *ngIf="submitted && DeviceCommunicationForm.hasError('required','ComPort')">Com
                                     Port must be selected.</small>
                             </div>
                             <div class="col-md-6"  *ngIf="ProtocolTypeId===3">
                                 <label class="form-label" for="BaudRate">Baud Rate</label>
-                                <p-dropdown appendTo="body" formControlName="ProtocolTypeId" inputId="ProtocolTypeId"
+                                <p-dropdown appendTo="body" formControlName="BaudRate" inputId="BaudRate"
                                     [options]="BaudRatePort" optionLabel="DataName" optionValue="DataId"
                                     placeholder="Select" class="form-control select2"></p-dropdown>
                                 <small class="p-error"

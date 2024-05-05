@@ -1,7 +1,7 @@
   {
     "user": "sa",
     "password": "Softo@7890",
-    "server": "172.20.10.4",
+    "server": "192.168.1.12",
     "database": "TMSv1",
     "options": {
       "encrypt": true, 

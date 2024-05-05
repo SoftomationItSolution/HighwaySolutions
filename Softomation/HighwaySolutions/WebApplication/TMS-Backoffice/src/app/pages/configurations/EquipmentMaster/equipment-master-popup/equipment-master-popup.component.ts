@@ -69,7 +69,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
     }
 
     for (let i = 1; i <= 10; i++) {
-      this.ComPortSetting.push({ DataId: 'COM ' + i, DataName: 'COM ' + i });
+      this.ComPortSetting.push({ DataId: 'COM' + i, DataName: 'COM ' + i });
     }
 
     this.LocationDetailsForm = new FormGroup({
