@@ -12,7 +12,7 @@ class RightFrame(QFrame):
 
     def initUI(self, width, height,logger):
         self.logger = logger
-        self.setStyleSheet("border: none;border-right: 1px solid white;")
+        self.setStyleSheet("border: none;")
         self.setFixedHeight(height)
         self.setFixedWidth(width)
         layout = QVBoxLayout(self)
@@ -51,8 +51,8 @@ class RightFrame(QFrame):
         bot_layout.setContentsMargins(0, 0, 0, 0)
         bot_layout.setSpacing(0)
 
-        self.wim_data_queue_box = WimDataQueueBox(bot_width,bot_height)
-        self.recent_transaction_box = RecentTransactionBox(bot_width,bot_height)
+        self.wim_data_queue_box = WimDataQueueBox(bot_width,bot_height,self.logger)
+        self.recent_transaction_box = RecentTransactionBox(bot_width,bot_height,self.logger)
         bot_layout.addWidget(self.wim_data_queue_box)
         bot_layout.addWidget(self.recent_transaction_box)
 

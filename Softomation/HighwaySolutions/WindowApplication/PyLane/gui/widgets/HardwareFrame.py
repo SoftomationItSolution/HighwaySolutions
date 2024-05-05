@@ -23,7 +23,7 @@ class HardwareWidget(QWidget):
         if self.is_online:
             self.setStyleSheet("background-color: green;")
         else:
-            self.setStyleSheet("background-color: red;")
+            self.setStyleSheet("background-color: gray;")
         self.update_status()
         self.setToolTip(self.hardware_name)
 
