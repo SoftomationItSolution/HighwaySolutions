@@ -58,7 +58,7 @@ class LaneManager:
     @staticmethod    
     def wim_data_insert(dbConnectionObj,d):
         try:
-            params=[d["LaneId"],d["TransactionId"],d["TotalWeight"],d['AxleCount'],
+            params=[d["LaneId"],d["TransactionId"],d["TotalWeight"],d['AxleCount'],d['IsReverseDirection'],
                     Utilities.json_dt_mysql_dt(d["TransactionDateTime"])]
             resultData=dbConnectionObj.execute_procedure('USP_WimTransactionInsert', params)
             return resultData

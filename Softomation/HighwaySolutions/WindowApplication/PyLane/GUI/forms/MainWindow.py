@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
             self.default_plaza_Id=default_plaza_Id
             self.initUI()
             self.initThreads()
+            self.isTransactionPending=False
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
     
@@ -78,7 +79,7 @@ class MainWindow(QMainWindow):
             self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.LaneDetail,self.default_directory)
             self.right_frame.current_transaction_box.btnSubmit.clicked.connect(self.save_transctions)
             self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
-            self.right_frame.wim_data_queue_box.tblWim.itemSelectionChanged.connect(self.on_weight_selection)
+            #self.right_frame.wim_data_queue_box.tblWim.itemSelectionChanged.connect(self.on_weight_selection)
             frames_layout.addWidget(self.right_frame)
         
             main_layout.addLayout(frames_layout)
@@ -200,9 +201,16 @@ class MainWindow(QMainWindow):
 
     def get_RFID_detail(self,transactionInfo):
         try:
-            self.left_frame.set_vc(transactionInfo['Class'])
-            self.right_frame.transaction_type_box.set_tt_value(1)
-            self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
+            if self.isTransactionPending==False:
+                self.isTransactionPending=True
+                self.left_frame.set_vc(transactionInfo['Class'])
+                self.right_frame.transaction_type_box.set_tt_value(1)
+                self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
+                d=self.right_frame.wim_data_queue_box.get_top_wim()
+                if d is not None:
+                    self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
+            else:
+                self.right_frame.rfid_data_queue_box.rfid_transaction_info(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  get_RFID_detail: {e}")
 
@@ -210,24 +218,41 @@ class MainWindow(QMainWindow):
         try:
             ct=datetime.now()
             current_Transaction=self.right_frame.current_transaction_box.current_Transaction
-            vc=current_Transaction["VehicleClassId"]
-            TransactionTypeId=current_Transaction["TransactionTypeId"]
-            current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
-            current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
-            if TransactionTypeId !=1:
-                current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
-            current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-            pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
-            if TransactionTypeId !=1:
-                self.print_receipt(current_Transaction)
-            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
-            if(resultData is not None and len(resultData)>0):
-                if resultData[0]["AlertMessage"]=="successfully":
-                    self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                    show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
-                    self.reset_transctions()
+            vc=Utilities.is_integer(current_Transaction["VehicleClassId"])
+            svc=Utilities.is_integer(current_Transaction["VehicleSubClassId"])
+            TransactionTypeId=Utilities.is_integer(current_Transaction["TransactionTypeId"])
+            if TransactionTypeId>0:
+                if vc>0 or svc>0:
+                    current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
+                    current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+                    if TransactionTypeId !=1:
+                        current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+                    current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+                    pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
+                    if TransactionTypeId !=1:
+                        self.print_receipt(current_Transaction)
+                    resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
+                    if(resultData is not None and len(resultData)>0):
+                        if resultData[0]["AlertMessage"]=="successfully":
+                            self.isTransactionPending=False
+                            self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
+                            show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
+                            self.reset_transctions()
+                            rfdata=self.right_frame.rfid_data_queue_box.get_top_rfid()
+                            if rfdata is not None:
+                                self.isTransactionPending=False
+                                self.left_frame.set_vc(rfdata['Class'])
+                                self.right_frame.transaction_type_box.set_tt_value(1)
+                                self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active")
+                                d=self.right_frame.wim_data_queue_box.get_top_wim()
+                                if d is not None:
+                                    self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
+                        else:
+                            show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
                 else:
-                    show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
+                    show_custom_message_box("Save Transactions", "Vehicle class is required", 'cri')
+            else:
+                show_custom_message_box("Save Transactions", "Transaction Type is required", 'cri')
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  save_transctions: {e}")
             show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')
@@ -256,7 +281,9 @@ class MainWindow(QMainWindow):
             self.right_frame.transaction_type_box.tt_list.clearSelection()
             self.right_frame.transaction_type_box.pt_list.clearSelection()
             self.right_frame.transaction_type_box.et_list.clearSelection()
+            self.right_frame.transaction_type_box.reset_tt_value()
             self.left_frame.vc_list.clearSelection()
+            self.isTransactionPending=False
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  reset_transctions: {e}")
             show_custom_message_box("Reset Transactions", "Somthing went wrong!", 'cri')
@@ -291,27 +318,34 @@ class MainWindow(QMainWindow):
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
                     self.right_frame.current_transaction_box.update_vc(item_id, item_name,filtered_data)
+                    self.isTransactionPending=True
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  onVCSelectionChanged: {e}")
             show_custom_message_box("Vehicle Class", "Somthing went wrong!", 'cri')
 
     def onTransactionTypeSelect(self):
         try:
-            selected_items = self.right_frame.transaction_type_box.tt_list.selectedItems()
-            if selected_items:
-                selected_item = selected_items[0]
-                item_id = selected_item.data(32)
-                item_name = selected_item.text()
-                if item_id==2:
-                    self.right_frame.transaction_type_box.pt_list.clearSelection()
-                    self.right_frame.transaction_type_box.show_pt(True)
-                elif item_id==3:
-                    self.right_frame.transaction_type_box.et_list.clearSelection()
-                    self.right_frame.transaction_type_box.show_et(True)
-                else:
-                    self.right_frame.current_transaction_box.update_pt(0,"N/A")
-                    self.right_frame.current_transaction_box.update_et(0,"N/A")
-                self.right_frame.current_transaction_box.update_tt(item_id, item_name)
+            if self.isTransactionPending==False:
+                self.isTransactionPending=True
+                selected_items = self.right_frame.transaction_type_box.tt_list.selectedItems()
+                if selected_items:
+                    selected_item = selected_items[0]
+                    item_id = selected_item.data(32)
+                    item_name = selected_item.text()
+                    if item_id==2:
+                        self.right_frame.transaction_type_box.pt_list.clearSelection()
+                        self.right_frame.transaction_type_box.show_pt(True)
+                    elif item_id==3:
+                        self.right_frame.transaction_type_box.et_list.clearSelection()
+                        self.right_frame.transaction_type_box.show_et(True)
+                    else:
+                        self.right_frame.current_transaction_box.update_pt(0,"N/A")
+                        self.right_frame.current_transaction_box.update_et(0,"N/A")
+                    self.right_frame.current_transaction_box.update_tt(item_id, item_name)
+                    self.isTransactionPending=True
+                    d=self.right_frame.wim_data_queue_box.get_top_wim()
+                    if d is not None:
+                        self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  onTransactionTypeSelect: {e}")
             show_custom_message_box("Transaction Type", "Somthing went wrong!", 'cri')    

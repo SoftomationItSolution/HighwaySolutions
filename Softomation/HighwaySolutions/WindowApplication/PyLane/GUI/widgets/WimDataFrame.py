@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView, QGroupBox
-from PySide6.QtCore import Qt
+from PySide6.QtCore import Qt,QTimer
+from datetime import datetime, timedelta
 from PySide6.QtGui import QColor
 from pubsub import pub
 
@@ -48,10 +49,29 @@ class WimDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblWim)
-
+            self.timer = QTimer(self)
+            self.timer.timeout.connect(self.remove_old_data)
+            self.timer.start(60000) 
             pub.subscribe(self.wim_transaction_info, "wim_processed")
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox __init__: {e}")
+
+    def remove_old_data(self):
+        try:
+            current_time = datetime.now()
+            minutes_ago = current_time - timedelta(minutes=1)
+            rows_to_remove = []
+            for idx, row_data in enumerate(self.wim_q):
+                transaction_datetime_str  = row_data.get("TransactionDateTime")
+                transaction_datetime = datetime.strptime(transaction_datetime_str, "%d-%b-%Y %H:%M:%S.%f")
+                if transaction_datetime < minutes_ago:
+                    rows_to_remove.append(idx)
+            for row_idx in reversed(rows_to_remove):
+                self.tblWim.removeRow(row_idx)
+                del self.wim_q[row_idx]
+        except Exception as e:
+            self.logger.logError(f"Error in WimDataQueueBox remove_old_data: {e}")
+
 
     def wim_transaction_info(self, transactionInfo):
         try:
@@ -60,20 +80,7 @@ class WimDataQueueBox(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox  wim_transaction_info: {e}")
 
-    def on_selection_changed(self):
-        try:
-            selected_rows = set(item.row() for item in self.tblWim.selectedItems())
-            removed_values = []
-            for row in sorted(selected_rows, reverse=True):  # Iterate in reverse order to avoid index issues
-                item = self.tblWim.item(row, 2)
-                if item:
-                    removed_values.append(item.text())
-                self.tblWim.removeRow(row)
-                del self.wim_q[row]
-        except Exception as e:
-            self.logger.logError(f"Error in WimDataQueueBox  on_selection_changed: {e}")
-
-    def refresh_table_data(self,):
+    def refresh_table_data(self):
         try:
             self.tblWim.setRowCount(len(self.wim_q))
             for row_idx, row_data in enumerate(self.wim_q):
@@ -83,6 +90,16 @@ class WimDataQueueBox(QFrame):
                     self.tblWim.setItem(row_idx, col_idx, item)
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox  refresh_table_data: {e}")
+
+
+    def get_top_wim(self):
+         if len(self.wim_q)>0:
+           data=self.wim_q[0]
+           self.wim_q.pop(0)
+           self.refresh_table_data()
+           return data
+         else:
+             None                
 
     @property
     def rowheaders(self):

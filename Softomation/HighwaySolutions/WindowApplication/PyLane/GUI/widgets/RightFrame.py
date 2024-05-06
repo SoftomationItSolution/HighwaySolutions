@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import QWidget, QFrame, QHBoxLayout, QVBoxLayout
 from GUI.widgets.CameraViewFrame import CameraLiveView
+from GUI.widgets.RFIDDataFrame import RfidDataQueueBox
 from GUI.widgets.RecentTransactionFrame import RecentTransactionBox
 from GUI.widgets.CurrentTransactionFrame import CurrentTransactionBox
 from GUI.widgets.TransactionTypeFrame import TransactionTypeBox
 from GUI.widgets.WimDataFrame import WimDataQueueBox
-#,TransactionTypeDetails,camDetails,toll_fare,user_Details,systemSettingDetails,system_ip
 class RightFrame(QFrame):
     def __init__(self, width, height,logger):
         super().__init__()
@@ -51,9 +51,23 @@ class RightFrame(QFrame):
         bot_layout.setContentsMargins(0, 0, 0, 0)
         bot_layout.setSpacing(0)
 
-        self.wim_data_queue_box = WimDataQueueBox(bot_width,bot_height,self.logger)
+        v_widget = QWidget()
+        queue_layout = QVBoxLayout() 
+        queue_layout.setContentsMargins(0, 0, 0, 0)
+        queue_layout.setSpacing(0)
+
+        queue_height=int(bot_height/2)
+        self.wim_data_queue_box = WimDataQueueBox(bot_width,queue_height,self.logger)
+        self.rfid_data_queue_box = RfidDataQueueBox(bot_width,bot_height-queue_height,self.logger)
         self.recent_transaction_box = RecentTransactionBox(bot_width,bot_height,self.logger)
-        bot_layout.addWidget(self.wim_data_queue_box)
+        
+        queue_layout.addWidget(self.wim_data_queue_box)
+        queue_layout.addWidget(self.rfid_data_queue_box)
+
+        v_widget.setLayout(queue_layout)
+
+        
+        bot_layout.addWidget(v_widget)
         bot_layout.addWidget(self.recent_transaction_box)
 
         bot_widget.setLayout(bot_layout)

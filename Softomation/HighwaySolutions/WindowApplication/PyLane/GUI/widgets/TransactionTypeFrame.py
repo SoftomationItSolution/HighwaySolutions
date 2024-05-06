@@ -197,3 +197,11 @@ class TransactionTypeBox(QFrame):
             self.tt_list.setCurrentRow(default_selected_index)
         except Exception as e:
             self.logger.logError(f"Error in TransactionTypeBox  set_tt_value: {e}")
+
+    def reset_tt_value(self):
+        try:
+            self.tt_list.setVisible(True)
+            self.pt_list.setVisible(False)
+            self.et_list.setVisible(False)
+        except Exception as e:
+            self.logger.logError(f"Error in TransactionTypeBox  reset_tt_value: {e}")

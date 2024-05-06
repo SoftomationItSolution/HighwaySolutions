@@ -124,6 +124,16 @@ class LoginForm(QMainWindow):
 
         self.setCentralWidget(central_widget)
 
+    def keyPressEvent(self, event):
+        try:
+            if event.key() == Qt.Key_F11:
+                if self.isFullScreen():
+                    self.showNormal()
+                else:
+                    self.showFullScreen()
+        except Exception as e:
+            self.logger.logError(f"Error in LoginForm keyPressEvent: {e}")
+
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawPixmap(self.rect(), self.background_image)

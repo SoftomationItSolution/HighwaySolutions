@@ -162,7 +162,7 @@ class CurrentTransactionBox(QFrame):
 
     def update_field(self, field_name, value):
         try:
-            getattr(self, field_name).setText(value)
+            getattr(self, field_name).setText(str(value))
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox update_field: {e}")
 

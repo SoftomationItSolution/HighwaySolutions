@@ -66,26 +66,25 @@ class MantraRfidReader(threading.Thread):
                 while self.is_running:
                     read_list = []
                     self.reader.read(100, read_list)
-                    for tag in read_list:
-                        if self.EPC != tag._EPC:
-                            if self.last_epc !=tag._EPC:
-                                self.last_epc=tag._EPC
-                                self.tagDetails["ReaderName"]=tag._ReaderName
-                                self.tagDetails["EPC"]=tag._EPC
-                                if hasattr(tag, '_TID'):
-                                    self.tagDetails["TID"]=tag._TID
-                                else:
-                                    self.tagDetails["TID"]=""
-                                if hasattr(tag, '_UserData'):
-                                    self.decrypt_user_data(tag._UserData)
-                                else:
-                                    self.tagDetails["UserData"]=""
-                                    self.tagDetails["Class"]="00"
-                                    self.tagDetails["Plate"]="XXXXXXXXXX"
-                                self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
-                                pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
-                                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
-                                self.last_epc=''
+                    for tag in set(read_list):
+                        if self.last_epc !=tag._EPC:
+                            self.last_epc=tag._EPC
+                            self.tagDetails["ReaderName"]=tag._ReaderName
+                            self.tagDetails["EPC"]=tag._EPC
+                            if hasattr(tag, '_TID'):
+                                self.tagDetails["TID"]=tag._TID
+                            else:
+                                self.tagDetails["TID"]=""
+                            if hasattr(tag, '_UserData'):
+                                self.decrypt_user_data(tag._UserData)
+                            else:
+                                self.tagDetails["UserData"]=""
+                                self.tagDetails["Class"]="00"
+                                self.tagDetails["Plate"]="XXXXXXXXXX"
+                            self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
+                            pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
+                            self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
+                            #self.last_epc=''
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:
