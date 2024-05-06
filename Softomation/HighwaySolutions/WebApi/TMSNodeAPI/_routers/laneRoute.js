@@ -4,7 +4,7 @@ const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
-
+const mqttClient = require('../_helpers/mqttHandler');
 router.post('/LaneInsertUpdate', LaneInsertUpdate);
 router.get('/LaneGetAll', LaneGetAll);
 router.get('/LaneGetActive', LaneGetActive);
@@ -40,6 +40,7 @@ async function LaneInsertUpdate(req, res, next) {
             .execute('USP_LaneInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
+        pubData(out)
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'LaneInsertUpdate');
@@ -206,3 +207,14 @@ function errorlogMessage(error, method) {
         logger.error(`Caught an error in :${method}`);
     }
 }
+
+function pubData(out){
+    try {
+     if(out.Message[0].AlertMessage=='success'){
+         let d={ "update": "lane","data": JSON.parse(out.Message[0].AlertData)}
+         constants.MqttpublishData(mqttClient,'system/update',d)
+     }
+    } catch (error) {
+     errorlogMessage(error, 'LaneInsertUpdate_pubData');
+    }
+ }

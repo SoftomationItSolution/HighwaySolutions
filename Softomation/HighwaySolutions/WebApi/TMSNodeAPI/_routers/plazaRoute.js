@@ -4,7 +4,7 @@ const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
-
+const mqttClient = require('../_helpers/mqttHandler');
 router.post('/PlazaInsertUpdate', PlazaInsertUpdate);
 
 router.get('/PlazaGetAll', PlazaGetAll);
@@ -32,6 +32,7 @@ async function PlazaInsertUpdate(req, res, next) {
             .execute('USP_PlazaInsertUpdate');
         await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
+        pubData(out)
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'PlazaInsertUpdate');
@@ -98,3 +99,14 @@ function errorlogMessage(error, method) {
         logger.error(`Caught an error in :${method}`);
     }
 }
+
+function pubData(out){
+    try {
+     if(out.Message[0].AlertMessage=='success'){
+         let d={ "update": "plaza","data": JSON.parse(out.Message[0].AlertData)}
+         constants.MqttpublishData(mqttClient,'system/update',d)
+     }
+    } catch (error) {
+     errorlogMessage(error, 'PlazaInsertUpdate_pubData');
+    }
+ }

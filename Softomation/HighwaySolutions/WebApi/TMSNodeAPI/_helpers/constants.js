@@ -162,8 +162,6 @@ function ResponseMessageList(model, Data) {
         } else {
             msg.push({ AlertMessage: model[i].AlertMessage })
         }
-
-        
     }
 
     let out = {
