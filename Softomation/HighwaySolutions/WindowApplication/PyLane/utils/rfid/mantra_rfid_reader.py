@@ -1,4 +1,5 @@
 import threading
+import time
 from com.rfid.Reader import *
 from com.rfid.enumeration import *
 from com.rfid.interface import *
@@ -17,7 +18,7 @@ class MantraRfidReader(threading.Thread):
         self.reader = None
         self.is_running=False
         self.is_stopped = False
-        self.EPC=""
+        self.CLEANUP_INTERVAL = 60
         self.set_logger(default_directory,log_file_name)
 
     def set_logger(self,default_directory,log_file_name):
@@ -55,20 +56,26 @@ class MantraRfidReader(threading.Thread):
             self.logger.logError(f"Exception {self.classname} setup_reader: {str(e)}")
         
     def run(self):
+        processed_epcs = {}  # Initialize a dictionary to store processed EPCs and their timestamps
+        last_cleanup_time = time.time()  # Initialize the last cleanup time
         while not self.is_stopped:
             try:
                 if self.reader is None:
                     self.is_running=self.setup_reader()
                 else:
                     self.is_running=True
-                self.last_epc=''
                 self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}    
+                current_time = time.time()
+                if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
+                    processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items()
+                                      if current_time - timestamp <= 60}
+                    last_cleanup_time = current_time  # Update the last cleanup time
                 while self.is_running:
                     read_list = []
                     self.reader.read(100, read_list)
                     for tag in set(read_list):
-                        if self.last_epc !=tag._EPC:
-                            self.last_epc=tag._EPC
+                        if tag._EPC not in processed_epcs:
+                            processed_epcs[tag._EPC] = current_time
                             self.tagDetails["ReaderName"]=tag._ReaderName
                             self.tagDetails["EPC"]=tag._EPC
                             if hasattr(tag, '_TID'):
@@ -84,7 +91,6 @@ class MantraRfidReader(threading.Thread):
                             self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
                             pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
                             self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
-                            #self.last_epc=''
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:
