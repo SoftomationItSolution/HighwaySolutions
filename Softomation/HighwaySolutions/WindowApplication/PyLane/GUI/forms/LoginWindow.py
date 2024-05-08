@@ -7,6 +7,7 @@ import qtawesome
 from GUI.ui.messBox import show_custom_message_box
 from models.CommonManager import CommonManager
 from utils.crypt import CryptoUtils
+from pubsub import pub
 
 class LoginForm(QMainWindow):
     switch_window = Signal(str)
@@ -172,6 +173,7 @@ class LoginForm(QMainWindow):
                 else:
                     if CryptoUtils.encrypt_aes_256_cbc(password) == res[0]["LoginPassword"]:
                         userDetails = json.dumps(res[0])
+                        pub.sendMessage("app_log_status", transactionInfo=True)
                         self.switch_window.emit(userDetails)
                     else:
                         show_custom_message_box(

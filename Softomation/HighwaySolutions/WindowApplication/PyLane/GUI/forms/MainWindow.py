@@ -37,6 +37,7 @@ class MainWindow(QMainWindow):
             self.initUI()
             self.initThreads()
             self.isTransactionPending=False
+            pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
     
@@ -117,7 +118,7 @@ class MainWindow(QMainWindow):
             for thread in threads:
                 thread.start()
         except Exception as e:
-            self.logger.logError(f"Error in MainWindow  keyPressEvent: {e}")
+            self.logger.logError(f"Error in MainWindow  initThreads: {e}")
 
     def createThread(self, target):
         try:
@@ -223,6 +224,7 @@ class MainWindow(QMainWindow):
             TransactionTypeId=Utilities.is_integer(current_Transaction["TransactionTypeId"])
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
+                    self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
                     current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
                     current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
                     if TransactionTypeId !=1:
@@ -234,19 +236,8 @@ class MainWindow(QMainWindow):
                     resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
                     if(resultData is not None and len(resultData)>0):
                         if resultData[0]["AlertMessage"]=="successfully":
-                            self.isTransactionPending=False
                             self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                            show_custom_message_box("Save Transactions", "Transactions saved successfully!", 'inf')
-                            self.reset_transctions()
-                            rfdata=self.right_frame.rfid_data_queue_box.get_top_rfid()
-                            if rfdata is not None:
-                                self.isTransactionPending=False
-                                self.left_frame.set_vc(rfdata['Class'])
-                                self.right_frame.transaction_type_box.set_tt_value(1)
-                                self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active")
-                                d=self.right_frame.wim_data_queue_box.get_top_wim()
-                                if d is not None:
-                                    self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
+                            #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
                         else:
                             show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
                 else:
@@ -257,6 +248,21 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in MainWindow  save_transctions: {e}")
             show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')
 
+    def lane_process_end(self,transactionInfo):
+        try:
+            if self.isTransactionPending== True:
+                self.reset_transctions()
+                rfdata=self.right_frame.rfid_data_queue_box.get_top_rfid()
+                if rfdata is not None:
+                    self.left_frame.set_vc(rfdata['Class'])
+                    self.right_frame.transaction_type_box.set_tt_value(1)
+                    self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active")
+                    d=self.right_frame.wim_data_queue_box.get_top_wim()
+                    if d is not None:
+                        self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight')) 
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  lane_process_end: {e}")
+        
     def printer_setup(self,data):
         try:
             self.right_frame.current_transaction_box.update_printer(data)
@@ -270,6 +276,7 @@ class MainWindow(QMainWindow):
     def print_receipt(self,current_Transaction):
         try:
             self.right_frame.current_transaction_box.on_print(current_Transaction)
+            self.footer_widget.update_printer(True)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  print_receipt: {e}")
             self.footer_widget.update_printer(False)
@@ -277,6 +284,7 @@ class MainWindow(QMainWindow):
 
     def reset_transctions(self):
         try:
+            self.right_frame.current_transaction_box.btnSubmit.setEnabled(True)
             self.right_frame.current_transaction_box.on_reset()
             self.right_frame.transaction_type_box.tt_list.clearSelection()
             self.right_frame.transaction_type_box.pt_list.clearSelection()
@@ -325,30 +333,29 @@ class MainWindow(QMainWindow):
 
     def onTransactionTypeSelect(self):
         try:
-            if self.isTransactionPending==False:
+            self.isTransactionPending=True
+            selected_items = self.right_frame.transaction_type_box.tt_list.selectedItems()
+            if selected_items:
+                selected_item = selected_items[0]
+                item_id = selected_item.data(32)
+                item_name = selected_item.text()
+                if item_id==2:
+                    self.right_frame.transaction_type_box.pt_list.clearSelection()
+                    self.right_frame.transaction_type_box.show_pt(True)
+                elif item_id==3:
+                    self.right_frame.transaction_type_box.et_list.clearSelection()
+                    self.right_frame.transaction_type_box.show_et(True)
+                else:
+                    self.right_frame.current_transaction_box.update_pt(0,"N/A")
+                    self.right_frame.current_transaction_box.update_et(0,"N/A")
+                self.right_frame.current_transaction_box.update_tt(item_id, item_name)
                 self.isTransactionPending=True
-                selected_items = self.right_frame.transaction_type_box.tt_list.selectedItems()
-                if selected_items:
-                    selected_item = selected_items[0]
-                    item_id = selected_item.data(32)
-                    item_name = selected_item.text()
-                    if item_id==2:
-                        self.right_frame.transaction_type_box.pt_list.clearSelection()
-                        self.right_frame.transaction_type_box.show_pt(True)
-                    elif item_id==3:
-                        self.right_frame.transaction_type_box.et_list.clearSelection()
-                        self.right_frame.transaction_type_box.show_et(True)
-                    else:
-                        self.right_frame.current_transaction_box.update_pt(0,"N/A")
-                        self.right_frame.current_transaction_box.update_et(0,"N/A")
-                    self.right_frame.current_transaction_box.update_tt(item_id, item_name)
-                    self.isTransactionPending=True
-                    d=self.right_frame.wim_data_queue_box.get_top_wim()
-                    if d is not None:
-                        self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
+                d=self.right_frame.wim_data_queue_box.get_top_wim()
+                if d is not None:
+                    self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  onTransactionTypeSelect: {e}")
-            show_custom_message_box("Transaction Type", "Somthing went wrong!", 'cri')    
+            show_custom_message_box("Transaction Type", "Somthing went wrong!", 'cri')      
 
     def onPaymentTypeSelect(self):
         try:
@@ -402,6 +409,7 @@ class MainWindow(QMainWindow):
             confirmation=confirmation_box("Logout","Are you sure you want to logout?")
             if confirmation == True:
                 self.switch_window.emit(json.dumps(self.userDetails))
+                pub.sendMessage("app_log_status", transactionInfo=False)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow logout: {e}")
 

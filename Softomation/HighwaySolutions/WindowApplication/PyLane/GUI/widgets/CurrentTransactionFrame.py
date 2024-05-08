@@ -28,7 +28,9 @@ class CurrentTransactionBox(QFrame):
         try:
             self.setStyleSheet("QPushButton{font-weight: bold;border: none;}"
                             "QPushButton#btnReset{background-color: red; border-right: 1px solid black;}"
-                            "QPushButton#btnSubmit{background-color: green;}")
+                            "QPushButton#btnSubmit{background-color: green;}"
+                            "QPushButton#btnSubmit:disabled{ background-color: #aaaaaa;color: #666666;}"
+                            "QPushButton:disabled {background-color: #aaaaaa;color: #666666;}")
 
             self.setFixedWidth(width)
             self.setFixedHeight(height)
@@ -51,33 +53,23 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout.setContentsMargins(0, 10, 0, 5)
             self.ct_layout.setSpacing(0)
             self.row_height=self.layout_height/7
-            self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
+            #self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
             
-            self.add_label_field("Transaction Type:", "txtTransactionType","N/A", 1, 0)
-            self.add_label_field("Tag Status:", "txtTagId","N/A", 1, 2)
+            self.add_label_field("Transaction Type:", "txtTransactionType","N/A", 0, 0)
+            self.add_label_field("Tag Status:", "txtTagId","N/A", 0, 2)
             
-            self.ct_layout.addWidget(HorizontalLine(self), 2, 0, 1, 4)
+            self.add_label_field("Vehicle Class:", "txtVehicleClass","N/A", 1, 0)
+            self.add_label_field("Overweight(₹):", "txtOverweight","0.00", 1, 2)
+            
+            self.add_label_field("Payment Type:", "txtPaymentType","N/A", 2, 0)
+            self.add_label_field("Tag Penalty(₹):", "txtTagPenalty","0.00", 2, 2)
+            
+            self.add_label_field("Exempt Type:", "txtExemptType","N/A", 3, 0)
+            self.add_label_field("Fare(₹):", "txtTollFare","0.00", 3, 2)
 
-            self.add_label_field("Vehicle Class:", "txtVehicleClass","N/A", 3, 0)
-            self.add_label_field("Overweight(₹):", "txtOverweight","0.00", 3, 2)
-            
-            self.ct_layout.addWidget(HorizontalLine(self), 4, 0, 1, 4)
+            self.add_label_field("Weight (kg):", "txtWimWeight","0", 4, 0)
+            self.add_label_field("Amount Paid(₹):", "txtTotalAmount","0.00", 4, 2)
 
-            self.add_label_field("Payment Type:", "txtPaymentType","N/A", 5, 0)
-            self.add_label_field("Tag Penalty(₹):", "txtTagPenalty","0.00", 5, 2)
-            
-            self.ct_layout.addWidget(HorizontalLine(self), 6, 0, 1, 4)
-
-            self.add_label_field("Exempt Type:", "txtExemptType","N/A", 7, 0)
-            self.add_label_field("Fare(₹):", "txtTollFare","0.00", 7, 2)
-
-            self.ct_layout.addWidget(HorizontalLine(self), 8, 0, 1, 4)
-
-            self.add_label_field("Weight (kg):", "txtWimWeight","0", 9, 0)
-            self.add_label_field("Amount Paid(₹):", "txtTotalAmount","0.00", 9, 2)
-            
-            self.ct_layout.addWidget(HorizontalLine(self), 10, 0, 1, 4)
-            
             lblReceipt=QLabel("Receipt Number:")
             lblReceipt.setStyleSheet("color: white;border: none;")
             self.txtReceipt=QLineEdit()
@@ -102,21 +94,19 @@ class CurrentTransactionBox(QFrame):
             lblJourneyType=QLabel("Journey Type:")
             lblJourneyType.setStyleSheet("color: white;border: none;")
 
-            self.ct_layout.addWidget(lblJourneyType, 11, 0)
-            self.ct_layout.addWidget(self.rblS, 11, 1)
-            self.ct_layout.addWidget(self.rblR, 11, 2)
-            
-            self.ct_layout.setRowMinimumHeight(11, int(self.row_height))
-            self.ct_layout.addWidget(HorizontalLine(self), 12, 0, 1, 4)
+            self.ct_layout.addWidget(lblJourneyType, 5, 0)
+            self.ct_layout.addWidget(self.rblS, 5, 1)
+            self.ct_layout.addWidget(self.rblR, 5, 2)
+            self.ct_layout.setRowMinimumHeight(5, int(self.row_height))
 
-
-            self.ct_layout.addWidget(lblReceipt, 13, 0)
-            self.ct_layout.addWidget(self.txtReceipt, 13, 1)
-            self.ct_layout.addWidget(lblVRN, 13, 2)
-            self.ct_layout.addWidget(self.txtVRN, 13, 3)
-            self.ct_layout.setRowMinimumHeight(13, int(self.row_height))
-            self.ct_layout.addWidget(HorizontalLine(self), 14, 0, 1, 4)
+            self.ct_layout.addWidget(lblReceipt, 6, 0)
+            self.ct_layout.addWidget(self.txtReceipt, 6, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(6, int(self.row_height))
+            self.ct_layout.addWidget(lblVRN, 7, 0)
+            self.ct_layout.addWidget(self.txtVRN, 7, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(7, int(self.row_height))
             
+
             colWidth=self.layout_width-40
             self.ct_layout.setColumnMinimumWidth(0, 20)
             self.ct_layout.setColumnMinimumWidth(1, int(colWidth/2))
@@ -358,6 +348,7 @@ class CurrentTransactionBox(QFrame):
         
     def on_reset(self):
         try:
+            self.btnSubmit.setEnabled(True)
             self.current_trans()
             self.update_field("txtTransactionType", "N/A")
             self.update_field("txtVehicleClass", "N/A")
@@ -474,10 +465,10 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TagReadCount"]=  0
                 self.current_Transaction["IsReadByReader"]= IsReadByReader
                 self.current_Transaction["TransactionTypeId"]= 1
+                self.current_Transaction["TransactionTypeName"]= "FasTag"
                 self.current_Transaction["VehicleClassId"]= transData["Class"]
                 self.current_Transaction["VehicleSubClassId"]= transData["Class"]
                 self.update_field("txtTagId", TagStatus)
-                #self.txtVRN.setText(transData["Plate"])
                 self.txtReceipt.setText(transData["TID"])
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox create_fasTag_trans: {e}")

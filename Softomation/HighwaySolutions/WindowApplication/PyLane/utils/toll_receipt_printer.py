@@ -15,7 +15,12 @@ class TollReceiptPrinter:
                 else:
                     self.p=Serial(devfile=self.printer_detail["IpAddress"],baudrate=self.printer_detail["PortNumber"])
             else:
-                self.p = Usb(self.printer_detail["UrlAddress"])
+                #0x154f,0x154f
+                d=self.printer_detail["UrlAddress"]
+                rc=d.split(',')
+                hex_values = [int(value, 16) for value in rc]
+                self.p = Usb(*hex_values)
+                #self.p = Usb(rc[0],rc[1])
             self.set_default()
         except Exception as e:
             raise e
@@ -54,6 +59,8 @@ class TollReceiptPrinter:
             self.p.text(f"Overload     : Rs. {printData['OverWeightAmount']}/-\n")
             total_fare = printData["TransactionAmount"] + printData["TagPenaltyAmount"] + printData["OverWeightAmount"]
             self.p.text(f"Total Fare   : Rs. {total_fare}/-\n")
+            self.p.text(f"Allow Weight : Rs. {printData['PermissibleVehicleWeight']}\n")
+            self.p.text(f"Actual Weight: Rs. {printData['ActualVehicleWeight']}\n")
             self.p.text("--------------------------------------------\n")
             barcode_data = str(printData["RCTNumber"])
             self.p.barcode(barcode_data, "CODE39", 60, 2, function_type="A")

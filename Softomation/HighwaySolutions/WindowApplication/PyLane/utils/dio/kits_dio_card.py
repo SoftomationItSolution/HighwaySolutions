@@ -70,6 +70,8 @@ class KistDIOClient(threading.Thread):
                 if (i+1)==9:
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
                         self.lane_trans_end()
+                    if status==False and self.barrier_Status==False:
+                        pub.sendMessage("lane_process_end", transactionInfo=True)
                     if status==False and self.barrier_Status==True:
                         self.record_status=True
                         self.handler.start_ic_record(self.transactionInfo)
@@ -193,6 +195,17 @@ class KistDIOClient(threading.Thread):
             if self.client_socket is not None:
                self.send_data('s31e')
                self.send_data('s21e')
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+
+    def ohls_status(self,status):
+        try:
+            
+            if self.client_socket is not None:
+               if status:
+                self.send_data('s11e')
+               else:
+                self.send_data('s10e')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
 

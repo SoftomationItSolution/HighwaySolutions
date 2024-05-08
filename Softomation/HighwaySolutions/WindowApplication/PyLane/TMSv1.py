@@ -10,6 +10,7 @@ from utils.mySqlConnection import MySQLConnections
 from utils.window_controller import WindowController
 import platform
 
+lane_equipments=None
 def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger):
     app = QApplication(sys.argv)
     primary_screen = app.primaryScreen()
@@ -28,7 +29,7 @@ def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,de
 def check_default_dir():
     try:
         if platform.system()=='Linux':
-            default_directory='/home/lane1/Desktop/TMSLane/'
+            default_directory='/home/TMSLane/'
         else:
             default_directory='C:\\ProjectConfig\\TMSLane\\' #"E:\\ServerUpdate\\TMSLane\\"
         if not os.path.exists(default_directory):
@@ -38,25 +39,28 @@ def check_default_dir():
             print(str(e))
 
 if __name__ == '__main__':
-    default_directory=check_default_dir()
-       
-    db_path=os.path.join(default_directory, 'MasterConfig', 'dbConfig.json')
-    db_json_data = Utilities.read_json_file(db_path)
+    try:
+        default_directory=check_default_dir()
+        
+        db_path=os.path.join(default_directory, 'MasterConfig', 'dbConfig.json')
+        db_json_data = Utilities.read_json_file(db_path)
 
-    logger = CustomLogger(default_directory,'main_app')
-   
-    system_ip=Utilities.get_local_ips()
-    system_ip='192.168.10.12'
+        logger = CustomLogger(default_directory,'main_app')
     
-    dbConnectionObj = MySQLConnections(default_directory,host=db_json_data['host'], user=db_json_data['user'],password=db_json_data['password'], database=db_json_data['database'])
-    lane_details=CommonManager.GetLaneDetails(dbConnectionObj,system_ip)
-    systemSetting=CommonManager.GetSystemSetting(dbConnectionObj)
+        system_ip=Utilities.get_local_ips()
+        system_ip='192.168.10.12'
+        
+        dbConnectionObj = MySQLConnections(default_directory,host=db_json_data['host'], user=db_json_data['user'],password=db_json_data['password'], database=db_json_data['database'])
+        lane_details=CommonManager.GetLaneDetails(dbConnectionObj,system_ip)
+        systemSetting=CommonManager.GetSystemSetting(dbConnectionObj)
 
-    default_plaza_Id=1
-    if systemSetting is not None and len(systemSetting) !=0:
-        default_plaza_Id=systemSetting['DefaultPlazaId']
+        default_plaza_Id=1
+        if systemSetting is not None and len(systemSetting) !=0:
+            default_plaza_Id=systemSetting['DefaultPlazaId']
 
-    lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
-    #lane_equipments.on_start()
+        lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
+        lane_equipments.on_start()
 
-    desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
+        desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
+    except KeyboardInterrupt:
+        print("Ctrl+C detected. Exiting gracefully...")

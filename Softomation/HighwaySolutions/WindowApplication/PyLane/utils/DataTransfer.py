@@ -28,6 +28,7 @@ class DataSynchronization(threading.Thread):
             self.media_path=os.path.join(default_directory, 'Events')
             self.plaza_config = Utilities.read_json_file(plaza_config_path)
             self.api_base_url=self.plaza_config["plaza_api_p"]
+            self.event_path=self.plaza_config["event_path"]
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
         
@@ -143,7 +144,7 @@ class DataSynchronization(threading.Thread):
                                 today = date_object.strftime('%Y-%m-%d')
                                 file_path=os.path.join(self.media_path, 'avc',today,s["ImageName"])
                                 if Utilities.check_file_exists(file_path):
-                                    uploadPath=f"/mnt/Utility/Data/Apps/tms-node-api/EventMedia/LaneData/{today}/L{str(s['LaneId'])}/avc/{s['ImageName']}"
+                                    uploadPath=f"{self.event_path}{today}/L{str(s['LaneId'])}/avc/{s['ImageName']}"
                                     media_status=Utilities.upload_file_ssh(file_path, uploadPath, self.plaza_config["FtpAddress"], 'srb', "Srb@2024")
                                 else:
                                     media_status=True

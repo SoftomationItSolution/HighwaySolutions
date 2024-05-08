@@ -23,7 +23,7 @@ class Footer(QFrame):
             self.layout = QHBoxLayout(self)
             self.layout.setContentsMargins(0, 0, 0, 0)
             self.layout.setSpacing(0)
-
+            self.printer_status=False
             self.group_box = QGroupBox("Equipment Status")
             self.group_box.setStyleSheet("QGroupBox { border: 1px solid gray; border-radius: 9px; margin-top: 0.3em;padding: 0.5em; }"
                                      "QGroupBox::title { subcontrol-origin: margin; left: 10px; padding: 0 3px 0 3px;color:#fff }")
@@ -71,7 +71,10 @@ class Footer(QFrame):
             for index, item in enumerate(self.hardware_data_widget):
                 row = index // num_columns
                 col = index % num_columns
-                hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], item["OnLineStatus"], index)
+                if item['EquipmentTypeId'] == 10:
+                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], self.printer_status, index)
+                else:
+                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], item["OnLineStatus"], index)
                 hardware_widget.setFixedHeight(self.icon_height)
                 hardware_widget.setFixedWidth(self.icon_width)
                 self.group_box_layout.addWidget(hardware_widget, row, col)
@@ -124,6 +127,7 @@ class Footer(QFrame):
 
     def update_printer(self, status):
         try:
+            self.printer_status=status
             filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.hardware_data_widget), None)
             if filtered_item is not None:
                 self.update_bg_color(filtered_item["EquipmentName"], status)

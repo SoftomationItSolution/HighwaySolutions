@@ -50,6 +50,7 @@ class LaneEquipmentSynchronization:
         self.current_Transaction=None
         self.set_logger(default_directory,'lane_BG')
         pub.subscribe(self.lane_trans_start, "lane_process_start")
+        pub.subscribe(self.app_log_status, "app_log_status")
         #pub.subscribe(self.avc_data_process, "avc_data")
         #pub.subscribe(self.create_violation_trans, "violation_generated")
 
@@ -178,7 +179,7 @@ class LaneEquipmentSynchronization:
         try:
             if not self.dts_thread:
                 self.dts_thread=DataSynchronization(self.default_directory, self.dbConnectionObj,self.default_plaza_Id,self.default_lane_ip)
-                #self.dts_thread.start()
+                self.dts_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_dts_thread: {str(e)}")
 
@@ -247,7 +248,8 @@ class LaneEquipmentSynchronization:
 
     def GetEquipmentDetails(self):
         try:
-            self.equipment_detail=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.lane_detail["LaneId"])
+            if len(self.lane_detail)>0:
+                self.equipment_detail=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.lane_detail["LaneId"])
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} GetEquipmentDetails: {str(e)}")
             self.equipment_detail=None
@@ -354,6 +356,11 @@ class LaneEquipmentSynchronization:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} avc_data_process: {str(e)}")
 
+    
+    def app_log_status(self, transactionInfo):
+         if self.dio_thread is not None:
+                    self.dio_thread.ohls_status(transactionInfo)
+
     def lane_trans_start(self, transactionInfo):
         try:
             if self.ufd is not None:
@@ -367,7 +374,6 @@ class LaneEquipmentSynchronization:
                     self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
             if self.dio_thread is not None:
                     self.dio_thread.lane_trans_start(transactionInfo)
-                    #self.start_ic_record(transactionInfo,10,True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
 
@@ -392,6 +398,7 @@ class LaneEquipmentSynchronization:
     def stop_ic_record(self):
         try:
             self.ICCamera.stop_recording(snapshot=True)
+            
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
 
@@ -402,12 +409,6 @@ class LaneEquipmentSynchronization:
             self.logger.logError(f"Exception {self.classname} screenshort_ic: {str(e)}")
             return False
     
-    def stop_ic_record(self):
-        try:
-            self.ICCamera.stop_recording(snapshot=True)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
-
     def reset_default_ufd(self):
         try:
             if self.ufd is not None:
@@ -506,7 +507,7 @@ class LaneEquipmentSynchronization:
             self.logger.logError(f"Exception {self.classname} get_current_shift: {str(e)}")
         finally:
             return ShiftId
-
+    
     def current_trans(self):
         try:
             self.current_Transaction = {
