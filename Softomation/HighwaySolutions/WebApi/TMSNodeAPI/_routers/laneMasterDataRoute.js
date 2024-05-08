@@ -8,7 +8,11 @@ const crypto = require("../_helpers/crypto");
 const moment = require('moment');
 const path = require('path');
 const configManagerPath = path.resolve('./configManager');
-//const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+const {
+    root_path,
+    pc_path
+  } = require("../_helpers/constants");
+  const pc_Directory = path.join(root_path, pc_path);
 
 router.get('/ShiftTimingDetails', ShiftTiminingGetAll);
 router.get('/SystemSettingGet', SystemSettingGet);
@@ -40,8 +44,7 @@ module.exports = router;
 
 async function ProjectConfigGet(req, res, next) {
     try {
-        const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
-        fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+        fs.readFile(pc_Directory, 'utf8', (err, data) => {
             if (err) {
                 errorlogMessage(err, 'ProjectConfiguration Read File');
                 let out = constants.ResponseMessage(err.message, null);

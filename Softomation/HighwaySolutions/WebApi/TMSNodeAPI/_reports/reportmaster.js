@@ -4,9 +4,11 @@ const pdfFonts = require('pdfmake/build/vfs_fonts');
 const constants = require("../_helpers/constants");
 const moment = require('moment');
 const path = require('path');
-const configManagerPath = path.resolve('./configManager');
-const ProjectConfiguration = require(path.join(configManagerPath, 'ProjectConfiguration.json'));
-
+const {
+    root_path,
+    pc_path
+  } = require("../_helpers/constants");
+  const pc_Directory = path.join(root_path, pc_path);
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function fileToBase64(filePath) {
@@ -29,6 +31,7 @@ function fileToBase64(filePath) {
 
 function generateFloatPdf(ReportName, GeneratedBy, Datacontent, headerDetail, pdfName) {
     try {
+        const ProjectConfiguration = require(pc_Directory);
         const currentPath = path.resolve('./images');
         let imagePath = path.join(currentPath, 'logo.png');
         imagePath = fileToBase64(imagePath);
@@ -173,6 +176,7 @@ function generateFloatPdf(ReportName, GeneratedBy, Datacontent, headerDetail, pd
 
 function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
     try {
+        const ProjectConfiguration = require(pc_Directory);
         const ReportName = headerDetail.ReportType
         const currentPath = path.resolve('./images');
         let imagePath = path.join(currentPath, 'logo.png');

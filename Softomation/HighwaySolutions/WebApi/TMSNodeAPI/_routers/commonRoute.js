@@ -9,8 +9,13 @@ const token = require("../_helpers/jwtToken");
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
-const configManagerPath = path.resolve('./configManager');
-//let ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
+const {
+    root_path,
+    pc_path
+  } = require("../_helpers/constants");
+  const pc_Directory = path.join(root_path, pc_path);
+
+
 router.post('/ValidateUser', ValidateUser);
 router.post('/LogoutUser', LogoutUser);
 router.post('/RolePermissionGetByMenu', RolePermissionGetByMenu);
@@ -358,8 +363,7 @@ async function FilterMasterGet(req, res, next) {
 
 async function ProjectConfigGet(req, res, next) {
     try {
-        const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
-        fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+        fs.readFile(pc_Directory, 'utf8', (err, data) => {
             if (err) {
                 errorlogMessage(err, 'ProjectConfiguration Read File');
                 let out = constants.ResponseMessage(err.message, null);
@@ -385,8 +389,7 @@ async function ProjectConfigGet(req, res, next) {
 
 async function UpdateProjectConfig(req, res, next) {
     const updatedData = req.body;
-    const ProjectConfigurationPath = path.join(configManagerPath, 'ProjectConfiguration.json');
-    fs.readFile(ProjectConfigurationPath, 'utf8', (err, data) => {
+    fs.readFile(pc_Directory, 'utf8', (err, data) => {
         if (err) {
             errorlogMessage(err, 'ProjectConfiguration Read File');
             let out = constants.ResponseMessage(err.message, null);
@@ -395,7 +398,7 @@ async function UpdateProjectConfig(req, res, next) {
         try {
             const jsonData = JSON.parse(data);
             Object.assign(jsonData, updatedData);
-            fs.writeFile(ProjectConfigurationPath, JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
+            fs.writeFile(pc_Directory, JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
                 if (err) {
                     errorlogMessage(err, 'ProjectConfiguration write File');
                     let out = constants.ResponseMessage(err.message, null);

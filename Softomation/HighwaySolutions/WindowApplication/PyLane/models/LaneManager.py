@@ -26,7 +26,6 @@ class LaneManager:
             return resultData
         except Exception as e:
             raise e
-        
 
     @staticmethod
     def lane_data_avc_update(dbConnectionObj,d):
@@ -65,6 +64,15 @@ class LaneManager:
         except Exception as e:
             raise e
         
+    @staticmethod
+    def wim_details_marked(dbConnectionObj,d):
+        try:
+            params=[d["LaneId"],d["TransactionId"],True]
+            resultData=dbConnectionObj.execute_procedure('USP_WimTransactionMarkedTransfer', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
     @staticmethod    
     def wim_details_data_insert(dbConnectionObj,d):
         try:
@@ -75,12 +83,30 @@ class LaneManager:
         except Exception as e:
             raise e
         
+    @staticmethod
+    def wim_details_marked(dbConnectionObj,d):
+        try:
+            params=[d["Id"],True]
+            resultData=dbConnectionObj.execute_procedure('USP_WimTransactionAxleDetailsMarkedTransfer', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
     @staticmethod    
     def avc_data_insert(dbConnectionObj,d):
         try:
             params=[d["LaneId"],d["TransactionCount"],d["AvcClassId"],d['AxleCount'],d['IsReverseDirection'],
                     d["WheelBase"],Utilities.json_dt_mysql_dt(d["TransactionDateTime"])]
             resultData=dbConnectionObj.execute_procedure('USP_AvcTransactionInsert', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def avc_data_marked(dbConnectionObj,d,data_status,media_status):
+        try:
+            params=[d["Id"],data_status,media_status]
+            resultData=dbConnectionObj.execute_procedure('USP_AvcTransactionMarkedTransfer', params)
             return resultData
         except Exception as e:
             raise e

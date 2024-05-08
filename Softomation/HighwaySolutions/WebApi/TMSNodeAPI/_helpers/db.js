@@ -1,7 +1,11 @@
 const sql = require('mssql');
 const path = require('path');
-const configManagerPath = path.resolve('./configManager');
-const databaseConfig = require(path.join(configManagerPath, 'config.json'));
+const {
+  root_path,
+  db_path
+} = require("./constants");
+const dbDirectory = path.join(root_path, db_path);
+const databaseConfig = require(dbDirectory);
 
 class Database {
   constructor() {

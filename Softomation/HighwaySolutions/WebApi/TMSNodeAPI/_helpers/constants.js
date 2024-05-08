@@ -11,6 +11,10 @@ const passwordIterations = 2;                  // can be any number
 const initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
 const keySize = 256;                // can be 192 or 128
 const JWTkey = AppProvider + "HighwaySoluationsProvider";
+const root_path = 'C:/ProjectConfig/TMSv1/'
+const log_path = 'log/BackOfficeAPI/'
+const db_path = 'MasterConfig/NodeDBConfiguration.json'
+const pc_path = 'MasterConfig/ProjectConfiguration.json'
 //#endregion
 
 const TollingType =
@@ -157,7 +161,7 @@ function ResponseMessageList(model, Data) {
     let msg = [];
     for (let i = 0; i < model.length; i++) {
         if (model[i].hasOwnProperty('AlertData')) {
-            msg.push({ AlertMessage: model[i].AlertMessage,AlertData:model[i].AlertData })
+            msg.push({ AlertMessage: model[i].AlertMessage, AlertData: model[i].AlertData })
 
         } else {
             msg.push({ AlertMessage: model[i].AlertMessage })
@@ -237,11 +241,11 @@ function SaveImage(base64String, filePath, filename, ext, path) {
     return filePath
 }
 
-function MqttpublishData(mqttClient,topic,data){
+function MqttpublishData(mqttClient, topic, data) {
     mqttClient.publishData(topic, JSON.stringify(data), (err) => {
         if (err) {
             throw err
-        } 
+        }
     });
 }
 
@@ -255,4 +259,8 @@ module.exports = {
     MqttpublishData,
     AppProvider,
     JWTkey,
+    root_path,
+    log_path,
+    db_path,
+    pc_path
 };

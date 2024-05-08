@@ -2,10 +2,12 @@ const fs = require('fs');
 const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
-
-const logDirectory = 'C:\\ProjectConfig\\TMSv1\\log\\\BackOfficeAPI\\';
-//const logDirectory = __dirname + '/logs/apilogs';
-// Create log directory and its parent directories if they don't exist
+const {
+  root_path,
+  log_path
+} = require("./constants");
+const path = require('path');
+const logDirectory = path.join(root_path, log_path);
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory, { recursive: true });
 }
