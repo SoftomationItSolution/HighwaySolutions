@@ -4,7 +4,7 @@ const database = require('../_helpers/db');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
-
+const moment = require('moment');
 router.post('/LaneTranscationInsert', LaneTranscationInsert);
 router.post('/AvcTransactionInsert', AvcTransactionInsert);
 router.post('/WimTransactionInsert', WimTransactionInsert);
@@ -23,20 +23,20 @@ async function LaneTranscationInsert(req, res, next) {
         .input('JourneyId', sql.SmallInt, req.body.JourneyId)
         .input('PlazaId', sql.SmallInt, req.body.PlazaId)
         .input('LaneId', sql.SmallInt, req.body.LaneId)
-        .input('LaneStatusId', sql.Bit, req.body.LaneModeId)
+        .input('LaneStatusId', sql.Bit, req.body.LaneStatusId)
         .input('LaneModeId', sql.Bit, req.body.LaneModeId)
-        .input('LaneDirectionId', sql.SmallInt, req.body.LaneModeId)
+        .input('LaneDirectionId', sql.SmallInt, req.body.LaneDirectionId)
         .input('ShiftId', sql.SmallInt, req.body.ShiftId)
         .input('TransactionTypeId', sql.SmallInt, req.body.TransactionTypeId)
         .input('PaymentTypeId', sql.SmallInt, req.body.PaymentTypeId)
         .input('ExemptTypeId', sql.SmallInt, req.body.ExemptTypeId)
-        .input('ExemptSubTypeId', sql.SmallInt, req.body.ExemptTypeId)
+        .input('ExemptSubTypeId', sql.SmallInt, req.body.ExemptSubTypeId)
         .input('VehicleClassId', sql.SmallInt, req.body.VehicleClassId)
         .input('VehicleSubClassId', sql.SmallInt, req.body.VehicleSubClassId)
         .input('VehicleAvcClassId', sql.SmallInt, req.body.VehicleAvcClassId)
         .input('PlateNumber', sql.VarChar(20), req.body.PlateNumber)
         .input('RCTNumber', sql.VarChar(32), req.body.RCTNumber)
-        .input('TagEPC', sql.VarChar(32), req.body.EPC)
+        .input('TagEPC', sql.VarChar(32), req.body.TagEPC)
         .input('TagClassId', sql.SmallInt, req.body.TagClassId)
         .input('TagPlateNumber', sql.VarChar(20), req.body.TagPlateNumber)
         .input('TagReadDateTime', sql.DateTime2, req.body.TagReadDateTime)
@@ -55,7 +55,7 @@ async function LaneTranscationInsert(req, res, next) {
         .input('TransactionVideo', sql.VarChar(255), req.body.TransactionVideo)
         .input('ExemptionProofImage', sql.VarChar(255), req.body.ExemptionProofImage)
         .input('DestinationPlazaId', sql.SmallInt, req.body.DestinationPlazaId)
-        .input('UserId', sql.bigint, req.body.UserId)
+        .input('UserId', sql.BigInt, req.body.UserId)
         .input('LoginId', sql.VarChar(20), req.body.LoginId)
         .input('IsReturnJourney', sql.Bit, req.body.IsReturnJourney)
         .input('IsExcessJourney', sql.Bit, req.body.IsExcessJourney)

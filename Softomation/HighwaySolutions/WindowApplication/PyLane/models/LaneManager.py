@@ -65,7 +65,7 @@ class LaneManager:
             raise e
         
     @staticmethod
-    def wim_details_marked(dbConnectionObj,d):
+    def wim_data_marked(dbConnectionObj,d):
         try:
             params=[d["LaneId"],d["TransactionId"],True]
             resultData=dbConnectionObj.execute_procedure('USP_WimTransactionMarkedTransfer', params)
