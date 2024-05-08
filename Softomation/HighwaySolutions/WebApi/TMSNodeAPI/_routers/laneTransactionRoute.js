@@ -6,6 +6,9 @@ const logger = require('../_helpers/logger');
 const sql = require('mssql');
 
 router.post('/LaneTranscationInsert', LaneTranscationInsert);
+router.post('/AvcTransactionInsert', AvcTransactionInsert);
+router.post('/WimTransactionInsert', WimTransactionInsert);
+router.post('/WimTransactionAxleDetailsInsert', WimTransactionAxleDetailsInsert);
 module.exports = router;
 async function LaneTranscationInsert(req, res, next) {
     try {
@@ -67,6 +70,68 @@ async function LaneTranscationInsert(req, res, next) {
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'LaneTranscationInsert');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function AvcTransactionInsert(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
+        .input('TransactionCount', sql.BigInt, req.body.TransactionCount)
+        .input('AvcClassId', sql.SmallInt, req.body.AvcClassId)
+        .input('AxleCount', sql.SmallInt, req.body.AxleCount)
+        .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
+        .input('WheelBase', sql.SmallInt, req.body.WheelBase)
+        .input('ImageName', sql.VarChar(255), req.body.ImageName)
+        .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+        .execute('USP_AvcTransactionInsert');
+        await database.disconnect();
+        let out = constants.ResponseMessageList(result.recordset, null);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'USP_AvcTransactionInsert');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function WimTransactionInsert(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
+        .input('TransactionId', sql.BigInt, req.body.TransactionId)
+        .input('TotalWeight', sql.Decimal, req.body.TotalWeight)
+        .input('AxleCount', sql.SmallInt, req.body.AxleCount)
+        .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
+        .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+        .execute('USP_WimTransactionInsert');
+        await database.disconnect();
+        let out = constants.ResponseMessageList(result.recordset, null);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'USP_WimTransactionInsert');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function WimTransactionAxleDetailsInsert(req, res, next) {
+    try {
+        const pool = await database.connect();
+        result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
+        .input('TransactionId', sql.BigInt, req.body.TransactionId)
+        .input('AxleNumber', sql.SmallInt, req.body.AxleNumber)
+        .input('AxleWeight', sql.Decimal, req.body.AxleWeight)
+        .input('Speed', sql.Decimal, req.body.Speed)
+        .input('AxleDistance', sql.Decimal, req.body.AxleDistance)
+        .execute('USP_WimTransactionAxleDetailsInsert');
+        await database.disconnect();
+        let out = constants.ResponseMessageList(result.recordset, null);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'USP_WimTransactionAxleDetailsInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
