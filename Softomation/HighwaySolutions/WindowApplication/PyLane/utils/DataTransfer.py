@@ -99,7 +99,6 @@ class DataSynchronization(threading.Thread):
             threading.Thread(target=self.data_importer.equipments_Import()).start()
             threading.Thread(target=self.data_importer.toll_fare_Import()).start()
             threading.Thread(target=self.data_importer.toll_fare_Future_Import()).start()
-
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} fetch_and_store_master_data: {str(e)}")
     
@@ -115,10 +114,6 @@ class DataSynchronization(threading.Thread):
             self.data_importer.equipments_Import()
             self.data_importer.toll_fare_Import()
             self.data_importer.toll_fare_Future_Import()
-
-            
-
-
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} fetch_and_store_data: {str(e)}")
 

@@ -88,9 +88,10 @@ class MantraRfidReader(threading.Thread):
                                 self.tagDetails["UserData"]=""
                                 self.tagDetails["Class"]="00"
                                 self.tagDetails["Plate"]="XXXXXXXXXX"
-                            self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
-                            pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
-                            self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
+                            if self.tagDetails["Class"]!="00":
+                                self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
+                                pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
+                                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:
