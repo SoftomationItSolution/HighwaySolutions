@@ -10,7 +10,6 @@ class RTSPVideoCapture:
     def __init__(self, default_directory,log_file_name,equipment, gstream_enabled=False, retry_delay=10):
         self.equipment=equipment
         self.rtsp_url = equipment['UrlAddress']
-        #self.rtsp_url = f"rtsp://{equipment['LoginId']}:{equipment['LoginPassword']}@{equipment['IpAddress']}:554/{equipment['UrlAddress']}"
         self.gstream_enabled = gstream_enabled
         self.retry_delay = retry_delay
         self.online = False
@@ -198,5 +197,9 @@ class RTSPVideoCapture:
         try:
             if self.capture is not None:
                 self.capture.release()
+            if self.recording_thread is not None:
+                self.recording = False
+                self.recording_thread.join()
+                self.recording_thread = None
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} writer_init: {str(e)}")

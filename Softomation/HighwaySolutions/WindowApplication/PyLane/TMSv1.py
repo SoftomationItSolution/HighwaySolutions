@@ -9,22 +9,35 @@ from utils.log_master import CustomLogger
 from utils.mySqlConnection import MySQLConnections
 from utils.window_controller import WindowController
 import platform
-
+import psutil
+import signal
 lane_equipments=None
+app=None
+PID_FILE = "TMSv1.pid"
+
+def signal_handler(sig, frame):
+    global app
+    print('Received main signal:', sig)
+    cleanup()
+
 def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger):
-    app = QApplication(sys.argv)
-    primary_screen = app.primaryScreen()
-    screen_geometry = primary_screen.geometry()
-    screen_width = screen_geometry.width()
-    screen_height = screen_geometry.height()
-    app.setStyle(QStyleFactory.create("Fusion"))
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    image_dir=os.path.join(script_dir,'assets','images')
-    icon = os.path.join(image_dir, 'icon.ico')
-    app.setWindowIcon(QIcon(icon))
-    controller = WindowController(dbConnectionObj, default_directory,image_dir,systemSetting,lane_details,default_plaza_Id,screen_width,screen_height,logger)
-    controller.show_login(None)
-    sys.exit(app.exec())
+    global app
+    try:
+        app = QApplication(sys.argv)
+        primary_screen = app.primaryScreen()
+        screen_geometry = primary_screen.geometry()
+        screen_width = screen_geometry.width()
+        screen_height = screen_geometry.height()
+        app.setStyle(QStyleFactory.create("Fusion"))
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        image_dir=os.path.join(script_dir,'assets','images')
+        icon = os.path.join(image_dir, 'icon.ico')
+        app.setWindowIcon(QIcon(icon))
+        controller = WindowController(dbConnectionObj, default_directory,image_dir,systemSetting,lane_details,default_plaza_Id,screen_width,screen_height,logger)
+        controller.show_login(None)
+        sys.exit(app.exec())
+    except KeyboardInterrupt:
+        sys.exit(app.exec())
 
 def check_default_dir():
     try:
@@ -38,9 +51,80 @@ def check_default_dir():
     except Exception as e:
             print(str(e))
 
+def check_duplicate_instance_close_old():
+    if os.path.isfile(PID_FILE):
+        with open(PID_FILE, "r") as f:
+            pid = int(f.read().strip())
+            f.close()
+            if pid_exists(pid):
+                print("Another instance is already running.")
+                kill_process(pid)
+                with open(PID_FILE, "w") as f:
+                    f.write(str(os.getpid()))
+                    f.close()
+                #sys.exit(1)
+            else:
+                with open(PID_FILE, "w") as f:
+                    f.write(str(os.getpid()))
+                    f.close()
+    else:
+        with open(PID_FILE, "w") as f:
+            f.write(str(os.getpid()))
+            f.close()
+
+def check_duplicate_instance_close_new(dir):
+    final_path=os.path.join(dir,PID_FILE)
+    if os.path.isfile(final_path):
+        with open(final_path, "r") as f:
+            pid = int(f.read().strip())
+            f.close()
+            if pid_exists(pid):
+                sys.exit(1)
+            else:
+                with open(final_path, "w") as f:
+                    f.write(str(os.getpid()))
+                    f.close()
+    else:
+        with open(final_path, "w") as f:
+            f.write(str(os.getpid()))
+            f.close()
+
+def pid_exists(pid):
+    return psutil.pid_exists(pid)
+
+def kill_process(pid):
+    try:
+        process = psutil.Process(pid)
+        process.terminate()
+        print(f"Process with PID {pid} terminated successfully.")
+    except psutil.NoSuchProcess:
+        print(f"No process found with PID {pid}.")
+
+def cleanup():
+    global app
+    if os.path.isfile(PID_FILE):
+        os.remove(PID_FILE)
+
+    if lane_equipments is not None:
+        print('going to stop lane_equipments')
+        lane_equipments.on_stop()
+    else:
+        print('lane_equipments not found')
+    
+    if app is not None:
+        print('going to stop app')
+        sys.exit(app.exec())
+    else:
+        print('app not found')
+
 if __name__ == '__main__':
     try:
+        signal.signal(signal.SIGINT, signal_handler)
+        signal.signal(signal.SIGTERM, signal_handler)
+        check_duplicate=False
         default_directory=check_default_dir()
+        check_duplicate_instance_close_new(default_directory)
+        
         
         db_path=os.path.join(default_directory, 'MasterConfig', 'dbConfig.json')
         db_json_data = Utilities.read_json_file(db_path)
@@ -59,8 +143,8 @@ if __name__ == '__main__':
             default_plaza_Id=systemSetting['DefaultPlazaId']
 
         lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
-        lane_equipments.on_start()
+        lane_equipments.start()
 
         desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
-    except KeyboardInterrupt:
-        print("Ctrl+C detected. Exiting gracefully...")
+    except Exception as e:
+        print("An error occurred:", e)

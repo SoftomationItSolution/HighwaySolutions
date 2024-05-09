@@ -32,7 +32,6 @@ class DataSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
         
-        
     def set_logger(self,default_directory,log_file_name):
         try:
             self.classname="DataSynchronization"
@@ -46,25 +45,61 @@ class DataSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} data_impoter: {str(e)}")
 
-    def fetch_and_store_master_data(self):
+    def perform_data_import(self):
         try:
             self.data_importer.project_config_import(self.project_config_path)
-            self.data_importer.data_status_import()
-            self.data_importer.lane_mode_import()
-            self.data_importer.lane_point_import()
-            self.data_importer.lane_position_import()
-            self.data_importer.lane_status_import()
-            self.data_importer.lane_type_import()
-            self.data_importer.lane_direction_import()
-            self.data_importer.transaction_type_import()
-            self.data_importer.payment_type_import()
-            self.data_importer.exempt_type_import()
-            self.data_importer.shift_timing_import()
-            self.data_importer.denomination_type_Import()
-            self.data_importer.equipment_type_Import()
-            self.data_importer.protocol_type_Import()
-            self.data_importer.manufacturer_Import()
-            self.data_importer.fasTag_vehicleclass_Import()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} perform_data_import: {str(e)}")
+
+    def fetch_and_store_master_data(self):
+        try:
+            #self.data_importer.project_config_import(self.project_config_path)
+            # self.data_importer.data_status_import()
+            # self.data_importer.lane_mode_import()
+            # self.data_importer.lane_point_import()
+            # self.data_importer.lane_position_import()
+            # self.data_importer.lane_status_import()
+            # self.data_importer.lane_type_import()
+            # self.data_importer.lane_direction_import()
+            # self.data_importer.transaction_type_import()
+            # self.data_importer.payment_type_import()
+            # self.data_importer.exempt_type_import()
+            # self.data_importer.shift_timing_import()
+            # self.data_importer.denomination_type_Import()
+            #self.data_importer.equipment_type_Import()
+            # self.data_importer.protocol_type_Import()
+            # self.data_importer.manufacturer_Import()
+            # self.data_importer.fasTag_vehicleclass_Import()
+
+            threading.Thread(target=self.perform_data_import()).start()
+            threading.Thread(target=self.data_importer.data_status_import()).start()
+            threading.Thread(target=self.data_importer.lane_mode_import()).start()
+            threading.Thread(target=self.data_importer.lane_point_import()).start()
+            threading.Thread(target=self.data_importer.lane_position_import()).start()
+            threading.Thread(target=self.data_importer.lane_status_import()).start()
+            threading.Thread(target=self.data_importer.lane_type_import()).start()
+            threading.Thread(target=self.data_importer.lane_direction_import()).start()
+            threading.Thread(target=self.data_importer.transaction_type_import()).start()
+            threading.Thread(target=self.data_importer.payment_type_import()).start()
+            threading.Thread(target=self.data_importer.exempt_type_import()).start()
+            threading.Thread(target=self.data_importer.shift_timing_import()).start()
+            threading.Thread(target=self.data_importer.denomination_type_Import()).start()
+            threading.Thread(target=self.data_importer.equipment_type_Import()).start()
+            threading.Thread(target=self.data_importer.protocol_type_Import()).start()
+            threading.Thread(target=self.data_importer.manufacturer_Import()).start()
+            threading.Thread(target=self.data_importer.fasTag_vehicleclass_Import()).start()
+
+            threading.Thread(target=self.data_importer.system_integrator_Import()).start()
+            threading.Thread(target=self.data_importer.system_vehicleclass_Import()).start()
+            threading.Thread(target=self.data_importer.system_vehicle_subclass_Import()).start()
+            threading.Thread(target=self.data_importer.users_Import()).start()
+            threading.Thread(target=self.data_importer.system_setting_Import()).start()
+            threading.Thread(target=self.data_importer.plaza_import()).start()
+            threading.Thread(target=self.data_importer.lane_import()).start()
+            threading.Thread(target=self.data_importer.equipments_Import()).start()
+            threading.Thread(target=self.data_importer.toll_fare_Import()).start()
+            threading.Thread(target=self.data_importer.toll_fare_Future_Import()).start()
+
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} fetch_and_store_master_data: {str(e)}")
     
@@ -80,6 +115,10 @@ class DataSynchronization(threading.Thread):
             self.data_importer.equipments_Import()
             self.data_importer.toll_fare_Import()
             self.data_importer.toll_fare_Future_Import()
+
+            
+
+
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} fetch_and_store_data: {str(e)}")
 
@@ -87,28 +126,27 @@ class DataSynchronization(threading.Thread):
         last_call_time = time.time()-22600
         while self.is_running:
             try:
-                if self.data_upload_running==False:
-                    self.data_upload_running=True
-                    lane_push_thread = threading.Thread(target=self.lane_data_uploading)
-                    lane_push_thread.start()
-
-                    avc_push_thread = threading.Thread(target=self.avc_data_uploading)
-                    avc_push_thread.start()
-
-                    wim_push_thread = threading.Thread(target=self.wim_data_uploading)
-                    wim_push_thread.start()
-
-                    wimDetails_push_thread = threading.Thread(target=self.wim_details_uploading)
-                    wimDetails_push_thread.start()
-                current_time = time.time()
-                if current_time - last_call_time >= 21600:
-                    self.fetch_and_store_master_data()
-                    self.fetch_and_store_data()
-                    last_call_time = current_time
+                if Utilities.check_api_url(self.api_base_url,self.timeout):
+                    if not self.data_upload_running:
+                        self.start_data_uploading_threads()
+                    current_time = time.time()
+                    if current_time - last_call_time >= 21600:
+                        self.fetch_and_store_master_data()
+                        #self.fetch_and_store_data()
+                        last_call_time = current_time
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} run: {str(e)}")
             finally:
                 time.sleep(self.timeout)
+
+   
+
+    def start_data_uploading_threads(self):
+        self.data_upload_running = True
+        threading.Thread(target=self.lane_data_uploading).start()
+        threading.Thread(target=self.avc_data_uploading).start()
+        threading.Thread(target=self.wim_data_uploading).start()
+        threading.Thread(target=self.wim_details_uploading).start()
 
     def lane_data_uploading(self):
         endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
@@ -117,6 +155,8 @@ class DataSynchronization(threading.Thread):
             try:
                 result_data = self.dbConnectionObj.execute_procedure('USP_LaneTransactionPending')
                 for s in result_data:
+                    if self.data_upload_running==False:
+                        break
                     try:
                         res=self.upload_data(api_url,s)
                         if res:
@@ -126,6 +166,8 @@ class DataSynchronization(threading.Thread):
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
             finally:
+                if self.data_upload_running==False:
+                    break
                 time.sleep(self.timeout)
 
     def avc_data_uploading(self):
@@ -135,6 +177,8 @@ class DataSynchronization(threading.Thread):
             try:
                 result_data = self.dbConnectionObj.execute_procedure('USP_AvcTransactionPending')
                 for s in result_data:
+                    if self.data_upload_running==False:
+                        break
                     data_status=s['IsDataTransfer']
                     media_status=s['IsMediaTransfer']
                     try:
@@ -155,9 +199,14 @@ class DataSynchronization(threading.Thread):
                         LaneManager.avc_data_marked(self.dbConnectionObj,s,data_status,media_status)
                     except Exception as e:
                         self.logger.logError(f"Exception {self.classname} avc_data_uploading child: {str(e)}")
+                    finally:
+                        if self.data_upload_running==False:
+                            break
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} avc_data_uploading: {str(e)}")
             finally:
+                if self.data_upload_running==False:
+                    break
                 time.sleep(self.timeout)
     
     def wim_data_uploading(self):
@@ -167,15 +216,22 @@ class DataSynchronization(threading.Thread):
             try:
                 result_data = self.dbConnectionObj.execute_procedure('USP_WimTransactionPending')
                 for s in result_data:
+                    if self.data_upload_running==False:
+                        break
                     try:
                         res=self.upload_data(api_url,s)
                         if res:
                             LaneManager.wim_data_marked(self.dbConnectionObj,s)
                     except Exception as e:
                         self.logger.logError(f"Exception {self.classname} wim_data_uploading child: {str(e)}")
+                    finally:
+                        if self.data_upload_running==False:
+                            break
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_data_uploading: {str(e)}")
             finally:
+                if self.data_upload_running==False:
+                    break
                 time.sleep(self.timeout)
 
     def wim_details_uploading(self):
@@ -185,15 +241,22 @@ class DataSynchronization(threading.Thread):
             try:
                 result_data = self.dbConnectionObj.execute_procedure('USP_WimTransactionAxleDetailsPending')
                 for s in result_data:
+                    if self.data_upload_running==False:
+                        break
                     try:
                         res=self.upload_data(api_url,s)
                         if res:
                             LaneManager.wim_details_marked(self.dbConnectionObj,s)
                     except Exception as e:
                         self.logger.logError(f"Exception {self.classname} wim_details_uploading child: {str(e)}")
+                    finally:
+                        if self.data_upload_running==False:
+                            break
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_details_uploading: {str(e)}")
             finally:
+                if self.data_upload_running==False:
+                    break
                 time.sleep(self.timeout)
 
     def upload_data(self,endpoint,data):
@@ -205,7 +268,7 @@ class DataSynchronization(threading.Thread):
             else:
                 self.logger.logInfo(f"{self.classname} response {response.status_code}  upload_data: {endpoint} {response.text}")
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
+                self.logger.logError(f"Exception {self.classname} upload_data: {str(e)}")
         finally:
             return result
 
@@ -214,4 +277,4 @@ class DataSynchronization(threading.Thread):
             self.is_running = False
             self.data_upload_running = False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")

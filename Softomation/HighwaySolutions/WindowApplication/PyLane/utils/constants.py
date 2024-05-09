@@ -196,6 +196,16 @@ class Utilities:
             return requests.post(endpoint, json=data, headers=headers)
         except Exception as e:
             raise e
+    @staticmethod    
+    def check_api_url(api_base_url,timeout):
+        try:
+            response = requests.get(api_base_url,timeout=timeout)
+            if response.status_code == 200:
+                return True
+            else:
+                return False
+        except Exception as e:
+            return False
         
     @staticmethod
     def make_dir(directory):

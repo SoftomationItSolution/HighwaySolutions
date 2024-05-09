@@ -21,8 +21,9 @@ from utils.avc.sagar_avc_data import SagarAVCDataClient
 from utils.dio.kits_dio_card import KistDIOClient
 from pubsub import pub
 
-class LaneEquipmentSynchronization:
-    def __init__(self, default_directory, dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip):
+class LaneEquipmentSynchronization(threading.Thread):
+    def __init__(self, default_directory, dbConnectionObj, default_plaza_Id, lane_details, systemSetting, system_ip):
+        super().__init__()
         self.logger = CustomLogger(default_directory,'lane_BG')
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
@@ -51,8 +52,7 @@ class LaneEquipmentSynchronization:
         self.set_logger(default_directory,'lane_BG')
         pub.subscribe(self.lane_trans_start, "lane_process_start")
         pub.subscribe(self.app_log_status, "app_log_status")
-        #pub.subscribe(self.avc_data_process, "avc_data")
-        #pub.subscribe(self.create_violation_trans, "violation_generated")
+      
 
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -186,7 +186,7 @@ class LaneEquipmentSynchronization:
     def stop_dio_thread(self):
         try:
             if self.dio_thread:
-                self.dio_thread.client_stop()
+                self.dio_thread.stop()
                 self.dio_thread.join()
                 self.dio_thread = None
         except Exception as e:
@@ -195,7 +195,7 @@ class LaneEquipmentSynchronization:
     def stop_avc_thread(self):
         try:
             if self.avc_thread:
-                self.avc_thread.client_stop()
+                self.avc_thread.stop()
                 self.avc_thread.join()
                 self.avc_thread = None
         except Exception as e:
@@ -204,7 +204,7 @@ class LaneEquipmentSynchronization:
     def stop_wim_thread(self):
         try:
             if self.wim_thread:
-                self.wim_thread.client_stop()
+                self.wim_thread.stop()
                 self.wim_thread.join()
                 self.wim_thread = None
         except Exception as e:
@@ -231,7 +231,7 @@ class LaneEquipmentSynchronization:
     def stop_dts_thread(self):
         try:
             if self.dts_thread:
-                self.dts_thread.on_stop()
+                self.dts_thread.stop()
                 self.dts_thread.join()
                 self.dts_thread = None
         except Exception as e:
@@ -316,17 +316,27 @@ class LaneEquipmentSynchronization:
                     self.start_ping_thread()
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} loop_function: {str(e)}")
+            finally:
+                if self.is_running == False:
+                    break
             time.sleep(0.100)
 
-    def on_start(self):
-        try:
-            if not self.is_running:
-                self.is_running = True
-                self.thread = threading.Thread(target=self.loop_function)
-                self.thread.start()
-                self.logger.logInfo("Lane Equipment Synchronization started.")
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} start_avc_thread: {str(e)}")
+   
+
+    def run(self):
+        if self.is_running == False:
+            self.is_running = True
+        self.loop_function()
+
+    # def on_start(self):
+    #     try:
+    #         if not self.is_running:
+    #             self.is_running = True
+    #             self.thread = threading.Thread(target=self.loop_function)
+    #             self.thread.start()
+    #             self.logger.logInfo("Lane Equipment Synchronization started.")
+    #     except Exception as e:
+    #         self.logger.logError(f"Exception {self.classname} start_avc_thread: {str(e)}")
 
     def on_stop(self):
         try:
@@ -334,10 +344,12 @@ class LaneEquipmentSynchronization:
                 self.is_running = False
                 self.stop_dio_thread() 
                 self.stop_avc_thread()
-                self.start_wim_thread()
+                self.stop_wim_thread()
                 self.stop_rfid_thread()
                 self.stop_ping_thread()
                 self.stop_dts_thread()
+                self.LPICCamera.stop_capture()
+                self.ICCamera.stop_capture()
                 self.mqtt_client.disconnect()
                 self.plaza_detail=None
                 self.lane_detail=None
@@ -345,10 +357,13 @@ class LaneEquipmentSynchronization:
                 self.is_running = False
                 self.rfid_client_connected=False
                 self.mqtt_client_connected=False
-                self.thread.join()
                 self.logger.log_info("Lane Equipment Synchronization stopped.")
+                self.thread.join()
+                self.thread=None
+                print('Lane Equipment Synchronization is stopped.')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_stop: {str(e)}")
+            print(f'going to stop is_running {str(e)}')
 
     def avc_data_process(self, transactionInfo):
         try:
