@@ -134,14 +134,13 @@ class DataSynchronization(threading.Thread):
             finally:
                 time.sleep(self.timeout)
 
-   
-
     def start_data_uploading_threads(self):
         self.data_upload_running = True
         threading.Thread(target=self.lane_data_uploading).start()
         threading.Thread(target=self.avc_data_uploading).start()
         threading.Thread(target=self.wim_data_uploading).start()
         threading.Thread(target=self.wim_details_uploading).start()
+        threading.Thread(target=self.lane_meida_uploading).start()
 
     def lane_data_uploading(self):
         endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
@@ -158,8 +157,38 @@ class DataSynchronization(threading.Thread):
                             LaneManager.lane_data_marked(self.dbConnectionObj,s)
                     except Exception as e:
                         self.logger.logError(f"Exception {self.classname} lane_data_uploading child: {str(e)}")
+                    finally:
+                        if self.data_upload_running==False:
+                            break
+                        time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
+            finally:
+                if self.data_upload_running==False:
+                    break
+                time.sleep(self.timeout)
+
+    def lane_meida_uploading(self):
+        endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
+        api_url = f"{self.api_base_url}{endpoint}"
+        while self.data_upload_running:
+            try:
+                result_data = self.dbConnectionObj.execute_procedure('USP_LaneTransactionPending')
+                for s in result_data:
+                    if self.data_upload_running==False:
+                        break
+                    try:
+                        res=self.upload_data(api_url,s)
+                        if res:
+                            LaneManager.lane_data_marked(self.dbConnectionObj,s)
+                    except Exception as e:
+                        self.logger.logError(f"Exception {self.classname} lane_meida_uploading child: {str(e)}")
+                    finally:
+                        if self.data_upload_running==False:
+                            break
+                        time.sleep(self.timeout)
+            except Exception as e:
+                self.logger.logError(f"Exception {self.classname} lane_meida_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
@@ -197,6 +226,7 @@ class DataSynchronization(threading.Thread):
                     finally:
                         if self.data_upload_running==False:
                             break
+                        time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} avc_data_uploading: {str(e)}")
             finally:
@@ -222,6 +252,7 @@ class DataSynchronization(threading.Thread):
                     finally:
                         if self.data_upload_running==False:
                             break
+                        time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_data_uploading: {str(e)}")
             finally:
@@ -247,6 +278,7 @@ class DataSynchronization(threading.Thread):
                     finally:
                         if self.data_upload_running==False:
                             break
+                        time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_details_uploading: {str(e)}")
             finally:

@@ -80,7 +80,8 @@ class MainWindow(QMainWindow):
             self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.LaneDetail,self.default_directory)
             self.right_frame.current_transaction_box.btnSubmit.clicked.connect(self.save_transctions)
             self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
-            #self.right_frame.wim_data_queue_box.tblWim.itemSelectionChanged.connect(self.on_weight_selection)
+            self.right_frame.wim_data_queue_box.tblWim.itemDoubleClicked.connect(self.remove_wim_Row)
+            self.right_frame.rfid_data_queue_box.tblRfid.itemDoubleClicked.connect(self.remove_rfid_Row)
             frames_layout.addWidget(self.right_frame)
         
             main_layout.addLayout(frames_layout)
@@ -224,6 +225,10 @@ class MainWindow(QMainWindow):
             TransactionTypeId=Utilities.is_integer(current_Transaction["TransactionTypeId"])
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
+                    if TransactionTypeId==1:
+                        if current_Transaction["TagEpc"]=='':
+                            show_custom_message_box("Save Transactions", "FasTag epc is required", 'cri')
+                            return
                     self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
                     current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
                     current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
@@ -231,7 +236,7 @@ class MainWindow(QMainWindow):
                         current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
                     current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
                     pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
-                    if TransactionTypeId !=1:
+                    if TransactionTypeId ==2:
                         self.print_receipt(current_Transaction)
                     resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
                     if(resultData is not None and len(resultData)>0):
@@ -307,7 +312,25 @@ class MainWindow(QMainWindow):
                 del self.right_frame.wim_data_queue_box.wim_q[row]
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  on_weight_selection: {e}")
-            show_custom_message_box("WIM Weight", "Somthing went wrong!", 'cri')            
+            show_custom_message_box("WIM Weight", "Somthing went wrong!", 'cri')
+
+    def remove_wim_Row(self, item):
+        try:
+            row = item.row()
+            self.right_frame.wim_data_queue_box.tblWim.removeRow(row)
+            del self.right_frame.wim_data_queue_box.wim_q[row]
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  remove_wim_Row: {e}")
+            show_custom_message_box("WIM Weight", "Somthing went wrong!", 'cri') 
+
+    def remove_rfid_Row(self, item):
+        try:
+            row = item.row()
+            self.right_frame.rfid_data_queue_box.tblRfid.removeRow(row)
+            del self.right_frame.rfid_data_queue_box.rfid_q[row]
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  remove_rfid_Row: {e}")
+            show_custom_message_box("RFID", "Somthing went wrong!", 'cri')          
 
     def onVCSelectionChanged(self):
         try:

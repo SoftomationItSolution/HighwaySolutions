@@ -110,6 +110,7 @@ class AppaltoWinDataClient(threading.Thread):
         while not self.is_stopped:
             try:
                 self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.client_socket.settimeout(0.200)
                 self.client_socket.connect((self.wim_detail["IpAddress"], self.wim_detail["PortNumber"]))
                 self.is_running=True
                 con_data=''

@@ -374,7 +374,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     
     def app_log_status(self, transactionInfo):
          if self.dio_thread is not None:
-                    self.dio_thread.ohls_status(transactionInfo)
+                    self.dio_thread.ohls_status_set(transactionInfo)
 
     def lane_trans_start(self, transactionInfo):
         try:

@@ -1,7 +1,6 @@
 import socket
 import threading
 import time
-
 import serial
 from utils.log_master import CustomLogger
 from pubsub import pub
@@ -27,7 +26,9 @@ class KistDIOClient(threading.Thread):
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "Status": False}
         ]
         self.barrier_loop_last=False
-        self.barrier_Status=False
+        self.barrier_last_Status=False        
+        self.barrier_Status=False        
+        self.ohls_Status=False
         self.set_logger(default_directory,log_file_name)
 
     def set_logger(self,default_directory,log_file_name):
@@ -53,8 +54,12 @@ class KistDIOClient(threading.Thread):
                 except Exception as e:
                     self.logger.logError(f"Exception {self.classname} formate_output_mqtt: {str(e)}")
                 finally:
-                    if i==2:
+                    if i==1:
+                        self.ohls_status=False if int(value[i])==0 else True
+                    elif i==2:
                         self.barrier_Status=False if int(value[i])==0 else True
+                        if self.barrier_last_Status!=self.barrier_Status:
+                            self.barrier_last_Status=self.barrier_Status
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} formate_output: {str(e)}")
 
@@ -67,7 +72,7 @@ class KistDIOClient(threading.Thread):
             for i in range(data_len):
                 key=f"IN-{str(i+1)}"
                 status=True if int(value[i])==0 else False
-                if (i+1)==9:
+                if (i+1)==9:  # exit loop
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
                         self.lane_trans_end()
                     if status==False and self.barrier_Status==False:
@@ -78,7 +83,7 @@ class KistDIOClient(threading.Thread):
                     if status==False and self.barrier_Status==True and self.record_status==True:
                         self.record_status==False
                         self.handler.stop_ic_record()
-                    if status==False and self.barrier_loop_last==True and self.barrier_Status==False:
+                    if status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==False:
                         self.violation_trigger('s41e')
                     if status!=self.barrier_loop_last:
                         self.barrier_loop_last=status
@@ -150,6 +155,7 @@ class KistDIOClient(threading.Thread):
     def tcp_conn(self):
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.settimeout(0.200)
             self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
             self.is_running = True
             self.send_data('sSAe')
@@ -160,10 +166,20 @@ class KistDIOClient(threading.Thread):
                 time.sleep(self.timeout)
         except Exception as e:
             raise e
+        
+    def tcp_close(self):
+        try:
+            if self.client_socket:
+                self.client_socket.close()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_tcp (closing): {str(e)}")
 
     def serial_conn(self):
         try:
-            self.client_socket = serial.Serial(self.dio_detail["IpAddress"], self.dio_detail["PortNumber"])
+            self.client_socket = serial.Serial(timeout=0.200)
+            self.client_socket.baudrate = self.dio_detail["IpAddress"]
+            self.client_socket.port = self.dio_detail["PortNumber"]
+            self.client_socket.open()
             self.is_running = True
             self.send_data('sSAe')
             while self.is_running:
@@ -173,12 +189,22 @@ class KistDIOClient(threading.Thread):
                 time.sleep(self.timeout)
         except Exception as e:
             raise e    
-
+    
+    def serial_close(self):
+        try:
+            if self.client_socket:
+                if self.client_socket.is_open:
+                    self.client_socket.close()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_serial (closing): {str(e)}")
+    
     def client_stop(self):
         try:
             self.is_running = False
-            if self.client_socket:
-                self.client_socket.close()
+            if self.dio_detail["ProtocolTypeId"]==1:
+                self.tcp_close()
+            elif self.dio_detail["ProtocolTypeId"]==3:
+                self.serial_close()
         except Exception as e:
                 self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
 
@@ -198,7 +224,7 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
 
-    def ohls_status(self,status):
+    def ohls_status_set(self,status):
         try:
             
             if self.client_socket is not None:

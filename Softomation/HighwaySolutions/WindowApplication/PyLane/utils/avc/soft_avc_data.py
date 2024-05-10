@@ -63,9 +63,11 @@ class STPLAVCDataClient(threading.Thread):
             self.logger.logError(f"Exception {self.classname} process_db: {str(e)}")
 
     def run(self):
+        
         while not self.is_stopped:
             try:
                 self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.client_socket.settimeout(0.200)
                 self.client_socket.connect(('127.0.0.1', 4224))
                 #self.client_socket.connect((self.avc_detail["IpAddress"], self.avc_detail["PortNumber"]))
                 self.is_running = True

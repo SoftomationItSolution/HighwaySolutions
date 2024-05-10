@@ -1,4 +1,5 @@
 import socket
+import serial
 import time
 from utils.log_master import CustomLogger
 
@@ -22,7 +23,9 @@ class KistUFDClient():
             input=input+'\r\n'
             bytes_data = input.encode('ascii')
             if self.ufd_detail["ProtocolTypeId"]==1:
-                self.on_tcp(bytes_data) 
+                self.on_tcp(bytes_data)
+            elif self.dio_detail["ProtocolTypeId"]==3:
+                self.on_serial(bytes_data)
             time.sleep(self.timeout)      
             return True
         except Exception as e:
@@ -32,11 +35,43 @@ class KistUFDClient():
     def on_tcp(self, bytes_data):
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.settimeout(0.200)
             self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
             self.client_socket.sendall(bytes_data)
-            self.client_socket.close()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
+        finally:
+            self.tcp_close()
+
+    def tcp_close(self):
+        try:
+            if self.client_socket:
+                self.client_socket.close()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_tcp (closing): {str(e)}")
+    
+
+    def on_serial(self,bytes_data):
+        try:
+            self.client_socket = serial.Serial(timeout=0.200)
+            self.client_socket.baudrate = self.ufd_detail["IpAddress"]
+            self.client_socket.port = self.ufd_detail["PortNumber"]
+            self.client_socket.open()
+            self.is_running = True
+            self.client_socket.write(bytes_data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_serial: {str(e)}")
+        finally:
+            self.serial_close()
+    
+    def serial_close(self):
+        try:
+            if self.client_socket:
+                if self.client_socket.is_open:
+                    self.client_socket.close()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_serial (closing): {str(e)}")
+   
 
     def clear_cmd(self):
         self.send_data("CT")
