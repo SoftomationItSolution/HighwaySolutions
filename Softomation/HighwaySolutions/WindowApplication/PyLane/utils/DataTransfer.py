@@ -169,18 +169,31 @@ class DataSynchronization(threading.Thread):
                 time.sleep(self.timeout)
 
     def lane_meida_uploading(self):
-        endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
-        api_url = f"{self.api_base_url}{endpoint}"
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_LaneTransactionPending')
+                result_data = self.dbConnectionObj.execute_procedure('USP_LaneMediaPending')
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
                     try:
-                        res=self.upload_data(api_url,s)
-                        if res:
-                            LaneManager.lane_data_marked(self.dbConnectionObj,s)
+                        date_object = datetime.strptime(s["TransactionDateTime"], '%d-%b-%Y %H:%M:%S.%f')
+                        today = date_object.strftime('%Y-%m-%d')
+                        if s["TransactionFrontImage"] is not None and s["TransactionFrontImage"]!='':
+                            file_path_dir=os.path.join(self.default_directory, 'Events', 'camera','lpic',s["TransactionFrontImage"])
+                            if Utilities.check_file_exists(file_path_dir):
+                                uploadPath=f"{self.event_path}{today}/L{str(s['LaneId'])}/lpic/image/{s['TransactionFrontImage']}"
+                                Utilities.upload_file_ssh(file_path_dir, uploadPath, self.plaza_config["FtpAddress"], self.plaza_config["FtpUser"], self.plaza_config["FtpPassword"])
+                        if s["TransactionBackImage"] is not None and s["TransactionBackImage"]!='':
+                            file_path_dir=os.path.join(self.default_directory, 'Events', 'camera','ic',s["TransactionBackImage"])
+                            if Utilities.check_file_exists(file_path_dir):
+                                uploadPath=f"{self.event_path}{today}/L{str(s['LaneId'])}/ic/image/{s['TransactionBackImage']}"
+                                Utilities.upload_file_ssh(file_path_dir, uploadPath, self.plaza_config["FtpAddress"], self.plaza_config["FtpUser"], self.plaza_config["FtpPassword"])
+                        if s["TransactionVideo"] is not None and s["TransactionVideo"]!='':
+                            file_path_dir=os.path.join(self.default_directory, 'Events', 'camera','ic',s["TransactionVideo"])
+                            if Utilities.check_file_exists(file_path_dir):
+                                uploadPath=f"{self.event_path}{today}/L{str(s['LaneId'])}/ic/video/{s['TransactionVideo']}"
+                                Utilities.upload_file_ssh(file_path_dir, uploadPath, self.plaza_config["FtpAddress"], self.plaza_config["FtpUser"], self.plaza_config["FtpPassword"])
+                        LaneManager.lane_media_marked(self.dbConnectionObj,s)
                     except Exception as e:
                         self.logger.logError(f"Exception {self.classname} lane_meida_uploading child: {str(e)}")
                     finally:
@@ -213,7 +226,7 @@ class DataSynchronization(threading.Thread):
                                 file_path=os.path.join(self.media_path, 'avc',today,s["ImageName"])
                                 if Utilities.check_file_exists(file_path):
                                     uploadPath=f"{self.event_path}{today}/L{str(s['LaneId'])}/avc/{s['ImageName']}"
-                                    media_status=Utilities.upload_file_ssh(file_path, uploadPath, self.plaza_config["FtpAddress"], 'srb', "Srb@2024")
+                                    media_status=Utilities.upload_file_ssh(file_path, uploadPath, self.plaza_config["FtpAddress"], self.plaza_config["FtpUser"], self.plaza_config["FtpPassword"])
                                 else:
                                     media_status=True
                             else:

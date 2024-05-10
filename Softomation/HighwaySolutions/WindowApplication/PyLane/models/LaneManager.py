@@ -53,6 +53,15 @@ class LaneManager:
             return resultData
         except Exception as e:
             raise e
+        
+    @staticmethod
+    def lane_media_marked(dbConnectionObj,d):
+        try:
+            params=[d["LaneTransactionId"]]
+            resultData=dbConnectionObj.execute_procedure('USP_LaneMediaMarkedTransfer', params)
+            return resultData
+        except Exception as e:
+            raise e
     
     @staticmethod    
     def wim_data_insert(dbConnectionObj,d):
