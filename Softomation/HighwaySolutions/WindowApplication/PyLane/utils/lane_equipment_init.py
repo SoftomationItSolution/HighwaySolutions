@@ -50,6 +50,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.create_mqtt_obj()
         self.current_Transaction=None
         self.set_logger(default_directory,'lane_BG')
+        self.mqtt_topic='lane/deviceStatus'
         pub.subscribe(self.lane_trans_start, "lane_process_start")
         pub.subscribe(self.app_log_status, "app_log_status")
       
@@ -170,7 +171,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_ping_thread(self):
         try:
             if not self.ping_thread:
-                self.ping_thread = PingThread(self, self.equipment_detail, 'lane/deviceStatus',self.default_directory,'lane_BG_ping', interval=60)
+                self.ping_thread = PingThread(self, self.equipment_detail, self.default_directory,'lane_BG_ping', interval=60)
                 self.ping_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ping_thread: {str(e)}")
@@ -287,18 +288,30 @@ class LaneEquipmentSynchronization(threading.Thread):
     def loop_function(self):
         while self.is_running:
             try:
+                if not self.is_running:
+                    break
                 self.start_dts_thread()
+                if not self.is_running:
+                    break
                 if self.plaza_detail is None:
                     self.GetPlazaDetails()
                 else:
                     if self.mqtt_client_connected==False:
                         self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
+                if not self.is_running:
+                    break
                 if self.shiftDetails is None:
                     self.GetshiftDetails()
+                if not self.is_running:
+                    break
                 if self.equipment_detail is None:
                     self.GetEquipmentDetails()
+                if not self.is_running:
+                    break
                 else:
                     for equipment in self.equipment_detail:
+                        if not self.is_running:
+                            break
                         if equipment["EquipmentTypeId"]==4:
                             self.start_wim_thread(equipment)
                         elif equipment["EquipmentTypeId"]==5:
@@ -314,6 +327,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                         elif equipment["EquipmentTypeId"]==21:
                             self.start_avc_thread(equipment)
                     self.start_ping_thread()
+                    if not self.is_running:
+                        break
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} loop_function: {str(e)}")
             finally:
@@ -321,22 +336,37 @@ class LaneEquipmentSynchronization(threading.Thread):
                     break
             time.sleep(0.100)
 
-   
-
     def run(self):
         if self.is_running == False:
             self.is_running = True
         self.loop_function()
 
-    # def on_start(self):
-    #     try:
-    #         if not self.is_running:
-    #             self.is_running = True
-    #             self.thread = threading.Thread(target=self.loop_function)
-    #             self.thread.start()
-    #             self.logger.logInfo("Lane Equipment Synchronization started.")
-    #     except Exception as e:
-    #         self.logger.logError(f"Exception {self.classname} start_avc_thread: {str(e)}")
+    def update_equipment_Status(self,equipment):
+        try:
+            if self.mqtt_topic is not None:
+                self.send_message_to_mqtt(self.mqtt_topic, equipment)
+            pub.sendMessage("ping_processed", transactionInfo=equipment)
+            if equipment["EquipmentTypeId"]==4:
+                if not self.wim_thread:
+                    self.wim_thread.retry(equipment["OnLineStatus"])
+            elif equipment["EquipmentTypeId"]==5:
+                if not self.rfid_thread:
+                    self.rfid_thread.retry(equipment["OnLineStatus"])
+            elif equipment["EquipmentTypeId"]==7:
+                if not self.dio_thread:
+                    self.dio_thread.retry(equipment["OnLineStatus"])
+            # elif equipment["EquipmentTypeId"]==15:
+            #     self.ConnectLPICCamera(equipment)
+            # elif equipment["EquipmentTypeId"]==16:
+            #     self.ConnectICCamera(equipment)
+            elif equipment["EquipmentTypeId"]==18:
+                if not self.ufd:
+                    self.ufd.retry(equipment["OnLineStatus"])
+            elif equipment["EquipmentTypeId"]==21:
+                if not self.avc_thread:
+                    self.avc_thread.retry(equipment["OnLineStatus"])
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_equipment_Status: {str(e)}")
 
     def on_stop(self):
         try:
@@ -374,7 +404,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     
     def app_log_status(self, transactionInfo):
          if self.dio_thread is not None:
-                    self.dio_thread.ohls_status_set(transactionInfo)
+                self.dio_thread.ohls_status_set(transactionInfo)
 
     def lane_trans_start(self, transactionInfo):
         try:

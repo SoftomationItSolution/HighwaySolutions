@@ -34,7 +34,6 @@ class CameraLiveView(QFrame):
             self.video_widget.setStyleSheet("border: none;")
             self.video_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
             group_box_layout.addWidget(self.video_widget, alignment=Qt.AlignBottom | Qt.AlignVCenter)
-
             self.updateFinished.connect(self.start_stream)
         except Exception as e:
             self.logger.logError(f"Error in CameraLiveView __init__: {e}")

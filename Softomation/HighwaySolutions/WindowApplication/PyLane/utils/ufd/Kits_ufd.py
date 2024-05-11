@@ -9,6 +9,7 @@ class KistUFDClient():
         self.ufd_detail=_ufd_detail
         self.timeout=timeout
         self.client_socket=None
+        self.is_active=False
         self.set_logger(default_directory,log_file_name)
         
     def set_logger(self,default_directory,log_file_name):
@@ -23,11 +24,15 @@ class KistUFDClient():
             input=input+'\r\n'
             bytes_data = input.encode('ascii')
             if self.ufd_detail["ProtocolTypeId"]==1:
-                self.on_tcp(bytes_data)
+                if self.is_active:
+                    self.on_tcp(bytes_data)
+                    return True
             elif self.dio_detail["ProtocolTypeId"]==3:
                 self.on_serial(bytes_data)
-            time.sleep(self.timeout)      
-            return True
+                return True
+            else:
+                return False
+                  
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
             return False
@@ -35,13 +40,17 @@ class KistUFDClient():
     def on_tcp(self, bytes_data):
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.settimeout(0.200)
             self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
             self.client_socket.sendall(bytes_data)
+            time.sleep(self.timeout)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
         finally:
             self.tcp_close()
+
+    def retry(self,status):
+        if self.is_active!=status:
+            self.is_active=status
 
     def tcp_close(self):
         try:

@@ -2,16 +2,14 @@ from ping3 import ping
 from scapy.all import IP, ICMP, sr1
 import threading
 import time
-from pubsub import pub
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class PingThread(threading.Thread):
-    def __init__(self, handler, equipment_list, mqtt_topic,default_directory,log_file_name, interval=10):
+    def __init__(self, handler, equipment_list, default_directory,log_file_name, interval=10):
         threading.Thread.__init__(self)
         self.handler = handler
         self.equipment_list = equipment_list
-        self.mqtt_topic = mqtt_topic
         self.interval = interval
         self.is_running = False
         self.set_logger(default_directory,log_file_name)
@@ -55,9 +53,7 @@ class PingThread(threading.Thread):
                             ip_address = equipment.get('IpAddress')
                             if Utilities.is_valid_ipv4(ip_address):
                                 equipment["OnLineStatus"]=self.ping_equipment(ip_address)
-                                if self.mqtt_topic is not None:
-                                    self.handler.send_message_to_mqtt(self.mqtt_topic, equipment)
-                                pub.sendMessage("ping_processed", transactionInfo=equipment)
+                                self.handler.update_equipment_Status(equipment)
                     last_call_time = current_time
                 time.sleep(0.1)
         except Exception as e:

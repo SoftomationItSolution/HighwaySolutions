@@ -18,6 +18,7 @@ class KistDIOClient(threading.Thread):
         self.is_running=False
         self.is_stopped = False
         self.record_status=False
+        self.is_active=False
         self.violation_duration=10
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
@@ -141,6 +142,8 @@ class KistDIOClient(threading.Thread):
         
     def run(self):
         while not self.is_stopped:
+            if self.is_stopped:
+                break
             try:
                 if self.dio_detail["ProtocolTypeId"]==1:
                     self.tcp_conn()
@@ -154,20 +157,31 @@ class KistDIOClient(threading.Thread):
             finally:
                 self.client_stop()
 
+    def retry(self,status):
+        if self.is_active!=status:
+            self.is_active=status
+
     def tcp_conn(self):
         try:
-            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.settimeout(0.200)
-            self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
-            self.is_running = True
-            self.send_data('sSAe')
-            while self.is_running:
-                echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
-                if len(echoed_transaction_number) != 0:
-                    self.process_data(echoed_transaction_number)
+            while self.is_active:
+                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
+                self.is_running = True
+                self.send_data('sSAe')
+                while self.is_running:
+                    if not self.is_active or self.is_stopped or not self.is_running:
+                        break
+                    echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
+                    if len(echoed_transaction_number) != 0:
+                        self.process_data(echoed_transaction_number)
+                    time.sleep(self.timeout)
                 time.sleep(self.timeout)
         except Exception as e:
             raise e
+        
+    def retry(self,status):
+        if self.is_active!=status:
+            self.is_active=status
         
     def tcp_close(self):
         try:
@@ -185,6 +199,8 @@ class KistDIOClient(threading.Thread):
             self.is_running = True
             self.send_data('sSAe')
             while self.is_running:
+                if not self.is_running:
+                    break
                 received_data = self.client_socket.readline().decode('utf-8').strip()
                 if len(received_data) != 0:
                     self.process_data(received_data)

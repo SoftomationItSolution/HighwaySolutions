@@ -23,7 +23,8 @@ class CameraThread(QThread):
                 try:
                     ret, frame = cap.read()
                     if ret:
-                        frame = imutils.resize(frame, width=self.width, height=self.height)
+                        #frame = imutils.resize(frame, width=self.width, height=self.height)
+                        frame = cv2.resize(frame, (self.width, self.height))
                         rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                         h, w, ch = rgb_image.shape
                         bytes_per_line = ch * w

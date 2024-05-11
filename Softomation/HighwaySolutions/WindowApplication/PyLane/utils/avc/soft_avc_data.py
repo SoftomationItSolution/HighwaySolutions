@@ -17,6 +17,7 @@ class STPLAVCDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
+        self.is_active = False
         self.last_trans=None
         self.LaneTransactionId=0
         self.set_logger(default_directory,log_file_name)
@@ -63,15 +64,15 @@ class STPLAVCDataClient(threading.Thread):
             self.logger.logError(f"Exception {self.classname} process_db: {str(e)}")
 
     def run(self):
-        
         while not self.is_stopped:
             try:
                 self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.client_socket.settimeout(0.200)
                 self.client_socket.connect(('127.0.0.1', 4224))
                 #self.client_socket.connect((self.avc_detail["IpAddress"], self.avc_detail["PortNumber"]))
                 self.is_running = True
                 while self.is_running:
+                    if not self.is_active or self.is_stopped or not self.is_running:
+                        break
                     echoed_transaction_number = self.client_socket.recv(50240).decode('utf-8').strip()
                     if len(echoed_transaction_number) != 0:
                         self.process_data(echoed_transaction_number)
@@ -83,6 +84,10 @@ class STPLAVCDataClient(threading.Thread):
                 self.logger.logError(f"Exception {self.classname} avc_run: {str(e)}")
             finally:
                 self.client_stop()
+
+    def retry(self,status):
+        if self.is_active!=status:
+            self.is_active=status
 
 
     def getavc(self,TID):

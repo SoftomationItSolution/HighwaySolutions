@@ -11,7 +11,11 @@ const passwordIterations = 2;                  // can be any number
 const initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
 const keySize = 256;                // can be 192 or 128
 const JWTkey = AppProvider + "HighwaySoluationsProvider";
-const root_path = 'C:/ProjectConfig/TMSv1/'
+const os = require('os');
+//console.log(os.platform())
+const root_path  = os.platform() === 'win32' ? 'C:\\ProjectConfig\\TMSv1\\' : '/home/ProjectConfig/TMSv1/';
+//console.log(root_path )
+
 const log_path = 'log/BackOfficeAPI/'
 const db_path = 'MasterConfig/NodeDBConfiguration.json'
 const pc_path = 'MasterConfig/ProjectConfiguration.json'
