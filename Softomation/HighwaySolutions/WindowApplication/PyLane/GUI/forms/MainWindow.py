@@ -226,7 +226,7 @@ class MainWindow(QMainWindow):
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
                     if TransactionTypeId==1:
-                        if current_Transaction["TagEpc"]=='':
+                        if current_Transaction["TagEPC"]=='':
                             show_custom_message_box("Save Transactions", "FasTag epc is required", 'cri')
                             return
                     self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)

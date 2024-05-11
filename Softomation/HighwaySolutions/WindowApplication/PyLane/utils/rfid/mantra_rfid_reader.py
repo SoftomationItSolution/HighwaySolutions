@@ -64,7 +64,7 @@ class MantraRfidReader(threading.Thread):
                     self.is_running=self.setup_reader()
                 else:
                     self.is_running=True
-                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}    
+                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}    
                 current_time = time.time()
                 if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
                     processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items()
@@ -86,12 +86,12 @@ class MantraRfidReader(threading.Thread):
                                 self.decrypt_user_data(tag._UserData)
                             else:
                                 self.tagDetails["UserData"]=""
-                                self.tagDetails["Class"]="00"
+                                self.tagDetails["Class"]=0
                                 self.tagDetails["Plate"]="XXXXXXXXXX"
-                            if self.tagDetails["Class"]!="00":
+                            if int(self.tagDetails["Class"])!=0:
                                 self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
                                 pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
-                                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":'00',"Plate":"XXXXXXXXXX"}
+                                self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:

@@ -59,6 +59,8 @@ class KistDIOClient(threading.Thread):
                     elif i==2:
                         self.barrier_Status=False if int(value[i])==0 else True
                         if self.barrier_last_Status!=self.barrier_Status:
+                            if self.barrier_Status==False:
+                                pub.sendMessage("lane_process_end", transactionInfo=True)
                             self.barrier_last_Status=self.barrier_Status
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} formate_output: {str(e)}")
@@ -75,8 +77,8 @@ class KistDIOClient(threading.Thread):
                 if (i+1)==9:  # exit loop
                     if status==False and self.barrier_loop_last==True and self.barrier_Status==True:
                         self.lane_trans_end()
-                    if status==False and self.barrier_Status==False:
-                        pub.sendMessage("lane_process_end", transactionInfo=True)
+                    # if status==False and self.barrier_Status==False:
+                    #     pub.sendMessage("lane_process_end", transactionInfo=True)
                     if status==False and self.barrier_Status==True:
                         self.record_status=True
                         self.handler.start_ic_record(self.transactionInfo)
