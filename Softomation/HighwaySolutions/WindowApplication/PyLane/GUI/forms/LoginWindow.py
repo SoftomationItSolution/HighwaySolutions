@@ -7,12 +7,12 @@ import qtawesome
 from GUI.ui.messBox import show_custom_message_box
 from models.CommonManager import CommonManager
 from utils.crypt import CryptoUtils
-from pubsub import pub
 
 class LoginForm(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self, dbConnectionObj,image_dir,logger,screen_width,screen_height):
+    def __init__(self,bg_service, dbConnectionObj,image_dir,logger,screen_width,screen_height):
         super().__init__()
+        self.bg_service=bg_service
         self.dbConnectionObj = dbConnectionObj
         self.logger = logger
         self.resize(screen_width, screen_height)
@@ -125,16 +125,6 @@ class LoginForm(QMainWindow):
 
         self.setCentralWidget(central_widget)
 
-    def keyPressEvent(self, event):
-        try:
-            if event.key() == Qt.Key_F11:
-                if self.isFullScreen():
-                    self.showNormal()
-                else:
-                    self.showFullScreen()
-        except Exception as e:
-            self.logger.logError(f"Error in LoginForm keyPressEvent: {e}")
-
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.drawPixmap(self.rect(), self.background_image)
@@ -152,8 +142,12 @@ class LoginForm(QMainWindow):
     
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter:
-            # If Enter key is pressed anywhere in the widget
             self.login_user()
+        elif event.key() == Qt.Key_F11:
+            if self.isFullScreen():
+                self.showNormal()
+            else:
+                self.showFullScreen()
 
 
     def login_user(self):
@@ -173,7 +167,8 @@ class LoginForm(QMainWindow):
                 else:
                     if CryptoUtils.encrypt_aes_256_cbc(password) == res[0]["LoginPassword"]:
                         userDetails = json.dumps(res[0])
-                        pub.sendMessage("app_log_status", transactionInfo=True)
+                        self.bg_service.app_log_status(True)
+                        #pub.sendMessage("app_log_status", transactionInfo=True)
                         self.switch_window.emit(userDetails)
                     else:
                         show_custom_message_box(

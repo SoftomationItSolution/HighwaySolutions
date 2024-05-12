@@ -4,7 +4,6 @@ import time
 from models.LaneManager import LaneManager
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
-from pubsub import pub
 
 class NAWinDataClient(threading.Thread):
     def __init__(self,_handler,default_directory,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
@@ -83,7 +82,7 @@ class NAWinDataClient(threading.Thread):
                 'AxleCount': 0 if self.axleData is None else len(self.axleData),
                 'IsReverseDirection':False
             }
-            pub.sendMessage("wim_processed", transactionInfo=transactionInfo)
+            self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_transaction_info: {str(e)}")
@@ -91,8 +90,8 @@ class NAWinDataClient(threading.Thread):
     def process_db(self, transactionInfo):
         try:
             LaneManager.wim_data_insert(self.dbConnectionObj,transactionInfo)
-            if transactionInfo["axleData"] is not None:
-                for d in transactionInfo["axleData"]:
+            if transactionInfo["AxleData"] is not None:
+                for d in transactionInfo["AxleData"]:
                     d["TransactionId"] = transactionInfo["TransactionId"]
                     d["LaneId"] = transactionInfo["LaneId"]
                     LaneManager.wim_details_data_insert(self.dbConnectionObj,d)

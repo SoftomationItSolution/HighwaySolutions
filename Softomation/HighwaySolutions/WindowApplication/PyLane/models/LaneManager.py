@@ -38,6 +38,24 @@ class LaneManager:
             raise e
         
     @staticmethod
+    def lane_data_lpic_update(dbConnectionObj,d):
+        try:
+            params=[d["LaneTransactionId"],d["TransactionFrontImage"]]
+            resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionUpdateLpic', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def lane_data_ic_update(dbConnectionObj,d):
+        try:
+            params=[d["LaneTransactionId"],d["TransactionBackImage"],d["TransactionVideo"]]
+            resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionUpdateIC', params)
+            return resultData
+        except Exception as e:
+            raise e
+        
+    @staticmethod
     def GetLaneTransactionPending(dbConnectionObj):
         try:
             resultData = dbConnectionObj.execute_procedure('USP_LaneTransactionPending', None)
@@ -105,7 +123,7 @@ class LaneManager:
     def avc_data_insert(dbConnectionObj,d):
         try:
             params=[d["LaneId"],d["TransactionCount"],d["AvcClassId"],d['AxleCount'],d['IsReverseDirection'],
-                    d["WheelBase"],Utilities.json_dt_mysql_dt(d["TransactionDateTime"])]
+                    d["WheelBase"],d["ImageName"],Utilities.json_dt_mysql_dt(d["TransactionDateTime"])]
             resultData=dbConnectionObj.execute_procedure('USP_AvcTransactionInsert', params)
             return resultData
         except Exception as e:

@@ -6,7 +6,6 @@ from com.rfid.interface import *
 from com.rfid.models import *
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
-from pubsub import pub
 
 class MantraRfidReader(threading.Thread):
     def __init__(self,_handler,default_directory, rfid_detail, log_file_name, timeout=0.100):
@@ -37,7 +36,6 @@ class MantraRfidReader(threading.Thread):
                 reader_ant_plan = ReaderWorkingAntSet_Model([1])
                 self.logger.logInfo(f'Setting up the working antenna result: {self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, reader_ant_plan)}')
                 read_tid = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
-                #readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 6, '')
                 readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 32, '00000000')
                 read_extended_area_list = [read_tid,readUserData]
                 self.logger.logInfo('Set Extended Read Result:TID & UserData')
@@ -68,12 +66,14 @@ class MantraRfidReader(threading.Thread):
                         self.is_running=True
                     self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}    
                     current_time = time.time()
+                    self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
                     if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
                         processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items()
-                                        if current_time - timestamp <= 60}
+                                        if current_time - timestamp <= 30}
                         last_cleanup_time = current_time  # Update the last cleanup time
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
+                            self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
                             break
                         read_list = []
                         self.reader.read(100, read_list)
@@ -94,7 +94,7 @@ class MantraRfidReader(threading.Thread):
                                     self.tagDetails["Plate"]="XXXXXXXXXX"
                                 if int(self.tagDetails["Class"])!=0:
                                     self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
-                                    pub.sendMessage("rfid_processed", transactionInfo=self.tagDetails)
+                                    self.handler.update_rfid_data(self.tagDetails)
                                     self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
@@ -131,6 +131,10 @@ class MantraRfidReader(threading.Thread):
                 result='00'
         finally:
             return result
+        
+    def retry(self,status):
+        if self.is_active!=status:
+            self.is_active=status
 
     def client_stop(self):
         try:

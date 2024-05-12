@@ -31,7 +31,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.lane_detail=lane_details
         self.systemSetting=systemSetting
         self.default_lane_ip=system_ip
-        self.is_running = False
+        self.set_logger(default_directory,'lane_BG')
         self.plaza_detail=None
         self.equipment_detail=None
         self.shiftDetails=None
@@ -42,15 +42,21 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.rfid_thread=None
         self.ping_thread=None
         self.dts_thread=None
-        self.rfid_client_connected=False
-        self.mqtt_client_connected=False
         self.ufd=None
         self.LPICCamera=None
         self.ICCamera=None
-        self.create_mqtt_obj()
+        self.dio_events=None
+        self.rfid_data=None
+        self.wim_data=None
         self.current_Transaction=None
-        self.set_logger(default_directory,'lane_BG')
+        self.running_Transaction=None
+        self.is_running = False
+        self.rfid_client_connected=False
+        self.mqtt_client_connected=False
+        self.system_loging_status=False
+        self.system_transcation_status=False
         self.mqtt_topic='lane/deviceStatus'
+        self.create_mqtt_obj()
         pub.subscribe(self.lane_trans_start, "lane_process_start")
         pub.subscribe(self.app_log_status, "app_log_status")
       
@@ -125,6 +131,12 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} mqtt_on_connet: {str(e)}")
     
+    def publish_data(self,topic,data):
+        try:
+            pub.sendMessage(topic, transactionInfo=data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} topic:{topic} publish_data: {str(e)}")
+
     def start_dio_thread(self,equipment):
         try:
             if not self.dio_thread:
@@ -171,7 +183,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_ping_thread(self):
         try:
             if not self.ping_thread:
-                self.ping_thread = PingThread(self, self.equipment_detail, self.default_directory,'lane_BG_ping', interval=60)
+                self.ping_thread = PingThread(self, self.equipment_detail, self.default_directory,'lane_BG_ping', interval=1)
                 self.ping_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ping_thread: {str(e)}")
@@ -347,26 +359,56 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.send_message_to_mqtt(self.mqtt_topic, equipment)
             pub.sendMessage("ping_processed", transactionInfo=equipment)
             if equipment["EquipmentTypeId"]==4:
-                if not self.wim_thread:
+                if self.wim_thread is not None:
                     self.wim_thread.retry(equipment["OnLineStatus"])
             elif equipment["EquipmentTypeId"]==5:
-                if not self.rfid_thread:
+                if self.rfid_thread is not None:
                     self.rfid_thread.retry(equipment["OnLineStatus"])
             elif equipment["EquipmentTypeId"]==7:
-                if not self.dio_thread:
+                if self.dio_thread is not None:
                     self.dio_thread.retry(equipment["OnLineStatus"])
-            # elif equipment["EquipmentTypeId"]==15:
-            #     self.ConnectLPICCamera(equipment)
-            # elif equipment["EquipmentTypeId"]==16:
-            #     self.ConnectICCamera(equipment)
             elif equipment["EquipmentTypeId"]==18:
-                if not self.ufd:
+                if self.ufd is not None:
                     self.ufd.retry(equipment["OnLineStatus"])
             elif equipment["EquipmentTypeId"]==21:
-                if not self.avc_thread:
+                if self.avc_thread is not None:
                     self.avc_thread.retry(equipment["OnLineStatus"])
+            self.update_equipment_list(equipment["EquipmentId"],'OnLineStatus',equipment["OnLineStatus"])
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_equipment_Status: {str(e)}")
+
+    def update_equipment_list(self,EquipmentId,_key,status):
+        try:
+            for item in self.equipment_detail:
+                if item["EquipmentId"] == EquipmentId:
+                    item[_key] = status
+                    break
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_equipment_list: {str(e)}")
+    
+    def update_dio_events(self,dio_events):
+        try:
+            self.dio_events=dio_events
+            try:
+                pub.sendMessage("hardware_on_off_status", transactionInfo=dio_events)
+            except Exception as e:
+                self.logger.logError(f"Exception {self.classname} update_dio_events_PUB: {str(e)}")
+            try:
+                self.send_message_to_mqtt('lane/hardware',dio_events)
+            except Exception as e:
+                self.logger.logError(f"Exception {self.classname} update_dio_events_mqtt: {str(e)}")
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_dio_events: {str(e)}")
+
+    def update_rfid_data(self,rfid_data):
+        self.rfid_data=rfid_data
+        self.publish_data("rfid_processed",rfid_data)
+
+    def update_wim_data(self,wim_data):
+        self.wim_data=wim_data
+        self.publish_data("wim_processed",wim_data)
+        #self.handler.create_wim_txn(d["TotalWeight"])
+        #pub.sendMessage("lane_process_end", transactionInfo=True)
 
     def on_stop(self):
         try:
@@ -395,32 +437,53 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} on_stop: {str(e)}")
             print(f'going to stop is_running {str(e)}')
 
-    def avc_data_process(self, transactionInfo):
-        try:
-            resultData=LaneManager.lane_data_insert(self.dbConnectionObj,transactionInfo)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} avc_data_process: {str(e)}")
-
+    
     
     def app_log_status(self, transactionInfo):
+         self.system_loging_status=transactionInfo
          if self.dio_thread is not None:
-                self.dio_thread.ohls_status_set(transactionInfo)
+                self.dio_thread.handel_ohls_light(transactionInfo)
 
     def lane_trans_start(self, transactionInfo):
         try:
-            if self.ufd is not None:
-                self.LPICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_lpic.jpg','lpic')
-                self.ufd.clear_cmd()
-                self.ufd.go_cmd()
-                self.ufd.l1_cmd(transactionInfo["TransactionTypeName"])
-                if transactionInfo["TransactionTypeId"]==1:
-                    self.ufd.l2_cmd(f'{transactionInfo["TagClassId"]} {transactionInfo["TagPlateNumber"]}')
+            if self.system_transcation_status==False:
+                self.system_transcation_status=True
+                self.running_Transaction=transactionInfo
+                lane_Transaction_Id=self.running_Transaction['LaneTransactionId']
+                lane_Transaction_img=f"{str(lane_Transaction_Id)}_lpic.jpg"
+                res=self.screenshort_lpic(lane_Transaction_img)
+                if res:
+                    self.running_Transaction["TransactionFrontImage"]=lane_Transaction_img
                 else:
-                    self.ufd.l2_cmd(f'Toll Fare: {transactionInfo["TransactionAmount"]}')
-            if self.dio_thread is not None:
-                    self.dio_thread.lane_trans_start(transactionInfo)
+                    self.running_Transaction["TransactionFrontImage"]=''
+                threading.Thread(target=self.process_on_ufd).start()
+                self.handel_traffic_light(True)
+                self.avc_thread.getavc(lane_Transaction_Id)
+                threading.Thread(target=LaneManager.lane_data_lpic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()
+            else:
+                self.logger.logInfo(f"{self.classname} trans already in progress lane_trans_start")
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+
+    def process_on_ufd(self):
+        try:
+            if self.ufd is not None:
+                self.ufd.clear_cmd()
+                self.ufd.go_cmd()
+                self.ufd.l1_cmd(self.running_Transaction["TransactionTypeName"])
+                if self.running_Transaction["TransactionTypeId"]==1:
+                    self.ufd.l2_cmd(f'{self.running_Transaction["TagClassId"]} {self.running_Transaction["TagPlateNumber"]}')
+                else:
+                    self.ufd.l2_cmd(f'Toll Fee: {self.running_Transaction["TransactionAmount"]}')
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
+
+    def handel_traffic_light(self,status):
+        try:
+            if self.dio_thread is not None:
+                self.dio_thread.handel_traffic_light(status)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
 
     def start_lpic_record(self,transactionInfo):
         try:
@@ -434,24 +497,44 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_lpic_record: {str(e)}")
 
-    def start_ic_record(self,transactionInfo):
+    def start_ic_record(self):
         try:
-            self.ICCamera.record_video('ic',transactionInfo['LaneTransactionId']+'_ic',duration=0, snapshot=False)
+            if self.running_Transaction:
+                file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
+                self.ICCamera.record_video('ic',file_name,duration=0, snapshot=False)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
 
     def stop_ic_record(self):
         try:
-            self.ICCamera.stop_recording(snapshot=True)
-            
+            if self.running_Transaction:
+                file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
+                res=self.ICCamera.stop_recording(snapshot=True)
+                if res:
+                        self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
+                        self.running_Transaction["TransactionVideo"]=file_name+'.avi'
+                        threading.Thread(target=LaneManager.lane_data_ic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()   
+            self.system_transcation_status=False
+            self.running_Transaction=None
+            pub.sendMessage("lane_process_end", transactionInfo=True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
 
     def screenshort_ic(self,transactionInfo):
         try:
-            return self.ICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_ic.png','ic')
+            return self.ICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_ic.jpg','ic')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} screenshort_ic: {str(e)}")
+            return False
+        
+    def screenshort_lpic(self,lane_Transaction_img):
+        try:
+            if self.LPICCamera:
+                return self.LPICCamera.take_only_screenshot(lane_Transaction_img,'lpic')
+            else:
+                return False    
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} screenshort_lpic: {str(e)}")
             return False
     
     def reset_default_ufd(self):
@@ -464,6 +547,27 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} reset_default_ufd: {str(e)}")
 
+    def get_current_shift(self):
+        ShiftId=0
+        try:
+            current_datetime = datetime.now()
+            current_date = current_datetime.strftime('%d-%b-%Y')
+            current_date_time = current_datetime.strftime('%d-%b-%Y %H:%M:%S')
+            date_format = "%d-%b-%Y %H:%M:%S"
+            if self.shiftDetails is None or len(self.shiftDetails) == 0:
+                ShiftId=0
+            for shift in self.shiftDetails:
+                start_datetime = datetime.strptime(current_date + ' ' + shift['StartTimmng'], date_format)
+                end_datetime = datetime.strptime(current_date + ' ' + shift['EndTimming'], date_format)
+                formatted_datetime = datetime.strptime(current_date_time, date_format)
+                if start_datetime <= formatted_datetime <= end_datetime:
+                    ShiftId=shift['ShiftId']
+                    break
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_current_shift: {str(e)}")
+        finally:
+            return ShiftId
+    
     def create_fasTag_trans(self,transData,IsReadByReader,TagStatus):
         try:
             self.current_trans()
@@ -509,7 +613,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             lID=self.current_Transaction["LaneTransactionId"]
             res=self.screenshort_ic(self.current_Transaction)
             if res:
-                self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.png"
+                self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.jpg"
             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
             self.avc_thread.getavc(lID)
             self.logger.logInfo(f"create_violation_trans: {resultData}") 
@@ -532,27 +636,6 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             raise e
 
-    def get_current_shift(self):
-        ShiftId=0
-        try:
-            current_datetime = datetime.now()
-            current_date = current_datetime.strftime('%d-%b-%Y')
-            current_date_time = current_datetime.strftime('%d-%b-%Y %H:%M:%S')
-            date_format = "%d-%b-%Y %H:%M:%S"
-            if self.shiftDetails is None or len(self.shiftDetails) == 0:
-                ShiftId=0
-            for shift in self.shiftDetails:
-                start_datetime = datetime.strptime(current_date + ' ' + shift['StartTimmng'], date_format)
-                end_datetime = datetime.strptime(current_date + ' ' + shift['EndTimming'], date_format)
-                formatted_datetime = datetime.strptime(current_date_time, date_format)
-                if start_datetime <= formatted_datetime <= end_datetime:
-                    ShiftId=shift['ShiftId']
-                    break
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} get_current_shift: {str(e)}")
-        finally:
-            return ShiftId
-    
     def current_trans(self):
         try:
             self.current_Transaction = {

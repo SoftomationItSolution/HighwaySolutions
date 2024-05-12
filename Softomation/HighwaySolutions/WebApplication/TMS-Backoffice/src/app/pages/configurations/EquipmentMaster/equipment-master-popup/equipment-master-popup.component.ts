@@ -215,34 +215,31 @@ export class EquipmentMasterPopupComponent implements OnInit {
         this.DeviceDetailsForm.controls['WarrantyExpireDate'].setValue(new Date(this.DetailData.WarrantyExpireDate));
         this.DeviceCommunicationForm.controls['EquipmentTypeId'].setValue(this.DetailData.EquipmentTypeId);
         this.DeviceCommunicationForm.controls['ProtocolTypeId'].setValue(this.DetailData.ProtocolTypeId);
+        this.DeviceCommunicationForm.controls['UrlAddress'].setValue(this.DetailData.UrlAddress);
         this.ProtocolTypeId = this.DetailData.ProtocolTypeId
         if (this.ProtocolTypeId === 1 || this.ProtocolTypeId == 2) {
           this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
           this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
           this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
           this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
-          this.DeviceCommunicationForm.controls['UrlAddress'].setValue('N/R');
         }
         else if (this.ProtocolTypeId == 3) {
           this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DetailData.IpAddress);
           this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DetailData.PortNumber);
           this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
           this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
-          this.DeviceCommunicationForm.controls['UrlAddress'].setValue('N/R');
         }
         else if(this.ProtocolTypeId == 4 || this.ProtocolTypeId == 5 || this.ProtocolTypeId == 6){
           this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DetailData.IpAddress);
           this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DetailData.PortNumber);
           this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
           this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
-          this.DeviceCommunicationForm.controls['UrlAddress'].setValue(this.DetailData.UrlAddress);
         }
         else {
           this.DeviceCommunicationForm.controls['ComPort'].setValue(this.DefaultComPort);
           this.DeviceCommunicationForm.controls['BaudRate'].setValue(this.DefaultBaudRate);
           this.DeviceCommunicationForm.controls['IpAddress'].setValue(this.DefaultTCPIP);
           this.DeviceCommunicationForm.controls['PortNumber'].setValue(this.DefaultTCPPort);
-          this.DeviceCommunicationForm.controls['UrlAddress'].reset(this.DetailData.IpAddress);
         }
         this.DeviceCommunicationForm.controls['LoginId'].setValue(this.DetailData.LoginId);
         this.DeviceCommunicationForm.controls['LoginPassword'].setValue(this.DetailData.LoginPassword);

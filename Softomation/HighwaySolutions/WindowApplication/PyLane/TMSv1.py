@@ -20,7 +20,7 @@ def signal_handler(sig, frame):
     print('Received main signal:', sig)
     cleanup()
 
-def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger):
+def desktop_app(bg_service,dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger):
     global app
     try:
         app = QApplication(sys.argv)
@@ -33,7 +33,7 @@ def desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,de
         image_dir=os.path.join(script_dir,'assets','images')
         icon = os.path.join(image_dir, 'icon.ico')
         app.setWindowIcon(QIcon(icon))
-        controller = WindowController(dbConnectionObj, default_directory,image_dir,systemSetting,lane_details,default_plaza_Id,screen_width,screen_height,logger)
+        controller = WindowController(bg_service,dbConnectionObj, default_directory,image_dir,systemSetting,lane_details,default_plaza_Id,screen_width,screen_height,logger)
         controller.show_login(None)
         sys.exit(app.exec())
     except KeyboardInterrupt:
@@ -145,6 +145,6 @@ if __name__ == '__main__':
         lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
         lane_equipments.start()
 
-        desktop_app(dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
+        desktop_app(lane_equipments,dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
     except Exception as e:
         print("An error occurred:", e)

@@ -42,8 +42,16 @@ class SagarAVCDataClient(threading.Thread):
             data = data.split('\r\n')
             for d in data:
                 d = d.strip()
-                if d.startswith('STX,02'):
+                if d.startswith("STX") and d.endswith("ETX"):
                     self.process_avc_data(d)
+                elif "STX" in d:
+                    d = d[d.index("STX"):]
+                    if d.endswith("ETX"):
+                        self.process_avc_data(d)
+                    else:
+                        print(d)
+                else:
+                    print(d)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
     
@@ -60,12 +68,13 @@ class SagarAVCDataClient(threading.Thread):
                     'WheelBase': avc_data[5].strip(),
                     'TransactionCount': avc_data[6].strip(),
                     'ImageName':''}
+                self.last_trans=transactionInfo
+                if self.LaneTransactionId!=0:
+                    self.update_db_lane_trans(self.LaneTransactionId)
+                self.process_db(transactionInfo)
             else:
                 transactionInfo = avc_data_str
-            self.last_trans=transactionInfo
-            if self.LaneTransactionId!=0:
-                self.update_db_lane_trans(self.LaneTransactionId)
-            self.process_db(transactionInfo)
+                print(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
 
@@ -81,9 +90,11 @@ class SagarAVCDataClient(threading.Thread):
                 while self.is_active:
                     self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.client_socket.connect((self.avc_detail["IpAddress"], self.avc_detail["PortNumber"]))
+                    self.handler.update_equipment_list(self.avc_detail["EquipmentId"],'ConnectionStatus',True)
                     self.is_running = True
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
+                            self.handler.update_equipment_list(self.avc_detail["EquipmentId"],'ConnectionStatus',False)
                             break
                         echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
                         if len(echoed_transaction_number) != 0:

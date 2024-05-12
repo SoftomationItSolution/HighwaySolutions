@@ -4,7 +4,6 @@ import time
 from models.LaneManager import LaneManager
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
-from pubsub import pub
 
 class AppaltoWinDataClient(threading.Thread):
     def __init__(self,_handler,default_directory,dbConnectionObj,LaneId,wim_detail,log_file_name,timeout=0.5):
@@ -85,8 +84,7 @@ class AppaltoWinDataClient(threading.Thread):
                 'AxleCount': d["AxleCount"],
                 'IsReverseDirection':d["IsReverseDirection"]
             }
-            self.handler.create_wim_txn(d["TotalWeight"])
-            pub.sendMessage("wim_processed", transactionInfo=transactionInfo)
+            self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_transaction_info: {str(e)}")

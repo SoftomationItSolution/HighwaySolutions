@@ -5,6 +5,7 @@ const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
 const crypto = require("../_helpers/crypto");
+const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
 const configManagerPath = path.resolve('./configManager');

@@ -123,7 +123,7 @@ class RTSPVideoCapture:
         try:
             if self.recording:
                 self.logger.logInfo("Already recording. Stop the current recording before starting a new one.")
-                return
+                return False
             self.recording = True
             self.folder_name=folder_name
             self.img_file_name=output_file+".jpg"
@@ -135,9 +135,10 @@ class RTSPVideoCapture:
             frame_generator = self.start_capture()
             self.recording_thread = Thread(target=self._record_video, args=(frame_generator, record_file_path,image_file_path, duration, snapshot))
             self.recording_thread.start()
+            return True
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} record_video: {str(e)}")
-
+            return False
     def writer_init(self, frame, output_file):
         try:
             frame_height, frame_width, _ = frame.shape
@@ -192,6 +193,8 @@ class RTSPVideoCapture:
                 self.recording_thread = None
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} writer_init: {str(e)}")
+        finally:
+            return self.img_file_name
 
     def stop_capture(self):
         try:

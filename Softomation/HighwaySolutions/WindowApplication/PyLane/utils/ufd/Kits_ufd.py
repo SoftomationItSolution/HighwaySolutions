@@ -27,6 +27,8 @@ class KistUFDClient():
                 if self.is_active:
                     self.on_tcp(bytes_data)
                     return True
+                else:
+                    self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',False)
             elif self.dio_detail["ProtocolTypeId"]==3:
                 self.on_serial(bytes_data)
                 return True
@@ -41,6 +43,7 @@ class KistUFDClient():
         try:
             self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
+            self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
             self.client_socket.sendall(bytes_data)
             time.sleep(self.timeout)
         except Exception as e:

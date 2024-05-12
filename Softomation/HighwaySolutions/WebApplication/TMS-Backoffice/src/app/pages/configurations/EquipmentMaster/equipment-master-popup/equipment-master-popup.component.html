@@ -151,7 +151,7 @@
                                     *ngIf="submitted && DeviceCommunicationForm.hasError('required','BaudRate')">Baudrate
                                     must be selected.</small>
                             </div>
-                            <div class="col-md-6" *ngIf="ProtocolTypeId>3">
+                            <div class="col-md-6">
                                 <label class="form-label" for="UrlAddress">Other Url</label>
                                 <input formControlName="UrlAddress" type="text" pInputText required autocomplete="off"
                                     class="form-control" />

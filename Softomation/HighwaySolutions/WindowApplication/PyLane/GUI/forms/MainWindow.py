@@ -17,11 +17,12 @@ from pubsub import pub
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self,dbConnectionObj,default_directory,image_dir,user_Details,systemSettingDetails,LaneDetail,logger,default_plaza_Id,screen_width,screen_height):
+    def __init__(self,bg_service,dbConnectionObj,default_directory,image_dir,user_Details,systemSettingDetails,LaneDetail,logger,default_plaza_Id,screen_width,screen_height):
         super(MainWindow, self).__init__()
         try:
             self.setStyleSheet("background-color: rgb(1, 27, 65);")
             self.setWindowTitle("TMS Lane V1")
+            self.bg_service=bg_service
             self.dbConnectionObj=dbConnectionObj
             self.default_directory=default_directory
             self.image_dir=image_dir
@@ -167,9 +168,10 @@ class MainWindow(QMainWindow):
         try:
             self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
             if self.equipments is not None and len(self.equipments)>0:
-                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15, self.equipments))
+                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15 or item['EquipmentTypeId'] == 16, self.equipments))
                 if filtered_data is not None and len(filtered_data)>0:
-                    self.right_frame.lane_view_box.set_cam_details(filtered_data[0])
+                    for equipment in filtered_data:
+                        self.right_frame.lane_view_box.set_cam_details(equipment)
                     self.right_frame.lane_view_box.updateFinished.emit(True)
                 self.footer_widget.update_el(self.equipments)
                 self.footer_widget.updateFinished.emit(True)
@@ -235,7 +237,7 @@ class MainWindow(QMainWindow):
                     if TransactionTypeId !=1:
                         current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
                     current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                    pub.sendMessage("lane_process_start", transactionInfo=current_Transaction)
+                    self.bg_service.lane_trans_start(current_Transaction)
                     if TransactionTypeId ==2:
                         self.print_receipt(current_Transaction)
                     resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
@@ -432,7 +434,7 @@ class MainWindow(QMainWindow):
             confirmation=confirmation_box("Logout","Are you sure you want to logout?")
             if confirmation == True:
                 self.switch_window.emit(json.dumps(self.userDetails))
-                pub.sendMessage("app_log_status", transactionInfo=False)
+                self.bg_service.app_log_status(False)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow logout: {e}")
 

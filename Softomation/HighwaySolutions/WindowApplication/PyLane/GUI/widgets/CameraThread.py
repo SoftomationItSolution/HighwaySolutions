@@ -1,13 +1,14 @@
 from PySide6.QtCore import QThread, Signal
 from PySide6.QtGui import QImage
 import cv2
-import imutils
 
 class CameraThread(QThread):
-    image_data = Signal(QImage)
-    def __init__(self, camera_url, width, height,logger):
+    lpic_image_data = Signal(QImage)
+    ic_image_data = Signal(QImage)
+    def __init__(self,cam_type, camera_url, width, height,logger):
         super().__init__()
         try:
+            self.cam_type = cam_type
             self.camera_url = camera_url
             self.width = width
             self.height = height
@@ -29,12 +30,15 @@ class CameraThread(QThread):
                         h, w, ch = rgb_image.shape
                         bytes_per_line = ch * w
                         qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
-                        self.image_data.emit(qt_image)
+                        if self.cam_type=='lpic':
+                            self.lpic_image_data.emit(qt_image)
+                        elif self.cam_type=='ic':
+                            self.ic_image_data.emit(qt_image)
                 except Exception as e:
                     self.logger.logError(f"Error in CameraThread run: {e}")
             cap.release()
         except Exception as e:
-                    self.logger.logError(f"Error in CameraThread run_main: {e}")
+            self.logger.logError(f"Error in CameraThread run_main: {e}")
 
     def stop(self):
         self._running = False
