@@ -202,9 +202,9 @@ class MainWindow(QMainWindow):
         try:
             if self.isTransactionPending==False:
                 self.isTransactionPending=True
-                self.left_frame.set_vc(transactionInfo['Class'])
+                FasTagClassName=self.left_frame.set_vc(transactionInfo['Class'])
                 self.right_frame.transaction_type_box.set_tt_value(1)
-                self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
+                self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active",FasTagClassName)
                 d=self.right_frame.wim_data_queue_box.get_top_wim()
                 if d is not None:
                     self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))

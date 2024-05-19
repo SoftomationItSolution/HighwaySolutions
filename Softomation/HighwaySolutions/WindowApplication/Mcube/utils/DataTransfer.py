@@ -136,11 +136,11 @@ class DataSynchronization(threading.Thread):
 
     def start_data_uploading_threads(self):
         self.data_upload_running = True
-        # threading.Thread(target=self.lane_data_uploading).start()
-        # threading.Thread(target=self.avc_data_uploading).start()
-        # threading.Thread(target=self.wim_data_uploading).start()
-        # threading.Thread(target=self.wim_details_uploading).start()
-        # threading.Thread(target=self.lane_meida_uploading).start()
+        threading.Thread(target=self.lane_data_uploading).start()
+        threading.Thread(target=self.avc_data_uploading).start()
+        threading.Thread(target=self.wim_data_uploading).start()
+        threading.Thread(target=self.wim_details_uploading).start()
+        threading.Thread(target=self.lane_meida_uploading).start()
 
     def lane_data_uploading(self):
         endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'

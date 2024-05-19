@@ -94,4 +94,4 @@ class LeftFrame(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in LeftFrame set_vc: {e}")
         finally:
-            FasTagClassName
+           return FasTagClassName
