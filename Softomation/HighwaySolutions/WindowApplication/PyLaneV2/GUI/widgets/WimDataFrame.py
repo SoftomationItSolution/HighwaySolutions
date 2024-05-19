@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView, QGroupBox
-from PySide6.QtCore import Qt,QTimer
+from PySide6.QtCore import Qt
 from datetime import datetime, timedelta
 from PySide6.QtGui import QColor
 from pubsub import pub
@@ -49,9 +49,6 @@ class WimDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblWim)
-            # self.timer = QTimer(self)
-            # self.timer.timeout.connect(self.remove_old_data)
-            # self.timer.start(60000) 
             pub.subscribe(self.wim_transaction_info, "wim_processed")
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox __init__: {e}")

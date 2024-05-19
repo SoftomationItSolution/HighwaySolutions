@@ -6,12 +6,14 @@ from pubsub import pub
 
 class Footer(QFrame):
     updateFinished = Signal(bool)
-    def __init__(self, width, height, image_dir, logger):
+    def __init__(self, width, height, image_dir,bg_service, logger):
         super().__init__()
-        self.initUI(width, height, image_dir, logger)
+        self.initUI(width, height, image_dir,bg_service, logger)
 
-    def initUI(self, width, height, image_dir, logger):
+    def initUI(self, width, height, image_dir,bg_service, logger):
         try:
+            self.bg_service = bg_service
+            self.dio_events=self.bg_service.dio_events
             self.logger = logger
             self.width = width
             self.height = height
@@ -37,11 +39,7 @@ class Footer(QFrame):
             self.hardware_widgets = []
             self.hardware_data_widget = []
             self.hardware_data = None
-
             self.updateFinished.connect(self.bind_hardware)
-            pub.subscribe(self.dio_transaction_info, "hardware_on_off_status")
-            pub.subscribe(self.ping_transaction_info, "ping_processed")
-
         except Exception as e:
             self.logger.logError(f"Error in Footer __init__: {e}")
 
@@ -60,8 +58,14 @@ class Footer(QFrame):
                                 item["EquipmentIconName"] = icon_path
                                 self.hardware_data_widget.append(item)
                 self.bind_data()
+                self.dio_events=self.bg_service.dio_events
+                for item in self.dio_events:
+                    self.dio_transaction_info(item)
         except Exception as e:
             self.logger.logError(f"Error in Footer bind_hardware: {e}")
+        finally:
+            pub.subscribe(self.dio_transaction_info, "hardware_on_off_status")
+            pub.subscribe(self.ping_transaction_info, "ping_processed")
 
     def bind_data(self):
         try:
@@ -132,5 +136,3 @@ class Footer(QFrame):
                 self.update_bg_color(filtered_item["EquipmentName"], status)
         except Exception as e:
             self.logger.logError(f"Error in Footer update_printer: {e}")
-
-    

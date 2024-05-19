@@ -58,9 +58,6 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.system_transcation_status=False
         self.mqtt_topic='lane/deviceStatus'
         self.create_mqtt_obj()
-        #pub.subscribe(self.lane_trans_start, "lane_process_start")
-        #pub.subscribe(self.app_log_status, "app_log_status")
-      
 
     def set_logger(self,default_directory,log_file_name):
         try:

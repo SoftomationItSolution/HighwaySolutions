@@ -1,12 +1,16 @@
+
 from datetime import datetime
 import os
+import threading
+import time
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton,QLabel
-from PySide6.QtCore import Qt,QDateTime,QTimer
+from PySide6.QtCore import Qt,QDateTime
 from PySide6.QtGui import QIcon
 from PySide6.QtCore import QSize, Qt,Signal
 
 class Header(QFrame):
     update_label_signal = Signal(str)
+    update_label_time = Signal(str)
     auto_logout = Signal(bool)
     def __init__(self, width, height, userDetails,image_dir):
         super().__init__()
@@ -17,6 +21,7 @@ class Header(QFrame):
         self.setFixedWidth(width)
         self.setFixedHeight(height)
         self.update_label_signal.connect(self.update_label)
+        self.update_label_time.connect(self.update_datetime)
         layout = QGridLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
@@ -65,9 +70,11 @@ class Header(QFrame):
         self.logout_button.setIconSize(QSize(24, 24))
         self.logout_button.setStyleSheet("background-color: white; border: none;")
         layout.addWidget(self.logout_button, 0, 6, alignment=Qt.AlignRight | Qt.AlignVCenter)
-
         self.setStyleSheet("border-bottom: 1px solid white;")
-        #self.update_timer()
+        self.is_running=True
+        self.datetime_thread = threading.Thread(target=self.display_datetime)
+        self.datetime_thread.daemon=True
+        self.datetime_thread.start()
 
     def update_shift(self, json_data):    
         self.current_shift = json_data
@@ -75,10 +82,17 @@ class Header(QFrame):
     def update_label(self, new_text):
         self.shift_label.setText(new_text)
 
-    def update_timer(self):
-        self.timer = QTimer(self)
-        self.timer.timeout.connect(self.update_datetime)
-        self.timer.start(1000)
+    def display_datetime(self):
+        while self.is_running:
+            try:
+                current_datetime = QDateTime.currentDateTime().toString("yyyy-MM-dd hh:mm:ss")
+                self.update_label_time.emit(current_datetime)
+            except Exception as e:
+                pass
+            finally:
+                if self.is_running==False:
+                    break
+                time.sleep(1)
 
     def update_datetime(self):
         try:
@@ -92,10 +106,9 @@ class Header(QFrame):
                 if CurrentTiming < StartTiming:
                     remaining_time = datetime.combine(datetime.today(), StartTiming) - datetime.combine(datetime.today(), CurrentTiming)
                     remaining_minutes = remaining_time.total_seconds() // 60
-                    print(f"Current timing is before the start timing. There are {remaining_minutes} minutes remaining until the next shift starts.")
                 elif CurrentTiming > EndTiming:
                     remaining_minutes = 0
-                    self.timer.stop()
+                    self.is_running=False
                     self.auto_logout.emit(True)
                 else:
                     remaining_time = datetime.combine(datetime.today(), EndTiming) - datetime.combine(datetime.today(), CurrentTiming)
@@ -111,5 +124,3 @@ class Header(QFrame):
                     self.Rdatetime_label.setText(f"<b>Time Left: {remaining_time_str}</b>")
         except Exception as e:
             print(f"Error in update_datetime: {e}")
-            #show_custom_message_box("Save Transactions", "Somthing went wrong!", 'cri')
-

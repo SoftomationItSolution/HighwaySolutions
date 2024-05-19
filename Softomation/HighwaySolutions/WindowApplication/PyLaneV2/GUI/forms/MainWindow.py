@@ -87,7 +87,7 @@ class MainWindow(QMainWindow):
         
             main_layout.addLayout(frames_layout)
 
-            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.logger)
+            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.bg_service,self.logger)
             main_layout.addWidget(self.footer_widget)
 
             self.setLayout(main_layout)

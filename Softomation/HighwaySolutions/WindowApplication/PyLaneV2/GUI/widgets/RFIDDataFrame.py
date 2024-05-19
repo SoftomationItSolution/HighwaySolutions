@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import QFrame, QVBoxLayout, QTableWidget, QTableWidgetItem, QAbstractItemView, QHeaderView, QGroupBox
-from PySide6.QtCore import Qt,QTimer
+from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
 from datetime import datetime, timedelta
 
@@ -48,9 +48,6 @@ class RfidDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblRfid)
-            # self.timer = QTimer(self)
-            # self.timer.timeout.connect(self.remove_old_data)
-            # self.timer.start(60000) # Timer interval set to 5 minutes (300,000 milliseconds)
 
         except Exception as e:
             self.logger.logError(f"Error in rfidDataQueueBox __init__: {e}")
