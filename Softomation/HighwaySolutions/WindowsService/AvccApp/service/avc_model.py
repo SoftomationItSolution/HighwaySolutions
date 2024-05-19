@@ -21,8 +21,9 @@ class AVC_Model(threading.Thread):
         self.output_layer = self.compiled_model.output(0)
         self.class_names = ['Auto', 'Bike', 'Bus', 'CJV', 'LCV', 'MAV3', 'MAV4', 'MAV5', 'MAV6']
         self.class_id = [2, 1, 7, 4, 5, 6, 12, 12, 12]
+        self.axcel_count = [2, 1, 2, 2, 2, 3, 4, 5, 6]
         self.is_running = False
-        self.broadcast_server=self.start_broadcast_server(broadcast)
+        self.start_broadcast_server(broadcast)
     
     def start_broadcast_server(self,broadcast):
         if broadcast is None:
@@ -30,6 +31,7 @@ class AVC_Model(threading.Thread):
         else:
             self.broadcast_server=BroadCastTCPServer(broadcast["broadcast_ip"], broadcast["broadcast_port"])
             self.broadcast_server.start()
+            print(self.broadcast_server)
 
     def predict(self, image):
         image = np.array(image.resize((224, 224))) / 255.0
@@ -37,8 +39,8 @@ class AVC_Model(threading.Thread):
         result_infer = self.compiled_model([np.expand_dims(image, 0)])[self.output_layer]
         probabilities = np.exp(result_infer) / np.sum(np.exp(result_infer), axis=1, keepdims=True)
         idx = np.argmax(probabilities)
-        predicted_class,predicted_class_id, confidence_score = self.class_names[idx],self.class_id[idx], probabilities[0, idx]
-        return predicted_class,predicted_class_id, confidence_score
+        predicted_class,predicted_class_id,axcel_count, confidence_score = self.class_names[idx],self.class_id[idx],self.axcel_count[idx], probabilities[0, idx]
+        return predicted_class,predicted_class_id,axcel_count, confidence_score
 
     def save(self, image, predicted_class, class_):
         image1 = image.copy()
@@ -55,16 +57,15 @@ class AVC_Model(threading.Thread):
         while True:
             if not self.fifo_queue.empty():
                 image = self.fifo_queue.get()
-                predicted_class,predicted_class_id, confidence_score = self.predict(image)
+                predicted_class,predicted_class_id,axcel_count, confidence_score = self.predict(image)
                 datetime_str = Utilities.get_datetime_str()
                 img_name = self.save(image, datetime_str, predicted_class)
                 data = {'AvcClassName': predicted_class,
                         'AvcClassId': predicted_class_id,
-                        'AxleCount': 0,
+                        'AxleCount': axcel_count,
                         'AvcImageName': img_name,
-                        'AvcImage': image,
+                        'AvcImage': Utilities.pil_base64(image),
                         'transaction_id': datetime_str}
-                print(data)
                 pub.sendMessage('avc_data', msg=data)
                 if self.broadcast_server is not None:
                     self.broadcast_server.broadcast(data)

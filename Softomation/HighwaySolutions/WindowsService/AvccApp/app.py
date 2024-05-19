@@ -6,7 +6,6 @@ from flask_socketio import SocketIO
 from service.avc_Handler import AVC_Handler
 from utils.constants import Utilities
 from pubsub import pub
-import eventlet
 handler_lock = threading.Lock()
 handler = None
 avcData=None
@@ -68,14 +67,11 @@ def handle_connect():
     pub.subscribe(handle_avc_alinement, 'avc_alinement')
 
 def handle_avc_alinement(msg):
-    # global avcAline
-    # avcAline=msg
     array_with_comprehension = [char for char in msg]
-    socketio.emit('new_data', {'data': array_with_comprehension})
+    socketio.emit('aline_data', {'data': array_with_comprehension})
 
 def handle_avc_data(msg):
-    global avcData
-    avcData=msg
+    socketio.emit('avcc_data', {'data': msg})
 
 def handler_thread(data,brodcast):
      global handler

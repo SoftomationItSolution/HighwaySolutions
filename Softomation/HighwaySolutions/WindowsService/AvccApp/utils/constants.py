@@ -32,10 +32,11 @@ class Utilities:
         return datetime_str
     
     @staticmethod
-    def pil_base64(image_path):
-        image = Image.open(image_path)
+    def pil_base64(image):
+        #image = Image.open(image_path)
         img_byte_array = io.BytesIO()
-        image.save(img_byte_array, format=image.format)
+        image.save(img_byte_array, format="png")
         img_byte_array = img_byte_array.getvalue()
-        base64_img = base64.b64encode(img_byte_array).decode('utf-8')
-        return base64_img
+        base64_img = base64.b64encode(img_byte_array).decode()
+        base64_with_format = f"data:image/png;base64,{base64_img}"
+        return base64_with_format

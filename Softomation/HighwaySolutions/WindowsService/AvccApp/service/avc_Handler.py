@@ -1,6 +1,7 @@
 import os
 import queue
 import socket
+import time
 import numpy as np
 import socket
 import os
@@ -23,29 +24,40 @@ class AVC_Handler:
 
     def set_avc_image_path(self,default_directory):
         try:
-            self.image_path=os.path.join(default_directory, 'Events', 'avc')
+            self.image_path=os.path.join(default_directory, 'avc')
             Utilities.make_dir(self.image_path)
         except Exception as e:
             raise e
 
     def start(self):
-        self.connection  = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.connection.connect((self.server_ip, self.server_port))
-        if not self.is_running:
-            self.is_running = True
-        self.model_thread = AVC_Model(self.image_path,self.fifo_queue,self.broadcast)
-        self.model_thread.start()
-        self.total_zero = 0
-        self.img = None
-        while self.is_running:
-            self.data = self.receive_data()
-            self.num_zeros = np.count_nonzero(self.data == 0)
-            self.re_shape()    
-            if self.num_zeros < 5 and self.img is not None:
-                self.manage_image()
-            if self.num_zeros < 5 and self.img is not None and self.total_zero < 2000:
-                self.img = None
-                self.total_zero = 0
+        attempt = 0
+        while attempt ==0:
+            try:
+                self.connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.connection.connect((self.server_ip, self.server_port))
+                print(f"Connected to {self.server_ip}:{self.server_port}")
+                attempt=1
+            except Exception as e:
+               attempt = 0
+            finally:
+                time.sleep(0.100)
+        if attempt==1:   
+            if not self.is_running:
+                self.is_running = True
+            self.model_thread = AVC_Model(self.image_path,self.fifo_queue,self.broadcast)
+            self.model_thread.daemon=True
+            self.model_thread.start()
+            self.total_zero = 0
+            self.img = None
+            while self.is_running:
+                self.data = self.receive_data()
+                self.num_zeros = np.count_nonzero(self.data == 0)
+                self.re_shape()    
+                if self.num_zeros < 5 and self.img is not None:
+                    self.manage_image()
+                if self.num_zeros < 5 and self.img is not None and self.total_zero < 2000:
+                    self.img = None
+                    self.total_zero = 0
 
     def re_shape(self):
         try:

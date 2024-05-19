@@ -1,5 +1,8 @@
-var socket = io.connect('http://' + document.domain + ':' + location.port);
-socket.on('new_data', function (data) {
+const socket = io.connect('http://' + document.domain + ':' + location.port, { reconnection: true });
+socket.on('connect', function() {
+    console.log('Connected to server');
+});
+socket.on('aline_data', function (data) {
     let mydata = data.data;
     var lcontainer = document.getElementById("left_data_display");
     var rcontainer = document.getElementById("right_data_display");
@@ -19,6 +22,16 @@ socket.on('new_data', function (data) {
         else
             lcontainer.appendChild(div);
     }
+});
+// const socket1 = io.connect('http://' + document.domain + ':' + location.port, { reconnection: true });
+// socket1.on('connect', function() {
+//     console.log('Connected to server 1');
+// });
+socket.on('avcc_data', function (data) {
+    console.log(data)
+    // let base64Data = data.AvcImage;
+    // var img = document.getElementById("base64Image");
+    // img.src = base64Data;
 });
 
 function showHideFields() {
