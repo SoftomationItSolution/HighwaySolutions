@@ -9,6 +9,7 @@ from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.DataTransfer import DataSynchronization
 from utils.avc.soft_avc_data import STPLAVCDataClient
+from utils.camera.CameraHandler import CameraHandler
 from utils.camera.FrameCapture import RTSPVideoCapture
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
@@ -43,8 +44,8 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.ping_thread=None
         self.dts_thread=None
         self.ufd=None
-        self.LPICCamera=None
-        self.ICCamera=None
+        self.lpic_thread=None
+        self.ic_thread=None
         self.dio_events=None
         self.rfid_data=None
         self.wim_data=None
@@ -57,8 +58,8 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.system_transcation_status=False
         self.mqtt_topic='lane/deviceStatus'
         self.create_mqtt_obj()
-        pub.subscribe(self.lane_trans_start, "lane_process_start")
-        pub.subscribe(self.app_log_status, "app_log_status")
+        #pub.subscribe(self.lane_trans_start, "lane_process_start")
+        #pub.subscribe(self.app_log_status, "app_log_status")
       
 
     def set_logger(self,default_directory,log_file_name):
@@ -255,7 +256,9 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.dts_thread.join()
                 self.dts_thread = None
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop_ping_thread: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} stop_dts_thread: {str(e)}")
+
+    
     
     def GetPlazaDetails(self):
         try:
@@ -281,19 +284,32 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} GetshiftDetails: {str(e)}")
             self.shiftDetails=None
 
-    def ConnectLPICCamera(self,equipment):
+    def start_lpic_thread(self,equipment):
         try:
-            if self.LPICCamera is None:
-                self.LPICCamera=RTSPVideoCapture(self.default_directory,"lane_BG_camera",equipment)
+            if self.lpic_thread is None:
+                self.lpic_thread=CameraHandler(self.default_directory,"lpic","lane_BG_camera",equipment)
+                self.lpic_thread.daemon=True
+                self.lpic_thread.start()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ConnectLPICCamera: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} start_lpic_thread: {str(e)}")
 
-    def ConnectICCamera(self,equipment):
+    def stop_lpic_thread(self):
         try:
-            if self.ICCamera is None:
-                self.ICCamera=RTSPVideoCapture(self.default_directory,"lane_BG_camera",equipment)
+            if self.lpic_thread:
+                self.lpic_thread.stop()
+                self.lpic_thread.join()
+                self.lpic_thread = None
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ConnectICCamera: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} stop_ping_thread: {str(e)}")
+
+    def start_ic_thread(self,equipment):
+        try:
+            if self.ic_thread is None:
+                self.ic_thread=CameraHandler(self.default_directory,"ic","lane_BG_camera",equipment)
+                self.ic_thread.daemon=True
+                self.ic_thread.start()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} start_ic_thread: {str(e)}")
 
     def startUFD(self,equipment):
         try:
@@ -336,9 +352,9 @@ class LaneEquipmentSynchronization(threading.Thread):
                         elif equipment["EquipmentTypeId"]==7:
                             self.start_dio_thread(equipment)
                         elif equipment["EquipmentTypeId"]==15:
-                            self.ConnectLPICCamera(equipment)
+                            self.start_lpic_thread(equipment)
                         elif equipment["EquipmentTypeId"]==16:
-                            self.ConnectICCamera(equipment)
+                            self.start_ic_thread(equipment)
                         elif equipment["EquipmentTypeId"]==18:
                             self.startUFD(equipment)
                         elif equipment["EquipmentTypeId"]==21:
@@ -422,8 +438,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.stop_rfid_thread()
                 self.stop_ping_thread()
                 self.stop_dts_thread()
-                self.LPICCamera.stop_capture()
-                self.ICCamera.stop_capture()
+                self.lpic_thread.stop_capture()
+                self.ic_thread.stop_capture()
                 self.mqtt_client.disconnect()
                 self.plaza_detail=None
                 self.lane_detail=None
@@ -486,9 +502,9 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.running_Transaction=self.current_Transaction
                 lane_Transaction_Id=self.running_Transaction['LaneTransactionId']
                 self.start_ic_record()
-                res=self.screenshort_ic(self.current_Transaction)
-                if res:
-                    self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.jpg"
+                # res=self.screenshort_ic(self.current_Transaction)
+                # if res:
+                #     self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.jpg"
                 resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
                 self.avc_thread.getavc(lane_Transaction_Id)
                 self.logger.logInfo(f"create_violation_trans: {resultData}") 
@@ -522,13 +538,15 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def start_lpic_record(self,transactionInfo):
         try:
-            self.LPICCamera.record_video('lpic',transactionInfo['LaneTransactionId']+'_lpic',duration=0, snapshot=False)
+            if self.lpic_thread is not None:
+                self.lpic_thread.record_video('lpic',transactionInfo['LaneTransactionId']+'_lpic',duration=0, snapshot=False)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_lpic_record: {str(e)}")
     
     def stop_lpic_record(self):
         try:
-            self.LPICCamera.stop_recording(snapshot=True)
+            if self.lpic_thread is not None:
+                self.lpic_thread.stop_recording(snapshot=True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_lpic_record: {str(e)}")
 
@@ -536,7 +554,8 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if self.running_Transaction:
                 file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
-                self.ICCamera.record_video('ic',file_name,duration=0, snapshot=False)
+                if self.ic_thread is not None:
+                    self.ic_thread.record_video(file_name,duration=10, snapshot=False)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
 
@@ -544,8 +563,9 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if self.running_Transaction:
                 file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
-                res=self.ICCamera.stop_recording(snapshot=True)
-                if res:
+                if self.ic_thread is not None:
+                    res=self.ic_thread.stop_recording(snapshot=True)
+                    if res:
                         self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
                         self.running_Transaction["TransactionVideo"]=file_name+'.avi'
                         threading.Thread(target=LaneManager.lane_data_ic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()   
@@ -555,17 +575,21 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
 
-    def screenshort_ic(self,transactionInfo):
+    
+    def screenshort_ic(self,lane_Transaction_img):
         try:
-            return self.ICCamera.take_only_screenshot(transactionInfo['LaneTransactionId']+'_ic.jpg','ic')
+            if self.ic_thread:
+                return self.ic_thread.take_screenshot(lane_Transaction_img)
+            else:
+                return False    
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} screenshort_ic: {str(e)}")
             return False
         
     def screenshort_lpic(self,lane_Transaction_img):
         try:
-            if self.LPICCamera:
-                return self.LPICCamera.take_only_screenshot(lane_Transaction_img,'lpic')
+            if self.lpic_thread:
+                return self.lpic_thread.take_screenshot(lane_Transaction_img)
             else:
                 return False    
         except Exception as e:
