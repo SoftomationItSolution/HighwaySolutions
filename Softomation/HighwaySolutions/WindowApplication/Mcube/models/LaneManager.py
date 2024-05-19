@@ -21,7 +21,7 @@ class LaneManager:
                     d["TransactionAvcImage"],d["TransactionVideo"],d["ExemptionProofImage"],
                     d["DestinationPlazaId"],d["UserId"],d["LoginId"],d["IsReturnJourney"],
                     d["IsExcessJourney"],d["IsBarrierAutoClose"],d["IsTowVehicle"],
-                    d["IsFleetTranscation"],d["FleetCount"]]
+                    d["IsFleetTranscation"],d["FleetCount"],d["TCRemark"]]
             resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionInsert', params)
             return resultData
         except Exception as e:

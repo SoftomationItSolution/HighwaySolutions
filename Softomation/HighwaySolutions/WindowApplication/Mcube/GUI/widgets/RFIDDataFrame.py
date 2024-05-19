@@ -48,9 +48,9 @@ class RfidDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblRfid)
-            self.timer = QTimer(self)
-            self.timer.timeout.connect(self.remove_old_data)
-            self.timer.start(60000) # Timer interval set to 5 minutes (300,000 milliseconds)
+            # self.timer = QTimer(self)
+            # self.timer.timeout.connect(self.remove_old_data)
+            # self.timer.start(60000) # Timer interval set to 5 minutes (300,000 milliseconds)
 
         except Exception as e:
             self.logger.logError(f"Error in rfidDataQueueBox __init__: {e}")
@@ -86,6 +86,8 @@ class RfidDataQueueBox(QFrame):
             self.refresh_table_data()
         except Exception as e:
             self.logger.logError(f"Error in rfidDataQueueBox  rfid_transaction_info: {e}")
+        finally:
+            self.remove_old_data()
 
     def refresh_table_data(self,):
         try:

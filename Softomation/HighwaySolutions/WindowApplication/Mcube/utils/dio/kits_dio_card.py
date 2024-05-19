@@ -59,7 +59,7 @@ class KistDIOClient(threading.Thread):
                     if out_data["Status"] != new_status:
                         out_data["Status"] = new_status
                         self.handler.update_dio_events(self.out_labels)
-                    if i==1:
+                    if i==0:
                         self.ohls_status=False if int(value[i])==0 else True
                     elif i==2:
                         self.barrier_Status=False if int(value[i])==0 else True

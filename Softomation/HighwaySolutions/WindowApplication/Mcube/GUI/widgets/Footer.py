@@ -6,7 +6,6 @@ from pubsub import pub
 
 class Footer(QFrame):
     updateFinished = Signal(bool)
-
     def __init__(self, width, height, image_dir, logger):
         super().__init__()
         self.initUI(width, height, image_dir, logger)

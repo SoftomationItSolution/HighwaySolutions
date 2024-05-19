@@ -49,9 +49,9 @@ class WimDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblWim)
-            self.timer = QTimer(self)
-            self.timer.timeout.connect(self.remove_old_data)
-            self.timer.start(60000) 
+            # self.timer = QTimer(self)
+            # self.timer.timeout.connect(self.remove_old_data)
+            # self.timer.start(60000) 
             pub.subscribe(self.wim_transaction_info, "wim_processed")
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox __init__: {e}")
@@ -79,6 +79,8 @@ class WimDataQueueBox(QFrame):
             self.refresh_table_data()
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox  wim_transaction_info: {e}")
+        finally:
+            self.remove_old_data()
 
     def refresh_table_data(self):
         try:

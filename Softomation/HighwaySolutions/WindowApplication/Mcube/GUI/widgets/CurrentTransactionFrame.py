@@ -52,7 +52,7 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout = QGridLayout()
             self.ct_layout.setContentsMargins(0, 10, 0, 5)
             self.ct_layout.setSpacing(0)
-            self.row_height=self.layout_height/7
+            self.row_height=self.layout_height/8
             #self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
             
             self.add_label_field("Transaction Type:", "txtTransactionType","N/A", 0, 0)
@@ -102,9 +102,20 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout.addWidget(lblReceipt, 6, 0)
             self.ct_layout.addWidget(self.txtReceipt, 6, 1,1,2)
             self.ct_layout.setRowMinimumHeight(6, int(self.row_height))
+            
             self.ct_layout.addWidget(lblVRN, 7, 0)
             self.ct_layout.addWidget(self.txtVRN, 7, 1,1,2)
             self.ct_layout.setRowMinimumHeight(7, int(self.row_height))
+
+            lblRemark=QLabel("TC Remark:")
+            lblRemark.setStyleSheet("color: white;border: none;")
+            self.txtRemark=QLineEdit()
+            self.txtRemark.setPlaceholderText("Remark")
+            self.txtRemark.setStyleSheet("background-color: white;")
+
+            self.ct_layout.addWidget(lblRemark, 8, 0)
+            self.ct_layout.addWidget(self.txtRemark, 8, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(8, int(self.row_height))
             
 
             colWidth=self.layout_width-40
@@ -112,8 +123,6 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout.setColumnMinimumWidth(1, int(colWidth/2))
             self.ct_layout.setColumnMinimumWidth(2, 20)
             self.ct_layout.setColumnMinimumWidth(3, int(colWidth/2))
-
-
 
             button_layout = QHBoxLayout()
             button_layout.setContentsMargins(0, 5, 0, 5)
@@ -242,7 +251,6 @@ class CurrentTransactionBox(QFrame):
         except Exception as e:
             self.printer=None
             raise e
-            #self.logger.logError(f"Error in CurrentTransactionBox update_printer: {e}") 
         
     def get_toll_fare(self):
         try:
@@ -355,6 +363,7 @@ class CurrentTransactionBox(QFrame):
             self.update_field("txtPaymentType", "N/A")
             self.update_field("txtExemptType", "N/A")
             self.update_field("txtReceipt", "")
+            self.update_field("txtRemark", "")
             self.update_field("txtTagId", "N/A")
             self.update_field("txtVRN", "")
             self.update_field("txtWimWeight", "0.000")
@@ -419,6 +428,7 @@ class CurrentTransactionBox(QFrame):
                 "IsTowVehicle": False,
                 "IsFleetTranscation": False,
                 "FleetCount": 0,
+                "TCRemark": "",
                 "PlazaName": "",
                 "LaneName":"",
                 "TransactionTypeName": "",
@@ -427,6 +437,7 @@ class CurrentTransactionBox(QFrame):
                 "ExemptSubTypeName":"",
                 "VehicleClassName": "",
                 "VehicleSubClassName": "",
+                "TagClassName": ""
             }
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox current_trans: {e}")
@@ -452,7 +463,7 @@ class CurrentTransactionBox(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox message_window_display: {e}")
 
-    def create_fasTag_trans(self,transData,IsReadByReader,TagStatus):
+    def create_fasTag_trans(self,transData,IsReadByReader,TagStatus,FasTagClassName):
         try:
             self.current_trans()
             if self.LaneDetail is not None:
@@ -468,6 +479,7 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TransactionTypeName"]= "FasTag"
                 self.current_Transaction["VehicleClassId"]= transData["Class"]
                 self.current_Transaction["VehicleSubClassId"]= transData["Class"]
+                self.current_Transaction["TagClassName"]= FasTagClassName
                 self.update_field("txtTagId", TagStatus)
                 self.txtReceipt.setText(transData["TID"])
         except Exception as e:

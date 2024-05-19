@@ -37,7 +37,7 @@ class HardwareWidget(QWidget):
         if self.is_online:
             self.setStyleSheet("background-color: green;")
         else:
-            self.setStyleSheet("background-color: red;")
+            self.setStyleSheet("background-color: gray;")
 
     def set_icon(self, icon_path):
         self.img_name = icon_path

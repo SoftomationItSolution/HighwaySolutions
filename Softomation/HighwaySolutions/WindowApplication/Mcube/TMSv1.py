@@ -122,8 +122,6 @@ def cleanup():
 
 if __name__ == '__main__':
     try:
-        # signal.signal(signal.SIGINT, signal_handler)
-        # signal.signal(signal.SIGTERM, signal_handler)
         check_duplicate=False
         default_directory=check_default_dir()
         check_duplicate_instance_close_new(default_directory)
@@ -135,7 +133,7 @@ if __name__ == '__main__':
         logger = CustomLogger(default_directory,'main_app')
     
         system_ip=Utilities.get_local_ips()
-        system_ip='192.168.10.12'
+        #system_ip='192.168.10.12'
         
         dbConnectionObj = MySQLConnections(default_directory,host=db_json_data['host'], user=db_json_data['user'],password=db_json_data['password'], database=db_json_data['database'])
         lane_details=CommonManager.GetLaneDetails(dbConnectionObj,system_ip)
@@ -149,11 +147,8 @@ if __name__ == '__main__':
         lane_equipments.daemon = True
         lane_equipments.start()
 
-        #threading.Thread(target=desktop_app(),args=[lane_equipments,dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger]).start()
-        #desktop_app(lane_equipments,dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger)
         app_thread = threading.Thread(target=desktop_app, args=[lane_equipments, dbConnectionObj, default_directory, systemSetting, lane_details, default_plaza_Id, logger])
         app_thread.daemon=True
-# Start the thread
         app_thread.start()
 
     except Exception as e:

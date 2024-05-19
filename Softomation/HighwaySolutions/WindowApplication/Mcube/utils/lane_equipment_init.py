@@ -287,7 +287,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_lpic_thread(self,equipment):
         try:
             if self.lpic_thread is None:
-                self.lpic_thread=CameraHandler(self.default_directory,"lpic","lane_BG_camera",equipment)
+                self.lpic_thread=CameraHandler(self.default_directory,"lpic","lane_BG_camera",equipment,"lpic_liveview")
                 self.lpic_thread.daemon=True
                 self.lpic_thread.start()
         except Exception as e:
@@ -305,7 +305,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_ic_thread(self,equipment):
         try:
             if self.ic_thread is None:
-                self.ic_thread=CameraHandler(self.default_directory,"ic","lane_BG_camera",equipment)
+                self.ic_thread=CameraHandler(self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
                 self.ic_thread.daemon=True
                 self.ic_thread.start()
         except Exception as e:
@@ -325,7 +325,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             try:
                 if not self.is_running:
                     break
-                #self.start_dts_thread()
+                self.start_dts_thread()
                 if not self.is_running:
                     break
                 if self.plaza_detail is None:
@@ -523,9 +523,10 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.ufd.go_cmd()
                 self.ufd.l1_cmd(self.running_Transaction["TransactionTypeName"])
                 if self.running_Transaction["TransactionTypeId"]==1:
-                    self.ufd.l2_cmd(f'{self.running_Transaction["TagClassId"]} {self.running_Transaction["TagPlateNumber"]}')
+                    self.ufd.l2_cmd(f'{self.running_Transaction["TagClassName"]} {self.running_Transaction["TagPlateNumber"]}')
                 else:
-                    self.ufd.l2_cmd(f'Toll Fee: {self.running_Transaction["TransactionAmount"]}')
+                    self.ufd.l2_cmd(f'{self.running_Transaction["VehicleClassName"]} Toll Fee: {self.running_Transaction["TransactionAmount"]}')
+                    #self.ufd.l2_cmd(f'Toll Fee: {self.running_Transaction["TransactionAmount"]}')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
 
@@ -718,6 +719,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 "IsTowVehicle": False,
                 "IsFleetTranscation": False,
                 "FleetCount": 0,
+                "TCRemark": "",
                 "PlazaName": "",
                 "LaneName":"",
                 "TransactionTypeName": "",
@@ -725,7 +727,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 "ExemptTypeName":"",
                 "ExemptSubTypeName":"",
                 "VehicleClassName": "",
-                "VehicleSubClassName": "",
+                "VehicleSubClassName": ""
             }
         except Exception as e:
             raise e

@@ -64,9 +64,9 @@ async function LaneTranscationInsert(req, res, next) {
             .input('IsTowVehicle', sql.Bit, req.body.IsTowVehicle)
             .input('IsFleetTranscation', sql.Bit, req.body.IsFleetTranscation)
             .input('FleetCount', sql.SmallInt, req.body.FleetCount)
+            .input('TCRemark', sql.VarChar(255), req.body.TCRemark)
             .input('ReceivedDateTime', sql.DateTime2, moment(Cdt).format('DD-MMM-YYYY HH:mm:ss.SSS'))
             .execute('USP_LaneTransactionInsert');
-        await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -93,7 +93,6 @@ async function AvcTransactionInsert(req, res, next) {
             .input('ImageName', sql.VarChar(255), req.body.ImageName)
             .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
             .execute('USP_AvcTransactionInsert');
-        await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -102,7 +101,7 @@ async function AvcTransactionInsert(req, res, next) {
         res.status(400).json(out);
     } finally {
         if (pool) {
-            await database.disconnect(); // Close the database connection
+            await database.disconnect();
         }
     }
 }
@@ -118,7 +117,6 @@ async function WimTransactionInsert(req, res, next) {
             .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
             .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
             .execute('USP_WimTransactionInsert');
-
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -133,8 +131,9 @@ async function WimTransactionInsert(req, res, next) {
 }
 
 async function WimTransactionAxleDetailsInsert(req, res, next) {
+    let pool;
     try {
-        const pool = await database.connect();
+        pool = await database.connect();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('TransactionId', sql.BigInt, req.body.TransactionId)
             .input('AxleNumber', sql.SmallInt, req.body.AxleNumber)
@@ -142,13 +141,16 @@ async function WimTransactionAxleDetailsInsert(req, res, next) {
             .input('Speed', sql.Decimal, req.body.Speed)
             .input('AxleDistance', sql.Decimal, req.body.AxleDistance)
             .execute('USP_WimTransactionAxleDetailsInsert');
-        await database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'USP_WimTransactionAxleDetailsInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
+    }finally {
+        if (pool) {
+            await database.disconnect(); // Close the database connection
+        }
     }
 }
 

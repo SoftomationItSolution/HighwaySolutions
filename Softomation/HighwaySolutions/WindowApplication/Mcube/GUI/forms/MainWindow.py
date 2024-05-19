@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
             self.left_frame.update_ss(self.systemSettingDetails)
             frames_layout.addWidget(self.left_frame)
 
-            self.right_frame = RightFrame(right_frame_width, frames_height,self.logger)
+            self.right_frame = RightFrame(right_frame_width, frames_height,self.default_directory,self.logger)
             self.right_frame.setContentsMargins(0, 0, 0, 0)
             self.right_frame.transaction_type_box.update_ss(self.systemSettingDetails)
             self.right_frame.transaction_type_box.tt_list.itemSelectionChanged.connect(self.onTransactionTypeSelect)
@@ -168,12 +168,6 @@ class MainWindow(QMainWindow):
         try:
             self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
             if self.equipments is not None and len(self.equipments)>0:
-                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15 or item['EquipmentTypeId'] == 16, self.equipments))
-                if filtered_data is not None and len(filtered_data)>0:
-                    for equipment in filtered_data:
-                        self.right_frame.lane_view_box.set_cam_details(equipment)
-                        break
-                    self.right_frame.lane_view_box.updateFinished.emit(True)
                 self.footer_widget.update_el(self.equipments)
                 self.footer_widget.updateFinished.emit(True)
                 filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments), None)    
@@ -226,28 +220,38 @@ class MainWindow(QMainWindow):
             vc=Utilities.is_integer(current_Transaction["VehicleClassId"])
             svc=Utilities.is_integer(current_Transaction["VehicleSubClassId"])
             TransactionTypeId=Utilities.is_integer(current_Transaction["TransactionTypeId"])
+            vrn=self.right_frame.current_transaction_box.txtVRN.text()
+            remark=self.right_frame.current_transaction_box.txtRemark.text()
+            current_Transaction["TCRemark"]=remark
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
                     if TransactionTypeId==1:
                         if current_Transaction["TagEPC"]=='':
                             show_custom_message_box("Save Transactions", "FasTag epc is required", 'cri')
                             return
-                    self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
-                    current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
-                    current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
-                    if TransactionTypeId !=1:
-                        current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
-                    current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                    self.bg_service.lane_trans_start(current_Transaction)
-                    if TransactionTypeId ==2:
-                        self.print_receipt(current_Transaction)
-                    resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
-                    if(resultData is not None and len(resultData)>0):
-                        if resultData[0]["AlertMessage"]=="successfully":
-                            self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                            #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
-                        else:
-                            show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
+                    elif TransactionTypeId==3:
+                        if remark=='':
+                            show_custom_message_box("Save Transactions", "Remark is required", 'cri')
+                            return
+                    if len(vrn)>4 and len(vrn)<11:
+                        self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
+                        current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
+                        current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+                        if TransactionTypeId !=1:
+                            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+                        current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+                        self.bg_service.lane_trans_start(current_Transaction)
+                        if TransactionTypeId ==2:
+                            self.print_receipt(current_Transaction)
+                        resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
+                        if(resultData is not None and len(resultData)>0):
+                            if resultData[0]["AlertMessage"]=="successfully":
+                                self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
+                                #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
+                            else:
+                                show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
+                    else:
+                        show_custom_message_box("Save Transactions", "Valid plate number is required", 'cri')
                 else:
                     show_custom_message_box("Save Transactions", "Vehicle class is required", 'cri')
             else:
@@ -262,9 +266,9 @@ class MainWindow(QMainWindow):
                 self.reset_transctions()
                 rfdata=self.right_frame.rfid_data_queue_box.get_top_rfid()
                 if rfdata is not None:
-                    self.left_frame.set_vc(rfdata['Class'])
+                    FasTagClassName=self.left_frame.set_vc(rfdata['Class'])
                     self.right_frame.transaction_type_box.set_tt_value(1)
-                    self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active")
+                    self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active",FasTagClassName)
                     d=self.right_frame.wim_data_queue_box.get_top_wim()
                     if d is not None:
                         self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight')) 

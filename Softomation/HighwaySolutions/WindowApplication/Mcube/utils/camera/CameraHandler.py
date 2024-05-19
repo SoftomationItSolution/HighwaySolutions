@@ -21,6 +21,7 @@ class CameraHandler(threading.Thread):
         self.runtime_screenshort=False
         self.total_retries=0
         self.current_frame=None
+        self.recording_thread=None
         self.set_logger(default_directory,log_file_name)
         self.set_cam_file_path_dir(default_directory)
 
@@ -43,7 +44,8 @@ class CameraHandler(threading.Thread):
             if self.topic:
                 pub.sendMessage(self.topic, liveview=data)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} topic:{self.topic} publish_data: {str(e)}")
+            #self.logger.logError(f"Exception {self.classname} topic:{self.topic} publish_data: {str(e)}")
+            pass
 
     def initialize_capture(self):
         try:
@@ -71,7 +73,7 @@ class CameraHandler(threading.Thread):
             ret, frame = self.capture.read()
             if ret:
                 self.current_frame=frame
-                yield self.current_frame
+                #yield self.current_frame
                 self.publish_data(frame)
             else:
                 self.capture.release()
@@ -83,26 +85,38 @@ class CameraHandler(threading.Thread):
 
     def run(self):
         while self.is_running:
-            if self.capture_frame==False:
+            if not self.capture_frame:
                 self.capture = self.initialize_capture()
-                self.capture_frame=True
+                self.capture_frame = True
                 self.capture_open()
-                break
-            elif self.capture_is_open==False:
+            elif not self.capture_is_open:
                 self.capture_open()
             elif self.capture_frame and self.capture_is_open:
-                self.get_frame()
+                ret, frame = self.capture.read()
+                if ret:
+                    self.current_frame = frame
+                    # self.current_frame
+                    self.publish_data(frame)
+                else:
+                    self.capture.release()
+                    self.capture_frame = False
+                    self.current_frame = None
+                    self.capture_is_open = False
+            time.sleep(0.01)  
 
     def take_screenshot(self, output_file):
         result=False
         try:
-            output_file=output_file+".jpg"
+            if output_file.endswith(".jpg"):
+                output_file=output_file
+            else:
+                output_file=output_file+".jpg"
             snapshot_file_path = os.path.join(self.file_path_dir, output_file)
             if self.capture_frame and self.capture_is_open:
-                frame_generator = self.current_frame
-                for frame in frame_generator:
-                    if frame is not None and frame.shape[0] > 0 and frame.shape[1] > 0:
-                        cv2.imwrite(snapshot_file_path, frame)
+                #frame_generator = self.current_frame
+                while True:
+                    if self.current_frame is not None and self.current_frame.shape[0] > 0 and self.current_frame.shape[1] > 0:
+                        cv2.imwrite(snapshot_file_path, self.current_frame)
                         result=True
                         break
         except Exception as e:
@@ -123,8 +137,8 @@ class CameraHandler(threading.Thread):
             record_file_path = os.path.join(self.file_path_dir, video_file_name)
             image_file_path = os.path.join(self.file_path_dir, img_file_name)
             if self.capture_frame and self.capture_is_open:
-                frame_generator = self.current_frame
-                self.recording_thread = threading.Thread(target=self._record_video, args=(frame_generator, record_file_path,image_file_path, duration, snapshot))
+                #frame_generator = self.current_frame
+                self.recording_thread = threading.Thread(target=self._record_video, args=(record_file_path,image_file_path, duration, snapshot))
                 self.recording_thread.start()
                 return True
             else:
@@ -133,24 +147,26 @@ class CameraHandler(threading.Thread):
             self.logger.logError(f"Exception {self.classname} record_video: {str(e)}")
             return False
 
-    def _record_video(self, frame_generator, record_file_path,image_file_path, duration, snapshot):
+    def _record_video(self, record_file_path,image_file_path, duration, snapshot):
         start_time = None
         my_writer = None
         snapshot_done = False
         try:
-            for frame in frame_generator:
-                if frame is not None and frame.shape[0] > 0 and frame.shape[1] > 0:
+            while True:
+            #for frame in self.current_frame:
+                if self.current_frame is not None and self.current_frame.shape[0] > 0 and self.current_frame.shape[1] > 0:
                     if my_writer is None:
-                        my_writer = self.writer_init(frame, record_file_path)
-                    if not snapshot_done and snapshot:
-                        cv2.imwrite(image_file_path, frame)
-                        snapshot_done = True
-                    if self.runtime_screenshort:
-                        cv2.imwrite(image_file_path, frame)
-                        self.runtime_screenshort=False
-                    my_writer.write(frame)
-                    if start_time is None:
-                        start_time = cv2.getTickCount()
+                        my_writer = self.writer_init(self.current_frame, record_file_path)
+                    if my_writer is not None:
+                        if not snapshot_done and snapshot:
+                            cv2.imwrite(image_file_path, self.current_frame)
+                            snapshot_done = True
+                        if self.runtime_screenshort:
+                            cv2.imwrite(image_file_path, self.current_frame)
+                            self.runtime_screenshort=False
+                        my_writer.write(self.current_frame)
+                        if start_time is None:
+                            start_time = cv2.getTickCount()
                 if start_time is not None:
                     current_time = cv2.getTickCount()
                     elapsed_time = (current_time - start_time) / cv2.getTickFrequency()
@@ -185,7 +201,7 @@ class CameraHandler(threading.Thread):
             else:
                 return False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} writer_init: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} stop_recording: {str(e)}")
             return False
         finally:
             return True
