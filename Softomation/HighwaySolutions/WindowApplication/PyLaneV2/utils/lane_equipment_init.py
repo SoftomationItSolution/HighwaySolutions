@@ -498,10 +498,12 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
                 self.running_Transaction=self.current_Transaction
                 lane_Transaction_Id=self.running_Transaction['LaneTransactionId']
-                self.start_ic_record()
-                # res=self.screenshort_ic(self.current_Transaction)
-                # if res:
-                #     self.current_Transaction["TransactionBackImage"]=f"{self.current_Transaction['LaneTransactionId']}_ic.jpg"
+                file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
+                result=self.start_ic_record(snapshot=True)
+                print(file_name)
+                if result:
+                    self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
+                    self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
                 resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
                 self.avc_thread.getavc(lane_Transaction_Id)
                 self.logger.logInfo(f"create_violation_trans: {resultData}") 
@@ -511,7 +513,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.current_Transaction=None
 
     def stop_violation_trans(self):
-        self.stop_ic_record()
+        self.stop_ic_record(snapshot=False)
 
     def process_on_ufd(self):
         try:
@@ -549,30 +551,33 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} stop_lpic_record: {str(e)}")
 
     def start_ic_record(self,snapshot=False):
+        record_status=False
         try:
             if self.running_Transaction:
                 file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
                 if self.ic_thread is not None:
-                    self.ic_thread.record_video(file_name,duration=10, snapshot=False)
+                    record_status=self.ic_thread.record_video(file_name,duration=10, snapshot=snapshot)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
+        finally:
+            return record_status
 
-    def stop_ic_record(self):
+    def stop_ic_record(self,snapshot=True):
         try:
             if self.running_Transaction:
                 file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
+                print(file_name)
                 if self.ic_thread is not None:
-                    res=self.ic_thread.stop_recording(snapshot=True)
+                    res=self.ic_thread.stop_recording(snapshot=snapshot)
                     if res:
                         self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
-                        self.running_Transaction["TransactionVideo"]=file_name+'.avi'
+                        self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
                         threading.Thread(target=LaneManager.lane_data_ic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()   
             self.system_transcation_status=False
             self.running_Transaction=None
             pub.sendMessage("lane_process_end", transactionInfo=True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
-
     
     def screenshort_ic(self,lane_Transaction_img):
         try:

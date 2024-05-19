@@ -19,7 +19,7 @@ class KistDIOClient(threading.Thread):
         self.record_status=False
         self.is_active=False
         self.system_transcation_status=False
-        self.violation_duration=10
+        self.violation_duration=3
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},

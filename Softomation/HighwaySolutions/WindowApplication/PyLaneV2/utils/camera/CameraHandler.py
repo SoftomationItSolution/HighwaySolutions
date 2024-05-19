@@ -44,7 +44,6 @@ class CameraHandler(threading.Thread):
             if self.topic:
                 pub.sendMessage(self.topic, liveview=data)
         except Exception as e:
-            #self.logger.logError(f"Exception {self.classname} topic:{self.topic} publish_data: {str(e)}")
             pass
 
     def initialize_capture(self):
@@ -92,16 +91,7 @@ class CameraHandler(threading.Thread):
             elif not self.capture_is_open:
                 self.capture_open()
             elif self.capture_frame and self.capture_is_open:
-                ret, frame = self.capture.read()
-                if ret:
-                    self.current_frame = frame
-                    # self.current_frame
-                    self.publish_data(frame)
-                else:
-                    self.capture.release()
-                    self.capture_frame = False
-                    self.current_frame = None
-                    self.capture_is_open = False
+                self.get_frame()
             time.sleep(0.01)  
 
     def take_screenshot(self, output_file):
@@ -113,14 +103,13 @@ class CameraHandler(threading.Thread):
                 output_file=output_file+".jpg"
             snapshot_file_path = os.path.join(self.file_path_dir, output_file)
             if self.capture_frame and self.capture_is_open:
-                #frame_generator = self.current_frame
                 while True:
                     if self.current_frame is not None and self.current_frame.shape[0] > 0 and self.current_frame.shape[1] > 0:
                         cv2.imwrite(snapshot_file_path, self.current_frame)
                         result=True
                         break
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} take_only_screenshot: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} take_screenshot: {str(e)}")
         finally:
             return result
         
@@ -128,16 +117,16 @@ class CameraHandler(threading.Thread):
         try:
             if self.recording:
                 self.logger.logInfo("Already recording. Stop the current recording before starting a new one.")
-                return False
+                self.stop_recording()
+                #return False
             if duration==0:
-                duration=30
+                duration=5
             self.recording = True
             img_file_name=output_file+".jpg"
-            video_file_name=output_file+".avi"
+            video_file_name=output_file+".mp4"
             record_file_path = os.path.join(self.file_path_dir, video_file_name)
             image_file_path = os.path.join(self.file_path_dir, img_file_name)
             if self.capture_frame and self.capture_is_open:
-                #frame_generator = self.current_frame
                 self.recording_thread = threading.Thread(target=self._record_video, args=(record_file_path,image_file_path, duration, snapshot))
                 self.recording_thread.start()
                 return True
@@ -152,8 +141,11 @@ class CameraHandler(threading.Thread):
         my_writer = None
         snapshot_done = False
         try:
-            while True:
-            #for frame in self.current_frame:
+            while self.recording:
+                if self.recording==False:
+                    if my_writer is not None:
+                        my_writer.release()
+                    break
                 if self.current_frame is not None and self.current_frame.shape[0] > 0 and self.current_frame.shape[1] > 0:
                     if my_writer is None:
                         my_writer = self.writer_init(self.current_frame, record_file_path)
@@ -171,6 +163,8 @@ class CameraHandler(threading.Thread):
                     current_time = cv2.getTickCount()
                     elapsed_time = (current_time - start_time) / cv2.getTickFrequency()
                     if elapsed_time >= duration:
+                        if my_writer is not None:
+                            my_writer.release()
                         break
             if my_writer is not None:
                 my_writer.release()
@@ -180,11 +174,14 @@ class CameraHandler(threading.Thread):
                 my_writer.release()
         finally:
             self.recording = False
+            if my_writer is not None:
+                my_writer.release()
 
     def writer_init(self, frame, output_file):
         try:
             frame_height, frame_width, _ = frame.shape
-            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            #fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v')
             out = cv2.VideoWriter(output_file, fourcc, 25.0, (frame_width, frame_height))
             return out
         except Exception as e:
