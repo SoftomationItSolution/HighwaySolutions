@@ -1,0 +1,6 @@
+{
+    "connection_type": "tcp",
+    "address": "192.168.10.11",
+    "port": "4001",
+    "image_dir":"/home/TMSLane/Events/"
+}

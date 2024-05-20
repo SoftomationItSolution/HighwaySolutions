@@ -168,6 +168,7 @@ class LoginForm(QMainWindow):
                     if CryptoUtils.encrypt_aes_256_cbc(password) == res[0]["LoginPassword"]:
                         userDetails = json.dumps(res[0])
                         self.bg_service.app_log_status(True)
+                        self.bg_service.update_user(userDetails)
                         self.switch_window.emit(userDetails)
                     else:
                         show_custom_message_box(

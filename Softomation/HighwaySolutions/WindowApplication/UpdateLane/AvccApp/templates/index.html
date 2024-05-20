@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AVCC Apps</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/socket.io.js') }}"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="mt-5">Sensor Aligment Details</h2>
+                <div class="row">
+                  <div class="col-md-6" id="left_data_display">
+                    
+                  </div>
+                  <div class="col-md-6" id="right_data_display"></div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="accordion" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                          AVC Configuration
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                        <div class="accordion-body">
+                            <form action="/avc_connect" method="post" id="inputForm">
+                                <div class="mb-3 mt-3">
+                                    <label>Connection Type:</label>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="connection_type" id="tcp" value="tcp"
+                                            onclick="showHideFields()" {% if data.connection_type == 'tcp' %} checked {% endif %}>
+                                        <label class="form-check-label" for="tcp">
+                                            TCP
+                                        </label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="connection_type" id="serial"
+                                            value="serial" onclick="showHideFields()">
+                                        <label class="form-check-label" for="serial">
+                                            Serial
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="mb-3" id="tcpFields">
+                                    <label for="ip_address" class="form-label">IP Address:</label>
+                                    <input type="text" class="form-control" id="ip_address" name="ip_address"  value="{{ data.address }}">
+                                    <label for="port_number" class="form-label">Port Number:</label>
+                                    <input type="text" class="form-control" id="port_number" name="port_number" value="{{ data.port }}">
+                                </div>
+                                <div class="mb-3" id="serialFields" style="display:none;">
+                                    <label for="com_port" class="form-label">COM Port:</label>
+                                    <select class="form-select" id="com_port" name="com_port">
+                                      {% for com_port_option in com_port_options %}
+                                          <option value="{{ com_port_option }}" {% if com_port_option == data.address %} selected {% endif %}>{{ com_port_option }}</option>
+                                      {% endfor %}
+                                  </select>
+                                    <label for="baud_rate" class="form-label">Baud Rate:</label>
+                                    <select class="form-select" id="baud_rate" name="baud_rate">
+                                      {% for baud_rate_option in baud_rate_options %}
+                                          <option value="{{ baud_rate_option }}" {% if baud_rate_option == data.port %} selected {% endif %}>{{ baud_rate_option }}</option>
+                                      {% endfor %}
+                                  </select>
+                                </div>
+                                <div class="mb-3 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Connect</button>
+                                </div>
+                                
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                        AVC Data Broadcast
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                            <form action="/avc_broadcast" method="post" id="broadcastForm" class="bp10">
+                                <div class="mb-3">
+                                    <label for="data_ip_address" class="form-label">IP Address:</label>
+                                    <input type="text" class="form-control" id="data_ip_address" name="data_ip_address" value="{{ brodcast.broadcast_ip }}">
+                                    <label for="data_port_number" class="form-label">Port Number:</label>
+                                    <input type="text" class="form-control" id="data_port_number" name="data_port_number" value="{{ brodcast.broadcast_port }}">
+                                </div>
+                                <div class="mb-3 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                          Live View
+                        </button>
+                      </h2>
+                      <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                        <div class="accordion-body">
+                          <img id="base64Image" src="" alt="Base64 Image">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

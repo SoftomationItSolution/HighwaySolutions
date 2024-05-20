@@ -93,7 +93,7 @@ class KistDIOClient(threading.Thread):
                 out_data["Status"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
             if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
-                self.handler.start_ic_record()
+                self.handler.lane_trans_ic_cam()
             if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
                 if self.system_transcation_status:
                     self.lane_trans_end()
@@ -283,6 +283,6 @@ class KistDIOClient(threading.Thread):
     def lane_trans_end(self):
         try:
             self.handel_traffic_light(False)
-            self.handler.stop_ic_record()
+            self.handler.lane_trans_end()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")

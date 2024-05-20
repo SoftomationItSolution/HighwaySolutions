@@ -51,6 +51,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.wim_data=None
         self.current_Transaction=None
         self.running_Transaction=None
+        self.userDetails=None
         self.is_running = True
         self.rfid_client_connected=False
         self.mqtt_client_connected=False
@@ -456,6 +457,10 @@ class LaneEquipmentSynchronization(threading.Thread):
          if self.dio_thread is not None:
                 self.dio_thread.handel_ohls_light(transactionInfo)
 
+    def update_user(self, transactionInfo):
+         self.userDetails=transactionInfo
+        
+
     def lane_trans_start(self, transactionInfo):
         try:
             if self.system_transcation_status==False:
@@ -476,6 +481,26 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.logger.logInfo(f"{self.classname} trans already in progress lane_trans_start")
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+
+    def lane_trans_ic_cam(self):
+        try:
+            if self.running_Transaction:
+                file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
+                result=self.start_ic_record(snapshot=False)
+                if result:
+                    self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
+                    self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
+                    threading.Thread(target=LaneManager.lane_data_ic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} lane_trans_ic_cam: {str(e)}")
+
+    def lane_trans_end(self):
+        try:
+            self.stop_ic_record(snapshot=True)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
+        finally:
+            pub.sendMessage("lane_process_end", transactionInfo=True)
 
     def start_violation_trans(self):
         try:
@@ -500,13 +525,15 @@ class LaneEquipmentSynchronization(threading.Thread):
                 lane_Transaction_Id=self.running_Transaction['LaneTransactionId']
                 file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
                 result=self.start_ic_record(snapshot=True)
-                print(file_name)
                 if result:
                     self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
                     self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
+                if self.userDetails is not None:
+                    self.running_Transaction["UserId"]=self.userDetails["UserId"]
+                    self.running_Transaction["LoginId"]=self.userDetails["LoginId"]
                 resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
                 self.avc_thread.getavc(lane_Transaction_Id)
-                self.logger.logInfo(f"create_violation_trans: {resultData}") 
+                self.logger.logInfo(f"create_violation_trans: {resultData}")
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
         finally:
@@ -565,17 +592,10 @@ class LaneEquipmentSynchronization(threading.Thread):
     def stop_ic_record(self,snapshot=True):
         try:
             if self.running_Transaction:
-                file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
-                print(file_name)
                 if self.ic_thread is not None:
-                    res=self.ic_thread.stop_recording(snapshot=snapshot)
-                    if res:
-                        self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
-                        self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
-                        threading.Thread(target=LaneManager.lane_data_ic_update,args=(self.dbConnectionObj,self.running_Transaction)).start()   
+                    self.ic_thread.stop_recording(snapshot=snapshot)
             self.system_transcation_status=False
             self.running_Transaction=None
-            pub.sendMessage("lane_process_end", transactionInfo=True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_ic_record: {str(e)}")
     
