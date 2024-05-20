@@ -124,7 +124,7 @@ if __name__ == '__main__':
     try:
         check_duplicate=False
         default_directory=check_default_dir()
-        check_duplicate_instance_close_new(default_directory)
+        check_duplicate_instance_close_old(default_directory)
         
         
         db_path=os.path.join(default_directory, 'MasterConfig', 'dbConfig.json')
@@ -146,11 +146,10 @@ if __name__ == '__main__':
         lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
         lane_equipments.daemon = True
         lane_equipments.start()
-
-        app_thread = threading.Thread(target=desktop_app, args=[lane_equipments, dbConnectionObj, default_directory, systemSetting, lane_details, default_plaza_Id, logger])
-        app_thread.daemon=True
-        app_thread.start()
-
+        if lane_details is not None:
+            app_thread = threading.Thread(target=desktop_app, args=[lane_equipments, dbConnectionObj, default_directory, systemSetting, lane_details, default_plaza_Id, logger])
+            app_thread.daemon=True
+            app_thread.start()
     except Exception as e:
         print("An error occurred:", e)
     while True:
