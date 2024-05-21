@@ -6,13 +6,12 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,_topic_name,log_file_name,timeout=0.100):
+    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,log_file_name,timeout=0.100):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
-        self.topic_name=_topic_name
+        self.system_loging_status=system_loging_status
         self.timeout=timeout
-        self.logger = CustomLogger(default_directory,log_file_name)
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
@@ -30,7 +29,7 @@ class KistDIOClient(threading.Thread):
         self.barrier_loop_last=False
         self.barrier_last_Status=False        
         self.barrier_Status=False        
-        self.ohls_Status=False
+        self.ohls_status=False
         self.set_logger(default_directory,log_file_name)
         self.set_exit_loop()
 
@@ -47,6 +46,12 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.exit_loop_index=9
             self.logger.logError(f"Exception {self.classname} set_exit_loop: {str(e)}")
+
+    def app_log_status(self, transactionInfo):
+        try:
+            self.system_loging_status=transactionInfo
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
 
     def formate_output(self, input):
         try:
@@ -94,12 +99,12 @@ class KistDIOClient(threading.Thread):
                 self.handler.update_dio_events(self.out_labels)
             if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
                 self.handler.lane_trans_ic_cam()
-            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
+            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True and self.system_loging_status==True:
                 if self.system_transcation_status:
                     self.lane_trans_end()
                 else:
                     self.violation_trigger('s41e')
-            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True:
+            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
                 self.violation_trigger('s41e')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")

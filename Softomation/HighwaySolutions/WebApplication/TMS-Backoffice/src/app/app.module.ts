@@ -35,9 +35,9 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
-
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 
 import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
@@ -85,8 +85,15 @@ import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasT
 import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
 import { ProjectConfigComponent } from './pages/project-config/project-config.component';
+import { LSDUComponent } from './pages/lsdu/parent/lsdu.component';
+import { LsduLaneComponent } from './pages/lsdu/child/lsdulane.component';
 
-
+const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+  hostname: GetIpAddress(),
+  port: 9001,
+  path: '/mqtt',
+  protocol: 'ws',
+};
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -157,7 +164,9 @@ export const MY_CUSTOM_FORMATS = {
     TransactionalValidatedComponent,
     FasTagDataPending,
     FasTagDataProcessed,
-    ReportMasterComponent
+    ReportMasterComponent,
+    LSDUComponent,
+    LsduLaneComponent
   ],
   imports: [
     BrowserModule,
@@ -195,7 +204,8 @@ export const MY_CUSTOM_FORMATS = {
     MatSlideToggleModule,
     MatRadioModule,
     NgxSpinnerModule,
-    ImageCropperModule 
+    ImageCropperModule,
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS) 
   ],
   providers: [
     [ConfirmationService],
@@ -208,3 +218,9 @@ export const MY_CUSTOM_FORMATS = {
   schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ]
 })
 export class AppModule { }
+function GetIpAddress(): string | undefined {
+  var currentIP='';
+  var curretURL = (window.location.href).split(':')
+  currentIP = curretURL[1].replace("//", "");
+  return currentIP;
+}

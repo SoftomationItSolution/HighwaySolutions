@@ -1633,7 +1633,8 @@ input[type=radio] {
     --mdc-radio-selected-pressed-icon-color: #23c58f !important;
     --mat-radio-checked-ripple-color: #23c58f !important;
 }
-.amt{
+
+.amt {
     color: red;
     margin-top: 35px;
 }
@@ -1643,4 +1644,309 @@ input[type=radio] {
     padding: 2px 10px;
     background: #011b41;
     color: #fff;
+}
+
+.lsdu-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.lsdu-box {
+    border: 1px solid black;
+    padding: 5px;
+    flex: 1 1 calc(20% - 10px);
+    /* Adjust the percentage based on the number of columns */
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.toll-booth {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #333;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.toll-booth .title {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.vertical-text {
+    writing-mode: vertical-rl;
+    /* or vertical-lr */
+    text-orientation: upright;
+    transform: rotate(0deg);
+    /* optional, flips the text */
+}
+
+.toll-booth .lane {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin: 0 10px;
+}
+
+.ohls {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    font-size: 20px;
+}
+
+.ohls.cross {
+    color: red;
+}
+
+.ohls.arrow {
+    color: green;
+}
+
+.wim-sensor {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 20px;
+}
+
+.wim-pole {
+    width: 5px;
+    height: 100%;
+    background-color: black;
+}
+
+.wim-pole.left {
+    margin-right: auto;
+}
+
+.wim-pole.right {
+    margin-left: auto;
+}
+
+.wim-rays {
+    height: 100%;
+    flex-grow: 1;
+    border: 1px solid darkgray;
+}
+
+.wim-display {
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 10px;
+    color: red;
+    background: black;
+}
+
+.boom-barrier-icon {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 130px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: #f68e2b;
+    font-size: 86px;
+}
+
+.boom-barrier {
+    width: 9px;
+    height: 150px;
+    background-color: red;
+    position: absolute;
+    top: 0px;
+    left: 45%;
+    transform: translateX(50%) rotate(270deg);
+    transition: transform 1s;
+    background-image: linear-gradient(to bottom, red 0%, red 50%, white 50%, white 100%);
+    border: 1px solid black;
+}
+
+.traffic-light {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    position: absolute;
+    top: 55px;
+    right: 5%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.traffic-light.stop {
+    color: red;
+}
+
+.traffic-light.go {
+    color: green;
+}
+
+.lpic {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    position: absolute;
+    top: 85px;
+    left: 5%;
+    transform: translateX(-50%) scaleX(-1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.ic {
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    position: absolute;
+    top: 85px;
+    right: 10%;
+    transform: translateX(-50%) rotateZ(69deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 20px;
+}
+
+.fare-display {
+    position: absolute;
+    top: 55px;
+    left: 22%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 8px;
+    color: red;
+    background: black;
+}
+
+.avc-sensor {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+}
+
+.avc-pole {
+    width: 10px;
+    height: 100%;
+    background-color: black;
+}
+
+.avc-pole.left {
+    margin-right: auto;
+}
+
+.avc-pole.right {
+    margin-left: auto;
+}
+
+.avc-rays {
+    height: 100%;
+    border-top: 1px dashed red;
+    border-bottom: 1px dashed red;
+    flex-grow: 1;
+}
+
+.profiler-display {
+    position: absolute;
+    left: 34%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    font-size: 8px;
+    color: red;
+    background: black;
+}
+
+.action-icon {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.overlay-strip {
+    position: absolute;
+    top: 42%;
+    left: 4px;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    box-sizing: border-box;
+    transition: display 0.3s ease-in-out;
+
+}
+
+.lsdu-icon {
+    color: #636e75;
+    position: fixed;
+    height: 30px;
+    width: 30px;
+}
+
+.overlay-strip.active {
+    display: flex;
+    z-index: 1;
+}
+
+@media (max-width: 600px) {
+    .lsdu-box {
+        flex: 1 1 calc(50% - 10px);
+        /* Adjust for smaller screens */
+    }
 }

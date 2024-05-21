@@ -51,6 +51,7 @@ class STPLAVCDataClient(threading.Thread):
                     'TransactionCount': 0,
                     'ImageName':data["AvcImageName"]}
                 self.last_trans=transactionInfo
+                self.handler.update_avc_data(transactionInfo)
                 if self.LaneTransactionId!=0:
                     self.update_db_lane_trans(self.LaneTransactionId)
                 self.process_db(transactionInfo)

@@ -29,7 +29,7 @@ class KistUFDClient():
                     return True
                 else:
                     self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',False)
-            elif self.dio_detail["ProtocolTypeId"]==3:
+            elif self.ufd_detail["ProtocolTypeId"]==3:
                 self.on_serial(bytes_data)
                 return True
             else:

@@ -22,6 +22,8 @@ QtAwesome
 ./libs/RFIDReaderAPI-1.1-py3-none-any.whl
 imutils
 psutil
+Flask
+Flask-Cors
 
 #openvino==2023.3.0
 #D:\appTest\libs> pip install .\RFIDReaderAPI-1.1-py3-none-any.whl

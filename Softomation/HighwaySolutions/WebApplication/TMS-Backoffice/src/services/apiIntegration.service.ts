@@ -621,4 +621,16 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/GetReport', data, { headers: headers_object });
   }
   //#endregion
+
+  //#region LSDU
+  lsduPost(url,data): Observable<any> {
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(url,data, { headers: headers_object });
+  }
+
+  lsduGet(url): Observable<any> {
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(url, { headers: headers_object });
+  }
+  //#endregion
 }

@@ -10,7 +10,6 @@ from models.LaneManager import LaneManager
 from utils.DataTransfer import DataSynchronization
 from utils.avc.soft_avc_data import STPLAVCDataClient
 from utils.camera.CameraHandler import CameraHandler
-from utils.camera.FrameCapture import RTSPVideoCapture
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 from utils.rfid.mantra_rfid_reader import MantraRfidReader
@@ -57,7 +56,8 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.mqtt_client_connected=False
         self.system_loging_status=False
         self.system_transcation_status=False
-        self.mqtt_topic='lane/deviceStatus'
+        self.ufd_message=""
+        self.mqtt_topic=None
         self.create_mqtt_obj()
 
     def set_logger(self,default_directory,log_file_name):
@@ -69,6 +69,8 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def create_mqtt_obj(self):
         try:
+            if self.lane_detail is not None:
+                self.mqtt_topic=self.lane_detail["LaneName"]+'/laneStatus'
             client_id=Utilities.generate_random_string(10)
             version_str = pkg_resources.get_distribution("paho-mqtt").version
             current_version = Utilities.version_to_tuple(version_str)
@@ -136,11 +138,59 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} topic:{topic} publish_data: {str(e)}")
 
+    def mqtt_dio_event(self):
+        try:
+            res={"event_type":"dio","data":self.get_lane_status()}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} mqtt_dio_event: {str(e)}")
+    
+    def mqtt_ufd_event(self):
+        try:
+            res={"event_type":"ufd","data":self.ufd_message}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} mqtt_ufd_event: {str(e)}")
+
+    def mqtt_wim_event(self,data):
+        try:
+            res={"event_type":"wim","data":data}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} mqtt_wim_event: {str(e)}")
+    
+    def mqtt_avc_event(self,data):
+        try:
+            res={"event_type":"avc","data":data}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} mqtt_avc_event: {str(e)}")
+
+    def mqtt_rfid_event(self,data):
+        try:
+            res={"event_type":"rfid","data":data}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} mqtt_rfid_event: {str(e)}")
+    
+    def get_lane_status(self):
+        try:
+            if self.dio_events is not None:
+                data={"app_loging":self.system_loging_status,"OHLS_light":self.dio_events[0]["Status"],
+                  "TrafficLight":self.dio_events[1]["Status"],"BoomBarrier":self.dio_events[2]["Status"],
+                  "BoomBarrier":self.dio_events[2]["Status"]}
+                return data 
+            else:
+                return None
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_lane_status: {str(e)}") 
+    
     def start_dio_thread(self,equipment):
         try:
             if not self.dio_thread:
                 if equipment["ManufacturerName"]=="KITS":
-                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment, 'lane/devicePosition','lane_BG_dio')
+                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.system_loging_status,'lane_BG_dio')
+                    self.dio_events=self.dio_thread.out_labels
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
         except Exception as e:
@@ -255,8 +305,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.dts_thread = None
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_dts_thread: {str(e)}")
-
-    
     
     def GetPlazaDetails(self):
         try:
@@ -366,13 +414,15 @@ class LaneEquipmentSynchronization(threading.Thread):
                 if self.is_running == False:
                     break
                 time.sleep(0.100)    
-            
-        
 
     def update_equipment_Status(self,equipment):
         try:
             if self.mqtt_topic is not None:
-                self.send_message_to_mqtt(self.mqtt_topic, equipment)
+                try:
+                    res={"event_type":"ping","data":equipment}
+                    self.send_message_to_mqtt(self.mqtt_topic,res)
+                except Exception as e:
+                    self.logger.logError(f"Exception {self.classname} update_equipment_Status_mqtt: {str(e)}")
             pub.sendMessage("ping_processed", transactionInfo=equipment)
             if equipment["EquipmentTypeId"]==4:
                 if self.wim_thread is not None:
@@ -410,20 +460,25 @@ class LaneEquipmentSynchronization(threading.Thread):
                     pub.sendMessage("hardware_on_off_status", transactionInfo=data)
                 except Exception as e:
                     self.logger.logError(f"Exception {self.classname} update_dio_events_PUB: {str(e)}")
-                try:
-                    self.send_message_to_mqtt('lane/hardware',data)
-                except Exception as e:
-                    self.logger.logError(f"Exception {self.classname} update_dio_events_mqtt: {str(e)}")
+            self.mqtt_dio_event()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_dio_events: {str(e)}")
+
+    
+    def update_avc_data(self,avc_data):
+        self.avc_data=avc_data
+        self.publish_data("avc_processed",avc_data)
+        self.mqtt_avc_event(avc_data)
 
     def update_rfid_data(self,rfid_data):
         self.rfid_data=rfid_data
         self.publish_data("rfid_processed",rfid_data)
+        self.mqtt_rfid_event(rfid_data)
 
     def update_wim_data(self,wim_data):
         self.wim_data=wim_data
         self.publish_data("wim_processed",wim_data)
+        self.mqtt_wim_event(wim_data)
         #self.handler.create_wim_txn(d["TotalWeight"])
 
     def on_stop(self):
@@ -453,13 +508,20 @@ class LaneEquipmentSynchronization(threading.Thread):
             print(f'going to stop is_running {str(e)}')
 
     def app_log_status(self, transactionInfo):
-         self.system_loging_status=transactionInfo
-         if self.dio_thread is not None:
+        try:
+            self.system_loging_status=transactionInfo
+            if self.dio_thread is not None:
                 self.dio_thread.handel_ohls_light(transactionInfo)
+                self.dio_thread.app_log_status(transactionInfo)
+            self.mqtt_dio_event()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
 
     def update_user(self, transactionInfo):
-         self.userDetails=transactionInfo
-        
+        try:
+            self.userDetails=json.loads(transactionInfo)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_user: {str(e)}")
 
     def lane_trans_start(self, transactionInfo):
         try:
@@ -531,7 +593,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 if self.userDetails is not None:
                     self.running_Transaction["UserId"]=self.userDetails["UserId"]
                     self.running_Transaction["LoginId"]=self.userDetails["LoginId"]
-                resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.current_Transaction)
+                resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.running_Transaction)
                 self.avc_thread.getavc(lane_Transaction_Id)
                 self.logger.logInfo(f"create_violation_trans: {resultData}")
         except Exception as e:
@@ -542,19 +604,26 @@ class LaneEquipmentSynchronization(threading.Thread):
     def stop_violation_trans(self):
         self.stop_ic_record(snapshot=False)
 
+    
+
     def process_on_ufd(self):
         try:
             if self.ufd is not None:
                 self.ufd.clear_cmd()
                 self.ufd.go_cmd()
+                self.ufd_message=""
                 self.ufd.l1_cmd(self.running_Transaction["TransactionTypeName"])
+                self.ufd_message=self.running_Transaction["TransactionTypeName"]
                 if self.running_Transaction["TransactionTypeId"]==1:
                     self.ufd.l2_cmd(f'{self.running_Transaction["TagClassName"]} {self.running_Transaction["TagPlateNumber"]}')
+                    self.ufd_message=self.ufd_message+f'<br>{self.running_Transaction["TagClassName"]} {self.running_Transaction["TagPlateNumber"]}'
                 else:
                     self.ufd.l2_cmd(f'{self.running_Transaction["VehicleClassName"]} Toll Fee: {self.running_Transaction["TransactionAmount"]}')
-                    #self.ufd.l2_cmd(f'Toll Fee: {self.running_Transaction["TransactionAmount"]}')
+                    self.ufd_message=self.ufd_message+f'<br>{self.running_Transaction["VehicleClassName"]} Toll Fee: {self.running_Transaction["TransactionAmount"]}'
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
+        finally:
+            self.mqtt_ufd_event()
 
     def handel_traffic_light(self,status):
         try:
@@ -625,9 +694,12 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.ufd.clear_cmd()
                 self.ufd.stop_cmd()
                 if self.plaza_detail is not None:
-                    self.ufd.single_line_cmd(f'Welcome to {self.plaza_detail["PlazaName"]}')
+                    self.ufd_message=f'Welcome to {self.plaza_detail["PlazaName"]}'
+                    self.ufd.single_line_cmd(self.ufd_message)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} reset_default_ufd: {str(e)}")
+        finally:
+            self.mqtt_ufd_event()
 
     def get_current_shift(self):
         ShiftId=0

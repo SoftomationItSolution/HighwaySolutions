@@ -69,12 +69,13 @@ class SagarAVCDataClient(threading.Thread):
                     'TransactionCount': avc_data[6].strip(),
                     'ImageName':''}
                 self.last_trans=transactionInfo
+                self.handler.update_avc_data(transactionInfo)
                 if self.LaneTransactionId!=0:
                     self.update_db_lane_trans(self.LaneTransactionId)
                 self.process_db(transactionInfo)
             else:
                 transactionInfo = avc_data_str
-                print(transactionInfo)
+                #print(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
 

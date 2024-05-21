@@ -3,6 +3,8 @@ import sys
 import threading
 from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QApplication,QStyleFactory
+from flask import Flask, jsonify, request
+from flask_cors import CORS, cross_origin
 from models.CommonManager import CommonManager
 from utils.constants import Utilities
 from utils.lane_equipment_init import LaneEquipmentSynchronization
@@ -11,17 +13,70 @@ from utils.mySqlConnection import MySQLConnections
 from utils.window_controller import WindowController
 import platform
 import psutil
-import signal
 import  time
-from threading import Thread
 lane_equipments=None
 app=None
+flaskapp = Flask(__name__)
+cors = CORS(flaskapp)
+flaskapp.config['CORS_HEADERS'] = 'Content-Type'
 PID_FILE = "TMSv1.pid"
 
-def signal_handler(sig, frame):
-    global app
-    print('Received main signal:', sig)
-    #cleanup()
+@flaskapp.route('/app_login', methods=['POST'])
+def app_login():
+    if request.method == 'POST':
+        try:
+            pass
+            # ip_address = request.form['ip_address']
+            # port_number = request.form['port_number']
+            # connection_type = request.form['connection_type']
+            # if connection_type == 'tcp':
+            #     address = ip_address
+            #     port = port_number
+            # else:
+            #     address = request.form['com_port']
+            #     port = request.form['baud_rate']
+            # update_json_file({"connection_type":connection_type,"address":address,"port":port})
+            # return '<script>alert("JSON file updated successfully!"); window.location="/";</script>'
+        except Exception as e:
+            return f'<script>alert("Error: {e}"); window.location="/";</script>'
+
+@flaskapp.route('/app_logout', methods=['POST'])
+def app_logout():
+    if request.method == 'POST':
+        try:
+            pass
+            # ip_address = request.form['ip_address']
+            # port_number = request.form['port_number']
+            # connection_type = request.form['connection_type']
+            # if connection_type == 'tcp':
+            #     address = ip_address
+            #     port = port_number
+            # else:
+            #     address = request.form['com_port']
+            #     port = request.form['baud_rate']
+            # update_json_file({"connection_type":connection_type,"address":address,"port":port})
+            # return '<script>alert("JSON file updated successfully!"); window.location="/";</script>'
+        except Exception as e:
+            return f'<script>alert("Error: {e}"); window.location="/";</script>'
+        
+
+@flaskapp.route('/get_status', methods=['GET'])
+def get_status():
+    try:
+        if lane_equipments is not None:
+            data=lane_equipments.get_lane_status()
+            if data is not None:
+                return jsonify(data), 200
+            else:
+                return jsonify({'message': 'Status not found.'}), 404    
+        else:
+            return jsonify({'message': 'App not running.'}), 404
+    except Exception as e:
+        return jsonify({'message': 'Internal server error.'}), 500
+    
+
+def run_flask():
+    flaskapp.run(host='0.0.0.0', port=5002,debug=True)
 
 def desktop_app(bg_service,dbConnectionObj, default_directory,systemSetting,lane_details,default_plaza_Id,logger):
     global app
@@ -54,24 +109,25 @@ def check_default_dir():
     except Exception as e:
             print(str(e))
 
-def check_duplicate_instance_close_old():
-    if os.path.isfile(PID_FILE):
-        with open(PID_FILE, "r") as f:
+def check_duplicate_instance_close_old(dir):
+    final_path=os.path.join(dir,PID_FILE)
+    if os.path.isfile(final_path):
+        with open(final_path, "r") as f:
             pid = int(f.read().strip())
             f.close()
             if pid_exists(pid):
                 print("Another instance is already running.")
                 kill_process(pid)
-                with open(PID_FILE, "w") as f:
+                with open(final_path, "w") as f:
                     f.write(str(os.getpid()))
                     f.close()
                 #sys.exit(1)
             else:
-                with open(PID_FILE, "w") as f:
+                with open(final_path, "w") as f:
                     f.write(str(os.getpid()))
                     f.close()
     else:
-        with open(PID_FILE, "w") as f:
+        with open(final_path, "w") as f:
             f.write(str(os.getpid()))
             f.close()
 
@@ -125,8 +181,7 @@ if __name__ == '__main__':
         check_duplicate=False
         default_directory=check_default_dir()
         check_duplicate_instance_close_old(default_directory)
-        
-        
+
         db_path=os.path.join(default_directory, 'MasterConfig', 'dbConfig.json')
         db_json_data = Utilities.read_json_file(db_path)
 
@@ -146,6 +201,11 @@ if __name__ == '__main__':
         lane_equipments=LaneEquipmentSynchronization(default_directory,dbConnectionObj,default_plaza_Id,lane_details,systemSetting,system_ip)
         lane_equipments.daemon = True
         lane_equipments.start()
+        flask_thread =threading.Thread(target=flaskapp.run, kwargs={'host': '0.0.0.0', 'port': 5002})
+        #flask_thread =threading.Thread(target=run_flask)
+        flask_thread.daemon=True
+        flask_thread.start()
+        
         if lane_details is not None:
             app_thread = threading.Thread(target=desktop_app, args=[lane_equipments, dbConnectionObj, default_directory, systemSetting, lane_details, default_plaza_Id, logger])
             app_thread.daemon=True

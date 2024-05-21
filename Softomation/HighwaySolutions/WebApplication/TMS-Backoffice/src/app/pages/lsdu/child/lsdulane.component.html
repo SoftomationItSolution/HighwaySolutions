@@ -1,0 +1,29 @@
+<div class="toll-booth">
+    <div class="title vertical-text" >{{LaneData.LaneName}}  
+            <i class="mdi mdi-gesture-double-tap lsdu-icon" (click)="toggleOverlay()"></i>
+    </div>
+    <div class="overlay-strip" [ngClass]="{'active': isOverlayVisible}">
+        This is the overlay content.
+    </div>
+    <div class="lane">
+        <!-- <span class="mdi mdi-arrow-up-bold-circle"></span> -->
+        <div class="ohls mdi" [ngClass]="{'arrow mdi-arrow-up-bold-circle': OHLS_light, 'cross mdi-close-octagon-outline': !OHLS_light}"></div>
+        <div class="wim-sensor">
+            <div class="wim-pole left"></div>
+            <div class="wim-rays"></div>
+            <div class="wim-pole right"></div>
+            <div class="wim-display" *ngIf="wimWeight!=''">{{wimWeight}}</div>
+        </div>
+        <div class="boom-barrier-icon mdi" [ngClass]="{'mdi-boom-gate-up-outline': BoomBarrier, 'mdi-boom-gate': !BoomBarrier}"></div>
+        <div class="traffic-light mdi mdi mdi-circle-outline" [ngClass]="{'go': TrafficLight, 'stop': !TrafficLight}"></div>
+        <!-- <div class="lpic mdi mdi-cctv"></div>
+        <div class="ic mdi mdi-cctv"></div> -->
+        <div class="fare-display" *ngIf="ufd_message!=''">{{ufd_message}}</div>
+        <div class="avc-sensor">
+            <div class="avc-pole left"></div>
+            <div class="avc-rays"></div>
+            <div class="avc-pole right"></div>
+            <div class="profiler-display" *ngIf="ufd_message!=''">{{avc_class}}</div>
+        </div>
+    </div>
+</div>

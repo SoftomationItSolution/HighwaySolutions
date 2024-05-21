@@ -22,6 +22,7 @@ import { ReportMasterComponent } from '../pages/report-master/report-master.comp
 import { FasTagDataPending } from '../pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 import { ManufacturerMasterComponent } from '../pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
+import { LSDUComponent } from '../pages/lsdu/parent/lsdu.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -46,6 +47,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'fasTagPending', component: FasTagDataPending },
     { path: 'fasTagProcessed', component: FasTagDataProcessed },
     { path: 'reports', component: ReportMasterComponent },
+    { path: 'laneControl', component: LSDUComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  
