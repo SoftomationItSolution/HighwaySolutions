@@ -12,24 +12,33 @@ import { Subscription } from 'rxjs';
 export class LsduLaneComponent implements OnInit, OnDestroy {
   @Input() LaneData: any;
   ErrorData: any;
-  wimWeight = ''
-  ufd_message = ''
-  avc_class = ''
+  UserData: any;
+  equipmentList: any;
+  laneUrl = "";
+  wimWeight = '';
+  ufd_message = '';
+  avc_class = '';
+  LaneSystemIpAddress = '';
+  LaneName = '';
   isOverlayVisible = false;
-  LaneSystemIpAddress = ''
-  LaneName = ''
-  LoginStatus = false
-  hardwareOnOffSubscribe!: Subscription;
   app_loging = false;
   OHLS_light = false;
   TrafficLight = false;
   BoomBarrier = false;
+  ViolationStatus = false;
+  protocolTypeIds = [1, 2, 6];
+  LaneTypeId = 1;
+  hardwareOnOffSubscribe!: Subscription;
   constructor(private spinner: NgxSpinnerService, private dm: DataModel, private dbService: apiIntegrationService, private _mqttService: MqttService) {
 
   }
   ngOnInit(): void {
     this.LaneSystemIpAddress = this.LaneData.LaneSystemIpAddress
     this.LaneName = this.LaneData.LaneName
+    this.LaneTypeId = this.LaneData.LaneTypeId
+    this.laneUrl = "http://" + this.LaneSystemIpAddress + ":5002/"
+    this.UserData = this.dm.getUserData()
+    this.GetEquipment()
     this.GetLaneStatus()
     this.hardwareStatus()
   }
@@ -48,25 +57,32 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
       const topic = this.LaneName + '/laneStatus'
       this.hardwareOnOffSubscribe = this._mqttService.observe(topic).subscribe((message: IMqttMessage) => {
         var hardwareOnOffData = JSON.parse(message.payload.toString());
-        //console.log(hardwareOnOffData)
         if (hardwareOnOffData != null) {
           if (hardwareOnOffData.event_type == 'dio') {
             this.app_loging = hardwareOnOffData.data.app_loging;
             this.OHLS_light = hardwareOnOffData.data.OHLS_light;
             this.TrafficLight = hardwareOnOffData.data.TrafficLight;
             this.BoomBarrier = hardwareOnOffData.data.BoomBarrier;
+            this.ViolationStatus = hardwareOnOffData.ViolationStatus;
           }
           else if (hardwareOnOffData.event_type == 'rfid') {
 
           }
           else if (hardwareOnOffData.event_type == 'ufd') {
-            this.ufd_message=hardwareOnOffData.data;
+            this.ufd_message = hardwareOnOffData.data;
           }
           else if (hardwareOnOffData.event_type == 'wim') {
-            this.avc_class="Weight:"+hardwareOnOffData.data.TotalWeight.toString()
+            this.wimWeight = "Weight:" + hardwareOnOffData.data.TotalWeight.toString()
           }
           else if (hardwareOnOffData.event_type == 'avc') {
-            this.avc_class="AVC-Class:"+hardwareOnOffData.data.AvcClassId.toString()
+            this.avc_class = "AVC-Class:" + hardwareOnOffData.data.AvcClassId.toString()
+          }
+          else if (hardwareOnOffData.event_type == 'ping') {
+            const eq_status = hardwareOnOffData.data;
+            const item = this.equipmentList.find(d => d.id === eq_status.IpAddress);
+            if (item) {
+              item.OnLineStatus = eq_status.OnLineStatus;
+            }
           }
         }
 
@@ -76,19 +92,12 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     }
   }
 
-  GetLaneStatus() {
+  GetEquipment() {
     this.spinner.show();
-    const url = "http://" + this.LaneSystemIpAddress + ":5002/get_status"
-    this.dbService.lsduGet(url).subscribe(
+    this.dbService.EquipmentDetailsByLaneId(this.LaneData.LaneId).subscribe(
       data => {
         this.spinner.hide();
-        if (data = !null) {
-          this.app_loging = data.app_loging;
-          this.OHLS_light = data.OHLS_light;
-          this.TrafficLight = data.TrafficLight;
-          this.BoomBarrier = data.BoomBarrier;
-        }
-
+        this.equipmentList = data.ResponseData.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
       },
       (error) => {
         this.spinner.hide();
@@ -99,5 +108,67 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     );
   }
 
+  laneLogin() {
+    let url
+    if (this.LaneTypeId == 3) {
+      this.spinner.show();
+      if (this.app_loging) {
+        url = this.laneUrl + "app_login"
+      } else {
+        url = this.laneUrl + "app_logout"
+      }
+      this.dbService.lsduPost(url, this.UserData).subscribe(
+        data => {
+          this.spinner.hide();
+          this.ErrorData = [{ AlertMessage: data.message }];
+          this.dm.openSnackBar(this.ErrorData, true);
+        },
+        (error) => {
+          this.spinner.hide();
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      );
+    }
+    else {
+      this.ErrorData = [{ AlertMessage: 'Operation not allowed.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
+  }
 
+  GetLaneStatus() {
+    this.spinner.show();
+    const url = this.laneUrl + "get_status"
+    this.dbService.lsduGet(url).subscribe(
+      data => {
+        this.spinner.hide();
+        if (data = !null) {
+          this.app_loging = data.app_loging;
+          this.OHLS_light = data.OHLS_light;
+          this.TrafficLight = data.TrafficLight;
+          this.BoomBarrier = data.BoomBarrier;
+          this.ViolationStatus = data.ViolationStatus;
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        console.log(error)
+        this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
+  }
+
+  getEquipmentClass(equipment) {
+    if (!equipment.OnLineStatus || equipment.OnLineStatus === 0) {
+      return 'offline';
+    } else if (equipment.OnLineStatus === true || equipment.OnLineStatus === 1) {
+      if (!equipment.ConnectionStatus || equipment.ConnectionStatus === 0) {
+        return 'disconnected';
+      } else if (equipment.ConnectionStatus === true || equipment.ConnectionStatus === 1) {
+        return 'connected';
+      }
+    }
+    return '';
+  }
 }

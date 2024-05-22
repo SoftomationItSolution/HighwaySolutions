@@ -64,7 +64,6 @@ class WimDataQueueBox(QFrame):
                 if transaction_datetime < minutes_ago:
                     rows_to_remove.append(idx)
             for row_idx in reversed(rows_to_remove):
-                self.tblWim.removeRow(row_idx)
                 del self.wim_q[row_idx]
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox remove_old_data: {e}")
@@ -72,12 +71,12 @@ class WimDataQueueBox(QFrame):
 
     def wim_transaction_info(self, transactionInfo):
         try:
-            self.wim_q.append(transactionInfo)
-            self.refresh_table_data()
+            if transactionInfo is not None:
+                self.wim_q.append(transactionInfo)
+                self.remove_old_data()
+                self.refresh_table_data()
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox  wim_transaction_info: {e}")
-        finally:
-            self.remove_old_data()
 
     def refresh_table_data(self):
         try:

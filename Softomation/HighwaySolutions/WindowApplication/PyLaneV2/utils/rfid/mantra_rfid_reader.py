@@ -23,7 +23,7 @@ class MantraRfidReader(threading.Thread):
 
     def set_logger(self,default_directory,log_file_name):
         try:
-            self.classname="LESyn"
+            self.classname="mantra_rfid"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")

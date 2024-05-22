@@ -1656,7 +1656,7 @@ input[type=radio] {
 
 .lsdu-box {
     border: 1px solid black;
-    padding: 5px;
+    padding: 1px;
     flex: 1 1 calc(20% - 10px);
     /* Adjust the percentage based on the number of columns */
     box-sizing: border-box;
@@ -1686,14 +1686,57 @@ input[type=radio] {
     /* or vertical-lr */
     text-orientation: upright;
     transform: rotate(0deg);
-    /* optional, flips the text */
+}
+
+.toll-booth .equipment-status {
+    width: 24px;
+    height: 100%;
+    position: relative;
+    margin: 0 1px;
+}
+
+.equipment-status i {
+    font-size: 22px;
+    background: silver;
+}
+
+/* .equipment-status .log{
+    color: #23c58f;
+} */
+
+.equipment-status .log {
+    color: #525ce5;
+    background: #eaedf1;
+}
+
+.equipment-status .offline {
+    background-color: red;
+    color: white;
+}
+
+.equipment-status .disconnected {
+    background-color: orange;
+    color: white;
+}
+
+.equipment-status .connected {
+    background-color: green;
+    color: white;
 }
 
 .toll-booth .lane {
-    width: 100%;
+    width: calc(100% - 24px);
     height: 100%;
     position: relative;
-    margin: 0 10px;
+    margin: 0 5px;
+}
+
+.lane-title {
+    width: 100%;
+    color: #fff;
+    background: #011b41;
+    height: 15px;
+    font-size: 11px;
 }
 
 .ohls {
@@ -1794,9 +1837,9 @@ input[type=radio] {
 }
 
 .traffic-light {
-    width: 30px;
-    height: 30px;
-    background-color: black;
+    width: 20px;
+    height: 20px;
+    background-color: #000;
     position: absolute;
     top: 55px;
     right: 5%;
@@ -1805,15 +1848,40 @@ input[type=radio] {
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    font-size: 20px;
+    font-size: 21px;
 }
 
 .traffic-light.stop {
-    color: red;
+    color: #000;
+    background-color: red;
 }
 
 .traffic-light.go {
-    color: green;
+    color: #000;
+    background-color: green;
+}
+
+.violation-light {
+    width: 20px;
+    height: 20px;
+    background-color: #000;
+    position: absolute;
+    top: 80px;
+    right: 5%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    font-size: 21px;
+}
+
+.violation-light.off {
+    color: #74788d;
+}
+
+.violation-light.on {
+    color: #FFC000;
 }
 
 .lpic {
@@ -1863,13 +1931,13 @@ input[type=radio] {
 
 .avc-sensor {
     position: absolute;
-    top: 15px;
+    top: 19px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
     width: 100%;
-    height: 30px;
+    height: 24px;
 }
 
 .avc-pole {

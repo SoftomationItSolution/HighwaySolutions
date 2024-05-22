@@ -135,6 +135,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def publish_data(self,topic,data):
         try:
             pub.sendMessage(topic, transactionInfo=data)
+            pass
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} topic:{topic} publish_data: {str(e)}")
 
@@ -178,7 +179,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             if self.dio_events is not None:
                 data={"app_loging":self.system_loging_status,"OHLS_light":self.dio_events[0]["Status"],
                   "TrafficLight":self.dio_events[1]["Status"],"BoomBarrier":self.dio_events[2]["Status"],
-                  "BoomBarrier":self.dio_events[2]["Status"]}
+                  "ViolationStatus":self.dio_events[3]["Status"]}
                 return data 
             else:
                 return None
@@ -228,7 +229,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if not self.rfid_thread:
                 if equipment["ManufacturerName"]=="Mantra":
-                    self.rfid_thread = MantraRfidReader(self,self.default_directory, equipment, 'lane_BG_wim')
+                    self.rfid_thread = MantraRfidReader(self,self.default_directory, equipment, 'lane_BG_rfid')
                     self.rfid_thread.daemon=True
                     self.rfid_thread.start()
         except Exception as e:
@@ -423,7 +424,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.send_message_to_mqtt(self.mqtt_topic,res)
                 except Exception as e:
                     self.logger.logError(f"Exception {self.classname} update_equipment_Status_mqtt: {str(e)}")
-            pub.sendMessage("ping_processed", transactionInfo=equipment)
+            #pub.sendMessage("ping_processed", transactionInfo=equipment)
             if equipment["EquipmentTypeId"]==4:
                 if self.wim_thread is not None:
                     self.wim_thread.retry(equipment["OnLineStatus"])
@@ -463,7 +464,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.mqtt_dio_event()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_dio_events: {str(e)}")
-
     
     def update_avc_data(self,avc_data):
         self.avc_data=avc_data
@@ -479,7 +479,6 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.wim_data=wim_data
         self.publish_data("wim_processed",wim_data)
         self.mqtt_wim_event(wim_data)
-        #self.handler.create_wim_txn(d["TotalWeight"])
 
     def on_stop(self):
         try:
@@ -603,8 +602,6 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def stop_violation_trans(self):
         self.stop_ic_record(snapshot=False)
-
-    
 
     def process_on_ufd(self):
         try:

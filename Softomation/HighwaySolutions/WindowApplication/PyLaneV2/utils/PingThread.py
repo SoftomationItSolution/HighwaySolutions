@@ -50,10 +50,16 @@ class PingThread(threading.Thread):
                 if current_time - last_call_time >= self.interval:
                     if self.equipment_list is not None:
                         for equipment in self.equipment_list:
+                            if equipment["OnLineStatus"]==0:
+                                equipment["OnLineStatus"]=False
+                            else:
+                                equipment["OnLineStatus"]=True
                             ip_address = equipment.get('IpAddress')
                             if Utilities.is_valid_ipv4(ip_address):
-                                equipment["OnLineStatus"]=self.ping_equipment(ip_address)
-                                self.handler.update_equipment_Status(equipment)
+                                if equipment["OnLineStatus"]!=self.ping_equipment(ip_address):
+                                    equipment["OnLineStatus"]=self.ping_equipment(ip_address)
+                                    self.handler.update_equipment_Status(equipment)
+                                time.sleep(0.1)
                     last_call_time = current_time
                 time.sleep(0.1)
         except Exception as e:

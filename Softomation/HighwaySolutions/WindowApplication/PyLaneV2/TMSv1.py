@@ -25,39 +25,25 @@ PID_FILE = "TMSv1.pid"
 def app_login():
     if request.method == 'POST':
         try:
-            pass
-            # ip_address = request.form['ip_address']
-            # port_number = request.form['port_number']
-            # connection_type = request.form['connection_type']
-            # if connection_type == 'tcp':
-            #     address = ip_address
-            #     port = port_number
-            # else:
-            #     address = request.form['com_port']
-            #     port = request.form['baud_rate']
-            # update_json_file({"connection_type":connection_type,"address":address,"port":port})
-            # return '<script>alert("JSON file updated successfully!"); window.location="/";</script>'
+            if lane_equipments is not None:
+                lane_equipments.userDetails=request.get_json()
+                lane_equipments.app_log_status(True)
+                return jsonify({'message': 'Login done!'}), 200   
+            else:
+                return jsonify({'message': 'App not running!'}), 404
         except Exception as e:
-            return f'<script>alert("Error: {e}"); window.location="/";</script>'
+            return jsonify({'message': 'Internal server error!'}), 500
 
 @flaskapp.route('/app_logout', methods=['POST'])
 def app_logout():
-    if request.method == 'POST':
-        try:
-            pass
-            # ip_address = request.form['ip_address']
-            # port_number = request.form['port_number']
-            # connection_type = request.form['connection_type']
-            # if connection_type == 'tcp':
-            #     address = ip_address
-            #     port = port_number
-            # else:
-            #     address = request.form['com_port']
-            #     port = request.form['baud_rate']
-            # update_json_file({"connection_type":connection_type,"address":address,"port":port})
-            # return '<script>alert("JSON file updated successfully!"); window.location="/";</script>'
-        except Exception as e:
-            return f'<script>alert("Error: {e}"); window.location="/";</script>'
+    try:
+        if lane_equipments is not None:
+            lane_equipments.app_log_status(False)
+            return jsonify({'message': 'logout done!'}), 200   
+        else:
+            return jsonify({'message': 'App not running!'}), 404
+    except Exception as e:
+        return jsonify({'message': 'Internal server error!'}), 500
         
 
 @flaskapp.route('/get_status', methods=['GET'])

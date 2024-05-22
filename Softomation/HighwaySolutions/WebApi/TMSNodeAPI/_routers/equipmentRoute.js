@@ -11,6 +11,7 @@ router.get('/EquipmentDetailsGetAll', EquipmentDetailsGetAll);
 router.get('/EquipmentDetailsGetActive', EquipmentDetailsGetActive);
 router.get('/EquipmentDetailsGetById', EquipmentDetailsGetById);
 router.get('/EquipmentTypeGetActive', EquipmentTypeGetActive);
+router.get('/EquipmentDetailsByLaneId', EquipmentDetailsGetByLane);
 module.exports = router;
 
 async function EquipmentDetailsInsertUpdate(req, res, next) {
@@ -111,6 +112,28 @@ async function EquipmentTypeGetActive(req, res, next) {
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'EquipmentTypeGetActive');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function EquipmentDetailsGetByLane(req, res, next) {
+    try {
+        const LaneId = req.query.LaneId | 0;
+        const pool = await database.connect();
+        result = await pool.request().input('LaneId', sql.Int, LaneId)
+            .execute('USP_EquipmentDetailsGetByLaneId');
+        await database.disconnect();
+        if (result.recordset == []) {
+            let out = constants.ResponseMessage("No data found", null);
+            res.status(200).json(out);
+        }
+        else {
+            let out = constants.ResponseMessage("success", result.recordset);
+            res.status(200).json(out);
+        }
+    } catch (error) {
+        errorlogMessage(error, 'EquipmentDetailsGetByLane');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

@@ -43,6 +43,7 @@ class CameraHandler(threading.Thread):
         try:
             if self.topic:
                 pub.sendMessage(self.topic, liveview=data)
+                pass
         except Exception as e:
             pass
 

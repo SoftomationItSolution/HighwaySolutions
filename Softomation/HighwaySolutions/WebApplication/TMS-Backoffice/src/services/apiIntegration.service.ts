@@ -366,6 +366,12 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentTypeGetActive', { headers: headers_object });
   }
 
+  EquipmentDetailsByLaneId(LaneId): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/EquipmentDetailsByLaneId?LaneId='+LaneId, { headers: headers_object });
+  }
+
   getCamDetails(data: {}): Observable<any> {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     var url=this.dataModel.getCamAPI()?.toString() + 'stpl/onvif_get_cam'
