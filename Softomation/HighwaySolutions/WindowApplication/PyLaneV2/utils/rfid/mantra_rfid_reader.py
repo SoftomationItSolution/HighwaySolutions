@@ -1,3 +1,4 @@
+from datetime import datetime
 import threading
 import time
 from com.rfid.Reader import *
@@ -64,7 +65,7 @@ class MantraRfidReader(threading.Thread):
                         self.is_running=self.setup_reader()
                     else:
                         self.is_running=True
-                    self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}    
+                    self.tagDetails={"SystemDateTime":datetime.datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
                     current_time = time.time()
                     self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
                     if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
@@ -93,7 +94,9 @@ class MantraRfidReader(threading.Thread):
                                     self.tagDetails["Class"]=0
                                     self.tagDetails["Plate"]="XXXXXXXXXX"
                                 if int(self.tagDetails["Class"])!=0:
-                                    self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
+                                    current_date_time=datetime.now()
+                                    self.tagDetails["SystemDateTime"]=current_date_time.isoformat()
+                                    self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json(dt=current_date_time)
                                     self.handler.update_rfid_data(self.tagDetails)
                                     self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
             except Exception as e:

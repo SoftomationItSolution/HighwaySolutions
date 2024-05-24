@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 import threading
 import time
@@ -75,14 +76,17 @@ class AppaltoWinDataClient(threading.Thread):
     
     def process_transaction_info(self,d):
         try:
+            current_date_time=datetime.now()
             transactionInfo = {
                 "LaneId":self.LaneId,
-                "TransactionDateTime":Utilities.current_date_time_json(),
+                "SystemDateTime":current_date_time.isoformat(),
+                "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
                 "AxleData": self.axleData,
                 "TotalWeight": d["TotalWeight"],
-                "TransactionId": Utilities.create_txn_id(),
+                "TransactionId": Utilities.create_txn_id(dt=current_date_time),
                 'AxleCount': d["AxleCount"],
-                'IsReverseDirection':d["IsReverseDirection"]
+                'IsReverseDirection':d["IsReverseDirection"],
+                "Processed":False
             }
             self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)
@@ -140,7 +144,6 @@ class AppaltoWinDataClient(threading.Thread):
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
-
     
     def client_stop(self):
         try:

@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 import threading
 import time
@@ -73,14 +74,17 @@ class NAWinDataClient(threading.Thread):
 
     def process_transaction_info(self):
         try:
+            current_date_time=datetime.now()
             transactionInfo = {
                 "LaneId":self.LaneId,
-                "TransactionDateTime":Utilities.current_date_time_json(),
+                "SystemDateTime":current_date_time.isoformat(),
+                "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
                 "AxleData": self.axleData,
                 "TotalWeight": self.totalWeight,
                 "TransactionId": self.transactionId,
                 'AxleCount': 0 if self.axleData is None else len(self.axleData),
-                'IsReverseDirection':False
+                'IsReverseDirection':False,
+                "Processed":False
             }
             self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)

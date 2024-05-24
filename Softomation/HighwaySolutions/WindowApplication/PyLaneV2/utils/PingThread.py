@@ -6,10 +6,9 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class PingThread(threading.Thread):
-    def __init__(self, handler, equipment_list, default_directory,log_file_name, interval=10):
+    def __init__(self, handler, default_directory,log_file_name, interval=10):
         threading.Thread.__init__(self)
         self.handler = handler
-        self.equipment_list = equipment_list
         self.interval = interval
         self.is_running = False
         self.set_logger(default_directory,log_file_name)
@@ -48,8 +47,8 @@ class PingThread(threading.Thread):
             while self.is_running:
                 current_time = time.time()
                 if current_time - last_call_time >= self.interval:
-                    if self.equipment_list is not None:
-                        for equipment in self.equipment_list:
+                    if self.handler.equipment_list is not None:
+                        for equipment in self.handler.equipment_list:
                             if equipment["OnLineStatus"]==0:
                                 equipment["OnLineStatus"]=False
                             else:

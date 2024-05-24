@@ -59,11 +59,16 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
         var hardwareOnOffData = JSON.parse(message.payload.toString());
         if (hardwareOnOffData != null) {
           if (hardwareOnOffData.event_type == 'dio') {
-            this.app_loging = hardwareOnOffData.data.app_loging;
-            this.OHLS_light = hardwareOnOffData.data.OHLS_light;
-            this.TrafficLight = hardwareOnOffData.data.TrafficLight;
-            this.BoomBarrier = hardwareOnOffData.data.BoomBarrier;
-            this.ViolationStatus = hardwareOnOffData.ViolationStatus;
+            if (hardwareOnOffData.data != null) {
+              this.app_loging = hardwareOnOffData.data.app_loging;
+              this.OHLS_light = hardwareOnOffData.data.OHLS_light;
+              this.TrafficLight = hardwareOnOffData.data.TrafficLight;
+              this.BoomBarrier = hardwareOnOffData.data.BoomBarrier;
+              this.ViolationStatus = hardwareOnOffData.data.ViolationStatus;
+              if (hardwareOnOffData.data.equipment_detail != null) {
+                this.getEqList(hardwareOnOffData.data.equipment_detail);
+              }
+            }
           }
           else if (hardwareOnOffData.event_type == 'rfid') {
 
@@ -79,7 +84,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
           }
           else if (hardwareOnOffData.event_type == 'ping') {
             const eq_status = hardwareOnOffData.data;
-            const item = this.equipmentList.find(d => d.id === eq_status.IpAddress);
+            const item = this.equipmentList.find(d => d.IpAddress === eq_status.IpAddress);
             if (item) {
               item.OnLineStatus = eq_status.OnLineStatus;
             }
@@ -97,7 +102,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.dbService.EquipmentDetailsByLaneId(this.LaneData.LaneId).subscribe(
       data => {
         this.spinner.hide();
-        this.equipmentList = data.ResponseData.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
+        this.getEqList(data.ResponseData);
       },
       (error) => {
         this.spinner.hide();
@@ -111,12 +116,12 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   laneLogin() {
     let url
     if (this.LaneTypeId == 3) {
-      this.spinner.show();
-      if (this.app_loging) {
-        url = this.laneUrl + "app_login"
-      } else {
+      if (this.app_loging == true) {
         url = this.laneUrl + "app_logout"
+      } else {
+        url = this.laneUrl + "app_login"
       }
+      this.spinner.show();
       this.dbService.lsduPost(url, this.UserData).subscribe(
         data => {
           this.spinner.hide();
@@ -142,17 +147,19 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.dbService.lsduGet(url).subscribe(
       data => {
         this.spinner.hide();
-        if (data = !null) {
+        if (data != null) {
           this.app_loging = data.app_loging;
           this.OHLS_light = data.OHLS_light;
           this.TrafficLight = data.TrafficLight;
           this.BoomBarrier = data.BoomBarrier;
           this.ViolationStatus = data.ViolationStatus;
+          if (data.equipment_detail != null) {
+            this.getEqList(data.equipment_detail);
+          }
         }
       },
       (error) => {
         this.spinner.hide();
-        console.log(error)
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dm.openSnackBar(this.ErrorData, false);
       }
@@ -170,5 +177,10 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
       }
     }
     return '';
+  }
+
+  getEqList(data: any) {
+    this.equipmentList = data.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
+    
   }
 }

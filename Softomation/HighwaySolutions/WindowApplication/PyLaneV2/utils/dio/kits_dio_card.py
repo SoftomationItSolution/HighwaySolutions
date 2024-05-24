@@ -19,6 +19,7 @@ class KistDIOClient(threading.Thread):
         self.is_active=False
         self.system_transcation_status=False
         self.violation_duration=3
+        self.running_Transaction=None
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},
@@ -98,14 +99,14 @@ class KistDIOClient(threading.Thread):
                 out_data["Status"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
             if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
-                self.handler.lane_trans_ic_cam()
+                self.handler.lane_trans_ic_cam(self.running_Transaction)
             if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True and self.system_loging_status==True:
                 if self.system_transcation_status:
                     self.lane_trans_end()
-                else:
-                    self.violation_trigger('s41e')
-            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
-                self.violation_trigger('s41e')
+                # else:
+                #     self.violation_trigger('s41e')
+            # if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
+            #     self.violation_trigger('s41e')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")
     
@@ -262,9 +263,10 @@ class KistDIOClient(threading.Thread):
         if self.is_active!=status:
             self.is_active=status
 
-    def handel_traffic_light(self,status):
+    def handel_traffic_light(self,status,running_Transaction):
         try:
             self.system_transcation_status=status
+            self.running_Transaction=running_Transaction
             if self.client_socket is not None:
                 if status:
                     self.send_data('s21e')
