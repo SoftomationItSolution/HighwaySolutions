@@ -516,6 +516,17 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_equipment_Status: {str(e)}")
 
+    def get_on_line_status(self,EquipmentTypeId):
+        result=False
+        try:
+            matched_item = next((item for item in self.equipment_detail if item['EquipmentTypeId'] == EquipmentTypeId), None)
+            if matched_item:
+                result=matched_item["OnLineStatus"]
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_updated_on_line_status: {str(e)}")
+        finally:
+            return result
+
     def update_equipment_list(self,EquipmentId,_key,status):
         try:
             for item in self.equipment_detail:
@@ -557,13 +568,18 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.rfid_data.append(data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_rfid_data: {str(e)}")
-
-    def get_trxn_data_for_avc(self,transDataTime):
+        
+    def get_trxn_data_for_avc(self, transDataTime):
         try:
-            if len(self.transaction_data)>0:
-                nearest_item = min(self.transaction_data, key=lambda x: abs(x['SystemDateTime'] - transDataTime and x['VehicleAvcClassId']==0))
-                time_difference = abs((nearest_item['SystemDateTime'] - transDataTime).total_seconds() * 1000)
-                if time_difference<10000:
+            if len(self.transaction_data) > 0:
+                transDataTime = datetime.fromisoformat(transDataTime)
+                filtered_data = [x for x in self.transaction_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['VehicleAvcClassId'] == 0]
+                if not filtered_data:
+                    return 0
+                
+                nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
+                time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
+                if time_difference < 10: 
                     nearest_item['Processed'] = True
                     return nearest_item["LaneTransactionId"]
                 else:
@@ -572,6 +588,44 @@ class LaneEquipmentSynchronization(threading.Thread):
                 return 0
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_trxn_data_for_avc: {str(e)}")
+            return 0
+
+    def get_Wim_data(self, transDataTime):
+        try:
+            if len(self.wim_data) > 0:
+                transDataTime = datetime.fromisoformat(transDataTime)
+                filtered_data = [x for x in self.wim_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['Processed'] == False]
+                
+                nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
+                time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
+                if time_difference < 15: 
+                    nearest_item['Processed'] = True
+                    return nearest_item["TotalWeight"]
+                else:
+                    return 0
+            else:
+                return 0
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_Wim_data: {str(e)}")
+            return 0
+        
+    def get_rfid_data(self, transDataTime):
+        try:
+            if len(self.rfid_data) > 0:
+                transDataTime = datetime.fromisoformat(transDataTime)
+                filtered_data = [x for x in self.rfid_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime]
+                nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
+                time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
+                if time_difference < 3: 
+                    nearest_item['Processed'] = True
+                    return nearest_item
+                else:
+                    return None
+            else:
+                return None
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_rfid_data: {str(e)}")
+            return None
 
     def update_avc_data(self,data):
         try:
@@ -604,47 +658,42 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_db_lane_trans: {str(e)}")
 
-    def getWim_data(self,transDataTime):
-        try:
-            if len(self.wim_data)>0:
-                nearest_item = min(self.wim_data, key=lambda x: abs(x['SystemDateTime'] - transDataTime and x['Processed'] ==False))
-                time_difference = abs((nearest_item['SystemDateTime'] - transDataTime).total_seconds() * 1000)
-                if time_difference<10000:
-                    nearest_item['Processed'] = True
-                    return nearest_item["TotalWeight"]
-                else:
-                    return 0
-            else:
-                return 0
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} getWim_data: {str(e)}")
-            return 0
-
     def get_fasTag_class_name(self,classId):
         className=''
+        PermissibleWeight=0
         try:
             if self.systemSetting is not None and self.vc is not None:
                 if self.systemSetting['SubClassRequired'] == 1:
                     matched_item = next((item for item in self.vc if item['SystemVehicleSubClassId'] == classId), None)
                     if matched_item:
                         className=matched_item['SystemVehicleSubClassName']
+                        PermissibleWeight=matched_item['PermissibleWeight']
                 else:
                     matched_item = next((item for item in self.vc if item['SystemVehicleClassId'] == classId), None)
                     if matched_item:
                         className=matched_item['SystemVehicleClassName']
+                        PermissibleWeight=matched_item['PermissibleWeight']
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_fasTag_class_name: {str(e)}")
         finally:
-            return className
+            return className,PermissibleWeight
         
     def background_Transcation(self,rfid_data):
         try:
             ct=datetime.now()
             trans_data=self.create_fasTag_trans(rfid_data,True)
             self.current_Transaction=None
-            trans_data["ActualVehicleWeight"]=self.getWim_data(rfid_data["SystemDateTime"])
-            trans_data["TagClassName"]= self.get_fasTag_class_name(int(rfid_data["Class"]))
+            trans_data["ActualVehicleWeight"]=self.get_Wim_data(rfid_data["SystemDateTime"])
+            className,PermissibleWeight=self.get_fasTag_class_name(int(rfid_data["Class"]))
+            trans_data["TagClassName"]= className
+            trans_data["PermissibleVehicleWeight"]= PermissibleWeight
+            if(int(trans_data["ActualVehicleWeight"]>trans_data["PermissibleVehicleWeight"])):
+                trans_data["IsVehicleOverWeight"]=True
+
             trans_data["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
+            if self.userDetails is not None:
+                trans_data["UserId"]=self.userDetails["UserId"]
+                trans_data["LoginId"]=self.userDetails["LoginId"]
             self.lane_trans_start(trans_data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} background_Transcation: {str(e)}")
@@ -692,44 +741,46 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
         finally:
-            self.publish_data("lane_process_end", transactionInfo=True)
+            self.publish_data("lane_process_end", True)
 
-    # def start_violation_trans(self):
-    #     try:
-    #         if self.system_transcation_status==False:
-    #             self.system_transcation_status=True
-    #             ct=datetime.now()
-    #             if self.current_Transaction is None:
-    #                 self.current_trans()
-    #                 if self.lane_detail:
-    #                     self.setDefaultValue()
-    #                     self.current_Transaction["TransactionTypeId"]= 4
-    #                     self.current_Transaction["VehicleAvcClassId"]= 0
-    #                     self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
-    #                     self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-    #             else:
-    #                 self.current_Transaction["TransactionTypeId"]= 4
-    #                 self.current_Transaction["VehicleAvcClassId"]= 0
-    #                 if self.lane_detail:
-    #                     self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
-    #                 self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-    #             self.running_Transaction=self.current_Transaction
-    #             lane_Transaction_Id=self.running_Transaction['LaneTransactionId']
-    #             file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
-    #             result=self.start_ic_record(snapshot=True)
-    #             if result:
-    #                 self.running_Transaction["TransactionBackImage"]=file_name+'.jpg'
-    #                 self.running_Transaction["TransactionVideo"]=file_name+'.mp4'
-    #             if self.userDetails is not None:
-    #                 self.running_Transaction["UserId"]=self.userDetails["UserId"]
-    #                 self.running_Transaction["LoginId"]=self.userDetails["LoginId"]
-    #             resultData=LaneManager.lane_data_insert(self.dbConnectionObj,self.running_Transaction)
-    #             self.avc_thread.getavc(lane_Transaction_Id)
-    #             self.logger.logInfo(f"create_violation_trans: {resultData}")
-    #     except Exception as e:
-    #         self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
-    #     finally:
-    #         self.current_Transaction=None
+    def start_violation_trans(self):
+        try:
+            if self.system_transcation_status==False:
+                self.system_transcation_status=True
+                ct=datetime.now()
+                if self.current_Transaction is None:
+                    self.current_trans()
+                    if self.lane_detail:
+                        self.setDefaultValue()
+                        self.current_Transaction["TransactionTypeId"]= 4
+                        self.current_Transaction["VehicleAvcClassId"]= 0
+                        self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
+                else:
+                    self.current_Transaction["TransactionTypeId"]= 4
+                    self.current_Transaction["VehicleAvcClassId"]= 0
+                if self.lane_detail:
+                    self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
+                self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+                
+                running_Transaction=self.current_Transaction
+                lane_Transaction_Id=running_Transaction['LaneTransactionId']
+                file_name=str(lane_Transaction_Id)+'_ic'
+                if self.ic_thread is not None:
+                    result=self.ic_thread.record_video(file_name,duration=5, snapshot=True)
+                    if result:
+                        running_Transaction["TransactionBackImage"]=file_name+'.jpg'
+                        running_Transaction["TransactionVideo"]=file_name+'.mp4'
+                if self.userDetails is not None:
+                    running_Transaction["UserId"]=self.userDetails["UserId"]
+                    running_Transaction["LoginId"]=self.userDetails["LoginId"]
+                self.update_lane_transcation(running_Transaction)
+                self.system_transcation_status=False
+                resultData=LaneManager.lane_data_insert(self.dbConnectionObj,running_Transaction)
+                self.logger.logInfo(f"create_violation_trans: {resultData}")
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
+        finally:
+            self.current_Transaction=None
 
     def stop_violation_trans(self):
         self.stop_ic_record(snapshot=False)
@@ -773,18 +824,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.lpic_thread.stop_recording(snapshot=True)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_lpic_record: {str(e)}")
-
-    # def start_ic_record(self,snapshot=False):
-    #     record_status=False
-    #     try:
-    #         if self.running_Transaction:
-    #             file_name=str(self.running_Transaction['LaneTransactionId'])+'_ic'
-    #             if self.ic_thread is not None:
-    #                 record_status=self.ic_thread.record_video(file_name,duration=10, snapshot=snapshot)
-    #     except Exception as e:
-    #         self.logger.logError(f"Exception {self.classname} start_ic_record: {str(e)}")
-    #     finally:
-    #         return record_status
 
     def stop_ic_record(self,snapshot=True):
         try:
@@ -912,6 +951,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 "IsReadByReader": False,
                 "PermissibleVehicleWeight": 0.00,
                 "ActualVehicleWeight": 0.00,
+                "IsVehicleOverWeight": False,
                 "IsOverWeightCharged": False,
                 "OverWeightAmount": 0.00,
                 "TagPenaltyAmount": 0.00,

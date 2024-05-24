@@ -134,7 +134,7 @@ class NAWinDataClient(threading.Thread):
                             self.process_data(echoed_transaction_number)
                             self.client_socket.send("ACK\r\n".encode('utf-8'))
                         time.sleep(self.timeout)
-                    time.sleep(self.timeout)
+                time.sleep(self.timeout)
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)

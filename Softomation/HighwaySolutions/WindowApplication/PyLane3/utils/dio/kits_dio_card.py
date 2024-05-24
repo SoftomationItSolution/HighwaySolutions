@@ -112,10 +112,10 @@ class KistDIOClient(threading.Thread):
             if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True and self.system_loging_status==True:
                 if self.system_transcation_status:
                     self.lane_trans_end()
-                # else:
-                #     self.violation_trigger('s41e')
-            # if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
-            #     self.violation_trigger('s41e')
+                else:
+                    self.violation_trigger('s41e')
+            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
+                self.violation_trigger('s41e')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")
     
@@ -272,7 +272,7 @@ class KistDIOClient(threading.Thread):
         if self.is_active!=status:
             self.is_active=status
 
-    def handel_traffic_light(self,status,running_Transaction):
+    def handel_traffic_light(self,status,running_Transaction=None):
         try:
             self.system_transcation_status=status
             self.running_Transaction=running_Transaction
@@ -298,7 +298,7 @@ class KistDIOClient(threading.Thread):
 
     def lane_trans_end(self):
         try:
-            self.handel_traffic_light(False)
+            self.handel_traffic_light(False,None)
             self.handler.lane_trans_end()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")

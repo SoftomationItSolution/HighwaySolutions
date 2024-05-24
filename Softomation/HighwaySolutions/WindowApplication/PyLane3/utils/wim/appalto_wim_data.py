@@ -143,7 +143,9 @@ class AppaltoWinDataClient(threading.Thread):
                                 else:
                                     con_data+=echoed_transaction_number
                         time.sleep(self.timeout)
-                    time.sleep(self.timeout)
+                time.sleep(self.timeout)
+                if self.is_active==False:
+                    self.is_active=self.handler.get_on_line_status(self.wim_detail["EquipmentTypeId"])
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)

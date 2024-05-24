@@ -409,6 +409,7 @@ class CurrentTransactionBox(QFrame):
                 "IsReadByReader": False,
                 "PermissibleVehicleWeight": 0.00,
                 "ActualVehicleWeight": 0.00,
+                "IsVehicleOverWeight": False,
                 "IsOverWeightCharged": False,
                 "OverWeightAmount": 0.00,
                 "TagPenaltyAmount": 0.00,

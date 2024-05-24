@@ -49,15 +49,16 @@ class KistUFDClient():
     
     def on_tcp(self, bytes_data):
         try:
-            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
-            self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
-            self.client_socket.sendall(bytes_data)
-            time.sleep(self.timeout)
+            if self.handler.get_on_line_status(self.ufd_detail["EquipmentTypeId"]):
+                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
+                self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
+                self.client_socket.sendall(bytes_data)
+                time.sleep(self.timeout)
+                self.tcp_close()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
-        finally:
-            self.tcp_close()
+            
 
     def retry(self,status):
         if self.is_active!=status:
