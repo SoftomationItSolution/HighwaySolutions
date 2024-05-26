@@ -233,23 +233,27 @@ class MainWindow(QMainWindow):
                         if remark=='':
                             show_custom_message_box("Save Transactions", "Remark is required", 'cri')
                             return
-                    if len(vrn)>4 and len(vrn)<11:
+                    if len(vrn)>=4 and len(vrn)<11:
                         self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
                         current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
                         current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
                         if TransactionTypeId !=1:
                             current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
                         current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                        self.bg_service.lane_trans_start(current_Transaction)
-                        if TransactionTypeId ==2:
-                            self.print_receipt(current_Transaction)
-                        resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
-                        if(resultData is not None and len(resultData)>0):
-                            if resultData[0]["AlertMessage"]=="successfully":
-                                self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                                #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
-                            else:
-                                show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
+                        current_Transaction["SystemDateTime"]=ct.isoformat()
+                        resultData=self.bg_service.lane_trans_start(current_Transaction)
+                        if resultData:
+                            if TransactionTypeId ==2:
+                                self.print_receipt(current_Transaction)
+                        else:
+                            show_custom_message_box("Save Transactions", "Somthing went wrong", 'cri')  
+                        #resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
+                        # if(resultData is not None and len(resultData)>0):
+                        #     if resultData[0]["AlertMessage"]=="successfully":
+                        #         self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
+                        #         #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
+                        #     else:
+                        #         show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
                     else:
                         show_custom_message_box("Save Transactions", "Valid plate number is required", 'cri')
                 else:

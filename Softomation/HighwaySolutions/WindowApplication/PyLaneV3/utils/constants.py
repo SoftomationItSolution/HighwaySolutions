@@ -130,8 +130,9 @@ class Utilities:
     def lane_txn_number(lane_id, dt=None):
         dt = dt or datetime.datetime.now()
         milliseconds = dt.microsecond // 1000
+        first_two_digits_milliseconds = f"{milliseconds:03d}"[:2]
         formatted_number = dt.strftime("%y%m%d%H%M%S") 
-        #formatted_number += "{:02d}".format(milliseconds)
+        formatted_number += first_two_digits_milliseconds
         formatted_number += '{:02d}'.format(lane_id)
         return formatted_number
 

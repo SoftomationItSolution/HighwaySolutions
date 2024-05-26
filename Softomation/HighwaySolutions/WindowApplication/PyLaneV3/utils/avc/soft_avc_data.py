@@ -81,7 +81,7 @@ class STPLAVCDataClient(threading.Thread):
                 #self.client_socket.connect((self.avc_detail["IpAddress"], self.avc_detail["PortNumber"]))
                 self.is_running = True
                 while self.is_running:
-                    if not self.is_active or self.is_stopped or not self.is_running:
+                    if self.is_stopped or not self.is_running:
                         self.handler.update_equipment_list(self.avc_detail["EquipmentId"],'ConnectionStatus',False)
                         break
                     echoed_transaction_number = self.client_socket.recv(50240).decode('utf-8').strip()

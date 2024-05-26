@@ -29,6 +29,7 @@ class TMSApp:
         self.lane_details = None
         self.systemSetting = None
         self.app_thread = None
+        self.flask_thread = None
         self.default_plaza_Id = 1
         self.setup_routes()  # Set up routes in the constructor
 
@@ -156,6 +157,15 @@ class TMSApp:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} run_desktop_app_thread: {str(e)}")
 
+    def run_flask_app_thread(self):
+        try:
+            if self.flask_thread is None:
+                self.flask_thread = threading.Thread(target=self.run_flask())
+                self.flask_thread.daemon = True
+                self.flask_thread.start()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run_desktop_app_thread: {str(e)}")
+
     def main(self):
         try:
             self.check_duplicate_instance()
@@ -163,7 +173,7 @@ class TMSApp:
             db_json_data = Utilities.read_json_file(db_path)
             system_ip = Utilities.get_local_ips()
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
-            self.lane_details = CommonManager.GetLaneDetails(self.dbConnectionObj, Utilities.get_local_ips())
+            self.lane_details = CommonManager.GetLaneDetails(self.dbConnectionObj, system_ip)
             self.systemSetting = CommonManager.GetSystemSetting(self.dbConnectionObj)
             if self.systemSetting:
                 self.default_plaza_Id = self.systemSetting.get('DefaultPlazaId')
@@ -172,30 +182,23 @@ class TMSApp:
             self.lane_equipments = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.default_plaza_Id, self.lane_details, self.systemSetting, system_ip)
             self.lane_equipments.daemon = True
             self.lane_equipments.start()
+            if self.lane_details:
+                if self.lane_details.get("LaneTypeId") != 3:
+                    self.run_desktop_app_thread()
 
-            # Start the Flask app in the main thread
-            self.run_flask()
-
-            # Run the desktop app in a separate thread
-            self.run_desktop_app_thread()
+            self.run_flask_app_thread()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} main: {str(e)}")
 
         while True:
             try:
-                if self.lane_details:
-                    if self.lane_details.get("LaneTypeId") != 3:
-                        self.run_desktop_app_thread()
-                else:
-                    self.lane_details = CommonManager.GetLaneDetails(self.dbConnectionObj, Utilities.get_local_ips())
-                time.sleep(0.5)
+                time.sleep(0.1)
             except KeyboardInterrupt:
                 self.cleanup()
                 sys.exit(0)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} main_loop: {str(e)}")
                 time.sleep(0.1)
-
 if __name__ == '__main__':
     app = TMSApp()
     app.main()

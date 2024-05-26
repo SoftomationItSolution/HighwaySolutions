@@ -55,8 +55,9 @@ class PingThread(threading.Thread):
                                 equipment["OnLineStatus"]=True
                             ip_address = equipment.get('IpAddress')
                             if Utilities.is_valid_ipv4(ip_address):
-                                if equipment["OnLineStatus"]!=self.ping_equipment(ip_address):
-                                    equipment["OnLineStatus"]=self.ping_equipment(ip_address)
+                                ping_status=self.ping_equipment(ip_address)
+                                if equipment["OnLineStatus"]!=ping_status:
+                                    equipment["OnLineStatus"]=ping_status
                                     self.handler.update_equipment_Status(equipment)
                                 time.sleep(0.1)
                     last_call_time = current_time

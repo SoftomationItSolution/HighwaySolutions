@@ -647,6 +647,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             LaneManager.lane_data_insert(self.dbConnectionObj,data)
             data["Processed"]=True
             self.transaction_data.append(data)
+            self.publish_data("lane_processed",data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_lane_transcation: {str(e)}")
             self.transaction_data.append(data)
@@ -699,6 +700,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} background_Transcation: {str(e)}")
 
     def lane_trans_start(self, transactionInfo):
+        result=False
         try:
             if self.system_transcation_status==False:
                 self.system_transcation_status=True
@@ -715,12 +717,17 @@ class LaneEquipmentSynchronization(threading.Thread):
                 #threading.Thread(target=self.process_on_ufd,args=(running_Transaction)).start()
                 self.update_lane_transcation(running_Transaction)
                 self.system_transcation_status=False
+                result=True
             else:
                 self.logger.logInfo(f"{self.classname} trans already in progress lane_trans_start")
                 self.update_lane_transcation(running_Transaction)
+                result=True
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
-
+            result=False
+        finally:
+            return result
+           
     def lane_trans_ic_cam(self,running_Transaction):
         try:
             if running_Transaction:
@@ -753,10 +760,12 @@ class LaneEquipmentSynchronization(threading.Thread):
                     if self.lane_detail:
                         self.setDefaultValue()
                         self.current_Transaction["TransactionTypeId"]= 4
+                        self.current_Transaction["TransactionTypeName"]= "Violation"
                         self.current_Transaction["VehicleAvcClassId"]= 0
                         self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
                 else:
                     self.current_Transaction["TransactionTypeId"]= 4
+                    self.current_Transaction["TransactionTypeName"]= "Violation"
                     self.current_Transaction["VehicleAvcClassId"]= 0
                 if self.lane_detail:
                     self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)

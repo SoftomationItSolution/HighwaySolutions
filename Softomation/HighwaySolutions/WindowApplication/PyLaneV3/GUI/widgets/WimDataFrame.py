@@ -73,10 +73,12 @@ class WimDataQueueBox(QFrame):
         try:
             if transactionInfo is not None:
                 self.wim_q.append(transactionInfo)
-                self.remove_old_data()
+                if len(self.wim_q)>5:
+                    self.wim_q.pop(0)
                 self.refresh_table_data()
         except Exception as e:
             self.logger.logError(f"Error in WimDataQueueBox  wim_transaction_info: {e}")
+
 
     def refresh_table_data(self):
         try:

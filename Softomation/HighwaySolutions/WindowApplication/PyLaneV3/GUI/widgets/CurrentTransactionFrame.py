@@ -1,3 +1,4 @@
+from datetime import datetime
 import decimal
 import os
 from PySide6.QtWidgets import QFrame,QGroupBox, QVBoxLayout, QLabel, QPushButton, QWidget, QGridLayout, QLineEdit, QHBoxLayout,QRadioButton
@@ -382,6 +383,7 @@ class CurrentTransactionBox(QFrame):
     
     def current_trans(self):
         try:
+            current_date_time=datetime.now()
             self.current_Transaction = {
                 "LaneTransactionId": 0,
                 "SystemIntegratorId": 0,
@@ -438,7 +440,8 @@ class CurrentTransactionBox(QFrame):
                 "ExemptSubTypeName":"",
                 "VehicleClassName": "",
                 "VehicleSubClassName": "",
-                "TagClassName": ""
+                "TagClassName": "",
+                "SystemDateTime":current_date_time.isoformat()
             }
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox current_trans: {e}")

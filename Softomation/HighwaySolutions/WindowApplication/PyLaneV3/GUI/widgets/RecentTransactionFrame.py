@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QFrame,QGroupBox, QVBoxLayout, QTableWidget, QTableWidgetItem,QAbstractItemView,QHeaderView
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor
+from pubsub import pub
 class RecentTransactionBox(QFrame):
     def __init__(self, width, height,logger):
         super().__init__()
@@ -49,6 +50,7 @@ class RecentTransactionBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblRecentTrans)
+            pub.subscribe(self.update_row_data, "lane_processed")
         except Exception as e:
             self.logger.logError(f"Error in RecentTransactionBox __init__: {e}")
         
@@ -71,12 +73,12 @@ class RecentTransactionBox(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in RecentTransactionBox update_lt: {e}")
 
-    def update_row_data(self, new_item):
+    def update_row_data(self, transactionInfo):
         try:
             if self.data is None:
-                self.data = [new_item]
+                self.data = [transactionInfo]
             else:
-                self.data.insert(0, new_item)
+                self.data.insert(0, transactionInfo)
                 if len(self.data) > 10:
                     self.data.pop()
             self.refresh_table_data()

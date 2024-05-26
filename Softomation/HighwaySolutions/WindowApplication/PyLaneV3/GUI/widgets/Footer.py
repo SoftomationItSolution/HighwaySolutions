@@ -124,7 +124,8 @@ class Footer(QFrame):
 
     def ping_transaction_info(self, transactionInfo):
         try:
-            self.update_bg_color(transactionInfo["EquipmentName"], transactionInfo["OnLineStatus"])
+            #self.update_bg_color(transactionInfo["EquipmentName"], transactionInfo["OnLineStatus"])
+            pass
         except Exception as e:
             self.logger.logError(f"Error in Footer ping_transaction_info: {e}")
 

@@ -19,7 +19,7 @@ async function LaneTranscationInsert(req, res, next) {
         const Cdt = new Date()
         result = await pool.request().input('MasterTransactionId', sql.BigInt, MasterTransactionId)
             .input('PlazaTransactionId', sql.BigInt, PlazaTransactionId)
-            .input('LaneTransactionId', sql.BigInt, req.body.LaneTransactionId)
+            .input('LaneTransactionId', sql.VarChar(20), req.body.LaneTransactionId.toString())
             .input('SystemIntegratorId', sql.SmallInt, req.body.SystemIntegratorId)
             .input('JourneyId', sql.SmallInt, req.body.JourneyId)
             .input('PlazaId', sql.SmallInt, req.body.PlazaId)
