@@ -34,13 +34,16 @@ class MainWindow(QMainWindow):
             self.userDetails = json.loads(user_Details) if user_Details else None
             self.logger=logger
             self.default_plaza_Id=default_plaza_Id
+            self.recipt_printer=None
+            self.right_frame=None
+            self.footer_widget=None
+            self.manage_equipment()
             self.initUI()
             self.initThreads()
             self.isTransactionPending=False
-            pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
-    
+
     def initUI(self):
         try:
             main_window_height = self.screen_height
@@ -83,16 +86,48 @@ class MainWindow(QMainWindow):
             self.right_frame.wim_data_queue_box.tblWim.itemDoubleClicked.connect(self.remove_wim_Row)
             self.right_frame.rfid_data_queue_box.tblRfid.itemDoubleClicked.connect(self.remove_rfid_Row)
             frames_layout.addWidget(self.right_frame)
-        
             main_layout.addLayout(frames_layout)
 
             self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.bg_service,self.logger)
             main_layout.addWidget(self.footer_widget)
 
             self.setLayout(main_layout)
+            self.set_equipment_printer()
             pub.subscribe(self.get_RFID_detail, "rfid_processed")
+            pub.subscribe(self.equipment_processed, "equipment_processed")
+            pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  initUI: {e}")
+
+    def manage_equipment(self):
+        try:
+            self.equipment_detail=self.bg_service.equipment_detail
+        except Exception as e:
+            self.equipment_detail=None
+            self.logger.logError(f"Error in MainWindow  manage_equipment: {e}")
+    
+    def equipment_processed(self,transactionInfo):
+        try:
+            if self.equipment_detail is None:
+                self.equipment_detail=transactionInfo
+                self.footer_widget.update_el(transactionInfo)
+                self.set_equipment_printer()
+                self.footer_widget.updateFinished(True)
+        except Exception as e:
+            self.equipment_detail=None
+            self.logger.logError(f"Error in MainWindow  equipment_processed: {e}")
+
+    def set_equipment_printer(self):
+        try:
+            if self.recipt_printer is None:
+                if self.equipment_detail is not None and len(self.equipment_detail)>0:
+                    filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipment_detail), None)
+                    if filtered_item is not None:
+                        self.recipt_printer=filtered_item
+                        res=self.right_frame.current_transaction_box.update_printer(filtered_item)
+                        self.footer_widget.update_printer(res)
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  set_equipment_printer: {e}")
 
     def keyPressEvent(self, event):
         try:
@@ -113,7 +148,6 @@ class MainWindow(QMainWindow):
                 self.createThread(self.updatePaymentTypeDetails),
                 self.createThread(self.updateExemptTypeDetails),
                 self.createThread(self.updateTollFareDetails),
-                self.createThread(self.updateEqDetails),
                 self.createThread(self.updateLatestLaneTransaction)
             ]
             for thread in threads:
@@ -162,22 +196,6 @@ class MainWindow(QMainWindow):
             self.right_frame.current_transaction_box.update_tf(self.toll_fare)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  updateTollFareDetails: {e}")
-
-    def updateEqDetails(self):
-        try:
-            self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
-            if self.equipments is not None and len(self.equipments)>0:
-                self.footer_widget.update_el(self.equipments)
-                self.footer_widget.updateFinished.emit(True)
-                filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments), None)    
-                if filtered_item is not None:
-                    self.printer_setup(filtered_item)
-                else:
-                    self.printer_setup(None)
-            else:
-                self.printer_setup(None)
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  updateEqDetails: {e}")
 
     def updateVSDetails(self):
         try:
@@ -271,15 +289,7 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  lane_process_end: {e}")
         
-    def printer_setup(self,data):
-        try:
-            self.right_frame.current_transaction_box.update_printer(data)
-            self.footer_widget.update_printer(True)
-            if data is None:
-                self.footer_widget.update_printer(False)
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  printer_setup: {e}")
-            self.footer_widget.update_printer(False)
+   
 
     def print_receipt(self,current_Transaction):
         try:

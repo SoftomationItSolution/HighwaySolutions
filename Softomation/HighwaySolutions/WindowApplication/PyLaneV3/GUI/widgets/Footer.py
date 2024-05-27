@@ -9,12 +9,13 @@ class Footer(QFrame):
     updateFinished = Signal(bool)
     def __init__(self, width, height, image_dir,bg_service, logger):
         super().__init__()
-        self.initUI(width, height, image_dir,bg_service, logger)
+        self.initUI(width, height, image_dir,bg_service,logger)
 
     def initUI(self, width, height, image_dir,bg_service, logger):
         try:
             self.bg_service = bg_service
             self.dio_events=self.bg_service.dio_events
+            self.equipment_detail=self.bg_service.equipment_detail
             self.logger = logger
             self.width = width
             self.height = height
@@ -40,7 +41,9 @@ class Footer(QFrame):
             self.hardware_widgets = []
             self.hardware_data_widget = []
             self.hardware_data = None
+            self.update_el(self.equipment_detail)
             self.updateFinished.connect(self.bind_hardware)
+            self.bind_hardware(True)
         except Exception as e:
             self.logger.logError(f"Error in Footer __init__: {e}")
 
@@ -76,7 +79,7 @@ class Footer(QFrame):
                 row = index // num_columns
                 col = index % num_columns
                 if item['EquipmentTypeId'] == 10:
-                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], self.printer_status, index,self.logger)
+                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], self.printer_status,self.printer_status, index,self.logger)
                 else:
                     hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], item["OnLineStatus"], item["ConnectionStatus"], index,self.logger)
                 hardware_widget.setFixedHeight(self.icon_height)

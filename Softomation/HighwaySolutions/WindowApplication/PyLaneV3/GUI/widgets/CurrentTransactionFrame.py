@@ -241,6 +241,7 @@ class CurrentTransactionBox(QFrame):
             self.logger.logError(f"Error in CurrentTransactionBox update_tf: {e}") 
 
     def update_printer(self, json_data):
+        is_printer_setup=False
         if json_data is not None and len(json_data)>0:
             self.PrinterDetail = json_data
         else:
@@ -249,9 +250,11 @@ class CurrentTransactionBox(QFrame):
             self.message_window.emit('printer Detail,No printer detail found,inf')
         try:
             self.printer=TollReceiptPrinter(self.project_config_data,self.PrinterDetail)
+            is_printer_setup=True
         except Exception as e:
             self.printer=None
-            raise e
+        finally:
+            return is_printer_setup
         
     def get_toll_fare(self):
         try:
