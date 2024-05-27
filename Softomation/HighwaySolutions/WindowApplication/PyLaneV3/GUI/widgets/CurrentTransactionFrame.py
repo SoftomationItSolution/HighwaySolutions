@@ -385,7 +385,7 @@ class CurrentTransactionBox(QFrame):
         try:
             current_date_time=datetime.now()
             self.current_Transaction = {
-                "LaneTransactionId": 0,
+                "LaneTransactionId": "0",
                 "SystemIntegratorId": 0,
                 "JourneyId": 0,
                 "PlazaId": self.systemSettingDetails["DefaultPlazaId"],

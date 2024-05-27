@@ -129,10 +129,13 @@ class Utilities:
     @staticmethod
     def lane_txn_number(lane_id, dt=None):
         dt = dt or datetime.datetime.now()
-        milliseconds = dt.microsecond // 1000
-        first_two_digits_milliseconds = f"{milliseconds:03d}"[:2]
-        formatted_number = dt.strftime("%y%m%d%H%M%S") 
-        formatted_number += first_two_digits_milliseconds
+        #milliseconds = dt.microsecond // 1000
+        #first_two_digits_milliseconds = f"{milliseconds:03d}"[:2]
+        #formatted_number = dt.strftime("%y%m%d%H%M%S") 
+        #formatted_number += milliseconds
+        #random_component = f"{random.randint(0, 99):02d}"
+        #formatted_number +=random_component
+        formatted_number = dt.strftime("%y%m%d%H%M%S%f")[:-3]
         formatted_number += '{:02d}'.format(lane_id)
         return formatted_number
 

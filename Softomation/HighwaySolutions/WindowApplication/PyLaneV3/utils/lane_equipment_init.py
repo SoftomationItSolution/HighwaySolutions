@@ -349,6 +349,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def GetEquipmentDetails(self):
         try:
             self.equipment_detail=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.lane_detail["LaneId"])
+            self.publish_data("equipment_processed",self.equipment_detail)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} GetEquipmentDetails: {str(e)}")
             self.equipment_detail=None
@@ -496,7 +497,6 @@ class LaneEquipmentSynchronization(threading.Thread):
     def update_equipment_Status(self,equipment):
         try:
             self.mqtt_ping_event(equipment)
-            self.publish_data("ping_processed",equipment)
             if equipment["EquipmentTypeId"]==4:
                 if self.wim_thread is not None:
                     self.wim_thread.retry(equipment["OnLineStatus"])
@@ -532,6 +532,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             for item in self.equipment_detail:
                 if item["EquipmentId"] == EquipmentId:
                     item[_key] = status
+                    self.publish_data("equipment_status",item)
                     break
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_equipment_list: {str(e)}")
@@ -575,7 +576,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 transDataTime = datetime.fromisoformat(transDataTime)
                 filtered_data = [x for x in self.transaction_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['VehicleAvcClassId'] == 0]
                 if not filtered_data:
-                    return 0
+                    return '0'
                 
                 nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
                 time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
@@ -583,12 +584,12 @@ class LaneEquipmentSynchronization(threading.Thread):
                     nearest_item['Processed'] = True
                     return nearest_item["LaneTransactionId"]
                 else:
-                    return 0
+                    return '0'
             else:
-                return 0
+                return '0'
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_trxn_data_for_avc: {str(e)}")
-            return 0
+            return '0'
 
     def get_Wim_data(self, transDataTime):
         try:
@@ -633,7 +634,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.publish_data("avc_processed",data)
                 self.mqtt_avc_event(data)
                 LaneTransactionId=self.get_trxn_data_for_avc(data['SystemDateTime'])
-                if LaneTransactionId!=0:
+                if LaneTransactionId!='0':
                     data["Processed"]=True
                     self.avc_data.append(data)
                     self.update_avc_lane_db(LaneTransactionId,data)
@@ -770,7 +771,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 if self.lane_detail:
                     self.current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
                 self.current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                
                 running_Transaction=self.current_Transaction
                 lane_Transaction_Id=running_Transaction['LaneTransactionId']
                 file_name=str(lane_Transaction_Id)+'_ic'
@@ -782,10 +782,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 if self.userDetails is not None:
                     running_Transaction["UserId"]=self.userDetails["UserId"]
                     running_Transaction["LoginId"]=self.userDetails["LoginId"]
-                self.update_lane_transcation(running_Transaction)
                 self.system_transcation_status=False
-                resultData=LaneManager.lane_data_insert(self.dbConnectionObj,running_Transaction)
-                self.logger.logInfo(f"create_violation_trans: {resultData}")
+                self.update_lane_transcation(running_Transaction)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
         finally:
@@ -934,7 +932,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             current_date_time=datetime.now()
             self.current_Transaction = {
-                "LaneTransactionId": 0,
+                "LaneTransactionId": '0',
                 "SystemIntegratorId": 0,
                 "JourneyId": 0,
                 "PlazaId": 0,

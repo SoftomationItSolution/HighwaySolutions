@@ -2,15 +2,20 @@ from PySide6.QtWidgets import QWidget, QLabel, QGridLayout
 from PySide6.QtGui import QPixmap
 
 class HardwareWidget(QWidget):
-    def __init__(self, width, height, hardware_name, img_name, is_online, index):
-        super().__init__()
-        self.hardware_name = hardware_name
-        self.is_online = is_online
-        self.img_name = img_name
-        self.index = index
-        self.width = width
-        self.height = height
-        self.initUI()
+    def __init__(self, width, height, hardware_name, img_name, is_online,is_connectioned, index,logger):
+        try:
+            super().__init__()
+            self.hardware_name = hardware_name
+            self.is_online = is_online
+            self.is_connectioned = is_connectioned
+            self.img_name = img_name
+            self.index = index
+            self.width = width
+            self.height = height
+            self.logger=logger
+            self.initUI()
+        except Exception as e:
+            self.logger.logError(f"Error in HardwareWidget __init__: {e}")
 
     def initUI(self):
         layout = QGridLayout()
@@ -20,25 +25,34 @@ class HardwareWidget(QWidget):
         self.status_label = QLabel()
         layout.addWidget(self.status_label, 0, self.index)
         self.name_label = QLabel(self.hardware_name)
-        if self.is_online:
-            self.setStyleSheet("background-color: green;")
-        else:
-            self.setStyleSheet("background-color: gray;")
+        self.set_online_status()
         self.update_status()
         self.setToolTip(self.hardware_name)
+        
 
     def update_status(self):
-        pixmap = QPixmap(self.img_name)
-        scaled_pixmap = pixmap.scaledToHeight(self.height)
-        self.status_label.setPixmap(scaled_pixmap)
+        try:
+            pixmap = QPixmap(self.img_name)
+            scaled_pixmap = pixmap.scaledToHeight(self.height)
+            self.status_label.setPixmap(scaled_pixmap)
+        except Exception as e:
+            self.logger.logError(f"Error in HardwareWidget update_status: {e}")
 
-    def set_online_status(self, is_online):
-        self.is_online = is_online
-        if self.is_online:
-            self.setStyleSheet("background-color: green;")
-        else:
-            self.setStyleSheet("background-color: gray;")
+    def set_online_status(self):
+        try:
+            if self.is_online==False:
+                self.setStyleSheet("background-color: gray;")
+            else:
+                if self.is_connectioned and self.is_online:
+                    self.setStyleSheet("background-color: orange;")
+                else:
+                    self.setStyleSheet("background-color: green;")
+        except Exception as e:
+            self.logger.logError(f"Error in HardwareWidget set_online_status: {e}")
 
     def set_icon(self, icon_path):
-        self.img_name = icon_path
-        self.update_status()
+        try:
+            self.img_name = icon_path
+            self.update_status()
+        except Exception as e:
+            self.logger.logError(f"Error in HardwareWidget set_icon: {e}")
