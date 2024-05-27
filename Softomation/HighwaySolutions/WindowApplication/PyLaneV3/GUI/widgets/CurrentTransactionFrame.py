@@ -288,7 +288,6 @@ class CurrentTransactionBox(QFrame):
                     self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']+filtered_data['ReturnFare']
                 else:
                     self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
-                
                 self.update_field("txtTollFare", str(self.current_Transaction["TransactionAmount"]))
                 self.current_Transaction["TagPenaltyAmount"]=filtered_data['FasTagPenalty']
                 
