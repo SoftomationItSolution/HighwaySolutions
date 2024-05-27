@@ -555,6 +555,9 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.mqtt_wim_event(data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_wim_data: {str(e)}")
+        finally:
+            if len(self.wim_data)>10:
+                self.wim_data.pop(0)
 
     def update_rfid_data(self,data):
         try:
@@ -569,6 +572,40 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.rfid_data.append(data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_rfid_data: {str(e)}")
+        finally:
+            if len(self.rfid_data)>10:
+                self.rfid_data.pop(0)
+
+    def update_avc_data(self,data):
+        try:
+            if self.system_loging_status:
+                self.publish_data("avc_processed",data)
+                self.mqtt_avc_event(data)
+                LaneTransactionId=self.get_trxn_data_for_avc(data['SystemDateTime'])
+                if LaneTransactionId!='0':
+                    data["Processed"]=True
+                    self.avc_data.append(data)
+                    self.update_avc_lane_db(LaneTransactionId,data)
+                else:
+                    self.avc_data.append(data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_avc_data: {str(e)}")
+        finally:
+            if len(self.avc_data)>10:
+                self.avc_data.pop(0)
+
+    def update_lane_transcation(self,data):
+        try:
+            LaneManager.lane_data_insert(self.dbConnectionObj,data)
+            data["Processed"]=True
+            self.transaction_data.append(data)
+            self.publish_data("lane_processed",data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_lane_transcation: {str(e)}")
+            self.transaction_data.append(data)
+        finally:
+            if len(self.transaction_data)>10:
+                self.transaction_data.pop(0)
         
     def get_trxn_data_for_avc(self, transDataTime):
         try:
@@ -628,31 +665,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} get_rfid_data: {str(e)}")
             return None
 
-    def update_avc_data(self,data):
-        try:
-            if self.system_loging_status:
-                self.publish_data("avc_processed",data)
-                self.mqtt_avc_event(data)
-                LaneTransactionId=self.get_trxn_data_for_avc(data['SystemDateTime'])
-                if LaneTransactionId!='0':
-                    data["Processed"]=True
-                    self.avc_data.append(data)
-                    self.update_avc_lane_db(LaneTransactionId,data)
-                else:
-                    self.avc_data.append(data)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} update_avc_data: {str(e)}")
-
-    def update_lane_transcation(self,data):
-        try:
-            LaneManager.lane_data_insert(self.dbConnectionObj,data)
-            data["Processed"]=True
-            self.transaction_data.append(data)
-            self.publish_data("lane_processed",data)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} update_lane_transcation: {str(e)}")
-            self.transaction_data.append(data)
-
     def update_avc_lane_db(self,LaneTransactionId,data):
         try:
             d={"LaneTransactionId":LaneTransactionId,"VehicleAvcClassId":data["AvcClassId"],"TransactionAvcImage":data["ImageName"]}
@@ -691,7 +703,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             trans_data["PermissibleVehicleWeight"]= PermissibleWeight
             if(int(trans_data["ActualVehicleWeight"]>trans_data["PermissibleVehicleWeight"])):
                 trans_data["IsVehicleOverWeight"]=True
-
             trans_data["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
             if self.userDetails is not None:
                 trans_data["UserId"]=self.userDetails["UserId"]
@@ -715,7 +726,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["TransactionFrontImage"]=''
                 self.handel_traffic_light(True,running_Transaction)
                 self.process_on_ufd(running_Transaction)
-                #threading.Thread(target=self.process_on_ufd,args=(running_Transaction)).start()
                 self.update_lane_transcation(running_Transaction)
                 self.system_transcation_status=False
                 result=True
