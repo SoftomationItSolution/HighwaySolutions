@@ -31,7 +31,7 @@ class TMSApp:
         self.app_thread = None
         self.flask_thread = None
         self.default_plaza_Id = 1
-        self.setup_routes()  # Set up routes in the constructor
+        self.setup_routes() 
 
     def setup_routes(self):
         @self.flaskapp.route('/app_login', methods=['POST'])

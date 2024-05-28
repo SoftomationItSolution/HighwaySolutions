@@ -140,8 +140,8 @@ class NAWinDataClient(threading.Thread):
                 time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_data_run: {str(e)}")
-            # finally:
-            #     self.client_stop()
+            finally:
+                self.client_stop()
 
     def retry(self,status):
         if self.is_active!=status:

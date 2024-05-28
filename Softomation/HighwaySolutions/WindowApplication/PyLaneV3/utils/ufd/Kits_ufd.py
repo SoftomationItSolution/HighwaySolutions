@@ -32,11 +32,7 @@ class KistUFDClient():
             input=input+'\r\n'
             bytes_data = input.encode('ascii')
             if self.ufd_detail["ProtocolTypeId"]==1:
-                if self.is_active:
-                    self.on_tcp(bytes_data)
-                    return True
-                else:
-                    self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',False)
+               return self.on_tcp(bytes_data)
             elif self.ufd_detail["ProtocolTypeId"]==3:
                 self.on_serial(bytes_data)
                 return True
@@ -48,16 +44,21 @@ class KistUFDClient():
             return False
     
     def on_tcp(self, bytes_data):
+        result=False
         try:
-            if self.handler.get_on_line_status(self.ufd_detail["EquipmentTypeId"]):
-                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
-                self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
-                self.client_socket.sendall(bytes_data)
-                time.sleep(self.timeout)
-                self.tcp_close()
+            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
+            self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
+            self.client_socket.sendall(bytes_data)
+            time.sleep(self.timeout)
+            self.tcp_close()
+            result=True
         except Exception as e:
+            self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',False)
             self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
+        finally:
+            return result
+            
             
 
     def retry(self,status):
@@ -121,3 +122,4 @@ class KistUFDClient():
 
     def l2s_cmd(self,message):
         self.send_data(f"S2{message}")
+

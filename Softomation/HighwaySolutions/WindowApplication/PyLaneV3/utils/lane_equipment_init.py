@@ -90,19 +90,32 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} create_mqtt_obj: {str(e)}")
 
     def on_connect(self, client, userdata, flags, rc):
-        self.logger.logInfo(f"Connected with result code {rc}")
-        self.mqtt_client_connected=True
-        
-    
+        try:
+
+            self.logger.logInfo(f"Connected with result code {rc}")
+            self.mqtt_client_connected=True
+            top=self.lane_detail["LaneName"]+'/lanerefresh'
+            self.on_subscribe(top)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_connect: {str(e)}")
+
     def on_disconnect(self,client, userdata, rc):
-        if rc != 0:
-            self.logger.logInfo("mqtt Unexpected disconnection.")
-        else:
-            self.logger.logInfo("mqtt Disconnected gracefully.")
-        self.mqtt_client_connected=False
+        try:
+            if rc != 0:
+                self.logger.logInfo("mqtt Unexpected disconnection.")
+            else:
+                self.logger.logInfo("mqtt Disconnected gracefully.")
+            self.mqtt_client_connected=False
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_disconnect: {str(e)}")
 
     def on_message(self, client, userdata, msg):
-        self.logger.logInfo(f"Received message: {msg.payload}")
+        try:
+            self.logger.logInfo(f"Received message: {msg.payload}")
+            if msg.payload=='lanerefresh':
+                self.mqtt_dio_event()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} on_message: {str(e)}")
 
     def on_subscribe(self, topic):
         try:
@@ -565,8 +578,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.publish_data("rfid_processed",data)
                 self.mqtt_rfid_event(data)
                 if self.LaneTypeId==3 and self.system_transcation_status==False:
-                    data["Processed"]=True
-                    self.rfid_data.append(data)
+                    #data["Processed"]=True
+                    #self.rfid_data.append(data)
                     self.background_Transcation(data)
                 else:
                     self.rfid_data.append(data)
@@ -711,6 +724,15 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} background_Transcation: {str(e)}")
 
+    def process_next_trans(self):
+        try:
+            if self.LaneTypeId==3:
+                if len(self.rfid_data)>0:
+                    data=self.rfid_data.pop(0)
+                    self.background_Transcation(data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} process_next_trans: {str(e)}")
+
     def lane_trans_start(self, transactionInfo):
         result=False
         try:
@@ -760,7 +782,9 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
         finally:
             self.publish_data("lane_process_end", True)
-
+            self.mqtt_dio_event()
+            self.process_next_trans()
+            
     def start_violation_trans(self):
         try:
             if self.system_transcation_status==False:

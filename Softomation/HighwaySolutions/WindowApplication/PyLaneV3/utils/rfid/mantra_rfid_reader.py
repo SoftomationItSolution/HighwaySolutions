@@ -65,8 +65,8 @@ class MantraRfidReader(threading.Thread):
             self.logger.logError(f"Exception {self.classname} setup_reader: {str(e)}")
         
     def run(self):
-        processed_epcs = {}  
-        last_cleanup_time = time.time()
+        processed_epcs = {}  # Initialize a dictionary to store processed EPCs and their timestamps
+        last_cleanup_time = time.time()  # Initialize the last cleanup time
         while not self.is_stopped:
             try:
                 while self.is_active: 
@@ -81,6 +81,7 @@ class MantraRfidReader(threading.Thread):
                         if not self.is_active or self.is_stopped or not self.is_running:
                             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
                             break
+                        
                         if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
                             processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items() if current_time - timestamp <= 30}
                             last_cleanup_time = current_time
