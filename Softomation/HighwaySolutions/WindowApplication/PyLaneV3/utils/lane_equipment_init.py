@@ -578,8 +578,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.publish_data("rfid_processed",data)
                 self.mqtt_rfid_event(data)
                 if self.LaneTypeId==3 and self.system_transcation_status==False:
-                    #data["Processed"]=True
-                    #self.rfid_data.append(data)
                     self.background_Transcation(data)
                 else:
                     self.rfid_data.append(data)
@@ -784,7 +782,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.publish_data("lane_process_end", True)
             self.mqtt_dio_event()
             self.process_next_trans()
-            
+
     def start_violation_trans(self):
         try:
             if self.system_transcation_status==False:
@@ -844,6 +842,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
         finally:
             self.mqtt_ufd_event()
+            self.mqtt_dio_event()
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:
