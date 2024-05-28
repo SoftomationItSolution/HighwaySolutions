@@ -144,6 +144,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   GetLaneStatus() {
     this.spinner.show();
     const url = this.laneUrl + "get_status"
+    this.mqttPublish()
     this.dbService.lsduGet(url).subscribe(
       data => {
         this.spinner.hide();
@@ -162,8 +163,18 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dm.openSnackBar(this.ErrorData, false);
+       
       }
     );
+  }
+
+  mqttPublish(){
+    try {
+      const topic = this.LaneName + '/lanerefresh'
+      this._mqttService.publish(topic,'lanerefresh')  
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   getEquipmentClass(equipment) {
@@ -182,5 +193,9 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   getEqList(data: any) {
     this.equipmentList = data.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
     
+  }
+
+  refresh(){
+
   }
 }

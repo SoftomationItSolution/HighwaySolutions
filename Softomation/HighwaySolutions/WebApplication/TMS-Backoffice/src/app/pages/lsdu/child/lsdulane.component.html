@@ -7,6 +7,9 @@
     </div> -->
     <div class="equipment-status">
         <ng-container class="equipment-container">
+            <i class="mdi mdi-refresh" (click)="GetLaneStatus()"></i>
+        </ng-container>
+        <ng-container class="equipment-container">
             <i class="mdi" [ngClass]="{'mdi-account-check log': app_loging, 'mdi-login unlog': !app_loging}" (click)="laneLogin()"></i>
         </ng-container>
         <ng-container *ngFor="let eq of equipmentList" class="equipment-container">

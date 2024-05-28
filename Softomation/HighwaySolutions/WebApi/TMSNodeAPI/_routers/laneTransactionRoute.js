@@ -14,11 +14,11 @@ async function LaneTranscationInsert(req, res, next) {
     let pool
     try {
         pool = await database.connect();
-        const MasterTransactionId = 0;
-        const PlazaTransactionId = 0;
+        const MasterTransactionId = '';
+        const PlazaTransactionId = constants.plzazTxnNumber(req.body.PlazaId,req.body.LaneId,req.body.TransactionDateTime);
         const Cdt = new Date()
-        result = await pool.request().input('MasterTransactionId', sql.BigInt, MasterTransactionId)
-            .input('PlazaTransactionId', sql.BigInt, PlazaTransactionId)
+        result = await pool.request().input('MasterTransactionId', sql.VarChar(30), MasterTransactionId)
+            .input('PlazaTransactionId', sql.VarChar(30), PlazaTransactionId)
             .input('LaneTransactionId', sql.VarChar(30), req.body.LaneTransactionId)
             .input('SystemIntegratorId', sql.SmallInt, req.body.SystemIntegratorId)
             .input('JourneyId', sql.SmallInt, req.body.JourneyId)

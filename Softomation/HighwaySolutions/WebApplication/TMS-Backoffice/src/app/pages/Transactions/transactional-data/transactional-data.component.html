@@ -122,7 +122,7 @@
                 <div class="table-responsive mt-3 listtablepagging-f3 listtablepadding" id="tbl">
                     <p-table #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
                         [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="50" [paginator]="true"
-                        [globalFilterFields]="['PlazaName','LaneNumber','ShiftNumber','TransactionDateTimeStamp','PlateNumber','TransactionTypeName',
+                        [globalFilterFields]="['LaneTransactionId','PlazaName','LaneNumber','ShiftNumber','TransactionDateTimeStamp','PlateNumber','TransactionTypeName',
                         'VehicleClassName','VehicleSubClassName','VehicleAvcClassName','TagClassName','RCTNumber','TagId','LoginId']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
@@ -148,7 +148,7 @@
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                             <tr>
-                                <td>{{rowData.PlazaTransactionId}}</td>
+                                <td>{{rowData.LaneTransactionId}}</td>
                                 <td>{{rowData.PlazaName}}</td>
                                 <td>{{rowData.LaneNumber}}</td>
                                 <td>{{rowData.ShiftNumber}}</td>

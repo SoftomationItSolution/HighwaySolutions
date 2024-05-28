@@ -121,4 +121,3 @@ class KistUFDClient():
 
     def l2s_cmd(self,message):
         self.send_data(f"S2{message}")
-

@@ -170,18 +170,17 @@
                         <div class="col-md-6">
 
                             <div class="row">
-                                <div class="col-md-6">
-                                    <img *ngIf="SelectedRow != null" src="{{MediaPrefix}}{{SelectedRow.EventImageUrl}}"
-                                        class="audit-media" (dblclick)="viewImage()" />
-                                </div>
-                                <div class="col-md-6">
-                                    <video class="audit-media" *ngIf="VideoFound" controls [autoplay]="true"
-                                        [loop]="true" #videoPlayer>
-                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/mp4" />
-                                        <source src="{{MediaPrefix}}{{SelectedRow.EventVideoUrl}}" type="video/ogg" />
-                                        Browser not supported
+                                <div *ngFor="let data of MediaDataArray" [ngClass]="className" style="overflow: hidden;" class="validate-media">
+                                    <span class="media-title">{{data.name}}</span>
+                                    <img src="" [src]="data.path" *ngIf="data.type=='image'" [ngStyle]="{'max-height': dynamicHeight, 'min-height': dynamicHeight}" />
+                                    <audio *ngIf="data.type=='audio'">
+                                        <source [src]="data.path" type="audio/mpeg">
+                                    </audio>
+                                    <video controls *ngIf="data.type=='video'" [ngStyle]="{'max-height': dynamicHeight, 'min-height': dynamicHeight}">
+                                        <source [src]="data.path" type="video/mp4">
+                                        <source [src]="data.path" type="video/ogg">
+                                        Your browser does not support the video tag.
                                     </video>
-                                    <span *ngIf="!VideoFound" class="audit-media">No video found</span>
                                 </div>
                             </div>
                             <div class="row">

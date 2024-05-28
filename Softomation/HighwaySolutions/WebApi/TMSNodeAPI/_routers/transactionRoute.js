@@ -107,8 +107,11 @@ async function LaneTransactionGetByFilter(req, res, next) {
         if (data.VehicleSubClassFilterList != "0") {
             data.FilterQuery = data.FilterQuery + " AND L.VehicleSubClassId IN (" + data.VehicleSubClassFilterList + ") ";
         }
-        if (data.TransactionId > 0) {
-            data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = " + data.TransactionId + " OR L.PlazaTransactionId = " + data.TransactionId + " OR L.LaneTransactionId = " + data.TransactionId + ")";
+        if (data.PlateNumber != "") {
+            data.FilterQuery = data.FilterQuery + " AND (L.PlateNumber LIKE %'" + data.PlateNumber + "'% OR L.TagPlateNumber LIKE %'" + data.PlateNumber + "'% )";
+        }
+        if (data.TransactionId != "") {
+            data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = '" + data.TransactionId + "' OR L.PlazaTransactionId = '" + data.TransactionId + "' OR L.LaneTransactionId = '" + data.TransactionId + "')";
         }
         const pool = await database.connect();
         result = await pool.request().input('FilterQuery', sql.VarChar(4000), data.FilterQuery).execute('USP_LaneTransactionGetByFilter');
@@ -133,7 +136,8 @@ async function LaneTransactionValidation(req, res, next) {
         let data = req.body;
         const pool = await database.connect();
         result = await pool.request()
-            .input('PlazaTransactionId', sql.BigInt, data.PlazaTransactionId)
+            .input('PlazaTransactionId', sql.VarChar(30), data.PlazaTransactionId)
+            .input('LaneTransactionId', sql.VarChar(30), data.LaneTransactionId)
             .input('ReviewedPlateNumber', sql.VarChar(20), data.ReviewedPlateNumber)
             .input('ReviewedClassCorrectionId', sql.SmallInt, data.ReviewedClassCorrectionId)
             .input('ReviewedSubClassId', sql.SmallInt, data.ReviewedSubClassId)
@@ -157,9 +161,9 @@ async function LaneTransactionValidation(req, res, next) {
 function CreateObjectForLaneData(row) {
     try {
         const data = {
-            MasterTransactionId: parseInt(row.MasterTransactionId),
-            PlazaTransactionId: parseInt(row.PlazaTransactionId),
-            LaneTransactionId: parseInt(row.LaneTransactionId),
+            MasterTransactionId: row.MasterTransactionId,
+            PlazaTransactionId: row.PlazaTransactionId,
+            LaneTransactionId: row.LaneTransactionId,
             SystemIntegratorId: parseInt(row.SystemIntegratorId),
             JourneyId: parseInt(row.JourneyId),
             PlazaId: parseInt(row.PlazaId),

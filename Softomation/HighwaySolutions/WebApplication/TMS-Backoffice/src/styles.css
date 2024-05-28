@@ -2018,3 +2018,29 @@ input[type=radio] {
         /* Adjust for smaller screens */
     }
 }
+
+.media-title{
+color: #011b41;
+    position: absolute;
+  bottom: 0;
+  background: rgb(0, 0, 0);
+  background: rgba(0, 0, 0, 0.5); /* Black see-through */
+  color: #f1f1f1;
+  width: 100%;
+  transition: .5s ease;
+  opacity:1;
+  color: white;
+  font-size: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.validate-media{
+    margin: 0px !important;
+    padding: 0px !important;
+    padding-left: 1px !important;
+    padding-right: 1px !important;
+}
+.validate-media img{
+    width: 100%;
+}

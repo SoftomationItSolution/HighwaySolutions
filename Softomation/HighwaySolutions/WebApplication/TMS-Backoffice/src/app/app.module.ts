@@ -222,5 +222,5 @@ function GetIpAddress(): string | undefined {
   var currentIP='';
   var curretURL = (window.location.href).split(':')
   currentIP = curretURL[1].replace("//", "");
-  return currentIP;
+  return currentIP;  //"152.52.51.146";
 }

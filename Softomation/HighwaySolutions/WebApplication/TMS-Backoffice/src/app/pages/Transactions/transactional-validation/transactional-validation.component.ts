@@ -57,6 +57,9 @@ export class TransactionalValidationComponent {
   ReviewedTransactionAmount = 0;
   DifferenceAmount = 0;
   SystemSetting: any;
+  MediaDataArray=[]
+  className = "";
+  dynamicHeight: string = '';
   ReviewedClassCorrectionList = [{ DataId: 0, DataName: "Both" }, { DataId: 1, DataName: "TC" }, { DataId: 2, DataName: "AVC" }, { DataId: 3, DataName: "None" }];
   constructor(private _compiler: Compiler, private dbService: apiIntegrationService, private dm: DataModel,
     private spinner: NgxSpinnerService, public datepipe: DatePipe, private confirmationService: ConfirmationService) {
@@ -89,10 +92,17 @@ export class TransactionalValidationComponent {
       ReviewedRemark: new FormControl(''),
       ReviewedClassCorrectionId: new FormControl(0, []),
     });
+    this.calculateHeight()
   }
 
   ngAfterViewInit(): void {
     this._compiler.clearCache();
+  }
+
+  calculateHeight() {
+    const viewportHeight = window.innerHeight;
+    const calculatedHeight = viewportHeight - 555;
+    this.dynamicHeight = `${calculatedHeight}px`;
   }
 
   ExColl() {
@@ -340,30 +350,46 @@ export class TransactionalValidationComponent {
   }
 
   onMidiaView(TransactionRowData: any) {
-    var obj = {
-      PageTitle: "Lane Transaction-(" + TransactionRowData.TransactionTypeName + ")",
-      ImageData: [{
-        ImagePath: TransactionRowData.TransactionFrontImage,
-      },
-      {
-        ImagePath: TransactionRowData.TransactionBackImage,
-      },
-      {
-        ImagePath: TransactionRowData.TransactionAvcImage
-      }],
-      VideoData: [{
-        VideoPath: TransactionRowData.TransactionVideo
-      }],
-      AudioData: [{
-        AudioPath: ''
-      }]
+    var ImageDataArray=[]
+    var VideoDataArray=[]
+    var AudioDataArray=[]
+      const file_path=this.dm.getPath(TransactionRowData.TransactionDateTimeStamp,TransactionRowData.LaneNumber);
+      if(TransactionRowData.TransactionFrontImage!=''){
+        let a={ImagePath: file_path+'lpic/image/'+TransactionRowData.TransactionFrontImage,Name:'LPIC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionBackImage!=''){
+        let a={ImagePath: file_path+'ic/image/'+TransactionRowData.TransactionBackImage,Name:'IC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionAvcImage!=''){
+        let a={ImagePath: file_path+'avc/'+TransactionRowData.TransactionAvcImage,Name:'AVC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionVideo!=''){
+        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC'}
+        VideoDataArray.push(a)
+      }
+
+    if(ImageDataArray.length>0 ||VideoDataArray.length){
+      var obj={
+        PageTitle: "Lane Transaction-(" + TransactionRowData.TransactionTypeName + ")",
+        ImageData:ImageDataArray,
+        VideoData:VideoDataArray,
+        AudioData:AudioDataArray
+      }
+      this.dm.MediaView(obj);
     }
-    this.dm.MediaView(obj);
+    else{
+      this.ErrorData = [{ AlertMessage: 'No Media available.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
   }
 
   AutoSelected() {
     if (this.EventHistroyData.length > 0) {
       this.SelectedRow = this.EventHistroyData[this.SelectedIndex];
+      this.getMediaDetails(this.SelectedRow)
       this.getTollFare(new Date(this.SelectedRow.TransactionDateTimeStamp));
       this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);
       this.Reviewedform.controls['ReviewedPlateNumber'].setValue(this.SelectedRow.PlateNumber);
@@ -377,12 +403,32 @@ export class TransactionalValidationComponent {
         this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(2);
         this.ReviewedClassCorrectionTypeChange(2);
       }
-      if (this.SelectedRow.EventVideoUrl != "") {
+    }
+  }
+
+  getMediaDetails(TransactionRowData){
+    this.MediaDataArray=[]
+    const file_path=this.dm.getPath(TransactionRowData.TransactionDateTimeStamp,TransactionRowData.LaneNumber);
+      if(TransactionRowData.TransactionFrontImage!=''){
+        let a={path: this.MediaPrefix+file_path+'lpic/image/'+TransactionRowData.TransactionFrontImage,name:'LPIC',type:'image'}
+        this.MediaDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionBackImage!=''){
+        let a={path: this.MediaPrefix+file_path+'ic/image/'+TransactionRowData.TransactionBackImage,name:'IC',type:'image'}
+        this.MediaDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionAvcImage!=''){
+        let a={path: this.MediaPrefix+file_path+'avc/'+TransactionRowData.TransactionAvcImage,name:'AVC',type:'image'}
+        this.MediaDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionVideo!=''){
+        let a={path: this.MediaPrefix+file_path+'ic/video/'+TransactionRowData.TransactionVideo,name:'IC',type:'video'}
+        this.MediaDataArray.push(a)
         this.dm.delay(100).then(any => {
           this.VideoFound = true;
         });
       }
-    }
+      this.className = 'col-md-'+ (12 /this.MediaDataArray.length).toString();
   }
 
   onRowSelect(index: number) {

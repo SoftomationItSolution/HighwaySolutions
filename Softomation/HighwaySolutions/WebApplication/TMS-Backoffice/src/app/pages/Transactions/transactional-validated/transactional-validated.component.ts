@@ -301,24 +301,39 @@ export class TransactionalValidatedComponent {
   }
 
   onMidiaView(TransactionRowData: any) {
-    var obj = {
-      PageTitle: "Lane Transaction-(" + TransactionRowData.TransactionTypeName + ")",
-      ImageData: [{
-        ImagePath: TransactionRowData.TransactionFrontImage,
-      },
-      {
-        ImagePath: TransactionRowData.TransactionBackImage,
-      },
-      {
-        ImagePath: TransactionRowData.TransactionAvcImage
-      }],
-      VideoData: [{
-        VideoPath: TransactionRowData.TransactionVideo
-      }],
-      AudioData: [{
-        AudioPath: ''
-      }]
+    var ImageDataArray=[]
+    var VideoDataArray=[]
+    var AudioDataArray=[]
+      const file_path=this.dm.getPath(TransactionRowData.TransactionDateTimeStamp,TransactionRowData.LaneNumber);
+      if(TransactionRowData.TransactionFrontImage!=''){
+        let a={ImagePath: file_path+'lpic/image/'+TransactionRowData.TransactionFrontImage,Name:'LPIC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionBackImage!=''){
+        let a={ImagePath: file_path+'ic/image/'+TransactionRowData.TransactionBackImage,Name:'IC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionAvcImage!=''){
+        let a={ImagePath: file_path+'avc/'+TransactionRowData.TransactionAvcImage,Name:'AVC'}
+        ImageDataArray.push(a)
+      }
+      if(TransactionRowData.TransactionVideo!=''){
+        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC'}
+        VideoDataArray.push(a)
+      }
+
+    if(ImageDataArray.length>0 ||VideoDataArray.length){
+      var obj={
+        PageTitle: "Lane Transaction-(" + TransactionRowData.TransactionTypeName + ")",
+        ImageData:ImageDataArray,
+        VideoData:VideoDataArray,
+        AudioData:AudioDataArray
+      }
+      this.dm.MediaView(obj);
     }
-    this.dm.MediaView(obj);
+    else{
+      this.ErrorData = [{ AlertMessage: 'No Media available.' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+    }
   }
 }

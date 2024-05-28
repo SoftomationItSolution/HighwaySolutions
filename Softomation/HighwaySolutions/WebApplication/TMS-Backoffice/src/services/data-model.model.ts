@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { SnakbarComponent } from "src/app/pages/snakbar/snakbar.component";
 import { MediaViewComponent } from "src/app/pages/media-view/media-view.component";
+import { DatePipe } from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class DataModel {
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
   PageRefresh = new EventEmitter<any>();
-  constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog) { }
+  constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog,public datepipe:DatePipe) { }
   clearStorage() {
     localStorage.removeItem("FthTmsloggedIn");
     localStorage.removeItem("FthTmsToken");
@@ -182,6 +183,13 @@ export class DataModel {
       };
       reader.readAsDataURL(blob);
     })
+  }
+
+  getPath(input: string,LaneNumber): string {
+    const date = new Date(input);
+    const tDate = this.datepipe.transform(date, 'yyyy-MM-dd');
+    const path= "LaneData/"+tDate+'/'+LaneNumber.replace('Lane-','L')+'/'
+    return path
   }
 }
 

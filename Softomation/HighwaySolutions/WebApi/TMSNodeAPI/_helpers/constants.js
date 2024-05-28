@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const crypto = require('crypto');
+const e = require('express');
 
 const AppProvider = "Softomation";
 const mkdirp = require('mkdirp');
@@ -253,6 +254,27 @@ function MqttpublishData(mqttClient, topic, data) {
     });
 }
 
+function plzazTxnNumber(PlazaId,laneId, tDateTime) {
+    let dt=new Date()
+    if(tDateTime==undefined){
+        dt = new Date()
+    }
+    else{
+        dt = new Date(tDateTime) 
+    }
+    const year = dt.getFullYear().toString();
+    const month = ('0' + (dt.getMonth() + 1)).slice(-2);
+    const day = ('0' + dt.getDate()).slice(-2);
+    const hours = ('0' + dt.getHours()).slice(-2);
+    const minutes = ('0' + dt.getMinutes()).slice(-2);
+    const seconds = ('0' + dt.getSeconds()).slice(-2);
+    const milliseconds = ('00' + dt.getMilliseconds()).slice(-3);
+    const formattedNumber = `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds}${laneId.toString().padStart(2, '0')}${PlazaId.toString().padStart(2, '0')}`;
+    return formattedNumber;
+}
+
+
+
 module.exports = {
     ResponseMessageList,
     ResponseMessage,
@@ -261,6 +283,7 @@ module.exports = {
     RandonString,
     CreateDirectory,
     MqttpublishData,
+    plzazTxnNumber,
     AppProvider,
     JWTkey,
     root_path,
