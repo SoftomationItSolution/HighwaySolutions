@@ -38,9 +38,8 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.LaneTypeId = this.LaneData.LaneTypeId
     this.laneUrl = "http://" + this.LaneSystemIpAddress + ":5002/"
     this.UserData = this.dm.getUserData()
-    this.GetEquipment()
-    this.GetLaneStatus()
     this.hardwareStatus()
+    this.GetLaneStatus()
   }
 
   ngOnDestroy() {
@@ -163,7 +162,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
         this.spinner.hide();
         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
         this.dm.openSnackBar(this.ErrorData, false);
-       
+        this.GetEquipment()
       }
     );
   }
@@ -192,10 +191,5 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
 
   getEqList(data: any) {
     this.equipmentList = data.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
-    
-  }
-
-  refresh(){
-
   }
 }
