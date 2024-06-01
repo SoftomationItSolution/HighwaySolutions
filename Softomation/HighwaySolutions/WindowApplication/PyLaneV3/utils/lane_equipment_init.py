@@ -90,32 +90,19 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} create_mqtt_obj: {str(e)}")
 
     def on_connect(self, client, userdata, flags, rc):
-        try:
-
-            self.logger.logInfo(f"Connected with result code {rc}")
-            self.mqtt_client_connected=True
-            top=self.lane_detail["LaneName"]+'/lanerefresh'
-            self.on_subscribe(top)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_connect: {str(e)}")
-
+        self.logger.logInfo(f"Connected with result code {rc}")
+        self.mqtt_client_connected=True
+        
+    
     def on_disconnect(self,client, userdata, rc):
-        try:
-            if rc != 0:
-                self.logger.logInfo("mqtt Unexpected disconnection.")
-            else:
-                self.logger.logInfo("mqtt Disconnected gracefully.")
-            self.mqtt_client_connected=False
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_disconnect: {str(e)}")
+        if rc != 0:
+            self.logger.logInfo("mqtt Unexpected disconnection.")
+        else:
+            self.logger.logInfo("mqtt Disconnected gracefully.")
+        self.mqtt_client_connected=False
 
     def on_message(self, client, userdata, msg):
-        try:
-            self.logger.logInfo(f"Received message: {msg.payload}")
-            if msg.payload=='lanerefresh':
-                self.mqtt_dio_event()
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_message: {str(e)}")
+        self.logger.logInfo(f"Received message: {msg.payload}")
 
     def on_subscribe(self, topic):
         try:
@@ -578,6 +565,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.publish_data("rfid_processed",data)
                 self.mqtt_rfid_event(data)
                 if self.LaneTypeId==3 and self.system_transcation_status==False:
+                    data["Processed"]=True
+                    self.rfid_data.append(data)
                     self.background_Transcation(data)
                 else:
                     self.rfid_data.append(data)
@@ -594,8 +583,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.mqtt_avc_event(data)
                 LaneTransactionId=self.get_trxn_data_for_avc(data['SystemDateTime'])
                 if LaneTransactionId!='0':
-                    data["Processed"]=True
-                    self.avc_data.append(data)
                     self.update_avc_lane_db(LaneTransactionId,data)
                 else:
                     self.avc_data.append(data)
@@ -606,6 +593,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.avc_data.pop(0)
 
     def update_lane_transcation(self,data):
+        data['SystemDateTime']=datetime.now().isoformat()
         try:
             LaneManager.lane_data_insert(self.dbConnectionObj,data)
             data["Processed"]=True
@@ -625,14 +613,18 @@ class LaneEquipmentSynchronization(threading.Thread):
                 filtered_data = [x for x in self.transaction_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['VehicleAvcClassId'] == 0]
                 if not filtered_data:
                     return '0'
-                
                 nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
-                time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
-                if time_difference < 10: 
+                if nearest_item:
                     nearest_item['Processed'] = True
                     return nearest_item["LaneTransactionId"]
                 else:
-                    return '0'
+                   return '0'     
+                # time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
+                # if time_difference < 10: 
+                #     nearest_item['Processed'] = True
+                #     return nearest_item["LaneTransactionId"]
+                # else:
+                #     return '0'
             else:
                 return '0'
         except Exception as e:
@@ -722,15 +714,6 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} background_Transcation: {str(e)}")
 
-    def process_next_trans(self):
-        try:
-            if self.LaneTypeId==3:
-                if len(self.rfid_data)>0:
-                    data=self.rfid_data.pop(0)
-                    self.background_Transcation(data)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_next_trans: {str(e)}")
-
     def lane_trans_start(self, transactionInfo):
         result=False
         try:
@@ -744,9 +727,9 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["TransactionFrontImage"]=lane_Transaction_img
                 else:
                     running_Transaction["TransactionFrontImage"]=''
+                self.update_lane_transcation(running_Transaction)
                 self.handel_traffic_light(True,running_Transaction)
                 self.process_on_ufd(running_Transaction)
-                self.update_lane_transcation(running_Transaction)
                 self.system_transcation_status=False
                 result=True
             else:
@@ -780,8 +763,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
         finally:
             self.publish_data("lane_process_end", True)
-            self.mqtt_dio_event()
-            self.process_next_trans()
 
     def start_violation_trans(self):
         try:
@@ -815,7 +796,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["UserId"]=self.userDetails["UserId"]
                     running_Transaction["LoginId"]=self.userDetails["LoginId"]
                 self.system_transcation_status=False
-                self.update_lane_transcation(running_Transaction)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} create_violation_trans: {str(e)}")
         finally:
@@ -842,7 +822,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception {self.classname} process_on_ufd: {str(e)}")
         finally:
             self.mqtt_ufd_event()
-            self.mqtt_dio_event()
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:

@@ -1,0 +1,12 @@
+[Unit]
+Description=My App Service
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/soft/AvccApp
+ExecStart=/home/lane7/miniconda3/envs/pysy/bin/python app.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

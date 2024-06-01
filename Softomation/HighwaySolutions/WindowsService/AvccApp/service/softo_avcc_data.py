@@ -101,6 +101,8 @@ class AVC_Handler:
                     else:
                         total_zero += num_zeros
                         img_cols = img.shape[1]
+                        print(img.shape)
+                        print(data.reshape(1, -1)[:, :img_cols].shape)
                         img = np.vstack((img, data.reshape(1, -1)[:, :img_cols]))
             except Exception as e:
                print(f"Exception {self.classname} start: {str(e)}")
@@ -126,13 +128,13 @@ class AVC_Handler:
         return (np.frombuffer(data.encode(), dtype='u1') - ord('0')) * 255
 
 
-# if __name__ == "__main__":
-#     server_ip = "192.168.10.11"
-#     server_port = 4001
-#     dir_path = get_dir()
+if __name__ == "__main__":
+    server_ip = "192.168.10.11"
+    server_port = 4001
+    dir_path = get_dir()
 
-#     handler = AVC_Handler(server_ip, server_port, dir_path)
-#     handler.start()
+    handler = AVC_Handler(server_ip, server_port, dir_path)
+    handler.start()
 
 # if __name__ == '__main__':
 #     server_ip = '192.168.10.11'

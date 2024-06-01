@@ -56,7 +56,9 @@ class AVC_Model(threading.Thread):
         self.is_running = True
         while True:
             if not self.fifo_queue.empty():
-                image = self.fifo_queue.get()
+                avc_data = self.fifo_queue.get()
+                image=avc_data[0]
+                SystemDateTime=avc_data[1]
                 predicted_class,predicted_class_id,axcel_count, confidence_score = self.predict(image)
                 datetime_str = Utilities.get_datetime_str()
                 img_name = self.save(image, datetime_str, predicted_class)
@@ -65,7 +67,9 @@ class AVC_Model(threading.Thread):
                         'AxleCount': axcel_count,
                         'AvcImageName': img_name,
                         'AvcImage': Utilities.pil_base64(image),
-                        'transaction_id': datetime_str}
+                        'transaction_id': datetime_str,
+                        "SystemDateTime":SystemDateTime
+                        }
                 pub.sendMessage('avc_data', msg=data)
                 if self.broadcast_server is not None:
                     self.broadcast_server.broadcast(data)

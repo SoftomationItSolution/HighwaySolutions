@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import queue
 import socket
@@ -21,7 +22,10 @@ class AVC_Handler:
         self.curr_dir = os.path.dirname(os.path.abspath(__file__))
         self.set_avc_image_path(default_directory)
         self.model_thread = None
-
+        self.init_data=None
+        self.init_zero=None
+        self.SystemDateTime=None
+        
     def set_avc_image_path(self,default_directory):
         try:
             self.image_path=os.path.join(default_directory, 'avc')
@@ -51,24 +55,36 @@ class AVC_Handler:
             self.img = None
             while self.is_running:
                 self.data = self.receive_data()
-                self.num_zeros = np.count_nonzero(self.data == 0)
-                self.re_shape()    
-                if self.num_zeros < 5 and self.img is not None:
-                    self.manage_image()
-                if self.num_zeros < 5 and self.img is not None and self.total_zero < 2000:
+                self.num_zeros = np.count_nonzero(self.data == 0)  
+                if self.init_data is None:
+                    self.init_data=self.data
+                    self.init_zero=self.num_zeros
+                if not np.array_equal(self.data,self.init_data):
+                    if self.SystemDateTime is None:
+                        self.SystemDateTime=datetime.now().isoformat()
+                    self.re_shape()
+                    if self.num_zeros < self.init_zero+5 and self.img is not None:
+                        self.manage_image()  
+                if self.num_zeros < self.init_zero+5 and self.img is not None and self.total_zero < 2000:
                     self.img = None
+                    self.SystemDateTime=None
                     self.total_zero = 0
 
     def re_shape(self):
         try:
-            if self.num_zeros > 5:
+            if self.num_zeros > self.init_zero+5:
                 if self.img is None:
                     self.total_zero += self.num_zeros
                     self.img = self.data.reshape(1, -1)
+                    #print(self.data)
                 else:
                     self.total_zero += self.num_zeros
                     img_cols = self.img.shape[1]
-                    self.img = np.vstack((self.img, self.data.reshape(1, -1)[:, :img_cols]))
+                    #self.img = np.vstack((self.img, self.data.reshape(1, -1)[:, :img_cols]))
+                    reshaped_data = self.data.reshape(1, -1)
+                    if reshaped_data.shape[1] < img_cols:
+                        reshaped_data = np.pad(reshaped_data, ((0, 0), (0, img_cols - reshaped_data.shape[1])), 'constant')
+                    self.img = np.vstack((self.img, reshaped_data[:, :img_cols]))
         except Exception as e:
             print(f"Exception : {str(e)}")
         
@@ -77,18 +93,23 @@ class AVC_Handler:
         image = np.transpose(image, (1, 0))
         image = np.stack((image,) * 3, axis=-1)
         image = Image.fromarray((image * 255).astype(np.uint8)).resize((224, 224))
-        self.fifo_queue.put(image)
+        self.fifo_queue.put([image,self.SystemDateTime])
         self.img = None
         self.total_zero = 0
+        self.SystemDateTime=None
 
     def receive_data(self):
         data_list = []
         byte_sequence = self.connection.recv(1024)
         bytes_to_remove = b'\x02\r'
         filtered_bytes = bytearray([b for b in byte_sequence if b not in bytes_to_remove])
-        ddata = ''.join(format(byte, '08b') for byte in filtered_bytes)[:100]
-        pub.sendMessage("avc_alinement", msg=ddata)
-        return (np.frombuffer(ddata.encode(), dtype='u1') - ord('0')) * 255
+        
+        data = ''.join(format(byte, '08b') for byte in filtered_bytes)
+        split_strings = [data[i:i+112] for i in range(0, len(data), 112)]
+        for s in split_strings:
+            ddata=s[:100]
+            pub.sendMessage("avc_alinement", msg=ddata)
+            return (np.frombuffer(ddata.encode(), dtype='u1') - ord('0')) * 255
     
     def stop(self):
         if self.model_thread is not None:

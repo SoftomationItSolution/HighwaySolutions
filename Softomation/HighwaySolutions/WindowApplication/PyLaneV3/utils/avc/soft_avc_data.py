@@ -50,9 +50,15 @@ class STPLAVCDataClient(threading.Thread):
             data=Utilities.is_valid_json(data)
             if data !=False:
                 current_date_time=datetime.now()
+                SystemDateTime=data["SystemDateTime"]
+                if SystemDateTime is None:
+                    SystemDateTime=current_date_time.isoformat()
+                    self.logger.logInfo(f"No System Date time {self.classname} process_data: {str(data)}")
+                else:
+                    current_date_time=datetime.fromisoformat(SystemDateTime)
                 transactionInfo = {
                     'LaneId':self.LaneId,
-                    'SystemDateTime':current_date_time.isoformat(),
+                    'SystemDateTime':SystemDateTime,
                     'TransactionDateTime':Utilities.current_date_time_json(dt=current_date_time),
                     'AvcClassId': data["AvcClassId"],
                     'AxleCount': data["AxleCount"],
