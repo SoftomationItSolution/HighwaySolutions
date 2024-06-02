@@ -254,6 +254,16 @@ function MqttpublishData(mqttClient, topic, data) {
     });
 }
 
+function INRFormat(number)
+{
+    return new Intl.NumberFormat('en-IN', {
+      style: 'currency',
+      currency: 'INR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(number);
+};
+
 function plzazTxnNumber(PlazaId,laneId, tDateTime) {
     let dt=new Date()
     if(tDateTime==undefined){
@@ -284,6 +294,7 @@ module.exports = {
     CreateDirectory,
     MqttpublishData,
     plzazTxnNumber,
+    INRFormat,
     AppProvider,
     JWTkey,
     root_path,

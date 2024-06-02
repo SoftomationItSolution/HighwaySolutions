@@ -70,11 +70,14 @@ async function ReportProcess(req, res, next) {
             const ReportDataList = result.recordsets
             if (result.recordsets[1].length > 0) {
                 const ReportName = generateReceiptNumber(headerData.ReportType)
-                if(data.ReportId==23 || data.ReportId==27){
+                if(data.ReportId==23 || data.ReportId==27  || data.ReportId==31){
                     reports.generateDateWiseCountPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
                 }
-                else{
+                else if(data.ReportId==22 || data.ReportId==30 || data.ReportId==32){
                     reports.generateTransPdf(data.GeneratedBy, headerData,ReportData, ReportName)
+                }
+                else{
+                    reports.generateTransLandPdf(data.GeneratedBy, headerData,ReportData, ReportName)
                 }
                 let out = constants.ResponseMessage(ReportName, result.recordset);
                 res.status(200).json(out)

@@ -168,6 +168,16 @@ export class ReportMasterComponent implements OnInit {
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
       this.transTypeDisbaled=true;
     }
+    else if (vale == 30 || vale == 31) {
+      var d= this.TransactionTypeData.filter(a => a.DataId != 3).map(a => a.DataId);
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
+      this.transTypeDisbaled=true;
+    }
+    else if (vale == 32) {
+      var d= this.TransactionTypeData.filter(a => a.DataId != 4).map(a => a.DataId);
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
+      this.transTypeDisbaled=true;
+    }
     else {
       this.transTypeDisbaled=false;
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].reset();
