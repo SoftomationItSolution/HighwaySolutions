@@ -9,7 +9,7 @@
                                 <div class="col-md-11">
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <label for="ShiftFilterList">Category</label>
+                                            <label for="CategoryId">Category</label>
                                             <p-dropdown appendTo="body" formControlName="CategoryId"
                                                 inputId="CategoryId" [options]="ReportMasterData"
                                                 optionLabel="ReportName" optionValue="ReportId" placeholder="Select"
@@ -20,11 +20,11 @@
                                                 Category must be selected.</small>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="ShiftFilterList">Report</label>
+                                            <label for="ReportId">Report</label>
                                             <p-dropdown appendTo="body" formControlName="ReportId" inputId="ReportId"
                                                 [options]="SubReportMasterData" optionLabel="ReportName"
                                                 optionValue="ReportId" placeholder="Select"
-                                                class="form-control select2"></p-dropdown>
+                                                class="form-control select2" (onChange)="SubCategoryChange($event.value)"></p-dropdown>
                                             <small class="p-error"
                                                 *ngIf="submitted && FilterDetailsForm.hasError('required','ReportId')">
                                                 Report must be selected.</small>
@@ -99,7 +99,7 @@
                                                 [style]="{'width':'100%'}" formControlName="TransactionTypeFilterList"
                                                 inputId="TransactionTypeFilterList" [options]="TransactionTypeData"
                                                 optionLabel="DataName" optionValue="DataId"
-                                                placeholder="Transaction Type">
+                                                placeholder="Transaction Type" [readonly]="transTypeDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">

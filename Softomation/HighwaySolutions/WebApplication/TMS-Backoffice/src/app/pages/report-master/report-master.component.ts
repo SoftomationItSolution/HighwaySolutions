@@ -1,4 +1,5 @@
 import { DatePipe } from '@angular/common';
+import { FactoryTarget } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -34,6 +35,7 @@ export class ReportMasterComponent implements OnInit {
   ExemptTypeData: any
   submitted = false;
   LoginId = ''
+  transTypeDisbaled=false
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,
     public datepipe: DatePipe) {
@@ -61,6 +63,7 @@ export class ReportMasterComponent implements OnInit {
       CategoryId: new FormControl('', [Validators.required]),
       ReportId: new FormControl('', [Validators.required]),
     });
+    
   }
 
   GetPermissionData() {
@@ -160,14 +163,14 @@ export class ReportMasterComponent implements OnInit {
 
   SubCategoryChange(vale) {
     this.SubCategoryId = vale;
-    if (vale == 22) {
-      var op = this.ExemptTypeData.map(function (item) {
-        return item.EntryId;
-      });
-      this.FilterDetailsForm.controls['ExemptTypeId'].setValue(op);
+    if (vale == 22||vale == 23) {
+      var d= this.TransactionTypeData.filter(a => a.DataId==3).map(a => a.DataId);
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
+      this.transTypeDisbaled=true;
     }
     else {
-      this.FilterDetailsForm.controls['ExemptTypeId'].reset();
+      this.transTypeDisbaled=false;
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].reset();
     }
   }
 

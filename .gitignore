@@ -51,3 +51,4 @@ Softomation/HighwaySoluations/WindowsService/PlazaDataSynchronization/obj/Debug/
 bin
 obj
 *.pyc
+/Softomation/HighwaySolutions/WebApi/TMSNodeAPI/EventMedia/reports

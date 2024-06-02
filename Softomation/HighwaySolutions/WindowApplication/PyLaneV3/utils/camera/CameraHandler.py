@@ -22,6 +22,7 @@ class CameraHandler(threading.Thread):
         self.recording=False
         self.runtime_screenshort=False
         self.total_retries=0
+        self.fps=25.0
         self.current_frame=None
         self.recording_thread=None
         self.set_logger(default_directory,log_file_name)
@@ -66,6 +67,8 @@ class CameraHandler(threading.Thread):
             if self.capture.isOpened():
                 self.capture_is_open=True
                 self.handler.update_equipment_list(self.cam_details["EquipmentId"],'ConnectionStatus',True)
+                self.fps = self.capture.get(cv2.CAP_PROP_FPS)
+                self.logger.logInfo(f"Camera FPS: {self.fps}")
             else:
                 self.handler.update_equipment_list(self.cam_details["EquipmentId"],'ConnectionStatus',False)
                 self.logger.logInfo(f"Retry/{self.rtsp_url} {self.total_retries}: Connection failed. Retrying in {self.retry_delay} seconds...")
@@ -113,7 +116,7 @@ class CameraHandler(threading.Thread):
             if self.capture_frame and self.capture_is_open:
                 while True:
                     if self.current_frame is not None and self.current_frame.shape[0] > 0 and self.current_frame.shape[1] > 0:
-                        cv2.imwrite(snapshot_file_path, self.current_frame)
+                        cv2.imwrite(snapshot_file_path, cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2RGB))
                         result=True
                         break
         except Exception as e:
@@ -126,7 +129,6 @@ class CameraHandler(threading.Thread):
             if self.recording:
                 self.logger.logInfo("Already recording. Stop the current recording before starting a new one.")
                 self.stop_recording()
-                #return False
             if duration==0:
                 duration=5
             self.recording = True
@@ -159,10 +161,10 @@ class CameraHandler(threading.Thread):
                         my_writer = self.writer_init(self.current_frame, record_file_path)
                     if my_writer is not None:
                         if not snapshot_done and snapshot:
-                            cv2.imwrite(image_file_path, self.current_frame)
+                            cv2.imwrite(image_file_path, cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2RGB))
                             snapshot_done = True
                         if self.runtime_screenshort:
-                            cv2.imwrite(image_file_path, self.current_frame)
+                            cv2.imwrite(image_file_path, cv2.cvtColor(self.current_frame, cv2.COLOR_BGR2RGB))
                             self.runtime_screenshort=False
                         my_writer.write(self.current_frame)
                         if start_time is None:
@@ -190,7 +192,7 @@ class CameraHandler(threading.Thread):
             frame_height, frame_width, _ = frame.shape
             #fourcc = cv2.VideoWriter_fourcc(*'XVID')
             fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-            out = cv2.VideoWriter(output_file, fourcc, 25.0, (frame_width, frame_height))
+            out = cv2.VideoWriter(output_file, fourcc, self.fps, (frame_width, frame_height))
             return out
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} writer_init: {str(e)}")

@@ -4,11 +4,8 @@ const pdfFonts = require('pdfmake/build/vfs_fonts');
 const constants = require("../_helpers/constants");
 const moment = require('moment');
 const path = require('path');
-const {
-    root_path,
-    pc_path
-  } = require("../_helpers/constants");
-  const pc_Directory = path.join(root_path, pc_path);
+const { root_path, pc_path } = require("../_helpers/constants");
+const pc_Directory = path.join(root_path, pc_path);
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 function fileToBase64(filePath) {
@@ -174,7 +171,7 @@ function generateFloatPdf(ReportName, GeneratedBy, Datacontent, headerDetail, pd
     }
 }
 
-function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
+function generateTransPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
     try {
         const ProjectConfiguration = require(pc_Directory);
         const ReportName = headerDetail.ReportType
@@ -187,75 +184,81 @@ function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
         constants.CreateDirectory(reportPath)
         reportPath = path.join(reportPath, pdfName)
         //[L,T,R,B]
-        let header_margin = [5, 10, 5, 10]
-        let sign_margin = [5, 20, 5, 5]
         let pageMargins = [10, 20, 10, 30]
         let footerMargins = [10, 2, 10, 0]
-        const  header_fontSize='8'
+        const header_fontSize = '8'
         const tableData = [
             [
-                { text: "From Date Time", bold: true, alignment: 'left'},
-                { text: ":", bold: true, alignment: 'left'},
-                { text: headerDetail.StartDateTime, bold: false, alignment: 'left'},
-                { text: "To Date Time", bold: true, alignment: 'right'},
-                { text: ":", bold: true, alignment: 'left'},
+                { text: "From Date Time", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.StartDateTime, bold: false, alignment: 'left' },
+                { text: "To Date Time", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.EndDateTime, bold: false, alignment: 'left' }
             ],
             [
                 { text: "Shift", bold: true, alignment: 'left' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.ShiftName, bold: false, alignment: 'left' },
                 { text: "Lane", bold: true, alignment: 'right' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.LaneNames, bold: false, alignment: 'left' }
             ],
             [
                 { text: "Transaction Type", bold: true, alignment: 'left' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.TransactionTypeNames, bold: false, alignment: 'left' },
                 { text: "Operator", bold: true, alignment: 'right' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.OperatorName, bold: false, alignment: 'left' }
             ],
             [
                 { text: "Vehicle Class", bold: true, alignment: 'left' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.VehicleClassNames, bold: false, alignment: 'left' },
                 { text: "Vehicle Sub Class", bold: true, alignment: 'right' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.SubVehicleClassNames, bold: false, alignment: 'left' }
             ],
             [
                 { text: "Plate Number", bold: true, alignment: 'left' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.PlateNumber, bold: false, alignment: 'left' },
                 { text: "Transaction Id", bold: true, alignment: 'right' },
-                { text: ":", bold: true, alignment: 'left'},
+                { text: ":", bold: true, alignment: 'left' },
                 { text: headerDetail.TransactionId, bold: false, alignment: 'left' }
             ]
 
         ];
 
-        const _fontSize='5'
+        const _fontSize = '4.5'
 
         const headersSet = new Set();
         ReportData.forEach(obj => Object.keys(obj).forEach(key => headersSet.add(key)));
 
         const headers = Array.from(headersSet);
         const tableRowData = ReportData.map(obj =>
-            headers.map(key => ({ text: obj[key], bold: false, alignment: 'left' }))
+            headers.map(key => {
+                let value = obj[key];
+                if (key.toLowerCase() === 'date time') {
+                    value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                }
+                return { text: value, bold: false, alignment: 'left' };
+            })
         );
 
-        const tableHeader = headers.map(header => ({ text: header, bold: true, alignment: 'left',fontSize: _fontSize,fillColor: '#CCCCCC',
-        bold: true }));
+        const tableHeader = headers.map(header => ({
+            text: header, bold: true, alignment: 'left', fontSize: _fontSize, fillColor: '#CCCCCC',
+            bold: true
+        }));
 
         const formattedTableData = tableRowData.map(row => row.map(cell => ({ ...cell, fontSize: _fontSize })));
 
         // Insert table header as the first row in the tableData
         formattedTableData.unshift(tableHeader);
-        const width=840  //600
+        const width = 840
         const docDefinition = {
-            pageOrientation: 'landscape', 
+            pageOrientation: 'landscape',
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
                 const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
@@ -285,7 +288,7 @@ function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
                             {
                                 width: '*', // Take up as much space as possible
                                 stack: [
-                                    { text: ReportName+' Report', alignment: 'left', fontSize: 8,bold:true }
+                                    { text: ReportName + ' Report', alignment: 'left', fontSize: 8, bold: true }
                                 ],
                                 margin: [10, 10, 10, 0],
                             },
@@ -332,8 +335,8 @@ function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
                 },
                 {
                     table: {
-                        widths: ['12%', '1%', '37%','12%', '1%', '37%',],
-                        body: tableData.map(row => row.map(cell => ({ text: cell.text, bold: cell.bold || false, alignment: cell.alignment,fontSize:header_fontSize })))
+                        widths: ['12%', '1%', '37%', '12%', '1%', '37%',],
+                        body: tableData.map(row => row.map(cell => ({ text: cell.text, bold: cell.bold || false, alignment: cell.alignment, fontSize: header_fontSize })))
                     },
                     layout: 'noBorders',
                     margin: [0, 10]
@@ -343,12 +346,18 @@ function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
                 },
                 {
                     table: {
-                        //widths: new Array(headers.length).fill('*'), // Set equal width for all columns
                         body: formattedTableData
                     },
-                    //layout: 'noBorders',
                     margin: [0, 10]
-                }
+                },{
+                    columns: [
+                        {
+                            width: '*', // Take up as much space as possible
+                            stack: [{ text: '***End of report***', alignment: 'center', fontSize: 12, bold: true }],
+                        },
+                        
+                    ]
+                },
             ]
         };
 
@@ -366,8 +375,243 @@ function generateTransPdf(GeneratedBy, headerDetail,ReportData, pdfName) {
     }
 }
 
+function generateDateWiseCountPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
+    try {
+        const ProjectConfiguration = require(pc_Directory);
+        const ReportName = headerDetail.ReportType
+        const currentPath = path.resolve('./images');
+        let imagePath = path.join(currentPath, 'logo.png');
+        imagePath = fileToBase64(imagePath);
+        const EventMediaPath = path.resolve('./EventMedia');
+        let reportPath = path.join(EventMediaPath, 'reports')
+        constants.CreateDirectory(reportPath)
+        reportPath = path.join(reportPath, pdfName)
+        //[L,T,R,B]
+        let pageMargins = [20, 20, 20, 30]
+        let footerMargins = [10, 2, 10, 0]
+        const header_fontSize = '8'
+        const tableData = [
+            [
+                { text: "From Date Time", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.StartDateTime, bold: false, alignment: 'left' },
+                { text: "To Date Time", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.EndDateTime, bold: false, alignment: 'left' }
+            ],
+            [
+                { text: "Shift", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.ShiftName, bold: false, alignment: 'left' },
+                { text: "Lane", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.LaneNames, bold: false, alignment: 'left' }
+            ],
+            [
+                { text: "Transaction Type", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.TransactionTypeNames, bold: false, alignment: 'left' },
+                { text: "Operator", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.OperatorName, bold: false, alignment: 'left' }
+            ],
+            [
+                { text: "Vehicle Class", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.VehicleClassNames, bold: false, alignment: 'left' },
+                { text: "Vehicle Sub Class", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.SubVehicleClassNames, bold: false, alignment: 'left' }
+            ],
+            [
+                { text: "Plate Number", bold: true, alignment: 'left' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.PlateNumber, bold: false, alignment: 'left' },
+                { text: "Transaction Id", bold: true, alignment: 'right' },
+                { text: ":", bold: true, alignment: 'left' },
+                { text: headerDetail.TransactionId, bold: false, alignment: 'left' }
+            ]
+
+        ];
+
+        const _fontSize = '7'
+        const width = 600
+        const can_width = 560
+        const docDefinition = {
+            pageMargins: pageMargins,
+            footer: function (currentPage, pageCount) {
+                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedBy = `Printed by: ${GeneratedBy}`;
+                return {
+                    stack: [
+                        { canvas: [{ type: 'line', x1: 0, y1: 0, x2: width, y2: 0, lineWidth: 1 }] },
+                        {
+                            columns: [
+                                { text: printedOn, alignment: 'left', fontSize: '7', margin: footerMargins },
+                                { text: `Page ${currentPage.toString()} of ${pageCount}`, alignment: 'right', fontSize: '7', margin: footerMargins },
+                            ],
+                        },
+                        {
+                            columns: [
+                                { text: printedBy, alignment: 'left', fontSize: '7', margin: footerMargins },
+                            ],
+                        }
+                    ]
+                };
+            },
+            header: function (currentPage) {
+                if (currentPage > 1) {
+                    return {
+                        columns: [
+                            {
+                                width: '*', // Take up as much space as possible
+                                stack: [
+                                    { text: ReportName + ' Report', alignment: 'left', fontSize: 8, bold: true }
+                                ],
+                                margin: pageMargins,
+                            },
+                            {
+                                width: '*',
+                                text: '',
+                            },
+                        ]
+                    };
+                } else {
+                    return null; // No header on the first page
+                }
+            },
+            content: [
+                {
+                    columns: [
+                        (imagePath ?
+                            {
+                                image: imagePath,
+                                fit: [80, 80],
+                                alignment: 'left',
+                            } :
+                            {
+                                text: ProjectConfiguration.RoadName,
+                                alignment: 'left'
+                            }
+                        ),
+                        {
+                            width: '*', // Take up as much space as possible
+                            stack: [
+                                { text: ProjectConfiguration.ProjectName, alignment: 'center', fontSize: 12, bold: true },
+                                { text: ProjectConfiguration.ControlRoomName, alignment: 'center', fontSize: 10 },
+                                { text: ReportName, alignment: 'center', fontSize: 8 }
+                            ],
+                        },
+                        {
+                            width: '*',
+                            text: '',
+                        },
+                    ]
+                },
+                {
+                    table: {
+                        widths: ['13%', '1%', '36%', '13%', '1%', '36%',],
+                        body: tableData.map(row => row.map(cell => ({ text: cell.text, bold: cell.bold || false, alignment: cell.alignment, fontSize: header_fontSize })))
+                    },
+                    layout: 'noBorders',
+                    margin: [10, 0, 10, 0]
+                },
+                {
+                    canvas: [{ type: 'line', x1: 0, y1: 0, x2: can_width, y2: 0, lineWidth: 1 }]
+                },
+                ...ReportDataList.map((dataSet, index) => {
+                    if (index > 0) {
+                        const headersSet = new Set();
+                        dataSet.forEach(obj => {
+                            Object.keys(obj).forEach(key => {
+                                if (key !== 'TDate') {
+                                    headersSet.add(key);
+                                }
+                            });
+                        });
+                        const headers = Array.from(headersSet);
+                        //headers.push("Total");
+                        const tableHeader = headers.map(header => ({
+                            text: header, bold: true, alignment: 'left', fontSize: _fontSize, fillColor: '#CCCCCC'
+                        }));
+                        const tableRowData = dataSet.map(obj => {
+                            const row = headers.map(key => {
+                                let value = obj[key];
+                                    let alignment = 'left';
+                                    if (!isNaN(value) && value !== null && value !== '') {
+                                        alignment = 'right';
+                                    }
+                                    if (key.toLowerCase() === 'date time') {
+                                        value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                                    }
+                                    return { text: value, bold: false, alignment: alignment, fontSize: _fontSize };
+                            });
+                            return row;
+                        });
+
+                        const totalRow = headers.map((key, index) => {
+                            if (index === 0) {
+                                return { text: 'Total', bold: true, alignment: 'left', fillColor: '#CCCCCC', fontSize: _fontSize };
+                            } else {
+                                const sum = dataSet.reduce((acc, obj) => {
+                                    if (key !== 'TDate' && !isNaN(obj[key])) {
+                                        return acc + parseFloat(obj[key]);
+                                    }
+                                    return acc;
+                                }, 0);
+                                return { text: sum, bold: true, alignment: 'right', fillColor: '#CCCCCC', fontSize: _fontSize, };
+                            }
+                        });
+
+                        const formattedTableData = tableRowData.map(row => row.map(cell => ({ ...cell, fontSize: _fontSize })));
+                        formattedTableData.unshift(tableHeader);
+                        formattedTableData.push(totalRow);
+                        return [
+                            { text: `Transaction date:${dataSet[0]["TDate"]}`, alignment: 'left', bold: true, margin: [0, 10] },
+                            {
+                                canvas: [{ type: 'line', x1: 0, y1: 0, x2: can_width, y2: 0, lineWidth: 1, lineDash: { length: 2, space: 5 }, lineColor: 'gray' }]
+                            },
+                            {
+                                table: {
+                                    body: formattedTableData
+                                },
+                                margin: [0, 10]
+                            }
+                        ];
+                    }
+                }).flat(),
+                {
+                    columns: [
+                        {
+                            width: '*', // Take up as much space as possible
+                            stack: [{ text: '***End of report***', alignment: 'center', fontSize: 12, bold: true }],
+                        },
+                        
+                    ]
+                },
+                
+            ]
+        };
+
+        // Create and save the PDF document
+        const pdfDoc = pdfMake.createPdf(docDefinition);
+        pdfDoc.getBuffer((buffer) => {
+            try {
+                fs.writeFileSync(reportPath, buffer);
+            } catch (error) {
+                throw error;
+            }
+        });
+
+
+    } catch (error) {
+        throw error;
+    }
+}
+
 
 module.exports = {
     generateFloatPdf,
-    generateTransPdf
+    generateTransPdf,
+    generateDateWiseCountPdf
 };

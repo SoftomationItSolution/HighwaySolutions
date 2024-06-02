@@ -206,6 +206,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.dio_thread.handel_ohls_light(transactionInfo)
                 self.dio_thread.app_log_status(transactionInfo)
             self.mqtt_dio_event()
+            self.reset_default_ufd()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
 
@@ -759,6 +760,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def lane_trans_end(self):
         try:
             self.stop_ic_record(snapshot=True)
+            self.reset_default_ufd()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
         finally:
