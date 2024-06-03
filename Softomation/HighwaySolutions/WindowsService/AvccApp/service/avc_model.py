@@ -19,8 +19,8 @@ class AVC_Model(threading.Thread):
         self.model = self.core.read_model(model_path)
         self.compiled_model = self.core.compile_model(self.model, device_name=device_name)
         self.output_layer = self.compiled_model.output(0)
-        self.class_names = ['Auto', 'Bike', 'Bus', 'CJV', 'LCV', 'MAV3', 'MAV4', 'MAV5', 'MAV6']
-        self.class_id = [2, 1, 7, 4, 5, 6, 12, 12, 12]
+        self.class_names = ['Auto', 'Bike', 'Bus', 'Car/Jeep/Van', 'LCV', 'Truck 3 Axle', 'Truck 4 Axle', 'Truck 5 Axle', 'Truck 6-Axle']
+        self.class_id = [2, 1, 7, 4, 5, 11, 12, 13, 14]
         self.axcel_count = [2, 1, 2, 2, 2, 3, 4, 5, 6]
         self.is_running = False
         self.start_broadcast_server(broadcast)

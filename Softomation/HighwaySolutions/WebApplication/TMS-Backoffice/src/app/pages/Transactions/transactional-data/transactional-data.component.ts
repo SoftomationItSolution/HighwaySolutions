@@ -318,7 +318,7 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
         ImageDataArray.push(a)
       }
       if(TransactionRowData.TransactionVideo!=''){
-        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC'}
+        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC-Video'}
         VideoDataArray.push(a)
       }
 

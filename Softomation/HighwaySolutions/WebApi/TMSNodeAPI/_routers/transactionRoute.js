@@ -11,6 +11,7 @@ router.get('/ReviewPendingGetLatest', ReviewPendingGetLatest);
 router.get('/ReviewedGetLatest', ReviewedGetLatest);
 router.post('/LaneTransactionGetByFilter', LaneTransactionGetByFilter);
 router.post('/LaneTransactionValidation', LaneTransactionValidation);
+router.post('/LaneTransactionCancel', LaneTransactionCancel);
 
 module.exports = router;
 
@@ -157,6 +158,30 @@ async function LaneTransactionValidation(req, res, next) {
         res.status(400).json(out);
     }
 }
+
+async function LaneTransactionCancel(req, res, next) {
+    try {
+        const currentDateTime = new Date();
+        let data = req.body;
+        const pool = await database.connect();
+        result = await pool.request()
+            .input('PlazaTransactionId', sql.VarChar(30), data.PlazaTransactionId)
+            .input('LaneTransactionId', sql.VarChar(30), data.LaneTransactionId)
+            .input('ReviewedById', sql.BigInt, data.ReviewedById)
+            .input('ReviewedDateTime', sql.DateTime, currentDateTime)
+            .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
+            .execute('USP_LaneTransactionReviewCancel');
+        await database.disconnect();
+        let out = constants.ResponseMessageList(result.recordset, null);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'LaneTransactionValidation');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+
 
 function CreateObjectForLaneData(row) {
     try {

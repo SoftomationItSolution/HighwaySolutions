@@ -585,6 +585,12 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionValidation', data, { headers: headers_object });
   }
+
+  LaneTransactionCancel(data: any): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LaneTransactionCancel', data, { headers: headers_object });
+  }
   //#endregion
 
   //#region FasTag Transaction

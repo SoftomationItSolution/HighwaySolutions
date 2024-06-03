@@ -9,7 +9,7 @@
         <div class="row">
             <div *ngFor="let data of finalData" [ngClass]="className" style="overflow: hidden;">
                 <span class="media-title">{{data.name}}</span>
-                <img src="" [src]="data.path" *ngIf="data.type=='image'" style="max-height: 365px;min-height: 150px;"/>
+                <img src="" [src]="data.path" *ngIf="data.type=='image'" style="height: 365px;width: 100%;"/>
                 <audio *ngIf="data.type=='audio'">
                     <source [src]="data.path" type="audio/mpeg">
                 </audio>

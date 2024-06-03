@@ -61,14 +61,16 @@ class STPLAVCDataClient(threading.Thread):
                     'SystemDateTime':SystemDateTime,
                     'TransactionDateTime':Utilities.current_date_time_json(dt=current_date_time),
                     'AvcClassId': data["AvcClassId"],
+                    'AvcClassName': data["AvcClassName"],
                     'AxleCount': data["AxleCount"],
                     'IsReverseDirection': False,
                     'WheelBase': 0,
                     'TransactionCount': 0,
                     'ImageName':data["AvcImageName"],
                     "Processed":False}
-                self.handler.update_avc_data(transactionInfo)
-                self.process_db(transactionInfo)
+                if int(data["AvcClassId"])>3:
+                    self.handler.update_avc_data(transactionInfo)
+                    self.process_db(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
     

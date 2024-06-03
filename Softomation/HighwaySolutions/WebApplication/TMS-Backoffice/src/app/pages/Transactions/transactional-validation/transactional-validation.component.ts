@@ -44,7 +44,7 @@ export class TransactionalValidationComponent {
   LogedUserId = 0;
   DataAdd: Number = 0;
   MediaPrefix: any;
-  SelectedRow: any;
+  SelectedRow: any=null;
   VideoFound = false;
   SelectedIndex = 0;
   IsReviewedRequired: boolean = true
@@ -367,7 +367,7 @@ export class TransactionalValidationComponent {
         ImageDataArray.push(a)
       }
       if(TransactionRowData.TransactionVideo!=''){
-        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC'}
+        let a={VideoPath: file_path+'ic/video/'+TransactionRowData.TransactionVideo,Name:'IC-Video'}
         VideoDataArray.push(a)
       }
 
@@ -403,7 +403,10 @@ export class TransactionalValidationComponent {
         this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(2);
         this.ReviewedClassCorrectionTypeChange(2);
       }
+    }else{
+      this.SelectedRow=null;
     }
+
   }
 
   getMediaDetails(TransactionRowData){
@@ -467,12 +470,12 @@ export class TransactionalValidationComponent {
       this.SelectedRow.ReviewedSubClassId = this.Reviewedform.value.ReviewedSubClassId;
     this.SelectedRow.ReviewedPlateNumber = this.Reviewedform.value.ReviewedPlateNumber;
     this.SelectedRow.ReviewedTransactionTypeId = this.Reviewedform.value.ReviewedTransactionTypeId;
-    this.SelectedRow.ReviewedRemark = this.Reviewedform.value.ReviewedRemark;
     this.SelectedRow.ReviewedClassCorrectionId = this.Reviewedform.value.ReviewedClassCorrectionId
     this.SelectedRow.ReviewedTransactionAmount = this.ReviewedTransactionAmount
     this.SelectedRow.DifferenceAmount = this.DifferenceAmount
     this.SelectedRow.ReviewedById = this.LogedUserId;
     this.SelectedRow.ReviewedDateTime = this.datepipe.transform(new Date, 'dd-MMM-yyyy HH:mm:ss')
+    this.SelectedRow.ReviewedRemark=Remark
     this.dbService.LaneTransactionValidation(this.SelectedRow).subscribe(
       data => {
         this.spinner.hide();
@@ -495,7 +498,42 @@ export class TransactionalValidationComponent {
   }
 
   CancelEntry(){
-
+    if(this.SelectedRow==null || this.SelectedRow==undefined){
+      const ErrorData = [{ AlertMessage: "No transaction found." }];
+      this.dm.openSnackBar(ErrorData, false);
+      return;
+    }
+    var Remark = this.Reviewedform.value.ReviewedRemark;
+    if (Remark == undefined || Remark == null || Remark == '') {
+      Remark = ''
+    }
+    if (Remark == '') {
+      const ErrorData = [{ AlertMessage: "Remark is required." }];
+      this.dm.openSnackBar(ErrorData, false);
+      return;
+    }
+    this.SelectedRow.ReviewedById = this.LogedUserId;
+    this.SelectedRow.ReviewedDateTime = this.datepipe.transform(new Date, 'dd-MMM-yyyy HH:mm:ss')
+    this.SelectedRow.ReviewedRemark=Remark
+    this.dbService.LaneTransactionCancel(this.SelectedRow).subscribe(
+      data => {
+        this.spinner.hide();
+        const returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage == 'success') {
+          this.ErrorData = [{ AlertMessage: 'transaction audit successfully!.' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.ProcessNextRecord();
+        }
+        else {
+          this.confirmBox(returnMessage + " Do you want to reload data?")
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        this.ErrorData = [{ AlertMessage: "Something went wrong." }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    );
   }
 
   ProcessNextRecord() {
