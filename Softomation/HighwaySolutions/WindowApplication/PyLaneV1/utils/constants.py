@@ -9,9 +9,11 @@ import netifaces
 import requests
 from ftplib import FTP
 import paramiko
+import psutil
 class Utilities:
     key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
     iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
+    
     @staticmethod
     def get_absolute_file_path(script_dir, file_name):
         try:
@@ -127,9 +129,13 @@ class Utilities:
     @staticmethod
     def lane_txn_number(lane_id, dt=None):
         dt = dt or datetime.datetime.now()
-        milliseconds = dt.microsecond // 1000
-        formatted_number = dt.strftime("%y%m%d%H%M%S") 
-        #formatted_number += "{:02d}".format(milliseconds)
+        #milliseconds = dt.microsecond // 1000
+        #first_two_digits_milliseconds = f"{milliseconds:03d}"[:2]
+        #formatted_number = dt.strftime("%y%m%d%H%M%S") 
+        #formatted_number += milliseconds
+        #random_component = f"{random.randint(0, 99):02d}"
+        #formatted_number +=random_component
+        formatted_number = dt.strftime("%y%m%d%H%M%S%f")[:-3]
         formatted_number += '{:02d}'.format(lane_id)
         return formatted_number
 
@@ -196,6 +202,7 @@ class Utilities:
             return requests.post(endpoint, json=data, headers=headers)
         except Exception as e:
             raise e
+    
     @staticmethod    
     def check_api_url(api_base_url,timeout):
         try:
@@ -217,7 +224,6 @@ class Utilities:
         pattern = r'^F.*E$'
         return bool(re.match(pattern, input_string))
     
-
     @staticmethod
     def is_valid_json(my_json_str):
         try:
@@ -242,6 +248,7 @@ class Utilities:
             return True
         except Exception as e:
             raise e
+    
     @staticmethod
     def create_remote_directory_recursive(sftp, remote_path):
         remote_dir = '/'.join(remote_path.split('/')[:-1])
@@ -277,3 +284,16 @@ class Utilities:
             return int(value)
         except:
             return 0
+        
+    @staticmethod
+    def pid_exists(pid):
+        return psutil.pid_exists(pid)
+    
+    @staticmethod
+    def kill_process(pid):
+        try:
+            process = psutil.Process(pid)
+            process.terminate()
+            return True
+        except psutil.NoSuchProcess:
+            return True

@@ -1,3 +1,4 @@
+from operator import itemgetter
 import os
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QGroupBox, QGridLayout
 from GUI.widgets.HardwareFrame import HardwareWidget
@@ -6,13 +7,15 @@ from pubsub import pub
 
 class Footer(QFrame):
     updateFinished = Signal(bool)
-
-    def __init__(self, width, height, image_dir, logger):
+    def __init__(self, width, height, image_dir,bg_service, logger):
         super().__init__()
-        self.initUI(width, height, image_dir, logger)
+        self.initUI(width, height, image_dir,bg_service,logger)
 
-    def initUI(self, width, height, image_dir, logger):
+    def initUI(self, width, height, image_dir,bg_service, logger):
         try:
+            self.bg_service = bg_service
+            self.dio_events=self.bg_service.dio_events
+            self.equipment_detail=self.bg_service.equipment_detail
             self.logger = logger
             self.width = width
             self.height = height
@@ -38,11 +41,9 @@ class Footer(QFrame):
             self.hardware_widgets = []
             self.hardware_data_widget = []
             self.hardware_data = None
-
+            self.update_el(self.equipment_detail)
             self.updateFinished.connect(self.bind_hardware)
-            pub.subscribe(self.dio_transaction_info, "hardware_on_off_status")
-            pub.subscribe(self.ping_transaction_info, "ping_processed")
-
+            self.bind_hardware(True)
         except Exception as e:
             self.logger.logError(f"Error in Footer __init__: {e}")
 
@@ -61,8 +62,14 @@ class Footer(QFrame):
                                 item["EquipmentIconName"] = icon_path
                                 self.hardware_data_widget.append(item)
                 self.bind_data()
+                self.dio_events=self.bg_service.dio_events
+                for item in self.dio_events:
+                    self.dio_transaction_info(item)
         except Exception as e:
             self.logger.logError(f"Error in Footer bind_hardware: {e}")
+        finally:
+            pub.subscribe(self.dio_transaction_info, "hardware_on_off_status")
+            pub.subscribe(self.ping_transaction_info, "equipment_status")
 
     def bind_data(self):
         try:
@@ -72,9 +79,9 @@ class Footer(QFrame):
                 row = index // num_columns
                 col = index % num_columns
                 if item['EquipmentTypeId'] == 10:
-                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], self.printer_status, index)
+                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], self.printer_status,self.printer_status, index,self.logger)
                 else:
-                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], item["OnLineStatus"], index)
+                    hardware_widget = HardwareWidget(self.width, self.height, item["EquipmentName"], item["EquipmentIconName"], item["OnLineStatus"], item["ConnectionStatus"], index,self.logger)
                 hardware_widget.setFixedHeight(self.icon_height)
                 hardware_widget.setFixedWidth(self.icon_width)
                 self.group_box_layout.addWidget(hardware_widget, row, col)
@@ -84,26 +91,40 @@ class Footer(QFrame):
             self.logger.logError(f"Error in Footer bind_hardware: {e}")
 
     def update_el(self, json_data):
-        self.hardware_data = json_data
+        try:
+            json_data=sorted(json_data, key=itemgetter('EquipmentTypeId'))
+            self.hardware_data = json_data
+        except Exception as e:
+            self.logger.logError(f"Error in Footer update_el: {e}")
 
     def filter_widgets_by_icon(self, icon_path):
-        filtered_widgets = []
-        for widget in self.hardware_widgets:
-            if widget.img_name == icon_path:
-                filtered_widgets.append(widget)
-        return filtered_widgets
+        try:
+            filtered_widgets = []
+            for widget in self.hardware_widgets:
+                if widget.img_name == icon_path:
+                    filtered_widgets.append(widget)
+            return filtered_widgets
+        except Exception as e:
+            self.logger.logError(f"Error in Footer update_el: {e}")
 
     def update_icon_path(self, old_icon_path, new_icon_path):
-        for widget in self.hardware_widgets:
-            if widget.img_name == old_icon_path:
-                widget.img_name = new_icon_path
-                widget.update_status()
+        try:
+            for widget in self.hardware_widgets:
+                if widget.img_name == old_icon_path:
+                    widget.img_name = new_icon_path
+                    widget.update_status()
+        except Exception as e:
+            self.logger.logError(f"Error in Footer update_icon_path: {e}")
 
-    def update_bg_color(self, EquipmentName, OnLineStatus):
-        for widget in self.hardware_widgets:
-            if widget.hardware_name == EquipmentName:
-                widget.is_online = OnLineStatus
-                widget.set_online_status(OnLineStatus)
+    def update_bg_color(self, equipment):
+        try:
+            for widget in self.hardware_widgets:
+                if widget.hardware_name == equipment["EquipmentName"]:
+                    widget.is_online = equipment["OnLineStatus"]
+                    widget.is_connectioned = equipment["ConnectionStatus"]
+                    widget.set_online_status()
+        except Exception as e:
+            self.logger.logError(f"Error in Footer update_bg_color: {e}")
 
     def dio_transaction_info(self, transactionInfo):
         try:
@@ -121,7 +142,7 @@ class Footer(QFrame):
 
     def ping_transaction_info(self, transactionInfo):
         try:
-            self.update_bg_color(transactionInfo["EquipmentName"], transactionInfo["OnLineStatus"])
+            self.update_bg_color(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Error in Footer ping_transaction_info: {e}")
 
@@ -130,8 +151,8 @@ class Footer(QFrame):
             self.printer_status=status
             filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.hardware_data_widget), None)
             if filtered_item is not None:
-                self.update_bg_color(filtered_item["EquipmentName"], status)
+                filtered_item["OnLineStatus"]=status
+                filtered_item["ConnectionStatus"]=status
+                self.update_bg_color(filtered_item)
         except Exception as e:
             self.logger.logError(f"Error in Footer update_printer: {e}")
-
-    

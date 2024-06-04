@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 import threading
 import time
@@ -19,8 +20,8 @@ class NAWinDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped=False
-        self.is_active=False
         self.set_logger(default_directory,log_file_name)
+        self.set_status()
 
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -28,6 +29,15 @@ class NAWinDataClient(threading.Thread):
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+
+    def set_status(self):
+        try:
+            if self.wim_detail["OnLineStatus"]==0 or self.wim_detail["OnLineStatus"]==False:
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
     def process_data(self, data):
         try:
@@ -73,14 +83,17 @@ class NAWinDataClient(threading.Thread):
 
     def process_transaction_info(self):
         try:
+            current_date_time=datetime.now()
             transactionInfo = {
                 "LaneId":self.LaneId,
-                "TransactionDateTime":Utilities.current_date_time_json(),
+                "SystemDateTime":current_date_time.isoformat(),
+                "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
                 "AxleData": self.axleData,
                 "TotalWeight": self.totalWeight,
                 "TransactionId": self.transactionId,
                 'AxleCount': 0 if self.axleData is None else len(self.axleData),
-                'IsReverseDirection':False
+                'IsReverseDirection':False,
+                "Processed":False
             }
             self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)
@@ -109,9 +122,11 @@ class NAWinDataClient(threading.Thread):
                     self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.client_socket.connect((self.wim_detail["IpAddress"], self.wim_detail["PortNumber"]))
                     self.client_socket.send("ACK\r\n".encode('utf-8'))
+                    self.handler.update_equipment_list(self.wim_detail["EquipmentId"],'ConnectionStatus',True)
                     self.is_running=True
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
+                            self.handler.update_equipment_list(self.wim_detail["EquipmentId"],'ConnectionStatus',False)
                             break
                         echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
                         if len(echoed_transaction_number) != 0:
@@ -119,7 +134,7 @@ class NAWinDataClient(threading.Thread):
                             self.process_data(echoed_transaction_number)
                             self.client_socket.send("ACK\r\n".encode('utf-8'))
                         time.sleep(self.timeout)
-                    time.sleep(self.timeout)
+                time.sleep(self.timeout)
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)

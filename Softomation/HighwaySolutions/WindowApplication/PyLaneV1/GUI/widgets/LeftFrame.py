@@ -74,19 +74,24 @@ class LeftFrame(QFrame):
             self.logger.logError(f"Error in LeftFrame bindSubvc: {e}")
 
     def set_vc(self, classId):
+        FasTagClassName=""
         try:
             FasTagClassId = Utilities.is_integer(classId)
             if FasTagClassId > 0 and self.classList is not None:
                 default_selected_index = 0
                 for i, item in enumerate(self.classList):
                     if self.systemSettingDetails['SubClassRequired'] == 1:
-                        if item.get('SystemVehicleClassId') == int(classId):
+                        if item.get('SystemVehicleSubClassId') == int(classId):
+                            FasTagClassName=item.get('SystemVehicleSubClassName')
                             default_selected_index = i
                             break
                     else:
                         if item.get('SystemVehicleClassId') == int(classId):
+                            FasTagClassName=item.get('SystemVehicleClassName')
                             default_selected_index = i
                             break
                 self.vc_list.setCurrentRow(default_selected_index)
         except Exception as e:
             self.logger.logError(f"Error in LeftFrame set_vc: {e}")
+        finally:
+           return FasTagClassName

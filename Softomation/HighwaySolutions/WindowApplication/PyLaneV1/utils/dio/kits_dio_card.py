@@ -6,20 +6,19 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,_topic_name,log_file_name,timeout=0.100):
+    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,log_file_name,timeout=0.100):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
-        self.topic_name=_topic_name
+        self.system_loging_status=system_loging_status
         self.timeout=timeout
-        self.logger = CustomLogger(default_directory,log_file_name)
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
         self.record_status=False
-        self.is_active=False
         self.system_transcation_status=False
-        self.violation_duration=10
+        self.violation_duration=3
+        self.running_Transaction=None
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},
@@ -30,9 +29,10 @@ class KistDIOClient(threading.Thread):
         self.barrier_loop_last=False
         self.barrier_last_Status=False        
         self.barrier_Status=False        
-        self.ohls_Status=False
+        self.ohls_status=False
         self.set_logger(default_directory,log_file_name)
         self.set_exit_loop()
+        self.set_status()
 
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -41,12 +41,27 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
 
+    def set_status(self):
+        try:
+            if self.dio_detail["OnLineStatus"]==0 or self.dio_detail["OnLineStatus"]==False: 
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+
     def set_exit_loop(self):
         try:
             self.exit_loop_index=Utilities.is_integer(self.dio_detail["UrlAddress"])
         except Exception as e:
             self.exit_loop_index=9
             self.logger.logError(f"Exception {self.classname} set_exit_loop: {str(e)}")
+
+    def app_log_status(self, transactionInfo):
+        try:
+            self.system_loging_status=transactionInfo
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
 
     def formate_output(self, input):
         try:
@@ -59,12 +74,13 @@ class KistDIOClient(threading.Thread):
                     if out_data["Status"] != new_status:
                         out_data["Status"] = new_status
                         self.handler.update_dio_events(self.out_labels)
-                    if i==1:
+                    if i==0:
                         self.ohls_status=False if int(value[i])==0 else True
                     elif i==2:
                         self.barrier_Status=False if int(value[i])==0 else True
                         if self.barrier_last_Status!=self.barrier_Status:
                             self.barrier_last_Status=self.barrier_Status
+                
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} formate_output: {str(e)}")
 
@@ -93,13 +109,13 @@ class KistDIOClient(threading.Thread):
                 out_data["Status"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
             if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
-                self.handler.start_ic_record()
-            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
+                self.handler.lane_trans_ic_cam(self.running_Transaction)
+            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True and self.system_loging_status==True:
                 if self.system_transcation_status:
                     self.lane_trans_end()
                 else:
                     self.violation_trigger('s41e')
-            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True:
+            if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
                 self.violation_trigger('s41e')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")
@@ -257,9 +273,10 @@ class KistDIOClient(threading.Thread):
         if self.is_active!=status:
             self.is_active=status
 
-    def handel_traffic_light(self,status):
+    def handel_traffic_light(self,status,running_Transaction=None):
         try:
             self.system_transcation_status=status
+            self.running_Transaction=running_Transaction
             if self.client_socket is not None:
                 if status:
                     self.send_data('s21e')
@@ -282,7 +299,7 @@ class KistDIOClient(threading.Thread):
 
     def lane_trans_end(self):
         try:
-            self.handel_traffic_light(False)
-            self.handler.stop_ic_record()
+            self.handel_traffic_light(False,None)
+            self.handler.lane_trans_end()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")

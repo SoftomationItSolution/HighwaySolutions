@@ -1,3 +1,4 @@
+from datetime import datetime
 import threading
 import time
 from com.rfid.Reader import *
@@ -17,16 +18,25 @@ class MantraRfidReader(threading.Thread):
         self.reader = None
         self.is_running=False
         self.is_stopped = False
-        self.is_active=False
         self.CLEANUP_INTERVAL = 60
         self.set_logger(default_directory,log_file_name)
+        self.set_status()
 
     def set_logger(self,default_directory,log_file_name):
         try:
-            self.classname="LESyn"
+            self.classname="mantra_rfid"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+    
+    def set_status(self):
+        try:
+            if self.rfid_detail["OnLineStatus"]==0 or self.rfid_detail["OnLineStatus"]==False:
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
     def setup_reader(self):
         try:
@@ -64,17 +74,18 @@ class MantraRfidReader(threading.Thread):
                         self.is_running=self.setup_reader()
                     else:
                         self.is_running=True
-                    self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}    
+                    self.tagDetails={"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
                     current_time = time.time()
                     self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
-                    if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
-                        processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items()
-                                        if current_time - timestamp <= 30}
-                        last_cleanup_time = current_time  # Update the last cleanup time
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
                             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
                             break
+                        
+                        if current_time - last_cleanup_time >= self.CLEANUP_INTERVAL:
+                            processed_epcs = {epc: timestamp for epc, timestamp in processed_epcs.items() if current_time - timestamp <= 30}
+                            last_cleanup_time = current_time
+                       
                         read_list = []
                         self.reader.read(100, read_list)
                         for tag in set(read_list):
@@ -93,9 +104,14 @@ class MantraRfidReader(threading.Thread):
                                     self.tagDetails["Class"]=0
                                     self.tagDetails["Plate"]="XXXXXXXXXX"
                                 if int(self.tagDetails["Class"])!=0:
-                                    self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json()
+                                    current_date_time=datetime.now()
+                                    self.tagDetails["SystemDateTime"]=current_date_time.isoformat()
+                                    self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json(dt=current_date_time)
                                     self.handler.update_rfid_data(self.tagDetails)
                                     self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
+                            #time.sleep(self.timeout)
+                        #time.sleep(self.timeout)
+                time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
             finally:

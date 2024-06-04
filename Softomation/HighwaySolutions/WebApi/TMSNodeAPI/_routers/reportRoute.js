@@ -70,7 +70,7 @@ async function ReportProcess(req, res, next) {
             const ReportDataList = result.recordsets
             if (result.recordsets[1].length > 0) {
                 const ReportName = generateReceiptNumber(headerData.ReportType)
-                if(data.ReportId==23 || data.ReportId==27  || data.ReportId==31){
+                if(data.ReportId==23 || data.ReportId==27  || data.ReportId==31 || data.ReportId==11 || data.ReportId==13 || data.ReportId==16){
                     reports.generateDateWiseCountPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
                 }
                 else if(data.ReportId==22 || data.ReportId==30 || data.ReportId==32){

@@ -5,9 +5,10 @@ const constants = require("../_helpers/constants");
 const moment = require('moment');
 const path = require('path');
 const { root_path, pc_path } = require("../_helpers/constants");
+const apiPath = process.cwd();
+
 const pc_Directory = path.join(root_path, pc_path);
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-
 function fileToBase64(filePath) {
     try {
         const fileData = fs.readFileSync(filePath);
@@ -241,20 +242,29 @@ function generateTransLandPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
             headers.map(key => {
                 let value = obj[key];
                 let alignment = 'left';
-                let color='black'
+                let color = 'black'
                 if (!isNaN(value) && value !== null && value !== '') {
                     alignment = 'right';
-                    if(value<0){
-                        color='red'
+                    if (value < 0) {
+                        color = 'red'
                     }
                 }
                 if (key.toLowerCase() === 'date time') {
                     value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
                 }
-                else if(key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt')){
+                else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                     value = constants.INRFormat(value);
                 }
-                return { text: value, bold: false, alignment: alignment, fontSize: _fontSize,color:color };
+                // if (typeof value === 'boolean') {
+                //     if (value) {
+                //         value = '✔'; // Green tick icon
+                //         color = 'green';
+                //     } else {
+                //         value = '&#10007;'; // Red cross icon
+                //         color = 'red';
+                //     }
+                // }
+                return { text: value, bold: false, alignment: alignment, fontSize: _fontSize, color: color };
             })
         );
 
@@ -359,13 +369,13 @@ function generateTransLandPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
                         body: formattedTableData
                     },
                     margin: [0, 10]
-                },{
+                }, {
                     columns: [
                         {
                             width: '*', // Take up as much space as possible
                             stack: [{ text: '***End of report***', alignment: 'center', fontSize: 12, bold: true }],
                         },
-                        
+
                     ]
                 },
             ]
@@ -453,20 +463,20 @@ function generateTransPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
             headers.map(key => {
                 let value = obj[key];
                 let alignment = 'left';
-                let color='black'
+                let color = 'black'
                 if (!isNaN(value) && value !== null && value !== '') {
                     alignment = 'right';
-                    if(value<0){
-                        color='red'
+                    if (value < 0) {
+                        color = 'red'
                     }
                 }
                 if (key.toLowerCase() === 'date time') {
                     value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
                 }
-                else if(key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt')){
+                else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                     value = constants.INRFormat(value);
                 }
-                return { text: value, bold: false, alignment: alignment, fontSize: _fontSize,color:color };
+                return { text: value, bold: false, alignment: alignment, fontSize: _fontSize, color: color };
             })
         );
 
@@ -571,13 +581,13 @@ function generateTransPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
                         body: formattedTableData
                     },
                     margin: [0, 10]
-                },{
+                }, {
                     columns: [
                         {
                             width: '*', // Take up as much space as possible
                             stack: [{ text: '***End of report***', alignment: 'center', fontSize: 12, bold: true }],
                         },
-                        
+
                     ]
                 },
             ]
@@ -743,63 +753,77 @@ function generateDateWiseCountPdf(GeneratedBy, headerDetail, ReportDataList, pdf
                 },
                 ...ReportDataList.map((dataSet, index) => {
                     if (index > 0) {
-                        const headersSet = new Set();
-                        dataSet.forEach(obj => {
-                            Object.keys(obj).forEach(key => {
-                                if (key !== 'TDate') {
-                                    headersSet.add(key);
-                                }
-                            });
-                        });
-                        const headers = Array.from(headersSet);
-                        //headers.push("Total");
-                        const tableHeader = headers.map(header => ({
-                            text: header, bold: true, alignment: 'left', fontSize: _fontSize, fillColor: '#CCCCCC'
-                        }));
-                        const tableRowData = dataSet.map(obj => {
-                            const row = headers.map(key => {
-                                let value = obj[key];
-                                let alignment = 'left';
-                                if (!isNaN(value) && value !== null && value !== '') {
-                                    alignment = 'right';
-                                }
-                                if (key.toLowerCase() === 'date time') {
-                                    value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
-                                }
-                                return { text: value, bold: false, alignment: alignment, fontSize: _fontSize };
-                            });
-                            return row;
-                        });
-
-                        const totalRow = headers.map((key, index) => {
-                            if (index === 0) {
-                                return { text: 'Total', bold: true, alignment: 'left', fillColor: '#CCCCCC', fontSize: _fontSize };
-                            } else {
-                                const sum = dataSet.reduce((acc, obj) => {
-                                    if (key !== 'TDate' && !isNaN(obj[key])) {
-                                        return acc + parseFloat(obj[key]);
+                        if (dataSet.length > 0) {
+                            const headersSet = new Set();
+                            dataSet.forEach(obj => {
+                                Object.keys(obj).forEach(key => {
+                                    if (key !== 'TDate') {
+                                        headersSet.add(key);
                                     }
-                                    return acc;
-                                }, 0);
-                                return { text: sum, bold: true, alignment: 'right', fillColor: '#CCCCCC', fontSize: _fontSize, };
-                            }
-                        });
+                                });
+                            });
+                            const headers = Array.from(headersSet);
+                            const tableHeader = headers.map(header => ({
+                                text: header, bold: true, alignment: 'left', fontSize: _fontSize, fillColor: '#CCCCCC'
+                            }));
+                            const tableRowData = dataSet.map(obj => {
+                                const row = headers.map(key => {
+                                    let value = obj[key];
+                                    let alignment = 'left';
+                                    let color = 'black'
+                                    if (!isNaN(value) && value !== null && value !== '') {
+                                        alignment = 'right';
+                                        if (value < 0) {
+                                            color = 'red'
+                                        }
+                                    }
+                                    if (key.toLowerCase() === 'date time') {
+                                        value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                                    }
+                                    else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
+                                        value = constants.INRFormat(value);
+                                    }
+                                    return { text: value, bold: false, alignment: alignment, fontSize: _fontSize, color: color };
 
-                        const formattedTableData = tableRowData.map(row => row.map(cell => ({ ...cell, fontSize: _fontSize })));
-                        formattedTableData.unshift(tableHeader);
-                        formattedTableData.push(totalRow);
-                        return [
-                            { text: `Transaction date : ${dataSet[0]["TDate"]}`, alignment: 'left', bold: true, margin: [0, 10] },
-                            {
-                                canvas: [{ type: 'line', x1: 0, y1: 0, x2: can_width, y2: 0, lineWidth: 1, lineDash: { length: 2, space: 5 }, lineColor: 'gray' }]
-                            },
-                            {
-                                table: {
-                                    body: formattedTableData
+                                });
+                                return row;
+                            });
+
+                            const totalRow = headers.map((key, index) => {
+                                if (index === 0) {
+                                    return { text: 'Total', bold: true, alignment: 'left', fillColor: '#CCCCCC', fontSize: _fontSize };
+                                } else {
+                                    const sum = dataSet.reduce((acc, obj) => {
+                                        if (key !== 'TDate' && !isNaN(obj[key])) {
+                                            return acc + parseFloat(obj[key]);
+                                        }
+                                        return acc;
+                                    }, 0);
+                                    if(ReportName.toLowerCase().includes('revenue')){
+                                        return { text: constants.INRFormat(sum), bold: true, alignment: 'right', fillColor: '#CCCCCC', fontSize: _fontSize, };
+                                    }
+                                    else{
+                                        return { text: sum, bold: true, alignment: 'right', fillColor: '#CCCCCC', fontSize: _fontSize, };
+                                    }
+                                }
+                            });
+
+                            const formattedTableData = tableRowData.map(row => row.map(cell => ({ ...cell, fontSize: _fontSize })));
+                            formattedTableData.unshift(tableHeader);
+                            formattedTableData.push(totalRow);
+                            return [
+                                { text: `Transaction date : ${dataSet[0]["TDate"]}`, alignment: 'left', bold: true, margin: [0, 10] },
+                                {
+                                    canvas: [{ type: 'line', x1: 0, y1: 0, x2: can_width, y2: 0, lineWidth: 1, lineDash: { length: 2, space: 5 }, lineColor: 'gray' }]
                                 },
-                                margin: [0, 10]
-                            }
-                        ];
+                                {
+                                    table: {
+                                        body: formattedTableData
+                                    },
+                                    margin: [0, 10]
+                                }
+                            ];
+                        }
                     }
                 }).flat(),
                 {
@@ -808,10 +832,10 @@ function generateDateWiseCountPdf(GeneratedBy, headerDetail, ReportDataList, pdf
                             width: '*', // Take up as much space as possible
                             stack: [{ text: '***End of report***', alignment: 'center', fontSize: 12, bold: true }],
                         },
-                        
+
                     ]
                 },
-                
+
             ]
         };
 

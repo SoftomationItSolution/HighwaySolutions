@@ -1,9 +1,30 @@
-const socket = io.connect('http://' + document.domain + ':' + location.port, { reconnection: true });
-socket.on('connect', function() {
+//var socket = io.connect('http://' + document.domain + ':' + location.port, { reconnection: true });
+var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+socket.on('connect', function () {
     console.log('Connected to server');
 });
-socket.on('aline_data', function (data) {
-    let mydata = data.data;
+
+socket.on('message', function (data) {
+    if (data.aline_data != null) {
+        display_aligment(data.aline_data)
+    }
+    if (data.event_data != null) {
+        update_event(data.event_data)
+    }
+});
+
+socket.on('disconnect', function () {
+    console.log('Disconnected from server');
+});
+
+socket.on('error', function (err) {
+    console.error('Socket.IO error:', err);
+});
+
+
+function display_aligment(mydata) {
+    console.log(mydata)
     var lcontainer = document.getElementById("left_data_display");
     var rcontainer = document.getElementById("right_data_display");
     lcontainer.innerHTML = "";
@@ -22,17 +43,22 @@ socket.on('aline_data', function (data) {
         else
             lcontainer.appendChild(div);
     }
-});
-// const socket1 = io.connect('http://' + document.domain + ':' + location.port, { reconnection: true });
-// socket1.on('connect', function() {
-//     console.log('Connected to server 1');
-// });
-socket.on('avcc_data', function (data) {
-    console.log(data)
-    // let base64Data = data.AvcImage;
-    // var img = document.getElementById("base64Image");
-    // img.src = base64Data;
-});
+}
+
+function update_event(data) {
+    const img = document.getElementById("base64Image");
+    img.src = data.AvcImage;
+
+    const AvcClassName = document.getElementById("AvcClassName");
+    AvcClassName.innerHTML = data.AvcClassName;
+
+    const AvcClassAxcel = document.getElementById("AvcClassAxcel");
+    AvcClassAxcel.innerHTML = "Axle-" + data.AxleCount;
+
+    const dt = document.getElementById("dt");
+    dt.innerHTML = data.SystemDateTime;
+}
+
 
 function showHideFields() {
     var tcpFields = document.getElementById("tcpFields");

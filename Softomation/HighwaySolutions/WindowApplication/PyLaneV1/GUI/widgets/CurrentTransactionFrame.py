@@ -1,3 +1,4 @@
+from datetime import datetime
 import decimal
 import os
 from PySide6.QtWidgets import QFrame,QGroupBox, QVBoxLayout, QLabel, QPushButton, QWidget, QGridLayout, QLineEdit, QHBoxLayout,QRadioButton
@@ -52,7 +53,7 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout = QGridLayout()
             self.ct_layout.setContentsMargins(0, 10, 0, 5)
             self.ct_layout.setSpacing(0)
-            self.row_height=self.layout_height/7
+            self.row_height=self.layout_height/8
             #self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
             
             self.add_label_field("Transaction Type:", "txtTransactionType","N/A", 0, 0)
@@ -102,9 +103,20 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout.addWidget(lblReceipt, 6, 0)
             self.ct_layout.addWidget(self.txtReceipt, 6, 1,1,2)
             self.ct_layout.setRowMinimumHeight(6, int(self.row_height))
+            
             self.ct_layout.addWidget(lblVRN, 7, 0)
             self.ct_layout.addWidget(self.txtVRN, 7, 1,1,2)
             self.ct_layout.setRowMinimumHeight(7, int(self.row_height))
+
+            lblRemark=QLabel("TC Remark:")
+            lblRemark.setStyleSheet("color: white;border: none;")
+            self.txtRemark=QLineEdit()
+            self.txtRemark.setPlaceholderText("Remark")
+            self.txtRemark.setStyleSheet("background-color: white;")
+
+            self.ct_layout.addWidget(lblRemark, 8, 0)
+            self.ct_layout.addWidget(self.txtRemark, 8, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(8, int(self.row_height))
             
 
             colWidth=self.layout_width-40
@@ -112,8 +124,6 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout.setColumnMinimumWidth(1, int(colWidth/2))
             self.ct_layout.setColumnMinimumWidth(2, 20)
             self.ct_layout.setColumnMinimumWidth(3, int(colWidth/2))
-
-
 
             button_layout = QHBoxLayout()
             button_layout.setContentsMargins(0, 5, 0, 5)
@@ -231,6 +241,7 @@ class CurrentTransactionBox(QFrame):
             self.logger.logError(f"Error in CurrentTransactionBox update_tf: {e}") 
 
     def update_printer(self, json_data):
+        is_printer_setup=False
         if json_data is not None and len(json_data)>0:
             self.PrinterDetail = json_data
         else:
@@ -239,10 +250,11 @@ class CurrentTransactionBox(QFrame):
             self.message_window.emit('printer Detail,No printer detail found,inf')
         try:
             self.printer=TollReceiptPrinter(self.project_config_data,self.PrinterDetail)
+            is_printer_setup=True
         except Exception as e:
             self.printer=None
-            raise e
-            #self.logger.logError(f"Error in CurrentTransactionBox update_printer: {e}") 
+        finally:
+            return is_printer_setup
         
     def get_toll_fare(self):
         try:
@@ -266,23 +278,35 @@ class CurrentTransactionBox(QFrame):
                 self.update_field("txtTollFare", str(filtered_data['TollFare']))
                 self.update_field("txtTagPenalty", "0.00")
                 self.update_field("txtOverweight", "0.00")
-                self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
+                #self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
+                self.current_Transaction["TransactionAmount"]=0.00
+                self.current_Transaction["TagPenaltyAmount"]=0.00
                 if int(self.current_Transaction["ActualVehicleWeight"])>int(self.current_Transaction["PermissibleVehicleWeight"]):
                     self.update_field("txtOverweight", str(filtered_data['OverweightPenalty']))
                     self.current_Transaction["OverWeightAmount"]=filtered_data['OverweightPenalty']
+                    if int(filtered_data['OverweightPenalty'])>0:
+                        self.current_Transaction["IsOverWeightCharged"]=True
+                        self.current_Transaction["IsVehicleOverWeight"]=True
+                    else:
+                        self.current_Transaction["IsOverWeightCharged"]=False
+                        self.current_Transaction["IsVehicleOverWeight"]=False
             elif self.current_Transaction["TransactionTypeId"]==2:
                 self.update_field("txtTagPenalty", str(filtered_data['FasTagPenalty']))
                 if self.current_Transaction["IsReturnJourney"]==True:
                     self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']+filtered_data['ReturnFare']
                 else:
                     self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
-                
                 self.update_field("txtTollFare", str(self.current_Transaction["TransactionAmount"]))
                 self.current_Transaction["TagPenaltyAmount"]=filtered_data['FasTagPenalty']
-                
                 if int(self.current_Transaction["ActualVehicleWeight"])>int(self.current_Transaction["PermissibleVehicleWeight"]):
                     self.update_field("txtOverweight", str(filtered_data['OverweightPenalty']))
                     self.current_Transaction["OverWeightAmount"]=filtered_data['OverweightPenalty']
+                    if int(filtered_data['OverweightPenalty'])>0:
+                        self.current_Transaction["IsOverWeightCharged"]=True
+                        self.current_Transaction["IsVehicleOverWeight"]=True
+                    else:
+                        self.current_Transaction["IsOverWeightCharged"]=False
+                        self.current_Transaction["IsVehicleOverWeight"]=False
             elif self.current_Transaction["TransactionTypeId"]==3:
                 self.update_field("txtTollFare", "0.00")
                 self.update_field("txtTagPenalty", "0.00")
@@ -290,6 +314,8 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TagPenaltyAmount"]=0.00
                 self.update_field("txtOverweight", "0.00")
                 self.current_Transaction["OverWeightAmount"]=0.00
+                self.current_Transaction["IsOverWeightCharged"]=False
+                self.current_Transaction["IsVehicleOverWeight"]=False
             elif self.current_Transaction["TransactionTypeId"]==4:
                 self.update_field("txtTollFare", "0.00")
                 self.update_field("txtTagPenalty", "0.00")
@@ -297,6 +323,8 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TagPenaltyAmount"]=0.00
                 self.update_field("txtOverweight", "0.00")
                 self.current_Transaction["OverWeightAmount"]=0.00
+                self.current_Transaction["IsOverWeightCharged"]=False
+                self.current_Transaction["IsVehicleOverWeight"]=False
             else:
                 self.update_field("txtTollFare", "0.00")
                 self.update_field("txtTagPenalty", "0.00")
@@ -304,6 +332,8 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TagPenaltyAmount"]=0.00
                 self.update_field("txtOverweight", "0.00")
                 self.current_Transaction["OverWeightAmount"]=0.00
+                self.current_Transaction["IsOverWeightCharged"]=False
+                self.current_Transaction["IsVehicleOverWeight"]=False
             total=self.current_Transaction["TransactionAmount"]+self.current_Transaction["TagPenaltyAmount"]+self.current_Transaction["OverWeightAmount"]
             self.update_field("txtTotalAmount", str(total))
         except Exception as e:
@@ -355,6 +385,7 @@ class CurrentTransactionBox(QFrame):
             self.update_field("txtPaymentType", "N/A")
             self.update_field("txtExemptType", "N/A")
             self.update_field("txtReceipt", "")
+            self.update_field("txtRemark", "")
             self.update_field("txtTagId", "N/A")
             self.update_field("txtVRN", "")
             self.update_field("txtWimWeight", "0.000")
@@ -373,8 +404,9 @@ class CurrentTransactionBox(QFrame):
     
     def current_trans(self):
         try:
+            current_date_time=datetime.now()
             self.current_Transaction = {
-                "LaneTransactionId": 0,
+                "LaneTransactionId": "0",
                 "SystemIntegratorId": 0,
                 "JourneyId": 0,
                 "PlazaId": self.systemSettingDetails["DefaultPlazaId"],
@@ -400,6 +432,7 @@ class CurrentTransactionBox(QFrame):
                 "IsReadByReader": False,
                 "PermissibleVehicleWeight": 0.00,
                 "ActualVehicleWeight": 0.00,
+                "IsVehicleOverWeight": False,
                 "IsOverWeightCharged": False,
                 "OverWeightAmount": 0.00,
                 "TagPenaltyAmount": 0.00,
@@ -419,6 +452,7 @@ class CurrentTransactionBox(QFrame):
                 "IsTowVehicle": False,
                 "IsFleetTranscation": False,
                 "FleetCount": 0,
+                "TCRemark": "",
                 "PlazaName": "",
                 "LaneName":"",
                 "TransactionTypeName": "",
@@ -427,6 +461,8 @@ class CurrentTransactionBox(QFrame):
                 "ExemptSubTypeName":"",
                 "VehicleClassName": "",
                 "VehicleSubClassName": "",
+                "TagClassName": "",
+                "SystemDateTime":current_date_time.isoformat()
             }
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox current_trans: {e}")
@@ -452,7 +488,7 @@ class CurrentTransactionBox(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox message_window_display: {e}")
 
-    def create_fasTag_trans(self,transData,IsReadByReader,TagStatus):
+    def create_fasTag_trans(self,transData,IsReadByReader,TagStatus,FasTagClassName):
         try:
             self.current_trans()
             if self.LaneDetail is not None:
@@ -468,6 +504,7 @@ class CurrentTransactionBox(QFrame):
                 self.current_Transaction["TransactionTypeName"]= "FasTag"
                 self.current_Transaction["VehicleClassId"]= transData["Class"]
                 self.current_Transaction["VehicleSubClassId"]= transData["Class"]
+                self.current_Transaction["TagClassName"]= FasTagClassName
                 self.update_field("txtTagId", TagStatus)
                 self.txtReceipt.setText(transData["TID"])
         except Exception as e:

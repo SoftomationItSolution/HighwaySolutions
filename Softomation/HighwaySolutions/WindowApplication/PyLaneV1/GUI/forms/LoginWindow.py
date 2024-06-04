@@ -165,15 +165,19 @@ class LoginForm(QMainWindow):
                         "Login Failed", "Invalid Username", 'inf')
                     return
                 else:
-                    if CryptoUtils.encrypt_aes_256_cbc(password) == res[0]["LoginPassword"]:
-                        userDetails = json.dumps(res[0])
-                        self.bg_service.app_log_status(True)
-                        #pub.sendMessage("app_log_status", transactionInfo=True)
-                        self.switch_window.emit(userDetails)
+                    if len(res)>0:
+                        if CryptoUtils.encrypt_aes_256_cbc(password) == res[0]["LoginPassword"]:
+                            userDetails = json.dumps(res[0])
+                            self.bg_service.app_log_status(True)
+                            self.bg_service.update_user(userDetails)
+                            self.switch_window.emit(userDetails)
+                        else:
+                            show_custom_message_box("Login Failed", "Invalid password", 'cri')
+                            return
                     else:
-                        show_custom_message_box(
-                            "Login Failed", "Invalid password", 'cri')
+                        show_custom_message_box("Login Failed", "Invalid loginid", 'cri')
                         return
+                        
             except Exception as e:
                 self.logger.logError(f"Error in login: {e}")
                 show_custom_message_box(

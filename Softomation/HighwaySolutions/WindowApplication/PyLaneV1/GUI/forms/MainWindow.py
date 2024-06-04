@@ -11,7 +11,6 @@ from GUI.widgets.LeftFrame import LeftFrame
 from GUI.widgets.RightFrame import RightFrame
 from GUI.widgets.Footer import Footer
 from models.CommonManager import CommonManager
-from models.LaneManager import LaneManager
 from utils.constants import Utilities
 from pubsub import pub
 
@@ -35,13 +34,16 @@ class MainWindow(QMainWindow):
             self.userDetails = json.loads(user_Details) if user_Details else None
             self.logger=logger
             self.default_plaza_Id=default_plaza_Id
+            self.recipt_printer=None
+            self.right_frame=None
+            self.footer_widget=None
+            self.manage_equipment()
             self.initUI()
             self.initThreads()
             self.isTransactionPending=False
-            pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
-    
+
     def initUI(self):
         try:
             main_window_height = self.screen_height
@@ -72,7 +74,7 @@ class MainWindow(QMainWindow):
             self.left_frame.update_ss(self.systemSettingDetails)
             frames_layout.addWidget(self.left_frame)
 
-            self.right_frame = RightFrame(right_frame_width, frames_height,self.logger)
+            self.right_frame = RightFrame(right_frame_width, frames_height,self.default_directory,self.logger)
             self.right_frame.setContentsMargins(0, 0, 0, 0)
             self.right_frame.transaction_type_box.update_ss(self.systemSettingDetails)
             self.right_frame.transaction_type_box.tt_list.itemSelectionChanged.connect(self.onTransactionTypeSelect)
@@ -84,16 +86,48 @@ class MainWindow(QMainWindow):
             self.right_frame.wim_data_queue_box.tblWim.itemDoubleClicked.connect(self.remove_wim_Row)
             self.right_frame.rfid_data_queue_box.tblRfid.itemDoubleClicked.connect(self.remove_rfid_Row)
             frames_layout.addWidget(self.right_frame)
-        
             main_layout.addLayout(frames_layout)
 
-            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.logger)
+            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.bg_service,self.logger)
             main_layout.addWidget(self.footer_widget)
 
             self.setLayout(main_layout)
+            self.set_equipment_printer()
             pub.subscribe(self.get_RFID_detail, "rfid_processed")
+            pub.subscribe(self.equipment_processed, "equipment_processed")
+            pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  initUI: {e}")
+
+    def manage_equipment(self):
+        try:
+            self.equipment_detail=self.bg_service.equipment_detail
+        except Exception as e:
+            self.equipment_detail=None
+            self.logger.logError(f"Error in MainWindow  manage_equipment: {e}")
+    
+    def equipment_processed(self,transactionInfo):
+        try:
+            if self.equipment_detail is None:
+                self.equipment_detail=transactionInfo
+                self.footer_widget.update_el(transactionInfo)
+                self.set_equipment_printer()
+                self.footer_widget.updateFinished(True)
+        except Exception as e:
+            self.equipment_detail=None
+            self.logger.logError(f"Error in MainWindow  equipment_processed: {e}")
+
+    def set_equipment_printer(self):
+        try:
+            if self.recipt_printer is None:
+                if self.equipment_detail is not None and len(self.equipment_detail)>0:
+                    filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipment_detail), None)
+                    if filtered_item is not None:
+                        self.recipt_printer=filtered_item
+                        res=self.right_frame.current_transaction_box.update_printer(filtered_item)
+                        self.footer_widget.update_printer(res)
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  set_equipment_printer: {e}")
 
     def keyPressEvent(self, event):
         try:
@@ -114,7 +148,6 @@ class MainWindow(QMainWindow):
                 self.createThread(self.updatePaymentTypeDetails),
                 self.createThread(self.updateExemptTypeDetails),
                 self.createThread(self.updateTollFareDetails),
-                self.createThread(self.updateEqDetails),
                 self.createThread(self.updateLatestLaneTransaction)
             ]
             for thread in threads:
@@ -164,27 +197,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  updateTollFareDetails: {e}")
 
-    def updateEqDetails(self):
-        try:
-            self.equipments=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.LaneDetail["LaneId"])
-            if self.equipments is not None and len(self.equipments)>0:
-                filtered_data = list(filter(lambda item: item['EquipmentTypeId'] == 15 or item['EquipmentTypeId'] == 16, self.equipments))
-                if filtered_data is not None and len(filtered_data)>0:
-                    for equipment in filtered_data:
-                        self.right_frame.lane_view_box.set_cam_details(equipment)
-                    self.right_frame.lane_view_box.updateFinished.emit(True)
-                self.footer_widget.update_el(self.equipments)
-                self.footer_widget.updateFinished.emit(True)
-                filtered_item = next(filter(lambda item: item['EquipmentTypeId'] == 10, self.equipments), None)    
-                if filtered_item is not None:
-                    self.printer_setup(filtered_item)
-                else:
-                    self.printer_setup(None)
-            else:
-                self.printer_setup(None)
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  updateEqDetails: {e}")
-
     def updateVSDetails(self):
         try:
             if self.systemSettingDetails['SubClassRequired']==1:
@@ -207,9 +219,9 @@ class MainWindow(QMainWindow):
         try:
             if self.isTransactionPending==False:
                 self.isTransactionPending=True
-                self.left_frame.set_vc(transactionInfo['Class'])
+                FasTagClassName=self.left_frame.set_vc(transactionInfo['Class'])
                 self.right_frame.transaction_type_box.set_tt_value(1)
-                self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active")
+                self.right_frame.current_transaction_box.create_fasTag_trans(transactionInfo,True,"Active",FasTagClassName)
                 d=self.right_frame.wim_data_queue_box.get_top_wim()
                 if d is not None:
                     self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
@@ -225,28 +237,35 @@ class MainWindow(QMainWindow):
             vc=Utilities.is_integer(current_Transaction["VehicleClassId"])
             svc=Utilities.is_integer(current_Transaction["VehicleSubClassId"])
             TransactionTypeId=Utilities.is_integer(current_Transaction["TransactionTypeId"])
+            vrn=self.right_frame.current_transaction_box.txtVRN.text()
+            remark=self.right_frame.current_transaction_box.txtRemark.text()
+            current_Transaction["TCRemark"]=remark
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
                     if TransactionTypeId==1:
                         if current_Transaction["TagEPC"]=='':
                             show_custom_message_box("Save Transactions", "FasTag epc is required", 'cri')
                             return
-                    self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
-                    current_Transaction["PlateNumber"]=self.right_frame.current_transaction_box.txtVRN.text()
-                    current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
-                    if TransactionTypeId !=1:
-                        current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
-                    current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
-                    self.bg_service.lane_trans_start(current_Transaction)
-                    if TransactionTypeId ==2:
-                        self.print_receipt(current_Transaction)
-                    resultData=LaneManager.lane_data_insert(self.dbConnectionObj,current_Transaction)
-                    if(resultData is not None and len(resultData)>0):
-                        if resultData[0]["AlertMessage"]=="successfully":
-                            self.right_frame.recent_transaction_box.update_row_data(self.right_frame.current_transaction_box.current_Transaction)
-                            #show_custom_message_box("Save Transactions", f"Transactions saved successfully!{str(TransactionTypeId)} ", 'inf')
+                    elif TransactionTypeId==3:
+                        if remark=='':
+                            show_custom_message_box("Save Transactions", "Remark is required", 'cri')
+                            return
+                    if len(vrn)>=4 and len(vrn)<11:
+                        self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
+                        current_Transaction["PlateNumber"]=vrn
+                        current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+                        if TransactionTypeId !=1:
+                            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+                        current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
+                        current_Transaction["SystemDateTime"]=ct.isoformat()
+                        resultData=self.bg_service.lane_trans_start(current_Transaction)
+                        if resultData:
+                            if TransactionTypeId ==2:
+                                self.print_receipt(current_Transaction)
                         else:
-                            show_custom_message_box("Save Transactions", resultData[0]["AlertMessage"], 'cri')
+                            show_custom_message_box("Save Transactions", "Somthing went wrong", 'cri')  
+                    else:
+                        show_custom_message_box("Save Transactions", "Valid plate number is required", 'cri')
                 else:
                     show_custom_message_box("Save Transactions", "Vehicle class is required", 'cri')
             else:
@@ -261,24 +280,16 @@ class MainWindow(QMainWindow):
                 self.reset_transctions()
                 rfdata=self.right_frame.rfid_data_queue_box.get_top_rfid()
                 if rfdata is not None:
-                    self.left_frame.set_vc(rfdata['Class'])
+                    FasTagClassName=self.left_frame.set_vc(rfdata['Class'])
                     self.right_frame.transaction_type_box.set_tt_value(1)
-                    self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active")
+                    self.right_frame.current_transaction_box.create_fasTag_trans(rfdata,True,"Active",FasTagClassName)
                     d=self.right_frame.wim_data_queue_box.get_top_wim()
                     if d is not None:
                         self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight')) 
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  lane_process_end: {e}")
         
-    def printer_setup(self,data):
-        try:
-            self.right_frame.current_transaction_box.update_printer(data)
-            self.footer_widget.update_printer(True)
-            if data is None:
-                self.footer_widget.update_printer(False)
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  printer_setup: {e}")
-            self.footer_widget.update_printer(False)
+   
 
     def print_receipt(self,current_Transaction):
         try:

@@ -4,6 +4,7 @@ import os
 from PIL import Image
 import io
 import base64
+import secrets
 
 class Utilities:
     @staticmethod
@@ -26,8 +27,11 @@ class Utilities:
             raise e
 
     @staticmethod
-    def get_datetime_str():
-        current_datetime = datetime.now()
+    def get_datetime_str(dt=None):
+        if dt is None:
+            current_datetime = datetime.now()
+        else:
+            current_datetime=dt
         datetime_str = current_datetime.strftime("%Y%m%d%H%M%S%f")
         return datetime_str
     
@@ -40,3 +44,7 @@ class Utilities:
         base64_img = base64.b64encode(img_byte_array).decode()
         base64_with_format = f"data:image/png;base64,{base64_img}"
         return base64_with_format
+    
+    @staticmethod
+    def generate_secret_key():
+        return secrets.token_hex(16)

@@ -3,9 +3,8 @@ import socket
 import threading
 
 class BroadCastTCPServer(threading.Thread):
-    def __init__(self, host, port):
+    def __init__(self, port):
         threading.Thread.__init__(self)
-        self.host = host
         self.port = int(port)
         self.is_running = False
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -13,13 +12,13 @@ class BroadCastTCPServer(threading.Thread):
         self.accept_thread = None
 
     def run(self):
-        self.start_server()
+        self.start_server(host='0.0.0.0')
 
-    def start_server(self):
+    def start_server(self,host):
         self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.server_socket.bind((self.host, self.port))
+        self.server_socket.bind((host, self.port))
         self.server_socket.listen(5)
-        print(f"Server is listening on {self.host}:{self.port}")
+        print(f"Server is listening on {host}:{self.port}")
         self.is_running = True
         self.accept_thread = threading.Thread(target=self.accept_clients)
         self.accept_thread.start()
@@ -59,13 +58,10 @@ class BroadCastTCPServer(threading.Thread):
                     json_data = json.dumps(data)
                     client_socket.sendall(json_data.encode())
             except OSError as e:
-                # Handle specific OSError
                 if e.errno == 9:
-                    # Bad file descriptor error
                     print("Bad file descriptor error: Socket closed unexpectedly")
                     client_socket.close()
             except Exception as e:
-                # Handle other exceptions
                 print("An error occurred:", str(e))
                 client_socket.close()
 
@@ -78,13 +74,5 @@ class BroadCastTCPServer(threading.Thread):
     def stop_server(self):
         self.is_running = False
         if self.accept_thread:
-            self.accept_thread.join()  # Wait for accept_thread to finish
-        #self.remove_clients()
+            self.accept_thread.join()  
         self.server_socket.close()
-
-# # Example usage:
-# if __name__ == "__main__":
-#     server = BroadCastTCPServer("localhost", 9999)
-#     server.start()
-#     # To stop the server, call:
-#     # server.stop_server()

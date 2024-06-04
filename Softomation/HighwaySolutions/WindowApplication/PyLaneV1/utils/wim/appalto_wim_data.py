@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 import threading
 import time
@@ -19,8 +20,8 @@ class AppaltoWinDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped=False
-        self.is_active=False
         self.set_logger(default_directory,log_file_name)
+        self.set_status()
 
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -28,6 +29,15 @@ class AppaltoWinDataClient(threading.Thread):
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+
+    def set_status(self):
+        try:
+            if self.wim_detail["OnLineStatus"]==0 or self.wim_detail["OnLineStatus"]==False:
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
     def process_data(self, indata):
         try:
@@ -75,14 +85,17 @@ class AppaltoWinDataClient(threading.Thread):
     
     def process_transaction_info(self,d):
         try:
+            current_date_time=datetime.now()
             transactionInfo = {
                 "LaneId":self.LaneId,
-                "TransactionDateTime":Utilities.current_date_time_json(),
+                "SystemDateTime":current_date_time.isoformat(),
+                "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
                 "AxleData": self.axleData,
                 "TotalWeight": d["TotalWeight"],
-                "TransactionId": Utilities.create_txn_id(),
+                "TransactionId": Utilities.create_txn_id(dt=current_date_time),
                 'AxleCount': d["AxleCount"],
-                'IsReverseDirection':d["IsReverseDirection"]
+                'IsReverseDirection':d["IsReverseDirection"],
+                "Processed":False
             }
             self.handler.update_wim_data(transactionInfo)
             self.process_db(transactionInfo)
@@ -110,10 +123,12 @@ class AppaltoWinDataClient(threading.Thread):
                 while self.is_active:
                     self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.client_socket.connect((self.wim_detail["IpAddress"], self.wim_detail["PortNumber"]))
+                    self.handler.update_equipment_list(self.wim_detail["EquipmentId"],'ConnectionStatus',True)
                     self.is_running=True
                     con_data=''
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
+                            self.handler.update_equipment_list(self.wim_detail["EquipmentId"],'ConnectionStatus',False)
                             break
                         echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
                         if len(echoed_transaction_number) != 0:
@@ -128,19 +143,20 @@ class AppaltoWinDataClient(threading.Thread):
                                 else:
                                     con_data+=echoed_transaction_number
                         time.sleep(self.timeout)
-                    time.sleep(self.timeout)
+                time.sleep(self.timeout)
+                if self.is_active==False:
+                    self.is_active=self.handler.get_on_line_status(self.wim_detail["EquipmentTypeId"])
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_data_run: {str(e)}")
-            finally:
-                self.client_stop()
+            # finally:
+            #     self.client_stop()
 
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
-
     
     def client_stop(self):
         try:

@@ -194,7 +194,7 @@ class DataImporter:
 
     def equipment_type_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/EquipmentTypeDetails'
-        params = lambda d: [d['EquipmentTypeId'],d['EquipmentTypeName'],d['EquipmentIconName'],
+        params = lambda d: [d['EquipmentTypeId'],d['EquipmentTypeName'],d['EquipmentIconName'],d['EquipmentIcon'],
                             d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
                             d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]
         self.import_data_list(endpoint, params, 'USP_EquipmentTypeMasterInsertUpdate')

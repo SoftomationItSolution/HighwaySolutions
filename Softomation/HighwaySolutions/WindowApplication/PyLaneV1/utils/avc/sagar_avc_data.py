@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import socket
 import threading
@@ -17,11 +18,9 @@ class SagarAVCDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
-        self.is_active = False
-        self.last_trans=None
-        self.LaneTransactionId=0
         self.set_logger(default_directory,log_file_name)
         self.set_avc_image_path(default_directory)
+        self.set_status()
     
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -29,6 +28,15 @@ class SagarAVCDataClient(threading.Thread):
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+
+    def set_status(self):
+        try:
+            if self.avc_detail["OnLineStatus"]==0 or self.avc_detail["OnLineStatus"]==False:
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
     def set_avc_image_path(self,default_directory):
         try:
@@ -59,22 +67,23 @@ class SagarAVCDataClient(threading.Thread):
         try:
             avc_data = avc_data_str.split(',')
             if len(avc_data) == 8:
+                current_date_time=datetime.now()
                 transactionInfo = {
                     'LaneId':self.LaneId,
-                    'TransactionDateTime':Utilities.current_date_time_json(),
+                    'SystemDateTime':current_date_time.isoformat(),
+                    'TransactionDateTime':Utilities.current_date_time_json(dt=current_date_time),
                     'AvcClassId': avc_data[2].strip(),
                     'AxleCount': avc_data[3].strip(),
                     'IsReverseDirection': False if avc_data[4].strip()=='F' else True,
                     'WheelBase': avc_data[5].strip(),
                     'TransactionCount': avc_data[6].strip(),
-                    'ImageName':''}
-                self.last_trans=transactionInfo
-                if self.LaneTransactionId!=0:
-                    self.update_db_lane_trans(self.LaneTransactionId)
+                    'ImageName':'',
+                    "Processed":False}
+                self.handler.update_avc_data(transactionInfo)
                 self.process_db(transactionInfo)
             else:
                 transactionInfo = avc_data_str
-                print(transactionInfo)
+                #print(transactionInfo)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
 
@@ -113,24 +122,6 @@ class SagarAVCDataClient(threading.Thread):
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
-
-    def getavc(self,TID):
-        try:
-            if self.last_trans is not None:
-                self.update_db_lane_trans(TID)
-            else:
-                self.LaneTransactionId=TID
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} getavc: {str(e)}")
-
-    def update_db_lane_trans(self,LaneTransactionId):
-        try:
-            d={"LaneTransactionId":LaneTransactionId,"VehicleAvcClassId":self.last_trans["AvcClassId"],"TransactionAvcImage":self.last_trans["ImageName"]}
-            self.last_trans=None
-            LaneManager.lane_data_avc_update(self.dbConnectionObj,d)
-            self.LaneTransactionId=0
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} update_db_lane_trans: {str(e)}")
 
     def client_stop(self):
         try:

@@ -92,7 +92,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
 
       });
     } catch (error) {
-
+      console.log(error)
     }
   }
 
@@ -126,6 +126,8 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
           this.spinner.hide();
           this.ErrorData = [{ AlertMessage: data.message }];
           this.dm.openSnackBar(this.ErrorData, true);
+          this.wimWeight=""
+          this.avc_class=""
         },
         (error) => {
           this.spinner.hide();

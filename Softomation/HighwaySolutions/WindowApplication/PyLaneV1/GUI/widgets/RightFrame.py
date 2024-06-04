@@ -6,12 +6,13 @@ from GUI.widgets.CurrentTransactionFrame import CurrentTransactionBox
 from GUI.widgets.TransactionTypeFrame import TransactionTypeBox
 from GUI.widgets.WimDataFrame import WimDataQueueBox
 class RightFrame(QFrame):
-    def __init__(self, width, height,logger):
+    def __init__(self, width, height,default_directory,logger):
         super().__init__()
-        self.initUI(width, height,logger)
+        self.initUI(width, height,default_directory,logger)
 
-    def initUI(self, width, height,logger):
+    def initUI(self, width, height,default_directory,logger):
         self.logger = logger
+        self.default_directory=default_directory
         self.setStyleSheet("border: none;")
         self.setFixedHeight(height)
         self.setFixedWidth(width)
@@ -37,7 +38,7 @@ class RightFrame(QFrame):
         self.current_transaction_box = CurrentTransactionBox(top_width,top_height,self.logger)
         top_layout.addWidget(self.current_transaction_box)
 
-        self.lane_view_box = CameraLiveView(top_width,top_height,self.logger)
+        self.lane_view_box = CameraLiveView(top_width,top_height,self.default_directory,self.logger)
         top_layout.addWidget(self.lane_view_box)
 
         top_widget.setLayout(top_layout)

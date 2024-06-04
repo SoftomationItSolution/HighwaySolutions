@@ -9,15 +9,23 @@ class KistUFDClient():
         self.ufd_detail=_ufd_detail
         self.timeout=timeout
         self.client_socket=None
-        self.is_active=False
         self.set_logger(default_directory,log_file_name)
-        
+        self.set_status()
     def set_logger(self,default_directory,log_file_name):
         try:
             self.classname="KistUFDClient"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+
+    def set_status(self):
+        try:
+            if self.ufd_detail["OnLineStatus"]==0 or self.ufd_detail["OnLineStatus"]==False:
+                self.is_active=False
+            else:
+                self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
     def send_data(self,input):
         try:
@@ -29,7 +37,7 @@ class KistUFDClient():
                     return True
                 else:
                     self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',False)
-            elif self.dio_detail["ProtocolTypeId"]==3:
+            elif self.ufd_detail["ProtocolTypeId"]==3:
                 self.on_serial(bytes_data)
                 return True
             else:
@@ -41,15 +49,16 @@ class KistUFDClient():
     
     def on_tcp(self, bytes_data):
         try:
-            self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
-            self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
-            self.client_socket.sendall(bytes_data)
-            time.sleep(self.timeout)
+            if self.handler.get_on_line_status(self.ufd_detail["EquipmentTypeId"]):
+                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                self.client_socket.connect((self.ufd_detail["IpAddress"], self.ufd_detail["PortNumber"]))
+                self.handler.update_equipment_list(self.ufd_detail["EquipmentId"],'ConnectionStatus',True)
+                self.client_socket.sendall(bytes_data)
+                time.sleep(self.timeout)
+                self.tcp_close()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
-        finally:
-            self.tcp_close()
+            
 
     def retry(self,status):
         if self.is_active!=status:

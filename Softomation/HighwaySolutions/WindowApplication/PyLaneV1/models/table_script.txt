@@ -43,3 +43,7 @@ CREATE TABLE tbl_SystemVehicleSubClass (
     ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     ModifiedBy BIGINT DEFAULT 0
 );
+
+
+ALTER TABLE tbl_LaneTransaction
+ADD TCRemark VARCHAR(255) AFTER TransactionStatus;
