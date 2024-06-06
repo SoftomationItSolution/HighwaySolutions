@@ -210,9 +210,16 @@ class LaneEquipmentSynchronization(threading.Thread):
     def app_log_status(self, transactionInfo):
         try:
             self.system_loging_status=transactionInfo
+            self.rfid_data=[]
+            self.wim_data=[]
+            self.avc_data=[]
+            self.transaction_data=[]
             if self.dio_thread is not None:
+                self.dio_thread.reset_command()
                 self.dio_thread.handel_ohls_light(transactionInfo)
                 self.dio_thread.app_log_status(transactionInfo)
+            if self.rfid_thread is not None:
+                self.rfid_thread.processed_epcs={}
             self.mqtt_dio_event()
             self.reset_default_ufd()
         except Exception as e:
@@ -372,7 +379,7 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def getVSDetails(self):
         try:
-            if self.systemSetting is not None and self.vc is not None:
+            if self.systemSetting is not None and self.vc is None:
                 if self.systemSetting['SubClassRequired']==1:
                     self.vc=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
                 else:
@@ -693,23 +700,23 @@ class LaneEquipmentSynchronization(threading.Thread):
                     if matched_item:
                         trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
                         trans_data["VehicleSubClassId"]=int(matched_item['SystemVehicleSubClassId'])
-                        trans_data["PermissibleWeight"]=matched_item['PermissibleWeight']
+                        trans_data["PermissibleVehicleWeight"]=matched_item['PermissibleWeight']
                         trans_data["VehicleClassName"]=matched_item['SystemVehicleClassName']
                         trans_data["VehicleSubClassName"]=matched_item['SystemVehicleSubClassName']
                         trans_data["TagClassName"]=matched_item['SystemVehicleSubClassName']
                     else:
-                        trans_data["PermissibleWeight"]=0
+                        trans_data["PermissibleVehicleWeight"]=0
                 else:
                     matched_item = next((item for item in self.vc if int(item['SystemVehicleClassId']) == int(classId)), None)
                     if matched_item:
                         trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
                         trans_data["VehicleSubClassId"]=0
-                        trans_data["PermissibleWeight"]=matched_item['PermissibleWeight']
+                        trans_data["PermissibleVehicleWeight"]=matched_item['PermissibleWeight']
                         trans_data["VehicleClassName"]=matched_item['SystemVehicleClassName']
                         trans_data["TagClassName"]=matched_item['SystemVehicleClassName']
                         trans_data["VehicleSubClassName"]=''
                     else:
-                        trans_data["PermissibleWeight"]=0
+                        trans_data["PermissibleVehicleWeight"]=0
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_fasTag_class_name: {str(e)}")
         finally:
@@ -1025,6 +1032,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 "ExemptSubTypeName":"",
                 "VehicleClassName": "",
                 "VehicleSubClassName": "",
+                "TagClassName": "",
                 "Processed":False,
                 "SystemDateTime":current_date_time.isoformat()
             }
@@ -1035,24 +1043,22 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if self.is_running:
                 self.is_running = False
-                self.stop_dio_thread() 
-                self.stop_avc_thread()
-                self.stop_wim_thread()
-                self.stop_rfid_thread()
-                self.stop_ping_thread()
-                self.stop_dts_thread()
-                self.lpic_thread.stop()
-                self.ic_thread.stop()
-                self.mqtt_client.disconnect()
-                self.plaza_detail=None
-                self.lane_detail=None
-                self.equipment_detail=None
-                self.rfid_client_connected=False
-                self.mqtt_client_connected=False
-                self.logger.log_info("Lane Equipment Synchronization stopped.")
-                self.thread.join()
-                self.thread=None
-                print('Lane Equipment Synchronization is stopped.')
+            self.stop_ping_thread()
+            self.stop_dio_thread() 
+            self.stop_avc_thread()
+            self.stop_wim_thread()
+            self.stop_rfid_thread()
+            self.stop_dts_thread()
+            self.lpic_thread.stop()
+            self.ic_thread.stop()
+            self.mqtt_client.disconnect()
+            self.plaza_detail=None
+            self.lane_detail=None
+            self.equipment_detail=None
+            self.rfid_client_connected=False
+            self.mqtt_client_connected=False
+            self.logger.logInfo("Lane Equipment Synchronization stopped.")
+            print('Lane Equipment Synchronization is stopped.')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_stop: {str(e)}")
             print(f'going to stop is_running {str(e)}')

@@ -3,7 +3,7 @@ Description=TMS V1 Service
 After=network.target
 
 [Service]
-WorkingDirectory=/opt/soft/PyLaneV2/
+WorkingDirectory=/opt/soft/PyLaneV1/
 ExecStart=/home/lane2/miniconda3/envs/pysy/bin/python TMSv1.py
 Restart=on-failure
 RestartSec=3

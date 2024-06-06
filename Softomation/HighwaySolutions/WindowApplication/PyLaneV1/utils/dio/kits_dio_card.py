@@ -229,7 +229,7 @@ class KistDIOClient(threading.Thread):
             self.reset_command()
             while self.is_running:
                 if not self.is_active or self.is_stopped or not self.is_running:
-                    self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',True)
+                    self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',False)
                     break
                 received_data = self.client_socket.readline().decode('utf-8').strip()
                 if len(received_data) != 0:
@@ -258,6 +258,8 @@ class KistDIOClient(threading.Thread):
 
     def stop(self):
         try:
+            self.is_running=False
+            self.is_active=False
             self.is_stopped = True
             self.client_stop()
         except Exception as e:

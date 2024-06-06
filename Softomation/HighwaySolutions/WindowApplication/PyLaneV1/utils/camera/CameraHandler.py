@@ -217,7 +217,6 @@ class CameraHandler(threading.Thread):
         try:
             self.stop_recording(False)
             self.is_running = False
-            self.join()  
             if self.capture_frame:
                 self.capture.release()
             self.capture_frame=False
@@ -225,6 +224,7 @@ class CameraHandler(threading.Thread):
             self.recording=False
             self.runtime_screenshort=False
             self.total_retries=0
+            self.join() 
             return True
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop: {str(e)}")

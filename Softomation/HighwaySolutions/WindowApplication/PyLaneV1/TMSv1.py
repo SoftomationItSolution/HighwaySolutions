@@ -1,107 +1,50 @@
+
+
 import os
+import platform
 import sys
 import threading
-import platform
 import time
-from PySide6.QtGui import QIcon
-from PySide6.QtWidgets import QApplication, QStyleFactory
-from flask import Flask, jsonify, request
-from flask_cors import CORS
+from Desktop import DesktopApp
+from api import FlaskApiApp
 from models.CommonManager import CommonManager
 from utils.constants import Utilities
 from utils.lane_equipment_init import LaneEquipmentSynchronization
 from utils.log_master import CustomLogger
 from utils.mySqlConnection import MySQLConnections
-from utils.window_controller import WindowController
 
-class TMSApp:
+class TMSAppv1:
     def __init__(self):
         self.classname = "TMSApp"
         self.PID_FILE = "TMSv1.pid"
-        self.lane_equipments = None
-        self.desktop_app = None
-        self.flaskapp = Flask(__name__)
-        CORS(self.flaskapp)
-        self.flaskapp.config['CORS_HEADERS'] = 'Content-Type'
+        self.bg_handler = None
         self.default_directory = self.check_default_dir()
         self.logger = CustomLogger(self.default_directory, 'main_app')
         self.dbConnectionObj = None
         self.lane_details = None
         self.systemSetting = None
-        self.app_thread = None
         self.flask_thread = None
+        self.flask_app=None
+        self.app_thread=None
+        self.desktop_app=None
+        self.desktop_thread = None
         self.default_plaza_Id = 1
-        self.setup_routes()  # Set up routes in the constructor
 
-    def setup_routes(self):
-        @self.flaskapp.route('/app_login', methods=['POST'])
-        def app_login():
-            try:
-                self.logger.logInfo("app_login route hit")
-                if self.lane_equipments is not None:
-                    self.lane_equipments.userDetails = request.get_json()
-                    self.lane_equipments.app_log_status(True)
-                    return jsonify({'message': 'Login done!'}), 200
-                else:
-                    return jsonify({'message': 'App not running!'}), 404
-            except Exception as e:
-                self.logger.logError(f"Exception {self.classname} app_login: {str(e)}")
-                return jsonify({'message': 'Internal server error!'}), 500
-
-        @self.flaskapp.route('/app_logout', methods=['POST'])
-        def app_logout():
-            try:
-                self.logger.logInfo("app_logout route hit")
-                if self.lane_equipments is not None:
-                    self.lane_equipments.app_log_status(False)
-                    return jsonify({'message': 'Logout done!'}), 200
-                else:
-                    return jsonify({'message': 'App not running!'}), 404
-            except Exception as e:
-                self.logger.logError(f"Exception {self.classname} app_logout: {str(e)}")
-                return jsonify({'message': 'Internal server error!'}), 500
-
-        @self.flaskapp.route('/get_status', methods=['GET'])
-        def get_status():
-            try:
-                self.logger.logInfo("get_status route hit")
-                if self.lane_equipments is not None:
-                    data = self.lane_equipments.get_lane_status()
-                    if data is not None:
-                        return jsonify(data), 200
-                    else:
-                        return jsonify({'message': 'Status not found.'}), 404
-                else:
-                    return jsonify({'message': 'App not running.'}), 404
-            except Exception as e:
-                self.logger.logError(f"Exception {self.classname} get_status: {str(e)}")
-                return jsonify({'message': 'Internal server error.'}), 500
-
-    def run_flask(self):
+    def start_flask_app(self):
         try:
-            self.logger.logInfo("Starting Flask app")
-            self.flaskapp.run(host='0.0.0.0', port=5002, debug=True, use_reloader=False)
+            self.flask_app = FlaskApiApp(default_directory=self.default_directory,logger=self.logger,bg_handler=self.bg_handler)
+            self.flask_app.run()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} run_flask: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} start_flask_app: {str(e)}")
 
-    def run_desktop_app(self, bg_service, dbConnectionObj, default_directory, systemSetting, lane_details, default_plaza_Id, logger):
+    def run_desktop_app(self):
         try:
-            self.desktop_app = QApplication(sys.argv)
-            primary_screen = self.desktop_app.primaryScreen()
-            screen_geometry = primary_screen.geometry()
-            screen_width = screen_geometry.width()
-            screen_height = screen_geometry.height()
-            self.desktop_app.setStyle(QStyleFactory.create("Fusion"))
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            image_dir = os.path.join(script_dir, 'assets', 'images')
-            icon = os.path.join(image_dir, 'icon.ico')
-            self.desktop_app.setWindowIcon(QIcon(icon))
-            controller = WindowController(bg_service, dbConnectionObj, default_directory, image_dir, systemSetting, lane_details, default_plaza_Id, screen_width, screen_height, logger)
-            controller.show_login(None)
-            sys.exit(self.cleanup())
-        except KeyboardInterrupt:
-            self.cleanup()
-            sys.exit(0)
+            self.desktop_app=DesktopApp(self,self.default_directory, self.logger, self.bg_handler,self.dbConnectionObj,
+                                   self.systemSetting,self.lane_details,self.default_plaza_Id)
+            self.desktop_app.run()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run_desktop_app: {str(e)}")
+
 
     def check_default_dir(self):
         try:
@@ -138,35 +81,6 @@ class TMSApp:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} check_duplicate_instance: {str(e)}")
 
-    def cleanup(self):
-        try:
-            if os.path.isfile(self.PID_FILE):
-                os.remove(self.PID_FILE)
-            if self.lane_equipments is not None:
-                self.lane_equipments.on_stop()
-            if self.desktop_app is not None:
-                sys.exit(self.desktop_app.exec())
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} cleanup: {str(e)}")
-
-    def run_desktop_app_thread(self):
-        try:
-            if self.app_thread is None:
-                self.app_thread = threading.Thread(target=self.run_desktop_app, args=[self.lane_equipments, self.dbConnectionObj, self.default_directory, self.systemSetting, self.lane_details, self.default_plaza_Id, self.logger])
-                self.app_thread.daemon = True
-                self.app_thread.start()
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} run_desktop_app_thread: {str(e)}")
-
-    def run_flask_app_thread(self):
-        try:
-            if self.flask_thread is None:
-                self.flask_thread = threading.Thread(target=self.run_flask())
-                self.flask_thread.daemon = True
-                self.flask_thread.start()
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} run_desktop_app_thread: {str(e)}")
-
     def main(self):
         try:
             self.check_duplicate_instance()
@@ -181,17 +95,22 @@ class TMSApp:
                 self.default_plaza_Id = self.systemSetting.get('DefaultPlazaId')
             else:
                 self.default_plaza_Id = 1
-            self.lane_equipments = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.default_plaza_Id, self.lane_details, self.systemSetting, system_ip)
-            self.lane_equipments.daemon = True
-            self.lane_equipments.start()
+            
+            self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.default_plaza_Id, self.lane_details, self.systemSetting, system_ip)
+            self.bg_handler.daemon = True
+            self.bg_handler.start()
+
+            self.flask_thread = threading.Thread(target=self.start_flask_app)
+            self.flask_thread.daemon=True
+            self.flask_thread.start()
+
             if self.lane_details:
                 if self.lane_details.get("LaneTypeId") != 3:
-                    self.run_desktop_app_thread()
-
-            self.run_flask_app_thread()
+                    self.desktop_thread = threading.Thread(target=self.run_desktop_app)
+                    self.desktop_thread.daemon=True
+                    self.desktop_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} main: {str(e)}")
-
         while True:
             try:
                 time.sleep(0.1)
@@ -201,6 +120,27 @@ class TMSApp:
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} main_loop: {str(e)}")
                 time.sleep(0.1)
+
+    def cleanup(self):
+        try:
+            if os.path.isfile(self.PID_FILE):
+                os.remove(self.PID_FILE)
+
+            if self.flask_app is not None:
+                self.flask_app.stop_flask_app()
+            
+            if self.flask_thread.is_alive():
+                self.flask_app.stop_flask.set()
+                self.flask_thread.join(timeout=1)
+
+            if self.bg_handler is not None:
+                self.bg_handler.on_stop()
+                self.bg_handler.join()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} cleanup: {str(e)}")
+        finally:
+            sys.exit(0)
+
 if __name__ == '__main__':
-    app = TMSApp()
+    app = TMSAppv1()
     app.main()
