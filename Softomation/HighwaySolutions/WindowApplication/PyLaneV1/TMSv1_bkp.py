@@ -1,25 +1,25 @@
+
+
 import os
 import platform
 import sys
 import threading
 import time
+from utils.Desktop import DesktopApp
+from utils.api import FlaskApiApp
 from models.CommonManager import CommonManager
-from utils.lane_equipment_init import LaneEquipmentSynchronization
-from utils.mySqlConnection import MySQLConnections
 from utils.constants import Utilities
+from utils.lane_equipment_init import LaneEquipmentSynchronization
 from utils.log_master import CustomLogger
-
+from utils.mySqlConnection import MySQLConnections
 
 class TMSAppv1:
     def __init__(self):
         self.classname = "TMSApp"
         self.PID_FILE = "TMSv1.pid"
-        self.stop_event = threading.Event()
-        self.default_directory = self.check_default_dir()
-        self.script_dir=os.path.dirname(os.path.abspath(__file__))
-        self.logger = CustomLogger(self.default_directory, 'main_app')
-        self.db_path = os.path.join(self.default_directory, 'MasterConfig', 'dbConfig.json')
         self.bg_handler = None
+        self.default_directory = self.check_default_dir()
+        self.logger = CustomLogger(self.default_directory, 'main_app')
         self.dbConnectionObj = None
         self.lane_details = None
         self.systemSetting = None
@@ -29,6 +29,22 @@ class TMSAppv1:
         self.desktop_app=None
         self.desktop_thread = None
         self.default_plaza_Id = 1
+
+    def start_flask_app(self):
+        try:
+            self.flask_app = FlaskApiApp(default_directory=self.default_directory,logger=self.logger,bg_handler=self.bg_handler)
+            self.flask_app.run()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} start_flask_app: {str(e)}")
+
+    def run_desktop_app(self):
+        try:
+            self.desktop_app=DesktopApp(self,self.default_directory, self.logger, self.bg_handler,self.dbConnectionObj,
+                                   self.systemSetting,self.lane_details,self.default_plaza_Id)
+            self.desktop_app.run()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run_desktop_app: {str(e)}")
+
 
     def check_default_dir(self):
         try:
@@ -68,27 +84,55 @@ class TMSAppv1:
     def main(self):
         try:
             self.check_duplicate_instance()
-            db_json_data = Utilities.read_json_file(self.db_path)
-            self.system_ip = Utilities.get_local_ips()
-            self.system_ip='192.168.10.12'
+            db_path = os.path.join(self.default_directory, 'MasterConfig', 'dbConfig.json')
+            db_json_data = Utilities.read_json_file(db_path)
+            system_ip = Utilities.get_local_ips()
+            
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
-            self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip)
+            self.lane_details = CommonManager.GetLaneDetails(self.dbConnectionObj, system_ip)
+            self.systemSetting = CommonManager.GetSystemSetting(self.dbConnectionObj)
+            if self.systemSetting:
+                self.default_plaza_Id = self.systemSetting.get('DefaultPlazaId')
+            else:
+                self.default_plaza_Id = 1
+            
+            self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.default_plaza_Id, self.lane_details, self.systemSetting, system_ip)
             self.bg_handler.daemon = True
             self.bg_handler.start()
+
+            self.flask_thread = threading.Thread(target=self.start_flask_app)
+            self.flask_thread.daemon=True
+            self.flask_thread.start()
+
+            if self.lane_details:
+                if self.lane_details.get("LaneTypeId") != 3:
+                    self.desktop_thread = threading.Thread(target=self.run_desktop_app)
+                    self.desktop_thread.daemon=True
+                    self.desktop_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} main: {str(e)}")
-        except KeyboardInterrupt:
-             print('close 1')
-             self.stop()
-    def stop(self):
-        if self.bg_handler is not None:
-            self.bg_handler.on_stop()
-        self.stop_event.set()
+        while True:
+            try:
+                time.sleep(0.1)
+            except KeyboardInterrupt:
+                self.cleanup()
+                sys.exit(0)
+            except Exception as e:
+                self.logger.logError(f"Exception {self.classname} main_loop: {str(e)}")
+                time.sleep(0.1)
 
     def cleanup(self):
         try:
             if os.path.isfile(self.PID_FILE):
                 os.remove(self.PID_FILE)
+
+            if self.flask_app is not None:
+                self.flask_app.stop_flask_app()
+            
+            if self.flask_thread.is_alive():
+                self.flask_app.stop_flask.set()
+                self.flask_thread.join(timeout=1)
+
             if self.bg_handler is not None:
                 self.bg_handler.on_stop()
                 self.bg_handler.join()
@@ -100,10 +144,3 @@ class TMSAppv1:
 if __name__ == '__main__':
     app = TMSAppv1()
     app.main()
-    while True:
-        try:
-            time.sleep(0.1)
-        except KeyboardInterrupt:
-            print('closed While')
-            app.cleanup()
-            sys.exit(0)

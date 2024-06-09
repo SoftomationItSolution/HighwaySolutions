@@ -80,7 +80,6 @@ class KistDIOClient(threading.Thread):
                         self.barrier_Status=False if int(value[i])==0 else True
                         if self.barrier_last_Status!=self.barrier_Status:
                             self.barrier_last_Status=self.barrier_Status
-                
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} formate_output: {str(e)}")
 
@@ -176,6 +175,7 @@ class KistDIOClient(threading.Thread):
                 break
             try:
                 if self.dio_detail["ProtocolTypeId"]==1:
+                    self.check_status()
                     self.tcp_conn()
                 elif self.dio_detail["ProtocolTypeId"]==3:
                     self.serial_conn()
@@ -186,10 +186,6 @@ class KistDIOClient(threading.Thread):
                 self.logger.logError(f"Exception {self.classname} run: {str(e)}")
             finally:
                 self.client_stop()
-
-    def retry(self,status):
-        if self.is_active!=status:
-            self.is_active=status
 
     def tcp_conn(self):
         try:
@@ -207,7 +203,9 @@ class KistDIOClient(threading.Thread):
                     if len(echoed_transaction_number) != 0:
                         self.process_data(echoed_transaction_number)
                     time.sleep(self.timeout)
+                    self.check_status()
                 time.sleep(self.timeout)
+            self.check_status()
         except Exception as e:
             raise e
         
@@ -274,6 +272,17 @@ class KistDIOClient(threading.Thread):
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
+
+    def check_status(self):
+        try:
+            if self.is_active==False and self.is_stopped==False:
+                self.is_active=self.handler.get_on_line_status(self.dio_detail['EquipmentTypeId'])
+                if self.is_active==0:
+                    self.is_active=False
+                elif self.is_active==1:
+                    self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:

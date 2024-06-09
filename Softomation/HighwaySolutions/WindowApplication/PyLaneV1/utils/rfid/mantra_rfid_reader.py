@@ -58,27 +58,35 @@ class MantraRfidReader(threading.Thread):
                 else:
                     self.logger.logInfo('Set the reader buzzer tone failed!')
                 self.is_running=True
+                self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
                 return True
             else:
                 self.logger.logInfo("Failed to create connection!")
+                self.reader=None
+                self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
                 return False
         except Exception as e:
+            self.reader=None
             self.logger.logError(f"Exception {self.classname} setup_reader: {str(e)}")
+            self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
         
     def run(self):
-        self.processed_epcs={}  # Initialize a dictionary to store processed EPCs and their timestamps
+        self.processed_epcs={}  
         while not self.is_stopped:
             try:
                 while self.is_active: 
                     if self.reader is None:
                         self.is_running=self.setup_reader()
+                        self.processed_epcs={}
                     else:
                         self.is_running=True
                     self.tagDetails={"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
-                    self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
+                    
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
                             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
+                            self.reader=None
+                            self.processed_epcs={}
                             break
                         self.processed_epcs = {epc: timestamp for epc, timestamp in self.processed_epcs.items() if datetime.now() - timestamp <= timedelta(seconds=10)}
                         read_list = []
@@ -104,20 +112,12 @@ class MantraRfidReader(threading.Thread):
                                     self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json(dt=current_date_time)
                                     self.handler.update_rfid_data(self.tagDetails)
                                     self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
-                            #time.sleep(self.timeout)
-                        #time.sleep(self.timeout)
+                        self.check_status()
+                    self.check_status()
                 time.sleep(self.timeout)
-                if self.is_active==False and self.is_stopped==False:
-                    self.is_active=self.handler.get_on_line_status(self.rfid_detail['EquipmentTypeId'])
-                    if self.is_active==0:
-                        self.is_active=False
-                    else:
-                        self.is_active=True
-                #self.is_active=
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
-            finally:
-                self.client_stop()
+    
 
     def decrypt_user_data(self,user_data):
         try:
@@ -125,7 +125,7 @@ class MantraRfidReader(threading.Thread):
             self.tagDetails["Class"]= self.convert_hex_to_int(user_data[24:26])
             self.tagDetails["Plate"]=self.hex_to_string_vehicle_number(user_data[4:24])
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} decrypt_user_data: {str(e)}")
+            self.logger.logError(f"Exception {self.classname} decrypt_user_data: {str(e)}")
 
     def hex_to_string_vehicle_number(self,hex_string):
         result = ""
@@ -153,6 +153,17 @@ class MantraRfidReader(threading.Thread):
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
+
+    def check_status(self):
+        try:
+            if self.is_active==False and self.is_stopped==False:
+                self.is_active=self.handler.get_on_line_status(self.rfid_detail['EquipmentTypeId'])
+                if self.is_active==0:
+                    self.is_active=False
+                elif self.is_active==1:
+                    self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
 
     def client_stop(self):
         try:

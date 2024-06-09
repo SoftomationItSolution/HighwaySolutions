@@ -16,31 +16,36 @@ from pubsub import pub
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self,bg_service,dbConnectionObj,default_directory,image_dir,user_Details,systemSettingDetails,LaneDetail,logger,default_plaza_Id,screen_width,screen_height):
+    def __init__(self,bg_service,screen_width,screen_height,logger,image_dir,user_Details):
         super(MainWindow, self).__init__()
         try:
             self.setStyleSheet("background-color: rgb(1, 27, 65);")
             self.setWindowTitle("TMS Lane V1")
-            self.bg_service=bg_service
-            self.dbConnectionObj=dbConnectionObj
-            self.default_directory=default_directory
             self.image_dir=image_dir
-            self.systemSettingDetails=systemSettingDetails
-            self.LaneDetail=LaneDetail
+            self.bg_service=bg_service
+            self.dbConnectionObj=bg_service.dbConnectionObj
+            self.default_directory=bg_service.default_directory
+            self.systemSetting=bg_service.systemSetting
+            self.lane_detail=bg_service.lane_detail
+            self.default_plaza_Id=bg_service.default_plaza_Id
+            self.equipment_detail=bg_service.equipment_detail
+            self.shiftDetails=bg_service.shiftDetails
+            self.vehicle_class=bg_service.vehicle_class
+            self.toll_fare=bg_service.toll_fare
             self.screen_width=screen_width
             self.screen_height=screen_height
             self.resize(screen_width, screen_height)
             self.showFullScreen()
             self.userDetails = json.loads(user_Details) if user_Details else None
             self.logger=logger
-            self.default_plaza_Id=default_plaza_Id
             self.recipt_printer=None
             self.right_frame=None
             self.footer_widget=None
-            self.manage_equipment()
             self.initUI()
             self.initThreads()
             self.isTransactionPending=False
+            self.get_current_shift()
+            self.updateTollFareDetails()
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
 
@@ -68,19 +73,18 @@ class MainWindow(QMainWindow):
             frames_layout = QHBoxLayout()
             frames_layout.setContentsMargins(0, 0, 0, 0)
             
-            self.left_frame = LeftFrame(left_frame_width, frames_height,self.logger)
+            self.left_frame = LeftFrame(left_frame_width, frames_height,self.logger,self.systemSetting,self.vehicle_class)
             self.left_frame.setContentsMargins(0, 0, 0, 0)
             self.left_frame.vc_list.itemSelectionChanged.connect(self.onVCSelectionChanged)
-            self.left_frame.update_ss(self.systemSettingDetails)
             frames_layout.addWidget(self.left_frame)
 
             self.right_frame = RightFrame(right_frame_width, frames_height,self.default_directory,self.logger)
             self.right_frame.setContentsMargins(0, 0, 0, 0)
-            self.right_frame.transaction_type_box.update_ss(self.systemSettingDetails)
+            self.right_frame.transaction_type_box.update_ss(self.systemSetting)
             self.right_frame.transaction_type_box.tt_list.itemSelectionChanged.connect(self.onTransactionTypeSelect)
             self.right_frame.transaction_type_box.pt_list.itemSelectionChanged.connect(self.onPaymentTypeSelect)
             self.right_frame.transaction_type_box.et_list.itemSelectionChanged.connect(self.onExemptTypeSelect)
-            self.right_frame.current_transaction_box.update_ss(self.systemSettingDetails,self.userDetails,self.LaneDetail,self.default_directory)
+            self.right_frame.current_transaction_box.update_ss(self.systemSetting,self.userDetails,self.lane_detail,self.default_directory)
             self.right_frame.current_transaction_box.btnSubmit.clicked.connect(self.save_transctions)
             self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
             self.right_frame.wim_data_queue_box.tblWim.itemDoubleClicked.connect(self.remove_wim_Row)
@@ -88,35 +92,15 @@ class MainWindow(QMainWindow):
             frames_layout.addWidget(self.right_frame)
             main_layout.addLayout(frames_layout)
 
-            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.bg_service,self.logger)
+            self.footer_widget = Footer(main_window_width, 50,self.image_dir,self.bg_service,self.logger,self.equipment_detail)
             main_layout.addWidget(self.footer_widget)
-
             self.setLayout(main_layout)
             self.set_equipment_printer()
             pub.subscribe(self.get_RFID_detail, "rfid_processed")
-            pub.subscribe(self.equipment_processed, "equipment_processed")
             pub.subscribe(self.lane_process_end, "lane_process_end")
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  initUI: {e}")
-
-    def manage_equipment(self):
-        try:
-            self.equipment_detail=self.bg_service.equipment_detail
-        except Exception as e:
-            self.equipment_detail=None
-            self.logger.logError(f"Error in MainWindow  manage_equipment: {e}")
     
-    def equipment_processed(self,transactionInfo):
-        try:
-            if self.equipment_detail is None:
-                self.equipment_detail=transactionInfo
-                self.footer_widget.update_el(transactionInfo)
-                self.set_equipment_printer()
-                self.footer_widget.updateFinished(True)
-        except Exception as e:
-            self.equipment_detail=None
-            self.logger.logError(f"Error in MainWindow  equipment_processed: {e}")
-
     def set_equipment_printer(self):
         try:
             if self.recipt_printer is None:
@@ -142,12 +126,9 @@ class MainWindow(QMainWindow):
     def initThreads(self):
         try:
             threads = [
-                self.createThread(self.updateShiftDetails),
-                self.createThread(self.updateVSDetails),
                 self.createThread(self.updateTransactionTypeDetails),
                 self.createThread(self.updatePaymentTypeDetails),
                 self.createThread(self.updateExemptTypeDetails),
-                self.createThread(self.updateTollFareDetails),
                 self.createThread(self.updateLatestLaneTransaction)
             ]
             for thread in threads:
@@ -160,13 +141,6 @@ class MainWindow(QMainWindow):
             return threading.Thread(target=target)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  createThread: {e}")
-
-    def updateShiftDetails(self):
-        try:
-            self.shiftDetails=CommonManager.GetShiftTimining(self.dbConnectionObj)
-            self.get_current_shift()
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  updateShiftDetails: {e}")
    
     def updateTransactionTypeDetails(self):
         try:
@@ -191,21 +165,10 @@ class MainWindow(QMainWindow):
 
     def updateTollFareDetails(self):
         try:
-            current_date = datetime.now().date()
-            self.toll_fare=CommonManager.GetTollfare(self.dbConnectionObj,current_date)
             self.right_frame.current_transaction_box.update_tf(self.toll_fare)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  updateTollFareDetails: {e}")
 
-    def updateVSDetails(self):
-        try:
-            if self.systemSettingDetails['SubClassRequired']==1:
-                self.vc=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
-            else:
-                self.vc=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
-            self.left_frame.update_vc(self.vc)
-        except Exception as e:
-            self.logger.logError(f"Error in MainWindow  updateVSDetails: {e}")
 
     def updateLatestLaneTransaction(self):
         try:
@@ -253,9 +216,9 @@ class MainWindow(QMainWindow):
                     if len(vrn)>=4 and len(vrn)<11:
                         self.right_frame.current_transaction_box.btnSubmit.setEnabled(False)
                         current_Transaction["PlateNumber"]=vrn
-                        current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.LaneDetail["LaneId"],ct)
+                        current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.lane_detail["LaneId"],ct)
                         if TransactionTypeId !=1:
-                            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.LaneDetail["PlazaId"],self.LaneDetail["LaneId"],vc,ct)
+                            current_Transaction["RCTNumber"]=Utilities.receipt_number(self.lane_detail["PlazaId"],self.lane_detail["LaneId"],vc,ct)
                         current_Transaction["TransactionDateTime"]=Utilities.current_date_time_json(ct)
                         current_Transaction["SystemDateTime"]=ct.isoformat()
                         resultData=self.bg_service.lane_trans_start(current_Transaction)
@@ -352,13 +315,13 @@ class MainWindow(QMainWindow):
                 selected_item = selected_items[0]
                 item_id = selected_item.data(32)
                 item_name = selected_item.text()
-                if self.systemSettingDetails['SubClassRequired']==1:
-                    filtered_data = list(filter(lambda item: item['SystemVehicleSubClassId'] == item_id, self.vc))
+                if self.systemSetting['SubClassRequired']==1:
+                    filtered_data = list(filter(lambda item: item['SystemVehicleSubClassId'] == item_id, self.vehicle_class))
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
                     self.right_frame.current_transaction_box.update_svc(item_id, item_name,filtered_data)
                 else:
-                    filtered_data = list(filter(lambda item: item['SystemVehicleClassId'] == item_id, self.vc))
+                    filtered_data = list(filter(lambda item: item['SystemVehicleClassId'] == item_id, self.vehicle_class))
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
                     self.right_frame.current_transaction_box.update_vc(item_id, item_name,filtered_data)

@@ -1,17 +1,14 @@
-from operator import itemgetter
 import os
 from PySide6.QtWidgets import QFrame, QHBoxLayout, QGroupBox, QGridLayout
 from GUI.widgets.HardwareFrame import HardwareWidget
-from PySide6.QtCore import Signal
 from pubsub import pub
 
 class Footer(QFrame):
-    updateFinished = Signal(bool)
-    def __init__(self, width, height, image_dir,bg_service, logger):
+    def __init__(self, width, height, image_dir,bg_service, logger,hardware_data):
         super().__init__()
-        self.initUI(width, height, image_dir,bg_service,logger)
+        self.initUI(width, height, image_dir,bg_service,logger,hardware_data)
 
-    def initUI(self, width, height, image_dir,bg_service, logger):
+    def initUI(self, width, height, image_dir,bg_service, logger,hardware_data):
         try:
             self.bg_service = bg_service
             self.dio_events=self.bg_service.dio_events
@@ -40,9 +37,7 @@ class Footer(QFrame):
             self.image_dir = image_dir
             self.hardware_widgets = []
             self.hardware_data_widget = []
-            self.hardware_data = None
-            self.update_el(self.equipment_detail)
-            self.updateFinished.connect(self.bind_hardware)
+            self.hardware_data = hardware_data
             self.bind_hardware(True)
         except Exception as e:
             self.logger.logError(f"Error in Footer __init__: {e}")
@@ -63,8 +58,9 @@ class Footer(QFrame):
                                 self.hardware_data_widget.append(item)
                 self.bind_data()
                 self.dio_events=self.bg_service.dio_events
-                for item in self.dio_events:
-                    self.dio_transaction_info(item)
+                if self.dio_events is not None:
+                    for item in self.dio_events:
+                        self.dio_transaction_info(item)
         except Exception as e:
             self.logger.logError(f"Error in Footer bind_hardware: {e}")
         finally:
@@ -89,13 +85,6 @@ class Footer(QFrame):
                 self.hardware_widgets.append(hardware_widget)
         except Exception as e:
             self.logger.logError(f"Error in Footer bind_hardware: {e}")
-
-    def update_el(self, json_data):
-        try:
-            json_data=sorted(json_data, key=itemgetter('EquipmentTypeId'))
-            self.hardware_data = json_data
-        except Exception as e:
-            self.logger.logError(f"Error in Footer update_el: {e}")
 
     def filter_widgets_by_icon(self, icon_path):
         try:

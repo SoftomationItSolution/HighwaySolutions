@@ -7,13 +7,11 @@ import qtawesome
 from GUI.ui.messBox import show_custom_message_box
 from models.CommonManager import CommonManager
 from utils.crypt import CryptoUtils
-
 class LoginForm(QMainWindow):
     switch_window = Signal(str)
-    def __init__(self,bg_service, dbConnectionObj,image_dir,logger,screen_width,screen_height):
+    def __init__(self,bg_service,screen_width,screen_height,logger,image_dir):
         super().__init__()
         self.bg_service=bg_service
-        self.dbConnectionObj = dbConnectionObj
         self.logger = logger
         self.resize(screen_width, screen_height)
         self.showFullScreen()
@@ -159,7 +157,7 @@ class LoginForm(QMainWindow):
             return
         else:
             try:
-                res = CommonManager.GetUserByLoginId(self.dbConnectionObj,username)
+                res = CommonManager.GetUserByLoginId(self.bg_service.dbConnectionObj,username)
                 if res is None:
                     show_custom_message_box(
                         "Login Failed", "Invalid Username", 'inf')

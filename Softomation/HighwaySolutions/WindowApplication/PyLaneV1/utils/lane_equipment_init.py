@@ -8,6 +8,8 @@ import paho.mqtt.client as mqtt
 from models.CommonManager import CommonManager
 from models.LaneManager import LaneManager
 from utils.DataTransfer import DataSynchronization
+from utils.Desktop import DesktopApp
+from utils.api import FlaskApiApp
 from utils.avc.soft_avc_data import STPLAVCDataClient
 from utils.camera.CameraHandler import CameraHandler
 from utils.constants import Utilities
@@ -21,22 +23,31 @@ from utils.avc.sagar_avc_data import SagarAVCDataClient
 from utils.dio.kits_dio_card import KistDIOClient
 from pubsub import pub
 
+
+
+
 class LaneEquipmentSynchronization(threading.Thread):
-    def __init__(self, default_directory, dbConnectionObj, default_plaza_Id, lane_detail, systemSetting, system_ip):
+    def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip):
         super().__init__()
-        self.logger = CustomLogger(default_directory,'lane_BG')
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
-        self.default_plaza_Id=default_plaza_Id
-        self.lane_detail=lane_detail
-        self.systemSetting=systemSetting
-        self.default_lane_ip=system_ip
+        self.script_dir = script_dir
+        self.default_lane_ip = system_ip
         self.set_logger(default_directory,'lane_BG')
+        self.default_plaza_Id=0
         self.LaneTypeId=1
+        self.is_running = True
+        self.app_thread=None
+        self.api_thread=None
+        self.lane_detail=None
+        self.systemSetting=None
         self.plaza_detail=None
-        self.vc=None
+        self.vehicle_class=None
         self.equipment_detail=None
+        self.toll_fare=None
         self.shiftDetails=None
+        self.current_shift=None
+        self.userDetails=None
         self.thread = None
         self.dio_thread = None
         self.avc_thread=None
@@ -48,15 +59,13 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.lpic_thread=None
         self.ic_thread=None
         self.dio_events=None
+        self.mqtt_topic=None
         self.current_Transaction=None
         self.running_Transaction=None
-        self.userDetails=None
-        self.is_running = True
         self.rfid_client_connected=False
         self.mqtt_client_connected=False
         self.system_loging_status=False
         self.system_transcation_status=False
-        self.mqtt_topic=None
         self.ufd_message=""
         self.rfid_data=[]
         self.wim_data=[]
@@ -231,6 +240,39 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_user: {str(e)}")
     
+    def run_desktop_app(self):
+        try:
+            if self.app_thread is None and self.equipment_detail is not None and self.vehicle_class is not None and self.shiftDetails is not None and self.toll_fare is not None:
+                if self.lane_detail.get("LaneTypeId") != 3:
+                    self.app_thread = DesktopApp(self)
+                    self.app_thread.start_app()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run_desktop_app: {str(e)}")
+
+    def stop_desktop_app(self):
+        try:
+            if self.app_thread is not None:
+                self.app_thread.stop_app()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} stop_desktop_app: {str(e)}")
+
+    
+    def run_lane_api(self):
+        try:
+            if self.api_thread is None:
+                self.api_thread = FlaskApiApp(self.default_directory,self.script_dir, self.logger,self)
+                self.api_thread.start_app()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} run_lane_api: {str(e)}")
+
+    def stop_lane_api(self):
+        try:
+            if self.api_thread is not None:
+                self.api_thread.stop_app()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} stop_lane_api: {str(e)}")
+
+    
     def start_dio_thread(self,equipment):
         try:
             if not self.dio_thread:
@@ -364,41 +406,52 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def GetEquipmentDetails(self):
         try:
-            self.equipment_detail=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.lane_detail["LaneId"])
-            self.publish_data("equipment_processed",self.equipment_detail)
+            if self.equipment_detail is None:
+                self.equipment_detail=CommonManager.GetEquipmentDetails(self.dbConnectionObj,self.lane_detail["LaneId"])
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} GetEquipmentDetails: {str(e)}")
             self.equipment_detail=None
 
+    def getTollFare(self):
+        try:
+            if self.toll_fare is None:
+                current_date = datetime.now().date()
+                self.toll_fare=CommonManager.GetTollfare(self.dbConnectionObj,current_date)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} getTollFare: {str(e)}")
+            self.toll_fare=None
+
     def GetshiftDetails(self):
         try:
-            self.shiftDetails=CommonManager.GetShiftTimining(self.dbConnectionObj)
+            if self.shiftDetails is None:
+                self.shiftDetails=CommonManager.GetShiftTimining(self.dbConnectionObj)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} GetshiftDetails: {str(e)}")
             self.shiftDetails=None
 
     def getVSDetails(self):
         try:
-            if self.systemSetting is not None and self.vc is None:
+            if self.systemSetting is not None and self.vehicle_class is None:
                 if self.systemSetting['SubClassRequired']==1:
-                    self.vc=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
+                    self.vehicle_class=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
                 else:
-                    self.vc=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
+                    self.vehicle_class=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} getVSDetails: {str(e)}")
-            self.vc=None
+            self.vehicle_class=None
 
     def getSystemSettingDetails(self):
         try:
             if self.systemSetting is None:
                 self.systemSetting = CommonManager.GetSystemSetting(self.dbConnectionObj)
+                self.default_plaza_Id = self.systemSetting.get('DefaultPlazaId')
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} getSystemSettingDetails: {str(e)}")
             self.systemSetting=None
 
     def getLaneDetails(self):
         try:
-            if self.lane_detail:
+            if self.lane_detail is None:
                 self.lane_detail = CommonManager.GetLaneDetails(self.dbConnectionObj, self.default_lane_ip)
                 if self.lane_detail:
                     self.mqtt_topic=self.lane_detail["LaneName"]+'/laneStatus'
@@ -452,41 +505,30 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.mqtt_on_connet(self.plaza_detail["PlazaServerIpAddress"])
         except Exception as e:
                 self.logger.logError(f"Exception {self.classname} get_plaza: {str(e)}")
-    
-    def get_shift(self):
-        try:
-            if self.shiftDetails is None:
-                self.GetshiftDetails()
-        except Exception as e:
-                self.logger.logError(f"Exception {self.classname} get_shift: {str(e)}")
 
-    def get_equipments(self):
-        try:
-            if self.equipment_detail is None:
-                self.GetEquipmentDetails()
-        except Exception as e:
-                self.logger.logError(f"Exception {self.classname} get_equipments: {str(e)}")
 
     def run_equipments(self):
         try:
             if self.equipment_detail is not None:
-                for equipment in self.equipment_detail:
-                    if equipment["EquipmentTypeId"]==4:
-                        self.start_wim_thread(equipment)
-                    elif equipment["EquipmentTypeId"]==5:
-                        self.start_rfid_thread(equipment)
-                    elif equipment["EquipmentTypeId"]==7:
-                        self.start_dio_thread(equipment)
-                    elif equipment["EquipmentTypeId"]==15:
-                        self.start_lpic_thread(equipment)
-                    elif equipment["EquipmentTypeId"]==16:
-                        self.start_ic_thread(equipment)
-                    elif equipment["EquipmentTypeId"]==18:
-                        self.startUFD(equipment)
-                    elif equipment["EquipmentTypeId"]==21:
-                        self.start_avc_thread(equipment)
-                    time.sleep(0.100)  
-                self.start_ping_thread()  
+                # for equipment in self.equipment_detail:
+                #     if equipment["EquipmentTypeId"]==4:
+                #         self.start_wim_thread(equipment)
+                #     elif equipment["EquipmentTypeId"]==5:
+                #         self.start_rfid_thread(equipment)
+                #     elif equipment["EquipmentTypeId"]==7:
+                #         self.start_dio_thread(equipment)
+                #     elif equipment["EquipmentTypeId"]==15:
+                #         self.start_lpic_thread(equipment)
+                #     elif equipment["EquipmentTypeId"]==16:
+                #         self.start_ic_thread(equipment)
+                #     elif equipment["EquipmentTypeId"]==18:
+                #         self.startUFD(equipment)
+                #     elif equipment["EquipmentTypeId"]==21:
+                #         self.start_avc_thread(equipment)
+                #     time.sleep(0.100)  
+                # self.start_ping_thread()
+                self.run_desktop_app()  
+                self.run_lane_api()  
         except Exception as e:
                 self.logger.logError(f"Exception {self.classname} run_equipments: {str(e)}")
 
@@ -495,11 +537,13 @@ class LaneEquipmentSynchronization(threading.Thread):
             try:
                 self.start_dts_thread()
                 self.getSystemSettingDetails()
-                if self.lane_detail:
+                if self.default_plaza_Id>0:
                     self.get_plaza()
-                    self.get_shift()
+                if self.lane_detail is not None and self.plaza_detail is not None:
+                    self.GetshiftDetails()
                     self.getVSDetails()
-                    self.get_equipments()
+                    self.getTollFare()
+                    self.GetEquipmentDetails()
                     self.run_equipments()
                 else:
                     self.getLaneDetails()
@@ -694,9 +738,9 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def get_fasTag_class_name(self,classId,trans_data):
         try:
-            if self.systemSetting is not None and self.vc is not None:
+            if self.systemSetting is not None and self.vehicle_class is not None:
                 if self.systemSetting['SubClassRequired'] == 1 or self.systemSetting['SubClassRequired'] == True:
-                    matched_item = next((item for item in self.vc if int(item['SystemVehicleSubClassId']) == int(classId)), None)
+                    matched_item = next((item for item in self.vehicle_class if int(item['SystemVehicleSubClassId']) == int(classId)), None)
                     if matched_item:
                         trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
                         trans_data["VehicleSubClassId"]=int(matched_item['SystemVehicleSubClassId'])
@@ -707,7 +751,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                     else:
                         trans_data["PermissibleVehicleWeight"]=0
                 else:
-                    matched_item = next((item for item in self.vc if int(item['SystemVehicleClassId']) == int(classId)), None)
+                    matched_item = next((item for item in self.vehicle_class if int(item['SystemVehicleClassId']) == int(classId)), None)
                     if matched_item:
                         trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
                         trans_data["VehicleSubClassId"]=0
@@ -931,6 +975,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 end_datetime = datetime.strptime(current_date + ' ' + shift['EndTimming'], date_format)
                 formatted_datetime = datetime.strptime(current_date_time, date_format)
                 if start_datetime <= formatted_datetime <= end_datetime:
+                    self.current_shift=shift
                     ShiftId=shift['ShiftId']
                     break
         except Exception as e:
@@ -1049,6 +1094,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.stop_wim_thread()
             self.stop_rfid_thread()
             self.stop_dts_thread()
+            
             self.lpic_thread.stop()
             self.ic_thread.stop()
             self.mqtt_client.disconnect()
@@ -1057,6 +1103,8 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.equipment_detail=None
             self.rfid_client_connected=False
             self.mqtt_client_connected=False
+            self.stop_desktop_app()
+            self.stop_lane_api()
             self.logger.logInfo("Lane Equipment Synchronization stopped.")
             print('Lane Equipment Synchronization is stopped.')
         except Exception as e:

@@ -7,19 +7,21 @@ from utils.log_master import CustomLogger
 from pubsub import pub
 
 class CameraHandler(threading.Thread):
-    def __init__(self, handler,default_directory,camera_name,log_file_name,equipment,topic, gstream_enabled=False, retry_delay=5):
+    def __init__(self, handler,default_directory,camera_name,log_file_name,equipment,topic, gstream_enabled=False, retry_delay=1,timeout=0.100):
         super().__init__()
         self.handler=handler
         self.cam_details=equipment
         self.rtsp_url = equipment['UrlAddress']
         self.gstream_enabled = gstream_enabled
         self.retry_delay = retry_delay
+        self.timeout = timeout
         self.camera_name=camera_name
         self.topic=topic
         self.is_running=True
         self.capture_frame=False
         self.capture_is_open=False
         self.recording=False
+        self.is_active=False
         self.runtime_screenshort=False
         self.total_retries=0
         self.fps=25.0
@@ -46,9 +48,22 @@ class CameraHandler(threading.Thread):
         try:
             if self.topic:
                 pub.sendMessage(self.topic, liveview=data)
-                pass
         except Exception as e:
-            pass
+            self.logger.logError(f"Exception {self.classname} publish_data: {str(e)}")
+
+    def get_frame(self):
+        try:
+            ret, frame = self.capture.read()
+            if ret:
+                self.current_frame=frame
+                self.publish_data(frame)
+            else:
+                self.capture.release()
+                self.capture_frame = False
+                self.current_frame=None
+                self.capture_is_open=False
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} capture_frame: {str(e)}")
 
     def initialize_capture(self):
         try:
@@ -57,7 +72,6 @@ class CameraHandler(threading.Thread):
                 return cv2.VideoCapture(gstreamer_pipeline, cv2.CAP_GSTREAMER)
             else:
                 return cv2.VideoCapture(self.rtsp_url, cv2.CAP_FFMPEG)
-            
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} initialize_capture: {str(e)}")
             self.handler.update_equipment_list(self.cam_details["EquipmentId"],'ConnectionStatus',False)
@@ -78,20 +92,6 @@ class CameraHandler(threading.Thread):
             self.logger.logError(f"Exception {self.classname} capture_open: {str(e)}")
             self.handler.update_equipment_list(self.cam_details["EquipmentId"],'ConnectionStatus',False)
 
-    def get_frame(self):
-        try:
-            ret, frame = self.capture.read()
-            if ret:
-                self.current_frame=frame
-                self.publish_data(frame)
-            else:
-                self.capture.release()
-                self.capture_frame = False
-                self.current_frame=None
-                self.capture_is_open=False
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} capture_frame: {str(e)}")
-
     def run(self):
         while self.is_running:
             if not self.capture_frame:
@@ -101,9 +101,19 @@ class CameraHandler(threading.Thread):
             elif not self.capture_is_open:
                 self.capture_open()
             elif self.capture_frame and self.capture_is_open:
-                
                 self.get_frame()
-            time.sleep(0.01)  
+            time.sleep(self.timeout)  
+            
+    def check_status(self):
+        try:
+            if self.is_active==False:
+                self.is_active=self.handler.get_on_line_status(self.cam_details['EquipmentTypeId'])
+                if self.is_active==0:
+                    self.is_active=False
+                elif self.is_active==1:
+                    self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
 
     def take_screenshot(self, output_file):
         result=False

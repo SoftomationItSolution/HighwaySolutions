@@ -111,6 +111,8 @@ class SagarAVCDataClient(threading.Thread):
                             self.process_data(echoed_transaction_number)
                         time.sleep(self.timeout)
                     time.sleep(self.timeout)
+                    self.check_status()
+                self.check_status()
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
@@ -122,6 +124,17 @@ class SagarAVCDataClient(threading.Thread):
     def retry(self,status):
         if self.is_active!=status:
             self.is_active=status
+
+    def check_status(self):
+        try:
+            if self.is_active==False and self.is_stopped==False:
+                self.is_active=self.handler.get_on_line_status(self.avc_detail['EquipmentTypeId'])
+                if self.is_active==0:
+                    self.is_active=False
+                elif self.is_active==1:
+                    self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
 
     def client_stop(self):
         try:

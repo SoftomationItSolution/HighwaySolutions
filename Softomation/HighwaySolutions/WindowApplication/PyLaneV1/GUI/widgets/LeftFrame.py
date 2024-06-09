@@ -4,14 +4,15 @@ from GUI.ui.messBox import show_custom_message_box
 from utils.constants import Utilities
 
 class LeftFrame(QFrame):
-    def __init__(self, width, height, logger):
+    def __init__(self, width, height, logger,systemSetting,vehicle_class):
         super().__init__()
         try:
             self.logger = logger
             self.setStyleSheet("border: none;")
             self.setFixedWidth(width)
             self.setFixedHeight(height)
-            self.classList = None
+            self.systemSetting=systemSetting
+            self.classList = vehicle_class
             self.list_height = height - 30
 
             box_layout = QVBoxLayout(self)
@@ -32,21 +33,18 @@ class LeftFrame(QFrame):
                                     "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
             self.vc_list.setFixedHeight(self.list_height)
             group_box_layout.addWidget(self.vc_list)
+            self.update_vc()
         except Exception as e:
             self.logger.logError(f"Error in LeftFrame __init__: {e}")
 
-    def update_ss(self, json_data):    
-        self.systemSettingDetails = json_data
-
-    def update_vc(self, json_data):
+    def update_vc(self):
         try:
-            self.classList = json_data
-            if json_data is not None and len(json_data) > 0:
-                list_item_height = int(self.list_height / len(json_data))
-                if self.systemSettingDetails['SubClassRequired'] == 1:
-                    self.bindSubvc(json_data, list_item_height)
+            if self.classList is not None and len(self.classList) > 0:
+                list_item_height = int(self.list_height / len(self.classList))
+                if self.systemSetting['SubClassRequired'] == 1:
+                    self.bindSubvc(self.classList, list_item_height)
                 else:
-                    self.bindvc(json_data, list_item_height)
+                    self.bindvc(self.classList, list_item_height)
             else:
                 self.logger.logError(f"No Vehicle Class found in update_vc")
                 show_custom_message_box("Vehicle Class", "No Vehicle Class found", "inf")
@@ -80,7 +78,7 @@ class LeftFrame(QFrame):
             if FasTagClassId > 0 and self.classList is not None:
                 default_selected_index = 0
                 for i, item in enumerate(self.classList):
-                    if self.systemSettingDetails['SubClassRequired'] == 1:
+                    if self.systemSetting['SubClassRequired'] == 1:
                         if item.get('SystemVehicleSubClassId') == int(classId):
                             FasTagClassName=item.get('SystemVehicleSubClassName')
                             default_selected_index = i
