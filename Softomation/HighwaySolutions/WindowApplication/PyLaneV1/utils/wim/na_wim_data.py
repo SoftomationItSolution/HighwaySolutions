@@ -118,6 +118,7 @@ class NAWinDataClient(threading.Thread):
     def run(self):
         while not self.is_stopped:
             try:
+                self.check_status()
                 while self.is_active:
                     self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                     self.client_socket.connect((self.wim_detail["IpAddress"], self.wim_detail["PortNumber"]))
@@ -133,15 +134,26 @@ class NAWinDataClient(threading.Thread):
                             self.logger.logInfo("wim data: {}".format(echoed_transaction_number))
                             self.process_data(echoed_transaction_number)
                             self.client_socket.send("ACK\r\n".encode('utf-8'))
+                        self.check_status()
                         time.sleep(self.timeout)
+                self.check_status()
                 time.sleep(self.timeout)
             except ConnectionRefusedError:
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} wim_data_run: {str(e)}")
-            finally:
-                self.client_stop()
+
+    def check_status(self):
+        try:
+            if self.is_active==False and self.is_stopped==False:
+                self.is_active=self.handler.get_on_line_status(self.wim_detail['EquipmentTypeId'])
+                if self.is_active==0:
+                    self.is_active=False
+                elif self.is_active==1:
+                    self.is_active=True
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
 
     def retry(self,status):
         if self.is_active!=status:

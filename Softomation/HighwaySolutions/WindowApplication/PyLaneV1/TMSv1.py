@@ -3,7 +3,6 @@ import platform
 import sys
 import threading
 import time
-from models.CommonManager import CommonManager
 from utils.lane_equipment_init import LaneEquipmentSynchronization
 from utils.mySqlConnection import MySQLConnections
 from utils.constants import Utilities

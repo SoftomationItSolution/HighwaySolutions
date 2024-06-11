@@ -18,7 +18,7 @@ class MantraRfidReader(threading.Thread):
         self.reader = None
         self.is_running=False
         self.is_stopped = False
-        self.CLEANUP_INTERVAL = 10
+        self.CLEANUP_INTERVAL = 30
         self.set_logger(default_directory,log_file_name)
         self.set_status()
         self.processed_epcs={}

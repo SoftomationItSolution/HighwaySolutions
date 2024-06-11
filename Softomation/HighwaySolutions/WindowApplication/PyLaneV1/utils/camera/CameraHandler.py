@@ -15,7 +15,6 @@ class CameraHandler(threading.Thread):
         self.gstream_enabled = gstream_enabled
         self.retry_delay = retry_delay
         self.timeout = timeout
-        self.camera_name=camera_name
         self.topic=topic
         self.is_running=True
         self.capture_frame=False
@@ -27,19 +26,19 @@ class CameraHandler(threading.Thread):
         self.fps=25.0
         self.current_frame=None
         self.recording_thread=None
-        self.set_logger(default_directory,log_file_name)
-        self.set_cam_file_path_dir(default_directory)
+        self.set_logger(default_directory,log_file_name,camera_name)
+        self.set_cam_file_path_dir(default_directory,camera_name)
 
-    def set_logger(self,default_directory,log_file_name):
+    def set_logger(self,default_directory,log_file_name,camera_name):
         try:
-            self.classname=f"CameraHandler-{self.camera_name}"
+            self.classname=f"CameraHandler-{camera_name}"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
 
-    def set_cam_file_path_dir(self,default_directory):
+    def set_cam_file_path_dir(self,default_directory,camera_name):
         try:
-            self.file_path_dir=os.path.join(default_directory, 'Events', 'camera',self.camera_name)
+            self.file_path_dir=os.path.join(default_directory, 'Events', 'camera',camera_name)
             Utilities.make_dir(self.file_path_dir)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_cam_file_path_dir: {str(e)}")
