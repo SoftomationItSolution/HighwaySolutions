@@ -1,7 +1,7 @@
 {
     "Prefx": "http",
     "BaseURL": "localhost",
-    "ApiPort": 49874,
+    "ApiPort": 6001,
     "ApiAdminPath": "Softomation",
     "Latitude": "19.621774437842745",
     "Longitude": "85.10468424861364",

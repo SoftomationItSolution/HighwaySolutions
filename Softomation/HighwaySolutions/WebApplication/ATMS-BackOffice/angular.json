@@ -13,6 +13,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "moment",
+              "apexcharts",
+              "mqtt-browser",
+              "quill",
+              "pdfjs-dist",
+              "pdfjs-dist/web/pdf_viewer",
+              "quill-blot-formatter",
+              "quill-emoji/dist/quill-emoji.js"
+            ],
             "outputPath": "dist/atms-back-office",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -50,13 +60,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "5mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "50mb",
+                  "maximumError": "50mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "5mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "50mb",
+                  "maximumError": "50mb"
                 }
               ],
               "outputHashing": "all"
