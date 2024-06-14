@@ -88,7 +88,7 @@ class MantraRfidReader(threading.Thread):
                             self.reader=None
                             self.processed_epcs={}
                             break
-                        self.processed_epcs = {epc: timestamp for epc, timestamp in self.processed_epcs.items() if datetime.now() - timestamp <= timedelta(seconds=10)}
+                        self.processed_epcs = {epc: timestamp for epc, timestamp in self.processed_epcs.items() if datetime.now() - timestamp <= timedelta(seconds=self.CLEANUP_INTERVAL)}
                         read_list = []
                         self.reader.read(100, read_list)
                         for tag in set(read_list):

@@ -630,13 +630,14 @@ class LaneEquipmentSynchronization(threading.Thread):
     def update_rfid_data(self,data):
         try:
             if self.system_loging_status:
-                self.publish_data("rfid_processed",data)
                 self.mqtt_rfid_event(data)
-                if self.LaneTypeId==3 and self.system_transcation_status==False:
-                    data["Processed"]=True
+                if self.LaneTypeId==3:
+                    if self.system_transcation_status==False:
+                        data["Processed"]=True
+                        self.background_Transcation(data)
                     self.rfid_data.append(data)
-                    self.background_Transcation(data)
                 else:
+                    self.publish_data("rfid_processed",data)
                     self.rfid_data.append(data)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} update_rfid_data: {str(e)}")

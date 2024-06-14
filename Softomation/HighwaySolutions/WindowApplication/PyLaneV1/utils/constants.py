@@ -218,7 +218,8 @@ class Utilities:
     def make_dir(directory):
         if not os.path.exists(directory):
             os.makedirs(directory)
-
+    
+    
     @staticmethod
     def starts_with_F_ends_with_E(input_string):
         pattern = r'^F.*E$'

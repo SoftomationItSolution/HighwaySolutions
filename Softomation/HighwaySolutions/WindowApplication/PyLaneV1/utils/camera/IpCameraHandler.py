@@ -120,14 +120,14 @@ class IpCameraHandler(threading.Thread):
                 self.record_file_path = os.path.join(self.file_path_dir, video_file_name)
                 self.image_file_path = os.path.join(self.file_path_dir, img_file_name)
                 output_params = {
-                    "-input_framerate": str(self.frame_rate),
-                    "-vcodec": "libx264",  # Use H.264 codec for compatibility
-                    "-crf": 23,  # Constant Rate Factor, adjust for quality
-                    "-preset": "fast",  # Preset for encoding speed
-                    "-pix_fmt": "yuv420p"  # Pixel format for compatibility
+                 "-input_framerate": str(self.frame_rate),
+                "-vcodec": "libx264",  # Use H.264 codec for compatibility
+                "-crf": 23,  # Constant Rate Factor, adjust for quality
+                "-preset": "fast",  # Preset for encoding speed
+                "-pix_fmt": "yuv420p"  # Pixel format for compatibility
                 }
                 self.writer = WriteGear(output=self.record_file_path, logging=True, **output_params)
-                self.recording_thread = threading.Thread(target=self.record_thread, args=(snapshot))
+                self.recording_thread = threading.Thread(target=self.record_thread, args=(snapshot,))
                 self.recording_thread.start()
                 return True
             else:
