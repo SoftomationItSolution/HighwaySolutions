@@ -48,7 +48,6 @@ class RfidDataQueueBox(QFrame):
             header.setSectionResizeMode(QHeaderView.ResizeToContents)
             header.setStretchLastSection(True)
             group_box_layout.addWidget(self.tblRfid)
-
         except Exception as e:
             self.logger.logError(f"Error in rfidDataQueueBox __init__: {e}")
 

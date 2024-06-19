@@ -66,11 +66,13 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.mqtt_client_connected=False
         self.system_loging_status=False
         self.system_transcation_status=False
+        self.barrier_auto=True
         self.ufd_message=""
         self.rfid_data=[]
         self.wim_data=[]
         self.avc_data=[]
         self.transaction_data=[]
+
         self.create_mqtt_obj()
 
     def set_logger(self,default_directory,log_file_name):
@@ -255,7 +257,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.app_thread.stop_app()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} stop_desktop_app: {str(e)}")
-
     
     def run_lane_api(self):
         try:
@@ -276,7 +277,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if not self.dio_thread:
                 if equipment["ManufacturerName"]=="KITS":
-                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.system_loging_status,'lane_BG_dio')
+                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.system_loging_status,self.barrier_auto,'lane_BG_dio')
                     self.dio_events=self.dio_thread.out_labels
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
@@ -845,6 +846,18 @@ class LaneEquipmentSynchronization(threading.Thread):
         finally:
             self.publish_data("lane_process_end", True)
 
+    def handel_fleet_trans(self,barrier_auto):
+        try:
+            self.barrier_auto=barrier_auto
+            if self.dio_thread is not None:
+                self.dio_thread.barrier_auto=barrier_auto
+                self.dio_thread.auto_count=0
+                if barrier_auto==True:
+                    self.dio_thread.send_data('s20e')
+                    self.dio_thread.send_data('s30e')    
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} handel_fleet_trans: {str(e)}")
+        
     def start_violation_trans(self):
         try:
             if self.system_transcation_status==False:

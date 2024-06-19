@@ -6,11 +6,12 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,log_file_name,timeout=0.100):
+    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,barrier_auto,log_file_name,timeout=0.100):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
         self.system_loging_status=system_loging_status
+        self.barrier_auto=barrier_auto
         self.timeout=timeout
         self.client_socket=None
         self.is_running=False
@@ -18,6 +19,7 @@ class KistDIOClient(threading.Thread):
         self.record_status=False
         self.system_transcation_status=False
         self.violation_duration=3
+        self.auto_count=0
         self.running_Transaction=None
         self.out_labels = [
             {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
@@ -288,13 +290,15 @@ class KistDIOClient(threading.Thread):
         try:
             self.system_transcation_status=status
             self.running_Transaction=running_Transaction
-            if self.client_socket is not None:
+            if self.client_socket is not None and self.barrier_auto:
                 if status:
                     self.send_data('s21e')
                     self.send_data('s31e')
                 else:
                     self.send_data('s20e')
                     self.send_data('s30e')
+            else:
+                self.auto_count += 1
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
 

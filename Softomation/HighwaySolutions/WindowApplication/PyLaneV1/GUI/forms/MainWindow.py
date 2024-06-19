@@ -1,10 +1,12 @@
 from datetime import datetime
 import json
+import os
 import threading
 from PySide6.QtCore import Signal,QDateTime
 from PySide6.QtWidgets import QMainWindow
 from PySide6.QtWidgets import QWidget,QHBoxLayout, QVBoxLayout
 from PySide6.QtCore import Qt
+from GUI.dialog.FloatDialog import CurrencyDialog
 from GUI.ui.messBox import confirmation_box, show_custom_message_box
 from GUI.widgets.Header import Header
 from GUI.widgets.LeftFrame import LeftFrame
@@ -41,13 +43,25 @@ class MainWindow(QMainWindow):
             self.recipt_printer=None
             self.right_frame=None
             self.footer_widget=None
+            self.current_shift=None
             self.initUI()
             self.initThreads()
             self.isTransactionPending=False
+            self.tow_status=False
+            self.fleet_status=False
             self.get_current_shift()
             self.updateTollFareDetails()
+            self.get_plaza_url()
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
+
+    def get_plaza_url(self):
+        try:
+            plaza_config_path=os.path.join(self.default_directory, 'MasterConfig', 'plazaConfig.json')
+            plaza_config = Utilities.read_json_file(plaza_config_path)
+            self.api_base_url=plaza_config["plaza_api_p"]
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
 
     def initUI(self):
         try:
@@ -89,6 +103,13 @@ class MainWindow(QMainWindow):
             self.right_frame.current_transaction_box.btnReset.clicked.connect(self.reset_transctions)
             self.right_frame.wim_data_queue_box.tblWim.itemDoubleClicked.connect(self.remove_wim_Row)
             self.right_frame.rfid_data_queue_box.tblRfid.itemDoubleClicked.connect(self.remove_rfid_Row)
+            
+            self.right_frame.transaction_type_box.btnMid.clicked.connect(self.mid_declare)
+            self.right_frame.transaction_type_box.btnBleed.clicked.connect(self.end_declare)
+            self.right_frame.transaction_type_box.btnFleet.clicked.connect(self.fleet_manage)
+            self.right_frame.transaction_type_box.btnTow.clicked.connect(self.tow_manage)
+            
+            
             frames_layout.addWidget(self.right_frame)
             main_layout.addLayout(frames_layout)
 
@@ -129,7 +150,8 @@ class MainWindow(QMainWindow):
                 self.createThread(self.updateTransactionTypeDetails),
                 self.createThread(self.updatePaymentTypeDetails),
                 self.createThread(self.updateExemptTypeDetails),
-                self.createThread(self.updateLatestLaneTransaction)
+                self.createThread(self.updateLatestLaneTransaction),
+                self.createThread(self.GetDenominationMaster)
             ]
             for thread in threads:
                 thread.start()
@@ -169,7 +191,6 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  updateTollFareDetails: {e}")
 
-
     def updateLatestLaneTransaction(self):
         try:
             self.latest_lane_txn=CommonManager.GetLatestLaneTransaction(self.dbConnectionObj)
@@ -177,6 +198,13 @@ class MainWindow(QMainWindow):
                 self.right_frame.recent_transaction_box.update_lt(self.latest_lane_txn)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  updateLatestLaneTransaction: {e}")
+
+    def GetDenominationMaster(self):
+        try:
+            self.denomination_master=CommonManager.GetDenominationMaster(self.dbConnectionObj)
+        except Exception as e:
+            self.denomination_master=None
+            self.logger.logError(f"Error in MainWindow  GetDenominationMaster: {e}")
 
     def get_RFID_detail(self,transactionInfo):
         try:
@@ -251,8 +279,6 @@ class MainWindow(QMainWindow):
                         self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight')) 
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  lane_process_end: {e}")
-        
-   
 
     def print_receipt(self,current_Transaction):
         try:
@@ -382,6 +408,51 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in MainWindow onExemptTypeSelect: {e}")
             show_custom_message_box("Exempt Type", "Somthing went wrong!", 'cri') 
 
+    def mid_declare(self):
+        try:
+             dialog = CurrencyDialog(self.dbConnectionObj,self.api_base_url,self.denomination_master,self.lane_detail,self.userDetails,self.current_shift,4,'mid-shift Float Process')
+             dialog.exec()
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow mid_declare: {e}")
+            show_custom_message_box("MID decalre", "Somthing went wrong!", 'cri')
+
+    def end_declare(self):
+        try:
+             dialog = CurrencyDialog(self.dbConnectionObj,self.api_base_url,self.denomination_master,self.lane_detail,self.userDetails,self.current_shift,5,'end-shift Float Process')
+             dialog.exec()
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow end_declare: {e}")
+            show_custom_message_box("END decalre", "Somthing went wrong!", 'cri') 
+
+    def fleet_manage(self):
+        try:
+            if self.fleet_status:
+                self.fleet_status=False
+                self.right_frame.transaction_type_box.btnFleet.setText("Fleet-Start")
+                self.right_frame.transaction_type_box.btnFleet.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
+            else:
+                self.fleet_status=True
+                self.right_frame.transaction_type_box.btnFleet.setText("Fleet-Started")
+                self.right_frame.transaction_type_box.btnFleet.setStyleSheet("background-color: red; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
+                self.bg_service.handel_fleet_trans(False)
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow fleet_manage: {e}")
+            show_custom_message_box("Fleet", "Somthing went wrong!", 'cri') 
+
+    def tow_manage(self):
+        try:
+            if self.tow_status:
+                self.tow_status=False
+                self.right_frame.transaction_type_box.btnTow.setText("Tow-Start")
+                self.right_frame.transaction_type_box.btnTow.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
+            else:
+                self.tow_status=True
+                self.right_frame.transaction_type_box.btnTow.setText("Tow-Started")
+                self.right_frame.transaction_type_box.btnTow.setStyleSheet("background-color: red; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow tow_manage: {e}")
+            show_custom_message_box("Tow", "Somthing went wrong!", 'cri') 
+    
     def get_current_shift(self):
         try:
             current_datetime = QDateTime.currentDateTime()
@@ -395,6 +466,7 @@ class MainWindow(QMainWindow):
                 end_datetime = datetime.strptime(current_date + ' ' + shift['EndTimming'], date_format)
                 formatted_datetime = datetime.strptime(current_date_time, date_format)
                 if start_datetime <= formatted_datetime <= end_datetime:
+                    self.current_shift=shift
                     self.right_frame.current_transaction_box.update_shift(shift)
                     self.header_widget.update_shift(shift)
                     sh="<b>Shift: " + str(shift['ShiftId']) + " " + shift['StartTimmng'] + "-" + shift['EndTimming']+"</b>"

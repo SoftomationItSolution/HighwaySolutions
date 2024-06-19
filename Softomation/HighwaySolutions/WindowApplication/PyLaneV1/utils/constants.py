@@ -5,11 +5,13 @@ import random
 import re
 import socket
 import string
+import time
 import netifaces
 import requests
 from ftplib import FTP
 import paramiko
 import psutil
+
 class Utilities:
     key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
     iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
@@ -36,7 +38,7 @@ class Utilities:
             print(f"An unexpected error occurred: {e}")
 
     @staticmethod
-    def json_date_format(date_obj=None):
+    def my_sql_date_format(date_obj=None):
         date_obj = date_obj or datetime.date.today()
         return date_obj.strftime("%Y-%m-%d")
 
@@ -298,3 +300,11 @@ class Utilities:
             return True
         except psutil.NoSuchProcess:
             return True
+        
+    @staticmethod
+    def generate_receipt_number():
+        timestamp = int(time.time() * 1000)  # Get current timestamp in milliseconds
+        random_number = random.randint(0, 9999)  # Generate random number between 0 and 9999
+        padded_random = str(random_number).zfill(4)  # Pad random number to have 4 digits
+        receipt_number = f"{timestamp}{padded_random}"  # Concatenate timestamp and padded random number
+        return receipt_number[:20]  # Ensure the length is 20 characters

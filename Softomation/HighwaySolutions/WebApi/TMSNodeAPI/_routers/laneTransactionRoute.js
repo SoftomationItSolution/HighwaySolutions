@@ -89,7 +89,7 @@ async function AvcTransactionInsert(req, res, next) {
             .input('AvcClassId', sql.SmallInt, req.body.AvcClassId)
             .input('AxleCount', sql.SmallInt, req.body.AxleCount)
             .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
-            .input('WheelBase', sql.SmallInt, req.body.WheelBase)
+            .input('WheelBase', sql.BigInt, req.body.WheelBase)
             .input('ImageName', sql.VarChar(255), req.body.ImageName)
             .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
             .execute('USP_AvcTransactionInsert');

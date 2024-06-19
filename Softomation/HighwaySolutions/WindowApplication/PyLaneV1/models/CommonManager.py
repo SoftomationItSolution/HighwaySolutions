@@ -117,3 +117,22 @@ class CommonManager:
         except Exception as e:
             raise e
         
+    @staticmethod
+    def GetDenominationMaster(dbConnectionObj):
+        try:
+            resultData = dbConnectionObj.execute_procedure('USP_GetDenominationMaster', None)
+            return resultData
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def GetLaneTransactionCount(dbConnectionObj, ShiftId,TransactionDate):
+        try:
+            params = [ShiftId,TransactionDate]
+            resultData = dbConnectionObj.execute_procedure('USP_GetLaneTransactionCount', params)
+            if len(resultData)>0:
+                return resultData[0]["LaneTransactionCount"]
+            else:
+                return 0
+        except Exception as e:
+            raise e

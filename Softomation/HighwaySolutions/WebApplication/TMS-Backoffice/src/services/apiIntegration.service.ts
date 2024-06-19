@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ConfigIntrface, DataModel } from './data-model.model';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { coerceStringArray } from '@angular/cdk/coercion';
 
 @Injectable({
   providedIn: 'root'

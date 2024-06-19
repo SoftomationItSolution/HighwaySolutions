@@ -13,7 +13,7 @@ import { DataModel } from 'src/services/data-model.model';
   styleUrls: ['./float-process-popup.component.css']
 })
 export class FloatProcessPopupComponent implements OnInit {
-  
+
   PageTitle: string = "";
   DataDetailsForm!: FormGroup;
   error = errorMessages;
@@ -30,7 +30,7 @@ export class FloatProcessPopupComponent implements OnInit {
   AmountAlloted = 0;
   FloatTransactionTypeId = 0;
   LoginId = '';
-  MediaPrefix=''
+  MediaPrefix = ''
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<FloatProcessPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel, public datepipe: DatePipe,) {
     const UserData = this.dm.getUserData()
@@ -39,7 +39,7 @@ export class FloatProcessPopupComponent implements OnInit {
     this.LoginId = UserData.LoginId;
     this.FloatProcessId = parentData.FloatProcessId;
     this.FloatTransactionTypeId = parentData.FloatTransactionTypeId;
-    
+
     this.DefaultPlazaId = this.dm.getDefaultPlazaId();
   }
 
@@ -198,7 +198,7 @@ export class FloatProcessPopupComponent implements OnInit {
       return;
     }
     const Obj = {
-      ReceiptNumber:this.generateReceiptNumber(),
+      ReceiptNumber: this.generateReceiptNumber(),
       FloatProcessId: this.FloatProcessId,
       PlazaId: this.DefaultPlazaId,
       TransactionAmount: this.AmountAlloted,
@@ -249,5 +249,5 @@ export class FloatProcessPopupComponent implements OnInit {
     const paddedRandom: string = random.toString().padStart(4, '0'); // Pad random number to have 4 digits
     const receiptNumber: string = `${timestamp}${paddedRandom}`; // Concatenate timestamp and padded random number
     return receiptNumber.substring(0, 20); // Ensure the length is 20 characters
-}
+  }
 }
