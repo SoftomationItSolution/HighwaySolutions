@@ -11,9 +11,10 @@ class TollReceiptPrinter:
         try:
             if self.printer_detail is not None and self.printer_detail["ProtocolTypeId"]==3:
                 if platform.system()=='Linux':
-                    self.p=Serial(devfile='/dev/ttyS0',baudrate=self.printer_detail["PortNumber"])
+                    comport=self.printer_detail["IpAddress"].replace("COM", "/dev/ttyS")
                 else:
-                    self.p=Serial(devfile=self.printer_detail["IpAddress"],baudrate=self.printer_detail["PortNumber"])
+                    comport=self.printer_detail["IpAddress"]
+                self.p=Serial(devfile=comport,baudrate=self.printer_detail["PortNumber"])
             else:
                 #0x154f,0x154f
                 d=self.printer_detail["UrlAddress"]

@@ -1,3 +1,4 @@
+import platform
 import socket
 import serial
 import time
@@ -11,6 +12,8 @@ class KistUFDClient():
         self.client_socket=None
         self.set_logger(default_directory,log_file_name)
         self.set_status()
+        self.set_serial_port()
+
     def set_logger(self,default_directory,log_file_name):
         try:
             self.classname="KistUFDClient"
@@ -27,6 +30,21 @@ class KistUFDClient():
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
 
+    def set_serial_port(self):
+        try:
+            self.ProtocolTypeId=self.ufd_detail["ProtocolTypeId"]
+            if self.ProtocolTypeId==3:
+                self.baudrate=int(self.ufd_detail["PortNumber"])
+                if platform.system() == 'Linux':
+                    self.comport=self.ufd_detail["IpAddress"]
+                    #comportid=int((self.comport.replace("COM", "")))
+                    self.comport=self.comport.replace("COM", "/dev/ttyS")
+                else:
+                    self.comport=self.ufd_detail["IpAddress"]
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_serial_port: {str(e)}")
+    
+    
     def send_data(self,input):
         try:
             input=input+'\r\n'
@@ -75,8 +93,8 @@ class KistUFDClient():
     def on_serial(self,bytes_data):
         try:
             self.client_socket = serial.Serial(timeout=0.200)
-            self.client_socket.baudrate = self.ufd_detail["IpAddress"]
-            self.client_socket.port = self.ufd_detail["PortNumber"]
+            self.client_socket.baudrate = self.baudrate
+            self.client_socket.port = self.comport
             self.client_socket.open()
             self.is_running = True
             self.client_socket.write(bytes_data)

@@ -23,9 +23,6 @@ from utils.avc.sagar_avc_data import SagarAVCDataClient
 from utils.dio.kits_dio_card import KistDIOClient
 from pubsub import pub
 
-
-
-
 class LaneEquipmentSynchronization(threading.Thread):
     def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip):
         super().__init__()

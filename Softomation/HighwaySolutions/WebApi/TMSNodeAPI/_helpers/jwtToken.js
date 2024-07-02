@@ -1,8 +1,5 @@
 const jwt = require('jsonwebtoken');
 const secretKey = "HighwaySoluationsProvider"; // Replace with a strong, secret key
-
-
-
 function GetToken(payload) {
     try {
         const expiresIns = new Date();

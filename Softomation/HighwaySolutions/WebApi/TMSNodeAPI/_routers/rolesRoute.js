@@ -7,7 +7,6 @@ const sql = require('mssql');
 
 router.post('/RoleConfigurationSetUp', RoleConfigurationSetUp);
 router.post('/RolePermissionSetup', RolePermissionSetup);
-
 router.get('/RoleConfigurationGetAll', RoleConfigurationGetAll);
 router.get('/RoleConfigurationGetActive', RoleConfigurationGetActive);
 router.get('/RoleConfigurationGetById', RoleConfigurationGetById);

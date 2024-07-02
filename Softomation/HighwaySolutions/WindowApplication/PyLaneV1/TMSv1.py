@@ -69,7 +69,7 @@ class TMSAppv1:
             self.check_duplicate_instance()
             db_json_data = Utilities.read_json_file(self.db_path)
             self.system_ip = Utilities.get_local_ips()
-            self.system_ip='192.168.10.12'
+            #self.system_ip='192.168.10.12'
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
             self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip)
             self.bg_handler.daemon = True

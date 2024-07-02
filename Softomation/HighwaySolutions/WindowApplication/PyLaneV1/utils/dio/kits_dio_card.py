@@ -1,3 +1,4 @@
+import platform
 import socket
 import threading
 import time
@@ -35,6 +36,7 @@ class KistDIOClient(threading.Thread):
         self.set_logger(default_directory,log_file_name)
         self.set_exit_loop()
         self.set_status()
+        self.set_serial_port()
 
     def set_logger(self,default_directory,log_file_name):
         try:
@@ -58,6 +60,19 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.exit_loop_index=9
             self.logger.logError(f"Exception {self.classname} set_exit_loop: {str(e)}")
+
+    def set_serial_port(self):
+        try:
+            self.ProtocolTypeId=self.dio_detail["ProtocolTypeId"]
+            if self.ProtocolTypeId==3:
+                self.baudrate=int(self.dio_detail["PortNumber"])
+                if platform.system() == 'Linux':
+                    self.comport=self.dio_detail["IpAddress"]
+                    self.comport=self.comport.replace("COM", "/dev/ttyS")
+                else:
+                    self.comport=self.dio_detail["IpAddress"]
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} set_serial_port: {str(e)}")
 
     def app_log_status(self, transactionInfo):
         try:
@@ -221,14 +236,14 @@ class KistDIOClient(threading.Thread):
     def serial_conn(self):
         try:
             self.client_socket = serial.Serial(timeout=0.200)
-            self.client_socket.baudrate = self.dio_detail["IpAddress"]
-            self.client_socket.port = self.dio_detail["PortNumber"]
+            self.client_socket.baudrate = self.baudrate
+            self.client_socket.port = self.comport
             self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',True)
             self.client_socket.open()
             self.is_running = True
             self.reset_command()
             while self.is_running:
-                if not self.is_active or self.is_stopped or not self.is_running:
+                if self.is_stopped or not self.is_running:
                     self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',False)
                     break
                 received_data = self.client_socket.readline().decode('utf-8').strip()

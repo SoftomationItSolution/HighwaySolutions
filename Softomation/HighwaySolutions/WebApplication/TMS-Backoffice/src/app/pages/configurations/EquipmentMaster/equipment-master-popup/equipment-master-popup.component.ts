@@ -68,7 +68,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
       this.PageTitle = 'Update Equipment Details';
     }
 
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 0; i <= 10; i++) {
       this.ComPortSetting.push({ DataId: 'COM' + i, DataName: 'COM ' + i });
     }
 
@@ -401,10 +401,12 @@ export class EquipmentMasterPopupComponent implements OnInit {
     if (this.ProtocolTypeId === 1 || this.ProtocolTypeId == 2) {
       ConnectionAddress = this.DeviceCommunicationForm.value.IpAddress;
       Port = this.DeviceCommunicationForm.value.PortNumber;
+      UrlAddress= this.DeviceCommunicationForm.value.UrlAddress;
 
     } else if (this.ProtocolTypeId == 3) {
       ConnectionAddress = this.DeviceCommunicationForm.value.ComPort;
       Port = this.DeviceCommunicationForm.value.BaudRate;
+      UrlAddress= this.DeviceCommunicationForm.value.UrlAddress;
     }
     else if(this.ProtocolTypeId == 4 || this.ProtocolTypeId == 5 || this.ProtocolTypeId == 6){
       ConnectionAddress = this.DeviceCommunicationForm.value.IpAddress;
