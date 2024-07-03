@@ -44,7 +44,8 @@ class AVC_Model(threading.Thread):
 
     def predict(self, image):
         try:
-            image = np.array(image.resize((224, 224))) / 255.0
+            image=image.convert("RGB")
+            image = np.array(image.resize((224, 224))).astype(np.float32) / 255.0
             image = np.transpose(image, (2, 0, 1))
             result_infer = self.compiled_model([np.expand_dims(image, 0)])[self.output_layer]
             probabilities = np.exp(result_infer) / np.sum(np.exp(result_infer), axis=1, keepdims=True)

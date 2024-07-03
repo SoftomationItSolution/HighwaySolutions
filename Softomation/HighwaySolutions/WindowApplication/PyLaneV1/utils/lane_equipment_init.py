@@ -459,7 +459,7 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def start_lpic_thread(self,equipment):
         try:
-            if self.lpic_thread is None:
+            if self.lpic_thread is None and '{' not in equipment['UrlAddress']: 
                 self.lpic_thread=IpCameraHandler(self,self.default_directory,"lpic","lane_BG_camera",equipment,"lpic_liveview")
                 self.lpic_thread.daemon=True
                 self.lpic_thread.start()
@@ -477,7 +477,7 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def start_ic_thread(self,equipment):
         try:
-            if self.ic_thread is None:
+            if self.ic_thread is None and '{' not in equipment['UrlAddress']: 
                 self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
                 self.ic_thread.daemon=True
                 self.ic_thread.start()
