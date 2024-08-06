@@ -1,0 +1,30 @@
+{
+  "name": "icd2.5api",
+  "version": "1.0.0",
+  "main": "IcdApp.js",
+  "scripts": {
+    "start": "node ./IcdApp.js",
+    "dev": "nodemon ./IcdApp.js",
+    "test": "node ./IcdApp.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mkdirp": "^3.0.1",
+    "moment": "^2.29.4",
+    "mqtt": "^5.5.4",
+    "mssql": "^10.0.1",
+    "rootpath": "^0.1.2",
+    "winston": "^3.11.0",
+    "winston-daily-rotate-file": "^4.7.1",
+    "xml2js": "^0.6.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "keywords": [],
+  "author": "Softomation Technology",
+  "license": "ISC",
+  "description": "FasTag Intigration with Bank"
+}
