@@ -18,14 +18,20 @@
     "moment": "^2.29.4",
     "mqtt": "^5.5.4",
     "mssql": "^10.0.1",
+    "node-media-server": "^2.3.8",
+    "node-onvif": "^0.1.7",
+    "node-rtsp-stream-jsmpeg": "^0.0.2",
+    "onvif": "^0.7.4",
     "pdfkit": "^0.14.0",
     "pdfkit-table": "^0.1.99",
     "pdfmake": "^0.1.72",
     "pkcs7": "^1.0.4",
     "roboto-font": "^0.1.0",
     "rootpath": "^0.1.2",
+    "rtsp-relay": "^1.7.0",
     "winston": "^3.11.0",
-    "winston-daily-rotate-file": "^4.7.1"
+    "winston-daily-rotate-file": "^4.7.1",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"

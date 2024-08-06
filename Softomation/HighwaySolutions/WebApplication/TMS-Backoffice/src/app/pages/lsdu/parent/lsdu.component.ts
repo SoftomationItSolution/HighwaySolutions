@@ -10,6 +10,7 @@ import { DataModel } from 'src/services/data-model.model';
 export class LSDUComponent implements OnInit {
   PermissionData:any;
   LaneData:any;
+  EquipmentData:any;
   ErrorData: any;
   LogedRoleId=0;
   LogedUserId=0;
@@ -64,8 +65,37 @@ export class LSDUComponent implements OnInit {
   GetLaneDetails() {
     this.dbService.LaneGetActive().subscribe(
       data => {
+        let lanedata= data.ResponseData;
+        this.GetEquipmentDetails(lanedata)
+      },
+      (error) => {
         this.spinner.hide();
-        this.LaneData = data.ResponseData;
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
+  }
+
+  GetEquipmentDetails(lanedata:any) {
+    this.dbService.EquipmentDetailsGetActive().subscribe(
+      data => {
+        this.spinner.hide();
+        let equipmentData = data.ResponseData;
+        let final_data=[]
+        for (let i = 0; i < lanedata.length; i++) {
+          const element = lanedata[i];
+          const laneEquipment = equipmentData.filter((e: { LaneId: any; }) => e.LaneId === element.LaneId);
+          element["LaneEquipment"]=laneEquipment
+          final_data.push(element)
+        }
+
+       this.LaneData=final_data
+
       },
       (error) => {
         this.spinner.hide();

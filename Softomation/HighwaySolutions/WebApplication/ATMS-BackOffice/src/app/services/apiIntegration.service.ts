@@ -51,7 +51,7 @@ export class apiIntegrationService {
               this.dataModel.setMediaAPI(mediaPath)
               let recordPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9091/PbxRec/"
               this.dataModel.setPBXRecordAPI(recordPath)
-              let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
+              let LiveView = 'ws://' + this.ConfigData.BaseURL + ':5090/';
               this.dataModel.setLiveAPI(LiveView);
 
               const obj = {

@@ -13,7 +13,7 @@
             <i class="mdi" [ngClass]="{'mdi-account-check log': app_loging, 'mdi-login unlog': !app_loging}" (click)="laneLogin()"></i>
         </ng-container>
         <ng-container *ngFor="let eq of equipmentList" class="equipment-container">
-            <i [class]="eq.EquipmentIcon" [attr.title]="eq.EquipmentTypeName" [ngClass]="getEquipmentClass(eq)"></i>
+            <i [class]="eq.EquipmentIcon" [attr.title]="eq.EquipmentTypeName" [ngClass]="getEquipmentClass(eq)" (click)="liveView(eq)"></i>
         </ng-container>
     </div>
     <div class="lane">

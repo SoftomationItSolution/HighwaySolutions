@@ -52,3 +52,5 @@ bin
 obj
 *.pyc
 /Softomation/HighwaySolutions/WebApi/TMSNodeAPI/EventMedia/reports
+/Softomation/HighwaySolutions/WebApi/TMSNodeAPI/node_modules
+/Softomation/HighwaySolutions/WebApi/TMSNodeAPI/node_modules

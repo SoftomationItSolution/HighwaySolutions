@@ -1,0 +1,33 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <canvas id="ptz0" class="canvas">
+
+        </canvas>
+    </div>
+    <div class="modal-footer" style="overflow: hidden;" *ngIf="this.EquipmentTypeId==15">
+        <form [formGroup]="DataDetailsForm" style="width:100%;">
+            <div class="row">
+                <div class="col-md-4">
+                    <input formControlName="PlateNumber" type="text" pInputText required autocomplete="off"
+                        class="form-control" placeholder="Plate Number" />
+                </div>
+                <div class="col-md-4">
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlateNumber')">Plate
+                        number must be required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlateNumber')">
+                        {{error['IndianPlateNumber']}}
+                    </small>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="btn btn-secondary" (click)="submit()">Fetch Tag Details</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

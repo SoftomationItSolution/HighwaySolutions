@@ -1,17 +1,14 @@
 import os
 from PySide6.QtWidgets import QVBoxLayout, QLabel, QWidget, QHBoxLayout, QToolButton, QSpacerItem, QSizePolicy
 from PySide6.QtGui import QImage, QPixmap, QIcon
-from PySide6.QtCore import Qt
 import cv2
 from pubsub import pub
 
-
 class CameraPopup(QWidget):
-    def __init__(self, title, image,default_directory, logger, topic):
+    def __init__(self, title, image, default_directory, logger, topic):
         super().__init__()
         self.logger = logger
         self.setWindowTitle(title)
-
 
         # Determine screen size
         screen_geometry = self.screen().geometry()
@@ -25,7 +22,6 @@ class CameraPopup(QWidget):
         # Set the size of the window
         self.setMinimumSize(width, height)
 
-        #self.setMinimumSize(800, 600)
         icon = os.path.join(default_directory, 'close.png')
         main_layout = QVBoxLayout(self)
 
@@ -50,27 +46,31 @@ class CameraPopup(QWidget):
         main_layout.addLayout(title_bar)
         
         self.image_label = QLabel(self)
-        self.image_label.resize(width, height-100)
-        #self.image_label.setMaximumSize(800, 500)
+        self.image_label.resize(width, height - 100)
         main_layout.addWidget(self.image_label)
         
         pub.subscribe(self.liveview, topic)
-        
-        #self.update_image(image)
     
     def liveview(self, liveview):
-        rgb_image = cv2.cvtColor(liveview, cv2.COLOR_BGR2RGB)
-        h, w, ch = rgb_image.shape
-        bytes_per_line = ch * w
-        qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
-        pixmap = QPixmap.fromImage(qt_image)
-        if pixmap.isNull():
-            self.image_label.setPixmap(pixmap)
-    
+        try:
+            rgb_image = cv2.cvtColor(liveview, cv2.COLOR_BGR2RGB)
+            h, w, ch = rgb_image.shape
+            bytes_per_line = ch * w
+            qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+            pixmap = QPixmap.fromImage(qt_image)
+            if pixmap.isNull():
+                self.logger.logError("Error: QPixmap is null in liveview")
+            else:
+                self.image_label.setPixmap(pixmap)
+        except Exception as e:
+            self.logger.logError(f"Error in CameraPopup liveview: {e}")
+
     def update_image(self, image):
         try:
             pixmap = QPixmap.fromImage(image)
             if pixmap.isNull():
+                self.logger.logError("Error: QPixmap is null in update_image")
+            else:
                 self.image_label.setPixmap(pixmap)
         except Exception as e:
             self.logger.logError(f"Error in CameraPopup update_image: {e}")

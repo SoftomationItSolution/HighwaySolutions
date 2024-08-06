@@ -50,10 +50,12 @@ export class apiIntegrationService {
           
         }
         let camApi = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9999/"
+        let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
         this.ApiCallUrl = apiPath
         this.dataModel.setCamAPI(camApi);
         this.dataModel.setMediaAPI(mediaPath);
         this.dataModel.setDataAPI(apiPath)
+        this.dataModel.setLiveAPI(LiveView);
       },
       (error) => {
         this.spinner.hide();

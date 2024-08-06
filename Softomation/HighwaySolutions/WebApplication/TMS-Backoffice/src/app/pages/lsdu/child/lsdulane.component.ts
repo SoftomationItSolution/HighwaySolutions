@@ -1,9 +1,11 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
 import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { Subscription } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { LiveViewPopUpComponent } from '../../live-view-pop-up/live-view-pop-up.component';
 @Component({
   selector: 'app-lsdulane',
   templateUrl: './lsdulane.component.html',
@@ -29,7 +31,9 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   protocolTypeIds = [1, 2, 6];
   LaneTypeId = 1;
   hardwareOnOffSubscribe!: Subscription;
-  constructor(private spinner: NgxSpinnerService, private dm: DataModel, private dbService: apiIntegrationService, private _mqttService: MqttService) {
+  constructor(private spinner: NgxSpinnerService, private dm: DataModel, 
+    private dbService: apiIntegrationService, private _mqttService: MqttService,
+    private cd: ChangeDetectorRef,public dialog: MatDialog) {
 
   }
   ngOnInit(): void {
@@ -38,8 +42,9 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.LaneTypeId = this.LaneData.LaneTypeId
     this.laneUrl = "http://" + this.LaneSystemIpAddress + ":5002/"
     this.UserData = this.dm.getUserData()
+    this.getEqList(this.LaneData.LaneEquipment);
     this.hardwareStatus()
-    this.GetLaneStatus()
+    // this.GetLaneStatus()
   }
 
   ngOnDestroy() {
@@ -194,4 +199,37 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   getEqList(data: any) {
     this.equipmentList = data.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
   }
+
+  liveView(eq:any){
+    if (eq.EquipmentTypeName.indexOf("Camera") > -1) {
+      this.cd.detectChanges();
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '45%';
+      dialogConfig.height = '540px';
+      dialogConfig.data = eq;
+      const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+    }
+  }
+
+
+  camer_live_view(detail: any) {
+    if (detail.EquipmentTypeName.indexOf("Camera") > -1) {
+      if (detail.OnLineStatus) {
+        this.cd.detectChanges();
+        const dialogConfig = new MatDialogConfig();
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = true;
+        dialogConfig.width = '50%';
+        dialogConfig.height = '900px';
+        dialogConfig.data = detail;
+        const dialogRef = this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+      } else {
+        this.ErrorData = [{ AlertMessage: 'Camera is offline.' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+      }
+    }
+  }
+
 }

@@ -87,6 +87,7 @@ import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/ch
 import { ProjectConfigComponent } from './pages/project-config/project-config.component';
 import { LSDUComponent } from './pages/lsdu/parent/lsdu.component';
 import { LsduLaneComponent } from './pages/lsdu/child/lsdulane.component';
+import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
@@ -166,7 +167,8 @@ export const MY_CUSTOM_FORMATS = {
     FasTagDataProcessed,
     ReportMasterComponent,
     LSDUComponent,
-    LsduLaneComponent
+    LsduLaneComponent,
+    LiveViewPopUpComponent
   ],
   imports: [
     BrowserModule,

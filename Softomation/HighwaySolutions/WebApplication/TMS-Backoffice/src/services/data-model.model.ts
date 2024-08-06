@@ -56,6 +56,13 @@ export class DataModel {
     return localStorage.getItem('FthTmsAPI');
   }
 
+  setLiveAPI(path: string) {
+    return localStorage.setItem('FthTmsLiveAPI', path);
+  }
+  getLiveAPI() {
+    return localStorage.getItem('FthTmsLiveAPI');
+  }
+
   setLock(path: string) {
     return localStorage.setItem('FthTmsLock', path);
   }
