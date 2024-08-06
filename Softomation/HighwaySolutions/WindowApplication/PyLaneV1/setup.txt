@@ -26,6 +26,7 @@ Flask
 Flask-Cors
 flask_cors
 vidgear
+websocket
 #openvino==2023.3.0
 #D:\appTest\libs> pip install .\RFIDReaderAPI-1.1-py3-none-any.whl
 #conda install -c anaconda pyaudio

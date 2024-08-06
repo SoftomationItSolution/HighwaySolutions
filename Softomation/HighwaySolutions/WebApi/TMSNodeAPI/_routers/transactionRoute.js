@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -17,9 +17,9 @@ module.exports = router;
 
 async function LaneTransactionGetLatest(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneTransactionGetLatest');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         let dataset = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -36,9 +36,9 @@ async function LaneTransactionGetLatest(req, res, next) {
 
 async function ReviewPendingGetLatest(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneTransactionUnReviewedGetLatest');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         let dataset = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -55,9 +55,9 @@ async function ReviewPendingGetLatest(req, res, next) {
 
 async function ReviewedGetLatest(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneTransactionReviewedGetLatest');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         let dataset = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -114,9 +114,9 @@ async function LaneTransactionGetByFilter(req, res, next) {
         if (data.TransactionId != "") {
             data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = '" + data.TransactionId + "' OR L.PlazaTransactionId = '" + data.TransactionId + "' OR L.LaneTransactionId = '" + data.TransactionId + "')";
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('FilterQuery', sql.VarChar(4000), data.FilterQuery).execute('USP_LaneTransactionGetByFilter');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         let dataset = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -135,7 +135,7 @@ async function LaneTransactionValidation(req, res, next) {
     try {
         const currentDateTime = new Date();
         let data = req.body;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request()
             .input('PlazaTransactionId', sql.VarChar(30), data.PlazaTransactionId)
             .input('LaneTransactionId', sql.VarChar(30), data.LaneTransactionId)
@@ -149,7 +149,7 @@ async function LaneTransactionValidation(req, res, next) {
             .input('ReviewedDateTime', sql.DateTime, currentDateTime)
             .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
             .execute('USP_LaneTransactionReviewUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -163,7 +163,7 @@ async function LaneTransactionCancel(req, res, next) {
     try {
         const currentDateTime = new Date();
         let data = req.body;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request()
             .input('PlazaTransactionId', sql.VarChar(30), data.PlazaTransactionId)
             .input('LaneTransactionId', sql.VarChar(30), data.LaneTransactionId)
@@ -171,7 +171,7 @@ async function LaneTransactionCancel(req, res, next) {
             .input('ReviewedDateTime', sql.DateTime, currentDateTime)
             .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
             .execute('USP_LaneTransactionReviewCancel');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {

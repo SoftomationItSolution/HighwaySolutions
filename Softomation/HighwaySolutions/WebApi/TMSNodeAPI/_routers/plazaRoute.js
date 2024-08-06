@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -14,7 +14,7 @@ module.exports = router;
 
 async function PlazaInsertUpdate(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('PlazaId', sql.Int, req.body.PlazaId)
             .input('SystemIntegratorId', sql.Int, req.body.SystemIntegratorId)
@@ -30,7 +30,7 @@ async function PlazaInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_PlazaInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -43,9 +43,9 @@ async function PlazaInsertUpdate(req, res, next) {
 
 async function PlazaGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_PlazaGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -56,9 +56,9 @@ async function PlazaGetAll(req, res, next) {
 }
 async function PlazaGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_PlazaGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -71,10 +71,10 @@ async function PlazaGetActive(req, res, next) {
 async function PlazaGetById(req, res, next) {
     try {
         const PlazaId = req.query.PlazaId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('PlazaId', sql.Int, PlazaId)
             .execute('USP_PlazaGetbyId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -38,7 +38,7 @@ async function TollFareSetUp(req, res, next) {
                 parseFloat(array[i].OverweightPenalty),
                 SessionId);
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const resultU = await pool.request().bulk(table);
         result = await pool.request().input('EffectedFrom', sql.VarChar(20), req.body.EffectedFrom)
             .input('SessionId', sql.VarChar(20), SessionId)
@@ -48,7 +48,7 @@ async function TollFareSetUp(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_TollFareSetup');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -61,10 +61,10 @@ async function TollFareSetUp(req, res, next) {
 
 async function TollFareGetByEffectedFrom(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('EffectedFrom', sql.Date, req.query.EffectedFrom)
             .execute('USP_TollFareGetByEffectedFrom');
-        await database.disconnect();
+        
         if (result.recordset == [] || result.recordset.length==0) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

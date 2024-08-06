@@ -1,0 +1,49 @@
+CREATE TABLE tbl_SystemSetting (
+    DefaultPlazaId SMALLINT,
+    AllotmentDays SMALLINT DEFAULT 0,
+    IsAccessControl BIT,
+    LoginAccess BIT DEFAULT 0,
+    ExemptAccess BIT DEFAULT 0,
+    FleetAccess BIT DEFAULT 0,
+    SubClassRequired BIT DEFAULT 0,
+    FasTagPenalty BIT DEFAULT 0,
+    FasTagPenaltyMultiply SMALLINT DEFAULT 0,
+    CashReturn BIT DEFAULT 0,
+    CashReturnDiscount SMALLINT DEFAULT 0,
+    OpeningBalance DECIMAL(18, 2) DEFAULT 0.00,
+    ClosingBalance DECIMAL(18, 2) DEFAULT 0.00,
+    DataStatus SMALLINT DEFAULT 0,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CreatedBy BIGINT DEFAULT 0,
+    ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ModifiedBy BIGINT DEFAULT 0
+);
+
+CREATE TABLE tbl_SystemVehicleClass (
+    SystemVehicleClassId SMALLINT,
+    SystemVehicleClassName VARCHAR(100),
+    SystemVehicleClassDescription VARCHAR(100),
+    AvcVehicleClassId SMALLINT DEFAULT 0,
+    SystemSubClassIds VARCHAR(4000),
+    PermissibleWeight DECIMAL(18, 3),
+    DataStatus SMALLINT DEFAULT 1,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CreatedBy BIGINT DEFAULT 0,
+    ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ModifiedBy BIGINT DEFAULT 0
+);
+
+
+CREATE TABLE tbl_SystemVehicleSubClass (
+    SystemVehicleClassId SMALLINT,
+    SystemVehicleSubClassId SMALLINT,
+    DataStatus SMALLINT DEFAULT 1,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    CreatedBy BIGINT DEFAULT 0,
+    ModifiedDate DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    ModifiedBy BIGINT DEFAULT 0
+);
+
+
+ALTER TABLE tbl_LaneTransaction
+ADD TCRemark VARCHAR(255) AFTER TransactionStatus;

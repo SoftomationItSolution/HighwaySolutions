@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const reports = require('../_reports/reportmaster');
@@ -26,7 +26,7 @@ async function FloatProcessSetup(req, res, next) {
         for (let i = 0; i < array.length; i++) {
             table.rows.add(parseInt(array[i].DenominationId), array[i].DenominationValue, array[i].DenominationCount, req.body.ReceiptNumber);
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const resultU = await pool.request().bulk(table);
         const currentDateTime = new Date();
         const result = await pool.request().input('FloatProcessId', sql.BigInt, req.body.FloatProcessId)
@@ -65,9 +65,9 @@ async function FloatProcessSetup(req, res, next) {
 
 async function FloatProcessGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_FloatProcessGetAll');
-        await database.disconnect();
+        
         var dataresult = [];
         let dataarray = result.recordset;
         for (let index = 0; index < dataarray.length; index++) {
@@ -86,10 +86,10 @@ async function FloatProcessGetAll(req, res, next) {
 async function FloatProcessGetById(req, res, next) {
     try {
         const FloatProcessId = req.query.FloatProcessId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('FloatProcessId', sql.Int, FloatProcessId)
             .execute('USP_FloatProcessGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -108,9 +108,9 @@ async function FloatProcessGetById(req, res, next) {
 
 async function FloatProcessDenominationDetails(FloatProcessId) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('FloatProcessId', sql.BigInt, FloatProcessId).execute('USP_FloatProcessDenominationGetById');
-        await database.disconnect();
+        
         return result.recordset;
     } catch (error) {
         throw error;

@@ -4,7 +4,7 @@ const moment = require('moment');
 const fs = require('fs');
 const sql = require('mssql');
 const path = require('path');
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const token = require("../_helpers/jwtToken");
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
@@ -35,9 +35,9 @@ module.exports = router;
 
 async function DataStatusMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_DataStatusMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -49,9 +49,9 @@ async function DataStatusMasterGetAll(req, res, next) {
 
 async function SystemSettingGet(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemSettingGet');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
@@ -63,7 +63,7 @@ async function SystemSettingGet(req, res, next) {
 
 async function SystemSettingSetup(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request()
             .input('DefaultPlazaId', sql.SmallInt, req.body.DefaultPlazaId)
@@ -84,7 +84,7 @@ async function SystemSettingSetup(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemSettingInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
@@ -146,11 +146,11 @@ async function ValidateUser(req, res, next) {
             }
         }
         else {
-            const pool = await database.connect();
+            const pool = await database.getPool();
             const result = await pool.request()
                 .input('LoginId', sql.VarChar(40), req.body.LoginId)
                 .execute('USP_UsersGetByLoginId');
-            await database.disconnect();
+            
             if (result.recordset == []) {
                 let out = constants.ResponseMessage("Invalid user credentials", null);
                 res.status(200).json(out);
@@ -216,7 +216,7 @@ async function GetMenu(req, res, next) {
     try {
         const RoleId = req.query.RoleId | 0;
         let result = null
-        const pool = await database.connect();
+        const pool = await database.getPool();
         if (RoleId == 0) {
             result = await pool.request().execute('USP_MenuGetAll')
         }
@@ -224,7 +224,7 @@ async function GetMenu(req, res, next) {
             result = await pool.request().input('RoleId', sql.Int, RoleId)
                 .execute('USP_MenuGetByRoleId');
         }
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -237,9 +237,9 @@ async function GetMenu(req, res, next) {
 async function GetReportCategory(req, res, next) {
     try {
         let result = null
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ReportCategory')
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -253,9 +253,9 @@ async function GetReportCategoryById(req, res, next) {
     try {
         const ReportId = req.query.ReportId | 0;
         let result = null
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('ReportId', sql.SmallInt, ReportId).execute('USP_ReportCategoryById')
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -268,12 +268,12 @@ async function GetReportCategoryById(req, res, next) {
 
 async function RolePermissionGetByMenu(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().input('MenuURL', sql.VarChar(50), req.body.MenuUrl)
             .input('SystemId', sql.Int, req.body.SystemId)
             .input('RoleId', sql.Int, req.body.RoleId)
             .execute('USP_RolesPermissionGetByMenu');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("unauthorized", null);
             res.status(200).json(out);
@@ -291,9 +291,9 @@ async function RolePermissionGetByMenu(req, res, next) {
 
 async function DenominationGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_DenominationGetActive')
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -307,9 +307,9 @@ async function DenominationGetActive(req, res, next) {
 
 async function FilterMasterGet(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_MasterDataGet')
-        await database.disconnect();
+        
         let dataarray = result.recordsets;
         let ShiftTimining = [], TCMasterData = [], AuditerMasterData = [], PlazaData = [], LaneData = [], TransactionTypeData = [],
             PayemntTypeData = [], ExemptTypeData = [], SystemClassData = [], SystemSubClassData = [];

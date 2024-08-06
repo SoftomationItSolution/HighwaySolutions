@@ -1,10 +1,10 @@
-from PySide6.QtWidgets import QFrame, QVBoxLayout, QLabel, QListWidget, QListWidgetItem, QGroupBox
-from PySide6.QtCore import Qt, QSize
+from PySide6.QtWidgets import QFrame, QVBoxLayout, QListWidget, QListWidgetItem, QGroupBox
+from PySide6.QtCore import Qt,QSize
 from GUI.ui.messBox import show_custom_message_box
 from utils.constants import Utilities
 
 class LeftFrame(QFrame):
-    def __init__(self, width, height, logger,systemSetting,vehicle_class):
+    def __init__(self, width, height, logger,systemSetting,vehicle_class,vehicle_class_patent,vehicle_class_child):
         super().__init__()
         try:
             self.logger = logger
@@ -13,6 +13,8 @@ class LeftFrame(QFrame):
             self.setFixedHeight(height)
             self.systemSetting=systemSetting
             self.classList = vehicle_class
+            self.vehicle_class_patent=vehicle_class_patent
+            self.vehicle_class_child=vehicle_class_child
             self.list_height = height - 30
 
             box_layout = QVBoxLayout(self)
@@ -33,7 +35,8 @@ class LeftFrame(QFrame):
                                     "QListWidget::item:hover {background-color: #808080;color: black; } color: white;border: none;border-top: 1px solid white;")
             self.vc_list.setFixedHeight(self.list_height)
             group_box_layout.addWidget(self.vc_list)
-            self.update_vc()
+            self.bind_cl()
+            #self.update_vc()
         except Exception as e:
             self.logger.logError(f"Error in LeftFrame __init__: {e}")
 
@@ -93,3 +96,17 @@ class LeftFrame(QFrame):
             self.logger.logError(f"Error in LeftFrame set_vc: {e}")
         finally:
            return FasTagClassName
+        
+    def bind_cl(self):
+        try:
+            list_item_height = int(self.list_height / len(self.vehicle_class_patent))
+            for main_class in self.vehicle_class_patent:
+                high_usage_users = [user for user in self.vehicle_class_child if user["SystemVehicleClassId"] == main_class["SystemVehicleClassId"]]
+                main_class["SubClass"]=high_usage_users
+
+                item = QListWidgetItem(main_class["SystemVehicleClassName"])
+                item.setData(Qt.UserRole, main_class)
+                item.setSizeHint(QSize(0, list_item_height))
+                self.vc_list.addItem(item)
+        except Exception as e:
+            self.logger.logError(f"Error in LeftFrame bind_cl: {e}")

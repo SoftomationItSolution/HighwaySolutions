@@ -4,7 +4,7 @@ const moment = require('moment');
 const fs = require('fs');
 const sql = require('mssql');
 const path = require('path');
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const reports = require('../_reports/reportmaster');
@@ -45,7 +45,7 @@ async function ReportProcess(req, res, next) {
         if (data.TransactionId > 0) {
             data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = " + data.TransactionId + " OR L.PlazaTransactionId = " + data.TransactionId + " OR L.LaneTransactionId = " + data.TransactionId + ")";
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request()
             .input('CategoryId', sql.SmallInt, data.CategoryId)
             .input('ReportId', sql.SmallInt, data.ReportId)
@@ -63,7 +63,7 @@ async function ReportProcess(req, res, next) {
             .input('TransactionId', sql.BigInt, data.TransactionId)
             .input('FilterQuery', sql.VarChar(4000), data.FilterQuery)
             .execute('USP_GetReportData');
-        await database.disconnect();
+        
         if (result.recordsets.length > 1) {
             const headerData = result.recordset[0]
             const ReportData = result.recordsets[1]

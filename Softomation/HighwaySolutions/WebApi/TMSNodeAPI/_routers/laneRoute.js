@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -19,7 +19,7 @@ module.exports = router;
 
 async function LaneInsertUpdate(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('PlazaId', sql.SmallInt, req.body.PlazaId)
@@ -38,7 +38,7 @@ async function LaneInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_LaneInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -51,9 +51,9 @@ async function LaneInsertUpdate(req, res, next) {
 
 async function LaneModeMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneModeMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -65,9 +65,9 @@ async function LaneModeMasterGetAll(req, res, next) {
 
 async function LanePointMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LanePointMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -79,9 +79,9 @@ async function LanePointMasterGetAll(req, res, next) {
 
 async function LanePositionMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LanePositionMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -93,9 +93,9 @@ async function LanePositionMasterGetAll(req, res, next) {
 
 async function LaneStatusMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneStatusMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -107,9 +107,9 @@ async function LaneStatusMasterGetAll(req, res, next) {
 
 async function LaneGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -121,9 +121,9 @@ async function LaneGetAll(req, res, next) {
 
 async function LaneGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -136,10 +136,10 @@ async function LaneGetActive(req, res, next) {
 async function LaneGetById(req, res, next) {
     try {
         const LaneId = req.query.LaneId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.Int, LaneId)
             .execute('USP_LaneGetbyId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -158,10 +158,10 @@ async function LaneGetById(req, res, next) {
 async function LaneGetByPlazaId(req, res, next) {
     try {
         const PlazaId = req.query.PlazaId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('PlazaId', sql.Int, PlazaId)
             .execute('USP_LaneGetbyPlazaId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -179,10 +179,10 @@ async function LaneGetByPlazaId(req, res, next) {
 
 async function LaneGetByIpAddress(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneSystemIpAddress', sql.Int, req.query.IpAddress)
             .execute('USP_LaneGetbyIpAddress');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -16,7 +16,7 @@ router.get('/RolePermissionGetByRoleId', RolePermissionGetByRoleId);
 module.exports = router;
 async function RoleConfigurationSetUp(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         const result = await pool.request().input('RoleId', sql.Int, req.body.RoleId)
             .input('RoleName', sql.VarChar(200), req.body.RoleName)
@@ -26,7 +26,7 @@ async function RoleConfigurationSetUp(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_RoleInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out);
     } catch (error) {
@@ -52,7 +52,7 @@ async function RolePermissionSetup(req, res, next) {
         for (let i = 0; i < array.length; i++) {
             table.rows.add(parseInt(array[i].MenuId), array[i].DataView, array[i].DataAdd, array[i].DataUpdate, SessionId);
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const resultU = await pool.request().bulk(table);
         const currentDateTime = new Date();
         const result = await pool.request().input('SessionId', sql.VarChar(200), SessionId)
@@ -75,9 +75,9 @@ async function RolePermissionSetup(req, res, next) {
 
 async function RoleConfigurationGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().execute('USP_RolesGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -89,9 +89,9 @@ async function RoleConfigurationGetAll(req, res, next) {
 
 async function RoleConfigurationGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().execute('USP_RolesGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -104,9 +104,9 @@ async function RoleConfigurationGetActive(req, res, next) {
 async function RoleConfigurationGetById(req, res, next) {
     try {
         const RoleId = req.query.RoleId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().input('RoleId', sql.Int, RoleId).execute('USP_RolesGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("unauthorized", null);
             res.status(200).json(out);
@@ -125,9 +125,9 @@ async function RoleConfigurationGetById(req, res, next) {
 async function RolePermissionGetByRoleId(req, res, next) {
     try {
         const RoleId = req.query.RoleId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().input('RoleId', sql.Int, RoleId).execute('USP_RolesPermissionGetByRoleId');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {

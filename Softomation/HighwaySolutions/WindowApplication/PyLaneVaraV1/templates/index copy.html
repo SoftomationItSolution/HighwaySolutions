@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TMS Lane App</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+  <script src="{{ url_for('static', filename='js/socket.io.min.js') }}"></script>
+</head>
+
+<body>
+  <div id="loader"></div>
+  <div class="container">
+    <form id="restart-form">
+      <button type="button" onclick="restartSystem()">Restart System</button>
+      <button type="button" onclick="shutdownSystem()">Shutdown System</button>
+  </form>
+  </div>
+  </div>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

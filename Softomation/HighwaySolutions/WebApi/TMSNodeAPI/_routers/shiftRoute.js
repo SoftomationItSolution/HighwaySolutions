@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -18,9 +18,9 @@ module.exports = router;
 
 async function ShiftTiminingGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftTiminingGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -32,9 +32,9 @@ async function ShiftTiminingGetAll(req, res, next) {
 
 async function ShiftTiminingGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftTiminingGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -47,10 +47,10 @@ async function ShiftTiminingGetActive(req, res, next) {
 async function ShiftTiminingGetById(req, res, next) {
     try {
         const ShiftId = req.query.ShiftId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('ShiftId', sql.Int, ShiftId)
             .execute('USP_ShiftTiminingGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -68,10 +68,10 @@ async function ShiftTiminingGetById(req, res, next) {
 
 async function ShiftTiminingGetByDateTime(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('ShiftDateTime', sql.VarChar(50), req.query.ShiftDateTime)
             .execute('USP_ShiftGetByDateTime');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -89,9 +89,9 @@ async function ShiftTiminingGetByDateTime(req, res, next) {
 
 async function ShiftStatusGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftStatusGetAll');
-        await database.disconnect();
+        
         var dataresult = [];
         let dataarray = result.recordset;
         for (let index = 0; index < dataarray.length; index++) {
@@ -108,9 +108,9 @@ async function ShiftStatusGetAll(req, res, next) {
 
 async function ShiftStatusGetOpen(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftStatusGetOpen');
-        await database.disconnect();
+        
 
         var dataresult = [];
         let dataarray = result.recordset;
@@ -128,9 +128,9 @@ async function ShiftStatusGetOpen(req, res, next) {
 
 async function ShiftStatusGetClose(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftStatusGetClose');
-        await database.disconnect();
+        
         var dataresult = [];
         let dataarray = result.recordset;
         for (let index = 0; index < dataarray.length; index++) {

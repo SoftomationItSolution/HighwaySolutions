@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -17,7 +17,7 @@ module.exports = router;
 async function EquipmentDetailsInsertUpdate(req, res, next) {
     try {
         const currentDateTime = new Date();
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('EquipmentId', sql.BigInt, req.body.EquipmentId)
             .input('PlazaId', sql.Int, req.body.PlazaId)
             .input('LaneId', sql.Int, req.body.LaneId)
@@ -42,7 +42,7 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_EquipmentDetailsInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -55,9 +55,9 @@ async function EquipmentDetailsInsertUpdate(req, res, next) {
 
 async function EquipmentDetailsGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_EquipmentDetailsGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -69,9 +69,9 @@ async function EquipmentDetailsGetAll(req, res, next) {
 
 async function EquipmentDetailsGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_EquipmentDetailsGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -84,10 +84,10 @@ async function EquipmentDetailsGetActive(req, res, next) {
 async function EquipmentDetailsGetById(req, res, next) {
     try {
         const EquipmentId = req.query.EquipmentId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('EquipmentId', sql.Int, EquipmentId)
             .execute('USP_EquipmentDetailsGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -105,9 +105,9 @@ async function EquipmentDetailsGetById(req, res, next) {
 
 async function EquipmentTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_EquipmentTypeMasterGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -120,10 +120,10 @@ async function EquipmentTypeGetActive(req, res, next) {
 async function EquipmentDetailsGetByLane(req, res, next) {
     try {
         const LaneId = req.query.LaneId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.Int, LaneId)
             .execute('USP_EquipmentDetailsGetByLaneId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

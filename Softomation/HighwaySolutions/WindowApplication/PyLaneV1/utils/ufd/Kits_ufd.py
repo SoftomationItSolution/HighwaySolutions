@@ -98,10 +98,11 @@ class KistUFDClient():
             self.client_socket.open()
             self.is_running = True
             self.client_socket.write(bytes_data)
+            time.sleep(0.300)
+            self.serial_close()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} on_serial: {str(e)}")
-        finally:
-            self.serial_close()
+            
     
     def serial_close(self):
         try:
@@ -114,6 +115,7 @@ class KistUFDClient():
 
     def clear_cmd(self):
         self.send_data("CT")
+        time.sleep(0.1)
         self.send_data("CB")
 
     def go_cmd(self):

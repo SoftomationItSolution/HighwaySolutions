@@ -53,23 +53,26 @@ class CurrentTransactionBox(QFrame):
             self.ct_layout = QGridLayout()
             self.ct_layout.setContentsMargins(0, 10, 0, 5)
             self.ct_layout.setSpacing(0)
-            self.row_height=self.layout_height/8
+            self.row_height=self.layout_height/9
             #self.ct_layout.addWidget(HorizontalLine(self), 0, 0, 1, 4)
             
             self.add_label_field("Transaction Type:", "txtTransactionType","N/A", 0, 0)
             self.add_label_field("Tag Status:", "txtTagId","N/A", 0, 2)
             
-            self.add_label_field("Vehicle Class:", "txtVehicleClass","N/A", 1, 0)
+            self.add_label_field("Payment Type:", "txtPaymentType","N/A", 1, 0)
             self.add_label_field("Overweight(₹):", "txtOverweight","0.00", 1, 2)
             
-            self.add_label_field("Payment Type:", "txtPaymentType","N/A", 2, 0)
+            self.add_label_field("Exempt Type:", "txtExemptType","N/A", 2, 0)
             self.add_label_field("Tag Penalty(₹):", "txtTagPenalty","0.00", 2, 2)
             
-            self.add_label_field("Exempt Type:", "txtExemptType","N/A", 3, 0)
+            self.add_label_field("Vehicle Class:", "txtVehicleClass","N/A", 3, 0)
             self.add_label_field("Fare(₹):", "txtTollFare","0.00", 3, 2)
 
-            self.add_label_field("Weight (kg):", "txtWimWeight","0", 4, 0)
+            self.add_label_field("Vehicle sub Class:", "txtSubVehicleClass","N/A", 4, 0)
             self.add_label_field("Amount Paid(₹):", "txtTotalAmount","0.00", 4, 2)
+
+            self.add_label_field("Per Weight (kg):", "txtPerWimWeight","0.000", 5, 0)
+            self.add_label_field("Weight (kg):", "txtWimWeight","0", 5, 2)
 
             lblReceipt=QLabel("Receipt Number:")
             lblReceipt.setStyleSheet("color: white;border: none;")
@@ -95,18 +98,18 @@ class CurrentTransactionBox(QFrame):
             lblJourneyType=QLabel("Journey Type:")
             lblJourneyType.setStyleSheet("color: white;border: none;")
 
-            self.ct_layout.addWidget(lblJourneyType, 5, 0)
-            self.ct_layout.addWidget(self.rblS, 5, 1)
-            self.ct_layout.addWidget(self.rblR, 5, 2)
-            self.ct_layout.setRowMinimumHeight(5, int(self.row_height))
-
-            self.ct_layout.addWidget(lblReceipt, 6, 0)
-            self.ct_layout.addWidget(self.txtReceipt, 6, 1,1,2)
+            self.ct_layout.addWidget(lblJourneyType, 6, 0)
+            self.ct_layout.addWidget(self.rblS, 6, 1)
+            self.ct_layout.addWidget(self.rblR, 6, 2)
             self.ct_layout.setRowMinimumHeight(6, int(self.row_height))
-            
-            self.ct_layout.addWidget(lblVRN, 7, 0)
-            self.ct_layout.addWidget(self.txtVRN, 7, 1,1,2)
+
+            self.ct_layout.addWidget(lblReceipt, 7, 0)
+            self.ct_layout.addWidget(self.txtReceipt, 7, 1,1,2)
             self.ct_layout.setRowMinimumHeight(7, int(self.row_height))
+            
+            self.ct_layout.addWidget(lblVRN, 8, 0)
+            self.ct_layout.addWidget(self.txtVRN, 8, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(8, int(self.row_height))
 
             lblRemark=QLabel("TC Remark:")
             lblRemark.setStyleSheet("color: white;border: none;")
@@ -114,9 +117,9 @@ class CurrentTransactionBox(QFrame):
             self.txtRemark.setPlaceholderText("Remark")
             self.txtRemark.setStyleSheet("background-color: white;")
 
-            self.ct_layout.addWidget(lblRemark, 8, 0)
-            self.ct_layout.addWidget(self.txtRemark, 8, 1,1,2)
-            self.ct_layout.setRowMinimumHeight(8, int(self.row_height))
+            self.ct_layout.addWidget(lblRemark, 9, 0)
+            self.ct_layout.addWidget(self.txtRemark, 9, 1,1,2)
+            self.ct_layout.setRowMinimumHeight(9, int(self.row_height))
             
 
             colWidth=self.layout_width-40
@@ -180,6 +183,8 @@ class CurrentTransactionBox(QFrame):
             self.current_Transaction["TransactionTypeId"] = item_id
             self.current_Transaction["TransactionTypeName"] = item_name
             self.update_field("txtTransactionType", item_name)
+            self.update_field("txtPaymentType", "N/A")
+            self.update_field("txtExemptType", "N/A")
             self.rblS.setChecked(True)
             self.rblS.setEnabled(False)
             self.rblR.setEnabled(False)
@@ -190,31 +195,29 @@ class CurrentTransactionBox(QFrame):
         except Exception as e:
             self.logger.logError(f"Error in CurrentTransactionBox update_tt: {e}")  
 
-    def update_vc(self, item_id, item_name,item):
-        try:
-            self.update_field("txtVehicleClass", item_name)
-            self.current_Transaction["VehicleClassId"] = item_id
-            if item is not None:
-                self.current_Transaction["VehicleClassId"] = item["SystemVehicleClassId"]
-                self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
-                self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
+    
+
+    def set_vc(self,main_class,sub_class):
+        try: 
+            if sub_class is not None:
+                self.current_Transaction["PermissibleVehicleWeight"] = sub_class["PermissibleWeight"]
+                self.current_Transaction["VehicleSubClassId"] = sub_class["SystemVehicleSubClassId"]
+                self.current_Transaction["VehicleSubClassName"] = sub_class["SystemVehicleSubClassName"]
+                self.current_Transaction["VehicleClassId"] = sub_class["SystemVehicleClassId"]
+                self.current_Transaction["VehicleClassName"] = sub_class["SystemVehicleClassName"]
+                self.update_field("txtVehicleClass", sub_class["SystemVehicleClassName"])
+                self.update_field("txtSubVehicleClass", sub_class["SystemVehicleSubClassName"])
+                self.update_field("txtPerWimWeight", sub_class["PermissibleWeight"])
+            elif main_class is not None:
+                self.current_Transaction["VehicleClassId"] = main_class["SystemVehicleClassId"]
+                self.current_Transaction["VehicleClassName"] = main_class["SystemVehicleClassName"]
+                self.update_field("txtVehicleClass", main_class["SystemVehicleClassName"])
+                self.update_field("txtSubVehicleClass", "N/A")
+                self.update_field("txtPerWimWeight", main_class["PermissibleWeight"])
             self.get_toll_fare()
         except Exception as e:
-            self.logger.logError(f"Error in CurrentTransactionBox update_vc: {e}") 
-
-    def update_svc(self, item_id, item_name,item):
-        try:
-            self.update_field("txtVehicleClass", item_name)
-            self.current_Transaction["VehicleSubClassId"] = item_id
-            self.current_Transaction["VehicleSubClassName"] = item_name
-            if item is not None:
-                self.current_Transaction["VehicleClassId"] = item["SystemVehicleClassId"]
-                self.current_Transaction["VehicleClassName"] = item["SystemVehicleClassName"]
-                self.current_Transaction["PermissibleVehicleWeight"] = item["PermissibleWeight"]
-            self.get_toll_fare()
-        except Exception as e:
-            self.logger.logError(f"Error in CurrentTransactionBox update_svc: {e}") 
-
+            self.logger.logError(f"Error in CurrentTransactionBox set_vc: {e}") 
+    
     def update_et(self, item_id, item_name):
         try:
             self.current_Transaction["ExemptTypeId"] = item_id
@@ -278,7 +281,6 @@ class CurrentTransactionBox(QFrame):
                 self.update_field("txtTollFare", str(filtered_data['TollFare']))
                 self.update_field("txtTagPenalty", "0.00")
                 self.update_field("txtOverweight", "0.00")
-                #self.current_Transaction["TransactionAmount"]=filtered_data['TollFare']
                 self.current_Transaction["TransactionAmount"]=0.00
                 self.current_Transaction["TagPenaltyAmount"]=0.00
                 if int(self.current_Transaction["ActualVehicleWeight"])>int(self.current_Transaction["PermissibleVehicleWeight"]):
@@ -382,6 +384,7 @@ class CurrentTransactionBox(QFrame):
             self.current_trans()
             self.update_field("txtTransactionType", "N/A")
             self.update_field("txtVehicleClass", "N/A")
+            self.update_field("txtSubVehicleClass", "N/A")
             self.update_field("txtPaymentType", "N/A")
             self.update_field("txtExemptType", "N/A")
             self.update_field("txtReceipt", "")
@@ -389,6 +392,7 @@ class CurrentTransactionBox(QFrame):
             self.update_field("txtTagId", "N/A")
             self.update_field("txtVRN", "")
             self.update_field("txtWimWeight", "0.000")
+            self.update_field("txtPerWimWeight", "0.000")
             self.update_field("txtTollFare", "0.00")
             self.update_field("txtOverweight", "0.00")
             self.update_field("txtTagPenalty", "0.00")

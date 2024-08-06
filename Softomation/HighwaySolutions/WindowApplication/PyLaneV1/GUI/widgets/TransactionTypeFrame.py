@@ -11,6 +11,11 @@ class TransactionTypeBox(QFrame):
 
     def initUI(self, width, height,logger):
         try:
+            self.setStyleSheet("QPushButton{font-weight: bold;border: none;}"
+                            "QPushButton#btnFleet:disabled{ background-color: #aaaaaa;color: #666666;}"
+                            "QPushButton#btnMid:disabled{ background-color: #aaaaaa;color: #666666;}"
+                            "QPushButton#btnTow:disabled{ background-color: #aaaaaa;color: #666666;}"
+                            "QPushButton:disabled {background-color: #aaaaaa;color: #666666;}")
             self.logger = logger
             self.setFixedWidth(width)
             self.setFixedHeight(height)
@@ -62,19 +67,19 @@ class TransactionTypeBox(QFrame):
             self.btnFleet = QPushButton("Fleet-Start")
             self.btnTow = QPushButton("Tow-Start")
             self.btnMid = QPushButton("Mid Declare")
-            self.btnBleed = QPushButton("Bleed off")
+            #self.btnBleed = QPushButton("Bleed off")
             self.btnFleet.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
             self.btnTow.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
             self.btnMid.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;border-right: 1px solid white;")
-            self.btnBleed.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;")
+            #self.btnBleed.setStyleSheet("background-color: darkgreen; color: white; font-weight: bold;border: none;")
             self.btnFleet.setFixedHeight(btn_height)
             self.btnTow.setFixedHeight(btn_height)
             self.btnMid.setFixedHeight(btn_height)
-            self.btnBleed.setFixedHeight(btn_height)
+            #self.btnBleed.setFixedHeight(btn_height)
             button_layout.addWidget(self.btnFleet)
             button_layout.addWidget(self.btnTow)
             button_layout.addWidget(self.btnMid)
-            button_layout.addWidget(self.btnBleed)
+            #button_layout.addWidget(self.btnBleed)
 
             self.central_layout.addLayout(top_layout)
             self.central_layout.addLayout(button_layout)
@@ -205,3 +210,19 @@ class TransactionTypeBox(QFrame):
             self.et_list.setVisible(False)
         except Exception as e:
             self.logger.logError(f"Error in TransactionTypeBox  reset_tt_value: {e}")
+
+    def enableList(self):
+        self.tt_list.setEnabled(True)
+        self.pt_list.setEnabled(True)
+        self.et_list.setEnabled(True)
+        self.btnFleet.setEnabled(True)
+        self.btnTow.setEnabled(True)
+        self.btnMid.setEnabled(True)
+
+    def disableList(self):
+        self.tt_list.setEnabled(False)
+        self.pt_list.setEnabled(False)
+        self.et_list.setEnabled(False)
+        self.btnFleet.setEnabled(False)
+        self.btnTow.setEnabled(False)
+        self.btnMid.setEnabled(False)

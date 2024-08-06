@@ -3,8 +3,7 @@ import json
 import os
 import threading
 from PySide6.QtCore import Signal,QDateTime
-from PySide6.QtWidgets import QMainWindow
-from PySide6.QtWidgets import QWidget,QHBoxLayout, QVBoxLayout
+from PySide6.QtWidgets import QMainWindow,QMenu,QWidget,QHBoxLayout, QVBoxLayout
 from PySide6.QtCore import Qt
 from GUI.dialog.FloatDialog import CurrencyDialog
 from GUI.ui.messBox import confirmation_box, show_custom_message_box
@@ -15,6 +14,7 @@ from GUI.widgets.Footer import Footer
 from models.CommonManager import CommonManager
 from utils.constants import Utilities
 from pubsub import pub
+from functools import partial
 
 class MainWindow(QMainWindow):
     switch_window = Signal(str)
@@ -33,6 +33,8 @@ class MainWindow(QMainWindow):
             self.equipment_detail=bg_service.equipment_detail
             self.shiftDetails=bg_service.shiftDetails
             self.vehicle_class=bg_service.vehicle_class
+            self.vehicle_class_patent=bg_service.vehicle_class_patent
+            self.vehicle_class_child=bg_service.vehicle_class_child
             self.toll_fare=bg_service.toll_fare
             self.screen_width=screen_width
             self.screen_height=screen_height
@@ -52,6 +54,8 @@ class MainWindow(QMainWindow):
             self.get_current_shift()
             self.updateTollFareDetails()
             self.get_plaza_url()
+            self.current_tag_process=None
+            self.selected_vc=None
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  __init__: {e}")
 
@@ -87,9 +91,10 @@ class MainWindow(QMainWindow):
             frames_layout = QHBoxLayout()
             frames_layout.setContentsMargins(0, 0, 0, 0)
             
-            self.left_frame = LeftFrame(left_frame_width, frames_height,self.logger,self.systemSetting,self.vehicle_class)
+            self.left_frame = LeftFrame(left_frame_width, frames_height,self.logger,self.systemSetting,self.vehicle_class,self.vehicle_class_patent,self.vehicle_class_child)
             self.left_frame.setContentsMargins(0, 0, 0, 0)
-            self.left_frame.vc_list.itemSelectionChanged.connect(self.onVCSelectionChanged)
+            self.left_frame.vc_list.itemSelectionChanged.connect(self.on_vc_clicked)
+            #self.left_frame.vc_list.itemSelectionChanged.connect(self.onVCSelectionChanged)
             frames_layout.addWidget(self.left_frame)
 
             self.right_frame = RightFrame(right_frame_width, frames_height,self.default_directory,self.logger)
@@ -105,7 +110,7 @@ class MainWindow(QMainWindow):
             self.right_frame.rfid_data_queue_box.tblRfid.itemDoubleClicked.connect(self.remove_rfid_Row)
             
             self.right_frame.transaction_type_box.btnMid.clicked.connect(self.mid_declare)
-            self.right_frame.transaction_type_box.btnBleed.clicked.connect(self.end_declare)
+            #self.right_frame.transaction_type_box.btnBleed.clicked.connect(self.end_declare)
             self.right_frame.transaction_type_box.btnFleet.clicked.connect(self.fleet_manage)
             self.right_frame.transaction_type_box.btnTow.clicked.connect(self.tow_manage)
             
@@ -209,6 +214,7 @@ class MainWindow(QMainWindow):
     def get_RFID_detail(self,transactionInfo):
         try:
             if self.isTransactionPending==False:
+                self.current_tag_process=transactionInfo["TID"]
                 self.isTransactionPending=True
                 FasTagClassName=self.left_frame.set_vc(transactionInfo['Class'])
                 self.right_frame.transaction_type_box.set_tt_value(1)
@@ -217,12 +223,18 @@ class MainWindow(QMainWindow):
                 if d is not None:
                     self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))
             else:
-                self.right_frame.rfid_data_queue_box.rfid_transaction_info(transactionInfo)
+                if self.current_tag_process is None:
+                    self.right_frame.rfid_data_queue_box.rfid_transaction_info(transactionInfo)
+                else:
+                    if self.current_tag_process!=transactionInfo["TID"]:
+                        self.right_frame.rfid_data_queue_box.rfid_transaction_info(transactionInfo)
+                        
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  get_RFID_detail: {e}")
 
     def save_transctions(self):
         try:
+            self.isTransactionPending=True
             ct=datetime.now()
             current_Transaction=self.right_frame.current_transaction_box.current_Transaction
             vc=Utilities.is_integer(current_Transaction["VehicleClassId"])
@@ -231,6 +243,7 @@ class MainWindow(QMainWindow):
             vrn=self.right_frame.current_transaction_box.txtVRN.text()
             remark=self.right_frame.current_transaction_box.txtRemark.text()
             current_Transaction["TCRemark"]=remark
+            self.right_frame.transaction_type_box.disableList()
             if TransactionTypeId>0:
                 if vc>0 or svc>0:
                     if TransactionTypeId==1:
@@ -291,6 +304,8 @@ class MainWindow(QMainWindow):
 
     def reset_transctions(self):
         try:
+            self.right_frame.transaction_type_box.enableList()
+            self.current_tag_process=None
             self.right_frame.current_transaction_box.btnSubmit.setEnabled(True)
             self.right_frame.current_transaction_box.on_reset()
             self.right_frame.transaction_type_box.tt_list.clearSelection()
@@ -334,6 +349,53 @@ class MainWindow(QMainWindow):
             self.logger.logError(f"Error in MainWindow  remove_rfid_Row: {e}")
             show_custom_message_box("RFID", "Somthing went wrong!", 'cri')          
 
+    def on_vc_clicked(self):
+        selected_items = self.left_frame.vc_list.selectedItems()
+        if selected_items:
+            selected_item = selected_items[0]
+            entry = selected_item.data(Qt.UserRole)
+            self.selected_vc=entry
+            if len(entry["SubClass"])>0:
+                self.show_submenu(selected_item, entry["SubClass"])
+            else:
+                self.right_frame.current_transaction_box.set_vc(self.selected_vc,None)
+    
+    def show_submenu(self, item, subitems):
+        menu = QMenu(self)
+        menu.setStyleSheet("""
+        QMenu {
+        
+            color: white; /* Default text color */
+            border: 1px solid #b5b6b7; /* Border color of the menu */
+        }
+        QMenu::item {
+            background-color: transparent; /* Background color of items */
+            color: white; /* Text color of items */
+            border-bottom: 1px solid #b5b6b7; /* Border bottom of items */
+            min-height: 30px; /* Set the minimum height of the items */
+            padding: 4px 20px; /* Optional: Add padding for better spacing */
+        }
+        QMenu::item:selected {
+            background-color: #808080; /* Background color when item is selected */
+            color: white; /* Text color when item is selected */
+        }
+        QMenu::item:hover {
+            background-color: #808080; /* Background color when item is hovered */
+            color: black; /* Text color when item is hovered */
+        }
+    """)
+        for subitem in subitems:
+            action = menu.addAction(subitem["SystemVehicleSubClassName"])
+            action.triggered.connect(partial(self.select_sub_class, subitem))
+        menu.exec(self.left_frame.vc_list.mapToGlobal(self.left_frame.vc_list.visualItemRect(item).center()))
+
+    def select_sub_class(self, entry):
+        try:
+            #json_data = json.dumps(entry, indent=4)
+            self.right_frame.current_transaction_box.set_vc(self.selected_vc,entry)
+        except Exception as e:
+            self.logger.logError(f"Error in MainWindow  select_sub_class: {e}")
+
     def onVCSelectionChanged(self):
         try:
             selected_items = self.left_frame.vc_list.selectedItems()
@@ -345,20 +407,18 @@ class MainWindow(QMainWindow):
                     filtered_data = list(filter(lambda item: item['SystemVehicleSubClassId'] == item_id, self.vehicle_class))
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
-                    self.right_frame.current_transaction_box.update_svc(item_id, item_name,filtered_data)
+                    #self.right_frame.current_transaction_box.update_svc(item_id, item_name,filtered_data)
                 else:
                     filtered_data = list(filter(lambda item: item['SystemVehicleClassId'] == item_id, self.vehicle_class))
                     if filtered_data is not None and len(filtered_data) > 0:
                         filtered_data=filtered_data[0]
-                    self.right_frame.current_transaction_box.update_vc(item_id, item_name,filtered_data)
-                    self.isTransactionPending=True
+                    #self.right_frame.current_transaction_box.update_vc(item_id, item_name,filtered_data)
         except Exception as e:
             self.logger.logError(f"Error in MainWindow  onVCSelectionChanged: {e}")
             show_custom_message_box("Vehicle Class", "Somthing went wrong!", 'cri')
 
     def onTransactionTypeSelect(self):
         try:
-            self.isTransactionPending=True
             selected_items = self.right_frame.transaction_type_box.tt_list.selectedItems()
             if selected_items:
                 selected_item = selected_items[0]
@@ -374,7 +434,7 @@ class MainWindow(QMainWindow):
                     self.right_frame.current_transaction_box.update_pt(0,"N/A")
                     self.right_frame.current_transaction_box.update_et(0,"N/A")
                 self.right_frame.current_transaction_box.update_tt(item_id, item_name)
-                self.isTransactionPending=True
+                
                 d=self.right_frame.wim_data_queue_box.get_top_wim()
                 if d is not None:
                     self.right_frame.current_transaction_box.update_wt(d.get('TotalWeight'))

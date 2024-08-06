@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const crypto = require("../_helpers/crypto");
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
@@ -54,13 +54,13 @@ async function UserValidatePassword(req, res, next) {
 
 async function UserUpdatePassword(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('UserId', sql.Int, req.body.UserId)
             .input('LoginPassword', sql.VarChar(200), crypto.encrypt(req.body.LoginPassword))
             .input('CDateTime', sql.DateTime, new Date())
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .execute('USP_UserUpdatePassword');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("User updated successfully", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -72,7 +72,7 @@ async function UserUpdatePassword(req, res, next) {
 
 async function UserConfigurationSetUp(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('UserId', sql.Int, req.body.UserId)
             .input('LoginId', sql.VarChar(40), req.body.LoginId)
@@ -91,7 +91,7 @@ async function UserConfigurationSetUp(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_UserInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -104,9 +104,9 @@ async function UserConfigurationSetUp(req, res, next) {
 
 async function UserConfigurationGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_UserGetAll');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         userMasterData = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -155,10 +155,10 @@ async function UserConfigurationGetById(req, res, next) {
 async function UserConfigurationGetByUserType(req, res, next) {
     try {
         const UserTypeId = req.query.UserTypeId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('UserTypeId', sql.Int, UserTypeId)
             .execute('USP_UserGetByUserTypeId');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         userMasterData = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -180,11 +180,11 @@ async function UserConfigurationGetBySystemUserType(req, res, next) {
     try {
         const UserTypeId = req.query.UserTypeId | 0;
         const SystemId = req.query.SystemId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('UserTypeId', sql.Int, UserTypeId)
             .input('SystemId', sql.Int, SystemId)
             .execute('USP_UserGetBySystemUserTypeId');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         userMasterData = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -211,11 +211,11 @@ async function UserProfileChange(req, res, next) {
         if (FilePath != "") {
             FilePath = FilePath.replace(currentPath, "");
             FilePath = FilePath.replaceAll("\\", "/");
-            const pool = await database.connect();
+            const pool = await database.getPool();
             result = await pool.request().input('UserId', sql.Int, req.body.UserId)
                 .input('UserProfileImage', sql.VarChar(200), FilePath)
                 .execute('USP_UserProfileChange');
-            await database.disconnect();
+            
             let out = constants.ResponseMessage(result.recordset, null);
             res.status(200).json(out)
         }
@@ -232,10 +232,10 @@ async function UserProfileChange(req, res, next) {
 
 async function UserGetbyId(userId) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('UserId', sql.Int, userId)
             .execute('USP_UserGetbyId');
-        await database.disconnect();
+        
         return result;
     } catch (error) {
         errorlogMessage(error, 'UserGetbyId');

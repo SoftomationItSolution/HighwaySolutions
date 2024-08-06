@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -14,7 +14,7 @@ module.exports = router;
 
 async function SystemIntegratorInsertUpdate(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('SystemIntegratorId', sql.Int, req.body.SystemIntegratorId)
             .input('Name', sql.VarChar(100), req.body.Name)
@@ -29,7 +29,7 @@ async function SystemIntegratorInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemIntegratorInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -41,9 +41,9 @@ async function SystemIntegratorInsertUpdate(req, res, next) {
 
 async function SystemIntegratorGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemIntegratorGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -54,9 +54,9 @@ async function SystemIntegratorGetAll(req, res, next) {
 }
 async function SystemIntegratorGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemIntegratorGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -69,10 +69,10 @@ async function SystemIntegratorGetActive(req, res, next) {
 async function SystemIntegratorGetById(req, res, next) {
     try {
         const SystemIntegratorId = req.query.SystemIntegratorId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('SystemIntegratorId', sql.Int, SystemIntegratorId)
             .execute('USP_SystemIntegratorGetbyId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

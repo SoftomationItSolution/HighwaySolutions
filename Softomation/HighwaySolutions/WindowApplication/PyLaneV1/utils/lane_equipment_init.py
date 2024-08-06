@@ -40,6 +40,8 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.systemSetting=None
         self.plaza_detail=None
         self.vehicle_class=None
+        self.vehicle_class_patent=None
+        self.vehicle_class_child=None
         self.equipment_detail=None
         self.toll_fare=None
         self.shiftDetails=None
@@ -428,11 +430,13 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def getVSDetails(self):
         try:
+            self.vehicle_class_patent=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
+            self.vehicle_class_child=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
             if self.systemSetting is not None and self.vehicle_class is None:
                 if self.systemSetting['SubClassRequired']==1:
-                    self.vehicle_class=CommonManager.GetsystemVehicleSubClass(self.dbConnectionObj)
+                    self.vehicle_class=self.vehicle_class_child
                 else:
-                    self.vehicle_class=CommonManager.GetsystemVehicleClass(self.dbConnectionObj)
+                    self.vehicle_class=self.vehicle_class_patent
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} getVSDetails: {str(e)}")
             self.vehicle_class=None
@@ -459,7 +463,7 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def start_lpic_thread(self,equipment):
         try:
-            if self.lpic_thread is None and '{' not in equipment['UrlAddress']: 
+            if self.lpic_thread is None:
                 self.lpic_thread=IpCameraHandler(self,self.default_directory,"lpic","lane_BG_camera",equipment,"lpic_liveview")
                 self.lpic_thread.daemon=True
                 self.lpic_thread.start()
@@ -477,7 +481,7 @@ class LaneEquipmentSynchronization(threading.Thread):
 
     def start_ic_thread(self,equipment):
         try:
-            if self.ic_thread is None and '{' not in equipment['UrlAddress']: 
+            if self.ic_thread is None:
                 self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
                 self.ic_thread.daemon=True
                 self.ic_thread.start()

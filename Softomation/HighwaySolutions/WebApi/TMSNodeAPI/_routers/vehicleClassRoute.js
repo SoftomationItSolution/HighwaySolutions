@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -19,7 +19,7 @@ module.exports = router;
 
 async function FasTagVehicleClassInsertUpdate(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('FasTagVehicleClassId', sql.Int, req.body.FasTagVehicleClassId)
             .input('FasTagVehicleClassName', sql.VarChar(100), req.body.FasTagVehicleClassName)
@@ -31,7 +31,7 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_FasTagVehicleClassInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
     } catch (error) {
@@ -43,7 +43,7 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
 
 async function SystemVehicleClassInsertUpdate(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const currentDateTime = new Date();
         result = await pool.request().input('SystemVehicleClassId', sql.Int, req.body.SystemVehicleClassId)
             .input('AvcVehicleClassId', sql.Int, req.body.AvcVehicleClassId)
@@ -57,7 +57,7 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_SystemVehicleClassInsertUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -70,9 +70,9 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
 
 async function FasTagVehicleClassGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_FasTagVehicleClassGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -84,9 +84,9 @@ async function FasTagVehicleClassGetAll(req, res, next) {
 
 async function FasTagVehicleClassGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_FasTagVehicleClassGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -99,10 +99,10 @@ async function FasTagVehicleClassGetActive(req, res, next) {
 async function FasTagVehicleClassGetById(req, res, next) {
     try {
         const FasTagVehicleClassId = req.query.FasTagVehicleClassId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('FasTagVehicleClassId', sql.Int, FasTagVehicleClassId)
             .execute('USP_FasTagVehicleClassGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -120,9 +120,9 @@ async function FasTagVehicleClassGetById(req, res, next) {
 
 async function SystemVehicleClassGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemVehicleClassGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -134,9 +134,9 @@ async function SystemVehicleClassGetAll(req, res, next) {
 
 async function SystemVehicleClassGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemVehicleClassGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -149,10 +149,10 @@ async function SystemVehicleClassGetActive(req, res, next) {
 async function SystemVehicleClassGetById(req, res, next) {
     try {
         const SystemVehicleClassId = req.query.SystemVehicleClassId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('SystemVehicleClassId', sql.Int, SystemVehicleClassId)
             .execute('USP_SystemVehicleClassGetById');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);

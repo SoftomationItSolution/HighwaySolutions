@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -15,9 +15,9 @@ module.exports = router;
 
 async function FasTagRequestCode(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().execute('USP_ICDCodeListGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -32,9 +32,9 @@ async function FasTagRequestCode(req, res, next) {
 async function FasTagGetByStatus(req, res, next) {
     try {
         const RequestStatusId = req.query.RequestStatusId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().input('RequestStatusId', sql.SmallInt, RequestStatusId).execute('USP_FasTagGetByStatus');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -46,9 +46,9 @@ async function FasTagGetByStatus(req, res, next) {
 
 async function FasTagProcessedGetLatest(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const result = await pool.request().execute('USP_FasTagProcessedGetLatest');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {

@@ -152,12 +152,15 @@ class KistDIOClient(threading.Thread):
     def send_data(self,input):
         result=False
         try:
-            bytes_data = input.encode('ascii')
-            if self.dio_detail["ProtocolTypeId"]==1:
-                self.client_socket.sendall(bytes_data)
-            elif self.dio_detail["ProtocolTypeId"]==3:
-                self.client_socket.write(bytes_data)
-            result= True
+            if self.client_socket is not None:
+                bytes_data = input.encode('ascii')
+                if self.dio_detail["ProtocolTypeId"]==1:
+                    self.client_socket.sendall(bytes_data)
+                elif self.dio_detail["ProtocolTypeId"]==3:
+                    self.client_socket.write(bytes_data)
+                result= True
+            else:
+                result= False
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
         finally:

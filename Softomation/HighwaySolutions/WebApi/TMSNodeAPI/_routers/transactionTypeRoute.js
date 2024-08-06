@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -29,7 +29,7 @@ async function TransactionTypeUpdate(req, res, next) {
                 parseInt(array[i].DataStatus),
                 SessionId);
         }
-        const pool = await database.connect();
+        const pool = await database.getPool();
         const resultU = await pool.request().bulk(table);
         result = await pool.request().input('SessionId', sql.VarChar(20), SessionId)
             .input('CreatedBy', sql.Int, array[0].CreatedBy)
@@ -37,7 +37,7 @@ async function TransactionTypeUpdate(req, res, next) {
             .input('CreatedDate', sql.DateTime, array[0].CreatedDate)
             .input('ModifiedDate', sql.DateTime, array[0].ModifiedDate)
             .execute('USP_TransactionTypeUpdate');
-        await database.disconnect();
+        
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
         res.status(200).json(out)
@@ -50,9 +50,9 @@ async function TransactionTypeUpdate(req, res, next) {
 
 async function TransactionTypeGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_TransactionTypeGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -64,9 +64,9 @@ async function TransactionTypeGetAll(req, res, next) {
 
 async function TransactionTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_TransactionTypeGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {

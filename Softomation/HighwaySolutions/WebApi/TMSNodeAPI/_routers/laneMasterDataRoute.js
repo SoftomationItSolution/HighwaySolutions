@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -71,9 +71,9 @@ async function ProjectConfigGet(req, res, next) {
 
 async function DataStatusMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_DataStatusMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -85,9 +85,9 @@ async function DataStatusMasterGetAll(req, res, next) {
 
 async function SystemIntegratorGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemIntegratorGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -99,9 +99,9 @@ async function SystemIntegratorGetAll(req, res, next) {
 
 async function ManufacturerGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ManufacturerGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -113,9 +113,9 @@ async function ManufacturerGetAll(req, res, next) {
 
 async function LaneTypeMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneTypeMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -127,9 +127,9 @@ async function LaneTypeMasterGetAll(req, res, next) {
 
 async function LaneDirectionMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneDirectionMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -141,9 +141,9 @@ async function LaneDirectionMasterGetAll(req, res, next) {
 
 async function LaneModeMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneModeMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -155,9 +155,9 @@ async function LaneModeMasterGetAll(req, res, next) {
 
 async function LanePointMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LanePointMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -169,9 +169,9 @@ async function LanePointMasterGetAll(req, res, next) {
 
 async function LanePositionMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LanePositionMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -183,9 +183,9 @@ async function LanePositionMasterGetAll(req, res, next) {
 
 async function LaneStatusMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_LaneStatusMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -197,10 +197,10 @@ async function LaneStatusMasterGetAll(req, res, next) {
 
 async function TollFareGetByEffectedFrom(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('EffectedFrom', sql.Date, req.query.EffectedFrom)
             .execute('USP_TollFareGetByEffectedFrom');
-        await database.disconnect();
+        
         if (result.recordset == [] || result.recordset.length==0) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -230,9 +230,9 @@ async function TollFareGetByEffectedFrom(req, res, next) {
 
 async function SystemSettingGet(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemSettingGet');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset[0]);
         res.status(200).json(out)
     } catch (error) {
@@ -245,9 +245,9 @@ async function SystemSettingGet(req, res, next) {
 
 async function DenominationGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_DenominationGetActive')
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -259,9 +259,9 @@ async function DenominationGetActive(req, res, next) {
 
 async function LaneUserGetDetails(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_UserforLaneGetAll');
-        await database.disconnect();
+        
         let dataarray = result.recordset;
         userMasterData = []
         for (let i = 0; i < dataarray.length; i++) {
@@ -279,9 +279,9 @@ async function LaneUserGetDetails(req, res, next) {
 
 async function TransactionTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_TransactionTypeGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -293,9 +293,9 @@ async function TransactionTypeGetActive(req, res, next) {
 
 async function ExemptTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ExemptTypeMasterGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -307,9 +307,9 @@ async function ExemptTypeGetActive(req, res, next) {
 
 async function PaymentMethodTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_PaymentTypeGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {
@@ -321,9 +321,9 @@ async function PaymentMethodTypeGetActive(req, res, next) {
 
 async function SystemVehicleClassGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemVehicleClassGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -335,9 +335,9 @@ async function SystemVehicleClassGetActive(req, res, next) {
 
 async function SystemVehicleSubClassDetails(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_SystemVehicleSubClassGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -349,9 +349,9 @@ async function SystemVehicleSubClassDetails(req, res, next) {
 
 async function FasTagVehicleClassGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_FasTagVehicleClassGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -363,10 +363,10 @@ async function FasTagVehicleClassGetActive(req, res, next) {
 
 async function LaneGetByIpAddress(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneSystemIpAddress', sql.VarChar(50), req.query.IpAddress)
             .execute('USP_LaneGetbyIpAddress');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -385,10 +385,10 @@ async function LaneGetByIpAddress(req, res, next) {
 async function PlazaGetById(req, res, next) {
     try {
         const PlazaId = req.query.PlazaId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('PlazaId', sql.Int, PlazaId)
             .execute('USP_PlazaGetbyId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -406,9 +406,9 @@ async function PlazaGetById(req, res, next) {
 
 async function EquipmentTypeGetActive(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_EquipmentTypeMasterGetActive');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -420,9 +420,9 @@ async function EquipmentTypeGetActive(req, res, next) {
 
 async function ProtocolTypeMasterGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ProtocolTypeMasterGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out)
     } catch (error) {
@@ -435,10 +435,10 @@ async function ProtocolTypeMasterGetAll(req, res, next) {
 async function EquipmentDetailsGetByLane(req, res, next) {
     try {
         const LaneId = req.query.LaneId | 0;
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.Int, LaneId)
             .execute('USP_EquipmentDetailsGetByLaneId');
-        await database.disconnect();
+        
         if (result.recordset == []) {
             let out = constants.ResponseMessage("No data found", null);
             res.status(200).json(out);
@@ -456,9 +456,9 @@ async function EquipmentDetailsGetByLane(req, res, next) {
 
 async function ShiftTiminingGetAll(req, res, next) {
     try {
-        const pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().execute('USP_ShiftTiminingGetAll');
-        await database.disconnect();
+        
         let out = constants.ResponseMessage("success", result.recordset);
         res.status(200).json(out);
     } catch (error) {

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const database = require('../_helpers/db');
+const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
@@ -42,7 +42,7 @@ async function LaneTranscationInsert(req, res, next) {
             .input('TagPlateNumber', sql.VarChar(20), req.body.TagPlateNumber)
             .input('TagReadDateTime', sql.DateTime2, req.body.TagReadDateTime)
             .input('TagReadCount', sql.SmallInt, req.body.TagReadCount)
-            .input('IsReadByReader', sql.Bit, req.body.IsReadByReader)
+            .input('TagReadById', sql.Bit, req.body.TagReadById)
             .input('PermissibleVehicleWeight', sql.Decimal, req.body.PermissibleVehicleWeight)
             .input('ActualVehicleWeight', sql.Decimal, req.body.ActualVehicleWeight)
             .input('IsOverWeightCharged', sql.Bit, req.body.IsOverWeightCharged)
@@ -75,7 +75,7 @@ async function LaneTranscationInsert(req, res, next) {
         res.status(400).json(out);
     } finally {
         if (pool) {
-            await database.disconnect(); // Close the database connection
+             // Close the database connection
         }
     }
 }
@@ -101,7 +101,7 @@ async function AvcTransactionInsert(req, res, next) {
         res.status(400).json(out);
     } finally {
         if (pool) {
-            await database.disconnect();
+            
         }
     }
 }
@@ -125,7 +125,7 @@ async function WimTransactionInsert(req, res, next) {
         res.status(400).json(out);
     } finally {
         if (pool) {
-            await database.disconnect(); // Close the database connection
+             // Close the database connection
         }
     }
 }
@@ -149,7 +149,7 @@ async function WimTransactionAxleDetailsInsert(req, res, next) {
         res.status(400).json(out);
     }finally {
         if (pool) {
-            await database.disconnect(); // Close the database connection
+             // Close the database connection
         }
     }
 }
