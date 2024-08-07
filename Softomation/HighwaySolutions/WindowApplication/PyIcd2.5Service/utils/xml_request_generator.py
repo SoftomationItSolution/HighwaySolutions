@@ -2,143 +2,213 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 class XMLRequestGenerator:
+    #orgId: fixed value singe for each plaza
+    #msgId:unique id that identify the request and response (Alphanumeric upto 35)
+    #txn_type:CREDIT/DEBIT/NON_FIN
+    #ts:transcation date time
+    #tsRead:tag read date time
+    #txn_id is unique Alphanumeric that is upto 22
+    #lanestatus:Open or Close
+    #laneMode:Maintenance/Normal 
+    #laneType:Dedicated/Hybrid/Handheld 
+    #ExitGate:Parking Only
+    #Floor:Parking Only
+    #signAuth:VALID/INVALID/NOT_VERIFIED
+    #tagVerified:NETC TAG or NON NETC TAG
+    #vehicleAuth:YES/NO/UNKNOWN
+    #txnStatus:SUCCESS/FAILED
+    #TagSignature:Value of specific tag user memory(Hexadecimal 1-256)
+    #PriceMode:DISTANCE/POINT/CUSTOM
+    #IsOverWeightCharged:TRUE/FALSE
+    #PaymentMode:Tag/Cash/Card/QRCode/Other       
+        
+    @staticmethod
+    def create_root_element(etc, xmlns="http://npci.org/etc/schema/"):
+        return ET.Element(f'etc:{etc}', xmlns=xmlns)
+
+    @staticmethod
+    def create_head_element(root, orgId,msg_id, version="1.0"):
+        return ET.SubElement(root, 'Head', msgId=msg_id, orgId=orgId, ts=datetime.now().isoformat(), ver=version)
+
+    @staticmethod
+    def create_txn_element(root, txn_id,ts, txn_type, note="", ref_id="", ref_url="", org_txn_id=""):
+        return ET.SubElement(root, 'Txn', id=txn_id, note=note, refId=ref_id, refUrl=ref_url, ts=ts, type=txn_type, orgTxnId=org_txn_id)
+
+    @staticmethod
+    def add_signature(root):
+        ET.SubElement(root, 'Signature')
+
     @staticmethod
     def generate_violation_audit_details():
-        root = ET.Element('etc:ViolationAuditDetails', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="1", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
+        root = XMLRequestGenerator.create_root_element('ViolationAuditDetails')
+        XMLRequestGenerator.create_head_element(root, "1", "IRBL")
         ET.SubElement(root, 'Meta')
         violations = ET.SubElement(root, 'Violations')
         violation = ET.SubElement(violations, 'Violation')
-        ET.SubElement(violation, 'Detail', name="AuditTime", value="")
-        ET.SubElement(violation, 'Detail', name="AuditResult", value="")
+        
+        details = [
+            ("AuditTime", ""),
+            ("AuditResult", ""),
+        ]
+        avc_profile_details = [
+            ("ProfileData", ""),
+            ("NumberAxles", ""),
+            ("InterAxleDistance", ""),
+            ("VehicleHeight", ""),
+            ("DoubleWheelDetected", ""),
+            ("VehicleLength", "")
+        ]
+        transaction_details = [
+            ("PlazaId", ""),
+            ("ReaderReadTime", ""),
+            ("TransactionTime", ""),
+            ("TransactionId", ""),
+            ("LaneId", "")
+        ]
+        
+        for name, value in details:
+            ET.SubElement(violation, 'Detail', name=name, value=value)
+        
         avc_profile = ET.SubElement(violation, 'Detail', name="AVCProfile", value="Inline")
-        ET.SubElement(avc_profile, 'Item', name="ProfileData", value="")
-        ET.SubElement(avc_profile, 'Item', name="NumberAxles", value="")
-        ET.SubElement(avc_profile, 'Item', name="InterAxleDistance", value="")
-        ET.SubElement(avc_profile, 'Item', name="VehicleHeight", value="")
-        ET.SubElement(avc_profile, 'Item', name="DoubleWheelDetected", value="")
-        ET.SubElement(avc_profile, 'Item', name="VehicleLength", value="")
-        transaction_details = ET.SubElement(violation, 'Detail', name="TransactionDetails", value="Inline")
-        ET.SubElement(transaction_details, 'Item', name="PlazaId", value="")
-        ET.SubElement(transaction_details, 'Item', name="ReaderReadTime", value="")
-        ET.SubElement(transaction_details, 'Item', name="TransactionTime", value="")
-        ET.SubElement(transaction_details, 'Item', name="TransactionId", value="")
-        ET.SubElement(transaction_details, 'Item', name="LaneId", value="")
+        for name, value in avc_profile_details:
+            ET.SubElement(avc_profile, 'Item', name=name, value=value)
+        
+        transaction = ET.SubElement(violation, 'Detail', name="TransactionDetails", value="Inline")
+        for name, value in transaction_details:
+            ET.SubElement(transaction, 'Item', name=name, value=value)
+
         image_details = ET.SubElement(violation, 'ImageDetails')
-        ET.SubElement(image_details, 'Image1', name="", refPath="")
-        ET.SubElement(image_details, 'Image2', name="", refPath="")
+        for i in range(1, 3):
+            ET.SubElement(image_details, f'Image{i}', name="", refPath="")
+        
         avc_profile = ET.SubElement(violation, 'AVCProfile')
-        ET.SubElement(avc_profile, 'Image1', name="", refPath="")
-        ET.SubElement(avc_profile, 'Image2', name="", refPath="")
-        ET.SubElement(root, 'Signature')
+        for i in range(1, 3):
+            ET.SubElement(avc_profile, f'Image{i}', name="", refPath="")
+        
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
-    def generate_req_pay():
-        root = ET.Element('etc:ReqPay', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
+    def generate_req_pay(orgId,TransactionDetail,EntryTransactionDetail,PlazaDetail,EntryPlazaDetail,LaneDetail,EntryLaneDetail):  
+        
+        root = XMLRequestGenerator.create_root_element('ReqPay')
+        XMLRequestGenerator.create_head_element(root, orgId,TransactionDetail["msgId"])
         ET.SubElement(root, 'Meta')
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", orgTxnId="", refId="", refUrl="", ts=datetime.now().isoformat(), type="DEBIT")
-        ET.SubElement(txn, 'EntryTxn', id="0000000000000AB1002", tsRead=datetime.now().isoformat(), ts=datetime.now().isoformat(), type="DEBIT")
-        plaza = ET.SubElement(root, 'Plaza', geoCode="11.00,11.00", id="1234", name="", subtype="State", type="Toll")
-        ET.SubElement(plaza, 'EntryPlaza', geoCode="11", id="1234", name="", subtype="State", type="Toll")
-        ET.SubElement(plaza, 'Lane', direction="N", id="a", readerId="12", Status="OPEN", Mode="Maintenance", laneType="Dedicated", ExitGate="", Floor="")
-        ET.SubElement(plaza, 'EntryLane', direction="N", id="a", readerId="12", Status="OPEN", Mode="Maintenance", laneType="Dedicated", EntryGate="", Floor="")
-        reader_verification = ET.SubElement(plaza, 'ReaderVerificationResult', publicKeyCVV="", procRestrictionResult="", signAuth="NOT_VERIFIED", tagVerified="NETC TAG", ts=datetime.now().isoformat(), txnCounter="1234", txnStatus="SUCCESS", vehicleAuth="UNKNOWN")
+        
+        txn = XMLRequestGenerator.create_txn_element(root, TransactionDetail["txn_id"],TransactionDetail["ts"],TransactionDetail["txn_type"],orgTxnId=TransactionDetail["orgTxnId"])
+        ET.SubElement(txn, 'EntryTxn', id=EntryTransactionDetail["txn_id"], tsRead=EntryTransactionDetail["tsRead"], ts=EntryTransactionDetail["ts"], type=EntryTransactionDetail["txn_type"])
+        
+        plaza = ET.SubElement(root, 'Plaza', geoCode=PlazaDetail["geoCode"], id=PlazaDetail["plaza_id"], name=PlazaDetail["name"], subtype=PlazaDetail["subtype"], type=PlazaDetail["type"])
+        ET.SubElement(plaza, 'EntryPlaza', geoCode=EntryPlazaDetail["geoCode"], id=EntryPlazaDetail["plaza_id"], name=EntryPlazaDetail["name"], subtype=EntryPlazaDetail["subtype"], type=EntryPlazaDetail["type"])
+        ET.SubElement(plaza, 'Lane', direction=LaneDetail["direction"], id=LaneDetail["id"], readerId=LaneDetail["readerId"], Status=LaneDetail["Status"], Mode=LaneDetail["Mode"], laneType=LaneDetail["laneType"], ExitGate=LaneDetail["ExitGate"], Floor=LaneDetail["Floor"])
+        ET.SubElement(plaza, 'EntryLane', direction=EntryLaneDetail["direction"], id=EntryLaneDetail["id"], readerId=EntryLaneDetail["readerId"], Status=EntryLaneDetail["Status"], Mode=EntryLaneDetail["Mode"], laneType=EntryLaneDetail["laneType"], EntryGate=EntryLaneDetail["EntryGate"], Floor=EntryLaneDetail["Floor"])
+        
+        reader_verification = ET.SubElement(plaza, 'ReaderVerificationResult',ts=TransactionDetail["tsRead"], signAuth="NOT_VERIFIED",tagVerified="NETC TAG", procRestrictionResult="",vehicleAuth="UNKNOWN",txnCounter=TransactionDetail["txnCounter"], txnStatus="SUCCESS", publicKeyCVV="")
         tag_user_memory = ET.SubElement(reader_verification, 'TagUserMemory')
-        ET.SubElement(tag_user_memory, 'Detail', name="TagSignature", value="")
-        ET.SubElement(tag_user_memory, 'Detail', name="TagVRN", value="XXXXXXXXXXXX")
-        ET.SubElement(tag_user_memory, 'Detail', name="TagVC", value="04")
-        vehicle = ET.SubElement(root, 'Vehicle', TID="34161FA82032D698020078E0", tagId="34161FA82032D698020078E0", wim="", staticweight="")
+        tag_details = [
+            ("TagSignature", TransactionDetail["TagUserMemory"]),
+            ("TagVRN", TransactionDetail["TagVRN"]),
+            ("TagVC", TransactionDetail["TagVC"])
+        ]
+        for name, value in tag_details:
+            ET.SubElement(tag_user_memory, 'Detail', name=name, value=value)
+        
+        vehicle = ET.SubElement(root, 'Vehicle', TID=TransactionDetail["TID"], tagId=TransactionDetail["tagId"], wim="", staticweight="")
         vehicle_details = ET.SubElement(vehicle, 'VehicleDetails')
-        ET.SubElement(vehicle_details, 'Detail', name="AVC", value="1001")
-        ET.SubElement(vehicle_details, 'Detail', name="LPNumber", value="MH04BY13")
+        vehicle_details_data = [
+            ("AVC", TransactionDetail["AVCClassId"]),
+            ("LPNumber", TransactionDetail["LPNumber"])
+        ]
+        for name, value in vehicle_details_data:
+            ET.SubElement(vehicle_details, 'Detail', name=name, value=value)
+        
         payment = ET.SubElement(root, 'Payment')
-        amount = ET.SubElement(payment, 'Amount', curr="INR", value="100", PriceMode="DISTANCE", IsOverWeightCharged="FALSE", PaymentMode="Tag")
-        ET.SubElement(amount, 'OverweightAmount', curr="INR", value="100", PaymentMode="Tag")
-        ET.SubElement(root, 'Signature')
-
+        amount = ET.SubElement(payment, 'Amount', curr="INR", value=TransactionDetail["TollFare"], PriceMode=TransactionDetail["PriceMode"], IsOverWeightCharged=TransactionDetail["IsOverWeightCharged"], PaymentMode="Tag")
+        ET.SubElement(amount, 'OverweightAmount', curr="INR", value=TransactionDetail["OverweightAmount"], PaymentMode="Tag")
+        
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_request_plaza_details():
-        root = ET.Element('etc:RequestPlazaDetails', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="DCBX", ts=datetime.now().isoformat(), ver="1.0")
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="FETCH")
+        root = XMLRequestGenerator.create_root_element('RequestPlazaDetails')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "DCBX")
+        XMLRequestGenerator.create_txn_element(root, "0000000000000AB1002", "FETCH")
+        
         plaza = ET.SubElement(root, 'Plaza', id="")
         request_type = ET.SubElement(plaza, 'RequestType')
-        ET.SubElement(request_type, 'Item', name="BankDetails")
-        ET.SubElement(request_type, 'Item', name="LaneDetails")
-        ET.SubElement(request_type, 'Item', name="PlazaVehicleClass")
-        ET.SubElement(request_type, 'Item', name="TollFareRules")
-        ET.SubElement(request_type, 'Item', name="PassSchemes")
-        ET.SubElement(root, 'Signature')
-
+        items = [
+            "BankDetails",
+            "LaneDetails",
+            "PlazaVehicleClass",
+            "TollFareRules",
+            "PassSchemes"
+        ]
+        for item in items:
+            ET.SubElement(request_type, 'Item', name=item)
+        
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_request_tag_details():
-        root = ET.Element('etc:ReqTagDetails', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', ver="1.0", ts=datetime.now().isoformat(), orgId="IRBL", msgId="00000000000000000314")
-        txn = ET.SubElement(root, 'Txn', id="00000000000000000314", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="FETCH", orgTxnId="")
-        ET.SubElement(txn, 'Vehicle', TID="", vehicleRegNo="", tagId="34161FA82032D69802008A60")
-        ET.SubElement(root, 'Signature')
+        root = XMLRequestGenerator.create_root_element('ReqTagDetails')
+        XMLRequestGenerator.create_head_element(root, "00000000000000000314", "IRBL")
+        XMLRequestGenerator.create_txn_element(root, "00000000000000000314", "FETCH")
+        
+        ET.SubElement(root.find('Txn'), 'Vehicle', TID="", vehicleRegNo="", tagId="34161FA82032D69802008A60")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_request_sync_time():
-        root = ET.Element('etc:ReqSyncTime', xmlns="http://npci.org/etc/schema/")
-        ET.SubElement(root, 'Head', ver="1.0", ts=datetime.now().isoformat(), orgId="IRBL", msgId="0001")
-        ET.SubElement(root, 'Signature')
-
+        root = XMLRequestGenerator.create_root_element('ReqSyncTime')
+        XMLRequestGenerator.create_head_element(root, "0001", "IRBL")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_toll_plaza_heartbeat():
-        root = ET.Element('etc:TollplazaHbeatReq', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="NON_FIN")
-        ET.SubElement(root, 'Signature')
-
+        root = XMLRequestGenerator.create_root_element('TollplazaHbeatReq')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "IRBL")
+        XMLRequestGenerator.create_txn_element(root, "0000000000000AB1002", "NON_FIN")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_check_transaction_status():
-        root = ET.Element('etc:ReqTxnStatus', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="DEBIT/CREDIT/NON_FIN")
-        ET.SubElement(root, 'Signature')
+        root = XMLRequestGenerator.create_root_element('ReqTxnStatus')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "IRBL")
+        XMLRequestGenerator.create_txn_element(root, "0000000000000AB1002", "DEBIT/CREDIT/NON_FIN")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_get_exception():
-        root = ET.Element('etc:ReqGetException', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
-        ET.SubElement(root, 'Signature')
+        root = XMLRequestGenerator.create_root_element('ReqGetException')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "IRBL")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_query_exception_list():
-        root = ET.Element('etc:ReqQueryExceptionList', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="FETCH")
-        ET.SubElement(root, 'Signature')
-
+        root = XMLRequestGenerator.create_root_element('ReqQueryExceptionList')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "IRBL")
+        XMLRequestGenerator.create_txn_element(root, "0000000000000AB1002", "FETCH")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_set_pass_scheme():
-        root = ET.Element('etc:ReqSetPassScheme', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', msgId="0000000000000AB1002", orgId="IRBL", ts=datetime.now().isoformat(), ver="1.0")
-        txn = ET.SubElement(root, 'Txn', id="0000000000000AB1002", note="", refId="", refUrl="", ts=datetime.now().isoformat(), type="SET")
-        ET.SubElement(root, 'Signature')
-
+        root = XMLRequestGenerator.create_root_element('ReqSetPassScheme')
+        XMLRequestGenerator.create_head_element(root, "0000000000000AB1002", "IRBL")
+        XMLRequestGenerator.create_txn_element(root, "0000000000000AB1002", "SET")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
 
     @staticmethod
     def generate_list_participants():
-        root = ET.Element('etc:ReqListParticipants', xmlns="http://npci.org/etc/schema/")
-        head = ET.SubElement(root, 'Head', ver="1.0", ts=datetime.now().isoformat(), orgId="IRBL", msgId="0001")
-        ET.SubElement(root, 'Signature')
-
+        root = XMLRequestGenerator.create_root_element('ReqListParticipants')
+        XMLRequestGenerator.create_head_element(root, "0001", "IRBL")
+        XMLRequestGenerator.add_signature(root)
         return ET.tostring(root, encoding='unicode')
