@@ -1,149 +1,81 @@
-import { AfterViewInit, Component, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { DatePipe } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { UserProfilePopupComponent } from 'src/app/pages/configurations/UserData/user-profile-popup/user-profile-popup.component';
-import { SystemSettingComponent } from 'src/app/pages/system-setting/system-setting.component';
-import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock/app-lock.component';
-import { ChangePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
-import { ProjectConfigComponent } from 'src/app/pages/project-config/project-config.component';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
 })
+
 export class DefaultLayoutComponent implements OnInit, AfterViewInit {
-  UserData: any;
   public perfectScrollbarConfig = {
     suppressScrollX: true,
   };
   docElement: HTMLElement;
   isFullScreen: boolean = false;
-  isProfilepopUp: boolean = false;
   userData: any;
-  MenuList: any;
-  currentRoute: string = "dashboard";
-  childRoute: string = "";
-  location: Location | undefined;
-  ParentTitle = "Dashboard";
-  ChildTitle = "Dashboard";
-  MediaPrefix: any;
-  profileImage: any;
-  capslockOn = false;
-  NotificationHide = false;
-  NotificationTest = "Welcome to Command & Control Center";
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardEvent(event: any) {
-    if (event.ctrlKey && event.keyCode == 76) {
-      this.alOpen();
-    }
-    if (event.getModifierState && event.getModifierState('CapsLock')) {
-      this.capslockOn = true;
-    } else {
-      this.capslockOn = false;
-    }
-  }
-
+  LoginBy = 'Login by:'
+  LoginAt = 'Login at:'
+  ShiftDetails = 'Shift:'
+  SystemVersion = 'TMSv1'
+  currentTime: any
+  remainingTime: any
+  endTime: any
+  isLessThanTenMinutes: boolean = false;
   constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, public dialog: MatDialog) {
+    public api: apiIntegrationService, public dialog: MatDialog,public datepipe: DatePipe,) {
     this.docElement = document.documentElement;
-    this.MediaPrefix = this.dataModel.getMediaAPI()?.toString();
   }
 
   ngOnInit() {
     this.userData = this.dataModel.getUserData();
+    let shiftDetails = this.dataModel.getSSData();
     if (this.userData == null) {
       this.router.navigate(['']);
     }
     else {
-      if (this.userData.UserProfileImage != '') {
-        this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
-      }
-      this.GetSystemMenu();
-      let lck = this.dataModel.getLock();
-      if (lck == "true") {
-        this.alOpen();
-      }
+      this.LoginBy = "Login by:" + this.userData.LoginId
+      this.LoginAt = "Login at:" + this.dataModel.getloginTime()
     }
+
+    if (shiftDetails != null) {
+      const cd=this.datepipe.transform(new Date(), 'dd-MMM-yyyy')
+      this.endTime=new Date(cd+' '+shiftDetails.EndTimming)
+      this.ShiftDetails="Shift: "+shiftDetails.ShiftId+' '+shiftDetails.StartTimmng+' '+shiftDetails.EndTimming
+    }
+
+    setInterval(() => {
+      this.currentTime = "Current Time:" + this.datepipe.transform(new Date(), 'HH:mm:ss');
+      this.updateRemainingTime()
+    }, 1000);
+
   }
   ngAfterViewInit() {
-    this.getTitle();
+    //this.toggleFullScreen()
   }
 
-  GetSystemMenu() {
-    this.api.GetMenuMasterByRole(this.userData.RoleId).subscribe(
-      data => {
-        let returnMessage = data.Message[0].AlertMessage;
-        if (returnMessage == 'success') {
-          this.MenuList = data.ResponseData.filter((e: { MenuUrl: any; }) => e.MenuUrl.indexOf('#PopUp') != 0);
-          this.getTitle();
-          const ss=this.dataModel.getSSData()
-          if(ss!=null){
-            this.NotificationTest="Welcome to "+ss.DefaultPlazaName;
-          }
-        }
-        else {
-          this.Logout();
-        }
-      },
-      (error) => {
-        this.Logout();
-      }
-    );
+  updateRemainingTime(): void {
+    const currentTime = new Date();
+    const timeDifference = this.endTime.getTime() - currentTime.getTime();
+
+    if (timeDifference > 0) {
+      const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeDifference / 1000) % 60);
+      this.remainingTime = `Remaining Time:${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+      this.isLessThanTenMinutes = timeDifference <= 10 * 60 * 1000;
+    } else {
+      this.remainingTime = '00:00:00';  // Time's up!
+      this.isLessThanTenMinutes = false;
+      this.router.navigate(['']);
+    }
   }
 
-  rightBar() {
-    let body = document.getElementsByTagName('body')[0];
-    if (body.classList.contains("right-bar-enabled"))
-      body.classList.remove("right-bar-enabled");
-
-    else
-      body.classList.add("right-bar-enabled");
-  }
-
-  menuTogel() {
-    let body = document.getElementsByTagName('body')[0];
-    if (body.classList.contains("sidebar-enable")) {
-      body.classList.remove("sidebar-enable");
-      body.classList.remove("vertical-collpsed");
-    }
-    else {
-      body.classList.add("sidebar-enable");
-      body.classList.add("vertical-collpsed");
-    }
-
-  }
-
-  menuED(event: any, m: any) {
-    const cn = document.getElementById("mid_" + m.MenuId);
-    if (cn == null) {
-      return;
-    }
-    const allChildElementsOfParentWithClass = document.querySelectorAll('.mm-show *');
-    allChildElementsOfParentWithClass.forEach((element) => {
-      element.classList.remove('mm-show');
-      element.classList.remove('mm-active');
-    });
-    if (m.ChildCount != 0) {
-      if (cn.classList.contains("mm-active"))
-        cn.classList.remove("mm-show");
-
-      else
-        cn.classList.add("mm-show");
-      let childClass = cn.querySelector('ul');
-      if (childClass == null) {
-        return;
-      }
-      if (childClass.classList.contains("mm-show")) {
-        childClass.classList.remove("mm-show");
-      }
-      else {
-        childClass.classList.add("mm-show");
-      }
-    }
-    cn.classList.add("mm-active");
-    this.getTitle();
+  pad(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
   }
 
   toggleFullScreen() {
@@ -174,99 +106,5 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
       }
     );
 
-  }
-
-  getTitle() {
-    var titlee = window.location.pathname.replace('/', '');
-    if (titlee.charAt(0) === '#') {
-      titlee = titlee.slice(1);
-    }
-    if (this.MenuList != undefined) {
-      var foundObj = this.MenuList.filter((obj: { MenuUrl: any; }) => {
-        return obj.MenuUrl === titlee;
-      });
-
-      if (foundObj.length > 0) {
-        if (parseInt(foundObj[0].ParentId) === 0) {
-          this.ParentTitle = foundObj[0].MenuName
-        }
-        else {
-          var parentObj = this.MenuList.filter((obj1: { MenuId: any; }) => {
-            return parseInt(obj1.MenuId) === parseInt(foundObj[0].ParentId);
-          });
-          if (parentObj.length > 0) {
-            this.ParentTitle = parentObj[0].MenuName
-          }
-          const cn = document.getElementById("mid_" + foundObj[0].ParentId)
-          if (cn != null) {
-            let childClass = cn.querySelector('ul')
-            if (childClass == null) {
-              return null
-            }
-            childClass.classList.add("mm-show")
-          }
-        }
-        this.ChildTitle = foundObj[0].MenuName
-      }
-    }
-    return 'Dashboard';
-  }
-
-  chOpen() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '349px';
-    this.dialog.open(ChangePasswordPopUpComponent, dialogConfig);
-  }
-
-  pfOpen() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    dialogConfig.height = '480px';
-    const dialogRef = this.dialog.open(UserProfilePopupComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data) {
-          this.userData = this.dataModel.getUserData();
-          if (this.userData.UserProfileImage != '') {
-            this.profileImage = this.MediaPrefix + this.userData.UserProfileImage;
-          }
-        }
-      }
-    );
-  }
-  ssOpen() {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
-  }
-  alOpen() {
-    this.dataModel.setLock("true");
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '70%';
-    dialogConfig.height = '461px';
-    const dialogRef = this.dialog.open(AppLockComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data) {
-          this.dataModel.setLock("false");
-        }
-      }
-    );
-  }
-  piOpen(){
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '50%';
-    const dialogRef = this.dialog.open(ProjectConfigComponent, dialogConfig);
   }
 }

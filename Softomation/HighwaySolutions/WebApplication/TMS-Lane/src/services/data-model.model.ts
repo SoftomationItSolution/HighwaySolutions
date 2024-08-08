@@ -17,9 +17,9 @@ export class DataModel {
   PageRefresh = new EventEmitter<any>();
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog,public datepipe:DatePipe) { }
   clearStorage() {
-    localStorage.removeItem("FthTmsloggedIn");
-    localStorage.removeItem("FthTmsToken");
-    localStorage.removeItem("FthTmsUserData");
+    localStorage.removeItem("FthTmsLaneloggedIn");
+    localStorage.removeItem("FthTmsLaneToken");
+    localStorage.removeItem("FthTmsLaneUserData");
   }
   setPageRefresh(value: boolean, MenuId: number) {
     this.PageRefreshJson.Pagerefreshvalue = value;
@@ -29,15 +29,15 @@ export class DataModel {
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
-      localStorage.setItem('FthTmsloggedIn', 'true');
+      localStorage.setItem('FthTmsLaneloggedIn', 'true');
     } else {
-      localStorage.setItem('FthTmsloggedIn', 'false');
+      localStorage.setItem('FthTmsLaneloggedIn', 'false');
     }
     this.LogInStatusEmit.emit(this.loggedInStatus);
   }
 
   getLoggedInStatus() {
-    let status = localStorage.getItem('FthTmsloggedIn');
+    let status = localStorage.getItem('FthTmsLaneloggedIn');
     if (status == 'true')
       return true;
     else
@@ -49,63 +49,63 @@ export class DataModel {
   }
 
   setDataAPI(path: string) {
-    return localStorage.setItem('FthTmsAPI', path);
+    return localStorage.setItem('FthTmsLaneAPI', path);
   }
 
   getDataAPI() {
-    return localStorage.getItem('FthTmsAPI');
+    return localStorage.getItem('FthTmsLaneAPI');
   }
 
   setLiveAPI(path: string) {
-    return localStorage.setItem('FthTmsLiveAPI', path);
+    return localStorage.setItem('FthTmsLaneLiveAPI', path);
   }
   getLiveAPI() {
-    return localStorage.getItem('FthTmsLiveAPI');
+    return localStorage.getItem('FthTmsLaneLiveAPI');
   }
 
   setLock(path: string) {
-    return localStorage.setItem('FthTmsLock', path);
+    return localStorage.setItem('FthTmsLaneLock', path);
   }
   getLock() {
-    return localStorage.getItem('FthTmsLock');
+    return localStorage.getItem('FthTmsLaneLock');
   }
 
   setCamAPI(path: string) {
-    return localStorage.setItem('FthTmsCamAPI', path);
+    return localStorage.setItem('FthTmsLaneCamAPI', path);
   }
   getCamAPI() {
-    return localStorage.getItem('FthTmsCamAPI');
+    return localStorage.getItem('FthTmsLaneCamAPI');
   }
 
 
   setMediaAPI(path: string) {
-    return localStorage.setItem('FthTmsMediaAPI', path);
+    return localStorage.setItem('FthTmsLaneMediaAPI', path);
   }
   getMediaAPI() {
-    return localStorage.getItem('FthTmsMediaAPI');
+    return localStorage.getItem('FthTmsLaneMediaAPI');
   }
 
   setTokenVale(token: string) {
-    return localStorage.setItem('FthTmsToken', token);
+    return localStorage.setItem('FthTmsLaneToken', token);
   }
   getTokenVale() {
-    return localStorage.getItem('FthTmsToken');
+    return localStorage.getItem('FthTmsLaneToken');
   }
   setSSData(token: string) {
-    return localStorage.setItem('FthTmsSS', token);
+    return localStorage.setItem('FthTmsLaneSS', token);
   }
   getSSData() {
-    var result = localStorage.getItem('FthTmsSS');
+    var result = localStorage.getItem('FthTmsLaneSS');
     if (result != undefined)
       return JSON.parse(result);
     else
       return null;
   }
   setUserData(token: string) {
-    return localStorage.setItem('FthTmsUserData', token);
+    return localStorage.setItem('FthTmsLaneUserData', token);
   }
   getUserData() {
-    var result = localStorage.getItem('FthTmsUserData');
+    var result = localStorage.getItem('FthTmsLaneUserData');
     if (result != undefined)
       return JSON.parse(result);
     else
@@ -135,16 +135,27 @@ export class DataModel {
       return -1
   }
 
-  setProjectDetails(token: {}) {
-    return localStorage.setItem('FthTmsProjectDetails', JSON.stringify(token));
+  setloginTime(token:string) {
+    return localStorage.setItem('FthTmsLaneloginTime', token);
   }
+
+  getloginTime() {
+    return localStorage.getItem('FthTmsLaneloginTime');
+  }
+
+
+  setProjectDetails(token: {}) {
+    return localStorage.setItem('FthTmsLaneProjectDetails', JSON.stringify(token));
+  }
+
   getProjectDetails() {
-    var result = localStorage.getItem('FthTmsProjectDetails');
+    var result = localStorage.getItem('FthTmsLaneProjectDetails');
     if (result != undefined)
       return JSON.parse(result);
     else
       return null;
   }
+
 
   openSnackBar(message: any, success: boolean) {
     if(message==undefined){

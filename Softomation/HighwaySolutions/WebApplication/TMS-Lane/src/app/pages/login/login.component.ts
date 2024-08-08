@@ -14,7 +14,6 @@ export class LoginComponent implements OnInit {
   CurrentYear: number = ((new Date()).getFullYear());
   loginForm!: FormGroup;
   ErrorData: any;
-  loginReposnse: any;
   hide = true;
   ConfigData:any;
   constructor(public router: Router, public api: apiIntegrationService, public dm: DataModel,
@@ -123,14 +122,13 @@ export class LoginComponent implements OnInit {
     this.api.Login(obj).subscribe(
       data => {
         this.spinner.hide();
-        let returnMessage = data.Message[0].AlertMessage;
+        let returnMessage = data.message;
         if (returnMessage == 'success') {
-
-          this.loginReposnse = data.ResponseData;
           this.dm.setLoggedIn(true);
-          this.dm.setTokenVale(data.ResponseData.AccessToken);
-          this.dm.setUserData(JSON.stringify(data.ResponseData.UserData));
-          this.GetSystemSetting();
+          this.dm.setUserData(JSON.stringify(data.ResponseData.userData));
+          this.dm.setSSData(JSON.stringify(data.ResponseData.shiftDetails));
+          this.dm.setloginTime(data.ResponseData.loginTime);
+          this.router.navigate(['/dashboard']);
         } else {
           this.ErrorData = data.Message;
           this.dm.openSnackBar(this.ErrorData, false);
@@ -143,25 +141,7 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-  GetSystemSetting() {
-    this.api.SystemSettingGet().subscribe(
-      data => {
-        this.dm.setSSData(JSON.stringify(data.ResponseData));
-        this.spinner.hide();
-        this.router.navigate(['/dashboard']);
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
+  
 
   login(credentials: any) {
 

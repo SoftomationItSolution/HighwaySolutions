@@ -5448,7 +5448,7 @@
     }
     var a;
     n("#side-menu").metisMenu(), n("#vertical-menu-btn").on("click", function (e) {
-        e.preventDefault(), n("body").toggleClass("sidebar-enable"), 992 <= n(window).width() ? n("body").toggleClass("vertical-collpsed") : n("body").removeClass("vertical-collpsed");
+        e.preventDefault(), n("body").toggleClass("sidebar-enable"), 992 >= n(window).width() ? n("body").toggleClass("vertical-collpsed") : n("body").removeClass("vertical-collpsed");
     }), n("body,html").click(function (e) {
         var t = n("#vertical-menu-btn");
         t.is(e.target) || 0 !== t.has(e.target).length || e.target.closest("div.vertical-menu") || n("body").removeClass("sidebar-enable");

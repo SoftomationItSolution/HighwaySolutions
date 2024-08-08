@@ -533,9 +533,73 @@ tr {
 }
 
 .navbar-header {
-    height: 55px !important
+    height: 55px !important;
+    border-bottom: 1px solid #eaedf1 !important;
 }
 
+fieldset {
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    position: relative;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+legend {
+    font-size: 12px;
+    color: #fff;
+    position: absolute;
+    top: -0.8em;
+    left: 15px;
+    background: #011b41;
+    width: auto;
+    height: auto;
+}
+
+.p-inputtext {
+    font-family: var(--font-family);
+    font-feature-settings: var(--font-feature-settings, normal);
+    font-size: 1rem;
+    color: rgb(75, 85, 99);
+    appearance: none;
+    background: rgb(255, 255, 255);
+    padding: 2px 2px 2px 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(209, 213, 219);
+    border-image: initial;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+}
+.p-listbox .p-listbox-header {
+    color: rgb(55, 65, 81);
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    padding: 5px 5px 5px 5px;
+    border-bottom: 1px solid rgb(229, 231, 235);
+    margin: 0px;
+}
+.p-listbox-header {
+    display: flex;
+    align-items: center;
+}
+
+.p-listbox .p-listbox-header .p-listbox-filter {
+    padding-right: 1.75rem;
+}
+.p-icon-wrapper {
+    display: inline-flex;
+    margin-left: -20px;
+}
+
+.p-listbox-item{
+    color: #fff;
+    padding: 10px 0px 10px 0px; 
+    border-bottom: 1px solid;
+}
+
+.logout{
+    cursor: pointer !important;
+}
 .logo {
     line-height: 55px !important;
 }
@@ -547,7 +611,15 @@ tr {
 
 .navbar-brand-box {
     padding: 0px !important;
+    width: 100px !important;
+    
 }
+
+.main-content {
+    margin-left: 0px !important;
+    height: 100vh;
+}
+
 
 .vertical-menu {
     top: 55px !important;
@@ -556,7 +628,8 @@ tr {
 }
 
 .page-content {
-    padding: calc(55px) calc(24px / 2) 60px calc(24px / 2);
+    padding: 0px !important;
+    height: calc(100vh - 110px) !important;
 }
 
 .ims-tab {
@@ -818,7 +891,7 @@ listtablepagging-f3 {
 .p-datepicker-decade,
 .p-monthpicker-month,
 .p-datepicker-calendar-container {
-    color: #fff !important;
+    color: #000 !important;
 }
 
 .p-multiselect-panel {
@@ -1199,6 +1272,14 @@ input[type=radio] {
     line-height: 1px;
 }
 
+.navbar-header span{
+    color: #fff;
+    font-size: 16px;
+}
+
+.wt-100{
+    width: 100% !important;
+}
 
 .dash-font-size {
     font-size: 16px;

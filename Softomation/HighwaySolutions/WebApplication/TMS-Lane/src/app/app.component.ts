@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'TMS-Backoffice';
+export class AppComponent implements AfterViewInit{
+  title = 'tms-lane-app';
+  isFullScreen=false
+  docElement: HTMLElement;
+  ngAfterViewInit() {
+    //this.toggleFullScreen()
+  }
+  
+  toggleFullScreen() {
+    if (!this.isFullScreen) {
+      this.docElement.requestFullscreen();
+    }
+    else {
+      document.exitFullscreen();
+    }
+    this.isFullScreen = !this.isFullScreen;
+  }
 }
+
+

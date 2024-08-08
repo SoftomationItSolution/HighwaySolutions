@@ -12,7 +12,7 @@ export class apiIntegrationService {
   BaseApiUrl: string | undefined;
   ImageApiURL: string | undefined;
   ConfigData!: ConfigIntrface;
-  Prefix = "FastTrackHighway-TMS";
+  Prefix = "FastTrackHighway-lane";
   header: any = new Headers({ 'Content-Type': 'application/json; charset = utf-8;' });
   TokenHeader: any;
   constructor(private objHttp: HttpClient, public dataModel: DataModel, private spinner: NgxSpinnerService) {
@@ -123,11 +123,7 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LogoutUser', data, { headers: headers_object });
   }
 
-  GetMenuMasterByRole(RoleId: any): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/GetMenu?RoleId=' + RoleId, { headers: headers_object });
-  }
+  
 
   RolePermissionGetByMenu(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -178,20 +174,14 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/DashboardGetData', { headers: headers_object });
   }
 
-  //#region System Setting
-  SystemSettingSetUp(data: {}): Observable<any> {
+
+  getLaneMasterData(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/SystemSettingSetUp', data, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneMasterData', { headers: headers_object });
   }
-  SystemSettingGet(): Observable<any> {
-    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
-    const token = this.dataModel.getTokenVale();
-    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/SystemSettingGet', { headers: headers_object });
-  }
-  //#endregion
+
+  
 
   //#region  User Configuration
   UserConfigurationGetById(UserId: any): Observable<any> {

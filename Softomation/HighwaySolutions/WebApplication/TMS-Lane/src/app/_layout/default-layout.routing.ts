@@ -1,53 +1,9 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { PageNotFoundComponent } from '../pages/page-not-found/page-not-found.component';
-import { SystemIntegratorMasterComponent } from '../pages/configurations/SystemIntegrator/system-integrator-master/system-integrator-master.component';
-import { PlzaConfigurationComponent } from '../pages/configurations/Plaza/plza-configuration/plza-configuration.component';
-import { LaneConfigurationComponent } from '../pages/configurations/Lane/lane-configuration/lane-configuration.component';
-import { FastagVehicleClassComponent } from '../pages/configurations/VehicleClass/fastag-vehicle-class/fastag-vehicle-class.component';
-import { SystemVehicleClassComponent } from '../pages/configurations/VehicleClass/system-vehicle-class/system-vehicle-class.component';
-import { EquipmentMasterComponent } from '../pages/configurations/EquipmentMaster/equipment-master/equipment-master.component';
-import { TransectionTypeComponent } from '../pages/configurations/TransactionTypeMaster/transection-type.component';
-import { PaymentTypeComponent } from '../pages/configurations/PaymentTypeMaster/payment-type.component';
-import { ExemptTypeComponent } from '../pages/configurations/ExemptTypeMaster/exempt-type.component';
-import { RoleConfigurationComponent } from '../pages/configurations/RoleData/role-configuration/role-configuration.component';
-import { UserConfigurationComponent } from '../pages/configurations/UserData/user-configuration/user-configuration.component';
-import { FareConfigurationComponent } from '../pages/configurations/FareConfiguration/fare-configuration.component';
-import { FloatProcessMasterComponent } from '../pages/float-management/float-process/float-process-master/float-process-master.component';
-import { ShiftClearanceDetailsComponent } from '../pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
-import { TransactionalDataComponent } from '../pages/Transactions/transactional-data/transactional-data.component';
-import { TransactionalValidationComponent } from '../pages/Transactions/transactional-validation/transactional-validation.component';
-import { TransactionalValidatedComponent } from '../pages/Transactions/transactional-validated/transactional-validated.component';
-import { ReportMasterComponent } from '../pages/report-master/report-master.component';
-import { FasTagDataPending } from '../pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
-import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
-import { ManufacturerMasterComponent } from '../pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
-import { LSDUComponent } from '../pages/lsdu/parent/lsdu.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
-    { path: 'systemIntegrator', component: SystemIntegratorMasterComponent },
-    { path: 'plazaMaster', component: PlzaConfigurationComponent },
-    { path: 'laneMaster', component: LaneConfigurationComponent },
-    { path: 'manufacturer', component: ManufacturerMasterComponent },
-    { path: 'equipmentMaster', component: EquipmentMasterComponent },
-    { path: 'fasTagVehicleClass', component: FastagVehicleClassComponent },
-    { path: 'systemVehicleClass', component: SystemVehicleClassComponent },
-    { path: 'transactionType', component: TransectionTypeComponent },
-    { path: 'paymentMethod', component: PaymentTypeComponent },
-    { path: 'ExemptType', component: ExemptTypeComponent },
-    { path: 'tollFare', component: FareConfigurationComponent },
-    { path: 'role', component: RoleConfigurationComponent },
-    { path: 'user', component: UserConfigurationComponent },
-    { path: 'floatProcess', component: FloatProcessMasterComponent },
-    { path: 'shiftClearance', component: ShiftClearanceDetailsComponent },
-    { path: 'transactionsHistory', component: TransactionalDataComponent },
-    { path: 'Unaudited', component: TransactionalValidationComponent },
-    { path: 'audited', component: TransactionalValidatedComponent },
-    { path: 'fasTagPending', component: FasTagDataPending },
-    { path: 'fasTagProcessed', component: FasTagDataProcessed },
-    { path: 'reports', component: ReportMasterComponent },
-    { path: 'laneControl', component: LSDUComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  
