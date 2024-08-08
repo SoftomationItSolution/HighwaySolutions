@@ -1,0 +1,129 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">System Setting</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label" for="DefaultPlazaId">Default Plaza</label>
+                    <p-dropdown appendTo="body" formControlName="DefaultPlazaId" inputId="DefaultPlazaId"
+                        [options]="PlazaData" optionLabel="PlazaName" optionValue="PlazaId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','DefaultPlazaId')">Default Plaza must be
+                        selected.</small>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label" for="AllotmentDays">Allotment Days</label>
+                    <p-dropdown appendTo="body" formControlName="AllotmentDays" inputId="AllotmentDays"
+                        [options]="AllotmentDaysList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','AllotmentDays')">Allotment Days must be
+                        selected.</small>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="OpeningBalance">Opening Balance</label>
+                    <input formControlName="OpeningBalance" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','OpeningBalance')">Opening Balance must
+                        be required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','Amount')">
+                        {{error['Amount']}}
+                    </small>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="IsAccessControl"
+                            formControlName="IsAccessControl">
+                        <label class="form-check-label" for="IsAccessControl">
+                            Is ACS System
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="LoginAccess" formControlName="LoginAccess">
+                        <label class="form-check-label" for="LoginAccess">
+                            Login Access
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="ExemptAccess"
+                            formControlName="ExemptAccess">
+                        <label class="form-check-label" for="ExemptAccess">
+                            Exempt Access
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="FleetAccess" formControlName="FleetAccess">
+                        <label class="form-check-label" for="FleetAccess">
+                            Fleet Access
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="SubClassRequired"
+                            formControlName="SubClassRequired">
+                        <label class="form-check-label" for="SubClassRequired">
+                            Sub-Class Required
+                        </label>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="FasTagPenalty" formControlName="FasTagPenalty" (change)="FasTagPenaltyChange($event)">
+                        <label class="form-check-label" for="FasTagPenalty">
+                            FasTag Penalty
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="FasTagPenaltyMultiply">FasTag Penalty(multiple)</label>
+                    <p-dropdown appendTo="body" formControlName="FasTagPenaltyMultiply" inputId="FasTagPenaltyMultiply"
+                        [options]="FasTagPenaltyList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','FasTagPenaltyMultiply')">FasTag Penalty
+                        must be selected.</small>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-check" style="padding-bottom: 20px;">
+                        <input class="form-check-input" type="checkbox" id="CashReturn" formControlName="CashReturn" (change)="CashReturnChange($event)">
+                        <label class="form-check-label" for="CashReturn">
+                            Return Joureny(cash)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <label for="CashReturnDiscount">Return Joureny(cash)</label>
+                    <p-dropdown appendTo="body" formControlName="CashReturnDiscount" inputId="CashReturnDiscount"
+                        [options]="CashReturnDiscountList" optionLabel="DataName" optionValue="DataId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','CashReturnDiscount')">Return Joureny(cash) must be selected.</small>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

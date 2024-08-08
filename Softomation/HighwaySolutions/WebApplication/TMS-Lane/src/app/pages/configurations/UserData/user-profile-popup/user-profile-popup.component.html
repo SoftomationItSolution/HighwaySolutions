@@ -1,0 +1,89 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">User Profile</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row gutters-sm">
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-column align-items-center text-center">
+                            <img [src]="croppedImage" lt="Admin" class="rounded-circle" width="150" for="files" />
+
+                            <div class="mt-3" *ngIf="DetailData!=null">
+                                <label for="files">Change Image</label>
+                                <h4>{{DetailData.FirstName}} {{DetailData.LastName}}</h4>
+                                <p class="text-secondary mb-1">{{DetailData.UserTypeName}}</p>
+                                <p class="text-muted font-size-sm">{{DetailData.LoginId}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card mb-3" *ngIf="imsgProgress==false" >
+                    <div class="card-body" *ngIf="DetailData!=null">
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Full Name</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{DetailData.FirstName}} {{DetailData.LastName}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Email</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{DetailData.EmailId}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Mobile</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{DetailData.MobileNumber}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">User Type</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{DetailData.UserTypeName}}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <h6 class="mb-0">Status</h6>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                {{DetailData.DataStatusName}}
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+                <div class="card mb-3" *ngIf="imsgProgress">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="4 / 3" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                        (cropperReady)="cropperReady()" (loadImageFailed)="loadImageFailed()" style="height: 293px"></image-cropper>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="file" accept="image/*" (change)="fileChangeEvent($event)" id="files" style="visibility:hidden;" />
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()" *ngIf="imsgProgress">Save changes</button>
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="SystemIntegratorName">System Integrator</label>
+                    <p-dropdown appendTo="body" formControlName="SystemIntegratorId" inputId="SystemIntegratorId"
+                        [options]="SIData" optionLabel="Name" optionValue="SystemIntegratorId"
+                        placeholder="Select" class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','SystemIntegratorName')">System Integrator is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="PlazaName">Plaza Name</label>
+                    <input formControlName="PlazaName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaName')">Plaza Name is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="PlazaServerIpAddress">Plaza Server IP</label>
+                    <input formControlName="PlazaServerIpAddress" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaServerIpAddress')">Plaza Server IP is required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaServerIpAddress')">{{error['IpAddress']}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="PlazaZoneId">Plaza Zone Id</label>
+                    <input formControlName="PlazaZoneId" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaZoneId')">Plaza zone id is required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaZoneId')">{{error["OnlyDigit"]}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Ip">Chainage</label>
+                    <input formControlName="ChainageNumber" type="text" pInputText required
+                        autocomplete="off" class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ChainageNumber')">Chainage
+                        Number
+                        is required.</small>
+                    <small class="p-error"
+                        *ngIf="DataDetailsForm.hasError('pattern','ChainageNumber')">{{error['ChainageNumber']}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Latitude">Latitude</label>
+                    <input formControlName="Latitude" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Latitude')">Latitude
+                        is required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Latitude')">{{error["Latitude"]}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Longitude">Longitude</label>
+                    <input formControlName="Longitude" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','Longitude')">Longitude
+                        is
+                        required.</small>
+                    <small class="p-error" *ngIf="DataDetailsForm.hasError('pattern','Longitude')">{{error["Longitude"]}}</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+
+
+.vehicle {
+    width: 30px;
+    height: 50px;
+    background-color: blue;
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes moveVehicle {
+    0% {
+        bottom: -50px;
+    }
+    100% {
+        bottom: 100%;
+    }
+}
+.vehicle.move {
+    animation: moveVehicle 5s linear forwards;
+}

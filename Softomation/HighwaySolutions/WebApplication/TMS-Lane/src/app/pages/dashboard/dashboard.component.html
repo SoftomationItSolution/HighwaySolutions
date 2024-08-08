@@ -1,0 +1,29 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row dash-scrole">
+            <div class="row">
+                <div class="col-xl-6">
+                    <apx-chart *ngIf="laneDetailsOptions!=null" [series]="laneDetailsOptions.series"
+                            [chart]="laneDetailsOptions.chart" [xaxis]="laneDetailsOptions.xaxis"
+                            [stroke]="laneDetailsOptions.stroke" [tooltip]="laneDetailsOptions.tooltip"
+                            [dataLabels]="laneDetailsOptions.dataLabels" [legend]="laneDetailsOptions.legend"
+                            [markers]="laneDetailsOptions.markers" [grid]="laneDetailsOptions.grid"
+                            [yaxis]="laneDetailsOptions.yaxis" [title]="laneDetailsOptions.title"></apx-chart>
+                </div>
+                <div class="col-xl-6">
+                    <apx-chart *ngIf="transactionTypeOptions!=null" [series]="transactionTypeOptions.series" 
+                    [chart]="transactionTypeOptions.chart" [labels]="transactionTypeOptions.labels" 
+                    [responsive]="transactionTypeOptions.responsive" [title]="transactionTypeOptions.title"></apx-chart>
+                </div>
+                <div class="col-xl-12">
+                    <apx-chart *ngIf="vehicleClassOptions!=null" [series]="vehicleClassOptions.series"
+                    [chart]="vehicleClassOptions.chart" [xaxis]="vehicleClassOptions.xaxis"
+                    [stroke]="vehicleClassOptions.stroke" [tooltip]="vehicleClassOptions.tooltip"
+                    [dataLabels]="vehicleClassOptions.dataLabels" [legend]="vehicleClassOptions.legend"
+                    [markers]="vehicleClassOptions.markers" [grid]="vehicleClassOptions.grid"
+                    [yaxis]="vehicleClassOptions.yaxis" [title]="vehicleClassOptions.title"></apx-chart>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

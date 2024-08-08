@@ -1,0 +1,131 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="FirstName">First Name</label>
+                    <input formControlName="FirstName" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','FirstName')">First
+                        Name is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LastName">Last Name</label>
+                    <input formControlName="LastName" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LastName')">Last
+                        Name is
+                        required.</small>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="MobileNumber">Mobile Number</label>
+                    <input formControlName="MobileNumber" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','MobileNumber')">Mobile Number is
+                        required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','MobileNumber')">{{error['MobileNumber']}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="EmailId">Email Id</label>
+                    <input formControlName="EmailId" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','EmailId')">Email
+                        Id is
+                        required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','EmailId')">{{error['EmailId']}}</small>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="LoginId">Login Id</label>
+                    <input formControlName="LoginId" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LoginId')">Login
+                        Id is
+                        required.</small>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginId')">
+                        {{error['LoginId']}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LoginPassword">Login Password</label>
+                    <div class="input-group grouplist-border">
+                        <input class="form-control" formControlName="LoginPassword" placeholder="Enter password Here"
+                            [type]="hide ? 'password' : 'text'">
+                        <i class="mdi  user-icon" [ngClass]="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                            (click)="hide = !hide"></i>
+                    </div>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LoginPassword')">Login Password is
+                        required.</small>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('pattern','LoginPassword')">
+                        {{error['Password']}}
+                    </small>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="RoleId">Role & Rights</label>
+                    <p-dropdown appendTo="body" formControlName="RoleId" inputId="RoleId" [options]="RoleData"
+                        optionLabel="RoleName" optionValue="RoleId" placeholder="Select" class="form-control select2"
+                        [style]="{'width':'100%'}"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','RoleId')">Role &
+                        Rights is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="UserTypeId">User Type</label>
+                    <p-dropdown appendTo="body" formControlName="UserTypeId" inputId="UserTypeId"
+                        [options]="UserTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2" [style]="{'width':'100%'}"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','UserTypeId')">User
+                        Type is
+                        required.</small>
+                </div>
+                <!-- <div class="col-md-6">
+                    <label for="PlazaId">Plaza</label>
+                    <p-dropdown appendTo="body" formControlName="PlazaId" inputId="PlazaId" [options]="PlazaList"
+                        optionLabel="PlazaName" optionValue="PlazaId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaId')">User Type
+                        is
+                        required.</small>
+                </div> -->
+                <div class="col-md-6">
+                    <label for="AccountExpiredDate">Account Expire Date</label>
+                    <p-calendar class="form-control custom-cal" formControlName="AccountExpiredDate" [showIcon]="true"
+                        appendTo="body" dateFormat="dd-M-yy"></p-calendar>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','AccountExpiredDate')">Account
+                        Expiry
+                        Date must be selected.</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="row">
+                
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>
