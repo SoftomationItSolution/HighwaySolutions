@@ -86,12 +86,14 @@ async function AvcTransactionInsert(req, res, next) {
         pool = await database.connect();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('TransactionCount', sql.BigInt, req.body.TransactionCount)
+            .input('AvcSensorClassId', sql.SmallInt, req.body.AvcSensorClassId)
             .input('AvcClassId', sql.SmallInt, req.body.AvcClassId)
             .input('AxleCount', sql.SmallInt, req.body.AxleCount)
             .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
             .input('WheelBase', sql.BigInt, req.body.WheelBase)
             .input('ImageName', sql.VarChar(255), req.body.ImageName)
             .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+            .input('TransactionDateTime', sql.VarChar(45), req.body.LaneTransactionId)
             .execute('USP_AvcTransactionInsert');
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
