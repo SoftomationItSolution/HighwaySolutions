@@ -1,24 +1,265 @@
-<div class="row">
-    <div class="col-md-2">
-        <fieldset class="calculated-height">
-            <legend>Vehicle Class</legend>
-            <p-listbox [options]="VehicleClasss" [(ngModel)]="selectedVehicleClasss" 
-            optionLabel="SystemVehicleClassName"
-            optionValue="SystemVehicleClassId"
-            [filter]="true"  
-            (onChange)="onVehicleChange($event.value)"
-             />
-          </fieldset>
+<div class="main-body">
+    <div class="half-height-child">
+        <div class="row">
+            <div class="col-md-2">
+                <fieldset>
+                    <legend>Vehicle Class</legend>
+                    <p-listbox [options]="VehicleClasss" [(ngModel)]="selectedVehicleClasss"
+                        optionLabel="SystemVehicleClassName" optionValue="SystemVehicleClassId" [filter]="false"
+                        (onChange)="onVehicleChange($event.value)" />
+                </fieldset>
+            </div>
+            <div class="col-md-2">
+                <fieldset>
+                    <legend>Transaction Type</legend>
+                    <p-listbox [options]="TransactionTypeMaster" [(ngModel)]="selectedTransactionType"
+                        optionLabel="TransactionTypeName" optionValue="TransactionTypeId" [filter]="false"
+                        (onChange)="onVehicleChange($event.value)" />
+                    <div class="row">
+                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                            <button type="button" class="btn btn-warning wt-90">Fleet-Start</button>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                            <button type="button" class="btn btn-warning wt-90">Tow-Start</button>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                            <button type="button" class="btn btn-success wt-90">Submit</button>
+                        </div>
+                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                            <button type="button" class="btn btn-danger wt-90">Reset</button>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-center pd-tb-4">
+                            <button type="button" class="btn btn-success wt-90">Mid-Declare</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-4 trans-box">
+                <fieldset>
+                    <legend>Current Transaction</legend>
+                    <form [formGroup]="FormDetails">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="TransactionTypeName" class="col-sm-6 col-form-label">Transaction
+                                        Type:</label>
+                                    <div class="col-sm-6">
+                                        <input formControlName="TransactionTypeName" type="text" pInputText
+                                            autocomplete="off" class="form-control lbl" placeholder="Transaction type"
+                                            readonly="true" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="VehicleClassName" class="col-sm-6 col-form-label">Vehicle class:</label>
+                                    <div class="col-sm-6">
+                                        <input formControlName="VehicleClassName" type="text" pInputText readonly="true"
+                                            autocomplete="off" class="form-control lbl" placeholder="Vehicle class" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="VehicleWeight" class="col-sm-6 col-form-label">Vehicle Weight:</label>
+                                    <div class="col-sm-6">
+                                        <p-inputNumber class="lbl" formControlName="VehicleWeight" suffix="kg "
+                                            mode="decimal"></p-inputNumber>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="TollFare" class="col-sm-6 col-form-label">Toll Fare:</label>
+                                    <div class="col-sm-6">
+                                        <p-inputNumber class="lbl" formControlName="TollFare" prefix="&#8377; "
+                                            mode="decimal"></p-inputNumber>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group row">
+                                    <label for="TransactionSubTypeName" class="col-sm-6 col-form-label">Sub
+                                        Type:</label>
+                                    <div class="col-sm-6">
+                                        <input formControlName="TransactionSubTypeName" type="text" pInputText
+                                            autocomplete="off" class="form-control lbl" placeholder="Sub type" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="VehicleClassSubName" class="col-sm-6 col-form-label">Sub class:</label>
+                                    <div class="col-sm-6">
+                                        <input formControlName="VehicleClassSubName" type="text" pInputText
+                                            readonly="true" autocomplete="off" class="form-control lbl"
+                                            placeholder="Sub class" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="OverweightPenalty"
+                                        class="col-sm-6 col-form-label">Overweight(P):</label>
+                                    <div class="col-sm-6">
+                                        <p-inputNumber class="lbl" formControlName="TagPenalty" prefix="&#8377; "
+                                            mode="decimal"></p-inputNumber>
+                                        <!-- <input formControlName="OverweightPenalty" type="text" pInputText 
+                                            autocomplete="off" class="form-control lbl" placeholder="Overweight(P)" /> -->
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="TagPenalty" class="col-sm-6 col-form-label">Tag Penalty:</label>
+                                    <div class="col-sm-6">
+                                        <p-inputNumber class="lbl" formControlName="TagPenalty" prefix="&#8377; "
+                                            mode="decimal"></p-inputNumber>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group row">
+                                    <label for="JourneyTypeId" class="col-sm-3 col-form-label">Journey Type:</label>
+                                    <div class="col-sm-6">
+                                        <div class="flex align-items-center justify-content-start">
+                                            <div class="radio-group">
+                                                <p-radioButton inputId="testSingle" value="S"
+                                                    formControlName="JourneyTypeId" />
+                                                <label for="testSingle" class="ml-2 text-white">Single</label>
+                                            </div>
+                                            <div class="radio-group">
+                                                <p-radioButton inputId="testReturn" value="R"
+                                                    formControlName="JourneyTypeId" />
+                                                <label for="testReturn" class="ml-2 text-white">Return</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="PlateNumber" class="col-sm-3 col-form-label">Plate Number:</label>
+                                    <div class="col-sm-9">
+                                        <input formControlName="PlateNumber" type="text" pInputText autocomplete="off"
+                                            class="form-control" placeholder="Plate number" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="ReceiptNumber" class="col-sm-3 col-form-label">Receipt Number:</label>
+                                    <div class="col-sm-9">
+                                        <input formControlName="ReceiptNumber" type="text" pInputText required
+                                            autocomplete="off" class="form-control" placeholder="Receipt Number" />
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="Remark" class="col-sm-3 col-form-label">Remark:</label>
+                                    <div class="col-sm-9">
+                                        <input formControlName="Remark" type="text" pInputText autocomplete="off"
+                                            class="form-control" placeholder="Remark" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>Live View</legend>
+                </fieldset>
+            </div>
+        </div>
     </div>
-    <div class="col-md-2">
-        <fieldset class="calculated-height">
-            <legend>Transaction Type</legend>
-            <p-listbox [options]="TransactionTypeMaster" [(ngModel)]="selectedTransactionType" 
-            optionLabel="TransactionTypeName"
-            optionValue="TransactionTypeId"
-            [filter]="true"  
-            (onChange)="onVehicleChange($event.value)"
-             />
-          </fieldset>
+    <div class="half-height-child">
+        <div class="row">
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>RFID Queue</legend>
+                    <div class="table-responsive mt-1">
+                        <p-table #dt [value]="rfidDataQueue" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="" selectionMode="single">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Type</th>
+                                    <th>Date Time</th>
+                                    <th>Toll Fare</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td>{{rowData.LaneTransactionId}}</td>
+                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.TransactionDateTime}}</td>
+                                    <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>WIM Queue</legend>
+                    <div class="table-responsive mt-1">
+                        <p-table #dt [value]="wimDataQueue" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="" selectionMode="single">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Type</th>
+                                    <th>Date Time</th>
+                                    <th>Toll Fare</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td>{{rowData.LaneTransactionId}}</td>
+                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.TransactionDateTime}}</td>
+                                    <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="col-md-4">
+                <fieldset>
+                    <legend>Recent Transaction</legend>
+                    <div class="table-responsive mt-1">
+                        <p-table #dt [value]="laneRecentData" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="" selectionMode="single">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Type</th>
+                                    <th>Date Time</th>
+                                    <th>Toll Fare</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td>{{rowData.LaneTransactionId}}</td>
+                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.TransactionDateTime}}</td>
+                                    <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="main-body-fotter">
+    <div class="icon-row">
+        <span *ngFor="let item of equipmentListDetais" class="icon-item justify-content-center">
+            <i [class]="getIconName(item.EquipmentIcon)"></i>
+            <div class="icon-label justify-content-center">{{ item.EquipmentTypeName }}</div>
+        </span>
+    </div>
+</div> -->
+
+<div class="main-body-footer">
+    <div class="icon-row">
+        <span *ngFor="let item of equipmentListDetais" class="icon-item justify-content-center">
+            <i [class]="getIconName(item.EquipmentIcon)"></i>
+            <div class="icon-label justify-content-center">{{ item.EquipmentTypeName }}</div>
+        </span>
     </div>
 </div>

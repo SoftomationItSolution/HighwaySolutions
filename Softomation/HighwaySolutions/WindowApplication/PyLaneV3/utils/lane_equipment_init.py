@@ -1,4 +1,5 @@
 
+import asyncio
 from datetime import datetime
 import json
 import os
@@ -21,6 +22,7 @@ from utils.rfid.id_tech_rfid import IdTechRfidReader
 from utils.rfid.mantra_rfid_reader import MantraRfidReader
 from utils.ufd.Innovating_ufd import InnovatingUFDClient
 from utils.ufd.Kits_ufd import KistUFDClient
+from utils.webSocketServer import LaneWebSocketServer
 from utils.wim.appalto_wim_data import AppaltoWinDataClient
 from utils.wim.na_wim_data import NAWinDataClient
 from utils.PingThread import PingThread
@@ -68,6 +70,7 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.running_Transaction=None
         self.project_config=None
         self.lane_master_data=None
+        self.web_socket_server=None
         self.rfid_client_connected=False
         self.mqtt_client_connected=False
         self.system_loging_status=False
@@ -90,7 +93,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.classname="LESyn"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            print(f"Exception {self.classname} set_logger: {str(e)}")
     
     def load_project_config(self,default_directory):
         try:
@@ -476,6 +479,32 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.reset_default_ufd()
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} UFD_start: {str(e)}")
+
+    def start_ws_thread(self):
+        try:
+            if self.web_socket_server is None:
+                self.web_socket_server=LaneWebSocketServer(self.default_directory)
+                self.web_socket_server.start()
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} start_ws_thread: {str(e)}")
+
+    def stop_ws_thread(self):
+        try:
+            if self.web_socket_server:
+                self.web_socket_server.stop()
+                self.web_socket_server = None
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} stop_ws_thread: {str(e)}")
+
+    def send_message_ws(self,data):
+        try:
+            if self.web_socket_server:
+                result=json.dumps(data)
+                #self.web_socket_server.broadcast(message=resulat)
+                asyncio.run(self.web_socket_server.broadcast(message=result))
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} send_message_ws: {str(e)}")
+        
     
     def GetPlazaDetails(self):
         try:
@@ -534,7 +563,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             # Log detailed error information
             self.logger.logError(f"Exception {self.classname} GetLaneDetailsGetByLaneId: {str(e)}")
             self.lane_master_data = None
-    
 
     def getSystemSettingDetails(self):
         try:
@@ -594,7 +622,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def run(self):
         while self.is_running:
             try:
-                
+                self.start_ws_thread()
                 self.start_dts_thread()
                 self.getSystemSettingDetails()
                 if self.default_plaza_Id>0:
@@ -614,6 +642,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def update_equipment_Status(self,equipment):
         try:
             self.mqtt_ping_event(equipment)
+            self.send_message_ws(equipment)
             if equipment["EquipmentTypeId"]==4:
                 if self.wim_thread is not None:
                     self.wim_thread.retry(equipment["OnLineStatus"])
@@ -1182,6 +1211,7 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.stop_dts_thread()
             self.stop_lpic_thread()
             self.stop_ic_thread()
+            self.stop_ws_thread()
             #self.mqtt_client.disconnect()
             self.plaza_detail=None
             self.lane_detail=None

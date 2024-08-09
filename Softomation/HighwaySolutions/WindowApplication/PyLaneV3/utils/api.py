@@ -28,6 +28,7 @@ class FlaskApiApp(threading.Thread):
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ProjectConfigGet','ProjectConfigGet', self.ProjectConfigGet)
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ValidateUser','ValidateUser', self.ValidateUser, methods=['POST'])
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getLaneMasterData','getLaneMasterData', self.getLaneMasterData)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getLaneResentData','getLaneResentData', self.getLaneResentData)
 
         self.app.add_url_rule('/get_status', 'get_status', self.get_status)
         self.app.add_url_rule('/app_login', 'app_login', self.app_login, methods=['POST'])
@@ -55,6 +56,7 @@ class FlaskApiApp(threading.Thread):
                 if len(res)>0:
                     if CryptoUtils.encrypt_aes_256_cbc(input["LoginPassword"]) == res[0]["LoginPassword"]:
                         userDetails = json.dumps(res[0])
+                        self.bg_handler.get_current_shift()
                         self.bg_handler.app_log_status(True)
                         self.bg_handler.update_user(userDetails)
                         current_time = datetime.now()
@@ -75,6 +77,14 @@ class FlaskApiApp(threading.Thread):
             return jsonify({'message': 'success','ResponseData':self.bg_handler.lane_master_data}), 200
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} VehicleClassGet: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+        
+    def getLaneResentData(self):
+        try:
+            latest_lane_txn=CommonManager.GetLatestLaneTransaction(self.bg_handler.dbConnectionObj)
+            return jsonify({'message': 'success','ResponseData':latest_lane_txn}), 200
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} getLaneResentData: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
     
     def app_login(self):

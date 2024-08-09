@@ -79,6 +79,7 @@ class TMSAppv1:
         except KeyboardInterrupt:
              print('close 1')
              self.stop()
+    
     def stop(self):
         if self.bg_handler is not None:
             self.bg_handler.on_stop()

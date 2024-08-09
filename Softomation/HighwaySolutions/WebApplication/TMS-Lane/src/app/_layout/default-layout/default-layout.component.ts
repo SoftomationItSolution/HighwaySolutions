@@ -44,11 +44,12 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
     if (shiftDetails != null) {
       const cd=this.datepipe.transform(new Date(), 'dd-MMM-yyyy')
       this.endTime=new Date(cd+' '+shiftDetails.EndTimming)
+      //this.endTime.setSeconds(this.endTime.getSeconds() + 1);
       this.ShiftDetails="Shift: "+shiftDetails.ShiftId+' '+shiftDetails.StartTimmng+' '+shiftDetails.EndTimming
     }
 
     setInterval(() => {
-      this.currentTime = "Current Time:" + this.datepipe.transform(new Date(), 'HH:mm:ss');
+     
       this.updateRemainingTime()
     }, 1000);
 
@@ -60,17 +61,19 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
   updateRemainingTime(): void {
     const currentTime = new Date();
     const timeDifference = this.endTime.getTime() - currentTime.getTime();
-
     if (timeDifference > 0) {
       const hours = Math.floor((timeDifference / (1000 * 60 * 60)) % 24);
       const minutes = Math.floor((timeDifference / (1000 * 60)) % 60);
       const seconds = Math.floor((timeDifference / 1000) % 60);
       this.remainingTime = `Remaining Time:${this.pad(hours)}:${this.pad(minutes)}:${this.pad(seconds)}`;
+      this.currentTime = "Current Time:" + this.datepipe.transform(new Date(), 'HH:mm:ss');
       this.isLessThanTenMinutes = timeDifference <= 10 * 60 * 1000;
     } else {
       this.remainingTime = '00:00:00';  // Time's up!
+      this.currentTime = "Current Time:" + this.datepipe.transform(new Date(), 'HH:mm:ss');
       this.isLessThanTenMinutes = false;
-      this.router.navigate(['']);
+      if(this.dataModel.getLoggedInStatus())
+          this.router.navigate(['']);
     }
   }
 

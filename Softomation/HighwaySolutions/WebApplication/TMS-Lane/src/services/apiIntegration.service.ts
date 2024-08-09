@@ -181,6 +181,12 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneMasterData', { headers: headers_object });
   }
 
+  getLaneResentData(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneResentData', { headers: headers_object });
+  }
+
   
 
   //#region  User Configuration
