@@ -7,7 +7,7 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,barrier_auto,log_file_name,timeout=0.200):
+    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,timeout=0.200):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
@@ -22,18 +22,13 @@ class KistDIOClient(threading.Thread):
         self.violation_duration=3
         self.auto_count=0
         self.running_Transaction=None
-        self.out_labels = [
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 19, "EquipmentTypeName": "Boom Barrier", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 20, "EquipmentTypeName": "Exit Loop", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 3, "EquipmentTypeName": "Presence Loop", "Status": False}
-        ]
+        self.out_labels = _out_labels
         self.barrier_loop_last=False
         self.presence_loop_last=False
         self.barrier_Status=False        
         self.ohls_status=False
+        self.fleet_status=False
+        self.fleet_counter=0
         self.set_logger(default_directory,log_file_name)
         self.set_exit_loop()
         self.set_status()
@@ -44,7 +39,7 @@ class KistDIOClient(threading.Thread):
             self.classname="KistDIOClient"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def set_status(self):
         try:
@@ -53,14 +48,14 @@ class KistDIOClient(threading.Thread):
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def set_exit_loop(self):
         try:
             self.exit_loop_index=Utilities.is_integer(self.dio_detail["UrlAddress"])
         except Exception as e:
             self.exit_loop_index=9
-            self.logger.logError(f"Exception {self.classname} set_exit_loop: {str(e)}")
+            self.logger.logError(f"Exception set_exit_loop: {str(e)}")
 
     def set_serial_port(self):
         try:
@@ -73,13 +68,13 @@ class KistDIOClient(threading.Thread):
                 else:
                     self.comport=self.dio_detail["IpAddress"]
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_serial_port: {str(e)}")
+            self.logger.logError(f"Exception set_serial_port: {str(e)}")
 
     def app_log_status(self, transactionInfo):
         try:
             self.system_loging_status=transactionInfo
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
+            self.logger.logError(f"Exception app_log_status: {str(e)}")
 
     def formate_output(self, input):
         try:
@@ -92,7 +87,7 @@ class KistDIOClient(threading.Thread):
                     elif i==2:
                         self.barrier_Status=False if int(value[i])==0 else True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} formate_output: {str(e)}")
+            self.logger.logError(f"Exception formate_output: {str(e)}")
 
     def formate_in(self, input):
         try:
@@ -108,53 +103,66 @@ class KistDIOClient(threading.Thread):
                         self.handel_exit_loop(status)
                     in_data[key] = status
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} formate_in: {str(e)}")
+            self.logger.logError(f"Exception formate_in: {str(e)}")
 
     def handel_presence_loop(self,loop_status):
         try:
             if loop_status!=self.presence_loop_last:
                 self.presence_loop_last=loop_status
             out_data= self.out_labels[5]
-            if out_data["Status"] != loop_status:
-                out_data["Status"] = loop_status
-                self.handler.update_dio_events(self.out_labels)
+            if out_data["PositionStatus"] != loop_status:
+                out_data["PositionStatus"] = loop_status
+                self.handler.update_hardware_list(5,loop_status)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} handel_presence_loop: {str(e)}")
+            self.logger.logError(f"Exception handel_presence_loop: {str(e)}")
 
 
     def handel_exit_loop(self,loop_status):
         try:
             if loop_status!=self.barrier_loop_last:
                 out_data= self.out_labels[4]
-                if out_data["Status"] != loop_status:
-                    out_data["Status"] = loop_status
-                    self.handler.update_dio_events(self.out_labels)
-                if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
-                    self.handler.lane_trans_ic_cam(self.running_Transaction)
-                if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
-                    self.violation_trigger()
-                if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True and self.system_loging_status==True:
-                    if self.system_transcation_status:
+                if out_data["PositionStatus"] != loop_status:
+                    out_data["PositionStatus"] = loop_status
+                if self.running_Transaction and self.fleet_status==False:
+                    self.ic_camera_handel(loop_status)
+                if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
+                    if self.system_transcation_status and self.fleet_status==False:
                         self.lane_trans_end()
-                    else:
-                        self.violation_trigger()
+                    if self.fleet_status:
+                        self.fleet_counter += 1
+                        self.handler.update_fleet_counter(self.fleet_counter)
+                if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==False and self.ohls_status==True and self.fleet_status==False:
+                    threading.Thread(target=self.handler.start_violation_trans()).start()
+                    self.violation_alarm_on()
+                if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.fleet_status==False:
+                    threading.Thread(target=self.handler.stop_violation_trans()).start()
+                    self.violation_alarm_off()          
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")
+            self.logger.logError(f"Exception handel_exit_loop: {str(e)}")
         finally:
             if loop_status!=self.barrier_loop_last:
                 self.barrier_loop_last=loop_status
+                self.handler.update_hardware_list(4,loop_status)
+
+    
+    def ic_camera_handel(self,status):
+        try:
+            if status:
+                threading.Thread(target=self.handler.start_ic_record,args=(self.running_Transaction)).start()
+            else:
+                threading.Thread(target=self.handler.stop_ic_record()).start()
+        except Exception as e:
+            self.logger.logError(f"Exception ic_camera_handel: {str(e)}")
     
     def process_data(self,data):
         try:
             pairs = data.split(",")
             for pair in pairs:
                 pair=pair.strip()
-                # if pair.upper().startswith("OUT"):
-                #     self.formate_output(pair)
                 if pair.upper().startswith("IN"):
                     self.formate_in(pair)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
+            self.logger.logError(f"Exception process_data: {str(e)}")
             return False
         
     def send_data(self,input):
@@ -167,33 +175,10 @@ class KistDIOClient(threading.Thread):
                 self.client_socket.write(bytes_data)
             result= True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
+            self.logger.logError(f"Exception send_data: {str(e)}")
         finally:
-            self.handler.update_dio_events(self.out_labels)
             time.sleep(0.100)
         return result        
-        
-    def violation_trigger(self):
-        try:    
-            def violation_trigger_run():    
-                try:    
-                    start_time = time.time()
-                    self.violation_alarm_on()
-                    self.handler.start_violation_trans()
-                    while not stop_event.is_set():
-                        if time.time() - start_time >= self.violation_duration:
-                            self.violation_alarm_off()
-                            self.handler.stop_violation_trans()
-                            break
-                        time.sleep(self.timeout)
-                except Exception as e:
-                    self.logger.logError(f"Exception {self.classname} violation_trigger_run: {str(e)}")
-            stop_event = threading.Event()
-            violation_thread = threading.Thread(target=violation_trigger_run())
-            violation_thread.start()
-            violation_thread.join()
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} violation_trigger: {str(e)}")
         
     def run(self):
         while not self.is_stopped:
@@ -209,7 +194,7 @@ class KistDIOClient(threading.Thread):
                 self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} run: {str(e)}")
+                self.logger.logError(f"Exception run: {str(e)}")
             finally:
                 self.client_stop()
 
@@ -240,7 +225,7 @@ class KistDIOClient(threading.Thread):
             if self.client_socket:
                 self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_tcp (closing): {str(e)}")
+            self.logger.logError(f"Exception on_tcp (closing): {str(e)}")
 
     def serial_conn(self):
         try:
@@ -268,7 +253,7 @@ class KistDIOClient(threading.Thread):
                 if self.client_socket.is_open:
                     self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_serial (closing): {str(e)}")
+            self.logger.logError(f"Exception on_serial (closing): {str(e)}")
     
     def client_stop(self):
         try:
@@ -278,7 +263,7 @@ class KistDIOClient(threading.Thread):
             elif self.dio_detail["ProtocolTypeId"]==3:
                 self.serial_close()
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
+                self.logger.logError(f"Exception client_stop: {str(e)}")
 
     def stop(self):
         try:
@@ -287,11 +272,11 @@ class KistDIOClient(threading.Thread):
             self.is_stopped = True
             self.client_stop()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")
 
     def reset_command(self):
         self.traffic_light_off()
-        self.ohls_light_on()
+        self.ohls_light_off()
         self.barrier_gate_off()
         self.violation_alarm_off()
         
@@ -308,23 +293,25 @@ class KistDIOClient(threading.Thread):
                 elif self.is_active==1:
                     self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
+            self.logger.logError(f"Exception check_status: {str(e)}")
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:
             self.system_transcation_status=status
-            self.running_Transaction=running_Transaction
+            
             if self.client_socket is not None and self.barrier_auto:
                 if status:
+                    self.running_Transaction=running_Transaction
                     self.traffic_light_on()
                     self.barrier_gate_on()
                 else:
                     self.traffic_light_off()
                     self.barrier_gate_off()
+                    self.running_Transaction=None
             else:
                 self.auto_count += 1
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+            self.logger.logError(f"Exception handel_traffic_light: {str(e)}")
 
     def handel_ohls_light(self,status):
         try:
@@ -334,48 +321,69 @@ class KistDIOClient(threading.Thread):
                 else:
                     self.ohls_light_off()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+            self.logger.logError(f"Exception handel_ohls_light: {str(e)}")
 
     def lane_trans_end(self):
         try:
             self.handel_traffic_light(False,None)
             self.handler.lane_trans_end()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
+            self.logger.logError(f"Exception lane_trans_end: {str(e)}")
 
+    def handel_fleet(self,action):
+        try:
+            if action==True:
+                self.traffic_light_on()
+                self.barrier_gate_on()
+                self.fleet_counter=0
+            else:
+                self.traffic_light_off()
+                self.barrier_gate_off()
+                self.fleet_counter=0
+            self.fleet_status=action
+        except Exception as e:
+            self.logger.logError(f"Exception lane_trans_end: {str(e)}")
     
     def ohls_light_on(self):
         self.send_data("s11e")
-        self.out_labels[0]["Status"]=True
+        self.out_labels[0]["PositionStatus"]=True
         self.ohls_status=True
+        self.handler.update_hardware_list(0,True)
 
     def ohls_light_off(self):
         self.send_data("s10e")
-        self.out_labels[0]["Status"]=False
-        self.ohls_status=True
+        self.out_labels[0]["PositionStatus"]=False
+        self.ohls_status=False
+        self.handler.update_hardware_list(0,False)
     
     def traffic_light_on(self):
         self.send_data("s21e")
-        self.out_labels[1]["Status"]=True
+        self.out_labels[1]["PositionStatus"]=True
+        self.handler.update_hardware_list(1,True)
     
     def traffic_light_off(self):
         self.send_data("s20e")
-        self.out_labels[1]["Status"]=False
+        self.out_labels[1]["PositionStatus"]=False
+        self.handler.update_hardware_list(1,False)
 
     def barrier_gate_on(self):
         self.send_data("s31e")
-        self.out_labels[2]["Status"]=True
+        self.out_labels[2]["PositionStatus"]=True
         self.barrier_Status=True
+        self.handler.update_hardware_list(2,True)
     
     def barrier_gate_off(self):
         self.send_data("s30e")
-        self.out_labels[2]["Status"]=False
+        self.out_labels[2]["PositionStatus"]=False
         self.barrier_Status=False
+        self.handler.update_hardware_list(2,False)
 
     def violation_alarm_on(self):
         self.send_data("s41e")
-        self.out_labels[3]["Status"]=True
+        self.out_labels[3]["PositionStatus"]=True
+        self.handler.update_hardware_list(3,True)
     
     def violation_alarm_off(self):
         self.send_data("s40e")
-        self.out_labels[3]["Status"]=False
+        self.out_labels[3]["PositionStatus"]=False
+        self.handler.update_hardware_list(3,False)

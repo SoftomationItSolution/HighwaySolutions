@@ -53,24 +53,6 @@ class DataSynchronization(threading.Thread):
 
     def fetch_and_store_master_data(self):
         try:
-            #self.data_importer.project_config_import(self.project_config_path)
-            # self.data_importer.data_status_import()
-            # self.data_importer.lane_mode_import()
-            # self.data_importer.lane_point_import()
-            # self.data_importer.lane_position_import()
-            # self.data_importer.lane_status_import()
-            # self.data_importer.lane_type_import()
-            # self.data_importer.lane_direction_import()
-            # self.data_importer.transaction_type_import()
-            # self.data_importer.payment_type_import()
-            # self.data_importer.exempt_type_import()
-            # self.data_importer.shift_timing_import()
-            # self.data_importer.denomination_type_Import()
-            #self.data_importer.equipment_type_Import()
-            # self.data_importer.protocol_type_Import()
-            # self.data_importer.manufacturer_Import()
-            # self.data_importer.fasTag_vehicleclass_Import()
-
             threading.Thread(target=self.perform_data_import()).start()
             threading.Thread(target=self.data_importer.data_status_import()).start()
             threading.Thread(target=self.data_importer.lane_mode_import()).start()
@@ -102,20 +84,7 @@ class DataSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} fetch_and_store_master_data: {str(e)}")
     
-    def fetch_and_store_data(self):
-        try:
-            self.data_importer.system_integrator_Import()
-            self.data_importer.system_vehicleclass_Import()
-            self.data_importer.system_vehicle_subclass_Import()
-            self.data_importer.users_Import()
-            self.data_importer.system_setting_Import()
-            self.data_importer.plaza_import()
-            self.data_importer.lane_import()
-            self.data_importer.equipments_Import()
-            self.data_importer.toll_fare_Import()
-            self.data_importer.toll_fare_Future_Import()
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} fetch_and_store_data: {str(e)}")
+    
 
     def run(self):
         last_call_time = time.time()-22600
@@ -127,7 +96,6 @@ class DataSynchronization(threading.Thread):
                     current_time = time.time()
                     if current_time - last_call_time >= 21600:
                         self.fetch_and_store_master_data()
-                        #self.fetch_and_store_data()
                         last_call_time = current_time
             except Exception as e:
                 self.logger.logError(f"Exception {self.classname} run: {str(e)}")

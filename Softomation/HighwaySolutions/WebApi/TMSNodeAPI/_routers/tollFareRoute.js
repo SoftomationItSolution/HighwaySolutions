@@ -26,6 +26,7 @@ async function TollFareSetUp(req, res, next) {
         table.columns.add('ReturnFare', sql.Float, { nullable: false });
         table.columns.add('FasTagPenalty', sql.Float, { nullable: false });
         table.columns.add('OverweightPenalty', sql.Float, { nullable: false });
+        table.columns.add('MonthlyPass', sql.Float, { nullable: false });
         table.columns.add('SessionId', sql.VarChar(20), { nullable: false });
         for (let i = 0; i < array.length; i++) {
             table.rows.add(
@@ -36,6 +37,7 @@ async function TollFareSetUp(req, res, next) {
                 parseFloat(array[i].ReturnFare),
                 parseFloat(array[i].FasTagPenalty),
                 parseFloat(array[i].OverweightPenalty),
+                parseFloat(array[i].MonthlyPass),
                 SessionId);
         }
         const pool = await database.getPool();

@@ -1,0 +1,14 @@
+<div class="modal-content theam-bg">
+    <div class="modal-body">
+       <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Vehicle Sub Class Type</legend>
+                <p-listbox [options]="SubClassDetails"
+                    optionLabel="SystemVehicleSubClassName" optionValue="SystemVehicleSubClassId" [filter]="false"
+                    (onChange)="onVehicleChange($event.value)" />
+            </fieldset>
+        </div>
+       </div>
+    </div>
+</div>

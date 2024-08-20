@@ -7,7 +7,7 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class InnovatingDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,system_loging_status,barrier_auto,log_file_name,timeout=0.100):
+    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,timeout=0.100):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
@@ -22,14 +22,7 @@ class InnovatingDIOClient(threading.Thread):
         self.violation_duration=3
         self.auto_count=0
         self.running_Transaction=None
-        self.out_labels = [
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 19, "EquipmentTypeName": "Boom Barrier", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 20, "EquipmentTypeName": "Exit Loop", "Status": False},
-            {"LaneId":self.dio_detail["LaneId"],"EquipmentTypeId": 3, "EquipmentTypeName": "Presence Loop", "Status": False}
-        ]
+        self.out_labels = _out_labels
         self.barrier_loop_last=False
         self.presence_loop_last=False
         self.barrier_Status=False        
@@ -84,8 +77,8 @@ class InnovatingDIOClient(threading.Thread):
     def handel_presence_loop(self,loop_status):
         try:
             out_data= self.out_labels[5]
-            if out_data["Status"] != loop_status:
-                out_data["Status"] = loop_status
+            if out_data["PositionStatus"] != loop_status:
+                out_data["PositionStatus"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} handel_presence_loop: {str(e)}")
@@ -96,8 +89,8 @@ class InnovatingDIOClient(threading.Thread):
     def handel_exit_loop(self,loop_status):
         try:
             out_data= self.out_labels[4]
-            if out_data["Status"] != loop_status:
-                out_data["Status"] = loop_status
+            if out_data["PositionStatus"] != loop_status:
+                out_data["PositionStatus"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
             if loop_status==True and self.barrier_loop_last==False and self.barrier_Status==True:
                 self.handler.lane_trans_ic_cam(self.running_Transaction)
@@ -321,32 +314,37 @@ class InnovatingDIOClient(threading.Thread):
 
     def ohls_light_on(self):
         self.send_data("R2,N,60")
-        self.out_labels[0]["Status"]=True
+        self.out_labels[0]["PositionStatus"]=True
+        self.ohls_status=True
 
     def ohls_light_off(self):
         self.send_data("R2,F,60")
-        self.out_labels[0]["Status"]=False
+        self.out_labels[0]["PositionStatus"]=False
+        self.ohls_status=False
     
     def traffic_light_on(self):
         self.send_data("R1,N,60")
-        self.out_labels[1]["Status"]=True
+        self.out_labels[1]["PositionStatus"]=True
     
     def traffic_light_off(self):
         self.send_data("R1,F,60")
-        self.out_labels[1]["Status"]=False
+        self.out_labels[1]["PositionStatus"]=False
+        
 
     def barrier_gate_on(self):
         self.send_data("R4,N,60")
-        self.out_labels[2]["Status"]=True
+        self.out_labels[2]["PositionStatus"]=True
+        self.barrier_Status=True
     
     def barrier_gate_off(self):
         self.send_data("R4,F,60")
-        self.out_labels[2]["Status"]=False
+        self.out_labels[2]["PositionStatus"]=False
+        self.barrier_Status=False
 
     def violation_alarm_on(self):
         self.send_data("R5,N,60")
-        self.out_labels[3]["Status"]=True
+        self.out_labels[3]["PositionStatus"]=True
     
     def violation_alarm_off(self):
         self.send_data("R5,F,60")
-        self.out_labels[3]["Status"]=False
+        self.out_labels[3]["PositionStatus"]=False

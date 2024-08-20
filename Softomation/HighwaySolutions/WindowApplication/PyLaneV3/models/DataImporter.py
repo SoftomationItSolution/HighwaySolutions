@@ -73,7 +73,7 @@ class DataImporter:
                 if resultData[0]['AlertMessage'] != 'Cannot update toll fare. EffectedFrom must be greater than the current date;':
                     for d in data['TollFareConfigurations']:
                         params=[d['TollFareId'],d['JourneyId'],d['SystemVehicleClassId'],d['SubVehicleClassId'],d['TollFare'],d['ReturnFare'],
-                            d['FasTagPenalty'],d['OverweightPenalty']]
+                            d['FasTagPenalty'],d['OverweightPenalty'],d['MonthlyPass']]
                         resultData1=self.dbConnectionObj.execute_procedure('USP_TollFareConfigurationInsertUpdate', params)
                         self.logger.logInfo(resultData1)
                 self.logger.logInfo(resultData)
@@ -261,7 +261,7 @@ class DataImporter:
     def system_setting_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/SystemSettingGet'
         params = lambda d: [d['DefaultPlazaId'],d['AllotmentDays'],d['IsAccessControl'],d['LoginAccess'],
-                            d['ExemptAccess'],d['FleetAccess'],d['SubClassRequired'],
+                            d['ExemptAccess'],d['FleetAccess'],d['TollFareonSubClass'],d['AutoFasTagProcess'],
                             d['FasTagPenalty'],d['FasTagPenaltyMultiply'],d['CashReturn'],d['CashReturnDiscount'],
                             d['OpeningBalance'],d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
                             d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]

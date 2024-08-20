@@ -1,0 +1,14 @@
+<div class="modal-content theam-bg">
+    <div class="modal-body">
+       <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Exempt Type</legend>
+                <p-listbox [options]="ExemptTypeDetails"
+                    optionLabel="ExemptTypeName" optionValue="ExemptTypeId" [filter]="false"
+                    (onChange)="onExemptTypeChange($event.value)" />
+            </fieldset>
+        </div>
+       </div>
+    </div>
+</div>

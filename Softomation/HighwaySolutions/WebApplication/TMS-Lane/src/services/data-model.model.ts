@@ -2,9 +2,10 @@ import { EventEmitter, Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Router } from "@angular/router";
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
-import { SnakbarComponent } from "src/app/pages/snakbar/snakbar.component";
-import { MediaViewComponent } from "src/app/pages/media-view/media-view.component";
+
 import { DatePipe } from "@angular/common";
+import { SnakbarComponent } from "src/app/pages/popups/snakbar/snakbar.component";
+import { MediaViewComponent } from "src/app/pages/popups/media-view/media-view.component";
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +17,19 @@ export class DataModel {
   loggedInStatus = false;
   PageRefresh = new EventEmitter<any>();
   constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog,public datepipe:DatePipe) { }
+  
   clearStorage() {
     localStorage.removeItem("FthTmsLaneloggedIn");
     localStorage.removeItem("FthTmsLaneToken");
     localStorage.removeItem("FthTmsLaneUserData");
   }
+
   setPageRefresh(value: boolean, MenuId: number) {
     this.PageRefreshJson.Pagerefreshvalue = value;
     this.PageRefreshJson.MenuId = MenuId;
     this.PageRefresh.emit(this.PageRefreshJson);
   }
+
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
@@ -59,6 +63,7 @@ export class DataModel {
   setLiveAPI(path: string) {
     return localStorage.setItem('FthTmsLaneLiveAPI', path);
   }
+
   getLiveAPI() {
     return localStorage.getItem('FthTmsLaneLiveAPI');
   }
@@ -66,6 +71,7 @@ export class DataModel {
   setLock(path: string) {
     return localStorage.setItem('FthTmsLaneLock', path);
   }
+
   getLock() {
     return localStorage.getItem('FthTmsLaneLock');
   }
@@ -73,14 +79,15 @@ export class DataModel {
   setCamAPI(path: string) {
     return localStorage.setItem('FthTmsLaneCamAPI', path);
   }
+
   getCamAPI() {
     return localStorage.getItem('FthTmsLaneCamAPI');
   }
 
-
   setMediaAPI(path: string) {
     return localStorage.setItem('FthTmsLaneMediaAPI', path);
   }
+
   getMediaAPI() {
     return localStorage.getItem('FthTmsLaneMediaAPI');
   }
@@ -88,12 +95,15 @@ export class DataModel {
   setTokenVale(token: string) {
     return localStorage.setItem('FthTmsLaneToken', token);
   }
+
   getTokenVale() {
     return localStorage.getItem('FthTmsLaneToken');
   }
+
   setSSData(token: string) {
     return localStorage.setItem('FthTmsLaneSS', token);
   }
+
   getSSData() {
     var result = localStorage.getItem('FthTmsLaneSS');
     if (result != undefined)
@@ -101,9 +111,11 @@ export class DataModel {
     else
       return null;
   }
+
   setUserData(token: string) {
     return localStorage.setItem('FthTmsLaneUserData', token);
   }
+
   getUserData() {
     var result = localStorage.getItem('FthTmsLaneUserData');
     if (result != undefined)
@@ -111,6 +123,7 @@ export class DataModel {
     else
       return null;
   }
+
   getUserId() {
     let result = this.getUserData();
     if (result != null)
@@ -143,7 +156,6 @@ export class DataModel {
     return localStorage.getItem('FthTmsLaneloginTime');
   }
 
-
   setProjectDetails(token: {}) {
     return localStorage.setItem('FthTmsLaneProjectDetails', JSON.stringify(token));
   }
@@ -155,7 +167,6 @@ export class DataModel {
     else
       return null;
   }
-
 
   openSnackBar(message: any, success: boolean) {
     if(message==undefined){

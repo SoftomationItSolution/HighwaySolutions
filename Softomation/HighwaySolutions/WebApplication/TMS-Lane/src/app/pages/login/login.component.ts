@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
       ]),
       RememberMe: new FormControl(false),
     });
-
+    this.dm.clearStorage();
     const rm = localStorage.getItem('RememberMe');
     if (rm !== null) {
       if (rm == "true") {
@@ -44,7 +44,6 @@ export class LoginComponent implements OnInit {
     this.spinner.show();
     this.api.appConfigGet().subscribe(
       data => {
-       
         let curretURL = (window.location.href).split(':')
         let mediaPath="";
         let apiPath="";
@@ -105,7 +104,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
+    this.dm.clearStorage();
     if (this.loginForm.value.RememberMe) {
       localStorage.setItem('LoginId', this.loginForm.value.UserName);
       localStorage.setItem('RememberMe', this.loginForm.value.RememberMe);
@@ -140,10 +139,5 @@ export class LoginComponent implements OnInit {
         this.dm.openSnackBar(this.ErrorData, false);
       }
     );
-  }
-  
-
-  login(credentials: any) {
-
   }
 }

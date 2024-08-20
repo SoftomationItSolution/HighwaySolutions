@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -27,7 +27,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { DragDropModule } from 'primeng/dragdrop';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ListboxModule } from 'primeng/listbox';
-
+import { ConfirmationService } from 'primeng/api';
 
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -43,19 +43,17 @@ import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
 
 import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
-import { SnakbarComponent } from './pages/snakbar/snakbar.component';
-import { LoginComponent } from './pages/login/login.component';
-import { MediaViewComponent } from './pages/media-view/media-view.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { FloatProcessPopupComponent } from './pages/float-management/float-process/float-process-popup/float-process-popup.component';
-import { ShiftClearanceDetailsComponent } from './pages/float-management/shift-clearance/shift-clearance-details/shift-clearance-details.component';
-import { ShiftClearanceDetailsPopupComponent } from './pages/float-management/shift-clearance/shift-clearance-details-popup/shift-clearance-details-popup.component';
-import { ConfirmationService } from 'primeng/api';
-import { LSDUComponent } from './pages/lsdu/parent/lsdu.component';
-import { LsduLaneComponent } from './pages/lsdu/child/lsdulane.component';
-import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
-import { FloatProcessMasterComponent } from './pages/float-management/float-process/float-process-master/float-process-master.component';
-
+import { LoginComponent } from './pages/login/login.component';
+import { SnakbarComponent } from './pages/popups/snakbar/snakbar.component';
+import { MediaViewComponent } from './pages/popups/media-view/media-view.component';
+import { FloatProcessPopupComponent } from './pages/popups/float-process-popup/float-process-popup.component';
+import { LiveViewPopUpComponent } from './pages/popups/live-view-pop-up/live-view-pop-up.component';
+import { SubClassSelectionComponent } from './pages/popups/SubClassSelection/sub-class-selection.component';
+import { ExemptSelectionComponent } from './pages/popups/ExemptSelection/exempt-selection.component';
+import { PaymentSelectionComponent } from './pages/popups/PaymentSelection/payment-selection.component';
+import { FleetCounterComponent } from './pages/popups/FleetCounter/fleet-counter.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
   port: 9001,
@@ -95,12 +93,11 @@ export const MY_CUSTOM_FORMATS = {
     LoginComponent,
     DashboardComponent,
     FloatProcessPopupComponent,
-    ShiftClearanceDetailsComponent,
-    ShiftClearanceDetailsPopupComponent,
-    LSDUComponent,
-    LsduLaneComponent,
     LiveViewPopUpComponent,
-    FloatProcessMasterComponent
+    SubClassSelectionComponent,
+    ExemptSelectionComponent,
+    PaymentSelectionComponent,
+    FleetCounterComponent,
   ],
   imports: [
     BrowserModule,
@@ -140,7 +137,13 @@ export const MY_CUSTOM_FORMATS = {
     MatRadioModule,
     NgxSpinnerModule,
     ImageCropperModule,
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS) 
+    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     [ConfirmationService],

@@ -1,0 +1,14 @@
+<div class="modal-content theam-bg">
+    <div class="modal-body">
+       <div class="row">
+        <div class="col-md-12">
+            <fieldset>
+                <legend>Payment Type</legend>
+                <p-listbox [options]="PaymentTypeDetails"
+                    optionLabel="PaymentTypeName" optionValue="PaymentTypeId" [filter]="false"
+                    (onChange)="onPaymentTypeChange($event.value)" />
+            </fieldset>
+        </div>
+       </div>
+    </div>
+</div>

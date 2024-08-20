@@ -2,8 +2,9 @@ from __future__ import unicode_literals
 from escpos.printer import Serial,Usb
 import platform
 class TollReceiptPrinter:
-    def __init__(self,project_config_data,printer_detail):
-        self.project_config_data = project_config_data
+    def __init__(self,_handler,printer_detail):
+        self.handler=_handler
+        self.project_config_data = _handler.project_config
         self.printer_detail=printer_detail
         self.printer_setup()
 
@@ -15,6 +16,14 @@ class TollReceiptPrinter:
                 else:
                     comport=self.printer_detail["IpAddress"]
                 self.p=Serial(devfile=comport,baudrate=self.printer_detail["PortNumber"])
+            elif self.printer_detail is not None and self.printer_detail["ProtocolTypeId"]==9:
+                d=self.printer_detail["UrlAddress"]
+                #rc=d.split(',')
+                #vendor_id=hex(int(rc[0], 16))
+                #product_id=hex(int(rc[1], 16))
+                vendor_id = 0x154f
+                product_id = 0x154f
+                self.p = Usb(vendor_id,product_id)
             else:
                 #0x154f,0x154f
                 #vendor_id=0x0fe6, product_id=0x811e  Rugtek model RP80
@@ -25,6 +34,7 @@ class TollReceiptPrinter:
                 #self.p = Usb(rc[0],rc[1])
             self.set_default()
         except Exception as e:
+            self.handler.logger.logError(f"Exception printer_setup: {str(e)}")
             raise e
         
     def set_left(self):
@@ -61,8 +71,8 @@ class TollReceiptPrinter:
             self.p.text(f"Overload     : Rs. {printData['OverWeightAmount']}/-\n")
             total_fare = printData["TransactionAmount"] + printData["TagPenaltyAmount"] + printData["OverWeightAmount"]
             self.p.text(f"Total Fare   : Rs. {total_fare}/-\n")
-            self.p.text(f"Allow Weight : Rs. {printData['PermissibleVehicleWeight']}\n")
-            self.p.text(f"Actual Weight: Rs. {printData['ActualVehicleWeight']}\n")
+            self.p.text(f"Allow Weight : kg. {printData['PermissibleVehicleWeight']}\n")
+            self.p.text(f"Actual Weight: kg. {printData['ActualVehicleWeight']}\n")
             self.p.text("--------------------------------------------\n")
             barcode_data = str(printData["RCTNumber"])
             self.p.barcode(barcode_data, "CODE39", 60, 2, function_type="A")

@@ -12,7 +12,7 @@ class LaneManager:
                     d["ExemptTypeId"],d["ExemptSubTypeId"],d["VehicleClassId"],
                     d["VehicleSubClassId"],d["VehicleAvcClassId"],d["PlateNumber"],
                     d["RCTNumber"],d["TagEPC"],d["TagClassId"],d["TagPlateNumber"],
-                    Utilities.json_dt_mysql_dt(d["TagReadDateTime"]),d["TagReadCount"],d["IsReadByReader"],
+                    Utilities.json_dt_mysql_dt(d["TagReadDateTime"]),d["TagReadCount"],d["TagReadById"],
                     d["PermissibleVehicleWeight"],d["ActualVehicleWeight"],
                     d["IsOverWeightCharged"],d["OverWeightAmount"],
                     d["TagPenaltyAmount"],d["TransactionAmount"],

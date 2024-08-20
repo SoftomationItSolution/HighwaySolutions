@@ -96,6 +96,10 @@ class Utilities:
     def current_date_time_json(dt=None):
         dt = dt or datetime.datetime.now()
         return dt.strftime("%d-%b-%Y %H:%M:%S.%f")
+    
+    @staticmethod
+    def parse_date_time_from_json(date_str):
+        return datetime.datetime.strptime(date_str, "%d-%b-%Y %H:%M:%S.%f")
 
     @staticmethod
     def create_txn_id(dt=None):

@@ -4,10 +4,13 @@ import { DatePipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { DataModel } from 'src/services/data-model.model';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
+import { ConfirmationService } from 'primeng/api';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
+  providers: [ConfirmationService]
 })
 
 export class DefaultLayoutComponent implements OnInit, AfterViewInit {
@@ -25,8 +28,9 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
   remainingTime: any
   endTime: any
   isLessThanTenMinutes: boolean = false;
-  constructor(private router: Router, public dataModel: DataModel,
-    public api: apiIntegrationService, public dialog: MatDialog,public datepipe: DatePipe,) {
+  constructor(private router: Router, public dataModel: DataModel,private spinner: NgxSpinnerService,
+    public api: apiIntegrationService, public dialog: MatDialog,public datepipe: DatePipe,
+    private confirmationService: ConfirmationService) {
     this.docElement = document.documentElement;
   }
 
@@ -92,22 +96,31 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
   }
 
   Logout() {
-    const obj = {
-      LoginId: this.userData.LoginId,
-      UserTypeId: this.userData.UserTypeId,
-      UserId: this.userData.UserId
-    };
-    this.api.LogoutUser(obj).subscribe(
+    this.spinner.show()
+    this.api.LogoutSystem().subscribe(
       data => {
         this.dataModel.clearStorage();
         this.router.navigate(['']);
-
+        this.spinner.hide()
       },
       (error) => {
         this.dataModel.clearStorage();
         this.router.navigate(['']);
+        this.spinner.hide()
       }
     );
 
   }
+
+  confirm() {
+    this.confirmationService.confirm({
+        header: 'Are you sure?',
+        message: 'Please confirm to proceed.',
+        accept: () => {
+            this.Logout()
+        },
+        reject: () => {
+        }
+    });
+}
 }

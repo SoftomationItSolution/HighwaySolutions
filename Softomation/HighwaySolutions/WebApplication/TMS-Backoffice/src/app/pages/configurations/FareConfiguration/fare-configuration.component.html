@@ -52,6 +52,10 @@
                                         field="OverweightPenalty">
                                     </p-sortIcon>
                                 </th>
+                                <th pSortableColumn="MonthlyPass">Monthly Pass <p-sortIcon
+                                    field="MonthlyPass">
+                                </p-sortIcon>
+                            </th>
                             </tr>
                             <tr>
                                 <th></th>
@@ -123,6 +127,18 @@
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             &#8377; {{rowData.OverweightPenalty}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.MonthlyPass"
+                                                prefix="&#8377; " mode="decimal">
+                                            </p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            &#8377; {{rowData.MonthlyPass}}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>

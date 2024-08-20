@@ -12,6 +12,9 @@
     height: 55px !important
 }
 
+.logout {
+    cursor: pointer;
+}
 
 .navbar-header {
     height: 55px !important;
@@ -32,11 +35,12 @@
     width: 90% !important;
 }
 
-.pd-tb-5{
-    padding: 5px 0px 5px 0px !important; 
+.pd-tb-5 {
+    padding: 5px 0px 5px 0px !important;
 }
-.pd-tb-4{
-    padding: 4px 0px 4px 0px !important; 
+
+.pd-tb-4 {
+    padding: 4px 0px 4px 0px !important;
 }
 
 .page-content {
@@ -136,24 +140,28 @@ legend {
 .w-50 {
     width: 50% !important;
 }
-.p-inputnumber-input{
+
+.p-inputnumber-input {
     width: 80% !important;
 }
+
 .p-inputtext:enabled:focus {
     box-shadow: none !important;
 }
 
-.trans-box{
+.trans-box {
     font-size: 12px;
 }
+
 .table-responsive {
     overflow: hidden !important;
 }
+
 .listtableheight {
     height: 60vh !important
 }
 
-.p-datatable .p-datatable-thead > tr > th {
+.p-datatable .p-datatable-thead>tr>th {
     padding: 5px 0px 5px 0px !important;
     font-size: 10px;
     border-width: 0px 1px 1px 1px;
@@ -168,14 +176,16 @@ legend {
     background: #011b41 !important;
     color: #fff !important;
 }
+
 .p-datatable-table .p-datatable-tbody tr td:focus {
     background: #EFF6FF !important;
     color: #1D4ED8 !important;
 }
-.p-datatable .p-datatable-tbody > tr:focus {
+
+.p-datatable .p-datatable-tbody>tr:focus {
     outline: 0.15rem solid #BFDBFE;
     outline-offset: 0.15rem;
-    
+
 }
 
 .p-datatable-wrapper {
@@ -187,16 +197,21 @@ legend {
     height: 55px !important;
     width: 100%;
 }
+
 .icon-row {
     display: flex;
-    justify-content: center; /* Center the icons in the row */
-    gap: 20px; /* Space between each icon item */
+    justify-content: center;
+    /* Center the icons in the row */
+    gap: 20px;
+    /* Space between each icon item */
 }
 
 .icon-item {
     display: flex;
-    flex-direction: column; /* Stack the icon and label vertically */
-    align-items: center; /* Center the icon and label horizontally */
+    flex-direction: column;
+    /* Stack the icon and label vertically */
+    align-items: center;
+    /* Center the icon and label horizontally */
     text-align: center;
 }
 
@@ -208,8 +223,8 @@ legend {
 }
 
 .icon-item i:hover {
-    color: #007bff; 
-  }
+    color: #007bff;
+}
 
 .icon-label {
     margin-top: 0px;
@@ -222,14 +237,42 @@ legend {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    gap: 20px; /* Add some space between icons */
+    gap: 20px;
+    /* Add some space between icons */
+}
+
+.icon-item i {
+    font-size: 24px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.txt-green {
+    color: #00A36C !important;
+}
+
+.txt-yellow {
+    color: #C0A300 !important;
+}
+
+.txt-red {
+    color: #cd4242 !important;
+}
+
+.fleet-popup .icon-item i {
+    font-size: 32px;
+    color: #fff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.fleet-popup .icon-label {
+    margin-top: 0px;
+    font-size: 32px;
+    color: #fff;
+}
+.live-stream {
+    max-width: 100%;
+    height: calc(50vh - 110px)
   }
-  
-  .icon-item i {
-    font-size: 24px; /* Adjust the icon size */
-    color: #fff; /* Icon color */
-    cursor: pointer; /* Cursor changes to pointer on hover */
-    transition: color 0.3s ease; /* Smooth transition on hover */
-  }
-  
- 

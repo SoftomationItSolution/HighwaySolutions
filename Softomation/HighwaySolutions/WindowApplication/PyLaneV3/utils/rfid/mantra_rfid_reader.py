@@ -93,7 +93,7 @@ class MantraRfidReader(threading.Thread):
                     self.tagDetails["SystemDateTime"]=current_date_time.isoformat()
                     self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json(dt=current_date_time)
                     self.handler.update_rfid_data(self.tagDetails)
-                    self.tagDetails={"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
+                    self.tagDetails={"TagReadById":1,"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
                     self.presence_loop_status=False
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} decode_tag: {str(e)}")
@@ -109,7 +109,7 @@ class MantraRfidReader(threading.Thread):
                         self.processed_epcs={}
                     else:
                         self.is_running=True
-                    self.tagDetails={"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
+                    self.tagDetails={"TagReadById":1,"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
                     
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:

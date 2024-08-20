@@ -11,9 +11,8 @@ router.post('/WimTransactionInsert', WimTransactionInsert);
 router.post('/WimTransactionAxleDetailsInsert', WimTransactionAxleDetailsInsert);
 module.exports = router;
 async function LaneTranscationInsert(req, res, next) {
-    let pool
     try {
-        pool = await database.connect();
+        const pool = await database.getPool();
         const MasterTransactionId = '';
         const PlazaTransactionId = constants.plzazTxnNumber(req.body.PlazaId,req.body.LaneId,req.body.TransactionDateTime);
         const Cdt = new Date()
@@ -73,17 +72,12 @@ async function LaneTranscationInsert(req, res, next) {
         errorlogMessage(error, 'LaneTranscationInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } finally {
-        if (pool) {
-             // Close the database connection
-        }
-    }
+    } 
 }
 
 async function AvcTransactionInsert(req, res, next) {
-    let pool;
     try {
-        pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('TransactionCount', sql.BigInt, req.body.TransactionCount)
             .input('AvcSensorClassId', sql.SmallInt, req.body.AvcSensorClassId)
@@ -93,7 +87,7 @@ async function AvcTransactionInsert(req, res, next) {
             .input('WheelBase', sql.BigInt, req.body.WheelBase)
             .input('ImageName', sql.VarChar(255), req.body.ImageName)
             .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
-            .input('TransactionDateTime', sql.VarChar(45), req.body.LaneTransactionId)
+            .input('LaneTransactionId', sql.VarChar(45), req.body.LaneTransactionId)
             .execute('USP_AvcTransactionInsert');
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
@@ -101,17 +95,12 @@ async function AvcTransactionInsert(req, res, next) {
         errorlogMessage(error, 'USP_AvcTransactionInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } finally {
-        if (pool) {
-            
-        }
-    }
+    } 
 }
 
 async function WimTransactionInsert(req, res, next) {
-    let pool;
     try {
-        pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('TransactionId', sql.BigInt, req.body.TransactionId)
             .input('TotalWeight', sql.Decimal, req.body.TotalWeight)
@@ -125,17 +114,12 @@ async function WimTransactionInsert(req, res, next) {
         errorlogMessage(error, 'USP_WimTransactionInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } finally {
-        if (pool) {
-             // Close the database connection
-        }
-    }
+    } 
 }
 
 async function WimTransactionAxleDetailsInsert(req, res, next) {
-    let pool;
     try {
-        pool = await database.connect();
+        const pool = await database.getPool();
         result = await pool.request().input('LaneId', sql.SmallInt, req.body.LaneId)
             .input('TransactionId', sql.BigInt, req.body.TransactionId)
             .input('AxleNumber', sql.SmallInt, req.body.AxleNumber)
@@ -149,10 +133,6 @@ async function WimTransactionAxleDetailsInsert(req, res, next) {
         errorlogMessage(error, 'USP_WimTransactionAxleDetailsInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    }finally {
-        if (pool) {
-             // Close the database connection
-        }
     }
 }
 

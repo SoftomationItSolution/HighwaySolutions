@@ -3,7 +3,7 @@ import json
 import os
 import platform
 import threading
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, Response, render_template, request, jsonify
 from flask_cors import CORS
 from models.CommonManager import CommonManager
 from utils.constants import Utilities
@@ -26,11 +26,18 @@ class FlaskApiApp(threading.Thread):
         self.default_plaza_Id = 1
         self.app.add_url_rule('/', 'index', self.index)
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ProjectConfigGet','ProjectConfigGet', self.ProjectConfigGet)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/LoginStatusGet','LoginStatusGet', self.LoginStatusGet)
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ValidateUser','ValidateUser', self.ValidateUser, methods=['POST'])
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getLaneMasterData','getLaneMasterData', self.getLaneMasterData)
-        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getLaneResentData','getLaneResentData', self.getLaneResentData)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getLaneRecentData','getLaneRecentData', self.getLaneRecentData)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/getCurrentTransactions','getCurrentTransactions', self.getCurrentTransactions)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/LogoutSystem','LogoutSystem', self.LogoutSystem)
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ProcessTransactions','ProcessTransactions', self.ProcessTransactions, methods=['POST'])
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/FleetStart','FleetStart', self.FleetStart, methods=['POST'])
+        self.app.add_url_rule('/Softomation/FastTrackHighway-lane/FleetStop','FleetStop', self.FleetStop, methods=['POST'])
+        self.app.add_url_rule('/Softomation/lpicLiveView','lpicLiveView', self.lpicLiveView)
 
-        self.app.add_url_rule('/get_status', 'get_status', self.get_status)
+        #self.app.add_url_rule('/get_status', 'get_status', self.get_status)
         self.app.add_url_rule('/app_login', 'app_login', self.app_login, methods=['POST'])
         self.app.add_url_rule('/app_logout', 'app_logout', self.app_logout, methods=['POST'])
         self.app.add_url_rule('/restart', 'restart', self.restart)
@@ -39,11 +46,18 @@ class FlaskApiApp(threading.Thread):
         self.app.add_url_rule('/shutdown', 'shutdown', self.shutdown)
         self.server = None
 
+    def LoginStatusGet(self):
+        try:
+            return jsonify({'message': 'success','ResponseData':self.bg_handler.system_loging_status}), 200
+        except Exception as e:
+            self.logger.logError(f"Exception LoginStatusGet: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+        
     def ProjectConfigGet(self):
         try:
             return jsonify({'message': 'success','ResponseData':self.bg_handler.project_config}), 200
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ProjectConfigGet: {str(e)}")
+            self.logger.logError(f"Exception ProjectConfigGet: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
         
     def ValidateUser(self):
@@ -57,7 +71,7 @@ class FlaskApiApp(threading.Thread):
                     if CryptoUtils.encrypt_aes_256_cbc(input["LoginPassword"]) == res[0]["LoginPassword"]:
                         userDetails = json.dumps(res[0])
                         self.bg_handler.get_current_shift()
-                        self.bg_handler.app_log_status(True)
+                        threading.Thread(target=self.bg_handler.app_log_status, args=(True,)).start()
                         self.bg_handler.update_user(userDetails)
                         current_time = datetime.now()
                         formatted_time = current_time.strftime("%H:%M:%S")
@@ -68,23 +82,98 @@ class FlaskApiApp(threading.Thread):
                 else:
                     return jsonify({'message': 'Invalid loginid','ResponseData':None}), 200
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ValidateUser: {str(e)}")
+            self.logger.logError(f"Exception ValidateUser: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
         
+    def LogoutSystem(self):
+        try:
+            if self.bg_handler is not None:
+                self.bg_handler.app_log_status(False)
+                return jsonify({'message': 'Logout done!'}), 200
+            else:
+                return jsonify({'message': 'App not running!'}), 404
+        except Exception as e:
+            self.logger.logError(f"Exception LogoutSystem: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
 
     def getLaneMasterData(self):
         try:
-            return jsonify({'message': 'success','ResponseData':self.bg_handler.lane_master_data}), 200
+            final_data={
+                "master_data":self.bg_handler.lane_master_data,
+                "hardware_list":self.bg_handler.hardware_list,
+                "equipment_detail":self.bg_handler.equipment_detail
+            }  
+            return jsonify({'message': 'success','ResponseData':final_data}), 200
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} VehicleClassGet: {str(e)}")
+            self.logger.logError(f"Exception getLaneMasterData: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
         
-    def getLaneResentData(self):
+    def getLaneRecentData(self):
         try:
             latest_lane_txn=CommonManager.GetLatestLaneTransaction(self.bg_handler.dbConnectionObj)
             return jsonify({'message': 'success','ResponseData':latest_lane_txn}), 200
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} getLaneResentData: {str(e)}")
+            self.logger.logError(f"Exception getLaneRecentData: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+    
+    def getCurrentTransactions(self):
+        try:
+            self.bg_handler.current_trans()
+            if self.bg_handler.lane_detail:
+                self.bg_handler.setDefaultValue()
+                current_Transaction=self.bg_handler.current_Transaction
+                ct=datetime.now()
+                current_Transaction["LaneTransactionId"]=Utilities.lane_txn_number(self.bg_handler.lane_detail["LaneId"],ct)
+                current_Transaction["TransactionDateTime"]= Utilities.current_date_time_json(dt=ct)
+                current_Transaction["TagReadDateTime"]= Utilities.current_date_time_json(dt=ct)
+            return jsonify({'message': 'success','ResponseData':current_Transaction}), 200
+        except Exception as e:
+            self.logger.logError(f"Exception getCurrentTransactions: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+    
+    def ProcessTransactions(self):
+        try:
+            input=request.get_json()
+            status,trans=self.bg_handler.lane_trans_start(input)
+            if status:
+                return jsonify({'message': 'success','ResponseData':trans}), 200
+            else:
+                return jsonify({'message': 'failed','ResponseData':None}), 200
+        except Exception as e:
+            self.logger.logError(f"Exception ProcessTransactions: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+    
+    def FleetStart(self):
+        try:
+            input=request.get_json()
+            status,trans=self.bg_handler.lane_fleet_start(input)
+            if status:
+                return jsonify({'message': 'success','ResponseData':trans}), 200
+            else:
+                return jsonify({'message': 'Already transaction in progress','ResponseData':trans}), 200 
+        except Exception as e:
+            self.logger.logError(f"Exception FleetStart: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+        
+    def FleetStop(self):
+        try:
+            input=request.get_json()
+            status,trans=self.bg_handler.lane_fleet_Stop(input)
+            if status:
+                return jsonify({'message': 'success','ResponseData':trans}), 200
+            else:
+                return jsonify({'message': 'No running trans found to stop the fleet','ResponseData':trans}), 200 
+        except Exception as e:
+            self.logger.logError(f"Exception FleetStop: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+    
+    def lpicLiveView(self):
+        try:
+            if self.bg_handler.lpic_thread:
+                return Response(self.bg_handler.lpic_thread.generate_frames(), content_type='multipart/x-mixed-replace; boundary=frame')
+                #return Response(self.bg_handler.lpic_thread.live_view_bradcast(),mimetype='multipart/x-mixed-replace; boundary=frame')
+        except Exception as e:
+            self.logger.logError(f"Exception lpicLiveView: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
     
     def app_login(self):
@@ -97,7 +186,7 @@ class FlaskApiApp(threading.Thread):
             else:
                 return jsonify({'message': 'App not running!'}), 404
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} app_login: {str(e)}")
+            self.logger.logError(f"Exception app_login: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
 
     def app_logout(self):
@@ -109,23 +198,8 @@ class FlaskApiApp(threading.Thread):
             else:
                 return jsonify({'message': 'App not running!'}), 404
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} app_logout: {str(e)}")
+            self.logger.logError(f"Exception app_logout: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
-
-    def get_status(self):
-        try:
-            self.logger.logInfo("get_status route hit")
-            if self.bg_handler is not None:
-                data = self.bg_handler.get_lane_status()
-                if data is not None:
-                    return jsonify(data), 200
-                else:
-                    return jsonify({'message': 'Status not found.'}), 404
-            else:
-                return jsonify({'message': 'App not running.'}), 404
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} get_status: {str(e)}")
-            return jsonify({'message': 'Internal server error.'}), 500
 
     def restart(self):
         try:
@@ -148,16 +222,11 @@ class FlaskApiApp(threading.Thread):
     def logout(self):
         self.bg_handler.app_log_status(False)
         return "Logout functionality"
-
-   
     
     def index(self):
         config_filePath = os.path.join(self.default_directory, "MasterConfig", "dbConfig.json")
         data = Utilities.read_json_file(config_filePath)
-        #path=f'{self.static_url_path}/'+'index.html'
         return render_template('index.html', data=data)
-
-    
 
     def restart_system(self):
         if platform.system() == 'Windows':
@@ -185,21 +254,11 @@ class FlaskApiApp(threading.Thread):
         try:
             self.start()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} start_app: {str(e)}")
+            self.logger.logError(f"Exception start_app: {str(e)}")
 
     def stop_app(self):
         try:
             if self.server:
-                self.server.join(1)  # Attempt to join the thread for 1 second
+                self.server.join(1)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop_app: {str(e)}")
-
-# Example usage:
-# default_directory = ...
-# logger = ...
-# bg_handler = ...
-
-# api_app = FlaskApiApp(default_directory, logger, bg_handler)
-# api_app.start_app()
-# # To stop the app
-# api_app.stop_app()
+            self.logger.logError(f"Exception stop_app: {str(e)}")

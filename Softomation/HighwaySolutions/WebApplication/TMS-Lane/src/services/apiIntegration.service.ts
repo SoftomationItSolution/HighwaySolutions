@@ -63,41 +63,12 @@ export class apiIntegrationService {
       }
     );
   }
-
-
-  ProjectDetails() {
-    let returnURL;
-    returnURL = this.dataModel.getProjectDetails();
-    if (returnURL == "" || returnURL == null || returnURL == 'null' || returnURL == undefined) {
-      if (this.ConfigData == null || this.ConfigData == undefined) {
-        const promise = new Promise<any>((resolve, reject) => {
-          const apiURL = '/assets/ProjectConfiguration.json';
-          this.objHttp.get(apiURL).subscribe({
-            next: (res: any) => {
-              this.ConfigData = res;
-              this.dataModel.setProjectDetails(res);
-              resolve(res);
-            },
-            error: (err: any) => {
-              reject(err);
-            },
-            complete: () => {
-              //console.log('complete');
-            },
-          });
-        });
-        return promise;
-      }
-    }
-    return returnURL
-  }
-
-  UpdateProjectConfig(data: {}): Observable<any> {
+  LoginStatusGet(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/UpdateProjectConfig', data, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LoginStatusGet', { headers: headers_object });
   }
-
+  
   ProjectConfigGet(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
@@ -117,13 +88,29 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ValidateUser', data, { headers: headers_object });
   }
 
-  LogoutUser(data: {}): Observable<any> {
+  LogoutSystem(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/LogoutUser', data, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/LogoutSystem', { headers: headers_object });
   }
 
-  
+  ProcessTransactions(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/ProcessTransactions', data, { headers: headers_object });
+  }
+
+  FleetStart(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FleetStart', data, { headers: headers_object });
+  }
+
+  FleetStop(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FleetStop', data, { headers: headers_object });
+  }
 
   RolePermissionGetByMenu(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -181,10 +168,16 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneMasterData', { headers: headers_object });
   }
 
-  getLaneResentData(): Observable<any> {
+  getLaneRecentData(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneResentData', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getLaneRecentData', { headers: headers_object });
+  }
+
+  getCurrentTransactions(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/getCurrentTransactions', { headers: headers_object });
   }
 
   

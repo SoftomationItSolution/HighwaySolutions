@@ -10,29 +10,63 @@
                 </fieldset>
             </div>
             <div class="col-md-2">
-                <fieldset>
-                    <legend>Transaction Type</legend>
-                    <p-listbox [options]="TransactionTypeMaster" [(ngModel)]="selectedTransactionType"
-                        optionLabel="TransactionTypeName" optionValue="TransactionTypeId" [filter]="false"
-                        (onChange)="onVehicleChange($event.value)" />
-                    <div class="row">
-                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
-                            <button type="button" class="btn btn-warning wt-90">Fleet-Start</button>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
-                            <button type="button" class="btn btn-warning wt-90">Tow-Start</button>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
-                            <button type="button" class="btn btn-success wt-90">Submit</button>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-center pd-tb-4">
-                            <button type="button" class="btn btn-danger wt-90">Reset</button>
-                        </div>
-                        <div class="col-md-12 d-flex justify-content-center pd-tb-4">
-                            <button type="button" class="btn btn-success wt-90">Mid-Declare</button>
-                        </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <fieldset>
+                            <legend>Transaction Type</legend>
+                            <div class="row d-flex justify-content-center pd-tb-4">
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                        [ngClass]="{'btn-outline-info': ttyselectedButton !== 'FasTag', 'btn-dark': ttyselectedButton === 'FasTag'}"
+                                        (click)="onttySeclect(1,'FasTag')">FasTag</button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                        [ngClass]="{'btn-outline-info': ttyselectedButton !== 'Excempt', 'btn-dark': ttyselectedButton === 'Excempt'}"
+                                        (click)="onttySeclect(3,'Excempt')">Excempt</button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                        [ngClass]="{'btn-outline-info': ttyselectedButton !== 'Cash', 'btn-dark': ttyselectedButton === 'Cash'}"
+                                        (click)="onttySeclect(2,'Cash')">Cash</button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                        [ngClass]="{'btn-outline-info': ttyselectedButton !== 'Retrun', 'btn-dark': ttyselectedButton === 'Retrun'}"
+                                        (click)="onttySeclect(5,'Retrun')">Retrun</button>
+                                </div>
+                            </div>
+
+                        </fieldset>
                     </div>
-                </fieldset>
+                    <div class="col-md-12 pd-tb-4">
+                        <fieldset>
+                            <legend>Transaction Event</legend>
+                            <div class="row d-flex justify-content-center pd-tb-4">
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                        [ngClass]="{'btn-outline-warning': FleetStart==false, 'btn-dark': FleetStart}"
+                                        (click)="onFleetStart()">
+                                        {{ FleetStart ? 'Fleet-Started' : 'Fleet-Start' }}
+                                    </button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn wt-90"
+                                    [ngClass]="{'btn-outline-warning': TowStart==false, 'btn-dark': TowStart}"
+                                    (click)="ontteSeclect(2)">
+                                    {{ TowStart ? 'Tow-Started' : 'Tow-Start' }}
+                                </button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn btn-warning wt-90">VRN</button>
+                                </div>
+                                <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                    <button type="button" class="btn btn-warning wt-90">Mid-Declare</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
             </div>
             <div class="col-md-4 trans-box">
                 <fieldset>
@@ -95,8 +129,6 @@
                                     <div class="col-sm-6">
                                         <p-inputNumber class="lbl" formControlName="TagPenalty" prefix="&#8377; "
                                             mode="decimal"></p-inputNumber>
-                                        <!-- <input formControlName="OverweightPenalty" type="text" pInputText 
-                                            autocomplete="off" class="form-control lbl" placeholder="Overweight(P)" /> -->
                                     </div>
                                 </div>
 
@@ -137,28 +169,30 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="ReceiptNumber" class="col-sm-3 col-form-label">Receipt Number:</label>
-                                    <div class="col-sm-9">
-                                        <input formControlName="ReceiptNumber" type="text" pInputText required
-                                            autocomplete="off" class="form-control" placeholder="Receipt Number" />
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label for="Remark" class="col-sm-3 col-form-label">Remark:</label>
                                     <div class="col-sm-9">
                                         <input formControlName="Remark" type="text" pInputText autocomplete="off"
                                             class="form-control" placeholder="Remark" />
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                        <button type="button" class="btn btn-danger wt-90" (click)="reset_form()">Reset</button>
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-center pd-tb-4">
+                                        <button type="button" class="btn btn-success wt-90"
+                                            (click)="submit_trans()">Submit</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
-
                 </fieldset>
             </div>
             <div class="col-md-4">
                 <fieldset>
                     <legend>Live View</legend>
+                    <img [src]="lpicViewUrl" alt="LPIC Camera" class="live-stream">
                 </fieldset>
             </div>
         </div>
@@ -173,18 +207,20 @@
                             [resizableColumns]="true" styleClass="" selectionMode="single">
                             <ng-template pTemplate="header" styleClass="thead-light">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Type</th>
+                                    <th>TID</th>
+                                    <th>EPC</th>
                                     <th>Date Time</th>
-                                    <th>Toll Fare</th>
+                                    <th>VRN</th>
+                                    <th>Class</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr [pSelectableRow]="rowData">
-                                    <td>{{rowData.LaneTransactionId}}</td>
-                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.TID}}</td>
+                                    <td>{{rowData.EPC}}</td>
                                     <td>{{rowData.TransactionDateTime}}</td>
-                                    <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
+                                    <td>{{rowData.Plate}}</td>
+                                    <td>{{rowData.Class}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -199,18 +235,18 @@
                             [resizableColumns]="true" styleClass="" selectionMode="single">
                             <ng-template pTemplate="header" styleClass="thead-light">
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Type</th>
                                     <th>Date Time</th>
-                                    <th>Toll Fare</th>
+                                    <th>Axle Count</th>
+                                    <th>Total Weight</th>
+                                    <th>Reverse Direction</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr [pSelectableRow]="rowData">
-                                    <td>{{rowData.LaneTransactionId}}</td>
-                                    <td>{{rowData.VehicleClassName}}</td>
                                     <td>{{rowData.TransactionDateTime}}</td>
-                                    <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
+                                    <td>{{rowData.AxleCount}}</td>
+                                    <td>{{rowData.TotalWeight}}</td>
+                                    <td>{{rowData.IsReverseDirection}}</td>
                                 </tr>
                             </ng-template>
                         </p-table>
@@ -227,6 +263,7 @@
                                 <tr>
                                     <th>Id</th>
                                     <th>Type</th>
+                                    <th>Vehicle</th>
                                     <th>Date Time</th>
                                     <th>Toll Fare</th>
                                 </tr>
@@ -234,7 +271,8 @@
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr [pSelectableRow]="rowData">
                                     <td>{{rowData.LaneTransactionId}}</td>
-                                    <td>{{rowData.VehicleClassName}}</td>
+                                    <td>{{rowData.TransactionTypeName}}</td>
+                                    <td>{{rowData.VehicleClassName}}-{{rowData.VehicleSubClassName}}</td>
                                     <td>{{rowData.TransactionDateTime}}</td>
                                     <td>{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>
                                 </tr>
@@ -246,19 +284,10 @@
         </div>
     </div>
 </div>
-<!-- <div class="main-body-fotter">
-    <div class="icon-row">
-        <span *ngFor="let item of equipmentListDetais" class="icon-item justify-content-center">
-            <i [class]="getIconName(item.EquipmentIcon)"></i>
-            <div class="icon-label justify-content-center">{{ item.EquipmentTypeName }}</div>
-        </span>
-    </div>
-</div> -->
-
 <div class="main-body-footer">
     <div class="icon-row">
         <span *ngFor="let item of equipmentListDetais" class="icon-item justify-content-center">
-            <i [class]="getIconName(item.EquipmentIcon)"></i>
+            <i [class]="getIconName(item)"></i>
             <div class="icon-label justify-content-center">{{ item.EquipmentTypeName }}</div>
         </span>
     </div>

@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from escpos.printer import Serial,Usb
 import platform
+
 class TollReceiptPrinter:
     def __init__(self,project_config_data,printer_detail):
         self.project_config_data = project_config_data

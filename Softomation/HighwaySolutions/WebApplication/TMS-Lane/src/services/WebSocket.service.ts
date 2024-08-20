@@ -7,16 +7,23 @@ import { Subject } from 'rxjs';
 export class WebSocketService {
   private socket: WebSocket;
   private messageSubject: Subject<string> = new Subject<string>();
-
+  currentIP='';
   constructor() {
+   this.GetIpAddress()
+  }
+
+  GetIpAddress() {
+    this.currentIP='';
+    var curretURL = (window.location.href).split(':')
+    this.currentIP = curretURL[1].replace("//", "");
     this.connect();
   }
 
   connect(): void {
-    this.socket = new WebSocket('ws://localhost:6789');
+    this.socket = new WebSocket('ws://'+this.currentIP+':6789');
 
     this.socket.onmessage = (event) => {
-      this.messageSubject.next(event.data); // Emit the message to subscribers
+      this.messageSubject.next(event.data); 
     };
 
     this.socket.onopen = (event) => {
@@ -32,7 +39,7 @@ export class WebSocketService {
     };
   }
 
-  // Return an Observable for the component to subscribe to
+ 
   getMessages() {
     return this.messageSubject.asObservable();
   }

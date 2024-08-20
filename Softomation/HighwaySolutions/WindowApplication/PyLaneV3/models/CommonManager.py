@@ -117,8 +117,6 @@ class CommonManager:
             return resultData
         except Exception as e:
             raise e  
-
-    
         
     @staticmethod
     def GetDioEquipmentDetails(dbConnectionObj, LaneId):

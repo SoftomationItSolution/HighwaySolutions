@@ -28,7 +28,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
   DeviceTypeList: any;
   LogedUserId;
   DirectionList = [{ DataId: 0, DataName: 'None' }, { DataId: 1, DataName: 'LHS' }, { DataId: 2, DataName: 'RHS' }, { DataId: 3, DataName: 'Median' }];
-  ProtocolList = [{ DataId: 1, DataName: 'TCP' }, { DataId: 2, DataName: 'UDP' }, { DataId: 3, DataName: 'Serail' }, { DataId: 4, DataName: 'MQTT' }, { DataId: 5, DataName: 'HTTP' }, { DataId: 6, DataName: "RTSP" }, { DataId: 7, DataName: "Other" }];
+  ProtocolList = [{ DataId: 1, DataName: 'TCP' }, { DataId: 2, DataName: 'UDP' }, { DataId: 3, DataName: 'Serail' }, { DataId: 4, DataName: 'MQTT' }, { DataId: 5, DataName: 'HTTP' }, { DataId: 6, DataName: "RTSP" }, { DataId: 8, DataName: "Web Socket" }, { DataId: 9, DataName: "USB" }, { DataId: 7, DataName: "Other" }];
   BaudRatePort = [{ DataId: 110, DataName: 110 }, { DataId: 300, DataName: 300 }, { DataId: 600, DataName: 600 }, { DataId: 1200, DataName: 1200 },
   { DataId: 2400, DataName: 2400 }, { DataId: 4800, DataName: 4800 }, { DataId: 9600, DataName: 9600 }, { DataId: 14400, DataName: 14400 }, { DataId: 19200, DataName: 19200 },
   { DataId: 38400, DataName: 38400 }, { DataId: 57600, DataName: 57600 }, { DataId: 115200, DataName: 115200 }, { DataId: 128000, DataName: 128000 }, { DataId: 256000, DataName: 256000 }];

@@ -48,7 +48,8 @@ export class SystemSettingComponent {
       LoginAccess: new FormControl(false),
       ExemptAccess: new FormControl(false),
       FleetAccess: new FormControl(false),
-      SubClassRequired: new FormControl(false),
+      TollFareonSubClass: new FormControl(false),
+      AutoFasTagProcess: new FormControl(false),
       FasTagPenalty: new FormControl(true),
       FasTagPenaltyMultiply: new FormControl('', [Validators.required]),
       CashReturn: new FormControl(true),
@@ -131,7 +132,8 @@ export class SystemSettingComponent {
         this.DataDetailsForm.controls['LoginAccess'].setValue(this.DetailData.LoginAccess);
         this.DataDetailsForm.controls['ExemptAccess'].setValue(this.DetailData.ExemptAccess);
         this.DataDetailsForm.controls['FleetAccess'].setValue(this.DetailData.FleetAccess);
-        this.DataDetailsForm.controls['SubClassRequired'].setValue(this.DetailData.SubClassRequired);
+        this.DataDetailsForm.controls['TollFareonSubClass'].setValue(this.DetailData.TollFareonSubClass);
+        this.DataDetailsForm.controls['AutoFasTagProcess'].setValue(this.DetailData.AutoFasTagProcess);
         this.DataDetailsForm.controls['OpeningBalance'].setValue(this.DetailData.OpeningBalance);
       },
       (error) => {
@@ -172,6 +174,7 @@ export class SystemSettingComponent {
   ClosePoup() { this.Dialogref.close(false); }
 
   SaveDetails() {
+    debugger;
     this.submitted = true;
     if (this.DataDetailsForm.invalid) {
       return;
@@ -187,7 +190,8 @@ export class SystemSettingComponent {
       LoginAccess: this.DataDetailsForm.value.LoginAccess,
       ExemptAccess: this.DataDetailsForm.value.ExemptAccess,
       FleetAccess: this.DataDetailsForm.value.FleetAccess,
-      SubClassRequired: this.DataDetailsForm.value.SubClassRequired,
+      TollFareonSubClass: this.DataDetailsForm.value.TollFareonSubClass,
+      AutoFasTagProcess: this.DataDetailsForm.value.AutoFasTagProcess,
       OpeningBalance: this.DataDetailsForm.value.OpeningBalance,
       DataStatus:1,
       CreatedBy: this.LogedUserId,
