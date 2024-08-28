@@ -59,7 +59,7 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
 
   }
   ngAfterViewInit() {
-    //this.toggleFullScreen()
+    this.toggleFullScreen()
   }
 
   updateRemainingTime(): void {

@@ -1,6 +1,5 @@
 import socket
 import select
-
 from utils.log_master import CustomLogger
 
 class MultiTCPServer:
@@ -30,12 +29,12 @@ class MultiTCPServer:
                     self.socket_list.append(sockfd)
                     self.logger.log(f"Client connected: {addr}")
                     self.clients[sockfd] = addr
-                else:  # Incoming data from a client
+                else: 
                     try:
                         data = sock.recv(4096)
                         if data:
                             self.logger.log(f"Received data from {self.clients[sock]}: {data.decode().strip()}")
-                        else:  # Connection closed
+                        else:  
                             self.logger.log(f"Client {self.clients[sock]} disconnected")
                             sock.close()
                             self.socket_list.remove(sock)

@@ -30,7 +30,7 @@ class MantraRfidReader(threading.Thread):
             self.classname="mantra_rfid"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
     
     def set_status(self):
         try:
@@ -39,7 +39,7 @@ class MantraRfidReader(threading.Thread):
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def setup_reader(self):
         try:
@@ -69,7 +69,7 @@ class MantraRfidReader(threading.Thread):
                 return False
         except Exception as e:
             self.reader=None
-            self.logger.logError(f"Exception {self.classname} setup_reader: {str(e)}")
+            self.logger.logError(f"Exception setup_reader: {str(e)}")
             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
 
     def decode_tag(self,tag):
@@ -96,7 +96,7 @@ class MantraRfidReader(threading.Thread):
                     self.tagDetails={"TagReadById":1,"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
                     self.presence_loop_status=False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} decode_tag: {str(e)}")
+            self.logger.logError(f"Exception decode_tag: {str(e)}")
         
         
     def run(self):
@@ -126,14 +126,11 @@ class MantraRfidReader(threading.Thread):
                             else:
                                 if self.presence_loop_status:
                                     self.decode_tag(tag)
-
-
-                            
                         self.check_status()
                     self.check_status()
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} rfid_run: {str(e)}")
+                self.logger.logError(f"Exception rfid_run: {str(e)}")
     
     def update_presence_loop_status(self, status):
         self.presence_loop_status=status
@@ -145,7 +142,7 @@ class MantraRfidReader(threading.Thread):
             self.tagDetails["Class"]= self.convert_hex_to_int(user_data[24:26])
             self.tagDetails["Plate"]=self.hex_to_string_vehicle_number(user_data[4:24])
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} decrypt_user_data: {str(e)}")
+            self.logger.logError(f"Exception decrypt_user_data: {str(e)}")
 
     def hex_to_string_vehicle_number(self,hex_string):
         result = ""
@@ -155,7 +152,7 @@ class MantraRfidReader(threading.Thread):
                 decimal = int(hex_pair, 16)
                 result += chr(decimal)
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} hex_to_string_vehicle_number: {str(e)}")
+                self.logger.logError(f"Exception hex_to_string_vehicle_number: {str(e)}")
                 result='XXXXXXXXXX'
         finally:
             return result
@@ -165,7 +162,7 @@ class MantraRfidReader(threading.Thread):
         try:
             result=str(int(hex_string, 16))
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} convert_hex_to_int: {str(e)}")
+                self.logger.logError(f"Exception convert_hex_to_int: {str(e)}")
                 result='00'
         finally:
             return result
@@ -183,7 +180,7 @@ class MantraRfidReader(threading.Thread):
                 elif self.is_active==1:
                     self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
+            self.logger.logError(f"Exception check_status: {str(e)}")
 
     def client_stop(self):
         try:
@@ -191,7 +188,7 @@ class MantraRfidReader(threading.Thread):
             if self.reader:
                 self.reader.stop()
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
+                self.logger.logError(f"Exception client_stop: {str(e)}")
 
     def stop(self):
         try:
@@ -199,4 +196,4 @@ class MantraRfidReader(threading.Thread):
             self.client_stop()
             self.is_active=False
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+                self.logger.logError(f"Exception stop: {str(e)}")

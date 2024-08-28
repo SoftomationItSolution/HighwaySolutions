@@ -1,0 +1,43 @@
+#remove all containers
+sudo docker rm -f $(sudo docker ps -aq)
+
+#remove container_id 
+sudo docker rm -f 15042d976281 (container_id) 
+
+
+# to check the all images 
+sudo docker images
+
+#pick the V1 Id ef9544f7707e
+
+#remove images by Id
+sudo docker rmi -f ef9544f7707e
+
+#remove all images
+sudo docker rmi -f $(sudo docker images -aq)
+
+#build docker image from Dockerfile
+sudo docker build -t nopysy:v1 .
+
+#save built docker image
+sudo docker save -o nopysy_v1.tar nopysy:v1
+
+#load docker image
+sudo docker load -i nopysy_v1.tar
+
+#bash is used for temp testing it will directliy move to the docker env
+#run docker container in Interactive terminal 
+sudo docker run -it --rm --net=host --privileged  -P   -e DISPLAY=$DISPLAY     -v /tmp/.X11-unix/:/tmp/.X11-unix     -v /tmp/.docker.xcookie:/tmp/.X11-unix/.Xauthority -v /dev/:/dev/   -e XAUTHORITY=/tmp/.X11-unix/.Xauthority  -v /home/:/home/ -v /etc/localtime:/etc/localtime:ro nopysy:v1 bash
+
+
+
+#run docker container in detached mode
+sudo docker run -d --restart always --net=host --privileged -P -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /tmp/.docker.xcookie:/tmp/.X11-unix/.Xauthority -v /dev/:/dev/ -e XAUTHORITY=/tmp/.X11-unix/.Xauthority -v /home/:/home/ -v /etc/localtime:/etc/localtime:ro nopysy:v1
+
+#get docker container_id
+sudo docker ps 
+fdc6ddfa9d6a
+
+sudo docker stop fdc6ddfa9d6a
+
+sh /opt/soft/install_app.sh

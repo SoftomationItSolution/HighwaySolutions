@@ -19,7 +19,7 @@ class InnovatingUFDClient():
             self.classname="InnovatingUFDClient"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def set_status(self):
         try:
@@ -28,7 +28,7 @@ class InnovatingUFDClient():
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def set_serial_port(self):
         try:
@@ -41,7 +41,7 @@ class InnovatingUFDClient():
                 else:
                     self.comport=self.ufd_detail["IpAddress"]
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_serial_port: {str(e)}")
+            self.logger.logError(f"Exception set_serial_port: {str(e)}")
     
     
     def send_data(self,input):
@@ -61,7 +61,7 @@ class InnovatingUFDClient():
                 return False
                   
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
+            self.logger.logError(f"Exception send_data: {str(e)}")
             return False
     
     def on_tcp(self, bytes_data):
@@ -74,7 +74,7 @@ class InnovatingUFDClient():
                 time.sleep(self.timeout)
                 self.tcp_close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_tcp: {str(e)}")
+            self.logger.logError(f"Exception on_tcp: {str(e)}")
             
 
     def retry(self,status):
@@ -86,7 +86,7 @@ class InnovatingUFDClient():
             if self.client_socket:
                 self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_tcp (closing): {str(e)}")
+            self.logger.logError(f"Exception on_tcp (closing): {str(e)}")
     
 
     def on_serial(self,bytes_data):
@@ -100,7 +100,7 @@ class InnovatingUFDClient():
             time.sleep(0.300)
             self.serial_close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_serial: {str(e)}")
+            self.logger.logError(f"Exception on_serial: {str(e)}")
             
     
     def serial_close(self):
@@ -109,7 +109,7 @@ class InnovatingUFDClient():
                 if self.client_socket.is_open:
                     self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_serial (closing): {str(e)}")
+            self.logger.logError(f"Exception on_serial (closing): {str(e)}")
    
 
     def clear_cmd(self):

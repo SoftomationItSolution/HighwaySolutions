@@ -18,7 +18,7 @@ class PingThread(threading.Thread):
             self.classname="PingThread"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
     
 
     def ping_equipment(self, ip_address):
@@ -26,7 +26,7 @@ class PingThread(threading.Thread):
             result = ping(ip_address, timeout=1)
             return result is not None
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ping_equipment: {str(e)}")
+            self.logger.logError(f"Exception ping_equipment: {str(e)}")
             return False
         
     def ping_equipment_scapy(self, ip_address):
@@ -38,7 +38,7 @@ class PingThread(threading.Thread):
             else:
                 return False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} ping_equipment_scapy: {str(e)}")
+            self.logger.logError(f"Exception ping_equipment_scapy: {str(e)}")
 
     def run(self):
         try:
@@ -63,7 +63,7 @@ class PingThread(threading.Thread):
                     last_call_time = current_time
                 time.sleep(0.1)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} run: {str(e)}")
+            self.logger.logError(f"Exception run: {str(e)}")
 
     def stop(self):
         self.is_running = False

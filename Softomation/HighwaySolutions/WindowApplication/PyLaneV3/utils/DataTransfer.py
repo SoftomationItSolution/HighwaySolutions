@@ -30,26 +30,26 @@ class DataSynchronization(threading.Thread):
             self.api_base_url=self.plaza_config["plaza_api_p"]
             self.event_path=self.plaza_config["event_path"]
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
+            self.logger.logError(f"Exception get_plaza_url: {str(e)}")
         
     def set_logger(self,default_directory,log_file_name):
         try:
             self.classname="DataSynchronization"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def data_impoter(self,dbConnectionObj):
         try:
             self.data_importer = DataImporter(self.default_directory, dbConnectionObj,self.logger,self.default_plaza_Id,self.default_lane_ip)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} data_impoter: {str(e)}")
+            self.logger.logError(f"Exception data_impoter: {str(e)}")
 
     def perform_data_import(self):
         try:
             self.data_importer.project_config_import(self.project_config_path)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} perform_data_import: {str(e)}")
+            self.logger.logError(f"Exception perform_data_import: {str(e)}")
 
     def fetch_and_store_master_data(self):
         try:
@@ -82,7 +82,7 @@ class DataSynchronization(threading.Thread):
             threading.Thread(target=self.data_importer.toll_fare_Import()).start()
             threading.Thread(target=self.data_importer.toll_fare_Future_Import()).start()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} fetch_and_store_master_data: {str(e)}")
+            self.logger.logError(f"Exception fetch_and_store_master_data: {str(e)}")
     
     
 
@@ -98,7 +98,7 @@ class DataSynchronization(threading.Thread):
                         self.fetch_and_store_master_data()
                         last_call_time = current_time
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} run: {str(e)}")
+                self.logger.logError(f"Exception run: {str(e)}")
             finally:
                 time.sleep(self.timeout)
 
@@ -124,13 +124,13 @@ class DataSynchronization(threading.Thread):
                         if res:
                             LaneManager.lane_data_marked(self.dbConnectionObj,s)
                     except Exception as e:
-                        self.logger.logError(f"Exception {self.classname} lane_data_uploading child: {str(e)}")
+                        self.logger.logError(f"Exception lane_data_uploading child: {str(e)}")
                     finally:
                         if self.data_upload_running==False:
                             break
                         time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} lane_data_uploading: {str(e)}")
+                self.logger.logError(f"Exception lane_data_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
@@ -163,13 +163,13 @@ class DataSynchronization(threading.Thread):
                                 Utilities.upload_file_ssh(file_path_dir, uploadPath, self.plaza_config["FtpAddress"], self.plaza_config["FtpUser"], self.plaza_config["FtpPassword"])
                         LaneManager.lane_media_marked(self.dbConnectionObj,s)
                     except Exception as e:
-                        self.logger.logError(f"Exception {self.classname} lane_meida_uploading child: {str(e)}")
+                        self.logger.logError(f"Exception lane_meida_uploading child: {str(e)}")
                     finally:
                         if self.data_upload_running==False:
                             break
                         time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} lane_meida_uploading: {str(e)}")
+                self.logger.logError(f"Exception lane_meida_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
@@ -201,19 +201,33 @@ class DataSynchronization(threading.Thread):
                                 media_status=True
                         if data_status==False:
                             data_status=self.upload_data(api_url,s)
+                        self.update_lane_avc(s)
                         LaneManager.avc_data_marked(self.dbConnectionObj,s,data_status,media_status)
                     except Exception as e:
-                        self.logger.logError(f"Exception {self.classname} avc_data_uploading child: {str(e)}")
+                        self.logger.logError(f"Exception avc_data_uploading child: {str(e)}")
                     finally:
+                        
                         if self.data_upload_running==False:
                             break
                         time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} avc_data_uploading: {str(e)}")
+                self.logger.logError(f"Exception avc_data_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
                 time.sleep(self.timeout)
+
+    def update_lane_avc(self,data):
+        try:
+            if data["LaneTransactionId"]!='':
+                lane_data=LaneManager.lane_update_avc(self.dbConnectionObj,data)
+                if lane_data and len(lane_data)>0:
+                    endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
+                    api_url = f"{self.api_base_url}{endpoint}"
+                    res=self.upload_data(api_url,lane_data[0])
+        except Exception as e:
+                self.logger.logError(f"Exception update_lane_avc: {str(e)}")
+
     
     def wim_data_uploading(self):
         endpoint = 'Softomation/FTH-TMS-RSD/WimTransactionInsert'
@@ -229,13 +243,13 @@ class DataSynchronization(threading.Thread):
                         if res:
                             LaneManager.wim_data_marked(self.dbConnectionObj,s)
                     except Exception as e:
-                        self.logger.logError(f"Exception {self.classname} wim_data_uploading child: {str(e)}")
+                        self.logger.logError(f"Exception wim_data_uploading child: {str(e)}")
                     finally:
                         if self.data_upload_running==False:
                             break
                         time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} wim_data_uploading: {str(e)}")
+                self.logger.logError(f"Exception wim_data_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
@@ -255,13 +269,13 @@ class DataSynchronization(threading.Thread):
                         if res:
                             LaneManager.wim_details_marked(self.dbConnectionObj,s)
                     except Exception as e:
-                        self.logger.logError(f"Exception {self.classname} wim_details_uploading child: {str(e)}")
+                        self.logger.logError(f"Exception wim_details_uploading child: {str(e)}")
                     finally:
                         if self.data_upload_running==False:
                             break
                         time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} wim_details_uploading: {str(e)}")
+                self.logger.logError(f"Exception wim_details_uploading: {str(e)}")
             finally:
                 if self.data_upload_running==False:
                     break
@@ -276,7 +290,7 @@ class DataSynchronization(threading.Thread):
             else:
                 self.logger.logInfo(f"{self.classname} response {response.status_code}  upload_data: {endpoint} {response.text}")
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} upload_data: {str(e)}")
+                self.logger.logError(f"Exception upload_data: {str(e)}")
         finally:
             return result
 
@@ -285,4 +299,4 @@ class DataSynchronization(threading.Thread):
             self.is_running = False
             self.data_upload_running = False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")

@@ -98,6 +98,13 @@ class Utilities:
         return dt.strftime("%d-%b-%Y %H:%M:%S.%f")
     
     @staticmethod
+    def difference_in_seconds(first_datetime_str,second_datetime):
+        datetime_format = "%d-%b-%Y %H:%M:%S.%f"
+        first_datetime = datetime.datetime.strptime(first_datetime_str, datetime_format)
+        difference = (second_datetime - first_datetime).total_seconds()
+        return difference
+    
+    @staticmethod
     def parse_date_time_from_json(date_str):
         return datetime.datetime.strptime(date_str, "%d-%b-%Y %H:%M:%S.%f")
 

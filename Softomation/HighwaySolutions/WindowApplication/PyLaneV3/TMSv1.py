@@ -69,7 +69,8 @@ class TMSAppv1:
             self.check_duplicate_instance()
             db_json_data = Utilities.read_json_file(self.db_path)
             self.system_ip = Utilities.get_local_ips()
-            self.system_ip='192.168.10.12'
+            # if self.compare_ips(self.system_ip, '192.168.10.12')==False:
+            #     self.system_ip='192.168.10.12'
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
             self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip)
             self.bg_handler.daemon = True
@@ -96,6 +97,14 @@ class TMSAppv1:
             self.logger.logError(f"Exception {self.classname} cleanup: {str(e)}")
         finally:
             sys.exit(0)
+
+    def compare_ips(self,ip1, ip2):
+        # Split the IP addresses into their components
+        octets1 = ip1.split('.')
+        octets2 = ip2.split('.')
+        
+        # Compare the first three octets
+        return octets1[:3] == octets2[:3]
 
 if __name__ == '__main__':
     app = TMSAppv1()

@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   ErrorData: any;
   hide = true;
-  ConfigData:any;
+  ConfigData: any;
   constructor(public router: Router, public api: apiIntegrationService, public dm: DataModel,
     private spinner: NgxSpinnerService) { }
 
@@ -45,23 +45,23 @@ export class LoginComponent implements OnInit {
     this.api.appConfigGet().subscribe(
       data => {
         let curretURL = (window.location.href).split(':')
-        let mediaPath="";
-        let apiPath="";
-        let currentIP = curretURL[1].replace("//", "").replace("/","");
-        this.ConfigData=data;
+        let mediaPath = "";
+        let apiPath = "";
+        let currentIP = curretURL[1].replace("//", "").replace("/", "");
+        this.ConfigData = data;
         if (currentIP != "localhost") {
           if (this.ConfigData.BaseURL == "localhost")
             this.ConfigData.BaseURL = currentIP;
         }
-        if(this.ConfigData.ApiPort==0){
+        if (this.ConfigData.ApiPort == 0) {
           apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/" + this.ConfigData.ApiAdminPath + "/";
           mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + "/EventMedia/"
         }
-        else{
+        else {
           apiPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/" + this.ConfigData.ApiAdminPath + "/"
           mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
         }
-       
+
         this.dm.setMediaAPI(mediaPath);
         this.dm.setDataAPI(apiPath)
         this.GetProjectDetails();
@@ -79,7 +79,7 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  GetProjectDetails(){
+  GetProjectDetails() {
     this.api.ProjectConfigGet().subscribe(
       data => {
         this.spinner.hide();
@@ -127,9 +127,14 @@ export class LoginComponent implements OnInit {
           this.dm.setUserData(JSON.stringify(data.ResponseData.userData));
           this.dm.setSSData(JSON.stringify(data.ResponseData.shiftDetails));
           this.dm.setloginTime(data.ResponseData.loginTime);
-          this.router.navigate(['/dashboard']);
+          console.log(data.ResponseData.LaneTypeId)
+          if (data.ResponseData.LaneTypeId == 3) {
+            this.router.navigate(['/etcdashboard']);
+          }
+          else { this.router.navigate(['/dashboard']); }
+
         } else {
-          this.ErrorData = data.Message;
+          this.ErrorData = [{ AlertMessage: data.message }];;
           this.dm.openSnackBar(this.ErrorData, false);
         }
       },

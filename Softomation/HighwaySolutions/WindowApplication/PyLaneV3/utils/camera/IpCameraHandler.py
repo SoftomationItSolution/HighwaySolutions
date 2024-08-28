@@ -39,17 +39,16 @@ class IpCameraHandler(threading.Thread):
 
     def set_logger(self,default_directory,log_file_name):
         try:
-            self.classname=f"CameraHandler-{self.camera_name}"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} set_logger: {str(e)}")
 
     def set_cam_file_path_dir(self,default_directory):
         try:
             self.file_path_dir=os.path.join(default_directory, 'Events', 'camera',self.camera_name)
             Utilities.make_dir(self.file_path_dir)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_cam_file_path_dir: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} set_cam_file_path_dir: {str(e)}")
 
     def live_view_bradcast(self):
         try:
@@ -57,7 +56,7 @@ class IpCameraHandler(threading.Thread):
             frame = buffer.tobytes()
             yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} publish_data: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} publish_data: {str(e)}")
 
     def generate_frames(self):
         #cap = cv2.VideoCapture(self.rtsp_url)
@@ -74,7 +73,7 @@ class IpCameraHandler(threading.Thread):
                 yield (b'--frame\r\n'
                     b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
             except Exception as e:
-                #self.logger.logError(f"Exception {self.classname} generate_frames: {str(e)}")
+                #self.logger.logError(f"Exception {self.camera_name} generate_frames: {str(e)}")
                 pass
     
     def publish_data(self,data):
@@ -82,7 +81,7 @@ class IpCameraHandler(threading.Thread):
             if self.topic:
                 pub.sendMessage(self.topic, liveview=data)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} publish_data: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} publish_data: {str(e)}")
 
     def init_cam(self):
         try:
@@ -113,15 +112,15 @@ class IpCameraHandler(threading.Thread):
                                 self.publish_data(frame)
                                 #self.live_view_bradcast()
                             if not self.stream_online:
-                                self.logger.logInfo(f"{self.classname} Camera is offline or not capturing frames")
+                                self.logger.logInfo(f"{self.camera_name} Camera is offline or not capturing frames")
                                 break
                         except Exception as e:
-                            self.logger.logError(f"Exception {self.classname} run: {str(e)}")
+                            self.logger.logError(f"Exception {self.camera_name} run: {str(e)}")
                             self.check_status()
                     self.check_status()
                 time.sleep(self.retry_delay)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} run_main: {str(e)}")
+                self.logger.logError(f"Exception {self.camera_name} run_main: {str(e)}")
 
     def check_status(self):
         try:
@@ -132,13 +131,13 @@ class IpCameraHandler(threading.Thread):
                 elif self.is_active==1:
                     self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} check_status: {str(e)}")
 
     def get_image_path(self,img_file_name):
         try:
             return os.path.join(self.file_path_dir, img_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} update_image_path: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} update_image_path: {str(e)}")
             return None
 
     def start_recording(self, output_file,snapshot=False):
@@ -160,10 +159,10 @@ class IpCameraHandler(threading.Thread):
                 self.recording_thread.start()
                 return True
             else:
-                self.logger.logInfo(f"{self.classname} Camera is offline or not capturing frames in start_recording")
+                self.logger.logInfo(f"{self.camera_name} Camera is offline or not capturing frames in start_recording")
                 return False
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} start_recording: {str(e)}")
+                self.logger.logError(f"Exception {self.camera_name} start_recording: {str(e)}")
                 return False
 
     def record_thread(self,snapshot):
@@ -185,10 +184,10 @@ class IpCameraHandler(threading.Thread):
                 if frame is not None:
                     self.writer.write(frame)
                 else:
-                    self.logger.logInfo(f"{self.classname} Camera is offline or not capturing frames in record_thread")
+                    self.logger.logInfo(f"{self.camera_name} Camera is offline or not capturing frames in record_thread")
                     break
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} record_thread: {str(e)}")
+                self.logger.logError(f"Exception {self.camera_name} record_thread: {str(e)}")
         self.writer.close()
 
     def stop_recording(self,snapshot=False):
@@ -207,7 +206,7 @@ class IpCameraHandler(threading.Thread):
             else:
                 return False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop_recording: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} stop_recording: {str(e)}")
             return False
         finally:
             self.record_file_path=''
@@ -225,10 +224,10 @@ class IpCameraHandler(threading.Thread):
                 cv2.imwrite(snapshot_file_path, self.last_frame)
                 return True
             else:
-                self.logger.logInfo(f"{self.classname} Camera is offline or not capturing frames in take_screenshot")
+                self.logger.logInfo(f"{self.camera_name} Camera is offline or not capturing frames in take_screenshot")
                 return False
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} take_screenshot: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} take_screenshot: {str(e)}")
             return False
 
     def stop(self):
@@ -241,4 +240,4 @@ class IpCameraHandler(threading.Thread):
                 self.stream.stop()
             self.stop_recording()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception {self.camera_name} stop: {str(e)}")

@@ -69,14 +69,17 @@ class FlaskApiApp(threading.Thread):
             else:
                 if len(res)>0:
                     if CryptoUtils.encrypt_aes_256_cbc(input["LoginPassword"]) == res[0]["LoginPassword"]:
-                        userDetails = json.dumps(res[0])
-                        self.bg_handler.get_current_shift()
-                        threading.Thread(target=self.bg_handler.app_log_status, args=(True,)).start()
-                        self.bg_handler.update_user(userDetails)
-                        current_time = datetime.now()
-                        formatted_time = current_time.strftime("%H:%M:%S")
-                        result={"userData":res[0],"shiftDetails":self.bg_handler.current_shift,"loginTime":formatted_time}
-                        return jsonify({'message': 'success','ResponseData':result}), 200
+                        if self.bg_handler.lane_detail is not None:
+                            userDetails = json.dumps(res[0])
+                            self.bg_handler.get_current_shift()
+                            threading.Thread(target=self.bg_handler.app_log_status, args=(True,)).start()
+                            self.bg_handler.update_user(userDetails)
+                            current_time = datetime.now()
+                            formatted_time = current_time.strftime("%H:%M:%S")
+                            result={"userData":res[0],"shiftDetails":self.bg_handler.current_shift,"loginTime":formatted_time,"LaneTypeId":self.bg_handler.LaneTypeId}
+                            return jsonify({'message': 'success','ResponseData':result}), 200
+                        else:
+                            return jsonify({'message': 'Lane details not found try after some time','ResponseData':None}), 200
                     else:
                         return jsonify({'message': 'Invalid password','ResponseData':None}), 200
                 else:
@@ -101,7 +104,8 @@ class FlaskApiApp(threading.Thread):
             final_data={
                 "master_data":self.bg_handler.lane_master_data,
                 "hardware_list":self.bg_handler.hardware_list,
-                "equipment_detail":self.bg_handler.equipment_detail
+                "equipment_detail":self.bg_handler.equipment_detail,
+                "lane_loging_status":self.bg_handler.system_loging_status
             }  
             return jsonify({'message': 'success','ResponseData':final_data}), 200
         except Exception as e:
@@ -175,7 +179,7 @@ class FlaskApiApp(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception lpicLiveView: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
-    
+
     def app_login(self):
         try:
             self.logger.logInfo("app_login route hit")
@@ -201,6 +205,11 @@ class FlaskApiApp(threading.Thread):
             self.logger.logError(f"Exception app_logout: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
 
+    def index(self):
+        config_filePath = os.path.join(self.default_directory, "MasterConfig", "dbConfig.json")
+        data = Utilities.read_json_file(config_filePath)
+        return render_template('index.html', data=data)
+    
     def restart(self):
         try:
             result = self.restart_system()
@@ -223,10 +232,7 @@ class FlaskApiApp(threading.Thread):
         self.bg_handler.app_log_status(False)
         return "Logout functionality"
     
-    def index(self):
-        config_filePath = os.path.join(self.default_directory, "MasterConfig", "dbConfig.json")
-        data = Utilities.read_json_file(config_filePath)
-        return render_template('index.html', data=data)
+   
 
     def restart_system(self):
         if platform.system() == 'Windows':

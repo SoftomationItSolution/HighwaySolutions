@@ -13,10 +13,10 @@ import { FleetCounterComponent } from '../popups/FleetCounter/fleet-counter.comp
 
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html'
+  selector: 'app-etc-dashboard',
+  templateUrl: './etc-dashboard.component.html'
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class EtcDashboardComponent implements OnInit, OnDestroy {
   FormDetails!: FormGroup;
   laneRecentData: any[] = [];
   wimDataQueue: any[] = [];
@@ -435,18 +435,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           messages.forEach(result => {
             const toppic = result.topic
             const data = result.data
-            // if (toppic == "equipment_status") {
-            //   this.updateEquipmentStatus(data.EquipmentTypeId, data.OnLineStatus, toppic)
-            // }
-            
-            if (toppic == "hardware_on_off_status") {
+           if (toppic == "hardware_on_off_status") {
               this.updateEquipmentStatus(data.EquipmentTypeId, data.PositionStatus, toppic)
             }
             else if (toppic == "wim_processed") {
 
             }
             else if (toppic == "rfid_processed") {
-              console.log(data)
               this.process_rfid_data(data)
             }
             else if (toppic == "avc_processed") {

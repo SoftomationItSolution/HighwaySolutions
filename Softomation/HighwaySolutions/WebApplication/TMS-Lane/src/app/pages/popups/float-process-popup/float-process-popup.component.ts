@@ -57,77 +57,77 @@ export class FloatProcessPopupComponent implements OnInit {
       AssignedTo: new FormControl('', [Validators.required]),
 
     });
-    this.GetLaneList();
+    //this.GetLaneList();
 
   }
 
-  GetLaneList() {
-    this.spinner.show();
-    this.dbService.LaneGetByPlazaId(this.DefaultPlazaId).subscribe(
-      data => {
-        this.LaneList = data.ResponseData;
-        this.GetTCList();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
+  // GetLaneList() {
+  //   this.spinner.show();
+  //   this.dbService.LaneGetByPlazaId(this.DefaultPlazaId).subscribe(
+  //     data => {
+  //       this.LaneList = data.ResponseData;
+  //       this.GetTCList();
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       try {
+  //         this.ErrorData = error.error.Message;
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       } catch (error) {
+  //         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       }
+  //     }
+  //   );
+  // }
 
-  GetTCList() {
-    this.dbService.UserConfigurationGetByUserType(4).subscribe(
-      data => {
-        this.TCList = data.ResponseData;
-        this.GetShiftTimining();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
+  // GetTCList() {
+  //   this.dbService.UserConfigurationGetByUserType(4).subscribe(
+  //     data => {
+  //       this.TCList = data.ResponseData;
+  //       this.GetShiftTimining();
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       try {
+  //         this.ErrorData = error.error.Message;
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       } catch (error) {
+  //         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       }
+  //     }
+  //   );
+  // }
 
-  GetShiftTimining() {
-    this.dbService.GetShiftTimining().subscribe(
-      data => {
-        this.ShiftTimmingList = data.ResponseData;
-        if (this.FloatProcessId > 0) {
-          if (this.FloatTransactionTypeId == 3)
-            this.PageTitle = "Update Float Process";
-          else if (this.FloatTransactionTypeId == 4)
-            this.PageTitle = "Update mid-shift Float Process";
-          else if (this.FloatTransactionTypeId == 5)
-            this.PageTitle = "Update end-shift Float Process";
-          this.DetailsbyId();
-        }
-        else
-          this.DenominationGetActive();
-      },
-      (error) => {
-        this.spinner.hide();
-        try {
-          this.ErrorData = error.error.Message;
-          this.dm.openSnackBar(this.ErrorData, false);
-        } catch (error) {
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      }
-    );
-  }
+  // GetShiftTimining() {
+  //   this.dbService.GetShiftTimining().subscribe(
+  //     data => {
+  //       this.ShiftTimmingList = data.ResponseData;
+  //       if (this.FloatProcessId > 0) {
+  //         if (this.FloatTransactionTypeId == 3)
+  //           this.PageTitle = "Update Float Process";
+  //         else if (this.FloatTransactionTypeId == 4)
+  //           this.PageTitle = "Update mid-shift Float Process";
+  //         else if (this.FloatTransactionTypeId == 5)
+  //           this.PageTitle = "Update end-shift Float Process";
+  //         this.DetailsbyId();
+  //       }
+  //       else
+  //         this.DenominationGetActive();
+  //     },
+  //     (error) => {
+  //       this.spinner.hide();
+  //       try {
+  //         this.ErrorData = error.error.Message;
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       } catch (error) {
+  //         this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+  //         this.dm.openSnackBar(this.ErrorData, false);
+  //       }
+  //     }
+  //   );
+  // }
 
   DenominationGetActive() {
     this.dbService.DenominationGetActive().subscribe(

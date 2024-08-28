@@ -1,4 +1,5 @@
 import asyncio
+import json
 import threading
 import websockets
 from utils.LaneWebSocketClient import WebSocketClient
@@ -13,7 +14,7 @@ class LaneWebSocketServer:
         self.server = None
         self.loop = asyncio.new_event_loop()
         self.server_thread = None
-        self.client_thread = None
+        self.client_task = None  # Changed from thread to asyncio task
         self.uri = f"ws://127.0.0.1:{self.port}"
         self.client = None
 
@@ -22,7 +23,7 @@ class LaneWebSocketServer:
             self.classname = "WebSocket"
             self.logger = CustomLogger(default_directory, log_file_name)
         except Exception as e:
-            print(f"Exception {self.classname} set_logger: {str(e)}")
+            print(f"Exception set_logger: {str(e)}")
 
     async def register(self, websocket):
         self.clients.add(websocket)
@@ -30,7 +31,7 @@ class LaneWebSocketServer:
         try:
             await websocket.wait_closed()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} register: {str(e)}")
+            self.logger.logError(f"Exception register: {str(e)}")
         finally:
             self.clients.remove(websocket)
             self.logger.logInfo(f"Client disconnected: {websocket.remote_address}")
@@ -43,7 +44,7 @@ class LaneWebSocketServer:
         try:
             await client.send(message)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} _safe_send: {str(e)}")
+            self.logger.logError(f"Exception _safe_send: {str(e)}")
 
     async def handle_client(self, websocket, path):
         try:
@@ -52,20 +53,22 @@ class LaneWebSocketServer:
                 self.logger.logInfo(f"Received message: {message}")
                 await self.broadcast(message)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} handle_client: {str(e)}")
+            self.logger.logError(f"Exception handle_client: {str(e)}")
 
     async def start_server(self):
         try:
             self.server = await websockets.serve(self.handle_client, self.host, self.port)
             self.logger.logInfo(f"WebSocket server started on ws://{self.host}:{self.port}")
+
             self.client = WebSocketClient(self.uri)
             await self.client.connect()
-            self.client_thread = threading.Thread(target=self.run_client)
-            self.client_thread.daemon = True
-            self.client_thread.start()
+
+            # Run the client as a coroutine instead of a separate thread
+            self.client_task = asyncio.create_task(self.client_connect())
+            
             await self.server.wait_closed()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} start_server: {str(e)}")
+            self.logger.logError(f"Exception start_server: {str(e)}")
 
     def start(self):
         try:
@@ -73,11 +76,14 @@ class LaneWebSocketServer:
             self.server_thread.daemon = True
             self.server_thread.start()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} start: {str(e)}")
+            self.logger.logError(f"Exception start: {str(e)}")
 
     def run(self):
-        asyncio.set_event_loop(self.loop)
-        self.loop.run_until_complete(self.start_server())
+        try:
+            asyncio.set_event_loop(self.loop)
+            self.loop.run_until_complete(self.start_server())
+        except Exception as e:
+            self.logger.logError(f"Exception run: {str(e)}")
 
     def stop(self):
         try:
@@ -92,26 +98,24 @@ class LaneWebSocketServer:
             if self.client:
                 asyncio.run(self.client.disconnect())
 
+            if self.client_task:
+                self.client_task.cancel()
+            
             self.loop.stop()
-            if self.client_thread:
-                self.client_thread.join()
             self.server_thread.join()
             self.logger.logInfo("WebSocket server thread terminated.")
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")
 
     async def client_connect(self):
-        # Define client connection logic here
-        async with websockets.connect(self.uri) as websocket:
-            print(f"Connected to {self.uri}")
-
-            # Send a message to the server
-            await websocket.send("Hello from the client!")
-
-            # Receive a response from the server
-            async for message in websocket:
-                print(f"Received message: {message}")
-
-    def run_client(self):
-        asyncio.run(self.client_connect())
-
+        try:
+            async with websockets.connect(self.uri) as websocket:
+                self.logger.logInfo(f"Client connected to {self.uri}")
+                data={"topic": "ws_conncted","data":"Hello from the client!"}
+                await websocket.send(json.dumps(data))
+                async for message in websocket:
+                    print(f"Received message: {message}")
+        except asyncio.CancelledError:
+            self.logger.logInfo("Client connection task cancelled.")
+        except Exception as e:
+            self.logger.logError(f"Exception client_connect: {str(e)}")

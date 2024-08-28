@@ -16,6 +16,7 @@
     "jsonwebtoken": "^9.0.2",
     "mkdirp": "^3.0.1",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.45",
     "mqtt": "^5.5.4",
     "mssql": "^10.0.1",
     "node-media-server": "^2.3.8",

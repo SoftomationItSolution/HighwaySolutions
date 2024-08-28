@@ -37,7 +37,7 @@ class InnovatingDIOClient(threading.Thread):
             self.classname="InnovatingDIOClient"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def set_status(self):
         try:
@@ -46,14 +46,14 @@ class InnovatingDIOClient(threading.Thread):
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def set_exit_loop(self):
         try:
             self.exit_loop_index=Utilities.is_integer(self.dio_detail["UrlAddress"])
         except Exception as e:
             self.exit_loop_index=9
-            self.logger.logError(f"Exception {self.classname} set_exit_loop: {str(e)}")
+            self.logger.logError(f"Exception set_exit_loop: {str(e)}")
 
     def set_serial_port(self):
         try:
@@ -66,13 +66,13 @@ class InnovatingDIOClient(threading.Thread):
                 else:
                     self.comport=self.dio_detail["IpAddress"]
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_serial_port: {str(e)}")
+            self.logger.logError(f"Exception set_serial_port: {str(e)}")
 
     def app_log_status(self, transactionInfo):
         try:
             self.system_loging_status=transactionInfo
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} app_log_status: {str(e)}")
+            self.logger.logError(f"Exception app_log_status: {str(e)}")
 
     def handel_presence_loop(self,loop_status):
         try:
@@ -81,7 +81,7 @@ class InnovatingDIOClient(threading.Thread):
                 out_data["PositionStatus"] = loop_status
                 self.handler.update_dio_events(self.out_labels)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} handel_presence_loop: {str(e)}")
+            self.logger.logError(f"Exception handel_presence_loop: {str(e)}")
         finally:
             if loop_status!=self.presence_loop_last:
                 self.presence_loop_last=loop_status
@@ -102,7 +102,7 @@ class InnovatingDIOClient(threading.Thread):
             if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==False and self.ohls_status==True and self.system_loging_status==True:
                 self.violation_trigger()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} handel_exit_loop: {str(e)}")
+            self.logger.logError(f"Exception handel_exit_loop: {str(e)}")
         finally:
             if loop_status!=self.barrier_loop_last:
                 self.barrier_loop_last=loop_status
@@ -123,7 +123,7 @@ class InnovatingDIOClient(threading.Thread):
                 elif 'INPUT4HIGH' in cmd_upper:
                     self.handel_exit_loop(True)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
+            self.logger.logError(f"Exception process_data: {str(e)}")
             return False
         
     def send_data(self,input):
@@ -136,7 +136,7 @@ class InnovatingDIOClient(threading.Thread):
                 self.client_socket.write(bytes_data)
             result= True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} send_data: {str(e)}")
+            self.logger.logError(f"Exception send_data: {str(e)}")
         finally:
             self.handler.update_dio_events(self.out_labels)
             time.sleep(0.100)
@@ -156,13 +156,13 @@ class InnovatingDIOClient(threading.Thread):
                             break
                         time.sleep(self.timeout)
                 except Exception as e:
-                    self.logger.logError(f"Exception {self.classname} violation_trigger_run: {str(e)}")
+                    self.logger.logError(f"Exception violation_trigger_run: {str(e)}")
             stop_event = threading.Event()
             violation_thread = threading.Thread(target=violation_trigger_run())
             violation_thread.start()
             violation_thread.join()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} violation_trigger: {str(e)}")
+            self.logger.logError(f"Exception violation_trigger: {str(e)}")
         
     def run(self):
         while not self.is_stopped:
@@ -175,10 +175,10 @@ class InnovatingDIOClient(threading.Thread):
                 elif self.dio_detail["ProtocolTypeId"]==3:
                     self.serial_conn()
             except ConnectionRefusedError:
-                self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
+                self.logger.logError(f"Connection refused. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} run: {str(e)}")
+                self.logger.logError(f"Exception run: {str(e)}")
             finally:
                 self.client_stop()
 
@@ -209,7 +209,7 @@ class InnovatingDIOClient(threading.Thread):
             if self.client_socket:
                 self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_tcp (closing): {str(e)}")
+            self.logger.logError(f"Exception on_tcp (closing): {str(e)}")
 
     def serial_conn(self):
         try:
@@ -237,7 +237,7 @@ class InnovatingDIOClient(threading.Thread):
                 if self.client_socket.is_open:
                     self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} on_serial (closing): {str(e)}")
+            self.logger.logError(f"Exception on_serial (closing): {str(e)}")
     
     def client_stop(self):
         try:
@@ -247,7 +247,7 @@ class InnovatingDIOClient(threading.Thread):
             elif self.dio_detail["ProtocolTypeId"]==3:
                 self.serial_close()
         except Exception as e:
-                self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
+                self.logger.logError(f"Exception client_stop: {str(e)}")
 
     def stop(self):
         try:
@@ -256,7 +256,7 @@ class InnovatingDIOClient(threading.Thread):
             self.is_stopped = True
             self.client_stop()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")
 
     def reset_command(self):
         self.traffic_light_off()
@@ -277,7 +277,7 @@ class InnovatingDIOClient(threading.Thread):
                 elif self.is_active==1:
                     self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
+            self.logger.logError(f"Exception check_status: {str(e)}")
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:
@@ -293,7 +293,7 @@ class InnovatingDIOClient(threading.Thread):
             else:
                 self.auto_count += 1
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+            self.logger.logError(f"Exception lane_trans_start: {str(e)}")
 
     def handel_ohls_light(self,status):
         try:
@@ -303,14 +303,14 @@ class InnovatingDIOClient(threading.Thread):
                 else:
                     self.ohls_light_off()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_start: {str(e)}")
+            self.logger.logError(f"Exception lane_trans_start: {str(e)}")
 
     def lane_trans_end(self):
         try:
             self.handel_traffic_light(False,None)
             self.handler.lane_trans_end()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} lane_trans_end: {str(e)}")
+            self.logger.logError(f"Exception lane_trans_end: {str(e)}")
 
     def ohls_light_on(self):
         self.send_data("R2,N,60")

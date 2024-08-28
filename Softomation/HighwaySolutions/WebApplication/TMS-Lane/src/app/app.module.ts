@@ -54,6 +54,7 @@ import { ExemptSelectionComponent } from './pages/popups/ExemptSelection/exempt-
 import { PaymentSelectionComponent } from './pages/popups/PaymentSelection/payment-selection.component';
 import { FleetCounterComponent } from './pages/popups/FleetCounter/fleet-counter.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { EtcDashboardComponent } from './pages/etc-dashboard/etc-dashboard.component';
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
   port: 9001,
@@ -92,6 +93,7 @@ export const MY_CUSTOM_FORMATS = {
     MediaViewComponent,
     LoginComponent,
     DashboardComponent,
+    EtcDashboardComponent,
     FloatProcessPopupComponent,
     LiveViewPopUpComponent,
     SubClassSelectionComponent,
@@ -138,11 +140,16 @@ export const MY_CUSTOM_FORMATS = {
     NgxSpinnerModule,
     ImageCropperModule,
     MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    // ServiceWorkerModule.register('ngsw-worker.js', {
+    //   enabled: !isDevMode(),
+    //   // Register the ServiceWorker as soon as the application is stable
+    //   // or after 30 seconds (whichever comes first).
+    //   registrationStrategy: 'registerWhenStable:30000'
+    // }),
+
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: !isDevMode(),
-      // Register the ServiceWorker as soon as the application is stable
-      // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      enabled: true,
+      registrationStrategy: 'registerImmediately'
     }),
   ],
   providers: [

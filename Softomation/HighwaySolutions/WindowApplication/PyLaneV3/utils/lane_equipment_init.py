@@ -80,7 +80,6 @@ class LaneEquipmentSynchronization(threading.Thread):
         self.ufd_message=""
         self.rfid_data=[]
         self.wim_data=[]
-        self.avc_data=[]
         self.transaction_data=[]
         self.load_project_config(default_directory)
         
@@ -124,7 +123,6 @@ class LaneEquipmentSynchronization(threading.Thread):
     def publish_data(self,topic,data):
         try:
             if self.system_loging_status==True:
-                #if self.LaneTypeId!=3:
                 if self.app_thread is not None:
                     pub.sendMessage(topic, transactionInfo=data)
                 self.send_message_ws({"topic":topic,"data":data})
@@ -144,7 +142,6 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.system_loging_status=transactionInfo
             self.rfid_data=[]
             self.wim_data=[]
-            self.avc_data=[]
             self.transaction_data=[]
             if self.dio_thread is not None:
                 self.dio_thread.reset_command()
@@ -152,6 +149,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.dio_thread.app_log_status(transactionInfo)
             if self.rfid_thread is not None:
                 self.rfid_thread.processed_epcs={}
+            if self.avc_thread is not None:
+                self.avc_thread.clean_queue()
             self.reset_default_ufd()
         except Exception as e:
             self.logger.logError(f"Exception app_log_status: {str(e)}")
@@ -612,16 +611,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                 self.publish_data("avc_processed",data)
                 if self.mqtt_Handler:
                     self.mqtt_Handler.mqtt_avc_event(data)
-                LaneTransactionId=self.get_trxn_data_for_avc(data['SystemDateTime'])
-                if LaneTransactionId!='0':
-                    self.update_avc_lane_db(LaneTransactionId,data)
-                else:
-                    self.avc_data.append(data)
         except Exception as e:
             self.logger.logError(f"Exception update_avc_data: {str(e)}")
-        finally:
-            if len(self.avc_data)>10:
-                self.avc_data.pop(0)
 
     def update_avc_lane_db(self,LaneTransactionId,data):
         try:
@@ -844,6 +835,8 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["UserId"]=self.userDetails["UserId"]
                     running_Transaction["LoginId"]=self.userDetails["LoginId"]
                 self.system_transcation_status=False
+                #self.send_data_avc(running_Transaction["LaneTransactionId"])
+                self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
                 self.update_lane_transcation(running_Transaction)
         except Exception as e:
             self.logger.logError(f"Exception create_violation_trans: {str(e)}")
@@ -875,15 +868,17 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["TransactionFrontImage"]=lane_Transaction_img
                 else:
                     running_Transaction["TransactionFrontImage"]=''
+                self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
+                #self.send_data_avc(running_Transaction["LaneTransactionId"])
                 self.update_lane_transcation(running_Transaction)
-                if self.avc_thread:
-                    self.avc_thread.LaneTransactionId=lane_Transaction_Id
                 self.process_on_ufd(running_Transaction)
                 self.handel_traffic_light(True,running_Transaction)
                 self.system_transcation_status=False
                 result=True
             else:
                 self.logger.logInfo(f"trans already in progress lane_trans_start")
+                self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
+                #self.send_data_avc(running_Transaction["LaneTransactionId"])
                 self.update_lane_transcation(running_Transaction)
                 result=True
         except Exception as e:
@@ -898,6 +893,13 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.reset_default_ufd()
         except Exception as e:
             self.logger.logError(f"Exception lane_trans_end: {str(e)}")
+
+    def send_data_avc(self,lane_Transaction_Id,TransactionDateTime):
+        try:
+            if self.avc_thread:
+                self.avc_thread.put_lane_data_q(lane_Transaction_Id,TransactionDateTime)
+        except Exception as e:
+            self.logger.logError(f"Exception send_data_avc: {str(e)}")
     
     def start_ic_record(self,transactionInfo):
         try:

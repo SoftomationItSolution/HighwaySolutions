@@ -1,4 +1,5 @@
 from datetime import datetime
+from multiprocessing import Queue
 import os
 import socket
 import threading
@@ -18,7 +19,8 @@ class SagarAVCDataClient(threading.Thread):
         self.client_socket=None
         self.is_running=False
         self.is_stopped = False
-        self.LaneTransactionId=''
+        self.lane_dataqueue = Queue()
+        self.buffer = ""
         self.set_logger(default_directory,log_file_name)
         self.set_avc_image_path(default_directory)
         self.set_status()
@@ -28,7 +30,7 @@ class SagarAVCDataClient(threading.Thread):
             self.classname="SagarAVC"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def set_status(self):
         try:
@@ -37,66 +39,75 @@ class SagarAVCDataClient(threading.Thread):
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def set_avc_image_path(self,default_directory):
         try:
             self.image_path=os.path.join(default_directory, 'Events', 'avc')
             Utilities.make_dir(self.image_path)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_avc_image_path: {str(e)}")
-
-    def process_data(self, data):
-        try:
-            data = data.split('\r\n')
-            for d in data:
-                d = d.strip()
-                if d.startswith("STX") and d.endswith("ETX"):
-                    self.process_avc_data(d)
-                elif "STX" in d:
-                    d = d[d.index("STX"):]
-                    if d.endswith("ETX"):
-                        self.process_avc_data(d)
-                    # else:
-                    #     print(d)
-                # else:
-                #     print(d)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
+            self.logger.logError(f"Exception set_avc_image_path: {str(e)}")
     
-    def process_avc_data(self, avc_data_str):
-        try:
-            avc_data = avc_data_str.split(',')
-            if len(avc_data) == 8:
-                current_date_time=datetime.now()
-                transactionInfo = {
-                    'LaneId':self.LaneId,
-                    'SystemDateTime':current_date_time.isoformat(),
-                    'TransactionDateTime':Utilities.current_date_time_json(dt=current_date_time),
-                    'AvcSensorClassId':avc_data[2].strip(),
-                    'AvcClassId': self.get_fasttag_class(avc_data[2].strip(),avc_data[3].strip()),
-                    'AxleCount': avc_data[3].strip(),
-                    'IsReverseDirection': False if avc_data[4].strip()=='F' else True,
-                    'WheelBase': avc_data[5].strip(),
-                    'TransactionCount': avc_data[6].strip(),
-                    'ImageName':'',
-                    'LaneTransactionId':self.LaneTransactionId,
-                    'Processed':False}
-                if transactionInfo['IsReverseDirection']==False:
-                    self.handler.update_avc_data(transactionInfo)
-                self.LaneTransactionId=''
-                self.process_db(transactionInfo)
-            else:
-                transactionInfo = avc_data_str
-                #print(transactionInfo)
-        except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
 
     def process_db(self, transactionInfo):
         try:
             LaneManager.avc_data_insert(self.dbConnectionObj,transactionInfo)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_db: {str(e)}")
+            self.logger.logError(f"Exception process_db: {str(e)}")
+
+    def append_data(self, data):
+        try:
+            self.logger.logInfo("avc data: {}".format(data))
+            self.buffer += data
+            self.process_buffer()
+        except Exception as e:
+            self.logger.logError(f"Exception append_data: {str(e)}")
+
+    def process_buffer(self):
+        try:
+            while "STX" in self.buffer and "ETX" in self.buffer:
+                start_idx = self.buffer.find("STX")
+                end_idx = self.buffer.find("ETX") + len("ETX")
+                if start_idx != -1 and end_idx != -1 and start_idx < end_idx:
+                    complete_segment = self.buffer[start_idx:end_idx]
+                    self.process_segment(complete_segment)
+                    self.buffer = self.buffer[end_idx:]
+                else:
+                    break 
+        except Exception as e:
+            self.logger.logError(f"Exception process_buffer: {str(e)}")
+
+    def process_segment(self, segment):
+        try:
+            avc_data=segment.split(',')
+            if len(avc_data)==8:
+                current_date_time=datetime.now()
+                AvcSensorClassId=int(avc_data[2].strip())
+                if AvcSensorClassId>0 or AvcSensorClassId<8:
+                    AxleCount=int(avc_data[3].strip())
+                    IsReverseDirection=False if avc_data[4].strip()=='F' else True
+                    LaneTransactionId=''
+                    if IsReverseDirection==False:
+                        LaneTransactionId =self.get_laneTransaction_id(current_date_time)
+                    transactionInfo = {
+                        'LaneId':self.LaneId,
+                        'SystemDateTime':current_date_time.isoformat(),
+                        'TransactionDateTime':Utilities.current_date_time_json(dt=current_date_time),
+                        'AvcSensorClassId':AvcSensorClassId,
+                        'AvcClassId': self.get_fasttag_class(AvcSensorClassId,AxleCount),
+                        'AxleCount': AxleCount,
+                        'IsReverseDirection': IsReverseDirection,
+                        'WheelBase': int(avc_data[5].strip()),
+                        'TransactionCount': int(avc_data[6].strip()),
+                        'ImageName':'',
+                        'LaneTransactionId':LaneTransactionId,
+                        'Processed':False}
+                    self.handler.update_avc_data(transactionInfo)
+                    self.process_db(transactionInfo)
+                else:
+                    self.logger.logInfo(f"Wrong data: {segment}")
+        except Exception as e:
+            self.logger.logError(f"Exception process_segment: {str(e)} data: {segment}")
 
     def run(self):
         while not self.is_stopped:
@@ -110,19 +121,18 @@ class SagarAVCDataClient(threading.Thread):
                         if not self.is_active or self.is_stopped or not self.is_running:
                             self.handler.update_equipment_list(self.avc_detail["EquipmentId"],'ConnectionStatus',False)
                             break
-                        echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
-                        if len(echoed_transaction_number) != 0:
-                            #self.logger.logInfo("avc data: {}".format(echoed_transaction_number))
-                            self.process_data(echoed_transaction_number)
+                        data = self.client_socket.recv(1024)
+                        decoded_data = data.decode('utf-8').strip()
+                        self.append_data(decoded_data)
                         time.sleep(self.timeout)
                     time.sleep(self.timeout)
                     self.check_status()
                 self.check_status()
             except ConnectionRefusedError:
-                self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
+                self.logger.logError(f"Connection refused. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} avc_run: {str(e)}")
+                self.logger.logError(f"Exception avc_run: {str(e)}")
             finally:
                 self.client_stop()
 
@@ -139,7 +149,7 @@ class SagarAVCDataClient(threading.Thread):
                 elif self.is_active==1:
                     self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_status: {str(e)}")
+            self.logger.logError(f"Exception check_status: {str(e)}")
 
     def client_stop(self):
         try:
@@ -147,10 +157,45 @@ class SagarAVCDataClient(threading.Thread):
             if self.client_socket:
                 self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
+            self.logger.logError(f"Exception client_stop: {str(e)}")
+
+    def put_lane_data_q(self,LaneTransactionId,TransactionDateTime):
+        try:
+            x={"LaneTransactionId":LaneTransactionId,"TransactionDateTime":TransactionDateTime}
+            self.lane_dataqueue.put(x)
+        except Exception as e:
+            self.logger.logError(f"Exception put_lane_data_q: {str(e)}")
+    
+    def get_laneTransaction_id(self, current_date_time):
+        LaneTransactionId = ''
+        try:
+            while not self.lane_dataqueue.empty():
+                data = self.lane_dataqueue.get()
+                if 'TransactionDateTime' not in data:
+                    self.logger.logError("TransactionDateTime key missing in data")
+                    continue
+                td = Utilities.difference_in_seconds(data['TransactionDateTime'], current_date_time)
+                ldi=data['LaneTransactionId']
+                self.logger.logInfo(f"TransactionDateTime diff is {td} for {ldi}")
+                if td < 5:
+                    LaneTransactionId = data.get('LaneTransactionId', '')
+                    break
+        except Exception as e:
+            self.logger.logError(f"Exception in get_laneTransaction_id: {str(e)}")
+        finally:
+            return LaneTransactionId
+
+    def clean_queue(self):
+        try:
+            while not self.lane_dataqueue.empty():
+                self.lane_dataqueue.get()
+        except Exception as e:
+            self.logger.logError(f"Exception clean_queue: {str(e)}")
 
     def get_fasttag_class(self,classid,axcelCount):
         try:
+            classid=int(classid)
+            axcelCount=int(axcelCount)
             if classid==1:
                 return 4
             elif classid==2:
@@ -168,15 +213,12 @@ class SagarAVCDataClient(threading.Thread):
                     return 14
             elif classid==7:
                 return 15
-            
-            
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} get_fasttag_class: {str(e)}")
-        
+            self.logger.logError(f"Exception get_fasttag_class: {str(e)}")
 
     def stop(self):
         try:
             self.is_stopped = True
             self.client_stop()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")

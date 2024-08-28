@@ -23,9 +23,8 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/GeneralConfiguration.json",
-              "src/ProjectConfiguration.json",
-              "src/manifest.webmanifest",
+              "src/assets/GeneralConfiguration.json",
+              "src/assets/ProjectConfiguration.json",
               "src/manifest.webmanifest"
             ],
             "styles": [
@@ -49,6 +48,17 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "namedChunks": false,
+              "buildOptimizer": true,
               "budgets": [
                 {
                   "type": "initial",
@@ -60,8 +70,7 @@
                   "maximumWarning": "4mb",
                   "maximumError": "5mb"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             },
             "development": {
               "buildOptimizer": false,

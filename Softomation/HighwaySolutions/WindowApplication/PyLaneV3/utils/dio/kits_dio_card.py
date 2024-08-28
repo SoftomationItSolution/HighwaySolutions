@@ -207,12 +207,17 @@ class KistDIOClient(threading.Thread):
                 self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',True)
                 self.reset_command()
                 while self.is_running:
-                    if not self.is_active or self.is_stopped or not self.is_running:
-                        self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',False)
-                        break
-                    echoed_transaction_number = self.client_socket.recv(1024).decode('utf-8').strip()
-                    if len(echoed_transaction_number) != 0:
-                        self.process_data(echoed_transaction_number)
+                    try:
+                        if not self.is_active or self.is_stopped or not self.is_running:
+                            self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',False)
+                            break
+                        data = self.client_socket.recv(1024)
+                        decoded_data = data.decode('utf-8', errors='ignore').strip()
+                        if len(decoded_data) != 0:
+                            self.process_data(decoded_data)
+                    except Exception as e:
+                        self.logger.logError(f"Exception tcp_conn data: {str(e)}")
+
                     time.sleep(self.timeout)
                     self.check_status()
                 time.sleep(self.timeout)

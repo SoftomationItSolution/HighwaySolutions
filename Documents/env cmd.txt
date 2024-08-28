@@ -1,0 +1,306 @@
+sudo apt update
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh.sha256
+sha256sum -c Miniconda3-latest-Linux-x86_64.sh.sha256
+
+
+chmod +x setup_mysql_and_packages.sh
+./setup_mysql_and_packages.sh
+
+
+
+
+bash Miniconda3-latest-Linux-x86_64.sh
+~/miniconda3/bin/conda init
+source ~/.bashrc
+conda --version
+conda create --name pysy python=3.10
+conda activate pysy
+
+sudo mkdir -m 777 /opt/soft
+sudo mkdir -m 777 /home/ProjectConfig
+
+cd /opt/soft/PyLaneV1/
+pip install -r setup.txt
+sudo cp tmsV1.service /etc/systemd/system/
+
+cd /opt/soft/AvccApp/
+pip install -r setup.txt
+sudo cp myapp.service /etc/systemd/system/
+
+sudo cp park360v1.service /etc/systemd/system/
+
+
+
+
+conda config --set auto_activate_base false
+
+
+sudo mkdir -m 777 ProjectConfig
+sudo chmod -R 777 ..
+
+
+sudo apt update
+sudo apt install -y mysql-server
+sudo systemctl start mysql
+sudo systemctl enable mysql
+sudo ufw allow mysql
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo systemctl restart mysql
+cat /etc/mysql/mysql.conf.d/mysqld.cnf
+
+sudo mysql -u root -p <<EOF
+    SELECT User, Host FROM mysql.user;
+    CREATE USER 'softo_db'@'%' IDENTIFIED BY 'Softo@7890';
+    GRANT ALL PRIVILEGES ON *.* TO 'softo_db'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+EOF
+
+sudo mysql -u root -p <<EOF
+    SELECT User, Host FROM mysql.user;
+    CREATE USER 'srb_lane'@'%' IDENTIFIED BY 'Softo@7890';
+    GRANT ALL PRIVILEGES ON *.* TO 'srb_lane'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+EOF
+
+
+ALTER USER 'softo_db'@'%' IDENTIFIED WITH mysql_native_password BY 'Softo@7890';
+FLUSH PRIVILEGES;
+
+
+sudo mysql -u root -p
+
+sudo mysql -u softo_db -p
+
+SELECT User, Host FROM mysql.user;
+CREATE USER 'srb_lane'@'%' IDENTIFIED BY 'Softo@7890';
+GRANT ALL PRIVILEGES ON *.* TO 'srb_lane'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+sudo systemctl restart mysql
+
+
+sudo systemctl restart nginx
+pm2 restart app
+sudo supervisorctl status
+sudo supervisorctl restart onvif_api
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+
+sudo systemctl status cam_init.service
+sudo systemctl status speed1.service
+python /home/orin/Documents/bcp 
+sudo systemctl start park360v1.service
+sudo systemctl status park360v1.service
+sudo systemctl stop park360v1.service
+sudo systemctl enable park360v1.service
+sudo systemctl restart park360v1.service
+
+sudo nano /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl start myapp.service
+sudo systemctl enable myapp.service
+sudo systemctl restart myapp.service
+sudo systemctl status myapp.service
+sudo systemctl stop myapp.service
+
+
+sudo systemctl restart docker.service
+sudo systemctl status cam_init.service
+sudo systemctl start tmsV1.service
+sudo systemctl enable tmsV1.service
+sudo systemctl restart tmsV1.service
+sudo systemctl status tmsV1.service
+sudo systemctl stop tmsV1.service
+
+listener 1883
+listener 9001
+protocol websockets
+allow_anonymous true
+
+
+sudo systemctl restart mosquitto
+lane1-1927545633
+lane2-1674125346
+lane3-512594104
+lane8-234601738
+
+MCUBE
+TLC#10020@Mstr
+
+
+/home/lane4/miniconda3/envs/pysy/bin/python
+auto-py-to-exe
+escpos/capabilities
+
+
+sudo mysql -u root -p
+
+SELECT User, Host FROM mysql.user;
+CREATE USER 'root'@'%' IDENTIFIED BY 'Softo@7890';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+sudo systemctl restart mysql
+
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql
+sudo systemctl enable mysql
+sudo ufw allow mysql
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo systemctl restart mysql
+
+
+sudo apt install ffmpeg
+
+
+sudo apt purge mysql*
+
+E:\SystemBackup\AccountBackup\Download\Reports\Reports_BE_TMS
+
+
+sudo snap install --classic code # or code-insiders
+
+#Display Issue
+sudo nano /etc/gdm3/custom.conf WaylandEnable=false
+
+CASE ISNULL(L.TransactionStatus,1) WHEN 1 THEN ''Active'' ELSE ''Cancel'' END AS [Status],
+
+https://secure.icicidirect.com/trading/equity/profitandloss
+https://secure.icicidirect.com/trading/equity/profitandloss
+
+
+timedatectl list-timezones | grep Asia
+
+
+sudo timedatectl set-timezone Asia/Kolkata
+
+
+for GUI 
+
+sudo apt-get install -y '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+sudo apt install libatspi2.0-dev libbluetooth-dev libclang-dev libcups2-dev libdrm-dev     
+libegl1-mesa-dev libfontconfig1-dev libfreetype6-dev     libgstreamer1.0-dev libhunspell-dev libnss3-dev     
+libpulse-dev libssl-dev libts-dev libx11-dev libx11-xcb-dev     libxcb-glx0-dev libxcb-icccm4-dev libxcb-image0-dev     
+libxcb-keysyms1-dev libxcb-randr0-dev libxcb-render-util0-dev     libxcb-shape0-dev libxcb-shm0-dev libxcb-sync-dev libxcb-util-dev     
+libxcb-xfixes0-dev libxcb-xinerama0-dev libxcb-xkb-dev libxcb1-dev     libxcomposite-dev libxcursor-dev libxdamage-dev libxext-dev     
+libxfixes-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev     libxkbfile-dev libxrandr-dev libxrender-dev libxshmfence-dev     
+libxshmfence1
+
+
+SELECT VehicleClassId,VehicleSubClassId,VehicleAvcClassId,TagClassId,PermissibleVehicleWeight,ActualVehicleWeight,TransactionDateTime 
+FROM tbl_LaneTransaction;
+
+
+https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-ubuntu?view=sql-server-ver16&tabs=ubuntu2004
+
+https://docs.vultr.com/install-mosquitto-mqtt-broker-on-ubuntu-20-04-server
+
+MQTT
+http://www.steves-internet-guide.com/install-mosquitto-linux/  
+
+sudo cp ./mosquitto.conf /etc/mosquitto/conf.d/
+
+
+
+server@server-ProLiant-DL380-Gen10:~$
+
+
+https://www.linode.com/docs/guides/enable-ssh-ubuntu/
+
+https://linuxconfig.org/ubuntu-20-04-remote-desktop-access-from-windows-10
+
+https://www.databasemart.com/blog/how-to-install-xrdp-remote-desktop-on-ubuntu-20-04#:~:text=Enter%20win%2BR%20on%20the,you%20are%20successfully%20logged%20in.
+
+
+
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'Softo@7890'
+
+
+
+TRUNCATE TABLE tbl_ActivityLog
+TRUNCATE TABLE tbl_AvcTransaction
+TRUNCATE TABLE tbl_CCHTollReconciliationDetailRecordICD
+TRUNCATE TABLE tbl_ErrorInfo
+TRUNCATE TABLE tbl_FasTagTransactionProcess
+TRUNCATE TABLE tbl_FloatProcessDenominationDetails
+TRUNCATE TABLE tbl_FloatProcessTransactions
+TRUNCATE TABLE tbl_ICDRequestPayDetail
+TRUNCATE TABLE tbl_JourneyMaster
+TRUNCATE TABLE tbl_LaneTransaction
+TRUNCATE TABLE tbl_LaneTransactionEntry
+TRUNCATE TABLE tbl_LaneTransactionExit
+TRUNCATE TABLE tbl_ShiftStatusDetail
+TRUNCATE TABLE tbl_ShiftStatusLaneDetails
+TRUNCATE TABLE tbl_WimTransaction
+TRUNCATE TABLE tbl_WimTransactionAxleDetails
+TRUNCATE TABLE temp_DenominationDetails
+TRUNCATE TABLE temp_ExemptTypeMaster
+TRUNCATE TABLE temp_ICDDiffDetails
+TRUNCATE TABLE temp_ICDTransactionStatusDetails
+TRUNCATE TABLE temp_ImportPermission
+TRUNCATE TABLE temp_PaymentTypeMaster
+TRUNCATE TABLE temp_TollFareConfiguration
+TRUNCATE TABLE temp_TransactionTypeMaster
+
+
+
+infrovate 
+
+
+# lane data table 
+TRUNCATE TABLE tbl_AvcTransaction;
+TRUNCATE TABLE tbl_LaneTransaction;
+TRUNCATE TABLE tbl_WimTransaction;
+TRUNCATE TABLE tbl_WimTransactionAxleDetails;
+
+
+# lane db plaza details 
+TRUNCATE TABLE tbl_LaneConfiguration;
+TRUNCATE TABLE tbl_PlazaConfiguration;
+TRUNCATE TABLE tbl_SystemIntegratorConfiguration;
+
+
+# lane db master tables
+TRUNCATE TABLE tbl_LaneModeMaster;
+TRUNCATE TABLE tbl_LanePointMaster;
+TRUNCATE TABLE tbl_LanePositionMaster;
+TRUNCATE TABLE tbl_LaneStatusMaster;
+TRUNCATE TABLE tbl_LaneTypeMaster;
+TRUNCATE TABLE tbl_ManufacturerDetails;
+TRUNCATE TABLE tbl_PaymentTypeMaster;
+TRUNCATE TABLE tbl_ProtocolTypeMaster;
+TRUNCATE TABLE tbl_ShiftStatusLaneDetails;
+TRUNCATE TABLE tbl_ShiftTimining;
+TRUNCATE TABLE tbl_SystemSetting;
+TRUNCATE TABLE tbl_SystemVehicleClass;
+TRUNCATE TABLE tbl_SystemVehicleSubClass;
+TRUNCATE TABLE tbl_TollFareConfiguration;
+TRUNCATE TABLE tbl_TollFareMaster;
+TRUNCATE TABLE tbl_TransactionTypeMaster;
+TRUNCATE TABLE tbl_UserMaster;
+TRUNCATE TABLE tbl_WimTransaction;
+TRUNCATE TABLE tbl_WimTransactionAxleDetails;
+
+
+SELECT * FROM  tbl_EquipmentDetails;
+SET SQL_SAFE_UPDATES = 0;
+DELETE FROM tbl_EquipmentDetails WHERE LaneId=1;
+UPDATE tbl_EquipmentDetails SET LaneId=4 WHERE LaneId=2;
+
+
+ALTER TABLE tbl_LaneTransaction
+ALTER COLUMN IsReadByReader smallint;
+
+EXEC sp_rename 'tbl_LaneTransaction.IsReadByReader', 'TagReadById', 'COLUMN';
+
+ALTER TABLE tbl_LaneTransaction
+CHANGE IsReadByReader TagReadById SMALLINT;
+for PI-5
+
+pip install netifaces  --break-system-packages
+pip install paramiko --break-system-packages
+
+
+crontab

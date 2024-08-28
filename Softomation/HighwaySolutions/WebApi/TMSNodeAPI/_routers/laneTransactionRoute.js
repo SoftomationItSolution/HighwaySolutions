@@ -5,6 +5,7 @@ const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
 const moment = require('moment');
+const momentTz = require('moment-timezone');
 router.post('/LaneTranscationInsert', LaneTranscationInsert);
 router.post('/AvcTransactionInsert', AvcTransactionInsert);
 router.post('/WimTransactionInsert', WimTransactionInsert);
@@ -14,7 +15,7 @@ async function LaneTranscationInsert(req, res, next) {
     try {
         const pool = await database.getPool();
         const MasterTransactionId = '';
-        const PlazaTransactionId = constants.plzazTxnNumber(req.body.PlazaId,req.body.LaneId,req.body.TransactionDateTime);
+        const PlazaTransactionId = constants.plzazTxnNumber(req.body.PlazaId, req.body.LaneId, req.body.TransactionDateTime);
         const Cdt = new Date()
         result = await pool.request().input('MasterTransactionId', sql.VarChar(30), MasterTransactionId)
             .input('PlazaTransactionId', sql.VarChar(30), PlazaTransactionId)
@@ -39,7 +40,7 @@ async function LaneTranscationInsert(req, res, next) {
             .input('TagEPC', sql.VarChar(32), req.body.TagEPC)
             .input('TagClassId', sql.SmallInt, req.body.TagClassId)
             .input('TagPlateNumber', sql.VarChar(20), req.body.TagPlateNumber)
-            .input('TagReadDateTime', sql.DateTime2, req.body.TagReadDateTime)
+            .input('TagReadDateTime', sql.DateTime2, date_time_format(req.body.TagReadDateTime))
             .input('TagReadCount', sql.SmallInt, req.body.TagReadCount)
             .input('TagReadById', sql.Bit, req.body.TagReadById)
             .input('PermissibleVehicleWeight', sql.Decimal, req.body.PermissibleVehicleWeight)
@@ -48,7 +49,7 @@ async function LaneTranscationInsert(req, res, next) {
             .input('OverWeightAmount', sql.Decimal, req.body.OverWeightAmount)
             .input('TagPenaltyAmount', sql.Decimal, req.body.TagPenaltyAmount)
             .input('TransactionAmount', sql.Decimal, req.body.TransactionAmount)
-            .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+            .input('TransactionDateTime', sql.DateTime2, date_time_format(req.body.TransactionDateTime))
             .input('TransactionFrontImage', sql.VarChar(255), req.body.TransactionFrontImage)
             .input('TransactionBackImage', sql.VarChar(255), req.body.TransactionBackImage)
             .input('TransactionAvcImage', sql.VarChar(255), req.body.TransactionAvcImage)
@@ -72,7 +73,7 @@ async function LaneTranscationInsert(req, res, next) {
         errorlogMessage(error, 'LaneTranscationInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } 
+    }
 }
 
 async function AvcTransactionInsert(req, res, next) {
@@ -86,7 +87,7 @@ async function AvcTransactionInsert(req, res, next) {
             .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
             .input('WheelBase', sql.BigInt, req.body.WheelBase)
             .input('ImageName', sql.VarChar(255), req.body.ImageName)
-            .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+            .input('TransactionDateTime', sql.DateTime2, date_time_format(req.body.TransactionDateTime))
             .input('LaneTransactionId', sql.VarChar(45), req.body.LaneTransactionId)
             .execute('USP_AvcTransactionInsert');
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -95,7 +96,7 @@ async function AvcTransactionInsert(req, res, next) {
         errorlogMessage(error, 'USP_AvcTransactionInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } 
+    }
 }
 
 async function WimTransactionInsert(req, res, next) {
@@ -106,7 +107,7 @@ async function WimTransactionInsert(req, res, next) {
             .input('TotalWeight', sql.Decimal, req.body.TotalWeight)
             .input('AxleCount', sql.SmallInt, req.body.AxleCount)
             .input('IsReverseDirection', sql.Bit, req.body.IsReverseDirection)
-            .input('TransactionDateTime', sql.DateTime2, req.body.TransactionDateTime)
+            .input('TransactionDateTime', sql.DateTime2, date_time_format(req.body.TransactionDateTime))
             .execute('USP_WimTransactionInsert');
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)
@@ -114,7 +115,7 @@ async function WimTransactionInsert(req, res, next) {
         errorlogMessage(error, 'USP_WimTransactionInsert');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
-    } 
+    }
 }
 
 async function WimTransactionAxleDetailsInsert(req, res, next) {
@@ -135,6 +136,19 @@ async function WimTransactionAxleDetailsInsert(req, res, next) {
         res.status(400).json(out);
     }
 }
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}
+
 
 function errorlogMessage(error, method) {
     try {

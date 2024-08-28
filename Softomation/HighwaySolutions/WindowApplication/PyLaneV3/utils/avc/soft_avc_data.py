@@ -1,4 +1,5 @@
 from datetime import datetime
+from multiprocessing import Queue
 import os
 import socket
 import threading
@@ -22,7 +23,7 @@ class STPLAVCDataClient(threading.Thread):
         self.last_event_date=datetime.now()
         self.last_event_check=False
         self.temp_tread=None
-        self.LaneTransactionId=''
+        self.lane_dataqueue = Queue()
         self.set_logger(default_directory,log_file_name)
         self.set_avc_image_path(default_directory)
         self.set_status()
@@ -32,7 +33,7 @@ class STPLAVCDataClient(threading.Thread):
             self.classname="SoftAVC"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_logger: {str(e)}")
+            self.logger.logError(f"Exception set_logger: {str(e)}")
 
     def set_status(self):
         try:
@@ -41,14 +42,14 @@ class STPLAVCDataClient(threading.Thread):
             else:
                 self.is_active=True
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_status: {str(e)}")
+            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def set_avc_image_path(self,default_directory):
         try:
             self.image_path=os.path.join(default_directory, 'Events', 'avc')
             Utilities.make_dir(self.image_path)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} set_avc_image_path: {str(e)}")
+            self.logger.logError(f"Exception set_avc_image_path: {str(e)}")
 
     def create_temp_thread(self):
         self.temp_tread = threading.Thread(target=self.check_server_live)
@@ -63,7 +64,7 @@ class STPLAVCDataClient(threading.Thread):
                     if time_difference_seconds>1:
                         self.client_stop()
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} check_server_live: {str(e)}")
+                self.logger.logError(f"Exception check_server_live: {str(e)}")
             finally:
                 time.sleep(0.100)
 
@@ -74,9 +75,12 @@ class STPLAVCDataClient(threading.Thread):
             SystemDateTime=data["SystemDateTime"]
             if SystemDateTime is None:
                 SystemDateTime=current_date_time.isoformat()
-                self.logger.logInfo(f"No System Date time {self.classname} process_data: {str(data)}")
+                self.logger.logInfo(f"No System Date time process_data: {str(data)}")
             else:
                 current_date_time=datetime.fromisoformat(SystemDateTime)
+            LaneTransactionId=''
+            if not self.lane_dataqueue.empty():
+                LaneTransactionId = self.lane_dataqueue.get()
             transactionInfo = {
                 'LaneId':self.LaneId,
                 'SystemDateTime':SystemDateTime,
@@ -89,11 +93,10 @@ class STPLAVCDataClient(threading.Thread):
                 'WheelBase': 0,
                 'TransactionCount': 0,
                 'ImageName':data["AvcImageName"],
-                'LaneTransactionId':self.LaneTransactionId,
+                'LaneTransactionId':LaneTransactionId,
                 "Processed":False}
             if transactionInfo['IsReverseDirection']==False:
                 self.handler.update_avc_data(transactionInfo)
-            self.LaneTransactionId=''
             self.process_db(transactionInfo)
         except Exception as e:
             raise e
@@ -106,13 +109,26 @@ class STPLAVCDataClient(threading.Thread):
                 if data["type"]=="data":
                     self.prcess_avc_event(data=data)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_data: {str(e)}")
+            self.logger.logError(f"Exception process_data: {str(e)}")
     
     def process_db(self, transactionInfo):
         try:
             LaneManager.avc_data_insert(self.dbConnectionObj,transactionInfo)
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} process_db: {str(e)}")
+            self.logger.logError(f"Exception process_db: {str(e)}")
+
+    def put_lane_data_q(self,transactionInfo):
+        try:
+            self.lane_dataqueue.put(transactionInfo)
+        except Exception as e:
+            self.logger.logError(f"Exception put_lane_data_q: {str(e)}")
+
+    def clean_queue(self):
+        try:
+            while not self.lane_dataqueue.empty():
+                self.lane_dataqueue.get()
+        except Exception as e:
+            self.logger.logError(f"Exception clean_queue: {str(e)}")
 
     def run(self):
         while not self.is_stopped:
@@ -131,10 +147,10 @@ class STPLAVCDataClient(threading.Thread):
                         self.process_data(echoed_transaction_number)
                     time.sleep(self.timeout)
             except ConnectionRefusedError:
-                self.logger.logError(f"Connection refused {self.classname}. Retrying in {self.timeout} seconds")
+                self.logger.logError(f"Connection refused. Retrying in {self.timeout} seconds")
                 time.sleep(self.timeout)
             except Exception as e:
-                self.logger.logError(f"Exception {self.classname} avc_run: {str(e)}")
+                self.logger.logError(f"Exception avc_run: {str(e)}")
             finally:
                 self.client_stop()
 
@@ -148,7 +164,7 @@ class STPLAVCDataClient(threading.Thread):
             if self.client_socket:
                 self.client_socket.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} client_stop: {str(e)}")
+            self.logger.logError(f"Exception client_stop: {str(e)}")
         finally:
             self.last_event_check=False
 
@@ -160,4 +176,4 @@ class STPLAVCDataClient(threading.Thread):
             if self.temp_tread is not None:
                 self.temp_tread.join()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} stop: {str(e)}")
+            self.logger.logError(f"Exception stop: {str(e)}")
