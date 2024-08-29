@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { noop, Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
 import { WebSocketService } from 'src/services/WebSocket.service';
@@ -43,7 +43,6 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
   TowStart: boolean = false
   apiPath = ''
   lpicViewUrl = ''
-  private intervalId: any;
   private messageSubscription: Subscription;
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
@@ -155,7 +154,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
           this.DisplayMessage('Somthing went wrong!', false);
         }
       },
-      (error) => {
+      () => {
         this.spinner.hide();
         this.DisplayMessage('Somthing went wrong!', false);
       }
@@ -175,7 +174,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         }
 
       },
-      (error) => {
+      () => {
         this.spinner.hide();
         this.DisplayMessage('Somthing went wrong!', false);
       }
@@ -277,7 +276,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         this.CurrentTransactions = data.ResponseData
         this.bindData(dataFor, dataValue, tagDetails)
       },
-      (error) => {
+      () => {
         this.spinner.hide();
         this.DisplayMessage('Somthing went wrong!', false);
       }
@@ -410,7 +409,6 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
   process_ws_message_get(msg: string) {
     try {
       if (msg.indexOf('}{') == 0) {
-        let result = JSON.parse(msg)
       }
     } catch (error) {
       console.log(msg)
@@ -658,7 +656,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
                   dialogConfig.data = data.ResponseData;
                   const dialogRef = this.dialog.open(FleetCounterComponent, dialogConfig);
                   dialogRef.afterClosed().subscribe(
-                    data => {
+                    () => {
                       this.CurrentTransactions = null
                       this.getLaneRecentData()
                       this.reset_form()
@@ -669,7 +667,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
                   this.DisplayMessage(returnMessage, false)
                 }
               },
-              (error) => {
+              () => {
                 this.spinner.hide();
                 this.DisplayMessage('Something went wrong !', false)
               }
@@ -718,7 +716,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
                 this.DisplayMessage(returnMessage, false)
               }
             },
-            (error) => {
+            () => {
               this.spinner.hide();
               this.DisplayMessage('Something went wrong !', false)
             }

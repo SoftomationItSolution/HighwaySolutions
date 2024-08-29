@@ -31,9 +31,9 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   protocolTypeIds = [1, 2, 6];
   LaneTypeId = 1;
   hardwareOnOffSubscribe!: Subscription;
-  constructor(private spinner: NgxSpinnerService, private dm: DataModel, 
+  constructor(private spinner: NgxSpinnerService, private dm: DataModel,
     private dbService: apiIntegrationService, private _mqttService: MqttService,
-    private cd: ChangeDetectorRef,public dialog: MatDialog) {
+    private cd: ChangeDetectorRef, public dialog: MatDialog) {
 
   }
   ngOnInit(): void {
@@ -44,7 +44,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.UserData = this.dm.getUserData()
     this.getEqList(this.LaneData.LaneEquipment);
     this.hardwareStatus()
-    // this.GetLaneStatus()
+    this.GetLaneStatus()
   }
 
   ngOnDestroy() {
@@ -60,42 +60,63 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     try {
       const topic = this.LaneName + '/laneStatus'
       this.hardwareOnOffSubscribe = this._mqttService.observe(topic).subscribe((message: IMqttMessage) => {
-        var hardwareOnOffData = JSON.parse(message.payload.toString());
-        if (hardwareOnOffData != null) {
-          if (hardwareOnOffData.event_type == 'dio') {
-            if (hardwareOnOffData.data != null) {
-              this.app_loging = hardwareOnOffData.data.app_loging;
-              this.OHLS_light = hardwareOnOffData.data.OHLS_light;
-              this.TrafficLight = hardwareOnOffData.data.TrafficLight;
-              this.BoomBarrier = hardwareOnOffData.data.BoomBarrier;
-              this.ViolationStatus = hardwareOnOffData.data.ViolationStatus;
-              if (hardwareOnOffData.data.equipment_detail != null) {
-                this.getEqList(hardwareOnOffData.data.equipment_detail);
-              }
-            }
-          }
-          else if (hardwareOnOffData.event_type == 'rfid') {
+        const input = message.payload.toString()
+        this.process_events(input)
+      });
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-          }
-          else if (hardwareOnOffData.event_type == 'ufd') {
-            this.ufd_message = hardwareOnOffData.data;
-          }
-          else if (hardwareOnOffData.event_type == 'wim') {
-            this.wimWeight = "Weight:" + hardwareOnOffData.data.TotalWeight.toString()
-          }
-          else if (hardwareOnOffData.event_type == 'avc') {
-            this.avc_class = "AVC-Class:" + hardwareOnOffData.data.AvcClassId.toString()
-          }
-          else if (hardwareOnOffData.event_type == 'ping') {
-            const eq_status = hardwareOnOffData.data;
-            const item = this.equipmentList.find(d => d.IpAddress === eq_status.IpAddress);
-            if (item) {
-              item.OnLineStatus = eq_status.OnLineStatus;
-            }
-          }
+
+  process_events(input) {
+    try {
+      var hardwareOnOffData = JSON.parse(input);
+      if (hardwareOnOffData != null) {
+        if (hardwareOnOffData.event_type == 'dio') {
+          this.manage_dio_events(hardwareOnOffData.data)
+        }
+        else if (hardwareOnOffData.event_type == 'rfid') {
+
+        }
+        else if (hardwareOnOffData.event_type == 'ufd') {
+          this.ufd_message = hardwareOnOffData.data;
+        }
+        else if (hardwareOnOffData.event_type == 'wim') {
+          this.wimWeight = "Weight:" + hardwareOnOffData.data.TotalWeight.toString()
         }
 
-      });
+        else if (hardwareOnOffData.event_type == 'avc') {
+          this.avc_class = "AVC-Class:" + hardwareOnOffData.data.AvcClassId.toString()
+        }
+        else if (hardwareOnOffData.event_type == 'ping') {
+          const eq_status = hardwareOnOffData.data;
+          const item = this.equipmentList.find(d => d.IpAddress === eq_status.IpAddress);
+          if (item) {
+            item.OnLineStatus = eq_status.OnLineStatus;
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  manage_dio_events(event_data) {
+    try {
+      if (event_data.EquipmentTypeId == 2) {
+        this.OHLS_light = event_data.PositionStatus
+        this.app_loging = event_data.PositionStatus
+      }
+      else if (event_data.EquipmentTypeId == 14) {
+        this.ViolationStatus = event_data.PositionStatus
+      }
+      else if (event_data.EquipmentTypeId == 17) {
+        this.TrafficLight = event_data.PositionStatus
+      }
+      else if (event_data.EquipmentTypeId == 19) {
+        this.BoomBarrier = event_data.PositionStatus
+      }
     } catch (error) {
       console.log(error)
     }
@@ -118,51 +139,52 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
   }
 
   laneLogin() {
-    let url
-    if (this.LaneTypeId == 3) {
-      if (this.app_loging == true) {
-        url = this.laneUrl + "app_logout"
-      } else {
-        url = this.laneUrl + "app_login"
-      }
-      this.spinner.show();
-      this.dbService.lsduPost(url, this.UserData).subscribe(
-        data => {
-          this.spinner.hide();
-          this.ErrorData = [{ AlertMessage: data.message }];
-          this.dm.openSnackBar(this.ErrorData, true);
-          this.wimWeight=""
-          this.avc_class=""
-        },
-        (error) => {
-          this.spinner.hide();
-          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
-          this.dm.openSnackBar(this.ErrorData, false);
-        }
-      );
-    }
-    else {
-      this.ErrorData = [{ AlertMessage: 'Operation not allowed.' }];
-      this.dm.openSnackBar(this.ErrorData, false);
-    }
+    // let url
+    // if (this.LaneTypeId == 3) {
+    //   if (this.app_loging == true) {
+    //     url = this.laneUrl + "app_logout"
+    //   } else {
+    //     url = this.laneUrl + "app_login"
+    //   }
+    //   this.spinner.show();
+    //   this.dbService.lsduPost(url, this.UserData).subscribe(
+    //     data => {
+    //       this.spinner.hide();
+    //       this.ErrorData = [{ AlertMessage: data.message }];
+    //       this.dm.openSnackBar(this.ErrorData, true);
+    //       this.wimWeight = ""
+    //       this.avc_class = ""
+    //     },
+    //     (error) => {
+    //       this.spinner.hide();
+    //       this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+    //       this.dm.openSnackBar(this.ErrorData, false);
+    //     }
+    //   );
+    // }
+    // else {
+    //   this.ErrorData = [{ AlertMessage: 'Operation not allowed.' }];
+    //   this.dm.openSnackBar(this.ErrorData, false);
+    // }
   }
 
   GetLaneStatus() {
-    this.spinner.show();
-    const url = this.laneUrl + "get_status"
-    this.mqttPublish()
+    const url = this.laneUrl + "/Softomation/FastTrackHighway-lane/getLaneMasterData"
+    //this.mqttPublish()
     this.dbService.lsduGet(url).subscribe(
       data => {
-        this.spinner.hide();
-        if (data != null) {
-          this.app_loging = data.app_loging;
-          this.OHLS_light = data.OHLS_light;
-          this.TrafficLight = data.TrafficLight;
-          this.BoomBarrier = data.BoomBarrier;
-          this.ViolationStatus = data.ViolationStatus;
-          if (data.equipment_detail != null) {
-            this.getEqList(data.equipment_detail);
+        if (data.ResponseData != null) {
+          const equipment_detail = data.ResponseData.equipment_detail
+          if (equipment_detail != null) {
+            this.getEqList(equipment_detail);
           }
+          const hardware_list = data.ResponseData.hardware_list
+          console.log(hardware_list)
+          hardware_list.forEach(element => {
+            //console.log(element)
+            this.manage_dio_events(element)
+          });
+
         }
       },
       (error) => {
@@ -174,10 +196,10 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     );
   }
 
-  mqttPublish(){
+  mqttPublish() {
     try {
       const topic = this.LaneName + '/lanerefresh'
-      this._mqttService.publish(topic,'lanerefresh')  
+      this._mqttService.publish(topic, 'lanerefresh')
     } catch (error) {
       console.log(error)
     }
@@ -200,7 +222,7 @@ export class LsduLaneComponent implements OnInit, OnDestroy {
     this.equipmentList = data.filter(equipment => this.protocolTypeIds.includes(equipment.ProtocolTypeId));
   }
 
-  liveView(eq:any){
+  liveView(eq: any) {
     if (eq.EquipmentTypeName.indexOf("Camera") > -1) {
       this.cd.detectChanges();
       const dialogConfig = new MatDialogConfig();

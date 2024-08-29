@@ -41,3 +41,51 @@ fdc6ddfa9d6a
 sudo docker stop fdc6ddfa9d6a
 
 sh /opt/soft/install_app.sh
+
+ng build --configuration production
+
+
+
+cd /opt/soft/
+sudo docker ps 
+sudo docker rm -f
+sudo docker images
+sudo docker rmi -f
+sudo docker build -t nopysy:v1 .
+sudo docker save -o nopysy_v1.tar nopysy:v1
+sudo chmod -R 777 /opt/soft/
+
+sudo docker run -d --restart always --net=host --privileged -P -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /tmp/.docker.xcookie:/tmp/.X11-unix/.Xauthority -v /dev/:/dev/ -e XAUTHORITY=/tmp/.X11-unix/.Xauthority -v /home/:/home/ -v /etc/localtime:/etc/localtime:ro nopysy:v1
+
+sudo nano /etc/nginx/sites-available/pylaneapp
+
+server {
+    listen 0.0.0.0:8080;
+    server_name localhost;
+
+    root /opt/soft/PyLaneV3App;
+    index index.html;
+
+    # Add MIME types
+    include /etc/nginx/mime.types;
+    types {
+        application/manifest+json webmanifest;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location = /favicon.ico {
+        alias /opt/soft/PyLaneV3App/favicon.ico;
+    }
+    
+    # Serve .webmanifest files
+    location ~* \.webmanifest$ {
+        default_type application/manifest+json;
+    }
+}
+
+
+sudo nginx -t
+sudo systemctl restart nginx

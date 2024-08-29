@@ -2,10 +2,11 @@ const Onvif_old = require('onvif');
 const Onvif = require('node-onvif');
 const logger = require('../_helpers/logger');
 const express = require('express');
-const { resume } = require('pdfkit');
 const router = express.Router();
+const constants = require("../_helpers/constants");
 router.get('/getAllCameraDetails', getAllCameraDetails);
 router.get('/getAllCameras', getAllCameras);
+router.post('/getDetailsByCameraUrl', getDetailsByCameraUrl);
 router.post('/getDetailsByCamera', getDetailsByCamera);
 
 async function getAllCameraDetails(req, res, next) {
@@ -124,15 +125,8 @@ async function get_media_details(device) {
 }
 
 // Endpoint to get details of a specific camera
-async function getDetailsByCamera(req, res, next) {
+async function getDetailsByCameraUrl(req, res, next) {
     const requested_data = req.body;
-    // const { ip: cameraIp, port = 80, user = 'admin', password = '' } = req.body;
-    // if (!cameraIp) {
-    //     return res.status(400).send('Camera IP is required');
-    // }
-    // else if (!password) {
-    //     return res.status(400).send('Camera password is required');
-    // }
     try {
         const device = new Onvif.OnvifDevice({ xaddr: requested_data.xaddrs, user: requested_data.userId, pass: requested_data.password });
 
@@ -150,10 +144,43 @@ async function getDetailsByCamera(req, res, next) {
         };
         details.macAddress = await get_macaddress(device);
         details.profileDetails = await get_media_details(device);
+        
+       
+
+        
         res.json(details);
     } catch (error) {
         logger.error(`Error getting camera details for ${requested_data.xaddrs}:`, error);
         res.status(500).send(`Error getting camera details for ${requested_data.xaddrs}`);
+    }
+}
+
+async function getDetailsByCamera(req, res, next) {
+    const requested_data = req.body;
+    try {
+        xaddr= `http://${requested_data.EquipmentIp}:${requested_data.EquipmentPort}/onvif/device_service`
+        const device = new Onvif.OnvifDevice({ xaddr: xaddr, user: requested_data.UserName, pass: requested_data.UserPassword });
+
+        await device.init();
+
+        // Get device information
+        const details = {
+            Manufacturer: device.information.Manufacturer,
+            ModelNumber: device.information.Model,
+            FirmwareVersion: device.information.FirmwareVersion,
+            SerialNumber: device.information.SerialNumber,
+            HardwareId: device.information.HardwareId,
+            MacAddress: "",
+            ProfileDetails: []
+        };
+        details.MacAddress = await get_macaddress(device);
+        details.ProfileDetails = await get_media_details(device);
+
+        let out = constants.ResponseMessage('success', details);
+        res.status(200).json(out)
+    } catch (error) {
+        logger.error(`Error getting camera details for ${requested_data}:`, error);
+        res.status(500).send(`Error getting camera details for ${requested_data}`);
     }
 }
 

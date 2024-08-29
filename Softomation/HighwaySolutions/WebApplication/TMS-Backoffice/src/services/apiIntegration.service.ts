@@ -374,10 +374,9 @@ export class apiIntegrationService {
   }
 
   getCamDetails(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    var url=this.dataModel.getCamAPI()?.toString() + 'stpl/onvif_get_cam'
-    console.log(url)
-    return this.objHttp.post(url, data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/getDetailsByCamera', data, { headers: headers_object });
   }
 
   //#endregion

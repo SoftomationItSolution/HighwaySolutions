@@ -42,8 +42,6 @@ async function RolePermissionSetup(req, res, next) {
         const array = req.body.RolePermission;
         const table = new sql.Table('temp_ImportPermission');
         table.create = true; // If the table doesn't exist, create it
-
-        // Add columns to the table
         table.columns.add('MenuId', sql.SmallInt, { nullable: false });
         table.columns.add('DataView', sql.SmallInt, { nullable: false });
         table.columns.add('DataAdd', sql.SmallInt, { nullable: false });
@@ -63,7 +61,6 @@ async function RolePermissionSetup(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_RolePermissionInsertUpdate');
-        database.disconnect();
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out);
     } catch (error) {

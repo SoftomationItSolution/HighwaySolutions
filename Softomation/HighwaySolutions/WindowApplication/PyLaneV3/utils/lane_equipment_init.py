@@ -100,7 +100,7 @@ class LaneEquipmentSynchronization(threading.Thread):
     def hardware_list_setup(self):
         try:
            self.hardware_list = [
-            {"LaneId":self.lane_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", ",PositionStatus": False},
+            {"LaneId":self.lane_detail["LaneId"],"EquipmentTypeId": 2, "EquipmentTypeName": "OHLS", "PositionStatus": False},
             {"LaneId":self.lane_detail["LaneId"],"EquipmentTypeId": 17, "EquipmentTypeName": "Traffic light", "PositionStatus": False},
             {"LaneId":self.lane_detail["LaneId"],"EquipmentTypeId": 19, "EquipmentTypeName": "Boom Barrier", "PositionStatus": False},
             {"LaneId":self.lane_detail["LaneId"],"EquipmentTypeId": 14, "EquipmentTypeName": "Hooter-Violation Light", "PositionStatus": False},
@@ -117,6 +117,8 @@ class LaneEquipmentSynchronization(threading.Thread):
             if self.hardware_list:
                 self.hardware_list[ind]["PositionStatus"]=status
                 self.publish_data("hardware_on_off_status",self.hardware_list[ind])
+                if self.mqtt_Handler:
+                    self.mqtt_Handler.mqtt_dio_event(self.hardware_list[ind])
         except Exception as e:
             self.logger.logError(f"Exception update_hardware_list: {str(e)}")
 

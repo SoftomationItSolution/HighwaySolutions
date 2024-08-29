@@ -267,7 +267,7 @@ export class EquipmentMasterPopupComponent implements OnInit {
   PlazaChange(PlazaId: any) {
     const plaza = this.PlazaList.filter((e: { PlazaId: any; }) => e.PlazaId === PlazaId);
     this.LaneFilter = this.LaneList.filter((e: { PlazaId: any; }) => e.PlazaId === PlazaId);
-    let newItem = { LaneId: "0",LaneNumber:"No Lane" };
+    let newItem = { LaneId: 0,LaneNumber:"No Lane" };
     this.LaneFilter.unshift(newItem);
     if (plaza.length > 0) {
       const DetailData = plaza[0];
@@ -331,20 +331,32 @@ export class EquipmentMasterPopupComponent implements OnInit {
   getCamDetails(){
       var obj={
         "EquipmentIp":this.DeviceCommunicationForm.value.IpAddress,
-        "EquipmentPort":this.DeviceCommunicationForm.value.PortNumber,
+        "EquipmentPort":parseInt(this.DeviceCommunicationForm.value.PortNumber),
         "UserName":this.DeviceCommunicationForm.value.LoginId,
         "UserPassword":this.DeviceCommunicationForm.value.LoginPassword
     }
+    console.log(obj)
+  //   var obj={
+  //     "EquipmentIp":"192.168.1.201",
+  //     "EquipmentPort":8088,
+  //     "UserName":"admin",
+  //     "UserPassword":"kits@2023"
+  
+  // }
     this.spinner.show();
     this.dbService.getCamDetails(obj).subscribe(
       data => {
         this.spinner.hide();
-        if(data.status){
-          let d=data.ResponseData
-          this.DeviceDetailsForm.controls['MacAddress'].setValue(d.MacAddress);
-          this.DeviceDetailsForm.controls['ModelNumber'].setValue(d.Model);
-          this.DeviceDetailsForm.controls['SerialNumber'].setValue(d.SerialNumber);
-          this.DeviceCommunicationForm.controls['UrlAddress'].setValue(d.Streamurl[0]);
+        let d = data.ResponseData;
+        console.log(d)
+        this.DeviceDetailsForm.controls['MacAddress'].setValue(d.MacAddress);
+        this.DeviceDetailsForm.controls['ModelNumber'].setValue(d.ModelNumber);
+        this.DeviceDetailsForm.controls['SerialNumber'].setValue(d.SerialNumber);
+        if(d.ProfileDetails.length>0){
+            this.DeviceCommunicationForm.controls['UrlAddress'].setValue(d.ProfileDetails[0].rtspUrl);
+        }
+        else{
+          this.DeviceCommunicationForm.controls['UrlAddress'].setValue(d.ProfileDetails.rtspUrl);
         }
         
       },

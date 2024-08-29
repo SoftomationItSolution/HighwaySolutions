@@ -104,7 +104,7 @@ class MqttHandler:
             res={"event_type":"ufd","data":ufd_message}
             self.send_message_to_mqtt(self.mqtt_topic,res)
         except Exception as e:
-            self.logger.logError(f"Exception mqtt_ufd_event: {str(e)}")
+            self.logger.logError(f"Exception ufd_messge_broadcast: {str(e)}")
 
     def mqtt_rfid_event(self,data):
         try:
@@ -125,5 +125,12 @@ class MqttHandler:
             res={"event_type":"ping","data":data}
             self.send_message_to_mqtt(self.mqtt_topic,res)
         except Exception as e:
-            self.logger.logError(f"Exception mqtt_avc_event: {str(e)}")
+            self.logger.logError(f"Exception mqtt_ping_event: {str(e)}")
+
+    def mqtt_dio_event(self,data):
+        try:
+            res={"event_type":"dio","data":data}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception mqtt_dio_event: {str(e)}")
 

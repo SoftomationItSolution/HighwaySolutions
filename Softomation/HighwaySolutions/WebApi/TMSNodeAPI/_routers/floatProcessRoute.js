@@ -46,7 +46,6 @@ async function FloatProcessSetup(req, res, next) {
             .input('CreatedDate', sql.DateTime, currentDateTime)
             .input('ModifiedDate', sql.DateTime, currentDateTime)
             .execute('USP_FloatProcessInsertUpdate');
-        database.disconnect();
         const ds = result.recordsets;
         let out = constants.ResponseMessageList(ds[0], null);
         if (req.body.FloatTransactionTypeId >= 3 && req.body.FloatTransactionTypeId <= 6) {
