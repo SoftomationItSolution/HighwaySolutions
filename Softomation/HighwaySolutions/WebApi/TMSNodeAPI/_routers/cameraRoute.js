@@ -2,12 +2,15 @@ const Onvif_old = require('onvif');
 const Onvif = require('node-onvif');
 const logger = require('../_helpers/logger');
 const express = require('express');
+const stream = require('stream');
+const ffmpeg = require('fluent-ffmpeg');
 const router = express.Router();
 const constants = require("../_helpers/constants");
 router.get('/getAllCameraDetails', getAllCameraDetails);
 router.get('/getAllCameras', getAllCameras);
 router.post('/getDetailsByCameraUrl', getDetailsByCameraUrl);
 router.post('/getDetailsByCamera', getDetailsByCamera);
+router.get('/getCameraLiveView/:rtspUrl', getCameraLiveView);
 
 async function getAllCameraDetails(req, res, next) {
     try {
@@ -183,5 +186,35 @@ async function getDetailsByCamera(req, res, next) {
         res.status(500).send(`Error getting camera details for ${requested_data}`);
     }
 }
+
+async function getCameraLiveView(req, res, next) {
+    //const rtspUrl = decodeURIComponent(req.params.rtspUrl);
+    const rtspUrl = req.params.rtspUrl;
+    console.log(rtspUrl)
+    res.setHeader('Content-Type', 'video/mp4');
+
+    const passThrough = new stream.PassThrough();
+    ffmpeg(rtspUrl)
+    .inputOptions('-rtsp_transport', 'tcp')
+    .outputFormat('mjpeg')
+    .on('stderr', function(stderrLine) {
+        console.log('Stderr output: ' + stderrLine);
+    })
+    .on('error', (err) => {
+        console.error('Error: ' + err.message);
+        res.status(500).send('Error processing video stream');
+    })
+    .pipe(passThrough);
+
+    // ffmpeg(rtspUrl)
+    //     .outputFormat('mp4')
+    //     .videoCodec('libx264')
+    //     .on('error', (err) => {
+    //         console.error('Error: ' + err.message);
+    //     })
+    //     .pipe(passThrough);
+
+    // passThrough.pipe(res);
+};
 
 module.exports = router;

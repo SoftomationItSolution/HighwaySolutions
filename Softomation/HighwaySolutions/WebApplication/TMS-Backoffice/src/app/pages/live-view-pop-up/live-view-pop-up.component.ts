@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { errorMessages, regExps } from 'src/services/CustomValidation';
 import { DataModel } from 'src/services/data-model.model';
-
 declare var JSMpeg: any;
 @Component({
   selector: 'app-live-view-pop-up',
@@ -19,13 +18,16 @@ export class LiveViewPopUpComponent {
   player: any = null;
   EquipmentTypeId = 0
   submitted = false;
+  streamUrl=''
   constructor(public Dialogref: MatDialogRef<LiveViewPopUpComponent>, public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) parentData: any, public dataModel: DataModel) {
     this.CameraDetails = parentData;
+    
     this.PageTitle = 'Live View(' + this.CameraDetails.EquipmentName + ')'
     this.EquipmentTypeId = this.CameraDetails.EquipmentTypeId
     let MediaPrefix = this.dataModel.getLiveAPI()?.toString();
-    var videoUrl = MediaPrefix + 'frame/' + this.CameraDetails.IpAddress + '/' + this.CameraDetails.LoginId + '/' + this.CameraDetails.LoginPassword + '';
+    let videoUrl=this.CameraDetails.UrlAddress
+    //var videoUrl = MediaPrefix + 'frame/' + this.CameraDetails.IpAddress + '/' + this.CameraDetails.LoginId + '/' + this.CameraDetails.LoginPassword + '';
     if (this.myWebSocket != null) {
       this.myWebSocket.close();
       this.player.destroy();
@@ -46,8 +48,11 @@ export class LiveViewPopUpComponent {
   }
 
   newStream(videoUrl: string) {
-    let url=encodeURIComponent('rtsp://admin:kits%402023@192.168.1.201:554/avstream/channel=1/stream=0.sdp')
-    videoUrl = 'ws://localhost:5001/frame/'+url
+    const wsPath = this.dataModel.getLiveAPI()?.toString();
+    const apiPath = this.dataModel.getDataAPI()?.toString();
+    let url=encodeURIComponent(videoUrl)
+    //this.streamUrl=apiPath+'FastTrackHighway-TMS/getCameraLiveView/'+url
+    videoUrl = wsPath+'frame/'+url
     this.myWebSocket = new WebSocket(videoUrl);
     this.player = new JSMpeg.Player(videoUrl, {
       canvas: document.getElementById("ptz0"),

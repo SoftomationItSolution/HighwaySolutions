@@ -50,7 +50,9 @@ export class apiIntegrationService {
           
         }
         let camApi = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9999/"
-        let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
+        //let LiveView = 'ws://' + this.ConfigData.BaseURL + ':/';
+        let LiveView = "ws://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/"
+        
         this.ApiCallUrl = apiPath
         this.dataModel.setCamAPI(camApi);
         this.dataModel.setMediaAPI(mediaPath);
@@ -377,6 +379,12 @@ export class apiIntegrationService {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/getDetailsByCamera', data, { headers: headers_object });
+  }
+
+  getCameraLiveView(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/getCameraLiveView', data, { headers: headers_object });
   }
 
   //#endregion

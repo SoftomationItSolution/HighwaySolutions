@@ -99,6 +99,15 @@ class MqttHandler:
         except Exception as e:
             self.logger.logError(f"Exception mqtt_connect: {str(e)}")
 
+    def stop(self):
+        try:
+            if self.mqtt_client is not None:
+                self.mqtt_client.loop_stop()
+                self.mqtt_client.disconnect()
+                self.logger.logInfo("MQTT client stopped and disconnected.")
+        except Exception as e:
+            self.logger.logError(f"Exception stop: {str(e)}")
+
     def ufd_messge_broadcast(self,ufd_message):
         try:
             res={"event_type":"ufd","data":ufd_message}
