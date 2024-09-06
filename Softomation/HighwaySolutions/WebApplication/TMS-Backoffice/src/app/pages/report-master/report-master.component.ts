@@ -35,7 +35,18 @@ export class ReportMasterComponent implements OnInit {
   ExemptTypeData: any
   submitted = false;
   LoginId = ''
-  transTypeDisbaled=false
+  transTypeDisbaled = false
+  StartDateTimeDisbaled = false
+  EndDateTimeDisbaled = false
+  ShiftDisbaled = false
+  TCUserDisbaled = false
+  PlazaDisbaled = false
+  LaneDisbaled = false
+  VehicleClassDisbaled = false
+  VehicleSubClassDisbaled = false
+  PlateNumberDisbaled = false
+  TransactionIdDisbaled = false
+
   constructor(private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private dm: DataModel,
     public datepipe: DatePipe) {
@@ -47,9 +58,37 @@ export class ReportMasterComponent implements OnInit {
     this.GetPermissionData();
   }
 
+  enbale_control() {
+    this.transTypeDisbaled = false
+    this.StartDateTimeDisbaled = false
+    this.EndDateTimeDisbaled = false
+    this.ShiftDisbaled = false
+    this.TCUserDisbaled = false
+    this.PlazaDisbaled = false
+    this.LaneDisbaled = false
+    this.VehicleClassDisbaled = false
+    this.VehicleSubClassDisbaled = false
+    this.PlateNumberDisbaled = false
+    this.TransactionIdDisbaled = false
+  }
+  disable_control() {
+    this.transTypeDisbaled = true
+    this.StartDateTimeDisbaled = true
+    this.EndDateTimeDisbaled = true
+    this.ShiftDisbaled = true
+    this.TCUserDisbaled = true
+    this.PlazaDisbaled = true
+    this.LaneDisbaled = true
+    this.VehicleClassDisbaled = true
+    this.VehicleSubClassDisbaled = true
+    this.PlateNumberDisbaled = true
+    this.TransactionIdDisbaled = true
+  }
+
   ngOnInit(): void {
     this.FilterDetailsForm = new FormGroup({
       StartDateTime: new FormControl(new Date()),
+      StartDate: new FormControl(new Date()),
       EndDateTime: new FormControl(new Date()),
       ShiftFilterList: new FormControl('', []),
       TCUserFilterList: new FormControl('', []),
@@ -63,7 +102,7 @@ export class ReportMasterComponent implements OnInit {
       CategoryId: new FormControl('', [Validators.required]),
       ReportId: new FormControl('', [Validators.required]),
     });
-    
+
   }
 
   GetPermissionData() {
@@ -162,24 +201,37 @@ export class ReportMasterComponent implements OnInit {
   }
 
   SubCategoryChange(vale) {
+    this.enbale_control()
     this.SubCategoryId = vale;
-    if (vale == 22||vale == 23) {
-      var d= this.TransactionTypeData.filter(a => a.DataId==3).map(a => a.DataId);
+    if (vale == 22 || vale == 23) {
+      var d = this.TransactionTypeData.filter(a => a.DataId == 3).map(a => a.DataId);
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
-      this.transTypeDisbaled=true;
+      this.transTypeDisbaled = true;
     }
     else if (vale == 30 || vale == 31) {
-      var d= this.TransactionTypeData.filter(a => a.DataId != 3).map(a => a.DataId);
+      var d = this.TransactionTypeData.filter(a => a.DataId != 3).map(a => a.DataId);
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
-      this.transTypeDisbaled=true;
+      this.transTypeDisbaled = true;
     }
     else if (vale == 32) {
-      var d= this.TransactionTypeData.filter(a => a.DataId != 4).map(a => a.DataId);
+      var d = this.TransactionTypeData.filter(a => a.DataId != 4).map(a => a.DataId);
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].setValue(d)
-      this.transTypeDisbaled=true;
+      this.transTypeDisbaled = true;
+    }
+    else if (vale == 33) {
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].reset()
+      this.FilterDetailsForm.controls['ShiftFilterList'].reset()
+      this.FilterDetailsForm.controls['TCUserFilterList'].reset()
+      this.FilterDetailsForm.controls['LaneFilterList'].reset()
+      this.FilterDetailsForm.controls['VehicleClassFilterList'].reset()
+      this.FilterDetailsForm.controls['VehicleSubClassFilterList'].reset()
+      this.FilterDetailsForm.controls['TransactionId'].reset()
+      this.FilterDetailsForm.controls['PlateNumber'].reset()
+      this.disable_control()
+      this.transTypeDisbaled = true;
     }
     else {
-      this.transTypeDisbaled=false;
+      this.transTypeDisbaled = false;
       this.FilterDetailsForm.controls['TransactionTypeFilterList'].reset();
     }
   }
@@ -267,7 +319,13 @@ export class ReportMasterComponent implements OnInit {
       }
     }
     let AuditerFilterList = "0"
-    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let SD = ''
+    if (this.FilterDetailsForm.value.ReportId == 33) {
+      SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDate, 'dd-MMM-yyyy')
+    }
+    else {
+      SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    }
     let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
     var obj = {
       CategoryId: this.FilterDetailsForm.value.CategoryId,

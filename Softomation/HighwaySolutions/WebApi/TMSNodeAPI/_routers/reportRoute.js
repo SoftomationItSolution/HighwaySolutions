@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const moment = require('moment');
-const fs = require('fs');
 const sql = require('mssql');
-const path = require('path');
 const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
@@ -63,29 +60,66 @@ async function ReportProcess(req, res, next) {
             .input('TransactionId', sql.BigInt, data.TransactionId)
             .input('FilterQuery', sql.VarChar(4000), data.FilterQuery)
             .execute('USP_GetReportData');
-        
+
         if (result.recordsets.length > 1) {
             const headerData = result.recordset[0]
             const ReportData = result.recordsets[1]
             const ReportDataList = result.recordsets
-            if (result.recordsets[1].length > 0) {
-                const ReportName = generateReceiptNumber(headerData.ReportType)
-                if(data.ReportId==23 || data.ReportId==27  || data.ReportId==31 || data.ReportId==11 || data.ReportId==13 || data.ReportId==16){
-                    reports.generateDateWiseCountPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
+            const ReportName = generateReceiptNumber(headerData.ReportType)
+            if (data.ReportId == 23 || data.ReportId == 27 || data.ReportId == 31 || data.ReportId == 11 || data.ReportId == 13 || data.ReportId == 16) {
+                reports.generateDateWiseCountPdf(data.GeneratedBy, headerData, ReportDataList, ReportName)
+            }
+            else if (data.ReportId == 22 || data.ReportId == 30 || data.ReportId == 32) {
+                if (ReportData.length > 0) {
+                    reports.generateTransPdf(data.GeneratedBy, headerData, ReportData, ReportName)
                 }
-                else if(data.ReportId==22 || data.ReportId==30 || data.ReportId==32){
-                    reports.generateTransPdf(data.GeneratedBy, headerData,ReportData, ReportName)
+                else {
+                    let out = constants.ResponseMessage("No record found", null);
+                    res.status(200).json(out)
                 }
-                else{
-                    reports.generateTransLandPdf(data.GeneratedBy, headerData,ReportData, ReportName)
-                }
-                let out = constants.ResponseMessage(ReportName, result.recordset);
-                res.status(200).json(out)
+            }
+            else if (data.ReportId == 6 || data.ReportId == 7) {
+                reports.generateAVCPdf(data.GeneratedBy, headerData, ReportDataList, ReportName)
+            }
+            else if (data.ReportId == 33) {
+                reports.generateMisPdf(data.GeneratedBy, headerData, ReportDataList, ReportName)
             }
             else {
-                let out = constants.ResponseMessage("No record found", null);
-                res.status(200).json(out)
+                if (ReportData.length > 0) {
+                    reports.generateTransLandPdf(data.GeneratedBy, headerData, ReportData, ReportName)
+
+                }
+                else {
+                    let out = constants.ResponseMessage("No record found", null);
+                    res.status(200).json(out)
+                }
             }
+            let out = constants.ResponseMessage(ReportName, result.recordset);
+            res.status(200).json(out)
+            // if (result.recordsets[1].length > 0) {
+            //     const ReportName = generateReceiptNumber(headerData.ReportType)
+            //     if(data.ReportId==23 || data.ReportId==27  || data.ReportId==31 || data.ReportId==11 || data.ReportId==13 || data.ReportId==16){
+            //         reports.generateDateWiseCountPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
+            //     }
+            //     else if(data.ReportId==22 || data.ReportId==30 || data.ReportId==32){
+            //         reports.generateTransPdf(data.GeneratedBy, headerData,ReportData, ReportName)
+            //     }
+            //     else if (data.ReportId==6 || data.ReportId==7){
+            //         reports.generateAVCPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
+            //     }
+            //     else if (data.ReportId==33){
+            //         reports.generateTransLandPdf(data.GeneratedBy, headerData,ReportDataList, ReportName)
+            //     }
+            //     else{
+            //         reports.generateTransLandPdf(data.GeneratedBy, headerData,ReportData, ReportName)
+            //     }
+            //     let out = constants.ResponseMessage(ReportName, result.recordset);
+            //     res.status(200).json(out)
+            // }
+            // else {
+            //     let out = constants.ResponseMessage("No record found", null);
+            //     res.status(200).json(out)
+            // }
         }
         else {
             let out = constants.ResponseMessage("No record found", null);
@@ -112,7 +146,6 @@ function errorlogMessage(error, method) {
 function generateReceiptNumber(name) {
     const timestamp = Date.now(); // Get current timestamp
     const random = Math.floor(Math.random() * 10000); // Generate random number between 0 and 9999
-    const paddedRandom = random.toString().padStart(4, '0'); // Pad random number to have 4 digits
     const receiptNumber = `${name.replace(/\s/g, '')}_${timestamp}.pdf`; // Concatenate timestamp and padded random number
     return receiptNumber; // Ensure the length is 20 characters
 }

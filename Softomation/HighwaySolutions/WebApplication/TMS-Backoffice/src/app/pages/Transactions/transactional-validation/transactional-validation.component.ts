@@ -400,8 +400,14 @@ export class TransactionalValidationComponent {
         this.ReviewedClassCorrectionTypeChange(0);
       }
       else {
+        if (this.SelectedRow.VehicleAvcClassId>0){
         this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(2);
         this.ReviewedClassCorrectionTypeChange(2);
+        }
+        else{
+          this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(1);
+          this.ReviewedClassCorrectionTypeChange(1);
+        }
       }
     }else{
       this.SelectedRow=null;
@@ -462,12 +468,12 @@ export class TransactionalValidationComponent {
         return;
       }
     }
-    if (this.Reviewedform.value.ReviewedClassCorrectionId == 0 || this.Reviewedform.value.ReviewedClassCorrectionId == 1)
-      this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleSubClassId;
-    else if (this.Reviewedform.value.ReviewedClassCorrectionId == 2)
-      this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleAvcClassId
-    else
-      this.SelectedRow.ReviewedSubClassId = this.Reviewedform.value.ReviewedSubClassId;
+    // if (this.Reviewedform.value.ReviewedClassCorrectionId == 0 || this.Reviewedform.value.ReviewedClassCorrectionId == 1)
+    //   this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleSubClassId;
+    // else if (this.Reviewedform.value.ReviewedClassCorrectionId == 2)
+    //   this.SelectedRow.ReviewedSubClassId = this.SelectedRow.VehicleAvcClassId
+    // else
+    this.SelectedRow.ReviewedSubClassId = this.Reviewedform.value.ReviewedSubClassId;
     this.SelectedRow.ReviewedPlateNumber = this.Reviewedform.value.ReviewedPlateNumber;
     this.SelectedRow.ReviewedTransactionTypeId = this.Reviewedform.value.ReviewedTransactionTypeId;
     this.SelectedRow.ReviewedClassCorrectionId = this.Reviewedform.value.ReviewedClassCorrectionId
@@ -574,8 +580,16 @@ export class TransactionalValidationComponent {
       this.Reviewedform.controls['ReviewedSubClassId'].enable();
     }
     else if (value == 2) {
-      this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleAvcClassId);
-      this.Reviewedform.controls['ReviewedSubClassId'].disable();
+      if (this.SelectedRow.VehicleAvcClassId>0){
+        this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleAvcClassId);
+        this.Reviewedform.controls['ReviewedSubClassId'].disable();
+      }
+      else{
+        this.ErrorData = [{ AlertMessage: 'No Avc Class found going to set TC class' }];
+        this.dm.openSnackBar(this.ErrorData, false);
+        this.Reviewedform.controls['ReviewedClassCorrectionId'].setValue(1);
+        this.ReviewedClassCorrectionTypeChange(1);
+      }
     }
     else {
       this.Reviewedform.controls['ReviewedSubClassId'].setValue(this.SelectedRow.VehicleSubClassId);

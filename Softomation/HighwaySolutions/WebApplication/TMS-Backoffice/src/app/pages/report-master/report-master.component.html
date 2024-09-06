@@ -34,20 +34,25 @@
                                             <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
                                                 pInputText autofocus class="form-control"
                                                 formControlName="StartDateTime" [readonlyInput]="true"
-                                                dateFormat="dd-M-yy"></p-calendar>
+                                                dateFormat="dd-M-yy" *ngIf="StartDateTimeDisbaled==false"></p-calendar>
+
+                                                <p-calendar [showTime]="false" [showSeconds]="true"
+                                                pInputText autofocus class="form-control"
+                                                formControlName="StartDate" [readonlyInput]="true"
+                                                dateFormat="dd-M-yy" *ngIf="StartDateTimeDisbaled==true"></p-calendar>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="EndDateTime">End Date Time</label>
                                             <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
                                                 pInputText autofocus class="form-control" formControlName="EndDateTime"
-                                                [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
+                                                [readonlyInput]="true" dateFormat="dd-M-yy" [disabled]="EndDateTimeDisbaled"></p-calendar>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="ShiftFilterList">Shift</label>
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="ShiftFilterList"
                                                 inputId="ShiftFilterList" [options]="ShiftData" optionLabel="DataName"
-                                                optionValue="DataId" placeholder="Shift">
+                                                optionValue="DataId" placeholder="Shift" [readonly]="ShiftDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -55,7 +60,7 @@
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="TCUserFilterList"
                                                 inputId="TCUserFilterList" [options]="LaneUserData"
-                                                optionLabel="DataName" optionValue="DataId" placeholder="Operators">
+                                                optionLabel="DataName" optionValue="DataId" placeholder="Operators" [readonly]="TCUserDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -64,7 +69,7 @@
                                                 [style]="{'width':'100%'}" formControlName="PlazaFilterList"
                                                 inputId="PlazaFilterList" [options]="PlazaDataList"
                                                 (onChange)="PlazaChange()" optionLabel="DataName" optionValue="DataId"
-                                                placeholder="Plaza">
+                                                placeholder="Plaza" [readonly]="PlazaDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -72,7 +77,7 @@
                                             <p-multiSelect appendTo="body" class="form-control select2"
                                                 [style]="{'width':'100%'}" formControlName="LaneFilterList"
                                                 inputId="LaneFilterList" [options]="LaneList" optionLabel="DataName"
-                                                optionValue="DataId" placeholder="Lane">
+                                                optionValue="DataId" placeholder="Lane" [readonly]="LaneDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -81,7 +86,7 @@
                                                 [style]="{'width':'100%'}" formControlName="VehicleClassFilterList"
                                                 inputId="VehicleClassFilterList" [options]="ClassData"
                                                 optionLabel="DataName" optionValue="DataId" placeholder="Vehicle Class"
-                                                (onChange)="VehicleClassChange()">
+                                                (onChange)="VehicleClassChange()" [readonly]="VehicleClassDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -90,7 +95,7 @@
                                                 [style]="{'width':'100%'}" formControlName="VehicleSubClassFilterList"
                                                 inputId="VehicleClassFilterList" [options]="SubClassList"
                                                 optionLabel="DataName" optionValue="DataId"
-                                                placeholder="Vehicle Sub Class">
+                                                placeholder="Vehicle Sub Class" [readonly]="VehicleSubClassDisbaled">
                                             </p-multiSelect>
                                         </div>
                                         <div class="col-md-3">
@@ -105,13 +110,13 @@
                                         <div class="col-md-3">
                                             <label for="PlateNumber">Plate Number</label>
                                             <input formControlName="PlateNumber" placeholder="Plate Number" type="text"
-                                                pInputText autocomplete="off" class="form-control" />
+                                                pInputText autocomplete="off" class="form-control" [readonly]="PlateNumberDisbaled"/>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="TransactionId">Transaction Id</label>
                                             <input formControlName="TransactionId" placeholder="Transaction Id"
                                                 type="text" pInputText autocomplete="off"
-                                                class="form-control" />
+                                                class="form-control" [readonly]="TransactionIdDisbaled"/>
                                         </div>
                                         <div class="col-md-3">
 
