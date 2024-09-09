@@ -5,7 +5,6 @@ const constants = require("../_helpers/constants");
 const moment = require('moment');
 const path = require('path');
 const { root_path, pc_path } = require("../_helpers/constants");
-const apiPath = process.cwd();
 
 const pc_Directory = path.join(root_path, pc_path);
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
