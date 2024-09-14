@@ -6,6 +6,7 @@ const logger = require('../_helpers/logger');
 const reports = require('../_reports/reportmaster');
 const sql = require('mssql');
 const moment = require('moment');
+const momentTz = require('moment-timezone');
 
 
 router.post('/FloatProcessSetUp', FloatProcessSetup);
@@ -43,8 +44,8 @@ async function FloatProcessSetup(req, res, next) {
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, currentDateTime)
-            .input('ModifiedDate', sql.DateTime, currentDateTime)
+            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
             .execute('USP_FloatProcessInsertUpdate');
         const ds = result.recordsets;
         let out = constants.ResponseMessageList(ds[0], null);
@@ -191,4 +192,16 @@ function generateReceipt(input, headerDetails) {
         ]
     }
     reports.generateFloatPdf(jsonData["FloatType"]+" Receipt", input["GeneratedBy"], tab, jsonData, pdfName);
+}
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
 }

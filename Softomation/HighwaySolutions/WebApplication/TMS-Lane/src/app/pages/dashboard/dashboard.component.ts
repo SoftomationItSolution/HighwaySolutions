@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { noop, Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
 import { WebSocketService } from 'src/services/WebSocket.service';
@@ -94,6 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Append a timestamp to the URL to force the browser to fetch a new image
     const timestamp = new Date().getTime();
     this.lpicViewUrl = this.dm.getDataAPI() + `/lpicLiveView?timestamp=${timestamp}`
+    console.log(this.lpicViewUrl)
   }
 
   reset_form() {

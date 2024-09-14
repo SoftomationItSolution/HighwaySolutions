@@ -4,6 +4,8 @@ const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
+const moment = require('moment');
+const momentTz = require('moment-timezone');
 const mqttClient = require('../_helpers/mqttHandler');
 router.post('/FasTagVehicleClassInsertUpdate', FasTagVehicleClassInsertUpdate);
 router.post('/SystemVehicleClassInsertUpdate', SystemVehicleClassInsertUpdate);
@@ -28,8 +30,8 @@ async function FasTagVehicleClassInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, currentDateTime)
-            .input('ModifiedDate', sql.DateTime, currentDateTime)
+            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
             .execute('USP_FasTagVehicleClassInsertUpdate');
         
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -54,8 +56,8 @@ async function SystemVehicleClassInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, currentDateTime)
-            .input('ModifiedDate', sql.DateTime, currentDateTime)
+            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
             .execute('USP_SystemVehicleClassInsertUpdate');
         
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -188,3 +190,15 @@ function pubData(out){
      errorlogMessage(error, 'SystemVehicleClassInsertUpdate_pubData');
     }
  }
+
+ function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}

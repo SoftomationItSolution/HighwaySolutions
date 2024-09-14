@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 export class WebSocketService {
   private socket: WebSocket;
   private messageSubject: Subject<string> = new Subject<string>();
-  currentIP = '125.17.219.6'; // Hardcoded for now
+  currentIP = '127.0.0.1'; // Hardcoded for now
   private reconnectInterval = 500; // Time between reconnection attempts (in ms)
 
   constructor() {
@@ -16,7 +16,7 @@ export class WebSocketService {
   GetIpAddress() {
     this.currentIP='';
     var curretURL = (window.location.href).split(':')
-    this.currentIP = '125.17.219.6'//curretURL[1].replace("//", "");
+    this.currentIP = curretURL[1].replace("//", "");
     this.connect();
   }
 
@@ -27,7 +27,9 @@ export class WebSocketService {
 
   connect(): void {
     try {
-      this.socket = new WebSocket(`ws://${this.currentIP}:6789`);
+      const wsAdd=`ws://${this.currentIP}:6789`
+      console.log(wsAdd)
+      this.socket = new WebSocket(wsAdd);
 
       this.socket.onmessage = (event) => {
         //console.log('Received message:', event.data);

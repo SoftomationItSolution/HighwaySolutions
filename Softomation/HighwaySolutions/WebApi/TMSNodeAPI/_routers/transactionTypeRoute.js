@@ -4,6 +4,8 @@ const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
+const moment = require('moment');
+const momentTz = require('moment-timezone');
 const mqttClient = require('../_helpers/mqttHandler');
 router.post('/TransactionTypeUpdate', TransactionTypeUpdate);
 
@@ -95,3 +97,15 @@ function pubData(out){
      errorlogMessage(error, 'TransactionTypeUpdate_pubData');
     }
  }
+
+ function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}

@@ -4,7 +4,8 @@ const database = require('../_helpers/dbSingleton');
 const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
-
+const moment = require('moment');
+const momentTz = require('moment-timezone');
 router.post('/manufacturerInsertUpdate', ManufacturerInsertUpdate);
 
 router.get('/manufacturerGetAll', ManufacturerGetAll);
@@ -24,8 +25,8 @@ async function ManufacturerInsertUpdate(req, res, next) {
             .input('DataStatus', sql.Int, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, currentDateTime)
-            .input('ModifiedDate', sql.DateTime, currentDateTime)
+            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
             .execute('USP_ManufacturerInsertUpdate');
         
         let out = constants.ResponseMessageList(result.recordset, null);
@@ -93,5 +94,17 @@ function errorlogMessage(error, method) {
     }
     catch (error) {
         logger.error(`Caught an error in :${method}`);
+    }
+}
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
     }
 }

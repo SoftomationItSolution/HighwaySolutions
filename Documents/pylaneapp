@@ -1,0 +1,23 @@
+server {
+    listen 127.0.0.1:8080;
+    server_name 127.0.0.1;
+    root /opt/soft/PyLaneV3App;
+    index index.html;
+    # Add MIME types
+    include /etc/nginx/mime.types;
+    types {
+        application/manifest+json webmanifest;
+    }
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    
+    location = /favicon.ico {
+        alias /opt/soft/PyLaneV3App/favicon.ico;
+    }
+    
+    # Serve .webmanifest files
+    location ~* \.webmanifest$ {
+        default_type application/manifest+json;
+    }
+}

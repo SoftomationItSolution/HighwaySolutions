@@ -39,8 +39,8 @@ async function ReportProcess(req, res, next) {
         if (data.PlateNumber > 0) {
             data.FilterQuery = data.FilterQuery + " AND (L.PlateNumber LIKE %" + data.PlateNumber + "%)";
         }
-        if (data.TransactionId > 0) {
-            data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = " + data.TransactionId + " OR L.PlazaTransactionId = " + data.TransactionId + " OR L.LaneTransactionId = " + data.TransactionId + ")";
+        if (data.TransactionId != "0") {
+            data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = '" + data.TransactionId + "' OR L.PlazaTransactionId = '" + data.TransactionId + "' OR L.LaneTransactionId = '" + data.TransactionId + "')";
         }
         const pool = await database.getPool();
         result = await pool.request()
@@ -57,7 +57,7 @@ async function ReportProcess(req, res, next) {
             .input('TransactionTypeFilterList', sql.VarChar(4000), data.TransactionTypeFilterList)
             .input('AuditerFilterList', sql.VarChar(4000), data.AuditerFilterList)
             .input('PlateNumber', sql.VarChar(20), data.PlateNumber)
-            .input('TransactionId', sql.BigInt, data.TransactionId)
+            .input('TransactionId', sql.VarChar(50), data.TransactionId)
             .input('FilterQuery', sql.VarChar(4000), data.FilterQuery)
             .execute('USP_GetReportData');
 

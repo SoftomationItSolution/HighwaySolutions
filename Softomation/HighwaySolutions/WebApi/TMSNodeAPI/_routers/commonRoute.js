@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const moment = require('moment');
+const momentTz = require('moment-timezone');
 const fs = require('fs');
 const sql = require('mssql');
 const path = require('path');
@@ -82,8 +83,8 @@ async function SystemSettingSetup(req, res, next) {
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, currentDateTime)
-            .input('ModifiedDate', sql.DateTime, currentDateTime)
+            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
             .execute('USP_SystemSettingInsertUpdate');
         
         let out = constants.ResponseMessage("success", result.recordset[0]);
@@ -523,6 +524,18 @@ function CreateObjectForSystemVehicleSubClass(row) {
         return data;
     } catch (error) {
         throw error;
+    }
+}
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
     }
 }
 

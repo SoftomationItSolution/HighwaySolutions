@@ -5,7 +5,7 @@ const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const sql = require('mssql');
 const moment = require('moment');
-
+const momentTz = require('moment-timezone');
 router.get('/LaneTransactionGetLatest', LaneTransactionGetLatest);
 router.get('/ReviewPendingGetLatest', ReviewPendingGetLatest);
 router.get('/ReviewedGetLatest', ReviewedGetLatest);
@@ -146,7 +146,7 @@ async function LaneTransactionValidation(req, res, next) {
             .input('ReviewedTransactionAmount', sql.Decimal, data.ReviewedTransactionAmount)
             .input('DifferenceAmount', sql.Decimal, data.DifferenceAmount)
             .input('ReviewedById', sql.BigInt, data.ReviewedById)
-            .input('ReviewedDateTime', sql.DateTime, currentDateTime)
+            .input('ReviewedDateTime', sql.DateTime, date_time_format(currentDateTime))
             .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
             .execute('USP_LaneTransactionReviewUpdate');
         
@@ -168,7 +168,7 @@ async function LaneTransactionCancel(req, res, next) {
             .input('PlazaTransactionId', sql.VarChar(30), data.PlazaTransactionId)
             .input('LaneTransactionId', sql.VarChar(30), data.LaneTransactionId)
             .input('ReviewedById', sql.BigInt, data.ReviewedById)
-            .input('ReviewedDateTime', sql.DateTime, currentDateTime)
+            .input('ReviewedDateTime', sql.DateTime, date_time_format(currentDateTime))
             .input('ReviewedRemark', sql.VarChar(255), data.ReviewedRemark)
             .execute('USP_LaneTransactionReviewCancel');
         
@@ -226,7 +226,7 @@ function CreateObjectForLaneData(row) {
             TagPenaltyAmount: row.TagPenaltyAmount,
             TransactionAmount: row.TransactionAmount,
             TransactionDateTime: row.TransactionDateTime,
-            TransactionDateTimeStamp: moment(row.TransactionDateTime).format('DD-MMM-YYYY HH:mm:ss'),
+            TransactionDateTimeStamp: date_time_format_display(row.TransactionDateTime),
             TransactionFrontImage: row.TransactionFrontImage,
             TransactionBackImage: row.TransactionBackImage,
             TransactionAvcImage: row.TransactionAvcImage,
@@ -264,6 +264,30 @@ function CreateObjectForLaneData(row) {
         throw error;
     }
 }
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}
+
+function date_time_format_display(in_dateTime) {
+    try {
+         // Parse the input date-time string as UTC
+        const utcDate = moment.utc(in_dateTime);
+        return utcDate.format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}
+
 
 function errorlogMessage(error, method) {
     try {

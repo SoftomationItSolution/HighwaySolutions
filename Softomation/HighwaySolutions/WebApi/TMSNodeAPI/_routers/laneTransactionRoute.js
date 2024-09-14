@@ -65,7 +65,7 @@ async function LaneTranscationInsert(req, res, next) {
             .input('IsFleetTranscation', sql.Bit, req.body.IsFleetTranscation)
             .input('FleetCount', sql.SmallInt, req.body.FleetCount)
             .input('TCRemark', sql.VarChar(255), req.body.TCRemark)
-            .input('ReceivedDateTime', sql.DateTime2, moment(Cdt).format('DD-MMM-YYYY HH:mm:ss.SSS'))
+            .input('ReceivedDateTime', sql.DateTime2, date_time_format(Cdt))
             .execute('USP_LaneTransactionInsert');
         let out = constants.ResponseMessageList(result.recordset, null);
         res.status(200).json(out)

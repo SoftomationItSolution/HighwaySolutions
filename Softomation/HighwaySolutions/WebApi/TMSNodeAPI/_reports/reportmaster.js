@@ -3,6 +3,7 @@ const pdfMake = require('pdfmake/build/pdfmake');
 const pdfFonts = require('pdfmake/build/vfs_fonts');
 const constants = require("../_helpers/constants");
 const moment = require('moment');
+const momentTz = require('moment-timezone');
 const path = require('path');
 const { root_path, pc_path } = require("../_helpers/constants");
 
@@ -47,7 +48,7 @@ function generateFloatPdf(ReportName, GeneratedBy, Datacontent, headerDetail, pd
         const docDefinition = {
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -105,7 +106,7 @@ function generateFloatPdf(ReportName, GeneratedBy, Datacontent, headerDetail, pd
                         { text: "Shift:", alignment: 'center', fontSize: '10', margin: header_margin, bold: true },
                         { text: headerDetail.ShiftName, alignment: 'center', fontSize: '10', margin: header_margin },
                         { text: "Date:", alignment: 'right', fontSize: '10', margin: header_margin, bold: true },
-                        { text: moment(headerDetail.TransactionDate).format('DD-MMM-YYYY'), alignment: 'right', fontSize: '10', margin: header_margin },
+                        { text: date_format(headerDetail.TransactionDate), alignment: 'right', fontSize: '10', margin: header_margin },
 
                     ],
 
@@ -263,7 +264,7 @@ function generateAVCPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
                     }
                 }
                 if (key.toLowerCase() === 'date time') {
-                    combinedValue = moment(combinedValue).format('DD-MMM-YYYY HH:mm:ss');
+                    combinedValue = date_time_format_display(combinedValue);
                 } else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                     combinedValue = constants.INRFormat(combinedValue);
                 }
@@ -303,7 +304,7 @@ function generateAVCPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
             pageOrientation: 'landscape',
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -495,7 +496,7 @@ function generateTransLandPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
                     }
                 }
                 if (key.toLowerCase() === 'date time') {
-                    value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                    value = date_time_format_display(value);
                 }
                 else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                     value = constants.INRFormat(value);
@@ -526,7 +527,7 @@ function generateTransLandPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
             pageOrientation: 'landscape',
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -716,7 +717,7 @@ function generateTransPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
                     }
                 }
                 if (key.toLowerCase() === 'date time') {
-                    value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                    value = date_time_format_display(value);
                 }
                 else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                     value = constants.INRFormat(value);
@@ -738,7 +739,7 @@ function generateTransPdf(GeneratedBy, headerDetail, ReportData, pdfName) {
         const docDefinition = {
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -917,7 +918,7 @@ function generateDateWiseCountPdf(GeneratedBy, headerDetail, ReportDataList, pdf
         const docDefinition = {
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -1023,7 +1024,7 @@ function generateDateWiseCountPdf(GeneratedBy, headerDetail, ReportDataList, pdf
                                         }
                                     }
                                     if (key.toLowerCase() === 'date time') {
-                                        value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                                        value = date_time_format_display(value);
                                     }
                                     else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                                         value = constants.INRFormat(value);
@@ -1164,7 +1165,7 @@ function generateMisPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
         const docDefinition = {
             pageMargins: pageMargins,
             footer: function (currentPage, pageCount) {
-                const printedOn = `Printed on: ${moment(new Date().toLocaleString()).format('DD-MMM-YYYY HH:mm:ss')}`;
+                const printedOn = `Printed on: ${date_time_format(new Date())}`;
                 const printedBy = `Printed by: ${GeneratedBy}`;
                 return {
                     stack: [
@@ -1270,7 +1271,7 @@ function generateMisPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
                                         }
                                     }
                                     if (key.toLowerCase() === 'date time') {
-                                        value = moment(value).format('DD-MMM-YYYY HH:mm:ss');
+                                        value = date_time_format_display(value);
                                     }
                                     else if (key.toLowerCase().includes('amount') || key.toLowerCase().includes('amt') || key.toLowerCase().includes('fee')) {
                                         value = constants.INRFormat(value);
@@ -1344,6 +1345,41 @@ function generateMisPdf(GeneratedBy, headerDetail, ReportDataList, pdfName) {
 
     } catch (error) {
         throw error;
+    }
+}
+
+function date_time_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}
+
+function date_format(in_dateTime) {
+    try {
+        if (!moment(in_dateTime).isValid()) {
+            throw new Error('Invalid date-time format');
+        }
+        return momentTz.tz(in_dateTime,'Asia/Kolkata').format('DD-MMM-YYYY');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
+    }
+}
+
+function date_time_format_display(in_dateTime) {
+    try {
+         // Parse the input date-time string as UTC
+        const utcDate = moment.utc(in_dateTime);
+        return utcDate.format('DD-MMM-YYYY HH:mm:ss.SSS');
+    } catch (error) {
+        errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+        return in_dateTime;
     }
 }
 
