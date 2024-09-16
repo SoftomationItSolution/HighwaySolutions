@@ -1,7 +1,10 @@
 import asyncio
 import json
+import os
 import threading
 import websockets
+import subprocess
+import signal
 from utils.LaneWebSocketClient import WebSocketClient
 from utils.log_master import CustomLogger
 
@@ -55,8 +58,31 @@ class LaneWebSocketServer:
         except Exception as e:
             self.logger.logError(f"Exception handle_client: {str(e)}")
 
+    def close_port(self, port):
+        """Close the process that's using the given port."""
+        try:
+            # Find the process using the port
+            result = subprocess.check_output(f"lsof -i :{port}", shell=True).decode()
+            
+            # Parse the PID from the result
+            for line in result.splitlines():
+                if "LISTEN" in line:
+                    pid = int(line.split()[1])
+                    os.kill(pid, signal.SIGTERM)  # Kill the process using the port
+                    self.logger.logInfo(f"Killed process {pid} that was using port {port}")
+                    return True
+        except subprocess.CalledProcessError:
+            self.logger.logInfo(f"Port {port} is not in use.")
+            return False
+        except Exception as e:
+            self.logger.logError(f"Failed to close port {port}: {str(e)}")
+            return False
+
     async def start_server(self):
         try:
+            if self.close_port(self.port):
+                self.logger.logInfo(f"Closed process using port {self.port}. Retrying to bind...")
+                
             self.server = await websockets.serve(self.handle_client, self.host, self.port)
             self.logger.logInfo(f"WebSocket server started on ws://{self.host}:{self.port}")
 
