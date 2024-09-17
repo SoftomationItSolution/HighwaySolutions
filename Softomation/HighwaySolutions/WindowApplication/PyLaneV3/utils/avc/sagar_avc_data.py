@@ -177,7 +177,7 @@ class SagarAVCDataClient(threading.Thread):
                 td = Utilities.difference_in_seconds(data['TransactionDateTime'], current_date_time)
                 ldi=data['LaneTransactionId']
                 self.logger.logInfo(f"TransactionDateTime diff is {td} for {ldi}")
-                if td < 5:
+                if td <= 10 and td >= 0:
                     LaneTransactionId = data.get('LaneTransactionId', '')
                     break
         except Exception as e:

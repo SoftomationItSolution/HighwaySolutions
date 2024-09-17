@@ -142,7 +142,7 @@ class LaneManager:
     def lane_update_avc(dbConnectionObj,d):
         try:
             params=[d["LaneTransactionId"],d['AvcClassId'],d['ImageName']]
-            resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionAvcUpdate', params)
+            resultData=dbConnectionObj.execute_procedure('USP_LaneTransactionUpdateAVC', params)
             return resultData
         except Exception as e:
             raise e

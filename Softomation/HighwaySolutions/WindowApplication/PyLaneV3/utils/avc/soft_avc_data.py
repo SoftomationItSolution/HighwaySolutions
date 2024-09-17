@@ -78,9 +78,7 @@ class STPLAVCDataClient(threading.Thread):
                 self.logger.logInfo(f"No System Date time process_data: {str(data)}")
             else:
                 current_date_time=datetime.fromisoformat(SystemDateTime)
-            LaneTransactionId=''
-            if not self.lane_dataqueue.empty():
-                LaneTransactionId = self.lane_dataqueue.get()
+            LaneTransactionId =self.get_laneTransaction_id(current_date_time)
             transactionInfo = {
                 'LaneId':self.LaneId,
                 'SystemDateTime':SystemDateTime,
@@ -117,11 +115,31 @@ class STPLAVCDataClient(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception process_db: {str(e)}")
 
-    def put_lane_data_q(self,transactionInfo):
+    def put_lane_data_q(self,LaneTransactionId,TransactionDateTime):
         try:
-            self.lane_dataqueue.put(transactionInfo)
+            x={"LaneTransactionId":LaneTransactionId,"TransactionDateTime":TransactionDateTime}
+            self.lane_dataqueue.put(x)
         except Exception as e:
             self.logger.logError(f"Exception put_lane_data_q: {str(e)}")
+
+    def get_laneTransaction_id(self, current_date_time):
+        LaneTransactionId = ''
+        try:
+            while not self.lane_dataqueue.empty():
+                data = self.lane_dataqueue.get()
+                if 'TransactionDateTime' not in data:
+                    self.logger.logError("TransactionDateTime key missing in data")
+                    continue
+                td = Utilities.difference_in_seconds(data['TransactionDateTime'], current_date_time)
+                ldi=data['LaneTransactionId']
+                self.logger.logInfo(f"TransactionDateTime diff is {td} for {ldi}")
+                if td <= 10 and td >= 0:
+                    LaneTransactionId = data.get('LaneTransactionId', '')
+                    break
+        except Exception as e:
+            self.logger.logError(f"Exception in get_laneTransaction_id: {str(e)}")
+        finally:
+            return LaneTransactionId
 
     def clean_queue(self):
         try:

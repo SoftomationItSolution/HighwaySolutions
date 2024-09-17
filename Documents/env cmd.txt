@@ -22,11 +22,11 @@ sudo mkdir -m 777 /home/ProjectConfig
 
 cd /opt/soft/PyLaneV1/
 pip install -r setup.txt
-sudo cp tmsV1.service /etc/systemd/system/
+sudo cp /opt/soft/tmsV1.service /etc/systemd/system/
 
 cd /opt/soft/AvccApp/
 pip install -r setup.txt
-sudo cp myapp.service /etc/systemd/system/
+sudo cp avcc_lane.service /etc/systemd/system/
 
 sudo cp park360v1.service /etc/systemd/system/
 
@@ -80,6 +80,18 @@ FLUSH PRIVILEGES;
 
 sudo systemctl restart mysql
 
+sudo systemctl start mssql-server
+sudo journalctl -u mssql-server
+
+
+
+sudo nano /etc/nginx/sites-available/pylaneapp
+
+sudo ln -s /etc/nginx/sites-available/pylaneapp /etc/nginx/sites-enabled/
+
+
+
+/etc/nginx/sites-available/
 
 sudo systemctl restart nginx
 pm2 restart app
@@ -96,17 +108,24 @@ sudo systemctl stop park360v1.service
 sudo systemctl enable park360v1.service
 sudo systemctl restart park360v1.service
 
+sudo systemctl stop avcc_lane.service
+sudo systemctl disbale avcc_lane.service
+sudo mv /etc/systemd/system/myapp.service /etc/systemd/system/avcc_lane.service
 sudo nano /etc/systemd/system/
 sudo systemctl daemon-reload
-sudo systemctl start myapp.service
-sudo systemctl enable myapp.service
-sudo systemctl restart myapp.service
-sudo systemctl status myapp.service
-sudo systemctl stop myapp.service
+sudo systemctl start avcc_lane.service
+sudo systemctl enable avcc_lane.service
+sudo systemctl restart avcc_lane.service
+sudo systemctl status avcc_lane.service
+sudo systemctl stop avcc_lane.service
+
+sudo nano /etc/systemd/system/tms_lane.service
 
 
 sudo systemctl restart docker.service
 sudo systemctl status cam_init.service
+
+sudo cp /opt/soft/tmsV1.service /etc/systemd/system/
 sudo systemctl start tmsV1.service
 sudo systemctl enable tmsV1.service
 sudo systemctl restart tmsV1.service
@@ -293,6 +312,12 @@ UPDATE tbl_EquipmentDetails SET LaneId=4 WHERE LaneId=2;
 ALTER TABLE tbl_LaneTransaction
 ALTER COLUMN IsReadByReader smallint;
 
+ALTER TABLE tbl_AvcTransaction
+ADD AvcSensorClassId smallint NOT NULL DEFAULT 0 AFTER TransactionCount;
+
+ALTER TABLE tbl_AvcTransaction
+ADD LaneTransactionId varchar(45) NOT NULL DEFAULT '' AFTER TransactionDateTime;
+
 EXEC sp_rename 'tbl_LaneTransaction.IsReadByReader', 'TagReadById', 'COLUMN';
 
 ALTER TABLE tbl_LaneTransaction
@@ -304,3 +329,50 @@ pip install paramiko --break-system-packages
 
 
 crontab
+
+
+sudo nano /etc/systemd/system/mps-app.service
+
+
+# create the service
+[Unit]
+Description=MPS APP Service
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/soft/MPUv2
+ExecStart=/root/miniconda3/envs/pysy/bin/python mpu.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start mps-app.service
+sudo systemctl enable mps-app.service
+sudo systemctl restart mps-app.service
+sudo systemctl status mps-app.service
+sudo systemctl stop mps-app.service
+
+sudo nano /etc/systemd/system/mps-gps-app.service
+
+[Unit]
+Description=MPS GPS APP Service
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/soft/MPUv2
+ExecStart=/root/miniconda3/envs/pysy/bin/python mpu.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start mps-gps-app.service
+sudo systemctl enable mps-gps-app.service
+sudo systemctl restart mps-gps-app.service
+sudo systemctl status mps-gps-app.service
+sudo systemctl stop mps-gps-app.service
