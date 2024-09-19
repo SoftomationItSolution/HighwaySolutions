@@ -607,6 +607,19 @@ class LaneEquipmentSynchronization(threading.Thread):
             if len(self.rfid_data)>10:
                 self.rfid_data.pop(0)
 
+    def update_wim_data(self,data):
+        try:
+            if self.system_loging_status:
+                self.wim_data.append(data)
+                self.publish_data("wim_processed",data)
+                if self.mqtt_Handler:
+                    self.mqtt_Handler.mqtt_wim_event(data)
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} update_wim_data: {str(e)}")
+        finally:
+            if len(self.wim_data)>10:
+                self.wim_data.pop(0)
+
     def update_avc_data(self,data):
         try:
             if self.system_loging_status:

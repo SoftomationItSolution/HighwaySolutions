@@ -122,6 +122,13 @@ class MqttHandler:
         except Exception as e:
             self.logger.logError(f"Exception mqtt_rfid_event: {str(e)}")
 
+    def mqtt_wim_event(self,data):
+        try:
+            res={"event_type":"wim","data":data}
+            self.send_message_to_mqtt(self.mqtt_topic,res)
+        except Exception as e:
+            self.logger.logError(f"Exception mqtt_wim_event: {str(e)}")
+
     def mqtt_avc_event(self,data):
         try:
             res={"event_type":"avc","data":data}

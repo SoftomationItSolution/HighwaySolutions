@@ -228,7 +228,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.FormDetails.controls['Remark'].setValue('');
 
       if (tagDetails != null) {
-        console.log(tagDetails)
         const ClassId = parseInt(tagDetails.Class);
         this.CurrentTransactions.TagEPC = tagDetails.EPC
         this.CurrentTransactions.RCTNumber = tagDetails.TID
@@ -439,15 +438,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
             // if (toppic == "equipment_status") {
             //   this.updateEquipmentStatus(data.EquipmentTypeId, data.OnLineStatus, toppic)
             // }
-            
+
             if (toppic == "hardware_on_off_status") {
               this.updateEquipmentStatus(data.EquipmentTypeId, data.PositionStatus, toppic)
             }
             else if (toppic == "wim_processed") {
-
+              console.log(data)
+              this.process_wim_data(data)
             }
             else if (toppic == "rfid_processed") {
-              console.log(data)
               this.process_rfid_data(data)
             }
             else if (toppic == "avc_processed") {
@@ -483,6 +482,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  process_wim_data(tagDetails: any) {
+    this.wimDataQueue.push(tagDetails)
+  }
+
+
 
   process_rfid_data(tagDetails: any) {
     if (this.CurrentTransactions == null) {
@@ -569,10 +574,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   getTollFare() {
     let currentFare = null
     let wimData = null
-    if (this.wimDataQueue.length > 0) {
-      wimData = this.wimDataQueue[0]
-      this.wimDataQueue.shift();
-    }
+
     if (this.CurrentTransactions != null && this.SystemSetting != null && this.TollFare != null && this.CurrentTransactions.TransactionTypeId > 0) {
       if (this.SystemSetting.TollFareonSubClass == 1 || this.SystemSetting.TollFareonSubClass == true) {
         if (this.CurrentTransactions.VehicleSubClassId > 0) {
@@ -585,7 +587,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       }
     }
+
     if (currentFare != null && currentFare.length > 0) {
+      if (this.wimDataQueue.length > 0) {
+        wimData = this.wimDataQueue[0]
+        this.wimDataQueue.shift();
+      }
       currentFare = currentFare[0]
       if (this.CurrentTransactions.TransactionTypeId == 2) {
         this.FormDetails.controls['TollFare'].setValue(currentFare.TollFare);
