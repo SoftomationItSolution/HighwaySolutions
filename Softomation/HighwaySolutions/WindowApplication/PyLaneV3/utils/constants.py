@@ -3,6 +3,7 @@ import json
 import os
 import random
 import re
+import shutil
 import socket
 import string
 import time
@@ -71,17 +72,19 @@ class Utilities:
                 return None
     
     @staticmethod        
-    def get_local_ips():
-        interfaces = netifaces.interfaces()
-        ip_addresses = []
-        for iface in interfaces:
-            addresses = netifaces.ifaddresses(iface)
-            if netifaces.AF_INET in addresses:
-                for addr in addresses[netifaces.AF_INET]:
-                    if 'addr' in addr:
-                        if addr['addr'] !='127.0.0.1':
+    def get_local_ips(retries=5, delay=2):
+        for _ in range(retries):
+            interfaces = netifaces.interfaces()
+            ip_addresses = []
+            for iface in interfaces:
+                addresses = netifaces.ifaddresses(iface)
+                if netifaces.AF_INET in addresses:
+                    for addr in addresses[netifaces.AF_INET]:
+                        if 'addr' in addr and addr['addr'] != '127.0.0.1':
                             ip_addresses.append(addr['addr'])
-        return ip_addresses[0]
+            if ip_addresses:
+                return ip_addresses[0]
+            time.sleep(delay)
 
     @staticmethod
     def JsonDateFormat(inDate=None):
@@ -319,3 +322,23 @@ class Utilities:
         padded_random = str(random_number).zfill(4)  # Pad random number to have 4 digits
         receipt_number = f"{timestamp}{padded_random}"  # Concatenate timestamp and padded random number
         return receipt_number[:20]  # Ensure the length is 20 characters
+    
+
+    def delete_old_folders(directory, days=7):
+        try:
+            age_in_seconds = days * 24 * 60 * 60
+            current_time = time.time()
+            if not os.path.exists(directory):
+                return
+
+            for folder_name in os.listdir(directory):
+                folder_path = os.path.join(directory, folder_name)
+                if os.path.isdir(folder_path):
+                    folder_age = current_time - os.path.getmtime(folder_path)
+                    if folder_age > age_in_seconds:
+                        try:
+                            shutil.rmtree(folder_path)
+                        except Exception as e:
+                             raise e
+        except Exception as e:
+            raise e

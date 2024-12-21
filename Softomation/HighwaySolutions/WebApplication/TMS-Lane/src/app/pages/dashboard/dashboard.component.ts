@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -33,6 +33,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   SystemSetting: any = null
   PlazaDetails: any
   LaneDetails: any
+  keyEventList: any
   selectedVehicleClasss: number = 0
   message: string;
   excludeIds = [24, 6, 25, 13, 8, 11];
@@ -43,16 +44,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   TowStart: boolean = false
   apiPath = ''
   lpicViewUrl = ''
-  private intervalId: any;
+  dialogRef: any = null
   private messageSubscription: Subscription;
+  @ViewChild('plateNumberInput', { static: true }) plateNumberInput: ElementRef;
+  @ViewChild('remarkInput', { static: true }) remarkInput: ElementRef;
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
     private webSocketService: WebSocketService, public dialog: MatDialog) {
     this.UserData = this.dm.getUserData()
-    //this.apiPath = this.dm.getDataAPI()
-    //this.lpicViewUrl = this.dm.getDataAPI() + '/lpicLiveView'
   }
   private readonly destroy$ = new Subject<void>();
+
+  customEventFunctions: { [key: number]: () => void } = {};
   ngOnInit(): void {
     this.FormDetails = new FormGroup({
       TransactionTypeName: new FormControl('', [
@@ -87,14 +90,118 @@ export class DashboardComponent implements OnInit, OnDestroy {
         error => console.error("WebSocket error:", error)
       );
     this.refreshImageUrl();
-    //this.intervalId = setInterval(() => this.refreshImageUrl(), 100);
+  }
+
+  mapKeyEvents() {
+    this.keyEventList.forEach(event => {
+      this.customEventFunctions[event.KeyCode] = () => this.handleEvent(event);
+    });
+  }
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+    const keyCode = event.keyCode || event.which;
+    if (event.key === 'Enter') {
+      if (this.dialogRef == null) {
+        this.submit_trans()
+      }
+    }
+    else if (this.customEventFunctions[keyCode]) {
+      event.preventDefault();
+      this.customEventFunctions[keyCode]();
+    }
+
+  }
+
+  handleEvent(event: any): void {
+    if (event.EventTypeId == 1) {
+      const subClass = this.VehicleSubClasss.filter(item => item.SystemVehicleSubClassId == event.EventId);
+      if (subClass.length > 0) {
+        const data = subClass[0];
+        this.selectedVehicleClasss = data.SystemVehicleClassId;
+        this.createTrans("svc", data, null)
+      }
+    }
+    else if (event.EventTypeId == 2) {
+      this.onttySeclect(event.EventId, event.EventName)
+    }
+    else {
+      this.call_general_events(event.EventName)
+    }
   }
 
   refreshImageUrl(): void {
-    // Append a timestamp to the URL to force the browser to fetch a new image
     const timestamp = new Date().getTime();
     this.lpicViewUrl = this.dm.getDataAPI() + `/lpicLiveView?timestamp=${timestamp}`
-    console.log(this.lpicViewUrl)
+    //console.log(this.lpicViewUrl)
+  }
+
+  select_journey_type(type: string) {
+    if (this.CurrentTransactions == null) {
+      this.DisplayMessage('Cannot change the journey!', false);
+    }
+    else {
+      if (this.CurrentTransactions.TransactionTypeId == 2) {
+        this.FormDetails.controls['JourneyTypeId'].setValue(type);
+      }
+      else {
+        this.DisplayMessage('Cannot change the journey!', false);
+      }
+
+    }
+  }
+
+  call_general_events(eventName: string) {
+    switch (eventName) {
+      case 'Digital Payment':
+        this.remarkInput.nativeElement.focus();
+        break;
+      case 'Remark':
+        this.remarkInput.nativeElement.focus();
+        break;
+      case 'Single Journey':
+        this.select_journey_type('S')
+        //
+        break;
+      case 'Retrun Journey':
+        this.select_journey_type('R')
+        //this.FormDetails.controls['JourneyTypeId'].setValue('R');
+        break;
+      case 'Reset':
+        this.reset_form();
+        break;
+      case 'Fleet Start':
+        this.onFleetStart()
+        break;
+      // case 'Bleed Off':
+      //   this.bleedOff();
+      //   break;
+      case 'WIM Reset':
+        if (this.wimDataQueue.length > 0) {
+          this.wimDataQueue.shift();
+        }
+        break;
+      case 'Plate Number':
+        this.plateNumberInput.nativeElement.focus();
+        break;
+      // case 'Print':
+      //   this.print();
+      //   break;
+      // case 'Alarm':
+      //   this.alarm();
+      //   break;
+      // case 'Camera Zoom':
+      //   this.cameraZoom();
+      //   break;
+      // case 'Logout':
+      //   this.logout();
+      //   break;
+      // case 'Validate Receipt':
+      //   this.validateReceipt();
+      //   break;
+      default:
+        console.log(`Unknown event: ${eventName}`);
+    }
   }
 
   reset_form() {
@@ -113,6 +220,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.FormDetails.controls['OverweightPenalty'].setValue(0);
     this.FormDetails.controls['TagPenalty'].setValue(0);
     this.selectedVehicleClasss = 0
+    if (this.dialogRef != null) {
+      this.dialogRef.close();
+    }
+    this.FleetStart = false;
   }
 
   getLaneMasterData() {
@@ -144,6 +255,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
           else { this.SystemSetting = null }
           this.PlazaDetails = result[10]
           this.LaneDetails = result[11]
+          this.keyEventList = result[12]
+          this.mapKeyEvents()
           hardware_list.forEach(element => {
             this.updateEquipmentStatus(element.EquipmentTypeId, element.PositionStatus, "hardware_on_off_status")
           });
@@ -237,7 +350,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         this.CurrentTransactions.TagReadById = tagDetails.TagReadById
         this.CurrentTransactions.TagClassId = ClassId
         let subClass = this.VehicleSubClasss.filter(item => item.SystemVehicleSubClassId == ClassId);
-        console.log(subClass)
         if (subClass.length > 0) {
           subClass = subClass[0]
           this.CurrentTransactions.VehicleClassId = parseInt(tagDetails.Class)
@@ -309,12 +421,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         dialogConfig.autoFocus = true;
         dialogConfig.width = '25%';
         dialogConfig.data = subClass;
-        const dialogRef = this.dialog.open(SubClassSelectionComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(
+        this.dialogRef = this.dialog.open(SubClassSelectionComponent, dialogConfig);
+        this.dialogRef.afterClosed().subscribe(
           data => {
             if (data) {
               if (data != null) {
                 this.createTrans("svc", data, null)
+                this.dialogRef = null;
               }
               else {
                 this.DisplayMessage('Wrong sub class selection!', false);
@@ -367,12 +480,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         dialogConfig.autoFocus = true;
         dialogConfig.width = '25%';
         dialogConfig.data = this.PaymentTypeMaster;
-        const dialogRef = this.dialog.open(PaymentSelectionComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(
+        this.dialogRef = this.dialog.open(PaymentSelectionComponent, dialogConfig);
+        this.dialogRef.afterClosed().subscribe(
           data => {
             if (data) {
               if (data != null) {
                 this.createTrans("pt", data, null)
+                this.dialogRef = null;
               }
               else {
                 this.DisplayMessage('Wrong payment type selection!', false);
@@ -388,12 +502,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
         dialogConfig.autoFocus = true;
         dialogConfig.width = '25%';
         dialogConfig.data = this.ExemptTypeMaster;
-        const dialogRef = this.dialog.open(ExemptSelectionComponent, dialogConfig);
-        dialogRef.afterClosed().subscribe(
+        this.dialogRef = this.dialog.open(ExemptSelectionComponent, dialogConfig);
+        this.dialogRef.afterClosed().subscribe(
           data => {
             if (data) {
               if (data != null) {
                 this.createTrans("et", data, null)
+                this.dialogRef = null;
               }
               else {
                 this.DisplayMessage('Wrong exempt type selection!', false);
@@ -407,87 +522,49 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     }
   }
-  process_ws_message_get(msg: string) {
+
+  process_ws_message(msg: string) {
+    debugger;
     try {
-      if (msg.indexOf('}{') == 0) {
+      if (msg != '') {
         let result = JSON.parse(msg)
+        const toppic = result.topic
+        if (toppic == "equipment_status") {
+          this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
+        }
+        else if (toppic == "hardware_on_off_status") {
+          this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
+        }
+        else if (toppic == "wim_processed") {
+          this.process_wim_data(result)
+        }
+        else if (toppic == "rfid_processed") {
+          this.process_rfid_data(result)
+        }
+        else if (toppic == "lane_process_end") {
+          this.CurrentTransactions = null
+          this.getLaneRecentData()
+          this.reset_form()
+          if (this.rfidDataQueue.length > 0) {
+            const tagDetails = this.rfidDataQueue[0];
+            this.rfidDataQueue.shift();
+            const dataValue = {
+              TransactionTypeId: 1,
+              TransactionTypeName: 'FasTag'
+            };
+            this.ttyselectedButton = dataValue.TransactionTypeName;
+            this.createTrans("tt", dataValue, tagDetails);
+          }
+        }
       }
     } catch (error) {
-      console.log(msg)
-      console.log(error)
-    }
-  }
-  process_ws_message(msg: string) {
-    if (msg != '') {
-      try {
-        let messages = msg.split('}{').map((part, index, array) => {
-          if (index !== 0) part = '{' + part;
-          if (index !== array.length - 1) part = part + '}';
-          try {
-            return JSON.parse(part);
-          } catch (e) {
-            console.error("Error parsing JSON:", e, "JSON string:", part);
-            return null; // Or handle it in another way, such as returning a default value or throwing an error
-          }
-
-        });
-        if (messages != null) {
-          messages.forEach(result => {
-            const toppic = result.topic
-            const data = result.data
-            // if (toppic == "equipment_status") {
-            //   this.updateEquipmentStatus(data.EquipmentTypeId, data.OnLineStatus, toppic)
-            // }
-
-            if (toppic == "hardware_on_off_status") {
-              this.updateEquipmentStatus(data.EquipmentTypeId, data.PositionStatus, toppic)
-            }
-            else if (toppic == "wim_processed") {
-              console.log(data)
-              this.process_wim_data(data)
-            }
-            else if (toppic == "rfid_processed") {
-              this.process_rfid_data(data)
-            }
-            else if (toppic == "avc_processed") {
-
-            }
-            else if (toppic == "lane_processed") {
-
-            }
-            else if (toppic == "lane_process_end") {
-              this.CurrentTransactions = null
-              this.getLaneRecentData()
-              this.reset_form()
-              if (this.rfidDataQueue.length > 0) {
-                const tagDetails = this.rfidDataQueue[0];
-                this.rfidDataQueue.shift();
-                const dataValue = {
-                  TransactionTypeId: 1,
-                  TransactionTypeName: 'FasTag'
-                };
-                this.ttyselectedButton = dataValue.TransactionTypeName;
-                this.createTrans("tt", dataValue, tagDetails);
-              }
-            }
-            else {
-
-            }
-          });
-        }
-      } catch (error) {
-        console.log(msg)
-        console.log(error)
-      }
+      console.error("Error parsing JSON:", error, "JSON string:", msg);
     }
 
   }
-
   process_wim_data(tagDetails: any) {
     this.wimDataQueue.push(tagDetails)
   }
-
-
 
   process_rfid_data(tagDetails: any) {
     if (this.CurrentTransactions == null) {
@@ -641,59 +718,67 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   onFleetStart() {
-    const dataValue = { "TransactionTypeId": 3, "TransactionTypeName": "Excempt" }
-    this.FormDetails.controls["JourneyTypeId"].enable()
-    this.FormDetails.controls['JourneyTypeId'].setValue('S');
-    this.FormDetails.controls["JourneyTypeId"].disable()
-    this.createTrans("tt", dataValue, null)
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = '25%';
-    dialogConfig.data = this.ExemptTypeMaster;
-    const dialogRef = this.dialog.open(ExemptSelectionComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(
-      data => {
-        if (data) {
-          if (data != null) {
-            this.createTrans("et", data, null)
-            this.CurrentTransactions.TCRemark = this.FormDetails.value.Remark
-            this.spinner.show();
-            this.dbService.FleetStart(this.CurrentTransactions).subscribe(
-              data => {
-                this.spinner.hide();
-                const returnMessage = data.message;
-                if (returnMessage == "success") {
-                  const dialogConfig = new MatDialogConfig();
-                  dialogConfig.disableClose = true;
-                  dialogConfig.autoFocus = true;
-                  dialogConfig.width = '25%';
-                  dialogConfig.data = data.ResponseData;
-                  const dialogRef = this.dialog.open(FleetCounterComponent, dialogConfig);
-                  dialogRef.afterClosed().subscribe(
-                    data => {
-                      this.CurrentTransactions = null
-                      this.getLaneRecentData()
-                      this.reset_form()
-                    }
-                  );
+    if (this.FleetStart) {
+      this.DisplayMessage('Fleet already running!', false);
+    }
+    else {
+      this.FleetStart = true;
+      const dataValue = { "TransactionTypeId": 3, "TransactionTypeName": "Excempt" }
+      this.FormDetails.controls["JourneyTypeId"].enable()
+      this.FormDetails.controls['JourneyTypeId'].setValue('S');
+      this.FormDetails.controls["JourneyTypeId"].disable()
+      this.createTrans("tt", dataValue, null)
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '25%';
+      dialogConfig.data = this.ExemptTypeMaster
+      this.dialogRef = this.dialog.open(ExemptSelectionComponent, dialogConfig);
+      this.dialogRef.afterClosed().subscribe(
+        data => {
+          if (data) {
+            if (data != null) {
+              this.createTrans("et", data, null)
+              this.dialogRef = null;
+              this.CurrentTransactions.TCRemark = this.FormDetails.value.Remark
+              this.spinner.show();
+              this.dbService.FleetStart(this.CurrentTransactions).subscribe(
+                data => {
+                  this.spinner.hide();
+                  const returnMessage = data.message;
+                  if (returnMessage == "success") {
+                    const dialogConfig = new MatDialogConfig();
+                    dialogConfig.disableClose = true;
+                    dialogConfig.autoFocus = true;
+                    dialogConfig.width = '25%';
+                    dialogConfig.data = { "KeyCode": this.keyEventList, "data": data.ResponseData }
+                    this.dialogRef = this.dialog.open(FleetCounterComponent, dialogConfig);
+                    this.dialogRef.afterClosed().subscribe(
+                      data => {
+                        this.CurrentTransactions = null
+                        this.getLaneRecentData()
+                        this.reset_form()
+                        this.dialogRef = null;
+                      }
+                    );
+                  }
+                  else {
+                    this.DisplayMessage(returnMessage, false)
+                  }
+                },
+                (error) => {
+                  this.spinner.hide();
+                  this.DisplayMessage('Something went wrong !', false)
                 }
-                else {
-                  this.DisplayMessage(returnMessage, false)
-                }
-              },
-              (error) => {
-                this.spinner.hide();
-                this.DisplayMessage('Something went wrong !', false)
-              }
-            );
-          }
-          else {
-            this.DisplayMessage('Wrong exempt type selection!', false);
+              );
+            }
+            else {
+              this.DisplayMessage('Wrong exempt type selection!', false);
+            }
           }
         }
-      }
-    );
+      );
+    }
   }
 
   submit_trans() {

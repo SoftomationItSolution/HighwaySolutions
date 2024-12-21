@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.seuic.uhfdemo.app-mergeDebugResources-6:/values-v12/values-v12.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\hemant\\.gradle\\caches\\transforms-4\\f47459ad01735f2b7c91453a90186e77\\transformed\\appcompat-v7-26.0.1\\res\\values-v12\\values-v12.xml",
+                    "from": {
+                        "startLines": "2,5,8,9",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,279,479,598",
+                        "endLines": "4,7,8,9",
+                        "endColumns": "12,12,118,94",
+                        "endOffsets": "274,474,593,688"
+                    }
+                }
+            ]
+        }
+    ]
+}

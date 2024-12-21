@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.seuic.uhfdemo.app-mergeDebugResources-6:/values-v24/values-v24.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\hemant\\.gradle\\caches\\transforms-4\\f47459ad01735f2b7c91453a90186e77\\transformed\\appcompat-v7-26.0.1\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,212,347,416,480,549",
+                        "endColumns": "156,134,68,63,68,69",
+                        "endOffsets": "207,342,411,475,544,614"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\hemant\\.gradle\\caches\\transforms-4\\bb0763097f8999ccb5c75f9f40c6abe3\\transformed\\support-media-compat-26.0.1\\res\\values-v24\\values-v24.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,121,182,248",
+                        "endColumns": "65,60,65,66",
+                        "endOffsets": "116,177,243,310"
+                    },
+                    "to": {
+                        "startLines": "8,9,10,11",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "619,685,746,812",
+                        "endColumns": "65,60,65,66",
+                        "endOffsets": "680,741,807,874"
+                    }
+                }
+            ]
+        }
+    ]
+}

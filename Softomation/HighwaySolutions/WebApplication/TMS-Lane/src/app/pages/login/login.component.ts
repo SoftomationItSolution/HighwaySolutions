@@ -127,7 +127,6 @@ export class LoginComponent implements OnInit {
           this.dm.setUserData(JSON.stringify(data.ResponseData.userData));
           this.dm.setSSData(JSON.stringify(data.ResponseData.shiftDetails));
           this.dm.setloginTime(data.ResponseData.loginTime);
-          console.log(data.ResponseData.LaneTypeId)
           if (data.ResponseData.LaneTypeId == 3) {
             this.router.navigate(['/etcdashboard']);
           }

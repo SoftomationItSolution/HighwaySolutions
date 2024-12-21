@@ -1,0 +1,374 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">ICD Bank-Setting</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <mat-horizontal-stepper #stepper>
+            <mat-step [stepControl]="PlazaDetailsForm">
+                <form [formGroup]="PlazaDetailsForm">
+                    <ng-template matStepLabel>Plaza Details</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="PlazaId">Plaza</label>
+                                <p-dropdown appendTo="body" formControlName="PlazaId" inputId="PlazaId"
+                                    [options]="PlazaData" optionLabel="PlazaName" optionValue="PlazaId"
+                                    placeholder="Select" class="form-control select2"
+                                    (onChange)="PlazaOnChange($event.value)"></p-dropdown>
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','PlazaId')">Plaza is
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="PlazaType">Plaza Type</label>
+                                <input formControlName="PlazaType" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','PlazaType')">Plaza type
+                                    must be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="PlazaSubType">Plaza Sub Type</label>
+                                <input formControlName="PlazaSubType" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','PlazaSubType')">Plaza sub
+                                    type must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="PlazaZoneId">Plaza Zone Id</label>
+                                <input formControlName="PlazaZoneId" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','PlazaZoneId')">Plaza zone
+                                    id must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="OrganizationId">Organization Id</label>
+                                <input formControlName="OrganizationId" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','OrganizationId')">Organization
+                                    id
+                                    must be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check" style="padding-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="IsProducation"
+                                        formControlName="IsProducation">
+                                    <label class="form-check-label" for="IsProducation">
+                                        ICD of Producation
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="CertificateName">Certificate Name</label>
+                                <input formControlName="CertificateName" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','CertificateName')">Certificate
+                                    Name
+                                    must be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="CertificatePassword">Certificate Password</label>
+                                <input formControlName="CertificatePassword" type="password" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && PlazaDetailsForm.hasError('required','CertificatePassword')">Certificate
+                                    Password
+                                    must be
+                                    required.</small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="UATDetailsForm">
+                <form [formGroup]="UATDetailsForm">
+                    <ng-template matStepLabel>Bank Details(UAT)</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label" for="Version">API version</label>
+                                <input formControlName="Version" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','Version')">API version must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" for="BankName">Bank Name</label>
+                                <input formControlName="BankName" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','BankName')">Bank name must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="BaseUrl">Base Url</label>
+                                <input formControlName="BaseUrl" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','BaseUrl')">base url must
+                                    be
+                                    required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.controls['BaseUrl'].hasError('pattern')">
+                                    {{error['HttpsPath']}}
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestPayURL">Request Pay</label>
+                                <input formControlName="RequestPayURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','RequestPayURL')">Request Pay
+                                    must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestTagDetailsURL">Request Tag Details</label>
+                                <input formControlName="RequestTagDetailsURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','RequestTagDetailsURL')">Tag
+                                    Details
+                                    must be
+                                    required.
+                                </small>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="CheckTransactionStatusRequestURL">Check Transaction
+                                    Status</label>
+                                <input formControlName="CheckTransactionStatusRequestURL" type="text" pInputText
+                                    required autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','CheckTransactionStatusRequestURL')">Check
+                                    Transaction Status must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="SyncTimeRequestURL">Sync Time</label>
+                                <input formControlName="SyncTimeRequestURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','SyncTimeRequestURL')">Sync
+                                    Time must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="GetExceptionRequestURL">Get Exception Request</label>
+                                <input formControlName="GetExceptionRequestURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','GetExceptionRequestURL')">Get
+                                    exception request must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="TollPlazaHeartBeatURL">Toll Plaza Heart Beat</label>
+                                <input formControlName="TollPlazaHeartBeatURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','TollPlazaHeartBeatURL')">Toll
+                                    Plaza Heart Beat must be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestQueryExceptionListURL">Query Exception
+                                    List</label>
+                                <input formControlName="RequestQueryExceptionListURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','RequestQueryExceptionListURL')">Query
+                                    Exception List must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestViolationAuditDetailsURL">Violation Audit
+                                    Detail</label>
+                                <input formControlName="RequestViolationAuditDetailsURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','RequestViolationAuditDetailsURL')">Violation
+                                    Audit Detail must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestListParticipantURL">Request List Participant</label>
+                                <input formControlName="RequestListParticipantURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && UATDetailsForm.hasError('required','RequestListParticipantURL')">List
+                                    participant must be
+                                    required.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="ProdDetailsForm">
+                <form [formGroup]="ProdDetailsForm">
+                    <ng-template matStepLabel>Bank Details(Prod)</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="form-label" for="Version">API version</label>
+                                <input formControlName="Version" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','Version')">API version must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label" for="BankName">Bank Name</label>
+                                <input formControlName="BankName" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','BankName')">Bank name must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="BaseUrl">Base Url</label>
+                                <input formControlName="BaseUrl" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','BaseUrl')">base url must
+                                    be
+                                    required.</small>
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.controls['BaseUrl'].hasError('pattern')">
+                                    {{error['HttpsPath']}}
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestPayURL">Request Pay</label>
+                                <input formControlName="RequestPayURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RequestPayURL')">Request
+                                    Pay
+                                    must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestTagDetailsURL">Request Tag Details</label>
+                                <input formControlName="RequestTagDetailsURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RequestTagDetailsURL')">Tag
+                                    Details
+                                    must be
+                                    required.
+                                </small>
+
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="CheckTransactionStatusRequestURL">Check Transaction
+                                    Status</label>
+                                <input formControlName="CheckTransactionStatusRequestURL" type="text" pInputText
+                                    required autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','CheckTransactionStatusRequestURL')">Check
+                                    Transaction Status must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="SyncTimeRequestURL">Sync Time</label>
+                                <input formControlName="SyncTimeRequestURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','SyncTimeRequestURL')">Sync
+                                    Time must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="GetExceptionRequestURL">Get Exception Request</label>
+                                <input formControlName="GetExceptionRequestURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','GetExceptionRequestURL')">Get
+                                    exception request must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="TollPlazaHeartBeatURL">Toll Plaza Heart Beat</label>
+                                <input formControlName="TollPlazaHeartBeatURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','TollPlazaHeartBeatURL')">Toll
+                                    Plaza Heart Beat must be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestQueryExceptionListURL">Query Exception
+                                    List</label>
+                                <input formControlName="RequestQueryExceptionListURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RequestQueryExceptionListURL')">Query
+                                    Exception List must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestViolationAuditDetailsURL">Violation Audit
+                                    Detail</label>
+                                <input formControlName="RequestViolationAuditDetailsURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RequestViolationAuditDetailsURL')">Violation
+                                    Audit Detail must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RequestListParticipantURL">Request List Participant</label>
+                                <input formControlName="RequestListParticipantURL" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RequestListParticipantURL')">List
+                                    participant must be
+                                    required.
+                                </small>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-horizontal-stepper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

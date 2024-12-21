@@ -8,7 +8,6 @@ const moment = require('moment');
 const momentTz = require('moment-timezone');
 const mqttClient = require('../_helpers/mqttHandler');
 router.post('/ExemptTypeUpdate', ExemptTypeUpdate);
-
 router.get('/ExemptTypeGetAll', ExemptTypeGetAll);
 router.get('/ExemptTypeGetActive', ExemptTypeGetActive);
 

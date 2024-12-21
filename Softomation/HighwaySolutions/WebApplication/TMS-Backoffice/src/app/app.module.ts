@@ -88,6 +88,8 @@ import { ProjectConfigComponent } from './pages/project-config/project-config.co
 import { LSDUComponent } from './pages/lsdu/parent/lsdu.component';
 import { LsduLaneComponent } from './pages/lsdu/child/lsdulane.component';
 import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
+import { KeyboardConfigurationComponent } from './pages/configurations/KeyBoardConfiguration/keyboard-configuration.component';
+import { ICDSettingComponent } from './pages/icd-setting/icd-setting.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
@@ -155,6 +157,7 @@ export const MY_CUSTOM_FORMATS = {
     DenominationPoupComponent,
     SystemSettingComponent,
     ProjectConfigComponent,
+    ICDSettingComponent,
     AppLockComponent,
     FloatProcessMasterComponent,
     FloatProcessPopupComponent,
@@ -168,7 +171,8 @@ export const MY_CUSTOM_FORMATS = {
     ReportMasterComponent,
     LSDUComponent,
     LsduLaneComponent,
-    LiveViewPopUpComponent
+    LiveViewPopUpComponent,
+    KeyboardConfigurationComponent
   ],
   imports: [
     BrowserModule,

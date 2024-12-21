@@ -54,8 +54,10 @@
                     <div class="dropdown-menu dropdown-menu-end" [ngClass]="isProfilepopUp ? 'show' : 'show1'">
                         <!-- item-->
                         <a class="dropdown-item" (click)="pfOpen()"><i class="mdi mdi-account-circle-outline font-size-16 align-middle me-1"></i>User Profile</a>
-                        <a class="dropdown-item" (click)="chOpen()"><i class="mdi mdi-wallet-outline font-size-16 align-middle me-1"></i>Change Password</a>
+                        <a class="dropdown-item" (click)="chOpen()"><i class="mdi mdi-lock-reset font-size-16 align-middle me-1"></i>Change Password</a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item" (click)="ssOpen()"><i class="mdi mdi-cog-transfer-outline font-size-16 align-middle me-1"></i>System Setting</a>
+                        <a class="dropdown-item" (click)="icdOpen()"><i class="mdi mdi-bank-circle-outline font-size-16 align-middle me-1"></i>ICD Setting</a>
                         <a class="dropdown-item" (click)="piOpen()"><i class="mdi mdi-information-variant-circle-outline font-size-16 align-middle me-1"></i>Project Details</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" (click)="alOpen()"><i class="mdi mdi-lock-clock font-size-16 align-middle me-1"></i> Account Lock</a>

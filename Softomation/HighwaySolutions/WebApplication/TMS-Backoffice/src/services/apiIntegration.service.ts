@@ -508,6 +508,20 @@ export class apiIntegrationService {
   }
   //#endregion
 
+    //#region  Kayboard
+    KeyboardDetailGetAll(): Observable<any> {
+      this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+      var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/KeyboardDetailGetAll', { headers: headers_object });
+    }
+  
+    KeyboardDetailUpdate(data: {}): Observable<any> {
+      this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+      var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+      return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/KeyboardDetailUpdate', data, { headers: headers_object });
+    }
+    //#endregion
+
   //#region Shift Timming
   GetShiftTimining(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
@@ -651,6 +665,20 @@ export class apiIntegrationService {
   lsduGet(url): Observable<any> {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.get(url, { headers: headers_object });
+  }
+  //#endregion
+
+  //#region  ICD Config
+  IcdPlazaGetAll(): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/IcdPlazaGetAll', { headers: headers_object });
+  }
+  
+  UpdateIcdConfig(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/UpdateIcdConfig', data, { headers: headers_object });
   }
   //#endregion
 }

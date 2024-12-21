@@ -2046,3 +2046,16 @@ input[type=radio] {
 .validate-media img {
     width: 100%;
 }
+
+.fieldset {
+    border: 2px solid #007bff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+  
+  legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #007bff;
+  }

@@ -52,6 +52,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
     //this.lpicViewUrl = this.dm.getDataAPI() + '/lpicLiveView'
   }
   private readonly destroy$ = new Subject<void>();
+  
   ngOnInit(): void {
     this.FormDetails = new FormGroup({
       TransactionTypeName: new FormControl('', [
@@ -416,6 +417,50 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
     }
   }
   process_ws_message(msg: string) {
+    try {
+      if (msg != '') {
+        let result = JSON.parse(msg)
+        const toppic = result.topic
+        if (toppic == "equipment_status") {
+          this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
+        }
+        else if (toppic == "hardware_on_off_status") {
+          this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
+        }
+        else if (toppic == "wim_processed") {
+          this.process_wim_data(result)
+        }
+        else if (toppic == "rfid_processed") {
+          this.process_rfid_data(result)
+        }
+        else if (toppic == "lane_process_end") {
+          this.CurrentTransactions = null
+          this.getLaneRecentData()
+          this.reset_form()
+          if (this.rfidDataQueue.length > 0) {
+            const tagDetails = this.rfidDataQueue[0];
+            this.rfidDataQueue.shift();
+            const dataValue = {
+              TransactionTypeId: 1,
+              TransactionTypeName: 'FasTag'
+            };
+            this.ttyselectedButton = dataValue.TransactionTypeName;
+            this.createTrans("tt", dataValue, tagDetails);
+          }
+        }
+      }
+    } catch (error) {
+      console.error("Error parsing JSON:", error, "JSON string:", msg);
+    }
+
+  }
+
+  process_wim_data(tagDetails: any) {
+    this.wimDataQueue.push(tagDetails)
+  }
+
+
+  process_ws_message_bkp(msg: string) {
     if (msg != '') {
       try {
         let messages = msg.split('}{').map((part, index, array) => {
@@ -432,7 +477,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         if (messages != null) {
           messages.forEach(result => {
             const toppic = result.topic
-            const data = result.data
+            const data = result;
            if (toppic == "hardware_on_off_status") {
               this.updateEquipmentStatus(data.EquipmentTypeId, data.PositionStatus, toppic)
             }

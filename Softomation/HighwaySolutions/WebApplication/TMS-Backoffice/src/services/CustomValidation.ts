@@ -33,8 +33,10 @@ export const regExps: { [key: string]: RegExp } = {
     AlphaNumericSingleSpace: /^([a-zA-Z0-9]+\s?)*$/,
     OnlyDigit: /^(0|[1-9][0-9]*)$/,
     ChainageNumber:/^(\d{1,3}|\d{1,3}\.\d{0,3})$/,
-    IndianPinCode: /^(0|[1-9][0-9]{6})$/,
-    IndianPlateNumber:/(^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$)|(^[0-9]{2}BH[0-9]{4}[A-Z]{2}$)/
+    IndianPinCode: /^(0|[1-9][0-9]{5})$/,
+    IndianPlateNumber:/(^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$)|(^[0-9]{2}BH[0-9]{4}[A-Z]{2}$)/,
+    HttpsPath:/^https:\/\/[a-zA-Z0-9\-._~:\/?#[\]@!$&'()*+,;=%]+$/
+
  };
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {
@@ -84,5 +86,6 @@ export const errorMessages: { [key: string]: string } = {
     OnlyDigit: 'Only numeric values allowed',
     ChainageNumber:"Please enter valid chainage",
     IndianPinCode:"Please enter valid pincode",
-    IndianPlateNumber:"Please enter valid plate number"
+    IndianPlateNumber:"Please enter valid plate number",
+    HttpsPath:"Please enter valid https url"
 };

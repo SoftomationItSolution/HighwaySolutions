@@ -8,7 +8,7 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class DataSynchronization(threading.Thread):
-    def __init__(self, default_directory, dbConnectionObj,default_plaza_Id,system_ip,timeout=0.100):
+    def __init__(self, default_directory, dbConnectionObj,default_plaza_Id,system_ip,timeout=0.500):
         threading.Thread.__init__(self)
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
@@ -69,6 +69,7 @@ class DataSynchronization(threading.Thread):
             threading.Thread(target=self.data_importer.equipment_type_Import()).start()
             threading.Thread(target=self.data_importer.protocol_type_Import()).start()
             threading.Thread(target=self.data_importer.manufacturer_Import()).start()
+            threading.Thread(target=self.data_importer.key_board_Import()).start()
             threading.Thread(target=self.data_importer.fasTag_vehicleclass_Import()).start()
 
             threading.Thread(target=self.data_importer.system_integrator_Import()).start()

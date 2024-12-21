@@ -208,7 +208,7 @@ async function UserProfileChange(req, res, next) {
     try {
         const dir = './EventMedia/ProfileImage';
         const currentPath = path.resolve('./EventMedia');
-        let FilePath = "\\ProfileImage\\";
+        let FilePath = "/ProfileImage/";
         FilePath = constants.SaveImage(req.body.UserProfileImage, currentPath + FilePath, constants.randomUUID(), ".png", dir);
         if (FilePath != "") {
             FilePath = FilePath.replace(currentPath, "");
@@ -218,7 +218,7 @@ async function UserProfileChange(req, res, next) {
                 .input('UserProfileImage', sql.VarChar(200), FilePath)
                 .execute('USP_UserProfileChange');
             
-            let out = constants.ResponseMessage(result.recordset, null);
+            let out = constants.ResponseMessageList(result.recordset, null);
             res.status(200).json(out)
         }
         else {

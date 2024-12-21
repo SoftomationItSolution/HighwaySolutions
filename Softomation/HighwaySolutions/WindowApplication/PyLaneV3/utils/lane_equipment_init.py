@@ -31,11 +31,12 @@ from utils.dio.kits_dio_card import KistDIOClient
 from pubsub import pub
 
 class LaneEquipmentSynchronization(threading.Thread):
-    def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip):
+    def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip,ic_timemout):
         super().__init__()
         self.set_logger(default_directory,'lane_BG')
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
+        self.ic_timemout=ic_timemout
         self.script_dir = script_dir
         self.default_lane_ip = system_ip
         self.default_plaza_Id=0
@@ -127,15 +128,31 @@ class LaneEquipmentSynchronization(threading.Thread):
             if self.system_loging_status==True:
                 if self.app_thread is not None:
                     pub.sendMessage(topic, transactionInfo=data)
-                self.send_message_ws({"topic":topic,"data":data})
+                #self.send_message_ws({"topic":topic,"data":data})
+                self.send_message_ws(topic,data)
         except Exception as e:
             self.logger.logError(f"Exception topic:{topic} publish_data: {str(e)}")
+        finally:
+            time.sleep(0.100)
 
-    def send_message_ws(self,data):
+    def send_message_ws(self,topic,data):
         try:
-            if self.web_socket_server:
-                result=json.dumps(data)
-                asyncio.run(self.web_socket_server.broadcast(message=result))
+            output=None
+            if self.web_socket_server and data is not None:
+                if topic=="hardware_on_off_status":
+                    output={"topic":topic,"EquipmentTypeId":data["EquipmentTypeId"],"PositionStatus":data["PositionStatus"]}
+                elif topic=="equipment_status":
+                    output={"topic":topic,"EquipmentTypeId":data["EquipmentTypeId"],"OnLineStatus":data["OnLineStatus"]}
+                elif topic=="lane_process_end":
+                    output={"topic":topic,"lane_process_end":data}
+                elif topic=="fleet_count":
+                    output={"topic":topic,"fleet_count":data}
+                else:
+                    data["topic"] = topic
+                    output=data
+                if output is not None:
+                    result=json.dumps(output)
+                    asyncio.run(self.web_socket_server.broadcast(message=result))
         except Exception as e:
             self.logger.logError(f"Exception send_message_ws: {str(e)}")
 
@@ -182,11 +199,11 @@ class LaneEquipmentSynchronization(threading.Thread):
         try:
             if not self.dio_thread:
                 if equipment["ManufacturerName"]=="KITS":
-                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio')
+                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio',self.ic_timemout)
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
                 if equipment["ManufacturerName"]=="Innovating":
-                    self.dio_thread = InnovatingDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio')
+                    self.dio_thread = InnovatingDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio',self.ic_timemout)
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
         except Exception as e:
@@ -268,7 +285,10 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_ic_thread(self,equipment):
         try:
             if self.ic_thread is None:
-                self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
+                if self.ic_timemout==0:
+                    self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
+                else:
+                    self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview",self.ic_timemout)
                 self.ic_thread.daemon=True
                 self.ic_thread.start()
         except Exception as e:
@@ -437,11 +457,11 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.dbConnectionObj, self.lane_detail["LaneId"], current_date
                 )
                 
-                if len(self.lane_master_data) == 12:
+                if len(self.lane_master_data) == 13:
                     (self.equipment_detail, self.dio_equipment_detail, self.transaction_type_master,
                     self.payment_type_master, self.exempt_type_master, self.vehicle_class,
                     self.vehicle_sub_class, self.shiftDetails, self.toll_fare, systemSetting,
-                    Plaza,Lane) = self.lane_master_data
+                    Plaza,Lane,keyBoardCodes) = self.lane_master_data
                 else:
                     raise ValueError("Unexpected number of result sets returned from the stored procedure.")
                 if self.shiftDetails:
@@ -655,28 +675,38 @@ class LaneEquipmentSynchronization(threading.Thread):
             self.logger.logError(f"Exception get_trxn_data_for_avc: {str(e)}")
             return '0'
 
-    def get_Wim_data(self, transDataTime):
+    def get_Wim_data(self,transDataTime):
         try:
-            if len(self.wim_data) > 0:
-                transDataTime = datetime.fromisoformat(transDataTime)
-                filtered_data = [x for x in self.wim_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['Processed'] == False]
-                nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
-                time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
-                if time_difference < 15: 
-                    nearest_item['Processed'] = True
-                    return nearest_item["TotalWeight"]
-                else:
-                    return 0
-            else:
-                return 0
-        except Exception as e:
-            self.logger.logError(f"Exception get_Wim_data: {str(e)}")
+            if self.wim_data:
+                item = self.wim_data.pop(0)
+                return item.get("TotalWeight", 0)
             return 0
+        except Exception as e:
+            self.logger.logError(f"Exception in get_Wim_data: {str(e)}")
+            return 0
+    
+    # def get_Wim_data(self, transDataTime):
+    #     try:
+    #         if len(self.wim_data) > 0:
+    #             transDataTime = datetime.fromisoformat(transDataTime)
+    #             filtered_data = [x for x in self.wim_data if datetime.fromisoformat(x['SystemDateTime']) < transDataTime and x['Processed'] == False]
+    #             nearest_item = min(filtered_data, key=lambda x: abs(datetime.fromisoformat(x['SystemDateTime']) - transDataTime))
+    #             time_difference = abs((datetime.fromisoformat(nearest_item['SystemDateTime']) - transDataTime).total_seconds())
+    #             if time_difference < 30: 
+    #                 nearest_item['Processed'] = True
+    #                 return nearest_item["TotalWeight"]
+    #             else:
+    #                 return 0
+    #         else:
+    #             return 0
+    #     except Exception as e:
+    #         self.logger.logError(f"Exception get_Wim_data: {str(e)}")
+    #         return 0
 
     def get_fasTag_class_name(self,classId,trans_data):
         try:
             if self.systemSetting is not None and self.vehicle_class is not None:
-                if self.systemSetting['SubClassRequired'] == 1 or self.systemSetting['SubClassRequired'] == True:
+                if self.systemSetting['TollFareonSubClass'] == 1:
                     matched_item = next((item for item in self.vehicle_class if int(item['SystemVehicleSubClassId']) == int(classId)), None)
                     if matched_item:
                         trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
@@ -724,6 +754,13 @@ class LaneEquipmentSynchronization(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception background_Transcation: {str(e)}")
 
+    def ufd_in_thread(self, running_transaction):
+        try:
+            thread = threading.Thread(target=self.process_on_ufd, args=(running_transaction,))
+            thread.start()
+        except Exception as e:
+            self.logger.logError(f"Exception ufd_in_thread: {str(e)}")
+    
     def process_on_ufd(self,running_Transaction):
         try:
             if self.ufd is not None:
@@ -736,7 +773,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                     self.ufd_message=running_Transaction["TransactionTypeName"]
                     self.ufd.l1_cmd(self.ufd_message)
                 if running_Transaction["TransactionTypeId"]==1:
-                    self.ufd.l2_cmd(f'{running_Transaction["TagClassName"]} {running_Transaction["TagPlateNumber"]}')
+                    self.ufd.l2s_cmd(f'{running_Transaction["TagClassName"]} {running_Transaction["TagPlateNumber"]}')
                     self.ufd_message=self.ufd_message+f' {running_Transaction["TagClassName"]} {running_Transaction["TagPlateNumber"]}'
                 else:
                     vc_name=running_Transaction["VehicleSubClassName"]
@@ -760,7 +797,7 @@ class LaneEquipmentSynchronization(threading.Thread):
                 if self.mqtt_Handler:
                     self.mqtt_Handler.ufd_messge_broadcast(self.ufd_message)
         except Exception as e:
-            self.logger.logError(f"Exception process_on_ufd: {str(e)}")
+            self.logger.logError(f"Exception process_fleet_ufd: {str(e)}")
 
     def handel_traffic_light(self,status,running_Transaction=None):
         try:
@@ -850,7 +887,6 @@ class LaneEquipmentSynchronization(threading.Thread):
                     running_Transaction["UserId"]=self.userDetails["UserId"]
                     running_Transaction["LoginId"]=self.userDetails["LoginId"]
                 self.system_transcation_status=False
-                #self.send_data_avc(running_Transaction["LaneTransactionId"])
                 self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
                 self.update_lane_transcation(running_Transaction)
         except Exception as e:
@@ -884,16 +920,14 @@ class LaneEquipmentSynchronization(threading.Thread):
                 else:
                     running_Transaction["TransactionFrontImage"]=''
                 self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
-                #self.send_data_avc(running_Transaction["LaneTransactionId"])
                 self.update_lane_transcation(running_Transaction)
-                self.process_on_ufd(running_Transaction)
+                self.ufd_in_thread(running_Transaction)
                 self.handel_traffic_light(True,running_Transaction)
                 self.system_transcation_status=False
                 result=True
             else:
                 self.logger.logInfo(f"trans already in progress lane_trans_start")
                 self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
-                #self.send_data_avc(running_Transaction["LaneTransactionId"])
                 self.update_lane_transcation(running_Transaction)
                 result=True
         except Exception as e:
@@ -919,7 +953,11 @@ class LaneEquipmentSynchronization(threading.Thread):
     def start_ic_record(self,transactionInfo):
         try:
             if self.ic_thread is not None:
-                self.ic_thread.start_recording(transactionInfo['LaneTransactionId']+'_ic',snapshot=False)
+                file_name=str(transactionInfo['LaneTransactionId'])+'_ic'
+                self.ic_thread.start_recording(file_name,snapshot=False)
+                transactionInfo["TransactionBackImage"]=file_name+'.jpg'
+                transactionInfo["TransactionVideo"]=file_name+'.mp4'
+                LaneManager.lane_data_ic_update(self.dbConnectionObj,transactionInfo)
                 return True
             else:
                 return False

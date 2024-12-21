@@ -1,0 +1,82 @@
+Step 1: connact lane with WinScp
+Step 2: Open putty and login with TLC password (admin@123)
+Step 3: upload file from local system(E:\updated\LaneUpdate) to lane (/opt/soft)
+		Filename is nopysy_v1 (docker) and PyLaneV3App (web app)
+		if TLS have old file then delete all
+		
+Step 4:Check the MY Sql status and username 
+		4.1 sudo mysql -u root -p
+		4.2 if asking [sudo] password then enter tlc password
+		4.3 My sql root is is not required just press enter 
+		4.4 SELECT User, Host FROM mysql.user; check user (user=softo_db, host=%) list by using above command 
+		4.5 if user not found then create user by using below command
+			CREATE USER 'softo_db'@'%' IDENTIFIED BY 'Softo@7890';
+			GRANT ALL PRIVILEGES ON *.* TO 'softo_db'@'%' WITH GRANT OPTION;
+			FLUSH PRIVILEGES;
+		4.6 again check by query SELECT User, Host FROM mysql.user;
+		4.7 exit
+		
+Step 5: connect db via workbanch
+		5.1 Go to server>Data Import
+		5.2 select Import from Self-Contained open
+		5.3 select DB back file from E:\updated\LaneUpdate\LaneDb.sql
+		5.4 click Import button on the bottom right side 
+
+step 6: veirfy the config file or re upload it /home/ProjectConfig/TMSLane/MasterConfig or usinh 
+		cmd sudo cat /home/ProjectConfig/TMSLane/MasterConfig/dbConfig.json
+		if need to chnage sudo nano /home/ProjectConfig/TMSLane/MasterConfig/dbConfig.json
+		make chnages
+		press crt+o
+		press enter
+		press crt+x
+		
+
+
+Step 7 check docker container 
+	   7.1 sudo docker ps -a
+	   7.2 if container exist not down the container id ex: e87bfbeccb96 and remove container
+	   7.3 sudo docker rm -f [container id] replace with your container id
+
+step 8 check docker images 
+	   8.1 sudo docker images
+	   8.2 if image with Tag v1 exist not down the image id ex: ae234eb2e2f6 and remove image
+	   8.3  sudo docker rmi -f [image id] replace with your image id ae234eb2e2f6
+step 9 move to your docker file path 
+	   sudo cd /opt/soft/
+
+step 10 load latest docker file (this process take some time)  
+	   sudo docker load -i nopysy_v1.tar
+	   
+	 
+	 
+step 11 sudo docker run -it --rm --net=host --privileged  -P   -e DISPLAY=$DISPLAY     -v /tmp/.X11-unix/:/tmp/.X11-unix     -v /tmp/.docker.xcookie:/tmp/.X11-unix/.Xauthority -v /dev/:/dev/   -e XAUTHORITY=/tmp/.X11-unix/.Xauthority  -v /home/:/home/ -v /etc/localtime:/etc/localtime:ro nopysy:v1
+		run the above command to verify the docker is working or not then press ctrl+cat
+step 12 sudo docker run -d --restart always --net=host --privileged -P -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix -v /tmp/.docker.xcookie:/tmp/.X11-unix/.Xauthority -v /dev/:/dev/ -e XAUTHORITY=/tmp/.X11-unix/.Xauthority -v /home/:/home/ -v /etc/localtime:/etc/localtime:ro nopysy:v1
+step 13 sudo reboot
+
+
+
+additional command
+remove My sql->sudo apt purge mysql*
+install My sql->
+sudo apt update
+sudo apt install mysql-server
+sudo systemctl start mysql
+sudo systemctl enable mysql
+sudo ufw allow mysql
+sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo systemctl restart mysql
+
+create users
+sudo mysql -u root -p <<EOF
+    CREATE USER 'softo_db'@'%' IDENTIFIED BY 'Softo@7890';
+    GRANT ALL PRIVILEGES ON *.* TO 'softo_db'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+	SELECT User, Host FROM mysql.user;
+EOF
+
+install ffmpeg-> sudo apt install ffmpeg
+
+SELECT * FROM tmsv1_lane.tbl_AvcTransaction ORDER BY TransactionDateTime DESC;
+		
+

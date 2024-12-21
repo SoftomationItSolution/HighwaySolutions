@@ -1,0 +1,29 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+
+    defaultConfig {
+        applicationId "com.seuic.uhfdemo"
+        minSdkVersion 18
+        targetSdkVersion 26
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+    namespace 'com.seuic.uhfdemo'
+}
+
+dependencies {
+    implementation 'com.android.support:appcompat-v7:26.0.1'
+    implementation files('build/uhf.jar')
+    implementation files('build/scankey.jar')
+
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
+    implementation 'cn.pedant.sweetalert:library:1.1'
+}

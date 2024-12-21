@@ -9,6 +9,7 @@ import { SystemSettingComponent } from 'src/app/pages/system-setting/system-sett
 import { AppLockComponent } from 'src/app/pages/configurations/UserData/app-lock/app-lock.component';
 import { ChangePasswordPopUpComponent } from 'src/app/pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
 import { ProjectConfigComponent } from 'src/app/pages/project-config/project-config.component';
+import { ICDSettingComponent } from 'src/app/pages/icd-setting/icd-setting.component';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './default-layout.component.html',
@@ -239,6 +240,7 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
   ssOpen() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
@@ -246,6 +248,7 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
     dialogConfig.width = '50%';
     const dialogRef = this.dialog.open(SystemSettingComponent, dialogConfig);
   }
+
   alOpen() {
     this.dataModel.setLock("true");
     const dialogConfig = new MatDialogConfig();
@@ -262,11 +265,20 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
       }
     );
   }
+
   piOpen(){
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '50%';
     const dialogRef = this.dialog.open(ProjectConfigComponent, dialogConfig);
+  }
+
+  icdOpen(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    const dialogRef = this.dialog.open(ICDSettingComponent, dialogConfig);
   }
 }

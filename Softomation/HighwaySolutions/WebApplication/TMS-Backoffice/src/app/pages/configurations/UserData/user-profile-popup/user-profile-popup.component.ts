@@ -111,8 +111,9 @@ export class UserProfilePopupComponent implements OnInit {
       this.dbService.UserProfileChange(Obj).subscribe(
         data => {
           this.spinner.hide();
+          debugger;
           let returnMessage = data.Message[0].AlertMessage;
-          if (returnMessage.indexOf('success')>-1) {
+          if (returnMessage == 'success') {
             this.ErrorData = [{ AlertMessage: 'Success' }];
             this.dm.openSnackBar(this.ErrorData, true);
             this.getDetails();

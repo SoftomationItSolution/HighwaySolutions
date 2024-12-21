@@ -8,7 +8,6 @@ const crypto = require("../_helpers/crypto");
 const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
-const configManagerPath = path.resolve('./configManager');
 const {
     root_path,
     pc_path
@@ -21,6 +20,7 @@ router.get('/UserDetails', LaneUserGetDetails);
 router.get('/TransactionTypeDetails', TransactionTypeGetActive);
 router.get('/ExemptTypeDetails', ExemptTypeGetActive);
 router.get('/PaymentMethodTypeDetails', PaymentMethodTypeGetActive);
+router.get('/KeyboardDetailGetAll', KeyboardDetailGetAll);
 router.get('/FasTagVehicleClassDetails', FasTagVehicleClassGetActive);
 router.get('/SystemVehicleClassDetails', SystemVehicleClassGetActive);
 router.get('/SystemVehicleSubClassDetails', SystemVehicleSubClassDetails);
@@ -314,6 +314,20 @@ async function PaymentMethodTypeGetActive(req, res, next) {
         res.status(200).json(out);
     } catch (error) {
         errorlogMessage(error, 'PaymentMethodTypeGetActive');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function KeyboardDetailGetAll(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_KeyboardDetailsGet');
+        
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out);
+    } catch (error) {
+        errorlogMessage(error, 'KeyboardDetailGetAll');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

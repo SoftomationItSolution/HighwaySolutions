@@ -93,7 +93,7 @@ class MantraRfidReader(threading.Thread):
                     self.tagDetails["SystemDateTime"]=current_date_time.isoformat()
                     self.tagDetails["TransactionDateTime"]=Utilities.current_date_time_json(dt=current_date_time)
                     self.handler.update_rfid_data(self.tagDetails)
-                    self.tagDetails={"TagReadById":1,"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX"}
+                    self.tagDetails={"TagReadById":1,"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}
                     self.presence_loop_status=False
         except Exception as e:
             self.logger.logError(f"Exception decode_tag: {str(e)}")

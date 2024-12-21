@@ -18,6 +18,7 @@ class TMSAppv1:
         self.script_dir=os.path.dirname(os.path.abspath(__file__))
         self.logger = CustomLogger(self.default_directory, 'main_app')
         self.db_path = os.path.join(self.default_directory, 'MasterConfig', 'dbConfig.json')
+        self.ic_path = os.path.join(self.default_directory, 'MasterConfig', 'icConfig.json')
         self.bg_handler = None
         self.dbConnectionObj = None
         self.lane_details = None
@@ -64,15 +65,24 @@ class TMSAppv1:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} check_duplicate_instance: {str(e)}")
 
+    def get_ic_timemout(self):
+        try:
+            ic_json_data = Utilities.read_json_file(self.ic_path)
+            return int(ic_json_data["timeout"])
+        except Exception as e:
+            return 4
+
+
     def main(self):
         try:
             self.check_duplicate_instance()
             db_json_data = Utilities.read_json_file(self.db_path)
+            ic_timemout=self.get_ic_timemout()
             self.system_ip = Utilities.get_local_ips()
             # if self.compare_ips(self.system_ip, '192.168.10.12')==False:
-            #     self.system_ip='192.168.10.12'
+                # self.system_ip='192.168.10.22'
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
-            self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip)
+            self.bg_handler = LaneEquipmentSynchronization(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip,ic_timemout)
             self.bg_handler.daemon = True
             self.bg_handler.start()
         except Exception as e:

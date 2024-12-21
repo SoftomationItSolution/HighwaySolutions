@@ -36,6 +36,7 @@ class FlaskApiApp(threading.Thread):
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/FleetStart','FleetStart', self.FleetStart, methods=['POST'])
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/FleetStop','FleetStop', self.FleetStop, methods=['POST'])
         self.app.add_url_rule('/Softomation/lpicLiveView','lpicLiveView', self.lpicLiveView)
+        self.app.add_url_rule('/Softomation/FasTag','FasTag', self.handled_FasTag)
 
         #self.app.add_url_rule('/get_status', 'get_status', self.get_status)
         self.app.add_url_rule('/app_login', 'app_login', self.app_login, methods=['POST'])
@@ -180,6 +181,32 @@ class FlaskApiApp(threading.Thread):
             self.logger.logError(f"Exception lpicLiveView: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
 
+    def handled_FasTag(self):
+        try:
+            if request.is_json:
+                data = request.get_json()
+                EPCId=data["epc"]
+                TID=data["tagId"]
+                UserData=data["laneId"]
+                current_date_time=datetime.now()
+                tagDetails={"TagReadById":2,
+                            "SystemDateTime":current_date_time.isoformat(),
+                            "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
+                            "ReaderName":"Handled",
+                            "EPC":EPCId,
+                            "TID":TID,
+                            "UserData":UserData,
+                            "Class":self.convert_hex_to_int(UserData[24:26]),
+                            "Plate":self.hex_to_string_vehicle_number(UserData[4:24]),
+                            "Processed":False}
+                self.bg_handler.update_rfid_data(tagDetails)
+                return jsonify({"message": "Data received successfully"}), 200
+            else:
+                 return jsonify({"error": "Request must be in JSON format"}), 400
+        except Exception as e:
+            self.logger.logError(f"Exception lpicLiveView: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+   
     def app_login(self):
         try:
             self.logger.logInfo("app_login route hit")
@@ -231,8 +258,6 @@ class FlaskApiApp(threading.Thread):
     def logout(self):
         self.bg_handler.app_log_status(False)
         return "Logout functionality"
-    
-   
 
     def restart_system(self):
         if platform.system() == 'Windows':
@@ -268,3 +293,26 @@ class FlaskApiApp(threading.Thread):
                 self.server.join(1)
         except Exception as e:
             self.logger.logError(f"Exception stop_app: {str(e)}")
+
+    def convert_hex_to_int(self,hex_string):
+        result='00'
+        try:
+            result=str(int(hex_string, 16))
+        except Exception as e:
+                self.logger.logError(f"Exception convert_hex_to_int: {str(e)}")
+                result='00'
+        finally:
+            return result
+        
+    def hex_to_string_vehicle_number(self,hex_string):
+        result = ""
+        try:
+            for i in range(0, len(hex_string), 2):
+                hex_pair = hex_string[i:i+2]
+                decimal = int(hex_pair, 16)
+                result += chr(decimal)
+        except Exception as e:
+                self.logger.logError(f"Exception hex_to_string_vehicle_number: {str(e)}")
+                result='XXXXXXXXXX'
+        finally:
+            return result

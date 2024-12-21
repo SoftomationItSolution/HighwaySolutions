@@ -7,12 +7,13 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,timeout=0.200):
+    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,ic_timemout,timeout=0.200):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
         self.system_loging_status=system_loging_status
         self.barrier_auto=barrier_auto
+        self.ic_timemout=ic_timemout
         self.timeout=timeout
         self.client_socket=None
         self.is_running=False
@@ -116,7 +117,6 @@ class KistDIOClient(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception handel_presence_loop: {str(e)}")
 
-
     def handel_exit_loop(self,loop_status):
         try:
             if loop_status!=self.barrier_loop_last:
@@ -124,7 +124,11 @@ class KistDIOClient(threading.Thread):
                 if out_data["PositionStatus"] != loop_status:
                     out_data["PositionStatus"] = loop_status
                 if self.running_Transaction and self.fleet_status==False:
-                    self.ic_camera_handel(loop_status)
+                    if self.ic_timemout==0:
+                        self.ic_camera_handel(loop_status)
+                    else:
+                         if loop_status==True:
+                            self.ic_camera_handel(loop_status)
                 if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
                     if self.system_transcation_status and self.fleet_status==False:
                         self.lane_trans_end()
@@ -143,12 +147,12 @@ class KistDIOClient(threading.Thread):
             if loop_status!=self.barrier_loop_last:
                 self.barrier_loop_last=loop_status
                 self.handler.update_hardware_list(4,loop_status)
-
     
     def ic_camera_handel(self,status):
         try:
             if status:
-                threading.Thread(target=self.handler.start_ic_record,args=(self.running_Transaction)).start()
+                #threading.Thread(target=self.handler.start_ic_record,args=(self.running_Transaction)).start()
+                threading.Thread(target=self.handler.start_ic_record, args=(self.running_Transaction,)).start()
             else:
                 threading.Thread(target=self.handler.stop_ic_record()).start()
         except Exception as e:
@@ -165,20 +169,25 @@ class KistDIOClient(threading.Thread):
             self.logger.logError(f"Exception process_data: {str(e)}")
             return False
         
-    def send_data(self,input):
-        result=False
+    def send_data(self, input):
+        result = False
         try:
-            bytes_data = input.encode('ascii')
-            if self.dio_detail["ProtocolTypeId"]==1:
-                self.client_socket.sendall(bytes_data)
-            elif self.dio_detail["ProtocolTypeId"]==3:
-                self.client_socket.write(bytes_data)
-            result= True
+            if self.client_socket is not None and self.client_socket.fileno() != -1:
+                bytes_data = input.encode('ascii')
+                if self.dio_detail["ProtocolTypeId"] == 1:
+                    self.client_socket.sendall(bytes_data)
+                elif self.dio_detail["ProtocolTypeId"] == 3:
+                    self.client_socket.write(bytes_data)
+                result = True
+            else:
+                self.logger.logError("Socket is not open, attempting to reconnect.")
+                self.tcp_conn()  # Reconnect if socket is not open
         except Exception as e:
             self.logger.logError(f"Exception send_data: {str(e)}")
         finally:
             time.sleep(0.100)
-        return result        
+        return result
+       
         
     def run(self):
         while not self.is_stopped:
@@ -201,29 +210,50 @@ class KistDIOClient(threading.Thread):
     def tcp_conn(self):
         try:
             while self.is_active:
-                self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
-                self.is_running = True
-                self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',True)
-                self.reset_command()
-                while self.is_running:
-                    try:
-                        if not self.is_active or self.is_stopped or not self.is_running:
-                            self.handler.update_equipment_list(self.dio_detail["EquipmentId"],'ConnectionStatus',False)
-                            break
-                        data = self.client_socket.recv(1024)
-                        decoded_data = data.decode('utf-8', errors='ignore').strip()
-                        if len(decoded_data) != 0:
-                            self.process_data(decoded_data)
-                    except Exception as e:
-                        self.logger.logError(f"Exception tcp_conn data: {str(e)}")
+                try:
+                    # Create a new socket connection
+                    self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                    self.client_socket.connect((self.dio_detail["IpAddress"], self.dio_detail["PortNumber"]))
+                    self.is_running = True
+                    self.handler.update_equipment_list(self.dio_detail["EquipmentId"], 'ConnectionStatus', True)
+                    self.reset_command()  # Reset any pending commands
+                    while self.is_running:
+                        try:
+                            if not self.is_active or self.is_stopped or not self.is_running:
+                                self.handler.update_equipment_list(self.dio_detail["EquipmentId"], 'ConnectionStatus', False)
+                                break
+                            data = self.client_socket.recv(1024)
+                            decoded_data = data.decode('utf-8', errors='ignore').strip()
+                            
+                            if len(decoded_data) != 0:
+                                self.process_data(decoded_data)
 
+                        except Exception as e:
+                            self.logger.logError(f"Exception in tcp_conn data: {str(e)}")
+                            if isinstance(e, socket.error) and e.errno in [104, 32]:  # Connection reset by peer (104) or broken pipe (32)
+                                self.logger.logError(f"Connection error detected. Retrying in {self.timeout} seconds...")
+                                time.sleep(self.timeout)
+                                self.client_socket.close()  # Close the old socket
+                                self.tcp_conn()  # Retry the connection
+                                break  # Break the current loop to restart the connection
+                            
+                        time.sleep(self.timeout)  # Control the speed of the loop
+                    time.sleep(self.timeout)  # Small delay between reconnection attempts
+                except (socket.error, ConnectionRefusedError) as e:
+                    # Handle initial connection failure
+                    self.logger.logError(f"Initial connection failed: {str(e)}. Retrying in {self.timeout} seconds...")
                     time.sleep(self.timeout)
-                    self.check_status()
-                time.sleep(self.timeout)
-            self.check_status()
+                    self.client_socket.close()  # Ensure the socket is closed before retrying
+                    self.tcp_conn()  # Retry the connection
+                except Exception as e:
+                    self.logger.logError(f"Exception in tcp_conn: {str(e)}")
+                    break  # Break the loop in case of any other exception
         except Exception as e:
-            raise e
+            self.logger.logError(f"Exception in tcp_conn main loop: {str(e)}")
+        finally:
+            self.client_stop()  # Ensure the client socket is properly closed after the loop ends
+
+
         
     def tcp_close(self):
         try:

@@ -1,0 +1,78 @@
+[
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/layout_fragment_inventory.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/layout/fragment_inventory.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-mdpi_et.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-mdpi/et.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-xhdpi_ic_launcher.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-xhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable_button_bg_up.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable/button_bg_up.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/menu_main.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/menu/main.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/layout_fragment_settings.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/layout/fragment_settings.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-mdpi_weibolist_bottombar_itembg_selector.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-mdpi/weibolist_bottombar_itembg_selector.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/layout_activity_main.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable_button_bg_down.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable/button_bg_down.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable_button_circle.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable/button_circle.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-mdpi_bg_weibo_listab.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-mdpi/bg_weibo_listab.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-xxhdpi_ic_launcher.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-xxhdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable_button_bg.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable/button_bg.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable_rectangle_bg.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable/rectangle_bg.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-hdpi_ic_launcher.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-hdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-mdpi_weibo_detail_buttombar_itembg_on.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-mdpi/weibo_detail_buttombar_itembg_on.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/layout_item_epc.xml.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/layout/item_epc.xml"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/drawable-mdpi_ic_launcher.png.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/drawable-mdpi/ic_launcher.png"
+    },
+    {
+        "merged": "com.seuic.uhfdemo.app-debug-8:/raw_scan.ogg.flat",
+        "source": "com.seuic.uhfdemo.app-main-10:/raw/scan.ogg"
+    }
+]

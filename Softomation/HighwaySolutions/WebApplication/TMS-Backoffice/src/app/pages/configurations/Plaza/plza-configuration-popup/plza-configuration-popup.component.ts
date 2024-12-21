@@ -33,7 +33,6 @@ export class PlzaConfigurationPopupComponent implements OnInit {
       SystemIntegratorId: new FormControl('', [Validators.required]),
       PlazaName: new FormControl('', [Validators.required]),
       PlazaServerIpAddress: new FormControl('', [Validators.required, Validators.pattern(regExps["IpAddress"])]),
-      PlazaZoneId: new FormControl('', [Validators.pattern(regExps["OnlyDigit"])]),
       ChainageNumber: new FormControl('', [Validators.required,Validators.pattern(regExps['ChainageNumber'])]),
       Latitude: new FormControl('', [Validators.required,Validators.pattern(regExps['Latitude'])]),
       Longitude: new FormControl('', [Validators.required,Validators.pattern(regExps['Longitude'])]),
@@ -78,7 +77,6 @@ export class PlzaConfigurationPopupComponent implements OnInit {
           this.DataDetailsForm.controls['SystemIntegratorId'].setValue(DetailData.SystemIntegratorId);
           this.DataDetailsForm.controls['PlazaName'].setValue(DetailData.PlazaName);
           this.DataDetailsForm.controls['PlazaServerIpAddress'].setValue(DetailData.PlazaServerIpAddress);
-          this.DataDetailsForm.controls['PlazaZoneId'].setValue(DetailData.PlazaZoneId);
           this.DataDetailsForm.controls['ChainageNumber'].setValue(DetailData.ChainageNumber);
           this.DataDetailsForm.controls['Latitude'].setValue(DetailData.Latitude);
           this.DataDetailsForm.controls['Longitude'].setValue(DetailData.Longitude);
@@ -118,7 +116,6 @@ export class PlzaConfigurationPopupComponent implements OnInit {
       SystemIntegratorId: this.DataDetailsForm.value.SystemIntegratorId,
       PlazaName: this.DataDetailsForm.value.PlazaName,
       PlazaServerIpAddress: this.DataDetailsForm.value.PlazaServerIpAddress,
-      PlazaZoneId: this.DataDetailsForm.value.PlazaZoneId,
       ChainageNumber: this.DataDetailsForm.value.ChainageNumber,
       Latitude: this.DataDetailsForm.value.Latitude,
       Longitude: this.DataDetailsForm.value.Longitude,

@@ -17,45 +17,18 @@ module.exports = router;
 async function TollFareSetUp(req, res, next) {
     try {
         const currentDateTime = new Date();
-        const SessionId = constants.RandonString(10)
-        const array = req.body.TollFareConfigurations;
-        const table = new sql.Table('temp_TollFareConfiguration');
-        table.create = true;
-        table.columns.add('JourneyId', sql.BigInt, { nullable: false });
-        table.columns.add('SystemVehicleClassId', sql.SmallInt, { nullable: false });
-        table.columns.add('SubVehicleClassId', sql.SmallInt, { nullable: false });
-        table.columns.add('TollFare', sql.Float, { nullable: false });
-        table.columns.add('ReturnFare', sql.Float, { nullable: false });
-        table.columns.add('FasTagPenalty', sql.Float, { nullable: false });
-        table.columns.add('OverweightPenalty', sql.Float, { nullable: false });
-        table.columns.add('MonthlyPass', sql.Float, { nullable: false });
-        table.columns.add('SessionId', sql.VarChar(20), { nullable: false });
-        for (let i = 0; i < array.length; i++) {
-            table.rows.add(
-                parseInt(array[i].JourneyId),
-                parseInt(array[i].SystemVehicleClassId),
-                parseInt(array[i].SubVehicleClassId),
-                parseFloat(array[i].TollFare),
-                parseFloat(array[i].ReturnFare),
-                parseFloat(array[i].FasTagPenalty),
-                parseFloat(array[i].OverweightPenalty),
-                parseFloat(array[i].MonthlyPass),
-                SessionId);
-        }
         const pool = await database.getPool();
-        const resultU = await pool.request().bulk(table);
         result = await pool.request().input('EffectedFrom', sql.VarChar(20), req.body.EffectedFrom)
-            .input('SessionId', sql.VarChar(20), SessionId)
-            .input('DataStatus', sql.Int, req.body.DataStatus)
-            .input('CreatedBy', sql.Int, req.body.CreatedBy)
-            .input('ModifiedBy', sql.Int, req.body.CreatedBy)
-            .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
-            .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
-            .execute('USP_TollFareSetup');
-        
+        .input('DataStatus', sql.Int, req.body.DataStatus)
+        .input('CreatedBy', sql.Int, req.body.CreatedBy)
+        .input('ModifiedBy', sql.Int, req.body.CreatedBy)
+        .input('CreatedDate', sql.DateTime, date_time_format(currentDateTime))
+        .input('ModifiedDate', sql.DateTime, date_time_format(currentDateTime))
+        .input('TollFare', sql.NVarChar(sql.MAX), JSON.stringify(req.body.TollFareConfigurations))
+        .execute('USP_TollFareSetup');
         let out = constants.ResponseMessageList(result.recordset, null);
         pubData(out)
-        res.status(200).json(out)
+        res.status(200).json(out) 
     } catch (error) {
         errorlogMessage(error, 'TollFareSetUp');
         let out = constants.ResponseMessage(error.message, null);
@@ -66,7 +39,7 @@ async function TollFareSetUp(req, res, next) {
 async function TollFareGetByEffectedFrom(req, res, next) {
     try {
         const pool = await database.getPool();
-        result = await pool.request().input('EffectedFrom', sql.Date, req.query.EffectedFrom)
+        result = await pool.request().input('EffectedFrom', sql.VarChar(20), req.query.EffectedFrom)
             .execute('USP_TollFareGetByEffectedFrom');
         
         if (result.recordset == [] || result.recordset.length==0) {

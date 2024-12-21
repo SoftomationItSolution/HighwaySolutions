@@ -19,7 +19,7 @@
                         styleClass="table table-centered datatable dt-responsive nowrap"
                         selectionMode="single" 
                         [globalFilterFields]="['SystemIntegratorName','PlazaName','PlazaServerIpAddress',
-                        'PlazaZoneId','ChainageName','Latitude','Longitude','DataStatusName']">
+                        'ChainageName','Latitude','Longitude','DataStatusName']">
                         <ng-template pTemplate="header" styleClass="thead-light">
                             <tr>
                                 <th>S. No.</th>
@@ -29,8 +29,6 @@
                                 </th>
                                 <th pSortableColumn="PlazaServerIpAddress">Server IP<p-sortIcon
                                         field="PlazaServerIpAddress"></p-sortIcon></th>
-                                <th pSortableColumn="PlazaZoneId">Plaza Zone Id<p-sortIcon
-                                        field="PlazaZoneId"></p-sortIcon></th>
                                 <th pSortableColumn="ChainageName">Chainage<p-sortIcon
                                     field="ChainageName"></p-sortIcon></th>
                                 <th pSortableColumn="Latitude">Latitude<p-sortIcon
@@ -48,7 +46,6 @@
                                 <td>{{rowData.SystemIntegratorName}}</td>
                                 <td>{{rowData.PlazaName}}</td>
                                 <td>{{rowData.PlazaServerIpAddress}}</td>
-                                <td>{{rowData.PlazaZoneId}}</td>
                                 <td>{{rowData.ChainageName}}</td>
                                 <td>{{rowData.Latitude}}</td>
                                 <td>{{rowData.Longitude}}</td>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <etc:RespPay xmlns:etc="http://npci.org/etc/schema/">
+ <Head msgId="0000000000000AB1002" orgId="DCBX" ts="2016-08-10T12:25:00" ver="1.0"/>
+ <Meta>
+ </Meta>
+<Txn id="0000000000000AB1002" note="" orgTxnId="" refId="" refUrl="" ts="2016-08-10T12:25:00"
+type="DEBIT" txnLiability="">
+ <EntryTxn id="0000000000000AB1002" tsRead="2016-08-10T12:25:00" ts="2016-08-10T12:25:00"
+type="DEBIT">
+ </EntryTxn>
+</Txn>
+<Resp plazaId="1234" respCode="00" result="ACCEPTED/DECLINED/INPROCESS" ts="2016-08-10T19:16:37"
+FareType="DISCOUNTED/EXEMPTED/FULL/RETURN">
+ <Ref TollFare="" approvalNum="1234" errCode="000" settCurrency="INR"/>
+ <!-- from NPCI Mapper-->
+<Vehicle TID="34161FA82032D698020078E0" tagId="34161FA82032D698020078E0">
+ <VehicleDetails>
+ <Detail name="VEHICLECLASS" value="VC4" />
+ <Detail name="REGNUMBER" value="MH04BY13" />
+ <Detail name="COMVEHICLE" value="F" />
+ </VehicleDetails>
+ </Vehicle>
+</Resp>
+
+</etc:RespPay>

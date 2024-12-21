@@ -12,9 +12,11 @@ const constants = require("../_helpers/constants");
 const logger = require('../_helpers/logger');
 const {
     root_path,
-    pc_path
+    pc_path,
+    icd_path
   } = require("../_helpers/constants");
   const pc_Directory = path.join(root_path, pc_path);
+  const icd_Directory = path.join(root_path, icd_path);
 
 
 router.post('/ValidateUser', ValidateUser);
@@ -25,6 +27,7 @@ router.post('/UpdateProjectConfig', UpdateProjectConfig);
 
 router.get('/DataStatusMasterGetAll', DataStatusMasterGetAll);
 router.get('/GetMenu', GetMenu);
+router.get('/ICDConfigGet', ICDConfigGet);
 router.get('/ProjectConfigGet', ProjectConfigGet);
 router.get('/SystemSettingGet', SystemSettingGet);
 router.get('/DenominationGetActive', DenominationGetActive);
@@ -80,6 +83,7 @@ async function SystemSettingSetup(req, res, next) {
             .input('CashReturn', sql.Bit, req.body.CashReturn)
             .input('CashReturnDiscount', sql.SmallInt, req.body.CashReturnDiscount)
             .input('OpeningBalance', sql.Decimal, req.body.OpeningBalance)
+            .input('MonthlyPassTrips', sql.SmallInt, req.body.MonthlyPassTrips)
             .input('DataStatus', sql.SmallInt, req.body.DataStatus)
             .input('CreatedBy', sql.Int, req.body.CreatedBy)
             .input('ModifiedBy', sql.Int, req.body.CreatedBy)
@@ -416,6 +420,33 @@ async function UpdateProjectConfig(req, res, next) {
         }
     });
 }
+
+async function ICDConfigGet(req, res, next) {
+    try {
+        fs.readFile(icd_Directory, 'utf8', (err, data) => {
+            if (err) {
+                errorlogMessage(err, 'ICD Read File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+            try {
+                const jsonData = JSON.parse(data);
+                let out = constants.ResponseMessage("success", jsonData);
+                res.status(200).json(out)
+            } catch (err) {
+                errorlogMessage(err, 'ICD parsing File');
+                let out = constants.ResponseMessage(err.message, null);
+                res.status(500).json(out)
+            }
+        });
+    } catch (error) {
+        errorlogMessage(error, 'ProjectConfigGet');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+
+}
+
 
 function CreateObjectForShiftTimining(row) {
     try {

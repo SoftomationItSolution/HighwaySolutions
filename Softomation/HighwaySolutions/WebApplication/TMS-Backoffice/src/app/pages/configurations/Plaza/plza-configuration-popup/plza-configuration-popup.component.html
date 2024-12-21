@@ -31,13 +31,6 @@
                     <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaServerIpAddress')">{{error['IpAddress']}}</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="PlazaZoneId">Plaza Zone Id</label>
-                    <input formControlName="PlazaZoneId" type="text" pInputText required autofocus
-                        class="form-control" />
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlazaZoneId')">Plaza zone id is required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlazaZoneId')">{{error["OnlyDigit"]}}</small>
-                </div>
-                <div class="col-md-6">
                     <label for="Ip">Chainage</label>
                     <input formControlName="ChainageNumber" type="text" pInputText required
                         autocomplete="off" class="form-control" />

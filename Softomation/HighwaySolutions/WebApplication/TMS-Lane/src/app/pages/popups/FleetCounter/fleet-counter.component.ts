@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, HostListener, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subscription } from 'rxjs';
@@ -14,13 +14,16 @@ export class FleetCounterComponent implements OnDestroy {
   FleetTrans: any
   class_name: string = 'mdi mdi-road'
   FleetCount = 0
+  keyEventList:any
   private messageSubscription: Subscription;
-  ///
+  customEventFunctions: { [key: number]: () => void } = {};
   constructor(public Dialogref: MatDialogRef<FleetCounterComponent>, public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) parentData: any, public dataModel: DataModel,
     private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private webSocketService: WebSocketService) {
-    this.FleetTrans = parentData;
+    this.FleetTrans = parentData.data;
+    this.keyEventList=parentData.KeyCode;
+    //this.mapKeyEvents()
     this.messageSubscription = this.webSocketService.getMessages().subscribe(
       (message: string) => {
         this.process_ws_message(message)
@@ -31,14 +34,23 @@ export class FleetCounterComponent implements OnDestroy {
   ngOnInit(): void {
   }
 
+  @HostListener('document:keydown.enter', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      this.onFleetStop()// Close the dialog on Enter key press
+    }
+  }
+
+ 
+
   process_ws_message(msg) {
     try {
       let result = JSON.parse(msg)
       const toppic = result.topic
-      const data = result.data
+      //const data = result.data
       if (toppic == "hardware_on_off_status") {
-        if (data.EquipmentTypeId == 20) {
-          if (data.PositionStatus) {
+        if (result.EquipmentTypeId == 20) {
+          if (result.PositionStatus) {
             this.class_name = 'mdi mdi-car-connected'
           }
           else {
@@ -47,7 +59,7 @@ export class FleetCounterComponent implements OnDestroy {
         }
       }
       else if (toppic == "fleet_count") {
-        this.FleetCount = data
+        this.FleetCount = result.fleet_count
       }
     }
     catch (error) {

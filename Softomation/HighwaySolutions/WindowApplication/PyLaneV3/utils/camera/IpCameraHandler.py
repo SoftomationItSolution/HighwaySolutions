@@ -62,10 +62,6 @@ class IpCameraHandler(threading.Thread):
         #cap = cv2.VideoCapture(self.rtsp_url)
         while True:
             try:
-            # success, frame = cap.read()
-            # if not success:
-            #     break
-            #if self.last_frame:
                 ret, buffer = cv2.imencode('.jpg', self.last_frame)
                 if not ret:
                     continue
@@ -177,6 +173,7 @@ class IpCameraHandler(threading.Thread):
             try:
                 elapsed_time = (cv2.getTickCount() - start_time) / cv2.getTickFrequency()
                 if elapsed_time >= self.duration:
+                    self.take_screenshot(self.image_file_path)
                     break
                 if len(self.frame_deque) == 0:
                     continue

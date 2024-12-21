@@ -37,12 +37,13 @@ conda config --set auto_activate_base false
 
 
 sudo mkdir -m 777 ProjectConfig
-sudo chmod -R 777 ..
+sudo chmod -R 777 /home/ProjectConfig
 
 
 sudo apt update
 sudo apt install -y mysql-server
 sudo systemctl start mysql
+sudo systemctl status mysql
 sudo systemctl enable mysql
 sudo ufw allow mysql
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -51,10 +52,10 @@ sudo systemctl restart mysql
 cat /etc/mysql/mysql.conf.d/mysqld.cnf
 
 sudo mysql -u root -p <<EOF
-    SELECT User, Host FROM mysql.user;
     CREATE USER 'softo_db'@'%' IDENTIFIED BY 'Softo@7890';
     GRANT ALL PRIVILEGES ON *.* TO 'softo_db'@'%' WITH GRANT OPTION;
     FLUSH PRIVILEGES;
+	SELECT User, Host FROM mysql.user;
 EOF
 
 sudo mysql -u root -p <<EOF
@@ -341,7 +342,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/opt/soft/MPUv2
-ExecStart=/root/miniconda3/envs/pysy/bin/python mpu.py
+ExecStart=/home/mps/miniconda3/envs/pysy/bin/python mpu.py
 Restart=on-failure
 RestartSec=3
 
@@ -362,8 +363,8 @@ Description=MPS GPS APP Service
 After=network.target
 
 [Service]
-WorkingDirectory=/opt/soft/MPUv2
-ExecStart=/root/miniconda3/envs/pysy/bin/python mpu.py
+WorkingDirectory=/opt/soft/MPU_GPS
+ExecStart=/home/mps/miniconda3/envs/pysy/bin/python main.py
 Restart=on-failure
 RestartSec=3
 
@@ -376,3 +377,10 @@ sudo systemctl enable mps-gps-app.service
 sudo systemctl restart mps-gps-app.service
 sudo systemctl status mps-gps-app.service
 sudo systemctl stop mps-gps-app.service
+
+
+
+sudo rm -rf /home/ProjectConfig/TMSLane/logs
+sudo systemctl restart nginx
+sudo systemctl status tmsV1.service
+sudo systemctl restart tmsV1.service

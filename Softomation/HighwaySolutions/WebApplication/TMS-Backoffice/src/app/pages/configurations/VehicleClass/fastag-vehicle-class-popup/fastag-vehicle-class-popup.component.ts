@@ -20,6 +20,7 @@ export class FastagVehicleClassPopupComponent implements OnInit {
   LogedUserId: number = 0;
   DetailData: any;
   submitted = false;
+  asciiValue: number | null = null;
   ErrorData: any;
   constructor(private spinner: NgxSpinnerService, @Inject(MAT_DIALOG_DATA) parentData: any, public Dialogref: MatDialogRef<FastagVehicleClassPopupComponent>,
     public dialog: MatDialog, private dbService: apiIntegrationService, private dm: DataModel) {
@@ -77,6 +78,24 @@ export class FastagVehicleClassPopupComponent implements OnInit {
     );
   }
   ClosePoup() { this.Dialogref.close(false); }
+
+
+
+  storeAsciiValue(event: KeyboardEvent): void {
+    //event.preventDefault();
+    const data=event.keyCode;
+    this.DataDetailsForm.controls['KeyShortCut'].setValue(data);
+    // if (event.key.length === 1) {
+    //   this.DataDetailsForm.controls['KeyShortCut'].setValue(event.key.charCodeAt(0));
+    //   //this.asciiValue = event.key.charCodeAt(0);
+    // } else {
+    //   if (event.keyCode != 8) {
+    //     this.DataDetailsForm.controls['KeyShortCut'].setValue(event.keyCode);
+    //   }
+    //   //this.asciiValue = event.keyCode;
+    // }
+  }
+
 
   SaveDetails() {
     this.submitted = true;

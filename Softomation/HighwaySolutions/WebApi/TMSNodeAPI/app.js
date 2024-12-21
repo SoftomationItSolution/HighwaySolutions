@@ -1,3 +1,5 @@
+const ffmpeg = require('fluent-ffmpeg');
+const stream = require('stream');
 const express = require('express');
 const app = express();
 const cors = require('cors');
@@ -21,6 +23,7 @@ app.use(apiPrefix, require('./_routers/rolesRoute'));
 app.use(apiPrefix, require('./_routers/manufacturerRoute'));
 app.use(apiPrefix, require('./_routers/systemIntegratorRoute'));
 app.use(apiPrefix, require('./_routers/plazaRoute'));
+app.use(apiPrefix, require('./_routers/icdConfig'));
 app.use(apiPrefix, require('./_routers/vehicleClassRoute'));
 app.use(apiPrefix, require('./_routers/tollFareRoute'));
 app.use(apiPrefix, require('./_routers/laneRoute'));
@@ -34,6 +37,7 @@ app.use(apiPrefix, require('./_routers/transactionRoute'));
 app.use(apiPrefix, require('./_routers/fasTagProcessRoute'));
 app.use(apiPrefix, require('./_routers/reportRoute'));
 app.use(apiPrefix, require('./_routers/cameraRoute'));
+app.use(apiPrefix, require('./_routers/keyBoardRoute'));
 //app.use(apiPrefix, require('./_routers/cameraRoutes'));
 app.use(laneApiPrefix, require('./_routers/laneTransactionRoute'));
 app.use(laneApiPrefix, require('./_routers/laneMasterDataRoute'));
@@ -44,9 +48,46 @@ app.get("/", (request, response) => {
    response.send(status);
 });
 
+app.get('/video/:rtpsurl', (req, res) => {
+   var input=req.params
+   const rtspUrl=input['rtpsurl']
+   //const rtspUrl =req.params.rtspUrl; 
+   //"rtsp://admin:kits%402023@192.168.1.202:554/avstream/channel=1/stream=0.sdp";
+   console.log('RTSP URL:', rtspUrl);
+
+   // Set headers only once before the stream starts
+   res.setHeader('Content-Type', 'multipart/x-mixed-replace; boundary=ffserver');
+
+   const passThrough = new stream.PassThrough();
+
+   // Use ffmpeg to process the RTSP stream and convert it to MJPEG
+   const command = ffmpeg(rtspUrl)
+       .inputOptions('-rtsp_transport', 'tcp')  // Use TCP for the RTSP transport
+       .outputFormat('mjpeg')                   // Convert the output format to MJPEG
+       .on('stderr', function(stderrLine) {
+           console.log('FFmpeg Stderr output: ' + stderrLine);
+       })
+       .on('error', (err) => {
+           console.error('Error during video stream processing: ' + err.message);
+           // Don't attempt to send res.status(500) after streaming starts.
+           // Just log the error and allow the stream to end.
+           passThrough.end();
+       });
+
+   // Pipe the FFmpeg stream directly to the response
+   command.pipe(res, { end: true });
+
+   // Close the connection when the stream ends
+   res.on('close', () => {
+       console.log('Client closed the connection.');
+       command.kill(); // Stop FFmpeg if the client disconnects
+       passThrough.end();
+   });
+});
+
 app.ws('/frame/:rtpsurl', (ws, req) => {
    let streamId;
-   rtpsurl=req.params.rtpsurl
+   rtpsurl = req.params.rtpsurl
    //const { ipaddress, uid, pwd } = req.params;
 
    if (activeStreams.length === 0) {

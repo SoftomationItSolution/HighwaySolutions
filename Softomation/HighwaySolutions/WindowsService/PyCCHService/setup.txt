@@ -1,0 +1,9 @@
+pyodbc
+lxml
+xmlsec
+psutil
+netifaces
+requests
+paramiko
+pandas
+pycryptodome

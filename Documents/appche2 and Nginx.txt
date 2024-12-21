@@ -1,0 +1,70 @@
+sudo nano /etc/apache2/sites-available/singossa.conf
+<VirtualHost *:8000>
+    DocumentRoot /opt/soft/wordpress
+    <Directory /opt/soft/wordpress>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/my-app-error.log
+    CustomLog ${APACHE_LOG_DIR}/my-app-access.log combined
+</VirtualHost>
+
+sudo a2ensite singossa.conf
+
+sudo systemctl restart apache2
+
+sudo apachectl configtest
+
+link with ngnix 
+sudo nano /etc/nginx/sites-available/singossa
+server {
+    listen 80;
+    server_name singossa.com;
+
+    location / {
+        proxy_pass http://93.127.198.13:8000;
+        # Add other proxy settings as needed
+    }
+}
+
+sudo nginx -t
+sudo ln -s /etc/nginx/sites-available/singossa /etc/nginx/sites-enabled/
+sudo systemctl reload nginx
+
+remove from ngnix 
+sudo rm /etc/nginx/sites-enabled/singossa
+sudo rm /etc/nginx/sites-available/singossa
+sudo nginx -t
+sudo systemctl restart nginx
+
+# Disable the site configurations
+sudo a2dissite gpsTest.conf
+sudo a2dissite singossa-le-ssl.conf
+# Disable mod_ssl if it's associated with SSL configuration (only if it's not needed anymore)
+sudo a2dismod ssl
+
+# Remove the files
+sudo rm /etc/apache2/sites-available/gpsTest.conf
+sudo rm /etc/apache2/sites-available/singossa-le-ssl.conf
+
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+
+
+
+ngnix config path 
+/etc/nginx/sites-available
+sudo ln -s /etc/nginx/sites-available/singossa.com /etc/nginx/sites-enabled/
+sudo systemctl restart nginx
+
+apache2 config path 
+/etc/apache2/ports.conf
+/etc/apache2/sites-available
+sudo a2ensite yourdomain.conf
+Set File Permissions
+sudo chown -R www-data:www-data /var/www/yourdomain
+
+sudo apache2ctl configtest
+

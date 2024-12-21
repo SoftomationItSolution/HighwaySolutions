@@ -1,0 +1,107 @@
+mcube@linux:~$ cd /mnt/TMS/Apps/Keys
+mcube@linux:/mnt/TMS/Apps/Keys$ ssh-keygen -b 2048 -t rsa -f hatibaritollplaza
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Passphrases do not match.  Try again.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in hatibaritollplaza
+Your public key has been saved in hatibaritollplaza.pub
+The key fingerprint is:
+SHA256:BQmgUhjsjkTO0VbzUI04gHTAsA2QYIPGCicF4CSFCO8 mcube@linux
+The key's randomart image is:
++---[RSA 2048]----+
+|^#Bo+=+o+.       |
+|&#++ o+..o       |
+|@+*   ..  .      |
+|.B       .       |
+|+ E     S        |
+|..               |
+|                 |
+|                 |
+|                 |
++----[SHA256]-----+
+mcube@linux:/mnt/TMS/Apps/Keys$
+https://docs.oracle.com/en/cloud/paas/big-data-cloud/csbdi/generating-secure-shell-ssh-public-private-key-pair.html#GUID-39CB2794-02E2-43BA-AA9F-A45769CA449D
+
+
+1. Install GnuPG
+Ensure GnuPG is installed:
+
+bash
+Copy code
+sudo apt update
+sudo apt install gnupg -y
+2. Generate a New Key Pair
+Start the key generation process:
+
+bash
+Copy code
+gpg --full-generate-key
+Key Type: Select RSA and RSA (default).
+Key Size: Enter 4096 for a highly secure key.
+Expiration Date: Enter 0 if the key should never expire.
+Identity: Enter your name, email, and an optional comment.
+Passphrase: Enter a strong passphrase to protect your private key.
+3. Export the Public Key
+List all keys to confirm the key ID or email:
+
+bash
+Copy code
+gpg --list-keys
+Example output:
+
+plaintext
+Copy code
+pub   rsa4096 2024-12-08 [SC]
+      ABCDEF1234567890ABCDEF1234567890ABCDEF12
+uid           [ultimate] Your Name <youremail@example.com>
+sub   rsa4096 2024-12-08 [E]
+Export the public key:
+
+bash
+Copy code
+gpg --armor --export <email_or_key_id> > public_key.asc
+Replace <email_or_key_id> with your email address or the key ID (e.g., ABCDEF1234567890ABCDEF1234567890ABCDEF12).
+
+4. Export the Private Key
+Export the private key:
+
+bash
+Copy code
+gpg --armor --export-secret-keys <email_or_key_id> > private_key.asc
+This will save the private key in private_key.asc.
+
+5. Verify the Files
+View the public key:
+
+bash
+Copy code
+cat public_key.asc
+You should see something like:
+
+plaintext
+Copy code
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+mQENBFubPccBCACXCLHsoMF6K...
+-----END PGP PUBLIC KEY BLOCK-----
+View the private key:
+
+bash
+Copy code
+cat private_key.asc
+You should see:
+
+plaintext
+Copy code
+-----BEGIN PGP PRIVATE KEY BLOCK-----
+Version: GnuPG v2.0.22 (GNU/Linux)
+
+lQPGBFubPccBCACXCLHsoMF6K...
+-----END PGP PRIVATE KEY BLOCK-----
+6. Secure the Files
+Store private_key.asc securely and do not share it.
+The public_key.asc can be shared as needed.

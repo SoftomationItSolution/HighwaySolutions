@@ -13,7 +13,8 @@
                     <input formControlName="ControlRoomName" type="text" pInputText required autocomplete="off"
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','ControlRoomName')">Control room name must be
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ControlRoomName')">Control room name
+                        must be
                         required.</small>
                 </div>
                 <div class="col-md-6">
@@ -28,37 +29,37 @@
                     <label class="form-label" for="Address">Address</label>
                     <input formControlName="Address" type="text" pInputText required autocomplete="off"
                         class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','Address')">Address must be
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','Address')">Address
+                        must be
                         required.</small>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="RoadName">Road name</label>
                     <input formControlName="RoadName" type="text" pInputText required autocomplete="off"
                         class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','RoadName')">Road name must be
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','RoadName')">Road
+                        name must be
                         required.</small>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="State">State</label>
                     <input formControlName="State" type="text" pInputText required autocomplete="off"
                         class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','State')">State must be
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','State')">State must
+                        be
                         required.</small>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label" for="Pincode">Pincode</label>
                     <input formControlName="Pincode" type="text" pInputText required autocomplete="off"
                         class="form-control" />
-                    <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','Pincode')">Pincode must be
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','Pincode')">Pincode
+                        must be
                         required.</small>
-                        <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('pattern','Pincode')">
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern')">
                         {{error['IndianPinCode']}}
                     </small>
+
                 </div>
             </div>
         </form>

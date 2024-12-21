@@ -54,7 +54,8 @@ export class SystemSettingComponent {
       FasTagPenaltyMultiply: new FormControl('', [Validators.required]),
       CashReturn: new FormControl(true),
       CashReturnDiscount: new FormControl('', [Validators.required]),
-      OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["Amount"])])
+      OpeningBalance: new FormControl('', [Validators.required, Validators.pattern(regExps["Amount"])]),
+      MonthlyPassTrips: new FormControl('', [Validators.required, Validators.pattern(regExps["OnlyDigit"])])
     });
     this.GetPermissionData();
   }
@@ -135,6 +136,7 @@ export class SystemSettingComponent {
         this.DataDetailsForm.controls['TollFareonSubClass'].setValue(this.DetailData.TollFareonSubClass);
         this.DataDetailsForm.controls['AutoFasTagProcess'].setValue(this.DetailData.AutoFasTagProcess);
         this.DataDetailsForm.controls['OpeningBalance'].setValue(this.DetailData.OpeningBalance);
+        this.DataDetailsForm.controls['MonthlyPassTrips'].setValue(this.DetailData.MonthlyPassTrips);
       },
       (error) => {
         this.spinner.hide();
@@ -174,7 +176,6 @@ export class SystemSettingComponent {
   ClosePoup() { this.Dialogref.close(false); }
 
   SaveDetails() {
-    debugger;
     this.submitted = true;
     if (this.DataDetailsForm.invalid) {
       return;
@@ -193,6 +194,7 @@ export class SystemSettingComponent {
       TollFareonSubClass: this.DataDetailsForm.value.TollFareonSubClass,
       AutoFasTagProcess: this.DataDetailsForm.value.AutoFasTagProcess,
       OpeningBalance: this.DataDetailsForm.value.OpeningBalance,
+      MonthlyPassTrips: this.DataDetailsForm.value.MonthlyPassTrips,
       DataStatus:1,
       CreatedBy: this.LogedUserId,
       ModifiedBy: this.LogedUserId

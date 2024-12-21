@@ -6,7 +6,6 @@
                     <a href="javascript:void(0);" (click)="SaveDetails()" class="btn btn-success mb-2">
                         <i class="mdi mdi-content-save-all-outline me-2"></i> Save changes
                     </a>
-
                     <div class="dropdown d-inline-block float-right">
                         <span class="p-input-icon-left">
                             <i class="mdi mdi-text-box-search-outline"></i>
@@ -31,8 +30,7 @@
                         <ng-template pTemplate="header">
                             <tr>
                                 <th>S. No.</th>
-                                <th pSortableColumn="JourneyName">Journey <p-sortIcon
-                                        field="JourneyName"></p-sortIcon>
+                                <th pSortableColumn="JourneyName">Journey <p-sortIcon field="JourneyName"></p-sortIcon>
                                 </th>
                                 <th pSortableColumn="SystemVehicleClassName">Vehicle Class <p-sortIcon
                                         field="SystemVehicleClassName"></p-sortIcon>
@@ -42,20 +40,25 @@
                                 </th>
                                 <th pSortableColumn="TollFare">Toll Fare <p-sortIcon field="TollFare"></p-sortIcon>
                                 </th>
-                                <th pSortableColumn="ReturnFare" *ngIf="isCashReturnRequired">Return Fare <p-sortIcon field="ReturnFare" >
+                                <th pSortableColumn="ReturnFare" *ngIf="isCashReturnRequired">Return Fare <p-sortIcon
+                                        field="ReturnFare">
                                     </p-sortIcon>
                                 </th>
-                                <th pSortableColumn="FasTagPenalty" *ngIf="isFasTagPenaltyRequired">Penalty(FasTag) <p-sortIcon field="FasTagPenalty" >
+                                <th pSortableColumn="FasTagPenalty" *ngIf="isFasTagPenaltyRequired">Penalty(FasTag)
+                                    <p-sortIcon field="FasTagPenalty">
                                     </p-sortIcon>
                                 </th>
                                 <th pSortableColumn="OverweightPenalty">Penalty(Overweight) <p-sortIcon
                                         field="OverweightPenalty">
                                     </p-sortIcon>
                                 </th>
-                                <th pSortableColumn="MonthlyPass">Monthly Pass <p-sortIcon
-                                    field="MonthlyPass">
-                                </p-sortIcon>
-                            </th>
+                                <th pSortableColumn="DistrictRegisteredFare">District Registered <p-sortIcon
+                                        field="DistrictRegisteredFare">
+                                    </p-sortIcon>
+                                </th>
+                                <th pSortableColumn="MonthlyPass">Monthly Pass <p-sortIcon field="MonthlyPass">
+                                    </p-sortIcon>
+                                </th>
                             </tr>
                             <tr>
                                 <th></th>
@@ -97,12 +100,12 @@
                                 <td pEditableColumn *ngIf="isCashReturnRequired">
                                     <p-cellEditor>
                                         <ng-template pTemplate="input">
-                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.ReturnFare" 
+                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.ReturnFare"
                                                 prefix="&#8377; " mode="decimal">
                                             </p-inputNumber>
                                         </ng-template>
                                         <ng-template pTemplate="output">
-                                            &#8377;  {{rowData.ReturnFare==null?0:rowData.ReturnFare}}
+                                            &#8377; {{rowData.ReturnFare==null?0:rowData.ReturnFare}}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>
@@ -127,6 +130,18 @@
                                         </ng-template>
                                         <ng-template pTemplate="output">
                                             &#8377; {{rowData.OverweightPenalty}}
+                                        </ng-template>
+                                    </p-cellEditor>
+                                </td>
+                                <td pEditableColumn>
+                                    <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                            <p-inputNumber class="form-control" [(ngModel)]="rowData.DistrictRegisteredFare"
+                                                prefix="&#8377; " mode="decimal">
+                                            </p-inputNumber>
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                            &#8377; {{rowData.DistrictRegisteredFare}}
                                         </ng-template>
                                     </p-cellEditor>
                                 </td>

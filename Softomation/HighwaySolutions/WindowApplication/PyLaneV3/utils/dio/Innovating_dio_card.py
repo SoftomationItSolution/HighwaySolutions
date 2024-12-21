@@ -7,12 +7,13 @@ from utils.constants import Utilities
 from utils.log_master import CustomLogger
 
 class InnovatingDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,timeout=0.100):
+    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,ic_timemout,timeout=0.100):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
         self.system_loging_status=system_loging_status
         self.barrier_auto=barrier_auto
+        self.ic_timemout=ic_timemout
         self.timeout=timeout
         self.client_socket=None
         self.is_running=False

@@ -19,7 +19,7 @@
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.45",
     "mqtt": "^5.5.4",
-    "mssql": "^10.0.1",
+    "mssql": "^11.0.1",
     "node-media-server": "^2.3.8",
     "node-onvif": "^0.1.7",
     "node-rtsp-stream-jsmpeg": "^0.0.2",
@@ -36,7 +36,7 @@
     "xml2js": "^0.6.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.22"
+    "nodemon": "^3.1.4"
   },
   "author": "Softomation Technology",
   "license": "ISC"

@@ -20,6 +20,7 @@ const root_path  = os.platform() === 'win32' ? 'C:\\ProjectConfig\\TMSv1\\' : '/
 const log_path = 'log/BackOfficeAPI/'
 const db_path = 'MasterConfig/NodeDBConfiguration.json'
 const pc_path = 'MasterConfig/ProjectConfiguration.json'
+const icd_path = 'MasterConfig/BankAPIPath.json'
 //#endregion
 
 const TollingType =
@@ -300,5 +301,6 @@ module.exports = {
     root_path,
     log_path,
     db_path,
-    pc_path
+    pc_path,
+    icd_path
 };

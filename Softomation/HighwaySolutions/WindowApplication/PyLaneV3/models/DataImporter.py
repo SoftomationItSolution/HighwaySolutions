@@ -24,6 +24,24 @@ class DataImporter:
         except Exception as e:
             self.logger.logError(f"Exception {self.classname} get_plaza_url: {str(e)}")
 
+    
+    def import_data_list_direct(self, endpoint, procedure_name):
+        try:
+            api_url = f"{self.api_base_url}{endpoint}"
+            response = requests.get(api_url, headers=self.headers, verify=False)
+            if response.status_code == 200:
+                data = response.json()
+                data = data["ResponseData"]
+                json_data = json.dumps(data)
+                result_data = self.dbConnectionObj.execute_procedure(procedure_name, (json_data,))
+                self.logger.logInfo(result_data)
+            else:
+                self.logger.logError(f"Error:{endpoint} {response.status_code} - {response.text}")
+                return 0
+        except Exception as e:
+            self.logger.logError(f"Exception {self.classname} import_data_list: {str(e)}")
+            return 0
+
 
     def import_data_list(self, endpoint, params, procedure_name):
         try:
@@ -212,6 +230,12 @@ class DataImporter:
                             d['DataStatus'], Utilities.json_dt_mysql_dt_import(d['CreatedDate']), 
                             d['CreatedBy'], Utilities.json_dt_mysql_dt_import(d['ModifiedDate']), d['ModifiedBy']]
         self.import_data_list(endpoint, params, 'USP_ManufacturerInsertUpdate')
+    
+
+    def key_board_Import(self):
+        endpoint = 'Softomation/FTH-TMS-RSD/KeyboardDetailGetAll'
+        self.import_data_list_direct(endpoint, 'USP_KeyboardDetailsUpdate')
+
 
     def fasTag_vehicleclass_Import(self):
         endpoint = 'Softomation/FTH-TMS-RSD/FasTagVehicleClassDetails'

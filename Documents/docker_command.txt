@@ -1,3 +1,5 @@
+sudo docker ps -a
+
 #remove all containers
 sudo docker rm -f $(sudo docker ps -aq)
 
@@ -22,6 +24,8 @@ sudo docker build -t nopysy:v1 .
 #save built docker image
 sudo docker save -o nopysy_v1.tar nopysy:v1
 
+sudo chmod -R 777 /opt/soft
+
 #load docker image
 sudo docker load -i nopysy_v1.tar
 
@@ -40,7 +44,7 @@ fdc6ddfa9d6a
 
 sudo docker stop fdc6ddfa9d6a
 
-sh /opt/soft/install_app.sh
+
 
 ng build --configuration production
 
@@ -61,7 +65,7 @@ sudo nano /etc/nginx/sites-available/pylaneapp
 
 server {
     listen 0.0.0.0:8080;
-    server_name localhost;
+    server_name 0.0.0.0;
 
     root /opt/soft/PyLaneV3App;
     index index.html;
@@ -89,3 +93,4 @@ server {
 
 sudo nginx -t
 sudo systemctl restart nginx
+sh /opt/soft/install_app.sh
