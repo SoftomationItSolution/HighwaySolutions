@@ -14,11 +14,12 @@ import paramiko
 import psutil
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
-
+import uuid
 class Utilities:
     key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
     iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
-    
+    not_allowed = ["01", "03", "05", "06"]
+    allowed = ["00", "02", "04"]
     @staticmethod
     def get_absolute_file_path(script_dir, file_name):
         try:
@@ -348,8 +349,8 @@ class Utilities:
     @staticmethod
     def get_date_time():
         CurrentDateTime = datetime.datetime.now()
-        CurrentDateTime_s = CurrentDateTime.strftime("%d-%m-%YT%H:%M:%S")
-        CurrentDateTime_ms = CurrentDateTime.strftime("%d-%m-%YT%H:%M:%S.%MS")
+        CurrentDateTime_s = CurrentDateTime.strftime("%Y-%m-%dT%H:%M:%S")
+        CurrentDateTime_ms = CurrentDateTime.strftime("%Y-%m-%dT%H:%M:%S.%MS")
         return {
             "CurrentDateTime_ms": CurrentDateTime_ms,
             "CurrentDateTime_s": CurrentDateTime_s
@@ -371,6 +372,7 @@ class Utilities:
             if api['apiName'] == api_name:
                 return api
         return None  
+    
     @staticmethod
     def icd_datetime_format(timestamp_ms):
         #timestamp_ms = 1733941006930
@@ -378,6 +380,19 @@ class Utilities:
         dt = datetime.datetime.utcfromtimestamp(timestamp_s)
         formatted_dt = dt.strftime('%Y-%m-%dT%H:%M:%S')
         return formatted_dt
+    
+    @staticmethod
+    def icd_to_mssql_datetime_format(date_str):
+        date_obj = datetime.datetime.strptime(date_str, '%Y-%m-%dT%H:%M:%S')
+        return date_obj
+    
+    @staticmethod
+    def mssql_to_icd_datetime_format(date_str):
+        try:
+            date_obj = date_str.strftime("%Y-%m-%dT%H:%M:%S")
+            return date_obj
+        except Exception as e:
+            raise e
 
     @staticmethod
     def folder_datetime_format(timestamp_ms):
@@ -386,11 +401,54 @@ class Utilities:
         formatted_dt = dt.strftime('%Y_%m_%d')
         return formatted_dt
     
+    
+    
     @staticmethod
     def generate_file_path(default_directory,timestamp_ms,apiName,MessageId):
         try:
+            if timestamp_ms is None:
+                current_utc = datetime.datetime.utcnow()
+                timestamp_ms = int(current_utc.timestamp() * 1000)
             directory_path = os.path.join(default_directory,"Request",Utilities.folder_datetime_format(timestamp_ms))
             os.makedirs(directory_path, exist_ok=True)
             return os.path.join(directory_path, f"{apiName.replace(' ', '')}_{MessageId}.xml")
         except Exception as e:
             raise e
+        
+    @staticmethod    
+    def generate_message_id(PlazaZoneId):
+        current_datetime = datetime.datetime.now()
+        formatted_date_str = current_datetime.strftime("%d%m%y%H%M%S")
+        return f'{PlazaZoneId}{formatted_date_str}'
+        #unique_id = str(uuid.uuid4())
+        #message_id = unique_id.replace('-', '')[:22].upper()
+        #return message_id
+    
+    @staticmethod    
+    def generate_txn_id():
+        unique_id = str(uuid.uuid4())
+        message_id = unique_id.replace('-', '')[:22].upper()
+        return message_id
+    
+    @staticmethod
+    def create_plaza(parent,Latitude,Longitude,PlazaZoneId,PlazaName,PlazaSubType,PlazaType):
+        try:
+            plaza = ET.SubElement(parent, "Plaza")
+            plaza.set("geoCode", f"{str(Latitude)},{str(Longitude)}")
+            plaza.set("id", str(PlazaZoneId))
+            plaza.set("name", str(PlazaName))
+            plaza.set("subtype", str(PlazaSubType))
+            plaza.set("type", str(PlazaType))
+            return plaza
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def check_values(values):
+        for value in values:
+            if value in Utilities.not_allowed:
+                return False
+            if value in Utilities.allowed:
+                continue
+            return False
+        return True

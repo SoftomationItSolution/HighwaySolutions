@@ -36,10 +36,10 @@ async function ReportProcess(req, res, next) {
         if (data.AuditerFilterList != "0") {
             data.FilterQuery = data.FilterQuery + " AND L.ReveiwedBy IN (" + data.AuditerFilterList + ") ";
         }
-        if (data.PlateNumber > 0) {
+        if (data.PlateNumber !='' && data.ReportId != 27) {
             data.FilterQuery = data.FilterQuery + " AND (L.PlateNumber LIKE %" + data.PlateNumber + "%)";
         }
-        if (data.TransactionId != "0") {
+        if (data.TransactionId != "0" && data.ReportId != 27) {
             data.FilterQuery = data.FilterQuery + " AND (L.MasterTransactionId = '" + data.TransactionId + "' OR L.PlazaTransactionId = '" + data.TransactionId + "' OR L.LaneTransactionId = '" + data.TransactionId + "')";
         }
         const pool = await database.getPool();

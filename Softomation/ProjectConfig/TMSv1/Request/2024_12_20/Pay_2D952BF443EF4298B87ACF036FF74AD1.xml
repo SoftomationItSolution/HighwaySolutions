@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<etc:ReqPay xmlns:etc="http://npci.org/etc/schema/">
+  <Head msgId="2D952BF443EF4298B87ACF036FF74AD1" orgId="SBIN" ts="21-12-2024T15:26:09" ver="1.1"/>
+  <Meta/>
+  <Txn id="536425LL12012240957170" note="" refId="" refUrl="" ts="2024-12-20T09:57:17" type="DEBIT" orgTxnId="SBIN">
+    <EntryTxn id="536425LL12012240957170" ts="2024-12-20T09:57:17" tsRead="2024-12-20T09:57:17" type="DEBIT"/>
+  </Txn>
+  <Plaza geoCode="21.321694,84.099724" id="536425" name="Hatibari Toll Plaza" subtype="National" type="Toll">
+    <EntryPlaza geoCode="21.321694,84.099724" id="536425" name="Hatibari Toll Plaza" subtype="National" type="Toll"/>
+    <Lane id="1" direction="N" readerId="1" Status="Open" Mode="Normal" laneType="Hybrid" ExiteGate="" Floor=""/>
+    <EntryLane id="1" direction="N" readerId="1" Status="Open" Mode="Normal" laneType="Hybrid" ExiteGate="" Floor=""/>
+    <ReaderVerificationResult ts="2024-12-20T09:57:17" signAuth="NOT_VERIFIED" tagVerified="NETC TAG" procRestrictionResult="" vehicleAuth="UNKNOWN" txnCounter="1" txnStatus="SUCCESS" publicKeyCVV="">
+      <TagUserMemory>
+        <Detail name="TagSignature" value=""/>
+        <Detail name="TagVRN" value=""/>
+        <Detail name="TagVC" value="0"/>
+      </TagUserMemory>
+    </ReaderVerificationResult>
+  </Plaza>
+  <Vehicle TID="" tagId="" staticweight="12000.0" wim="0.0">
+    <VehicleDetails>
+      <Detail name="AVC" value="0"/>
+      <Detail name="LPNumber" value=""/>
+    </VehicleDetails>
+  </Vehicle>
+  <Payment>
+    <Amount curr="INR" value="0.0" PriceMode="POINT" IsOverWeightCharged="False" PaymentMode="Tag">
+      <OverwightAmount curr="INR" value="0.0" PaymentMode="Cash"/>
+    </Amount>
+  </Payment>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<Reference URI="">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+<DigestValue>TPnDaIfDiRfuFMDybst8RKklc6CFTEa/Za2IqPEtrI0=</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>1hBpGjBRhguGGJwwT72BX9WxXPUd3LRQD5DIsW2as6uFtFVmTMmadZpKGFdLR2jL
+Lxh3udOSxyTY/JYYyRD1rnoPwWYRe7BvkYDOFXP+7IWi+ukaFNcDAUD4G2X7JoeV
+8qdikEo/xUvHVy0dFArXw8pabH30vFgYOLIwScNxVdmBuLeud411fhNbK1O2QtAD
+IpXLCFXkHNT8uOKCNrkJ3QTs3tM36uiKqK44V5JeQhXyGI+EeWWO3n/tiIgl8R1r
+YUrs1Q3WJILMVwHleoIYt+g6EiTRRotrUgXGqX3zT6Kl4plxOAk81gbQCAIiE29z
+lsBCYOAWL/r0NcwppyK5CQ==</SignatureValue>
+<KeyInfo>
+<X509Data>
+<X509SubjectName>CN=hatibaritollplaza.in</X509SubjectName>
+<X509Certificate>308204f5308203dda00302010202120369ec4d13ead7ab2985982b7484a2284357300d06092a864886f70d01010b05003033310b300906035504061302555331163014060355040a130d4c6574277320456e6372797074310c300a06035504031303523130301e170d3234313230363137343834325a170d3235303330363137343834315a301f311d301b060355040313146861746962617269746f6c6c706c617a612e696e30820122300d06092a864886f70d01010105000382010f003082010a0282010100de7df12221d2ded306868e6a63662349dde4c6168161e36a200a1adcdfbef544e2c8783a643a3a99a074ae750a8b0a854c8a93a6dc89a3fd874f79fddb42adca0180dffe4f5f482c1abdc223cc538dd4fdafdc08ca58f2c61e61204eaf6940c819d01a4ec98e9addfc884ab4bea87073126a6b3876890e8eb56032b4a83d75541b1976d2cb55089973dad6eb9aeef9dc4459a658985767f59f522a9f44d4044ff8121912ede43c09ba8acf54c0440ce0b897e5f11cea45f63dd56fbe183e46e30777251bc0d4bde390d3009fa904f79b5680f1bcc09f7b4af3f5700d31dcd99cce069da74f137142775ae8c2adcfa88eeac2d11ece11fed07aa0650b1914a8090203010001a382021530820211300e0603551d0f0101ff0404030205a0301d0603551d250416301406082b0601050507030106082b06010505070302300c0603551d130101ff04023000301d0603551d0e041604141fcfbbec68a3cca8b8af6d6a4ddf11015fbc8354301f0603551d23041830168014bbbcc347a5e4bca9c6c3a4720c108da235e1c8e8305706082b06010505070101044b3049302206082b060105050730018616687474703a2f2f7231302e6f2e6c656e63722e6f7267302306082b060105050730028617687474703a2f2f7231302e692e6c656e63722e6f72672f301f0603551d110418301682146861746962617269746f6c6c706c617a612e696e30130603551d20040c300a3008060667810c01020130820101060a2b06010401d6790204020481f20481ef00ed007400cf1156eed52e7caff3875bd9692e9be91a71674ab017ecac01d25b77cecc3b08000001939d4c20880000040300453043021f2b32b2c8cc07b27f8b8da74eb4254227ac171cb94c1eb3e41a15930fc6a57902203cd68d000b25a5a7bcea292a1c1b9d76889559967e14c64c0f415d68bf53d316007500134adf1ab5984209780c6fef4c7a91a416b72349ce58576adfaedaa7c2abe022000001939d4c21260000040300463044022053425fc0f7a538294af7a56b7cf9b612697e728afed414f2aa87c2d0fdd4d7c302202e03e2da6ad1238a8dae80f3f152b58c1d4ddb79e2819c0c4b96ce53f3fef6d1300d06092a864886f70d01010b05000382010100995f03e18772929c42a3e6cba9b335f506a963382b0ce05cc3930e5b4c45c09b0e4647cd2c873e47b849a94054550cfd7d016d6d21afaf167926e06083effccb14cfeba59425b4a8d4a08ffe179cc8c2bd13de9e26112ab61294b278f598e2da174e4b2fc91fdc5aa58290031d45880cf3591ff2c16018d3f437c38d787bf502a1e6f1964a3c02e5a0bdad36f725d647e3b86fef5378e5540305cd0b2f09e7ff1e4580c7959c451825388abcfb0ebedb579dec03c319eab46c6fdb5d4e4700f4f89e8e975c58d91596012c526cb90ca37dc4642204b24a5c17030a60647fd8eaeae44ccaf9e57b635562f8b4b629eaa7c4362bed959dc68447fd198b799d9cbe</X509Certificate>
+</X509Data>
+</KeyInfo>
+</Signature>
+</etc:ReqPay>

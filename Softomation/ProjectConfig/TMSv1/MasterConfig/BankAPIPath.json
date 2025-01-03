@@ -1,0 +1,20 @@
+{
+  "UatApiDetails": {
+    "Version": "1.1",
+    "BankName": "SBI",
+    "BaseUrl": "https://etc_uat.hitachi-payments.com:443/",
+    "RequestPayURL": "reqpay",
+    "RequestTagDetailsURL": "ReqTagDetails",
+    "CheckTransactionStatusRequestURL": "ReqChkTxn",
+    "SyncTimeRequestURL": "ReqSyncTime",
+    "GetExceptionRequestURL": "ReqGetExceptionList",
+    "TollPlazaHeartBeatURL": "TollplazaHbeatReq",
+    "RequestQueryExceptionListURL": "reqQueryExceptionList",
+    "RequestViolationAuditDetailsURL": "ViolationAuditDetails",
+    "RequestListParticipantURL": "ReqListParticipant"
+  },
+  "ProdApiDetails": {
+    "Version": "",
+    "BankName": ""
+  }
+}

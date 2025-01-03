@@ -2,51 +2,30 @@ import time
 import threading
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
-from xml.etree.ElementTree import Element, SubElement, register_namespace
-
+from xml.etree.ElementTree import ElementTree,Element, SubElement, register_namespace
+from utils.send_request import SendRequest
 from utils.xml_Signer import XmlSigner
 
 
 class RequestPayAPI(threading.Thread):
-    def __init__(self, db_manager,default_directory,api_detail,api_version,currecy_code,private_key, certificate, additional_certificates):
+    def __init__(self, dbConnectionObj,default_directory,plaza_details,icd_api_detail,currecy_code,private_key, certificate, additional_certificates):
         super().__init__()
         self.flag = True
-        self.db_manager = db_manager
+        self.dbConnectionObj = dbConnectionObj
         self.default_directory=default_directory
-        self.api_detail=api_detail
-        self.api_version=api_version
+        self.plaza_details=plaza_details
+        self.icd_api_detail=icd_api_detail
         self.currecy_code=currecy_code
         self.private_key=private_key
         self.certificate=certificate
         self.additional_certificates=additional_certificates
-        self.set_logger(default_directory,"cch_requestPay_service")
+        self.set_logger(default_directory,"icd_requestPay_service")
 
     def set_logger(self,default_directory,log_file_name):
         try:
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             print(f"Exception set_logger: {str(e)}")
-
-    def fetch_data(self, procedure_name):
-        try:
-            # Get the connection from MSSQLConnectionManager
-            connection = self.db_manager.get_connection()
-            cursor = connection.cursor(dictionary=True)
-            cursor.callproc(procedure_name)
-
-            data = []
-            for result in cursor.stored_results():
-                data.extend(result.fetchall())
-
-            return data
-
-        except Exception as e:
-            self.logger.error(f"Error fetching data: {e}")
-            return []
-
-        finally:
-            cursor.close()
-            connection.close()
 
     def create_Txn(self,parent,row):
         try:
@@ -61,6 +40,7 @@ class RequestPayAPI(threading.Thread):
             return txn
         except Exception as e:
             raise e
+
     def create_entry_Txn(self,txn,row):
         try:
             entry_txn = SubElement(txn, "EntryTxn")
@@ -83,6 +63,7 @@ class RequestPayAPI(threading.Thread):
             return plaza
         except Exception as e:
             raise e
+   
     def create_entry_plaza(self,plaza,row):
         try:
             entry_plaza = SubElement(plaza, "EntryPlaza")
@@ -98,7 +79,7 @@ class RequestPayAPI(threading.Thread):
     def create_lane(self,root,row):
         try:
             lane = SubElement(root, "Lane")
-            lane.set("id", str(row["LaneId"]))
+            lane.set("id", str(row["LaneCode"]))
             lane.set("direction", str(row["LaneDirectionCode"]))
             lane.set("readerId", str(row["ReaderId"]))
             lane.set("Status", str(row["LaneStatusName"]))
@@ -113,7 +94,7 @@ class RequestPayAPI(threading.Thread):
     def create_entry_lane(self,root,row):
         try:
             entry_lane = SubElement(root, "EntryLane")
-            entry_lane.set("id", str(row["LaneId"]))
+            entry_lane.set("id", str(row["LaneCode"]))
             entry_lane.set("direction", str(row["LaneDirectionCode"]))
             entry_lane.set("readerId", str(row["ReaderId"]))
             entry_lane.set("Status", str(row["LaneStatusName"]))
@@ -219,7 +200,7 @@ class RequestPayAPI(threading.Thread):
 
     def generate_xml(self, row):
         try:
-            file_name=Utilities.generate_file_path(self.default_directory,row["TagReadDateTime"],self.api_detail["apiName"],row['MessageId'])
+            file_name=Utilities.generate_file_path(self.default_directory,row["TagReadDateTime"],"Pay",row['MessageId'])
             if Utilities.check_file_exists(file_name)==False:
                 namespace = "http://npci.org/etc/schema/"
                 register_namespace("etc", namespace)
@@ -231,7 +212,7 @@ class RequestPayAPI(threading.Thread):
                 head.set("msgId", str(row['MessageId']))
                 head.set("orgId", str(row['OrganizationId']))
                 head.set("ts", str(req_time))
-                head.set("ver", self.api_version)
+                head.set("ver", self.icd_api_detail["Version"])
                 SubElement(root, "Meta")
                 txn=self.create_Txn(root,row)
                 entry_txn=self.create_entry_Txn(txn,row)
@@ -260,19 +241,39 @@ class RequestPayAPI(threading.Thread):
                 overweight_amount=self.create_overweight_payment(amount,row)
                 xml_string = Utilities.prettify_xml(root)
                 
-                XmlSigner.sign_xml_file(xml_string, file_name,self.private_key, self.certificate)
-                print("done")
+                signed_xml = XmlSigner.sign_xml_file(xml_string, file_name,self.private_key, self.certificate)
+                  
             else:
-                print("already exists")    
-            #SendXMLFile_requestpay(SignedFileName, ReqPayUrl, 1000, _Txnnumbertoupdate, FileName, MsgId);       
-            
+                tree = ElementTree()
+                tree.parse(file_name)
+                signed_xml = Utilities.prettify_xml(tree.getroot())
+                req_time=Utilities.get_date_time()['CurrentDateTime_s']
+
+            if signed_xml:    
+                try:
+                    response=SendRequest.upload_request(signed_xml, F"{self.icd_api_detail['BaseUrl']}{self.icd_api_detail['RequestPayURL']}")
+                    if response.ok:
+                        self.update_status(row['MessageId'],"1",req_time)
+                    else:
+                        self.logger.logError(f"Error: txn {row['MessageId']} failed with StatusCode {response.status_code}, StatusDescription: {response.text}")
+                        self.update_status(row['MessageId'],"2",req_time)
+                except Exception as e:
+                    self.logger.logError(f"Error send RequestPayAPI {row['MessageId']}: {e}")
+                    self.update_status(row['MessageId'],"3",req_time)
         except Exception as e:
-            self.logger.logError(f"Error generating XML RequestPayAPI: {e}")
+            self.logger.logError(f"Error generating XML RequestPayAPI {row['MessageId']}: {e}")
+
+    def update_status(self,MessageId,statusId,req_time):
+        try:
+            formatted_date = Utilities.icd_to_mssql_datetime_format(req_time)
+            self.dbConnectionObj.execute_stored_procedure("USP_ICDRequestPayUpdateRequest",params=[MessageId, statusId,formatted_date])
+        except Exception as e:
+            self.logger.logError(f"Error send update_status {MessageId}: {e}")
 
     def run(self):
         while self.flag:
             try:
-                data = self.db_manager.execute_stored_procedure("USP_ICDRequestPayGetPending")
+                data = self.dbConnectionObj.execute_stored_procedure("USP_ICDRequestPayGetPending")
                 if data:
                     for row in data:
                         self.generate_xml(row)
@@ -283,4 +284,4 @@ class RequestPayAPI(threading.Thread):
 
     def stop(self):
         self.flag = False
-        self.logger.info("Stopping the thread.")
+        self.logger.logInfo("Stopping the thread.")

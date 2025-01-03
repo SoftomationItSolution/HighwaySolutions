@@ -10,6 +10,7 @@ const mqttClient = require('../_helpers/mqttHandler');
 router.post('/LaneInsertUpdate', LaneInsertUpdate);
 router.get('/LaneGetAll', LaneGetAll);
 router.get('/LaneGetActive', LaneGetActive);
+router.get('/HandledLane', HandledLane);
 router.get('/LaneGetById', LaneGetById);
 router.get('/LaneGetByPlazaId', LaneGetByPlazaId);
 router.get('/LaneGetByIpAddress', LaneGetByIpAddress);
@@ -130,6 +131,20 @@ async function LaneGetActive(req, res, next) {
         res.status(200).json(out)
     } catch (error) {
         errorlogMessage(error, 'LaneGetActive');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function HandledLane(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_LaneHandledGet');
+        
+        //let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(result.recordset)
+    } catch (error) {
+        errorlogMessage(error, 'HandledLane');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }

@@ -2,12 +2,10 @@ const fs = require('fs');
 const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
-const {
-  root_path,
-  log_path
-} = require("./constants");
 const path = require('path');
+const {root_path,log_path} = require("./constants");
 const logDirectory = path.join(root_path, log_path);
+
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory, { recursive: true });
 }

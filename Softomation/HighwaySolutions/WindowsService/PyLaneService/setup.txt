@@ -1,0 +1,12 @@
+netifaces
+requests
+paramiko
+psutil
+mysql-connector-python
+pandas
+websockets
+pyjwt
+ping3
+scapy
+flask
+flask-cors

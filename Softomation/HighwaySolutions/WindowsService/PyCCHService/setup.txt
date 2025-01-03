@@ -7,3 +7,5 @@ requests
 paramiko
 pandas
 pycryptodome
+fastapi
+uvicorn

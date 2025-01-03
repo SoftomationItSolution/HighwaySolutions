@@ -2,7 +2,9 @@ from lxml import etree
 import xmlsec
 from cryptography.hazmat.primitives import serialization
 import threading
+import xml.etree.ElementTree as ET
 
+from utils.constants import Utilities
 
 class XmlSigner:
     _lock = threading.Lock()  # Class-level lock for thread safety
@@ -50,18 +52,136 @@ class XmlSigner:
                     xmlsec.KeyFormat.PEM
                 )
 
-                signing_ctx.key.load_cert_from_memory(
-                    certificate.public_bytes(encoding=serialization.Encoding.PEM),
-                    xmlsec.KeyFormat.PEM
-                )
+                signing_ctx.key.load_cert_from_memory(certificate.public_bytes(encoding=serialization.Encoding.PEM),xmlsec.KeyFormat.PEM)
 
                 signing_ctx.sign(signature_node)
 
                 if isinstance(doc.getroottree().getroot(), etree._ProcessingInstruction):
                     doc.remove(doc.getroottree().getroot())
-
+            
                 with open(file_name, "wb") as signed_file:
                     signed_file.write(etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="UTF-8"))
-                print("XML document signed and saved successfully.")
+                return etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="UTF-8").decode('utf-8')
         except Exception as e:
             raise Exception(f"Error signing XML: {e}")
+        
+
+    @staticmethod
+    def parse_xml_response_tag(xml_data,MessageId):
+        try:
+            details ={
+                "TAGID": "",
+                "REGNUMBER": "",
+                "TID": "",
+                "VEHICLECLASS": 0,
+                "TAGSTATUS": 0,
+                "EXCCODE": "09",
+                "Allowed":False,
+                "COMVEHICLE": 0
+            }
+            root = ET.fromstring(xml_data)
+            resp = root.find('.//Resp')
+            vehicle = resp.find('.//Vehicle')
+            vehicle_details = vehicle.find('.//VehicleDetails')
+            resp_code = int(resp.get('respCode'))
+            if resp_code==0:
+                RequestStatusId=1
+            else:
+                RequestStatusId=2
+            if vehicle_details:
+                details = dict(map(lambda d: (
+                    d.attrib['name'],
+                    int(d.attrib['value'][-1]) if d.attrib['name'] == "VEHICLECLASS" else
+                    True if d.attrib['name'] == "TAGSTATUS" and d.attrib['value'] == "A" else
+                    False if d.attrib['name'] == "COMVEHICLE" and d.attrib['value'] == "F" else
+                    d.attrib['value']
+                ), vehicle_details.findall('.//Detail')))
+            details["Allowed"]=Utilities.check_values(details["EXCCODE"])
+            data={
+                "VehicleErrorCode": int(vehicle.attrib.get('errCode')),
+                "VehicleDetails": details
+            }
+            # data = {
+            #     "Resp": {
+            #         "MessageId":MessageId,
+            #         "ResponseCode": resp_code,
+            #         "RequestStatusId":RequestStatusId,
+            #         "ResponseResult": 2 if resp.attrib.get('result') == 'FAILURE' else 1,
+            #         "ResponseDateTime": ''#Utilities.icd_to_mssql_datetime_format(resp.attrib.get('ts'))
+            #     },
+            #     "Vehicle": {
+            #         "VehicleErrorCode": int(vehicle.attrib.get('errCode')),
+            #         "VehicleDetails": details
+            #     }
+            # }
+           
+            return data
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def parse_xml_response_time(xml_data,MessageId):
+        try:
+            root = ET.fromstring(xml_data)
+            resp = root.find('.//Resp')
+            resp_code = int(resp.get('respCode'))
+            result = resp.get('result')
+            ts = Utilities.icd_to_mssql_datetime_format(resp.get('ts'))
+            if resp_code==0:
+                RequestStatusId=1
+                server_time = Utilities.icd_to_mssql_datetime_format(resp.find('.//Time').get('serverTime'))
+            else:
+                RequestStatusId=2
+                server_time=None
+            return {"MessageId":MessageId,"RequestStatusId":RequestStatusId,"ResponseCode":resp_code,"ResponseResult":result,"ResponseDateTime":ts,"BankServerDateTime":server_time}
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def parse_xml_check_status_json(xml_data):
+        try:
+            root = ET.fromstring(xml_data)
+            txn_status_req_list = []
+            namespace = {'etc': 'http://npci.org/etc/schema/'}
+            statuses = root.findall('.//TxnStatusReqList/Status', namespace)
+            if statuses:
+                for status in statuses:
+                    txn_data = {
+                        "txnId": status.get('txnId'),
+                        "txnDate": status.get('txnDate'),
+                        "plazaId": status.get('plazaId'),
+                        "laneId": status.get('laneId'),
+                        "result": status.get('result'),
+                        "errCode": status.get('errCode', ''),
+                        "settleDate": status.get('settleDate'),
+                        "TxnList": []
+                    }
+                    for txn_list in status.findall('TxnList'):
+                        txn_list_data = {
+                            "txnStatus": txn_list.get('txnStatus'),
+                            "txnReaderTime": txn_list.get('txnReaderTime'),
+                            "txnType": txn_list.get('txnType', ''),
+                            "txnReceivedTime": txn_list.get('txnReceivedTime'),
+                            "TollFare": txn_list.get('TollFare', ''),
+                            "FareType": txn_list.get('FareType', ''),
+                            "VehicleClass": txn_list.get('VehicleClass'),
+                            "RegNumber": txn_list.get('RegNumber', ''),
+                            "errCode": txn_list.get('errCode', '')
+                        }
+                        txn_data['TxnList'].append(txn_list_data)
+                    txn_status_req_list.append(txn_data)
+            return txn_status_req_list
+        except Exception as e:
+            raise e
+
+    @staticmethod
+    def parse_xml_check_status_xml(xml_data):
+        try:
+            root = ET.fromstring(xml_data)
+            txn_status_req_list = root.find('.//TxnStatusReqList')
+            if txn_status_req_list is not None:
+                return ET.tostring(txn_status_req_list, encoding='unicode')
+            else:
+                return None
+        except Exception as e:
+            raise e

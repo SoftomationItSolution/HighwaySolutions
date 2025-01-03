@@ -11,11 +11,11 @@ from utils.ms_sql import MSSQLConnectionManager
 
 class CCHAppv1:
     def __init__(self):
-        self.PID_FILE = "CCHv1.pid"
+        self.PID_FILE = "ICDv1.pid"
         self.stop_event = threading.Event()
         self.default_directory = self.check_default_dir()
         self.script_dir=os.path.dirname(os.path.abspath(__file__))
-        self.logger = CustomLogger(self.default_directory, 'cch_app')
+        self.logger = CustomLogger(self.default_directory, 'icd_app')
         self.bg_handler=None
 
     def check_default_dir(self):
@@ -34,11 +34,9 @@ class CCHAppv1:
         try:
             self.check_duplicate_instance()
             db_path = os.path.join(self.default_directory, 'MasterConfig', 'NodeDBConfiguration.json')
-            cch_api_Path = os.path.join(self.default_directory, 'MasterConfig', 'BankAPIPath.json')
             db_json_data = Utilities.read_json_file(db_path)
-            cch_api_data = Utilities.read_json_file(cch_api_Path)
             self.dbConnectionObj = MSSQLConnectionManager(self.default_directory, server=db_json_data['server'],database=db_json_data['database'], username=db_json_data['user'], password=db_json_data['password'])
-            self.bg_handler = CCHProcessing(self.default_directory, self.dbConnectionObj, self.script_dir,cch_api_data)
+            self.bg_handler = CCHProcessing(self.default_directory, self.dbConnectionObj, self.script_dir)
             self.bg_handler.daemon = True
             self.bg_handler.start()
         except Exception as e:
