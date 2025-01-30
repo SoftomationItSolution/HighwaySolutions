@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<etc:ReqPay xmlns:etc="http://npci.org/etc/schema/">
+  <Head msgId="93DDC260374B4B1892CFD00BBC8F2A6E" orgId="HXIR" ts="2025-01-10T14:16:24" ver="1.0"/>
+  <Meta/>
+  <Txn id="536424LL91001251416237" note="" refId="" refUrl="" ts="2025-01-10T13:16:24" type="DEBIT" orgTxnId="HXIR">
+    <EntryTxn id="536424LL91001251416237" ts="2025-01-10T13:16:24" tsRead="2025-01-10T13:16:24" type="DEBIT"/>
+  </Txn>
+  <Plaza geoCode="21.025349,84.468510" id="536424" name="Dakaumunda Fee Plaza" subtype="National" type="Toll">
+    <EntryPlaza geoCode="21.025349,84.468510" id="536424" name="Dakaumunda Fee Plaza" subtype="National" type="Toll"/>
+    <Lane id="Lane9" direction="N" readerId="9" Status="Open" Mode="Normal" laneType="Booth Less" ExitGate="" Floor=""/>
+    <EntryLane id="Lane9" direction="N" readerId="9" Status="Open" Mode="Normal" laneType="Booth Less" EntryGate="" Floor=""/>
+    <ReaderVerificationResult ts="2025-01-10T13:16:24" signAuth="NOT_VERIFIED" tagVerified="NETC TAG" procRestrictionResult="" vehicleAuth="UNKNOWN" txnCounter="1" txnStatus="SUCCESS" publicKeyCVV="">
+      <TagUserMemory>
+        <Detail name="TagSignature" value="34161FA820328AA2CCA829A0"/>
+        <Detail name="TagVRN" value="XXXXXXXXXX"/>
+        <Detail name="TagVC" value="4"/>
+      </TagUserMemory>
+    </ReaderVerificationResult>
+  </Plaza>
+  <Vehicle TID="E2003412013501000EFA7F37" tagId="34161FA820328AA2CCA829A0" staticweight="7500.0" wim="0.0">
+    <VehicleDetails>
+      <Detail name="AVC" value="4"/>
+      <Detail name="LPNumber" value="XXXXXXXXXX"/>
+    </VehicleDetails>
+  </Vehicle>
+  <Payment>
+    <Amount curr="INR" value="0.0" PriceMode="POINT" IsOverWeightCharged="False" PaymentMode="Tag">
+      <OverwightAmount curr="INR" value="0.0" PaymentMode="Tag"/>
+    </Amount>
+  </Payment>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+<SignedInfo>
+<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+<SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+<Reference URI="">
+<Transforms>
+<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+</Transforms>
+<DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+<DigestValue>5kke6yP1SDSt/Y1HbUrBYgvZad8wJOFQ+TgK9H/myVI=</DigestValue>
+</Reference>
+</SignedInfo>
+<SignatureValue>L6VJN75RdDEIhNmmO3K9Fh2BRuG6LSqBiRFh3xZOB+ZXrWe1+YFrwJfQdPWKprZq
+LYYc4V14HxemYoKWttz04nkamDBuGhtRMni17guzx+QKP75+/J3132+aNdaBBl02
+ff5Ge3TUTlpJh1SB/XzJL61QvpMgudAUbiQXMj8j6o/GIQbkL2iAFYpD5tOPfljU
+duNjGXNv/Yz8CkCzciAYXiVkeM2H0ADcYJBcN3E/GQ+MiwpEqOMqjwGiLCiJt1Xn
+e6hzrVaBxc2Syom1wwelnSRK2rEFkUEm/Kk8LvKql+Dh6JSvBjhrsG9WxLNKvbma
+O5rT7Nx7Gt9XCB0q/uLKtA==</SignatureValue>
+<KeyInfo>
+<X509Data>
+<X509SubjectName>CN=dakuamundatollplaza.in</X509SubjectName>
+<X509Certificate>3082051930820401a003020102021204584fbd62f4c00b6bbe23dce0ca698815c2300d06092a864886f70d01010b05003033310b300906035504061302555331163014060355040a130d4c6574277320456e6372797074310c300a06035504031303523130301e170d3234313230393137323633325a170d3235303330393137323633315a3021311f301d0603550403131664616b75616d756e6461746f6c6c706c617a612e696e30820122300d06092a864886f70d01010105000382010f003082010a0282010100a78b0b71afe5b4b4480f62cf298584c9a1c2437d69f9706d3ae8f62c4f992ce8bbdecd2b7c80cf6595be349a061e3d2cdaac5faa93a5c299cf43bceda34847915b11cacb268665cffc30d77d03c3d2de8b7dbb3b26040aaa6a4468efdaa63d0dfdd0b21857629e1181ba8ca932aeec6f7d0ecf756a3342f3369e486c68d413300bd7bbd12f78b40296ab8fb4d1ca7671c6976edf7b8190a428f3679b65537969a13ae4ea1142e637a9b1c8d83070be9e5d1a9f5bd5d9812002d25678f14f726cf1cbfb38ac29a0726549c146ad2333f78d93a8231f78338a0f8e81cc5a730d881cb30b3faf6b931b76ff9c1d06fc06ee73ef513e48aee318c709a63d0cb521670203010001a382023730820233300e0603551d0f0101ff0404030205a0301d0603551d250416301406082b0601050507030106082b06010505070302300c0603551d130101ff04023000301d0603551d0e041604141bf82e6a839fad6e8c18f56235057cc1e92e05ba301f0603551d23041830168014bbbcc347a5e4bca9c6c3a4720c108da235e1c8e8305706082b06010505070101044b3049302206082b060105050730018616687474703a2f2f7231302e6f2e6c656e63722e6f7267302306082b060105050730028617687474703a2f2f7231302e692e6c656e63722e6f72672f303d0603551d1104363034821664616b75616d756e6461746f6c6c706c617a612e696e821a7777772e64616b75616d756e6461746f6c6c706c617a612e696e30130603551d20040c300a3008060667810c01020130820105060a2b06010401d6790204020481f60481f300f1007600a2e30ae445efbdad9b7e38ed47677753d7825b8494d72b5e1b2cc4b950a447e700000193acaae9e20000040300473045022100852d2f12fce3087a3bca3499180cdff23f602ceb1743965fb12affd4fb8ad811022043b76eb2d2d0013b71c50c3c5d6bb16720502d1138e9f0543b62c80c4cedc430007700e092b3fc0c1dc8e768361fde61b9964d0a5278198a72d672c4b04da56d6f540400000193acaae9db0000040300483046022100d8af1dc7971ebdda5198bdae924efc5d99ebe6780ce33b03d9a65b289741800d022100d4c280dd5624bf7ee0af2c755f0c39f48f9a7c07783c85a79289a6e171cc0197300d06092a864886f70d01010b0500038201010027386fb0fb59de78e3e20b105164fb85e2c1fec51039dbc28b21fe836864fb70b401651daa17492c36148463ed2e84f073be6d2ffcc0c5a2f4e874cd557457467284f1635c4c72932a604d0b71115636443e37f17bdb39d5571ecbe2eb1bae6b956d83a966f4e5a9d4a0d02f9a00c7248a7740d1920ef0383b23999ae715ab51418cc403eae37c8fc2732c70e55e06d0ff44d186763dbc2634ecd5b99a2956d45f47356463a8115ed2f00499a78bc91696c8c0eb765d4b7041ac9e4bb7f4b878742d44f6db2979f177251d6da46ea68aeb569e5651a7f95ee463bf33d64fe23a205c1cdbeeda258141aec732d36e55ecaa9fdc6774b7cf2b0bf8eb1d9cff3135</X509Certificate>
+</X509Data>
+</KeyInfo>
+</Signature>
+</etc:ReqPay>

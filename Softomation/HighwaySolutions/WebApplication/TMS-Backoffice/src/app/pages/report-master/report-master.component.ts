@@ -85,6 +85,20 @@ export class ReportMasterComponent implements OnInit {
     this.TransactionIdDisbaled = true
   }
 
+  cash_disable_control() {
+    this.transTypeDisbaled = true
+    this.StartDateTimeDisbaled = false
+    this.EndDateTimeDisbaled = true
+    this.ShiftDisbaled = false
+    this.TCUserDisbaled = true
+    this.PlazaDisbaled = true
+    this.LaneDisbaled = true
+    this.VehicleClassDisbaled = true
+    this.VehicleSubClassDisbaled = true
+    this.PlateNumberDisbaled = true
+    this.TransactionIdDisbaled = true
+  }
+
   ngOnInit(): void {
     this.FilterDetailsForm = new FormGroup({
       StartDateTime: new FormControl(new Date()),
@@ -228,6 +242,18 @@ export class ReportMasterComponent implements OnInit {
       this.FilterDetailsForm.controls['TransactionId'].reset()
       this.FilterDetailsForm.controls['PlateNumber'].reset()
       this.disable_control()
+      this.transTypeDisbaled = true;
+    }
+    else if(vale==9){
+      this.FilterDetailsForm.controls['TransactionTypeFilterList'].reset()
+      this.FilterDetailsForm.controls['ShiftFilterList'].reset()
+      this.FilterDetailsForm.controls['TCUserFilterList'].reset()
+      this.FilterDetailsForm.controls['LaneFilterList'].reset()
+      this.FilterDetailsForm.controls['VehicleClassFilterList'].reset()
+      this.FilterDetailsForm.controls['VehicleSubClassFilterList'].reset()
+      this.FilterDetailsForm.controls['TransactionId'].reset()
+      this.FilterDetailsForm.controls['PlateNumber'].reset()
+      this.cash_disable_control()
       this.transTypeDisbaled = true;
     }
     else {

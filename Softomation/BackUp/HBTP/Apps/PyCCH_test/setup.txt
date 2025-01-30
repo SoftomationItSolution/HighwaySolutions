@@ -1,0 +1,15 @@
+pyodbc
+lxml
+xmlsec
+psutil
+netifaces
+requests
+paramiko
+pandas
+pycryptodome
+fastapi
+uvicorn
+python-gnupg
+sqlalchemy
+aioodbc
+aiomysql

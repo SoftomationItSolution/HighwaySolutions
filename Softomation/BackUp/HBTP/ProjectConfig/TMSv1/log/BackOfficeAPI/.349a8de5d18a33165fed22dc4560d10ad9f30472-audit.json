@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/home/ProjectConfig/TMSv1/log/BackOfficeAPI/.349a8de5d18a33165fed22dc4560d10ad9f30472-audit.json",
+    "files": [
+        {
+            "date": 1737363763141,
+            "name": "/home/ProjectConfig/TMSv1/log/BackOfficeAPI/2025-01-20.log",
+            "hash": "999ba29d8c27896bf8d680104a467636791e6b7ae8dbac68ebb065346b4cbcf2"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -11,7 +11,7 @@ sudo nano /etc/apache2/sites-available/singossa.conf
     CustomLog ${APACHE_LOG_DIR}/my-app-access.log combined
 </VirtualHost>
 
-sudo a2ensite singossa.conf
+sudo a2ensite tms_app.conf
 
 sudo systemctl restart apache2
 
@@ -68,3 +68,11 @@ sudo chown -R www-data:www-data /var/www/yourdomain
 
 sudo apache2ctl configtest
 
+
+pm2 list
+pm2 logs my-api
+pm2 startup
+pm2 save
+pm2 stop my-api
+pm2 restart my-api
+pm2 monit

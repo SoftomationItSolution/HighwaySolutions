@@ -59,7 +59,7 @@
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.LaneNumber}}</td>
                                 <td>{{rowData.ShiftNumber}}</td>
-                                <td>{{rowData.TransactionDateStamp}}</td>
+                                <td>{{rowData.TransactionDateStamp | date:'dd-MMM-yyyy'}}</td>
                                 <td>{{rowData.ShiftTimining}}</td>
                                 <td>{{rowData.FloatTransactionTypeName}}</td>
                                 <td class="td-amt">{{rowData.TransactionAmount | currency:'INR':true:'1.0-2'}}</td>

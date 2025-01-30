@@ -6,16 +6,37 @@ const logger = require('../_helpers/logger');
 const path = require('path');
 const fs = require('fs');
 const sql = require('mssql');
+const axios = require('axios');
 const {
     root_path,
     icd_path
 } = require("../_helpers/constants");
-const e = require('express');
+const { console } = require('inspector');
 const icd_Directory = path.join(root_path, icd_path);
 router.get('/IcdPlazaGetAll', IcdPlazaGetAll);
+router.get('/IcdRequestStatus', IcdRequestStatus);
+router.get('/ICRReuploadFailedData', ICRReuploadFailedData);
+router.get('/ICDRequestUploadDiff', ICDRequestUploadDiff);
+router.get('/ICDResponsePending', ICDResponsePending);
+router.get('/ICDResponseDeclined', ICDResponseDeclined);
+router.post('/IcdTransactionFilter', IcdTransactionFilter);
+router.post('/ICDReProcessData', ICDReProcessData);
+router.post('/ICDUpdatedforCheckStatus', ICDUpdatedforCheckStatus);
 router.post('/UpdateIcdConfig', UpdateIcdConfig);
-module.exports = router;
 
+module.exports = router;
+const tag_url='http://115.247.183.246:5003/tagRequest'
+const allowed = ["00", "02", "04"]; // Allowed EXCCODE values
+const not_allowed = ["01", "03", "05", "06"]; // Not allowed EXCCODE values
+const statusDescriptions = {
+    "00": "SUCCESS",
+    "01": "HOT_LIST",
+    "02": "EXEMPTED_VEHICLE_CLASS",
+    "03": "LOW_BALANCE",
+    "04": "INVALID_CARRIAGE",
+    "05": "BLACKLIST",
+    "06": "CLOSED_REPLACED",
+};
 async function IcdPlazaGetAll(req, res, next) {
     try {
         const pool = await database.getPool();
@@ -32,6 +53,7 @@ async function IcdPlazaGetAll(req, res, next) {
                     "PlazaList": result.recordset,
                     "UATList": jsonData.UatApiDetails,
                     "ProdList": jsonData.ProdApiDetails,
+                    "SftpList": jsonData.SftpDetails,
                 }
                 let out = constants.ResponseMessage("success", data);
                 res.status(200).json(out)
@@ -83,6 +105,7 @@ async function UpdateIcdConfig(req, res, next) {
                     const updatedData = {
                         UatApiDetails: reciveData.UATDetail,
                         ProdApiDetails: reciveData.ProdDetail,
+                        SftpDetails: reciveData.SftpDetail
                     }
                     Object.assign(jsonData, updatedData);
                     fs.writeFile(icd_Directory, JSON.stringify(jsonData, null, 2), 'utf8', (err) => {
@@ -101,12 +124,185 @@ async function UpdateIcdConfig(req, res, next) {
                 }
             });
         }
-        else{
-             let out = constants.ResponseMessageList(result.recordset, null);
-             res.status(200).json(out)
+        else {
+            let out = constants.ResponseMessageList(result.recordset, null);
+            res.status(200).json(out)
         }
     } catch (error) {
         errorlogMessage(error, 'UpdateIcdConfig');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function IcdRequestStatus(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_ICDPostTransStatus');
+        let out = constants.ResponseMessage("success", result.recordsets);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'IcdRequestStatus');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICRReuploadFailedData(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_ICDReuploadFailedData');
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+
+    } catch (error) {
+        errorlogMessage(error, 'ICRReuploadFailedData');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICDRequestUploadDiff(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_ICDRequestUploadDiff');
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+
+    } catch (error) {
+        errorlogMessage(error, 'ICDRequestUploadDiff');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICDResponsePending(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_ICDResponsePending');
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+
+    } catch (error) {
+        errorlogMessage(error, 'ICDResponsePending');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICDResponseDeclined(req, res, next) {
+    try {
+        const pool = await database.getPool();
+        result = await pool.request().execute('USP_ICDResponseDeclined');
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+
+    } catch (error) {
+        errorlogMessage(error, 'ICDResponseDeclined');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function IcdTransactionFilter(req, res, next) {
+    try {
+        let data = req.body;
+        data.FilterQuery = "WHERE CONVERT(DATE,T.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,T.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+        if (data.VehicleClassFilterList != "0") {
+            data.FilterQuery = data.FilterQuery + " AND (T.VehicleClassId IN (" + data.VehicleClassFilterList + ") OR T.VehicleAvcClassId IN (" + data.VehicleClassFilterList + ")) ";
+        }
+        if (data.VehicleSubClassFilterList != "0") {
+            data.FilterQuery = data.FilterQuery + " AND (T.VehicleSubClassId IN (" + data.VehicleSubClassFilterList + ") OR T.TagClassId IN (" + data.VehicleSubClassFilterList + ")) ";
+        }
+        if (data.PlateNumber != "") {
+            data.FilterQuery = data.FilterQuery + " AND (T.PlateNumber LIKE %'" + data.PlateNumber + "'% OR T.TagPlateNumber LIKE %'" + data.PlateNumber + "'%  OR P.ResponseRegistrationNumber LIKE %'" + data.PlateNumber + "'%)";
+        }
+        if (data.TransactionId != "") {
+            data.FilterQuery = data.FilterQuery + " AND (P.TransactionId = '" + data.TransactionId + "')";
+        }
+        if (data.TagId != "") {
+            data.FilterQuery = data.FilterQuery + " AND (T.TagEPC = '" + data.TagId + "')";
+        }
+        const pool = await database.getPool();
+        result = await pool.request().input('FilterQuery', sql.VarChar(4000), data.FilterQuery).execute('USP_ICDTransactionFilter');
+        let out = constants.ResponseMessage("success", result.recordset);
+        res.status(200).json(out)
+    } catch (error) {
+        errorlogMessage(error, 'IcdTransactionFilter');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICDReProcessData(req, res, next) {
+    try {
+        const receivedBatch = req.body;
+        const processedBatch = await Promise.all(
+            receivedBatch.map(async (record) => {
+                try {
+                    if (record.HoursDifference > 72) {
+                        return {
+                            ...record,
+                            status: false, // true if all values are allowed, false otherwise
+                            excCode: "UNKNOWN", // Include EXCCODE for debugging if needed
+                            description: "SLA Exceed", // Status descriptions based on EXCCODE
+                        };
+                     }
+                    else {
+                        const response = await axios.post(tag_url, {
+                            TagId: record.TagEPC,
+                            TID: "",
+                            VRN: ""
+                        });
+                        const excCode = response.data.VehicleDetails?.EXCCODE;
+                        const excCodeArray = excCode ? excCode.split(",") : []; // Split comma-separated values into an array
+                        const hasNotAllowed = excCodeArray.some((code) => not_allowed.includes(code));
+                        const status = !hasNotAllowed;
+                        const descriptions = excCodeArray.map((code) => statusDescriptions[code] || "UNKNOWN").join(", ");
+                        return {
+                            ...record,
+                            status: status, // true if all values are allowed, false otherwise
+                            excCode: excCode || "UNKNOWN", // Include EXCCODE for debugging if needed
+                            description: descriptions, // Status descriptions based on EXCCODE
+                        };
+                    }
+                } catch (error) {
+                    errorlogMessage(error, `Error processing record ${record.PlazaTransactionId}:ICDReProcessData`);
+                    return {
+                        ...record,
+                        status: false, // Default to false in case of an error
+                        excCode: "ERROR",
+                        description: "ERROR_FETCHING_DATA",
+                    };
+                }
+            })
+        );
+        try {
+            const pool = await database.getPool();
+            result = await pool.request().input('ProcessedRecords', sql.VarChar(sql.MAX), JSON.stringify(processedBatch))
+                .execute('USP_ICDReProcessCorrectionData');
+            res.status(200).send(result.recordset);
+        } catch (error) {
+            errorlogMessage(error, 'ICDReProcessData-DB');
+            let out = constants.ResponseMessage(error.message, null);
+            res.status(400).json(out);
+        }
+    } catch (error) {
+        errorlogMessage(error, 'ICDReProcessData');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function ICDUpdatedforCheckStatus(req, res, next) {
+    try {
+        const receivedBatch = req.body;
+        const pool = await database.getPool();
+            result = await pool.request().input('ProcessedRecords', sql.VarChar(sql.MAX), JSON.stringify(receivedBatch))
+                .execute('USP_ICDUpdatedforCheckStatus');
+            res.status(200).send(result.recordset);
+    } catch (error) {
+        errorlogMessage(error, 'ICDUpdatedforCheckStatus');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
     }
@@ -121,6 +317,7 @@ function errorlogMessage(error, method) {
         logger.error(`Caught an error in :${method}`);
     }
 }
+
 function date_time_format(in_dateTime) {
     try {
         if (!moment(in_dateTime).isValid()) {

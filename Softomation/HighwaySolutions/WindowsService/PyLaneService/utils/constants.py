@@ -16,6 +16,15 @@ import psutil
 class Utilities:
     key = b'0123456789abcdef0123456789abcdef'  # 32 bytes key for AES-256
     iv = b'$0ft0m@ti0nTech$'  # 16 bytes IV for AES-256-CBC
+    exception_map = {
+            "00": "SUCCESS",
+            "01": "Hotlist",
+            "02": "Exempted",
+            "03": "Low Balance",
+            "04": "Invalid Carriage",
+            "05": "Blacklist",
+            "06": "Closed"
+        }
     
     @staticmethod
     def get_absolute_file_path(script_dir, file_name):
@@ -344,5 +353,114 @@ class Utilities:
                             shutil.rmtree(folder_path)
                         except Exception as e:
                              raise e
+        except Exception as e:
+            raise e
+        
+    @staticmethod
+    def equipment_type_exists(equipment_type_id,dio_equipment_detail):
+       return any(filter(lambda equipment: equipment['EquipmentTypeId'] == equipment_type_id, dio_equipment_detail))
+    
+
+    @staticmethod
+    def get_exception_names(exc_codes):
+        exc_code_list = exc_codes.split(',')
+        exception_names = [Utilities.exception_map.get(code.strip(), "Unknown") for code in exc_code_list]
+        return ", ".join(exception_names)
+    
+    @staticmethod
+    def process_tag_id(tag_id):
+        if tag_id.startswith('3400') and len(tag_id) > 24:
+            return tag_id[4:]
+        return tag_id
+    
+    @staticmethod
+    def vaildate_tag_id_epc(tag_id: str, tag_epc: str) -> str:
+        if tag_id.startswith("3400") or tag_id.startswith("3000"):
+            tag_id = tag_id[4:]
+        if tag_epc.startswith("3400") or tag_epc.startswith("3000"):
+            tag_epc = tag_epc[4:]
+        if tag_epc.startswith("34") or tag_epc.startswith("91"):
+            return True,tag_id,tag_epc
+        else:
+            return False,tag_id,tag_epc
+    
+    @staticmethod
+    def vaildate_tag_epc(tag_epc: str) -> str:
+        if tag_epc.startswith("3400") or tag_epc.startswith("3000"):
+            tag_epc = tag_epc[4:]
+        if tag_epc.startswith("34") or tag_epc.startswith("91"):
+            return True,tag_epc
+        else:
+            return False,tag_epc
+
+    @staticmethod
+    def handle_tag_id(tag_id: str) -> str:
+        if tag_id.startswith("3400") or tag_id.startswith("3000"):
+            tag_id = tag_id[4:]
+        return tag_id
+    
+    @staticmethod
+    def current_trans():
+        try:
+            current_date_time=datetime.datetime.now()
+            current_Transaction = {
+                "LaneTransactionId": '0',
+                "JourneyId": 0,
+                "PlazaId": 0,
+                "LaneId": 0,
+                "ShiftId": 0,
+                "TransactionTypeId": 0,
+                "PaymentTypeId": 0,
+                "ExemptTypeId": 0,
+                "ExemptSubTypeId": 0,
+                "VehicleClassId": 0,
+                "VehicleSubClassId": 0,
+                "VehicleAvcClassId": 0,
+                "PlateNumber": "",
+                "RCTNumber": "",
+                "TagEPC": "",
+                "TagClassId": 0,
+                "TagPlateNumber": "",
+                "TagReadDateTime": Utilities.current_date_time_json(dt=current_date_time),
+                "TagReadCount": 0,
+                "TagReadById": 0,
+                "PermissibleVehicleWeight": 0.00,
+                "ActualVehicleWeight": 0.00,
+                "IsVehicleOverWeight": False,
+                "IsOverWeightCharged": False,
+                "OverWeightAmount": 0.00,
+                "TagPenaltyAmount": 0.00,
+                "TransactionAmount": 0.00,
+                "TransactionDateTime": Utilities.current_date_time_json(dt=current_date_time),
+                "TransactionFrontImage": "",
+                "TransactionBackImage": "",
+                "TransactionAvcImage": "",
+                "TransactionVideo": "",
+                "ExemptionProofImage": "",
+                "DestinationPlazaId": 0,
+                "UserId": 0,
+                "LoginId": 'sys-admin',
+                "IsReturnJourney": False,
+                "IsExcessJourney": False,
+                "IsBarrierAutoClose": True,
+                "IsTowVehicle": False,
+                "IsFleetTranscation": False,
+                "FleetCount": 0,
+                "TCRemark": "",
+                "PlazaName": "",
+                "LaneName":"",
+                "TransactionTypeName": "",
+                "PaymentTypeName": "",
+                "ExemptTypeName":"",
+                "ExemptSubTypeName":"",
+                "VehicleClassName": "",
+                "VehicleSubClassName": "",
+                "TagClassName": "",
+                "Processed":False,
+                "TagStatus":"",
+                "ProcessAllowed":False,
+                "SystemDateTime":current_date_time.isoformat()
+            }
+            return current_Transaction
         except Exception as e:
             raise e

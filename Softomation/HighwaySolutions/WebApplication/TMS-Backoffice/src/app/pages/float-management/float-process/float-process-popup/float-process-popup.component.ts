@@ -65,7 +65,8 @@ export class FloatProcessPopupComponent implements OnInit {
     this.spinner.show();
     this.dbService.LaneGetByPlazaId(this.DefaultPlazaId).subscribe(
       data => {
-        this.LaneList = data.ResponseData;
+        const jsonData=data.ResponseData
+        this.LaneList = jsonData.filter(item => item.LaneTypeId != 3);
         this.GetTCList();
       },
       (error) => {

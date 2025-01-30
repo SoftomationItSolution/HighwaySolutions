@@ -157,8 +157,8 @@ escpos/capabilities
 sudo mysql -u root -p
 
 SELECT User, Host FROM mysql.user;
-CREATE USER 'root'@'%' IDENTIFIED BY 'Softo@7890';
-GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+CREATE USER 'HRMS_Prod_v1'@'%' IDENTIFIED BY 'Softo@7890';
+GRANT ALL PRIVILEGES ON *.* TO 'HRMS_Prod_v1'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 sudo systemctl restart mysql
@@ -384,3 +384,13 @@ sudo rm -rf /home/ProjectConfig/TMSLane/logs
 sudo systemctl restart nginx
 sudo systemctl status tmsV1.service
 sudo systemctl restart tmsV1.service
+
+sudo nano /home/ProjectConfig/TMSLane/MasterConfig/dbConfig.json
+
+
+#SQL Server ID Jump 1000 issue fixed in SQL Server 2019 
+ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = OFF
+
+
+sudo lsof -i :5002
+sudo kill -9 <PID>

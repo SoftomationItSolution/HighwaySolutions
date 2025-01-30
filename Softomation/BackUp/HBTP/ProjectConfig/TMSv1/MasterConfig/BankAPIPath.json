@@ -1,0 +1,39 @@
+{
+  "UatApiDetails": {
+    "Version": "1.0",
+    "BankName": "SBI",
+    "BaseUrl": "https://etcuat.hitachi-payments.com/",
+    "RequestPayURL": "reqpay",
+    "RequestTagDetailsURL": "ReqTagDetails",
+    "CheckTransactionStatusRequestURL": "ReqChkTxn",
+    "SyncTimeRequestURL": "ReqSyncTime",
+    "GetExceptionRequestURL": "ReqGetExceptionList",
+    "TollPlazaHeartBeatURL": "TollplazaHbeatReq",
+    "RequestQueryExceptionListURL": "reqQueryExceptionList",
+    "RequestViolationAuditDetailsURL": "ViolationAuditDetails",
+    "RequestListParticipantURL": "ReqListParticipant"
+  },
+  "ProdApiDetails": {
+    "Version": "1.0",
+    "BankName": "SBI",
+    "BaseUrl": "https://netc.hitachi-payments.com/SBI/",
+    "RequestPayURL": "ReqPay",
+    "RequestTagDetailsURL": "ReqTagDetails",
+    "CheckTransactionStatusRequestURL": "ReqChkTxn",
+    "SyncTimeRequestURL": "ReqSyncTime",
+    "GetExceptionRequestURL": "NA",
+    "TollPlazaHeartBeatURL": "TollplazaHbeatReq",
+    "RequestQueryExceptionListURL": "reqQueryExceptionList",
+    "RequestViolationAuditDetailsURL": "ViolationAuditDetails",
+    "RequestListParticipantURL": "ReqListParticipants"
+  },
+  "SftpDetails": {
+    "Host": "etctoll.hitachi-payments.com",
+    "Port": 22,
+    "Username": "hatibari",
+    "Password": "XnU8mUv46BYbNx",
+    "RemoteDirectory": "/OUTBOUND/Blacklist/",
+    "Init": false,
+    "Diff": true
+  }
+}

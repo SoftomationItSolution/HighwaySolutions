@@ -16,7 +16,6 @@ class PingThread(threading.Thread):
 
     def set_logger(self,default_directory,log_file_name):
         try:
-            self.classname="PingThread"
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception set_logger: {str(e)}")

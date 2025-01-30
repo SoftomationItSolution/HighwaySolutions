@@ -18,6 +18,7 @@ export class ICDSettingComponent {
   PlazaDetailsForm!: FormGroup;
   UATDetailsForm!: FormGroup;
   ProdDetailsForm!: FormGroup;
+  SFTPDetailsForm!: FormGroup;
   error = errorMessages;
   PermissionData: any;
   LogedRoleId: number;
@@ -82,6 +83,15 @@ export class ICDSettingComponent {
       RequestViolationAuditDetailsURL: new FormControl('',[Validators.required]),
       RequestListParticipantURL: new FormControl('',[Validators.required]),
     });
+    this.SFTPDetailsForm = new FormGroup({
+      Host: new FormControl('',[Validators.required]),
+      Port: new FormControl('',[Validators.required]),
+      Username: new FormControl('', [Validators.required]),
+      Password: new FormControl('',[Validators.required]),
+      RemoteDirectory: new FormControl('',[Validators.required]),
+      Init: new FormControl('',[Validators.required]),
+      Diff: new FormControl('',[Validators.required]),
+    });
     this.GetPermissionData();
   }
 
@@ -136,6 +146,7 @@ export class ICDSettingComponent {
         this.PlazaData = result.PlazaList;
         this.uatDetails(result.UATList)
         this.prodDetails(result.ProdList)
+        this.sftpDetails(result.SftpList)
       },
       (error) => {
         this.spinner.hide();
@@ -193,6 +204,16 @@ export class ICDSettingComponent {
     this.ProdDetailsForm.controls['RequestListParticipantURL'].setValue(DetailData.RequestListParticipantURL);
   }
 
+  sftpDetails(DetailData) {
+    this.SFTPDetailsForm.controls['Host'].setValue(DetailData.Host);
+    this.SFTPDetailsForm.controls['Port'].setValue(DetailData.Port);
+    this.SFTPDetailsForm.controls['Username'].setValue(DetailData.Username);
+    this.SFTPDetailsForm.controls['Password'].setValue(DetailData.Password);
+    this.SFTPDetailsForm.controls['RemoteDirectory'].setValue(DetailData.RemoteDirectory);
+    this.SFTPDetailsForm.controls['Init'].setValue(DetailData.Init);
+    this.SFTPDetailsForm.controls['Diff'].setValue(DetailData.Diff);
+  }
+
   ClosePoup() { this.Dialogref.close(false); }
  
   goToStep(index: number): void {
@@ -216,6 +237,12 @@ export class ICDSettingComponent {
     if (this.ProdDetailsForm.invalid && this.PlazaDetailsForm.value.IsProducation == true) {
       this.goToStep(2);
       this.ErrorData = [{ AlertMessage: 'Bank Prod details is pending!' }];
+      this.dm.openSnackBar(this.ErrorData, false);
+      return;
+    }
+    if (this.SFTPDetailsForm.invalid) {
+      this.goToStep(3);
+      this.ErrorData = [{ AlertMessage: 'Bank sftp details is pending!' }];
       this.dm.openSnackBar(this.ErrorData, false);
       return;
     }
@@ -259,10 +286,20 @@ export class ICDSettingComponent {
       RequestViolationAuditDetailsURL: this.ProdDetailsForm.value.RequestViolationAuditDetailsURL,
       RequestListParticipantURL: this.ProdDetailsForm.value.RequestListParticipantURL
     }
+    const sftpDetail={
+      Host:this.SFTPDetailsForm.value.Host,
+      Port:this.SFTPDetailsForm.value.Port,
+      Username:this.SFTPDetailsForm.value.Username,
+      Password:this.SFTPDetailsForm.value.Password,
+      RemoteDirectory:this.SFTPDetailsForm.value.RemoteDirectory,
+      Init:this.SFTPDetailsForm.value.Init,
+      Diff:this.SFTPDetailsForm.value.Diff
+    }
     const Obj = {
       PlazaDetail:plazaDetail,
       UATDetail:uatDetail,
       ProdDetail:prodDetail,
+      SftpDetail:sftpDetail
     };
     this.spinner.show();
     this.dbService.UpdateIcdConfig(Obj).subscribe(

@@ -81,8 +81,11 @@ import { TransactionalDataComponent } from './pages/Transactions/transactional-d
 import { TransactionalValidationComponent } from './pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from './pages/Transactions/transactional-validated/transactional-validated.component';
 import { ReportMasterComponent } from './pages/report-master/report-master.component';
-import { FasTagDataPending } from './pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
+import { FasTagDataPending } from './pages/fasTag/fasTag-data-pending/fasTag-data-pending.component';
+import { FasTagUploadPending } from './pages/fasTag/upload-pending/fasTag-upload-pending.component';
+import { FasTagResponsePending } from './pages/fasTag/response-pending/fasTag-response-pending.component';
 import { FasTagDataProcessed } from './pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
+import { FasTagResponseDeclined } from './pages/fasTag/response-declined/fasTag-response-declined.component';
 import { ChangePasswordPopUpComponent } from './pages/configurations/UserData/change-password-pop-up/change-password-pop-up.component';
 import { ProjectConfigComponent } from './pages/project-config/project-config.component';
 import { LSDUComponent } from './pages/lsdu/parent/lsdu.component';
@@ -167,7 +170,10 @@ export const MY_CUSTOM_FORMATS = {
     TransactionalValidationComponent,
     TransactionalValidatedComponent,
     FasTagDataPending,
+    FasTagUploadPending,
+    FasTagResponsePending,
     FasTagDataProcessed,
+    FasTagResponseDeclined,
     ReportMasterComponent,
     LSDUComponent,
     LsduLaneComponent,

@@ -53,7 +53,6 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
     }
 
     setInterval(() => {
-     
       this.updateRemainingTime()
     }, 1000);
 
@@ -77,7 +76,7 @@ export class DefaultLayoutComponent implements OnInit, AfterViewInit {
       this.currentTime = "Current Time:" + this.datepipe.transform(new Date(), 'HH:mm:ss');
       this.isLessThanTenMinutes = false;
       if(this.dataModel.getLoggedInStatus())
-          this.router.navigate(['']);
+          this.Logout();
     }
   }
 

@@ -33,6 +33,9 @@ export class AppComponent implements AfterViewInit{
         if(data.ResponseData==false){
           this.router.navigate(['']);
         }
+        else{
+          
+        }
       },
       (error) => {
        

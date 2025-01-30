@@ -34,6 +34,7 @@ class DataSynchronization(threading.Thread):
             self.media_path=os.path.join(default_directory, 'Events')
             self.plaza_config = Utilities.read_json_file(plaza_config_path)
             self.api_base_url=self.plaza_config["plaza_api_p"]
+            self.tag_base_url=self.api_base_url.replace("5001","5003")
             self.event_path=self.plaza_config["event_path"]
         except Exception as e:
             self.logger.logError(f"Exception get_plaza_url: {str(e)}")
@@ -80,8 +81,8 @@ class DataSynchronization(threading.Thread):
         while self.is_running:
             try:
                 if Utilities.check_api_url(self.api_base_url,self.timeout):
-                    # if not self.data_upload_running:
-                    #     self.start_data_uploading_threads()
+                    if not self.data_upload_running:
+                        self.start_data_uploading_threads()
                     current_time = time.time()
                     if current_time - last_call_time >= 21600:
                         self.fetch_and_store_master_data()
@@ -100,11 +101,11 @@ class DataSynchronization(threading.Thread):
         threading.Thread(target=self.lane_meida_uploading).start()
 
     def lane_data_uploading(self):
-        endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
+        endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationDataInsert'
         api_url = f"{self.api_base_url}{endpoint}"
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_LaneTransactionPending')
+                result_data=LaneManager.lane_data_pending(self.dbConnectionObj)
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
@@ -128,7 +129,7 @@ class DataSynchronization(threading.Thread):
     def lane_meida_uploading(self):
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_LaneMediaPending')
+                result_data =LaneManager.lane_media_pending(self.dbConnectionObj)
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
@@ -169,7 +170,7 @@ class DataSynchronization(threading.Thread):
         api_url = f"{self.api_base_url}{endpoint}"
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_AvcTransactionPending')
+                result_data = LaneManager.avc_data_pending(self.dbConnectionObj)
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
@@ -211,19 +212,18 @@ class DataSynchronization(threading.Thread):
             if data["LaneTransactionId"]!='':
                 lane_data=LaneManager.lane_update_avc(self.dbConnectionObj,data)
                 if lane_data and len(lane_data)>0:
-                    endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationInsert'
+                    endpoint = 'Softomation/FTH-TMS-RSD/LaneTranscationDataInsert'
                     api_url = f"{self.api_base_url}{endpoint}"
                     res=self.upload_data(api_url,lane_data[0])
         except Exception as e:
                 self.logger.logError(f"Exception update_lane_avc: {str(e)}")
-
     
     def wim_data_uploading(self):
         endpoint = 'Softomation/FTH-TMS-RSD/WimTransactionInsert'
         api_url = f"{self.api_base_url}{endpoint}"
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_WimTransactionPending')
+                result_data = LaneManager.wim_data_pending(self.dbConnectionObj)
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
@@ -249,7 +249,7 @@ class DataSynchronization(threading.Thread):
         api_url = f"{self.api_base_url}{endpoint}"
         while self.data_upload_running:
             try:
-                result_data = self.dbConnectionObj.execute_procedure('USP_WimTransactionAxleDetailsPending')
+                result_data = LaneManager.wim_details_pending(self.dbConnectionObj)
                 for s in result_data:
                     if self.data_upload_running==False:
                         break
@@ -277,11 +277,39 @@ class DataSynchronization(threading.Thread):
             if response.status_code == 200:
                 result=True
             else:
-                self.logger.logInfo(f"{self.classname} response {response.status_code}  upload_data: {endpoint} {response.text}")
+                self.logger.logInfo(f"response {response.status_code}  upload_data: {endpoint} {response.text}")
         except Exception as e:
                 self.logger.logError(f"Exception upload_data: {str(e)}")
         finally:
             return result
+        
+    def fasTag_Status(self,data):
+        try:
+            endpoint = 'tagRequest'
+            api_url = f"{self.tag_base_url}{endpoint}"
+            response=Utilities.upload_data_api(api_url,data)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                self.logger.logInfo(f"response {response.status_code}  upload_data: {endpoint} {response.text}")
+                return None
+        except Exception as e:
+            self.logger.logError(f"Exception upload_data: {str(e)}")
+            raise e
+        
+    def logIn_activity(self,data,endpoint):
+        try:
+            endpoint='/Softomation/FastTrackHighway-TMS/'+endpoint
+            api_url = f"{self.api_base_url}{endpoint}"
+            response=Utilities.upload_data_api(api_url,data)
+            if response.status_code == 200:
+                return response.json()
+            else:
+                self.logger.logInfo(f"response {response.status_code}  logIn_activity: {endpoint} {response.text}")
+                return None
+        except Exception as e:
+            self.logger.logError(f"Exception logIn_activity: {str(e)}")
+            raise e
 
     def stop(self):
         try:

@@ -110,7 +110,6 @@ class MantraRfidReader(threading.Thread):
                     else:
                         self.is_running=True
                     self.tagDetails={"TagReadById":1,"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False}    
-                    
                     while self.is_running:
                         if not self.is_active or self.is_stopped or not self.is_running:
                             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)

@@ -11,6 +11,7 @@ export class apiIntegrationService {
   ApiCallUrl: string | undefined;
   BaseApiUrl: string | undefined;
   ImageApiURL: string | undefined;
+  IcdUrl: string | undefined;
   ConfigData!: ConfigIntrface;
   Prefix = "FastTrackHighway-lane";
   header: any = new Headers({ 'Content-Type': 'application/json; charset = utf-8;' });
@@ -49,10 +50,10 @@ export class apiIntegrationService {
           mediaPath = curretURL[0] + "://" + this.ConfigData.BaseURL + ":" + this.ConfigData.ApiPort + "/EventMedia/"
           
         }
-        let camApi = curretURL[0] + "://" + this.ConfigData.BaseURL + ":9999/"
-        let LiveView = 'ws://' + this.ConfigData.BaseURL + ':1935/';
+        let LiveView = this.ConfigData.ServerUrl;
+        this.IcdUrl=this.ConfigData.IcdUrl
         this.ApiCallUrl = apiPath
-        this.dataModel.setCamAPI(camApi);
+        this.dataModel.setIcdAPI(this.IcdUrl);
         this.dataModel.setMediaAPI(mediaPath);
         this.dataModel.setDataAPI(apiPath)
         this.dataModel.setLiveAPI(LiveView);
@@ -164,6 +165,19 @@ export class apiIntegrationService {
     return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FloatProcessSetUp', data, { headers: headers_object });
   }
   //#endregion
+
+
+  FeatchTagDetails(data: {}): Observable<any> {
+    this.IcdUrl=this.dataModel.getICDAPI()
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.IcdUrl, data, { headers: headers_object });
+  }
+
+  ProcessVrn(data: {}): Observable<any> {
+    this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.ApiCallUrl +'VRN', data, { headers: headers_object });
+  }
 
   
  

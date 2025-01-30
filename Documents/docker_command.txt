@@ -18,14 +18,21 @@ sudo docker rmi -f ef9544f7707e
 #remove all images
 sudo docker rmi -f $(sudo docker images -aq)
 
+
+
 #build docker image from Dockerfile
 sudo docker build -t nopysy:v1 .
 
-#save built docker image
+#save built docker image  for deployed
 sudo docker save -o nopysy_v1.tar nopysy:v1
+
+#save built docker image  for base image
+sudo docker save -o nopysy_latest.tar nopysy:latest
+
 
 sudo chmod -R 777 /opt/soft
 
+cd /opt/soft
 #load docker image
 sudo docker load -i nopysy_v1.tar
 
@@ -55,6 +62,7 @@ sudo docker ps
 sudo docker rm -f
 sudo docker images
 sudo docker rmi -f
+sudo docker load -i nopysy_v1.tar
 sudo docker build -t nopysy:v1 .
 sudo docker save -o nopysy_v1.tar nopysy:v1
 sudo chmod -R 777 /opt/soft/

@@ -365,6 +365,83 @@
                     </div>
                 </form>
             </mat-step>
+            <mat-step [stepControl]="SFTPDetailsForm">
+                <form [formGroup]="SFTPDetailsForm">
+                    <ng-template matStepLabel>Bank SFTP</ng-template>
+                    <div class="equipment-form-data">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label" for="Host">Host</label>
+                                <input formControlName="Host" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','Host')">Host must is required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="Port">Port</label>
+                                <input formControlName="Port" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','Port')">Port must
+                                    be
+                                    required.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="Username">Base Url</label>
+                                <input formControlName="Username" type="text" pInputText required autocomplete="off"
+                                    class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','Username')">Username must
+                                    be
+                                    required.</small>
+                                <!-- <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.controls['BaseUrl'].hasError('pattern')">
+                                    {{error['HttpsPath']}}
+                                </small> -->
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="Password">Password</label>
+                                <input formControlName="Password" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','Password')">Password
+                                    must be
+                                    required.
+                                </small>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label" for="RemoteDirectory">Remote Directory</label>
+                                <input formControlName="RemoteDirectory" type="text" pInputText required
+                                    autocomplete="off" class="form-control" />
+                                <small class="p-error"
+                                    *ngIf="submitted && ProdDetailsForm.hasError('required','RemoteDirectory')">Remote directory
+                                    must be
+                                    required.
+                                </small>
+
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check" style="padding-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="Init"
+                                        formControlName="Init">
+                                    <label class="form-check-label" for="Init">
+                                        Allow init process 
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-check" style="padding-bottom: 20px;">
+                                    <input class="form-check-input" type="checkbox" id="Diff"
+                                        formControlName="Diff">
+                                    <label class="form-check-label" for="Diff">
+                                        Allow diff process 
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </mat-step>
         </mat-horizontal-stepper>
     </div>
     <div class="modal-footer">

@@ -10,7 +10,9 @@ import { SubClassSelectionComponent } from '../popups/SubClassSelection/sub-clas
 import { ExemptSelectionComponent } from '../popups/ExemptSelection/exempt-selection.component';
 import { PaymentSelectionComponent } from '../popups/PaymentSelection/payment-selection.component';
 import { FleetCounterComponent } from '../popups/FleetCounter/fleet-counter.component';
-
+import { JsonBufferService } from 'src/services/JsonBuffer.service';
+import { LiveViewPopUpComponent } from '../popups/live-view-pop-up/live-view-pop-up.component';
+declare var JSMpeg: any;
 
 @Component({
   selector: 'app-etc-dashboard',
@@ -43,22 +45,22 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
   TowStart: boolean = false
   apiPath = ''
   lpicViewUrl = ''
+  myWebSocket: any = null;
+  player: any = null;
+  videoUrl:string=''
   private messageSubscription: Subscription;
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
-    private webSocketService: WebSocketService, public dialog: MatDialog) {
+    private webSocketService: WebSocketService, public dialog: MatDialog,
+    private jsonBufferService: JsonBufferService) {
     this.UserData = this.dm.getUserData()
-    //this.apiPath = this.dm.getDataAPI()
-    //this.lpicViewUrl = this.dm.getDataAPI() + '/lpicLiveView'
+    this.lpicViewUrl = this.dm.getLiveAPI()
   }
   private readonly destroy$ = new Subject<void>();
-  
+
   ngOnInit(): void {
     this.FormDetails = new FormGroup({
       TransactionTypeName: new FormControl('', [
-        Validators.required
-      ]),
-      TransactionSubTypeName: new FormControl('', [
         Validators.required
       ]),
       VehicleClassName: new FormControl('', [
@@ -67,15 +69,8 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
       VehicleClassSubName: new FormControl('', [
         Validators.required
       ]),
-      JourneyTypeId: new FormControl('S', [
-        Validators.required
-      ]),
       PlateNumber: new FormControl('', []),
-      Remark: new FormControl('', []),
-      VehicleWeight: new FormControl('0', []),
-      TollFare: new FormControl('0', []),
-      OverweightPenalty: new FormControl('0', []),
-      TagPenalty: new FormControl('0', []),
+      TagStatus: new FormControl('', []),
     });
     this.getLaneMasterData()
     this.messageSubscription = this.webSocketService.getMessages()
@@ -86,14 +81,30 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         },
         error => console.error("WebSocket error:", error)
       );
-    this.refreshImageUrl();
-    //this.intervalId = setInterval(() => this.refreshImageUrl(), 100);
+
   }
 
-  refreshImageUrl(): void {
-    // Append a timestamp to the URL to force the browser to fetch a new image
-    const timestamp = new Date().getTime();
-    this.lpicViewUrl = this.dm.getDataAPI() + `/lpicLiveView?timestamp=${timestamp}`
+  start_liveView(UrlAddress) {
+    let videoUrl = UrlAddress
+    if (this.myWebSocket != null) {
+      this.myWebSocket.close();
+      this.player.destroy();
+    }
+    this.dm.delay(100).then(any => {
+      this.newStream(videoUrl);
+    });
+
+  }
+
+  newStream(videoUrl: string) {
+    const wsPath = this.lpicViewUrl;
+    let url = encodeURIComponent(videoUrl)
+    this.videoUrl = wsPath + url
+    this.myWebSocket = new WebSocket(this.videoUrl);
+    this.player = new JSMpeg.Player(this.videoUrl, {
+      canvas: document.getElementById("ptz0"),
+      onDisconnect: () => console.log('Connection lost!'),
+    });
   }
 
   reset_form() {
@@ -150,6 +161,12 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
           equipment_detail.forEach(element => {
             this.updateEquipmentStatus(element.EquipmentTypeId, element.OnLineStatus, "equipment_status")
           });
+          const cam_details = equipmentDetais.find(item => item.EquipmentTypeId == 15);
+          if (cam_details) {
+            this.start_liveView(cam_details.UrlAddress);
+          } else {
+            console.log('No rows found.');
+          }
         }
         else {
           this.DisplayMessage('Somthing went wrong!', false);
@@ -227,7 +244,6 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
       this.FormDetails.controls['Remark'].setValue('');
 
       if (tagDetails != null) {
-        console.log(tagDetails)
         const ClassId = parseInt(tagDetails.Class);
         this.CurrentTransactions.TagEPC = tagDetails.EPC
         this.CurrentTransactions.RCTNumber = tagDetails.TID
@@ -237,7 +253,6 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         this.CurrentTransactions.TagReadById = tagDetails.TagReadById
         this.CurrentTransactions.TagClassId = ClassId
         let subClass = this.VehicleSubClasss.filter(item => item.SystemVehicleSubClassId == ClassId);
-        console.log(subClass)
         if (subClass.length > 0) {
           subClass = subClass[0]
           this.CurrentTransactions.VehicleClassId = parseInt(tagDetails.Class)
@@ -407,45 +422,27 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
 
     }
   }
-  process_ws_message_get(msg: string) {
-    try {
-      if (msg.indexOf('}{') == 0) {
-      }
-    } catch (error) {
-      console.log(msg)
-      console.log(error)
-    }
-  }
+
   process_ws_message(msg: string) {
     try {
       if (msg != '') {
-        let result = JSON.parse(msg)
-        const toppic = result.topic
-        if (toppic == "equipment_status") {
-          this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
-        }
-        else if (toppic == "hardware_on_off_status") {
-          this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
-        }
-        else if (toppic == "wim_processed") {
-          this.process_wim_data(result)
-        }
-        else if (toppic == "rfid_processed") {
-          this.process_rfid_data(result)
-        }
-        else if (toppic == "lane_process_end") {
-          this.CurrentTransactions = null
-          this.getLaneRecentData()
-          this.reset_form()
-          if (this.rfidDataQueue.length > 0) {
-            const tagDetails = this.rfidDataQueue[0];
-            this.rfidDataQueue.shift();
-            const dataValue = {
-              TransactionTypeId: 1,
-              TransactionTypeName: 'FasTag'
-            };
-            this.ttyselectedButton = dataValue.TransactionTypeName;
-            this.createTrans("tt", dataValue, tagDetails);
+        let result = this.jsonBufferService.preprocessJson(msg);
+        if (result) {
+          const toppic = result.topic
+          if (toppic == "equipment_status") {
+            this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
+          }
+          else if (toppic == "hardware_on_off_status") {
+            this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
+          }
+          else if (toppic == "rfid_processed") {
+            this.process_rfid_data(result)
+          }
+          else if (toppic == "lane_process_end") {
+            this.CurrentTransactions = null
+            this.getLaneRecentData()
+            this.reset_form()
+            
           }
         }
       }
@@ -455,85 +452,8 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
 
   }
 
-  process_wim_data(tagDetails: any) {
-    this.wimDataQueue.push(tagDetails)
-  }
-
-
-  process_ws_message_bkp(msg: string) {
-    if (msg != '') {
-      try {
-        let messages = msg.split('}{').map((part, index, array) => {
-          if (index !== 0) part = '{' + part;
-          if (index !== array.length - 1) part = part + '}';
-          try {
-            return JSON.parse(part);
-          } catch (e) {
-            console.error("Error parsing JSON:", e, "JSON string:", part);
-            return null; // Or handle it in another way, such as returning a default value or throwing an error
-          }
-
-        });
-        if (messages != null) {
-          messages.forEach(result => {
-            const toppic = result.topic
-            const data = result;
-           if (toppic == "hardware_on_off_status") {
-              this.updateEquipmentStatus(data.EquipmentTypeId, data.PositionStatus, toppic)
-            }
-            else if (toppic == "wim_processed") {
-
-            }
-            else if (toppic == "rfid_processed") {
-              this.process_rfid_data(data)
-            }
-            else if (toppic == "avc_processed") {
-
-            }
-            else if (toppic == "lane_processed") {
-
-            }
-            else if (toppic == "lane_process_end") {
-              this.CurrentTransactions = null
-              this.getLaneRecentData()
-              this.reset_form()
-              if (this.rfidDataQueue.length > 0) {
-                const tagDetails = this.rfidDataQueue[0];
-                this.rfidDataQueue.shift();
-                const dataValue = {
-                  TransactionTypeId: 1,
-                  TransactionTypeName: 'FasTag'
-                };
-                this.ttyselectedButton = dataValue.TransactionTypeName;
-                this.createTrans("tt", dataValue, tagDetails);
-              }
-            }
-            else {
-
-            }
-          });
-        }
-      } catch (error) {
-        console.log(msg)
-        console.log(error)
-      }
-    }
-
-  }
-
   process_rfid_data(tagDetails: any) {
-    if (this.CurrentTransactions == null) {
-      if (this.rfidDataQueue.length == 0) {
-        const dataValue = { "TransactionTypeId": 1, "TransactionTypeName": 'FasTag' }
-        this.ttyselectedButton = dataValue.TransactionTypeName;
-        this.createTrans("tt", dataValue, tagDetails)
-      } else {
-        this.rfidDataQueue.push(tagDetails)
-      }
-    }
-    else {
-      this.rfidDataQueue.push(tagDetails)
-    }
+    console.log(tagDetails)
   }
 
   updateEquipmentStatus(EquipmentTypeId: number, status: boolean, toppic): void {
@@ -545,9 +465,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         else if (toppic == "hardware_on_off_status")
           item.PositionStatus = status;
       }
-      // else {
-      //   console.log(`Item with id ${EquipmentTypeId} not found.`);
-      // }
+
     }
   }
 
@@ -770,4 +688,13 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  onVRN(){
+      const dialogConfig = new MatDialogConfig();
+      dialogConfig.disableClose = true;
+      dialogConfig.autoFocus = true;
+      dialogConfig.width = '60%';
+      dialogConfig.data = {videoUrl:this.videoUrl,VehicleSubClasss:this.VehicleSubClasss}
+      this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+    }
 }

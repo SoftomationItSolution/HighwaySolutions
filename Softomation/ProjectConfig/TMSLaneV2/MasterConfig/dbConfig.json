@@ -1,0 +1,7 @@
+{
+    "connectionLimit":10,
+    "host":"192.168.11.22",
+    "user":"softo_db",
+    "password":"Softo@7890",
+    "database":"tms_lane_v2"
+ }

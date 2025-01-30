@@ -3,19 +3,13 @@ import platform
 import sys
 import threading
 import time
-
-
 from database.mySqlConnection import MySQLConnections
 from threads.lane_bg_process import LaneBGProcess
 from utils.constants import Utilities
 from log.log_master import CustomLogger
 
-
-
-
 class TMSAppv2:
     def __init__(self):
-        self.classname = "TMSApp"
         self.PID_FILE = "TMSv2.pid"
         self.stop_event = threading.Event()
         self.default_directory = self.check_default_dir()
@@ -67,7 +61,7 @@ class TMSAppv2:
                     f.write(str(os.getpid()))
                     f.close()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} check_duplicate_instance: {str(e)}")
+            self.logger.logError(f"Exception check_duplicate_instance: {str(e)}")
 
     def get_ic_timemout(self):
         try:
@@ -84,13 +78,13 @@ class TMSAppv2:
             ic_timemout=self.get_ic_timemout()
             self.system_ip = Utilities.get_local_ips()
             # if self.compare_ips(self.system_ip, '192.168.10.12')==False:
-            self.system_ip='192.168.10.22'
+            #self.system_ip='192.168.11.22'
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
             self.bg_handler = LaneBGProcess(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip,ic_timemout)
             self.bg_handler.daemon = True
             self.bg_handler.start()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} main: {str(e)}")
+            self.logger.logError(f"Exception main: {str(e)}")
         except KeyboardInterrupt:
              print('close 1')
              self.stop()
@@ -108,7 +102,7 @@ class TMSAppv2:
                 self.bg_handler.on_stop()
                 self.bg_handler.join()
         except Exception as e:
-            self.logger.logError(f"Exception {self.classname} cleanup: {str(e)}")
+            self.logger.logError(f"Exception cleanup: {str(e)}")
         finally:
             sys.exit(0)
 

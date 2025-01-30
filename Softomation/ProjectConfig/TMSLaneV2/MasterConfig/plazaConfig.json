@@ -1,0 +1,8 @@
+{
+    "plaza_api_p":"http://192.168.11.201:5001/",
+    "plaza_api_s":"http://192.168.11.200:5001/",
+    "event_path":"/mnt/Utility/TMS/Apps/TMSNodeAPI/EventMedia/LaneData/",
+    "FtpAddress":"192.168.11.201",
+    "FtpUser":"server",
+    "FtpPassword":"Mcube@123"
+ }

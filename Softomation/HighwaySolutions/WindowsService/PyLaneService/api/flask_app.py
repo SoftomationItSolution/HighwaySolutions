@@ -3,27 +3,29 @@ import json
 import os
 import platform
 import threading
+import time
 from flask import Flask, Response, render_template, request, jsonify
 from flask_cors import CORS
-from database.common_manager import CommonManager
+from database.lane_manager import LaneManager
+from log.log_master import CustomLogger
 from utils.constants import Utilities
 from utils.crypt import CryptoUtils
 
 class FlaskApp(threading.Thread):
-    def __init__(self, default_directory,script_dir, logger, bg_handler=None):
+    def __init__(self, default_directory,script_dir, bg_handler=None):
         super().__init__()
         self.script_dir=script_dir
         self.app = Flask(__name__, static_folder=os.path.join(script_dir, 'static'),template_folder=os.path.join(script_dir,'templates'))
-        self.classname = "TMSApp"
         self.PID_FILE = "TMSv1.pid"
         self.default_directory = default_directory
         self.bg_handler = bg_handler
         self.desktop_app = None
         CORS(self.app)
         self.app.config['CORS_HEADERS'] = 'Content-Type'
-        self.logger = logger
+        self.set_logger(default_directory,"web_api")
         self.lane_details = None
         self.default_plaza_Id = 1
+        self.userDetails=None
         self.app.add_url_rule('/', 'index', self.index)
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/ProjectConfigGet','ProjectConfigGet', self.ProjectConfigGet)
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/LoginStatusGet','LoginStatusGet', self.LoginStatusGet)
@@ -37,8 +39,7 @@ class FlaskApp(threading.Thread):
         self.app.add_url_rule('/Softomation/FastTrackHighway-lane/FleetStop','FleetStop', self.FleetStop, methods=['POST'])
         self.app.add_url_rule('/Softomation/lpicLiveView','lpicLiveView', self.lpicLiveView)
         self.app.add_url_rule('/Softomation/FasTag','FasTag', self.handled_FasTag, methods=['POST'])
-
-        #self.app.add_url_rule('/get_status', 'get_status', self.get_status)
+        self.app.add_url_rule('/Softomation/VRN','VRN', self.process_vrn, methods=['POST'])
         self.app.add_url_rule('/app_login', 'app_login', self.app_login, methods=['POST'])
         self.app.add_url_rule('/app_logout', 'app_logout', self.app_logout, methods=['POST'])
         self.app.add_url_rule('/restart', 'restart', self.restart)
@@ -47,9 +48,28 @@ class FlaskApp(threading.Thread):
         self.app.add_url_rule('/shutdown', 'shutdown', self.shutdown)
         self.server = None
 
+    def set_logger(self,default_directory,log_file_name):
+        try:
+            self.logger = CustomLogger(default_directory,log_file_name)
+        except Exception as e:
+            print(f"Exception set_logger: {str(e)}")
+
+
     def LoginStatusGet(self):
         try:
-            return jsonify({'message': 'success','ResponseData':self.bg_handler.system_loging_status}), 200
+            if self.bg_handler:
+                result={"loginStatus":self.bg_handler.system_loging_status,
+                        "userData":self.userDetails,
+                        "shiftDetails":self.bg_handler.current_shift,
+                        "loginTime":self.bg_handler.log_time,
+                        "LaneTypeId":self.bg_handler.LaneTypeId}
+            else:
+                result={"loginStatus":False,
+                        "userData":None,
+                        "shiftDetails":None,
+                        "loginTime":None,
+                        "LaneTypeId":0}
+            return jsonify({'message': 'success','ResponseData':result}), 200
         except Exception as e:
             self.logger.logError(f"Exception LoginStatusGet: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
@@ -64,7 +84,7 @@ class FlaskApp(threading.Thread):
     def ValidateUser(self):
         try:
             input=request.get_json()
-            res = CommonManager.GetUserByLoginId(self.bg_handler.dbConnectionObj,input["LoginId"])
+            res = LaneManager.GetUserByLoginId(self.bg_handler.dbConnectionObj,input["LoginId"])
             if res is None:
                 return jsonify({'message': 'Invalid loginid','ResponseData':None}), 200
             else:
@@ -72,13 +92,23 @@ class FlaskApp(threading.Thread):
                     if CryptoUtils.encrypt_aes_256_cbc(input["LoginPassword"]) == res[0]["LoginPassword"]:
                         if self.bg_handler.lane_detail is not None:
                             userDetails = json.dumps(res[0])
-                            self.bg_handler.get_current_shift()
-                            threading.Thread(target=self.bg_handler.app_log_status, args=(True,)).start()
-                            self.bg_handler.update_user(userDetails)
-                            current_time = datetime.now()
-                            formatted_time = current_time.strftime("%H:%M:%S")
-                            result={"userData":res[0],"shiftDetails":self.bg_handler.current_shift,"loginTime":formatted_time,"LaneTypeId":self.bg_handler.LaneTypeId}
-                            return jsonify({'message': 'success','ResponseData':result}), 200
+                            self.userDetails=res[0]
+                            if self.bg_handler.dts_thread:
+                                x={"UserId":self.userDetails["UserId"],"LocalAddress":self.bg_handler.default_lane_ip}
+                                logresult=self.bg_handler.dts_thread.logIn_activity(x,"UserLoginActivity")
+                                if logresult["status"]:
+                                    self.bg_handler.update_master_Details()
+                                    self.bg_handler.get_current_shift()
+                                    threading.Thread(target=self.bg_handler.app_log_status, args=(True,)).start()
+                                    current_time = datetime.now()
+                                    formatted_time = current_time.strftime("%H:%M:%S")
+                                    self.bg_handler.update_user(userDetails,formatted_time)
+                                    result={"userData":self.userDetails,"shiftDetails":self.bg_handler.current_shift,"loginTime":formatted_time,"LaneTypeId":self.bg_handler.LaneTypeId}
+                                    return jsonify({'message': 'success','ResponseData':result}), 200
+                                else:
+                                    return jsonify({'message': logresult["message"],'ResponseData':None}), 200
+                            else:
+                                return jsonify({'message': 'Try after some time','ResponseData':None}), 200
                         else:
                             return jsonify({'message': 'Lane details not found try after some time','ResponseData':None}), 200
                     else:
@@ -93,6 +123,12 @@ class FlaskApp(threading.Thread):
         try:
             if self.bg_handler is not None:
                 self.bg_handler.app_log_status(False)
+                if self.bg_handler.dts_thread:
+                    x={"UserId":self.userDetails["UserId"]}
+                    logresult=self.bg_handler.dts_thread.logIn_activity(x,'UserLogOut')
+                    if self.bg_handler.LaneTypeId==3:
+                        time.sleep(1)
+                        self.bg_handler.auto_login()
                 return jsonify({'message': 'Logout done!'}), 200
             else:
                 return jsonify({'message': 'App not running!'}), 404
@@ -115,7 +151,7 @@ class FlaskApp(threading.Thread):
         
     def getLaneRecentData(self):
         try:
-            latest_lane_txn=CommonManager.GetLatestLaneTransaction(self.bg_handler.dbConnectionObj)
+            latest_lane_txn=LaneManager.GetLatestLaneTransaction(self.bg_handler.dbConnectionObj)
             return jsonify({'message': 'success','ResponseData':latest_lane_txn}), 200
         except Exception as e:
             self.logger.logError(f"Exception getLaneRecentData: {str(e)}")
@@ -176,7 +212,6 @@ class FlaskApp(threading.Thread):
         try:
             if self.bg_handler.lpic_thread:
                 return Response(self.bg_handler.lpic_thread.generate_frames(), content_type='multipart/x-mixed-replace; boundary=frame')
-                #return Response(self.bg_handler.lpic_thread.live_view_bradcast(),mimetype='multipart/x-mixed-replace; boundary=frame')
         except Exception as e:
             self.logger.logError(f"Exception lpicLiveView: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
@@ -187,26 +222,50 @@ class FlaskApp(threading.Thread):
                 data = request.get_json()
                 EPCId=data["epc"]
                 TID=data["tagId"]
-                UserData=data["laneId"]
-                current_date_time=datetime.now()
-                tagDetails={"TagReadById":2,
-                            "SystemDateTime":current_date_time.isoformat(),
-                            "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
-                            "ReaderName":"Handled",
-                            "EPC":EPCId,
-                            "TID":TID,
-                            "UserData":UserData,
-                            "Class":self.convert_hex_to_int(UserData[24:26]),
-                            "Plate":self.hex_to_string_vehicle_number(UserData[4:24]),
-                            "Processed":False}
-                self.bg_handler.update_rfid_data(tagDetails)
-                return jsonify({"message": "Data received successfully"}), 200
+                result,TID,EPCId=Utilities.vaildate_tag_id_epc(TID,EPCId)
+                if result:
+                    UserData=data["laneId"]
+                    current_date_time=datetime.now()
+                    tagDetails={"TagReadById":2,"SystemDateTime":current_date_time.isoformat(),
+                                "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
+                                "ReaderName":"Handled","EPC":EPCId,"TID":TID,"UserData":UserData,
+                                "Class":self.convert_hex_to_int(UserData[24:26]),
+                                "Plate":self.hex_to_string_vehicle_number(UserData[4:24]),
+                                "TagStatus":"NA","Processed":False}
+                    result=self.bg_handler.update_rfid_data(tagDetails)
+                    if result:
+                        return jsonify({"message": "Data received successfully"}), 200
+                    else:
+                        return jsonify({"message": "Invalid Tag"}), 200
+                else:
+                    return jsonify({"message": "Invalid Tag"}), 200
             else:
                  return jsonify({"error": "Request must be in JSON format"}), 400
         except Exception as e:
-            self.logger.logError(f"Exception lpicLiveView: {str(e)}")
+            self.logger.logError(f"Exception handled_FasTag: {str(e)}")
             return jsonify({'message': 'Internal server error!'}), 500
    
+    def process_vrn(self):
+        try:
+            if request.is_json:
+                data = request.get_json()
+                current_date_time=datetime.now()
+                tagDetails={"TagReadById":3,
+                            "SystemDateTime":current_date_time.isoformat(),
+                            "TransactionDateTime":Utilities.current_date_time_json(dt=current_date_time),
+                            "ReaderName":"Handled",
+                            "EPC":data["TagId"],
+                            "TID":data["TID"],
+                            "Class":data["ClassId"],
+                            "Plate":data["PlateNumber"],
+                            "EXCCODE":data["EXCCODE"],
+                            "Processed":False}
+                self.bg_handler.update_rfid_data(tagDetails)
+                return jsonify({"message": "Data received successfully"}), 200
+        except Exception as e:
+            self.logger.logError(f"Exception process_vrn: {str(e)}")
+            return jsonify({'message': 'Internal server error!'}), 500
+    
     def app_login(self):
         try:
             self.logger.logInfo("app_login route hit")

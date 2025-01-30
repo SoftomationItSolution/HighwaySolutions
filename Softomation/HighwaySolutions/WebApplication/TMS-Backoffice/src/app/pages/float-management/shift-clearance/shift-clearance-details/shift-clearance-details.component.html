@@ -34,7 +34,7 @@
                             <tr [pSelectableRow]="rowData">
                                 <td>{{i+1}}</td>
                                 <td>{{rowData.ShiftNumber}}</td>
-                                <td>{{rowData.ShiftDateStamp}}</td>
+                                <td>{{rowData.ShiftDateStamp | date:'dd-MMM-yyyy'}}</td>
                                 <td>{{rowData.StartTimmng}}-{{rowData.EndTimming}}</td>
                                 <td class="td-amt">{{rowData.FloatDeclare | currency:'INR':true:'1.0-2'}}</td>
                                 <td class="td-amt">{{rowData.MidDeclare | currency:'INR':true:'1.0-2'}}</td>

@@ -5,15 +5,11 @@ import requests
 from log.log_master import CustomLogger
 from utils.constants import Utilities
 from datetime import date, timedelta
-
 from utils.crypt import CryptoUtils
-#from utils.crypt import CryptoUtils
-
 
 class DataImporter:
     def __init__(self, default_directory,dbConnectionObj,default_plaza_Id,default_lane_ip):
         self.dbConnectionObj = dbConnectionObj
-        self.classname="DataImporter"
         self.default_lane_ip=default_lane_ip
         self.default_plaza_Id=default_plaza_Id
         self.default_lane_Id=0
@@ -34,9 +30,6 @@ class DataImporter:
             self.api_base_url=plaza_config["plaza_api_p"]
         except Exception as e:
             self.logger.logError(f"Exception get_plaza_url: {str(e)}")
-
-    
-    
 
     def import_fare_data(self, endpoint):
         try:
@@ -170,8 +163,8 @@ class DataImporter:
         try:
             endpoint = 'Softomation/FTH-TMS-RSD/SystemSettingGet'
             data=self.import_data_list(endpoint, 'USP_SystemSettingInsertUpdate')
-            if data is not None:
-                self.default_plaza_Id=data['DefaultPlazaId']
+            if data is not None and len(data)>0:
+                self.default_plaza_Id=data[0]['DefaultPlazaId']
                 threading.Thread(target=self.plaza_import()).start()
         except Exception as e:
             self.logger.logError(f"Exception system_setting_Import: {str(e)}")
@@ -187,8 +180,8 @@ class DataImporter:
         try:
             endpoint = 'Softomation/FTH-TMS-RSD/LaneDetails?IpAddress=' + self.default_lane_ip
             data=self.import_data_list(endpoint, 'USP_LaneInsertUpdate')
-            if data is not None:
-                self.default_lane_Id=data['LaneId']
+            if data is not None and len(data)>0:
+                self.default_lane_Id=data[0]['LaneId']
                 threading.Thread(target=self.equipments_Import()).start()
         except Exception as e:
             self.logger.logError(f"Exception lane_import: {str(e)}")

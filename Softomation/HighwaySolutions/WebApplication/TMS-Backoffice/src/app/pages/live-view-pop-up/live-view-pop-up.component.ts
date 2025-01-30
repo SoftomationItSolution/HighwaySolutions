@@ -16,9 +16,9 @@ export class LiveViewPopUpComponent {
   error = errorMessages;
   myWebSocket: any = null;
   player: any = null;
+  streamUrl=''
   EquipmentTypeId = 0
   submitted = false;
-  streamUrl=''
   constructor(public Dialogref: MatDialogRef<LiveViewPopUpComponent>, public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) parentData: any, public dataModel: DataModel) {
     this.CameraDetails = parentData;

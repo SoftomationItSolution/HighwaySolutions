@@ -6,26 +6,45 @@
         </button>
     </div>
     <div class="modal-body">
-        <canvas id="ptz0" class="canvas">
-
+        <canvas id="ptz1" class="live-stream">
         </canvas>
     </div>
-    <div class="modal-footer" style="overflow: hidden;" *ngIf="this.EquipmentTypeId==15">
+    <div class="modal-footer" style="overflow: hidden;">
         <form [formGroup]="DataDetailsForm" style="width:100%;">
             <div class="row">
                 <div class="col-md-4">
                     <input formControlName="PlateNumber" type="text" pInputText required autocomplete="off"
                         class="form-control" placeholder="Plate Number" />
-                </div>
-                <div class="col-md-4">
                     <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','PlateNumber')">Plate
                         number must be required.</small>
-                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlateNumber')">
+                    <!-- <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('pattern','PlateNumber')">
                         {{error['IndianPlateNumber']}}
-                    </small>
+                    </small> -->
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4" style="align-content: end;">
                     <button type="button" class="btn btn-secondary" (click)="submit()">Fetch Tag Details</button>
+                </div>
+                <div class="col-md-4" style="align-content: end;">
+                    <button type="button" class="btn btn-danger" (click)="reset()">Reset</button>
+                </div>
+            </div>
+        </form>
+        <form [formGroup]="DetailsForm" style="width:100%;">
+            <div class="row">
+                <div class="col-md-4" style="align-content: end;">
+                    <span [ngStyle]="{ color: IsProcessAllowed ? 'green' : 'red' }">Tag Status:{{this.TagStatus}}</span>
+                </div>
+                <div class="col-md-4"  *ngIf="IsProcessAllowed">
+                    <p-dropdown appendTo="body" formControlName="TagClassId" inputId="TagClassId"
+                        [options]="VehicleSubClasss" optionLabel="SystemVehicleSubClassName"
+                        optionValue="SystemVehicleSubClassId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error" *ngIf="submitted && DetailsForm.hasError('required','TagClassId')">class must
+                        be selected.</small>
+
+                </div>
+                <div class="col-md-4" style="align-content: end;"  *ngIf="IsProcessAllowed">
+                    <button type="button" class="btn btn-primary" (click)="process()">Submit</button>
                 </div>
             </div>
         </form>

@@ -1,0 +1,12 @@
+[Unit]
+Description=ICD 2.5 APP Service
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/TMS/Apps/PyCCHService
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python CCHApp.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

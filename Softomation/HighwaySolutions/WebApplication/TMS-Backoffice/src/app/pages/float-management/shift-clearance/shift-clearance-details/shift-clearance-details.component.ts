@@ -132,6 +132,30 @@ export class ShiftClearanceDetailsComponent implements OnInit {
   }
 
   OnSubmit(data:any){
-
+    this.spinner.show();
+    this.dbService.ShiftStatusClose(data).subscribe(
+      data => {
+        this.spinner.hide();
+        let returnMessage = data.Message[0].AlertMessage;
+        if (returnMessage.indexOf('success') > -1) {
+          this.ErrorData = [{ AlertMessage: 'Success' }];
+          this.dm.openSnackBar(this.ErrorData, true);
+          this.statusChanged()
+        } else {
+          this.ErrorData = data.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      },
+      (error) => {
+        this.spinner.hide();
+        try {
+          this.ErrorData = error.error.Message;
+          this.dm.openSnackBar(this.ErrorData, false);
+        } catch (error) {
+          this.ErrorData = [{ AlertMessage: 'Something went wrong.' }];
+          this.dm.openSnackBar(this.ErrorData, false);
+        }
+      }
+    );
   }
 }

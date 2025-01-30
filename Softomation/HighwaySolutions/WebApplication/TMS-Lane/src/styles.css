@@ -288,6 +288,11 @@ legend {
     color: #fff;
 }
 .live-stream {
-    max-width: 100%;
+    min-width: 98%;
+    max-width: 98%;
     height: calc(50vh - 110px)
+  }
+  .p-dropdown {
+    width: 100% !important;
+    border: none !important;
   }

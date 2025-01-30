@@ -58,14 +58,7 @@ class CommonManager:
         except Exception as e:
             raise e
 
-    @staticmethod
-    def GetUserByLoginId(dbConnectionObj, LoginId):
-        try:
-            params = [LoginId]
-            resultData = dbConnectionObj.execute_procedure('USP_UsersGetByLoginId', params)
-            return resultData
-        except Exception as e:
-            raise e
+    
 
     @staticmethod
     def GetTollfare(dbConnectionObj, EffectedFrom):
@@ -77,24 +70,11 @@ class CommonManager:
             raise e
 
         
-    def GetLaneDetails(dbConnectionObj,LaneId,current_date):
-        try:
-            
-            params = [LaneId,current_date]
-            resultData = dbConnectionObj.get_dataset_from_procedure('USP_GetLaneDetails', params)
-            return resultData
-        except Exception as e:
-            raise e  
+   
         
     
         
-    @staticmethod
-    def GetLatestLaneTransaction(dbConnectionObj):
-        try:
-            resultData = dbConnectionObj.execute_procedure('USP_LaneTransactionGetLatest', None)
-            return resultData
-        except Exception as e:
-            raise e
+   
         
     @staticmethod
     def GetDenominationMaster(dbConnectionObj):

@@ -1,0 +1,76 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">ICD Upload Pending</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <div class="table-responsive ft-popup">
+            <p-table *ngIf="finalOutput.length==0" #dt [value]="EventHistroyData" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                [showCurrentPageReport]="true" [rows]="15" [paginator]="true">
+                <ng-template pTemplate="header" styleClass="thead-light">
+                    <tr>
+                        <th>Tag Read Date/Time</th>
+                        <th>Tag ID</th>
+                        <th>Tag EPC</th>
+                        <th>Tag Class</th>
+                        <th>Vehicle SubClass</th>
+                        <th>Vehicle Class</th>
+                        <th>Vehicle Avc Class</th>
+                        <th>Hours Difference</th>
+                        <th>Updated Class</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                    <tr>
+                        <td>{{rowData.TagReadDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
+                        <td>{{rowData.TID}}</td>
+                        <td>{{rowData.TagEPC}}</td>
+                        <td>{{rowData.TagClassId}}</td>
+                        <td>{{rowData.VehicleSubClassId}}</td>
+                        <td>{{rowData.VehicleClassId}}</td>
+                        <td>{{rowData.VehicleAvcClassId}}</td>
+                        <td>{{rowData.HoursDifference}}</td>
+                        <td>
+                            <p-dropdown appendTo="body" [options]="SubClassData" optionLabel="DataName"
+                                optionValue="DataId" placeholder="Select" class="form-control select2"
+                                (onChange)="UpdateClassChange($event.value,rowData)"></p-dropdown>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+            <p-table *ngIf="finalOutput.length>0" #dtRes [value]="finalOutput" [rowHover]="true" [scrollable]="true" [resizableColumns]="true"
+                [showCurrentPageReport]="true" [rows]="15" [paginator]="true">
+                <ng-template pTemplate="header" styleClass="thead-light">
+                    <tr>
+                        <th>Tag Read Date/Time</th>
+                        <th>Tag ID</th>
+                        <th>Tag EPC</th>
+                        <th>Tag Class</th>
+                        <th>Vehicle SubClass</th>
+                        <th>Vehicle Class</th>
+                        <th>Vehicle Avc Class</th>
+                        <th>Description</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                    <tr>
+                        <td>{{rowData.TagReadDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
+                        <td>{{rowData.TID}}</td>
+                        <td>{{rowData.TagEPC}}</td>
+                        <td>{{rowData.TagClassId}}</td>
+                        <td>{{rowData.VehicleSubClassId}}</td>
+                        <td>{{rowData.VehicleClassId}}</td>
+                        <td>{{rowData.VehicleAvcClassId}}</td>
+                        <td>{{rowData.description}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button *ngIf="finalOutput.length==0" type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+    </div>
+</div>

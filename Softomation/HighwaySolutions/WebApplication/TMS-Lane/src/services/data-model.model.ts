@@ -30,6 +30,8 @@ export class DataModel {
     this.PageRefresh.emit(this.PageRefreshJson);
   }
 
+
+
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     if (value) {
@@ -82,6 +84,15 @@ export class DataModel {
 
   getCamAPI() {
     return localStorage.getItem('FthTmsLaneCamAPI');
+  }
+  
+
+  setIcdAPI(path: string) {
+    return localStorage.setItem('FthTmsLaneICDAPI', path);
+  }
+
+  getICDAPI() {
+    return localStorage.getItem('FthTmsLaneICDAPI');
   }
 
   setMediaAPI(path: string) {
@@ -235,4 +246,6 @@ export interface ConfigIntrface {
   Address: string,
   State: string,
   Pincode: string,
+  ServerUrl:string,
+  IcdUrl:string
 }

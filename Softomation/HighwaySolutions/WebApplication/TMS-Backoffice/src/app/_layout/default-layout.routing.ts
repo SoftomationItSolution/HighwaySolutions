@@ -19,7 +19,7 @@ import { TransactionalDataComponent } from '../pages/Transactions/transactional-
 import { TransactionalValidationComponent } from '../pages/Transactions/transactional-validation/transactional-validation.component';
 import { TransactionalValidatedComponent } from '../pages/Transactions/transactional-validated/transactional-validated.component';
 import { ReportMasterComponent } from '../pages/report-master/report-master.component';
-import { FasTagDataPending } from '../pages/Transactions/fasTag-data-pending/fasTag-data-pending.component';
+import { FasTagDataPending } from '../pages/fasTag/fasTag-data-pending/fasTag-data-pending.component';
 import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed/fasTag-data-processed.component';
 import { ManufacturerMasterComponent } from '../pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
 import { LSDUComponent } from '../pages/lsdu/parent/lsdu.component';

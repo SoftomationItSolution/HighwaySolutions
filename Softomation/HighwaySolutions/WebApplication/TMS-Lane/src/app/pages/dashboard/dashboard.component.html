@@ -58,7 +58,8 @@
                                 </button>
                                 </div>
                                 <div class="col-md-6 d-flex justify-content-center pd-tb-4">
-                                    <button type="button" class="btn btn-warning wt-90">VRN</button>
+                                    <button type="button" class="btn btn-warning wt-90"
+                                    (click)="onVRN()">VRN</button>
                                 </div>
                                 <div class="col-md-6 d-flex justify-content-center pd-tb-4">
                                     <button type="button" class="btn btn-warning wt-90">Mid-Declare</button>
@@ -181,7 +182,7 @@
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-center pd-tb-4">
                                         <button type="button" class="btn btn-success wt-90"
-                                            (click)="submit_trans()">Submit</button>
+                                            (click)="submit_trans()" *ngIf="TransactionTypeId!=1">Submit</button>
                                     </div>
                                 </div>
                             </div>
@@ -192,7 +193,9 @@
             <div class="col-md-4">
                 <fieldset>
                     <legend>Live View</legend>
-                    <img [src]="lpicViewUrl" alt="LPIC Camera" class="live-stream">
+                    <canvas id="ptz0" class="live-stream">
+                    </canvas>
+                    <!-- <img [src]="lpicViewUrl" alt="LPIC Camera" class="live-stream"> -->
                 </fieldset>
             </div>
         </div>

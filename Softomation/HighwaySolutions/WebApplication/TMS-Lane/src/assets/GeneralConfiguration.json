@@ -1,8 +1,10 @@
 {
     "Prefx": "http",
-    "BaseURL": "localhost",
-    "ApiPort": 5002,
+    "BaseURL": "125.17.219.6",
+    "ApiPort": 50002,
     "ApiAdminPath": "Softomation",
     "Latitude": "28.457267",
-    "Longitude": "77.306759"
+    "Longitude": "77.306759",
+    "ServerUrl":"ws://125.17.219.6:5001/frame/",
+    "IcdUrl":"http://125.17.219.6:5003/tagRequest"
 }

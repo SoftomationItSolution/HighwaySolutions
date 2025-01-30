@@ -10,7 +10,9 @@ import { SubClassSelectionComponent } from '../popups/SubClassSelection/sub-clas
 import { ExemptSelectionComponent } from '../popups/ExemptSelection/exempt-selection.component';
 import { PaymentSelectionComponent } from '../popups/PaymentSelection/payment-selection.component';
 import { FleetCounterComponent } from '../popups/FleetCounter/fleet-counter.component';
-
+import { JsonBufferService } from 'src/services/JsonBuffer.service';
+import { LiveViewPopUpComponent } from '../popups/live-view-pop-up/live-view-pop-up.component';
+declare var JSMpeg: any;
 
 @Component({
   selector: 'app-dashboard',
@@ -45,13 +47,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   apiPath = ''
   lpicViewUrl = ''
   dialogRef: any = null
+  TransactionTypeId = 0
+  myWebSocket: any = null;
+  player: any = null;
+  videoUrl = ''
   private messageSubscription: Subscription;
   @ViewChild('plateNumberInput', { static: true }) plateNumberInput: ElementRef;
   @ViewChild('remarkInput', { static: true }) remarkInput: ElementRef;
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
-    private webSocketService: WebSocketService, public dialog: MatDialog) {
+    private webSocketService: WebSocketService, public dialog: MatDialog,
+    private jsonBufferService: JsonBufferService) {
     this.UserData = this.dm.getUserData()
+    this.lpicViewUrl = this.dm.getLiveAPI()
   }
   private readonly destroy$ = new Subject<void>();
 
@@ -89,7 +97,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         error => console.error("WebSocket error:", error)
       );
-    this.refreshImageUrl();
+
+  }
+
+  start_liveView(UrlAddress) {
+    let videoUrl = UrlAddress
+    if (this.myWebSocket != null) {
+      this.myWebSocket.close();
+      this.player.destroy();
+    }
+    this.dm.delay(100).then(any => {
+      this.newStream(videoUrl);
+    });
+
+  }
+
+  newStream(videoUrl: string) {
+    const wsPath = this.lpicViewUrl;
+    let url = encodeURIComponent(videoUrl)
+    this.videoUrl = wsPath + url
+    this.myWebSocket = new WebSocket(this.videoUrl);
+    this.player = new JSMpeg.Player(this.videoUrl, {
+      canvas: document.getElementById("ptz0"),
+      onDisconnect: () => console.log('Connection lost!'),
+    });
   }
 
   mapKeyEvents() {
@@ -103,7 +134,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
     const keyCode = event.keyCode || event.which;
     if (event.key === 'Enter') {
       if (this.dialogRef == null) {
-        this.submit_trans()
+        if (this.TransactionTypeId > 1) {
+          this.submit_trans()
+        }
+        else{
+          this.DisplayMessage('this transaction not allowed!', false);
+        }
       }
     }
     else if (this.customEventFunctions[keyCode]) {
@@ -130,11 +166,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  refreshImageUrl(): void {
-    const timestamp = new Date().getTime();
-    this.lpicViewUrl = this.dm.getDataAPI() + `/lpicLiveView?timestamp=${timestamp}`
-    //console.log(this.lpicViewUrl)
-  }
+
 
   select_journey_type(type: string) {
     if (this.CurrentTransactions == null) {
@@ -264,6 +296,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
           equipment_detail.forEach(element => {
             this.updateEquipmentStatus(element.EquipmentTypeId, element.OnLineStatus, "equipment_status")
           });
+
+          const cam_details = equipmentDetais.find(item => item.EquipmentTypeId == 15);
+          if (cam_details) {
+            this.start_liveView(cam_details.UrlAddress);
+          } else {
+            console.log('No rows found.');
+          }
         }
         else {
           this.DisplayMessage('Somthing went wrong!', false);
@@ -330,6 +369,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.getTollFare()
     }
     else if (dataFor == 'tt') {
+      this.TransactionTypeId = dataValue.TransactionTypeId;
       this.CurrentTransactions.TransactionTypeId = dataValue.TransactionTypeId
       this.CurrentTransactions.TransactionTypeName = dataValue.TransactionTypeName
       this.CurrentTransactions.PaymentTypeId = 0
@@ -397,13 +437,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   createTrans(dataFor, dataValue, tagDetails) {
+    this.TransactionTypeId = 0;
     if (this.CurrentTransactions == null) {
       this.getCurrentTransactions(dataFor, dataValue, tagDetails)
     } else {
       this.bindData(dataFor, dataValue, tagDetails)
     }
   }
-
 
   onVehicleChange(event) {
     let vc = this.VehicleClasss.filter(item => item.SystemVehicleClassId == event);
@@ -523,37 +563,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
   }
 
+  preprocessJson(inputString) {
+    while (inputString.startsWith('}')) {
+      inputString = inputString.substring(1);
+    }
+    try {
+      return JSON.parse(inputString);
+    } catch (e) {
+      console.error("Error parsing JSON:", e);
+      return null;
+    }
+  }
+
   process_ws_message(msg: string) {
-    debugger;
     try {
       if (msg != '') {
-        let result = JSON.parse(msg)
-        const toppic = result.topic
-        if (toppic == "equipment_status") {
-          this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
-        }
-        else if (toppic == "hardware_on_off_status") {
-          this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
-        }
-        else if (toppic == "wim_processed") {
-          this.process_wim_data(result)
-        }
-        else if (toppic == "rfid_processed") {
-          this.process_rfid_data(result)
-        }
-        else if (toppic == "lane_process_end") {
-          this.CurrentTransactions = null
-          this.getLaneRecentData()
-          this.reset_form()
-          if (this.rfidDataQueue.length > 0) {
-            const tagDetails = this.rfidDataQueue[0];
-            this.rfidDataQueue.shift();
-            const dataValue = {
-              TransactionTypeId: 1,
-              TransactionTypeName: 'FasTag'
-            };
-            this.ttyselectedButton = dataValue.TransactionTypeName;
-            this.createTrans("tt", dataValue, tagDetails);
+        let result = this.jsonBufferService.preprocessJson(msg);
+        if (result) {
+          const toppic = result.topic
+          if (toppic == "equipment_status") {
+            this.updateEquipmentStatus(result.EquipmentTypeId, result.OnLineStatus, toppic)
+          }
+          else if (toppic == "hardware_on_off_status") {
+            this.updateEquipmentStatus(result.EquipmentTypeId, result.PositionStatus, toppic)
+          }
+          else if (toppic == "wim_processed") {
+            this.process_wim_data(result)
+          }
+          else if (toppic == "rfid_processed") {
+            this.process_rfid_data(result)
+          }
+          else if (toppic == "lane_process_end") {
+            this.CurrentTransactions = null
+            this.getLaneRecentData()
+            this.reset_form()
+            if (this.rfidDataQueue.length > 0) {
+              const tagDetails = this.rfidDataQueue[0];
+              this.rfidDataQueue.shift();
+              const dataValue = {
+                TransactionTypeId: 1,
+                TransactionTypeName: 'FasTag'
+              };
+              this.ttyselectedButton = dataValue.TransactionTypeName;
+              this.createTrans("tt", dataValue, tagDetails);
+            }
           }
         }
       }
@@ -562,6 +615,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }
 
   }
+
   process_wim_data(tagDetails: any) {
     this.wimDataQueue.push(tagDetails)
   }
@@ -590,9 +644,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
         else if (toppic == "hardware_on_off_status")
           item.PositionStatus = status;
       }
-      // else {
-      //   console.log(`Item with id ${EquipmentTypeId} not found.`);
-      // }
     }
   }
 
@@ -779,6 +830,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
         }
       );
     }
+  }
+
+  onVRN() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = { videoUrl: this.videoUrl, VehicleSubClasss: this.VehicleSubClasss }
+    this.dialog.open(LiveViewPopUpComponent, dialogConfig);
   }
 
   submit_trans() {

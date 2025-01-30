@@ -3,26 +3,32 @@ import time
 import os
 from fastapi import FastAPI
 from fast_api.background_task_api import TagRequestApi
+from fast_api.tad_req import AsynTagRequestApi
 from request.check_status import RequestCheckStatus
 from request.exception_request import RequestExceptionList
 from request.heart_beat import RequestHeartBeat
 from request.pay import RequestPayAPI
 from request.sync_time import RequestSyncTime
 from request.participants_details import ParticipantsDetails
+from sftp.sftp_file_download import DownloadFilesThread
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
 from cryptography.hazmat.primitives.serialization import pkcs12, load_pem_private_key
 from cryptography.hazmat.backends import default_backend
+from fastapi.middleware.cors import CORSMiddleware
 
 class CCHProcessing(threading.Thread):
-    def __init__(self, default_directory, dbConnectionObj, script_dir):
+    def __init__(self, default_directory, dbConnectionObj,db_manager,db_json_data, script_dir):
         super().__init__()
         self.default_directory=default_directory
         self.dbConnectionObj=dbConnectionObj
+        self.db_manager=db_manager
+        self.db_json_data=db_json_data
         self.script_dir=script_dir
         self.is_running = True
         self.api_thread=None
         self.shutdown_flag=None
+        self.sftp_thread=None
         self.request_pay_thread=None
         self.check_status_thread=None
         self.request_sync_time_thread=None
@@ -36,8 +42,8 @@ class CCHProcessing(threading.Thread):
         self.system_setting=None
         self.plaza_details=None
         self.icd_api_detail=None
+        self.icd_sftp_detail=None
         self.is_production=False
-        
         self.set_logger(default_directory,"icd_bg_service")
 
     def set_logger(self,default_directory,log_file_name):
@@ -53,7 +59,6 @@ class CCHProcessing(threading.Thread):
             with open(certificate_path, "rb") as cert_file:
                 pfx_data = cert_file.read()
             self.private_key, self.certificate, self.additional_certificates = pkcs12.load_key_and_certificates(pfx_data,password=CertificatePassword.encode(),backend=default_backend())
-            #print(self.private_key)
         except Exception as e:
             self.logger.logError(f"Exception load_certificate: {str(e)}")
 
@@ -68,12 +73,23 @@ class CCHProcessing(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception load_api_details: {str(e)}")
     
+    def load_sftp_details(self):
+        try:
+            cch_api_Path = os.path.join(self.default_directory, 'MasterConfig', 'BankAPIPath.json')
+            cch_api_data = Utilities.read_json_file(cch_api_Path)
+            self.icd_sftp_detail= cch_api_data["SftpDetails"]
+        except Exception as e:
+            self.logger.logError(f"Exception load_sftp_details: {str(e)}")
+            self.icd_sftp_detail is None
+    
     def start_api(self):
         try:
             if self.api_thread is None:
                 app = FastAPI()
+                app.add_middleware(CORSMiddleware,allow_origins=["*"],allow_credentials=True,allow_methods=["*"],allow_headers=["*"],)
                 self.shutdown_flag = threading.Event()
-                self.api_thread = TagRequestApi(self.default_directory, self.icd_api_detail,self.plaza_details, self.private_key, self.certificate, app)
+                self.api_thread = TagRequestApi(self.dbConnectionObj,self.default_directory, self.icd_api_detail,self.plaza_details, self.private_key, self.certificate, app)
+                #self.api_thread = TagRequestApi(self.db_manager,self.default_directory, self.icd_api_detail,self.plaza_details, self.private_key, self.certificate, app)
                 threading.Thread(target=self.api_thread.run, daemon=True).start()
         except Exception as e:
             self.logger.logError(f"Exception in start_api: {str(e)}")
@@ -84,6 +100,22 @@ class CCHProcessing(threading.Thread):
                 self.api_thread.stop()  # Call stop to shut down the server gracefully
         except Exception as e:
             self.logger.logError(f"Exception in stop_api: {str(e)}")
+
+    def start_sftp_thread(self):
+        try:
+            if self.sftp_thread is None:
+                self.sftp_thread=DownloadFilesThread(self.dbConnectionObj,self.icd_sftp_detail,self.db_json_data,self.default_directory)
+                self.sftp_thread.start()
+        except Exception as e:
+            self.logger.logError(f"Exception start_sftp_thread: {str(e)}")
+
+    def stop_sftp_thread(self):
+        try:
+            if self.sftp_thread:
+                self.sftp_thread.stop()
+                self.sftp_thread = None
+        except Exception as e:
+            self.logger.logError(f"Exception stop_sftp_thread: {str(e)}")
     
     def start_pay_thread(self):
         try:
@@ -187,6 +219,8 @@ class CCHProcessing(threading.Thread):
             
             if self.plaza_details and self.icd_api_detail is None:
                 self.load_api_details()
+            if self.plaza_details and self.icd_sftp_detail is None:
+                self.load_sftp_details()
         except Exception as e:
             self.logger.logError(f"Exception load_master_data: {str(e)}")
 
@@ -195,13 +229,15 @@ class CCHProcessing(threading.Thread):
             try:
                 self.load_master_data()
                 if self.private_key and self.icd_api_detail:
-                    self.start_api()
+                    #self.start_api()
                     #self.start_sync_time_thread()
-                    #self.start_pay_thread()
-                    self.start_check_status_thread()
-                    #self.start_participants_thread()
                     #self.start_heart_beat_thread()
                     #self.start_query_exception_thread()
+                    self.start_pay_thread()
+                    #self.start_check_status_thread()
+                    #self.start_participants_thread()
+                #if self.icd_sftp_detail:
+                    #self.start_sftp_thread()
             except Exception as e:
                 self.logger.logError(f"Exception CCHProcessing.run: {str(e)}")
             finally:

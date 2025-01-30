@@ -10,6 +10,7 @@ const corsOpts = require(path.join(configManagerPath, 'configCros.json'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(corsOpts));
+app.set("trust proxy", true);
 const logger = require('./_helpers/logger');
 const activeStreams = [];
 //Route
@@ -51,16 +52,9 @@ app.get("/", (request, response) => {
 app.get('/video/:rtpsurl', (req, res) => {
    var input=req.params
    const rtspUrl=input['rtpsurl']
-   //const rtspUrl =req.params.rtspUrl; 
-   //"rtsp://admin:kits%402023@192.168.1.202:554/avstream/channel=1/stream=0.sdp";
    console.log('RTSP URL:', rtspUrl);
-
-   // Set headers only once before the stream starts
    res.setHeader('Content-Type', 'multipart/x-mixed-replace; boundary=ffserver');
-
    const passThrough = new stream.PassThrough();
-
-   // Use ffmpeg to process the RTSP stream and convert it to MJPEG
    const command = ffmpeg(rtspUrl)
        .inputOptions('-rtsp_transport', 'tcp')  // Use TCP for the RTSP transport
        .outputFormat('mjpeg')                   // Convert the output format to MJPEG
@@ -69,18 +63,14 @@ app.get('/video/:rtpsurl', (req, res) => {
        })
        .on('error', (err) => {
            console.error('Error during video stream processing: ' + err.message);
-           // Don't attempt to send res.status(500) after streaming starts.
-           // Just log the error and allow the stream to end.
            passThrough.end();
        });
 
-   // Pipe the FFmpeg stream directly to the response
    command.pipe(res, { end: true });
 
-   // Close the connection when the stream ends
    res.on('close', () => {
        console.log('Client closed the connection.');
-       command.kill(); // Stop FFmpeg if the client disconnects
+       command.kill(); 
        passThrough.end();
    });
 });
@@ -88,10 +78,7 @@ app.get('/video/:rtpsurl', (req, res) => {
 app.ws('/frame/:rtpsurl', (ws, req) => {
    let streamId;
    rtpsurl = req.params.rtpsurl
-   //const { ipaddress, uid, pwd } = req.params;
-
    if (activeStreams.length === 0) {
-      //streamId = addCameraStream(ipaddress, uid, pwd, false);
       streamId = addCameraStream(rtpsurl, false);
    } else {
       const index = activeStreams.findIndex(e => e.rtpsurl === rtpsurl);
@@ -101,8 +88,6 @@ app.ws('/frame/:rtpsurl', (ws, req) => {
          streamId = index;
       }
    }
-   // rtsp://${stream.uid}:${stream.pwd}@${stream.streamUrl}:554/
-   //
    const stream = activeStreams[streamId];
    const relay = proxy({
       transport: 'tcp',
@@ -126,18 +111,11 @@ function addCameraStream(rtpsurl, proxystart) {
    return activeStreams.length - 1; // Return the stream ID
 }
 
-// function addCameraStream(streamUrl, uid, pwd, proxystart) {
-//    const stream = { streamUrl, uid, pwd, proxystart };
-//    activeStreams.push(stream);
-//    return activeStreams.length - 1; // Return the stream ID
-// }
-
 function removeCameraStream(streamId) {
    if (streamId >= 0 && streamId < activeStreams.length) {
       activeStreams.splice(streamId, 1);
    }
 }
-
 
 function logMessage(msg) {
    console.log(msg)
