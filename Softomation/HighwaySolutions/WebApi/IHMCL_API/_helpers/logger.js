@@ -2,8 +2,11 @@ const fs = require('fs');
 const winston = require('winston');
 const { combine, timestamp, printf } = winston.format;
 const DailyRotateFile = require('winston-daily-rotate-file');
+const {
+  root_path,
+  log_path
+} = require("./constants");
 const path = require('path');
-const {root_path,log_path} = require("./constants");
 const logDirectory = path.join(root_path, log_path);
 
 if (!fs.existsSync(logDirectory)) {
@@ -20,6 +23,9 @@ const transport = new DailyRotateFile({
   zippedArchive: true,
   maxSize: '20m',
   maxFiles: '7d',
+  auditFile: path.join(logDirectory, 'audit.json'),  // Track log rotation
+  createSymlink: true,  // Create a symlink to the latest log file
+  utc: true, // Force UTC for date pattern, adjust based on your need
 });
 
 const logger = winston.createLogger({

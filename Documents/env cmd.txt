@@ -59,6 +59,13 @@ sudo mysql -u root -p <<EOF
 EOF
 
 sudo mysql -u root -p <<EOF
+    CREATE USER 'softo_db_prod'@'%' IDENTIFIED BY 'Softo@7890#Prod';
+    GRANT ALL PRIVILEGES ON *.* TO 'softo_db_prod'@'%' WITH GRANT OPTION;
+    FLUSH PRIVILEGES;
+	SELECT User, Host FROM mysql.user;
+EOF
+
+sudo mysql -u root -p <<EOF
     SELECT User, Host FROM mysql.user;
     CREATE USER 'srb_lane'@'%' IDENTIFIED BY 'Softo@7890';
     GRANT ALL PRIVILEGES ON *.* TO 'srb_lane'@'%' WITH GRANT OPTION;
@@ -461,3 +468,9 @@ WantedBy=multi-user.target
 
 sudo systemctl status db_bkp.service
 
+
+
+'#HEADER,TPCCH,ONAAV,BLT,INIT,2025/01/09 02:20:31,82734599,20250109022031'
+
+sudo find /home/ProjectConfig/TMSLaneV2/Events/camera/ic -type f -mtime +2 -exec rm -f {} \;
+sudo find /home/ProjectConfig/TMSLaneV2/Events/camera/lpic -type f -mtime +2 -exec rm -f {} \;

@@ -2,9 +2,9 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 const root_path = os.platform() === 'win32' ? 'C:\\ProjectConfig\\TMSv1\\' : '/home/ProjectConfig/TMSv1/';
-const log_path = 'logs/BackOfficeAPI/'
+const log_path = 'logs/IcdAPI/'
 const db_path = 'MasterConfig/NodeDBConfiguration.json'
-const saveDirectory = path.join(root_path, 'Response');
+const saveDirectory = path.join(root_path,'ICDDataFiles' ,'Response');
 const { SignedXml } = require('xml-crypto');
 const { v4: uuidv4 } = require('uuid');
 const logger = require('./logger');
@@ -77,7 +77,7 @@ function date_format_folder(timestamp) {
 function save_response_file(xmlData,timestamp,responseType,messageId,apiname) {
     try {
         const dateFolder = date_format_folder(timestamp);
-        const saveDir = path.join(root_path, "Response", dateFolder, responseType, messageId);
+        const saveDir = path.join(root_path, "ICDDataFiles" ,"Response", dateFolder, responseType, messageId);
         const name = getMessageId(10)
         const filename = `${name}.xml`;
         saveReceivedDataAsFile(xmlData, saveDir, filename);
@@ -88,7 +88,7 @@ function save_response_file(xmlData,timestamp,responseType,messageId,apiname) {
 function save_response_file_msgId(xmlData,timestamp,responseType,messageId,apiname) {
     try {
         const dateFolder = date_format_folder(timestamp);
-        const saveDir = path.join(root_path, "Response", dateFolder, responseType);
+        const saveDir = path.join(root_path, "ICDDataFiles" ,"Response", dateFolder, responseType);
         const filename = `${messageId}.xml`;
         saveReceivedDataAsFile(xmlData, saveDir, filename);
     } catch (err) {

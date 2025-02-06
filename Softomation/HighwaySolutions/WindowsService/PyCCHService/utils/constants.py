@@ -423,7 +423,7 @@ class Utilities:
             if timestamp_ms is None:
                 current_utc = datetime.datetime.utcnow()
                 timestamp_ms = int(current_utc.timestamp() * 1000)
-            directory_path = os.path.join(default_directory,"Request",Utilities.folder_datetime_format(timestamp_ms),apiName)
+            directory_path = os.path.join(default_directory,"ICDDataFiles","Request",Utilities.folder_datetime_format(timestamp_ms),apiName)
             os.makedirs(directory_path, exist_ok=True)
             return os.path.join(directory_path, f"{MessageId}.xml")
         except Exception as e:

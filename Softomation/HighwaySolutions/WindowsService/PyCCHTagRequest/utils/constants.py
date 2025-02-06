@@ -170,9 +170,10 @@ class Utilities:
 
                 if isinstance(doc.getroottree().getroot(), etree._ProcessingInstruction):
                     doc.remove(doc.getroottree().getroot())
-            
-                with open(file_name, "wb") as signed_file:
-                    signed_file.write(etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="UTF-8"))
+                
+                if file_name!='':
+                    with open(file_name, "wb") as signed_file:
+                        signed_file.write(etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="UTF-8"))
                 return etree.tostring(doc, pretty_print=True, xml_declaration=True, encoding="UTF-8").decode('utf-8')
         except Exception as e:
             raise Exception(f"Error signing XML: {e}")

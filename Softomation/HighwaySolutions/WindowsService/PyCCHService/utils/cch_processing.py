@@ -234,7 +234,7 @@ class CCHProcessing(threading.Thread):
                     #self.start_heart_beat_thread()
                     #self.start_query_exception_thread()
                     self.start_pay_thread()
-                    #self.start_check_status_thread()
+                    self.start_check_status_thread()
                     #self.start_participants_thread()
                 #if self.icd_sftp_detail:
                     #self.start_sftp_thread()

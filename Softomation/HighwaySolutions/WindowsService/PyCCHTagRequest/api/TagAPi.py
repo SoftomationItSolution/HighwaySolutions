@@ -76,8 +76,8 @@ class TagRequestApi:
         try:
             req_time=Utilities.get_date_time()['CurrentDateTime_s']
             MessageId=Utilities.generate_message_id(str(self.plaza_details["PlazaZoneId"]))
-            file_name=Utilities.generate_file_path(self.default_directory,None,"RequestTagDetail",MessageId)
-            
+            #file_name=Utilities.generate_file_path(self.default_directory,None,"RequestTagDetail",MessageId)
+            file_name=""
             xml_string = self._generate_xml(item, req_time, MessageId)
             
             signed_xml = Utilities.sign_xml_file(xml_string, file_name,self.private_key, self.certificate)
