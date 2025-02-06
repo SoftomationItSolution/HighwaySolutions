@@ -335,7 +335,7 @@ small {
 }
 
 .modal-body {
-    min-height: 230px !important;
+    min-height: 359px !important;
     overflow-x: auto !important;
 }
 
@@ -482,6 +482,11 @@ tr {
     font-weight: 600;
 }
 
+.noheight .p-datatable-wrapper{
+    min-height:auto !important;
+    max-height:auto !important;
+}
+
 .ft-popup .p-datatable-wrapper {
     max-height: 336px !important;
     min-height: 336px !important;
@@ -510,7 +515,9 @@ tr {
     background: #011b41 !important;
     color: #f68e2b !important
 }
-
+.text-color{
+    color: #f68e2b !important
+}
 .modal-title {
     color: #f68e2b !important
 }

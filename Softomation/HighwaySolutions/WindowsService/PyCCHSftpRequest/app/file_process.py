@@ -8,10 +8,11 @@ from database.ms_sql import MSSQLConnectionManager
 from utils.log_master import CustomLogger
 
 class SftpProcessThread(threading.Thread):
-    def __init__(self,dbConnectionObj:MSSQLConnectionManager,db_details,default_directory,chunk_size=100000):
+    def __init__(self,dbConnectionObj:MSSQLConnectionManager,icd_sftp_detail,db_details,default_directory,chunk_size=10000):
         super().__init__()
         self.flag = True
         self.dbConnectionObj=dbConnectionObj
+        self.icd_sftp_detail=icd_sftp_detail
         self.output_dir=os.path.join(default_directory, 'ICDDataFiles')
         self.decrypted_file_dir=os.path.join(self.output_dir,"Decrypted")
         self.logger = CustomLogger(default_directory, 'icd_sftp_process')
@@ -35,7 +36,6 @@ class SftpProcessThread(threading.Thread):
         try:
             table_name = 'tbl_VehicleStatusLog'
             if self.engine:
-                #data = pd.read_csv(file_path, header=None, names=self.columns)
                 for chunk in pd.read_csv(file_path, header=None, names=self.columns, chunksize=self.chunk_size):
                     chunk.to_sql(table_name, con=self.engine, if_exists='append', index=False)
                     self.logger.logInfo(f"Inserted {len(chunk)} rows into {table_name}.")
@@ -79,16 +79,22 @@ class SftpProcessThread(threading.Thread):
                     data=self.get_pending_files()
                     if data:
                         for item in data:
-                            item["IsCurrentProcess"]=True
-                            self.update_file_process(item)
-                            if item["IsDecrypted"]:
-                                result=self.process_decrypted_file(item)
-                                if result==False:
-                                    self.logger.logError(f"Failed to process the file:{item['BltFileName']}")
+                            IsProcessAllow=False
+                            if item["IsInitFile"] ==True and self.icd_sftp_detail["Init"]==True:
+                                IsProcessAllow=True
+                            elif item["IsInitFile"] ==False and self.icd_sftp_detail["Diff"]==True:
+                                IsProcessAllow=True
+                            if IsProcessAllow:    
+                                item["IsCurrentProcess"]=True
+                                self.update_file_process(item)
+                                if item["IsDecrypted"]:
+                                    result=self.process_decrypted_file(item)
+                                    if result==False:
+                                        self.logger.logError(f"Failed to process the file:{item['BltFileName']}")
+                                        break
+                                else:
+                                    self.logger.logError(f"File is not decrypted:{item['BltFileName']}")
                                     break
-                            else:
-                                self.logger.logError(f"File is not decrypted:{item['BltFileName']}")
-                                break
                             time.sleep(0.100)  
                     time.sleep(0.100)  
                 except Exception as e:

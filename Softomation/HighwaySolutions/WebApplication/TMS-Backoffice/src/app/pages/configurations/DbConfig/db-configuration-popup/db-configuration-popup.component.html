@@ -1,0 +1,90 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="DataBaseTypeId">Database Type</label>
+                    <p-dropdown appendTo="body" formControlName="DataBaseTypeId" inputId="DataBaseTypeId"
+                        [options]="DataBaseTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','DataBaseTypeId')">Database type is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="DataBaseName">Database Name</label>
+                    <input formControlName="DataBaseName" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','DataBaseName')">Database name is
+                        required.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="HostName">Host Name</label>
+                    <input formControlName="HostName" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','HostName')">Hostname
+                        is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="HostPort">Host Port</label>
+                    <input formControlName="HostPort" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','HostPort')">Host
+                        port
+                        is required.</small>
+                        <small class="p-error"
+                        *ngIf="DataDetailsForm.hasError('pattern','HostPort')">{{error['PortNumber']}}</small>
+                </div>
+
+                
+                <div class="col-md-6">
+                    <label for="LoginId">LoginId</label>
+                    <input formControlName="LoginId" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LoginId')">LoginId
+                        is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LoginPassword">Password</label>
+                    <div class="input-group grouplist-border">
+                        <input class="form-control" formControlName="LoginPassword"
+                            [type]="hide ? 'password' : 'text'">
+                        <i class="mdi  user-icon" [ngClass]="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                            (click)="hide = !hide"></i>
+                    </div>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','LoginPassword')">LoginPassword
+                        is required.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="BackUpPreFix">BackUp Prefix</label>
+                    <input formControlName="BackUpPreFix" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','BackUpPreFix')">BackUp prefix is required.</small>
+                   
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

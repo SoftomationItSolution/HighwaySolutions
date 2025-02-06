@@ -93,6 +93,9 @@ import { LsduLaneComponent } from './pages/lsdu/child/lsdulane.component';
 import { LiveViewPopUpComponent } from './pages/live-view-pop-up/live-view-pop-up.component';
 import { KeyboardConfigurationComponent } from './pages/configurations/KeyBoardConfiguration/keyboard-configuration.component';
 import { ICDSettingComponent } from './pages/icd-setting/icd-setting.component';
+import { DBConfigurationComponent } from './pages/configurations/DbConfig/db-configuration/db-configuration.component';
+import { DBConfigurationPopupComponent } from './pages/configurations/DbConfig/db-configuration-popup/db-configuration-popup.component';
+import { FileUploadPopupComponent } from './pages/configurations/DbConfig/file-upload-popup/file-upload-popup.component';
 
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
@@ -178,7 +181,10 @@ export const MY_CUSTOM_FORMATS = {
     LSDUComponent,
     LsduLaneComponent,
     LiveViewPopUpComponent,
-    KeyboardConfigurationComponent
+    KeyboardConfigurationComponent,
+    DBConfigurationComponent,
+    DBConfigurationPopupComponent,
+    FileUploadPopupComponent
   ],
   imports: [
     BrowserModule,

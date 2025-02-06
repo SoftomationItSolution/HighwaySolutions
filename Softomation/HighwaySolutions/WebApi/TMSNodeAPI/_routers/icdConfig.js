@@ -11,7 +11,6 @@ const {
     root_path,
     icd_path
 } = require("../_helpers/constants");
-const { console } = require('inspector');
 const icd_Directory = path.join(root_path, icd_path);
 router.get('/IcdPlazaGetAll', IcdPlazaGetAll);
 router.get('/IcdRequestStatus', IcdRequestStatus);
@@ -22,10 +21,11 @@ router.get('/ICDResponseDeclined', ICDResponseDeclined);
 router.post('/IcdTransactionFilter', IcdTransactionFilter);
 router.post('/ICDReProcessData', ICDReProcessData);
 router.post('/ICDUpdatedforCheckStatus', ICDUpdatedforCheckStatus);
+router.post('/ICDManualProcess', ICDManualProcess);
 router.post('/UpdateIcdConfig', UpdateIcdConfig);
 
 module.exports = router;
-const tag_url='http://115.247.183.246:5003/tagRequest'
+const tag_url = 'http://139.167.39.106:5003/tagRequest'
 const allowed = ["00", "02", "04"]; // Allowed EXCCODE values
 const not_allowed = ["01", "03", "05", "06"]; // Not allowed EXCCODE values
 const statusDescriptions = {
@@ -247,7 +247,7 @@ async function ICDReProcessData(req, res, next) {
                             excCode: "UNKNOWN", // Include EXCCODE for debugging if needed
                             description: "SLA Exceed", // Status descriptions based on EXCCODE
                         };
-                     }
+                    }
                     else {
                         const response = await axios.post(tag_url, {
                             TagId: record.TagEPC,
@@ -298,13 +298,101 @@ async function ICDUpdatedforCheckStatus(req, res, next) {
     try {
         const receivedBatch = req.body;
         const pool = await database.getPool();
-            result = await pool.request().input('ProcessedRecords', sql.VarChar(sql.MAX), JSON.stringify(receivedBatch))
-                .execute('USP_ICDUpdatedforCheckStatus');
-            res.status(200).send(result.recordset);
+        result = await pool.request().input('ProcessedRecords', sql.VarChar(sql.MAX), JSON.stringify(receivedBatch))
+            .execute('USP_ICDUpdatedforCheckStatus');
+        res.status(200).send(result.recordset);
     } catch (error) {
         errorlogMessage(error, 'ICDUpdatedforCheckStatus');
         let out = constants.ResponseMessage(error.message, null);
         res.status(400).json(out);
+    }
+}
+
+async function ICDManualProcess(req, res, next) {
+    try {
+        const vrn = req.body.PlateNumber
+        const Tagresult = await fetch_tag_details('', '', vrn);
+        if (Tagresult.Allowed) {
+            const pool = await database.getPool();
+            const MasterTransactionId = '';
+            const PlazaTransactionId = constants.plzazTxnNumber(req.body.PlazaId, req.body.LaneId, req.body.TransactionDateTime);
+            const LaneTransactionId = constants.laneTxnNumber(req.body.LaneId, req.body.TransactionDateTime);
+            const Cdt = new Date()
+            result = await pool.request().input('MasterTransactionId', sql.VarChar(30), MasterTransactionId)
+                .input('PlazaTransactionId', sql.VarChar(30), PlazaTransactionId)
+                .input('LaneTransactionId', sql.VarChar(30), LaneTransactionId)
+                .input('JourneyId', sql.SmallInt, 0)
+                .input('PlazaId', sql.SmallInt, req.body.PlazaId)
+                .input('LaneId', sql.SmallInt, req.body.LaneId)
+                .input('ShiftId', sql.SmallInt, 0)
+                .input('TransactionTypeId', sql.SmallInt, 1)
+                .input('PaymentTypeId', sql.SmallInt, 0)
+                .input('ExemptTypeId', sql.SmallInt, 0)
+                .input('ExemptSubTypeId', sql.SmallInt, 0)
+                .input('VehicleClassId', sql.SmallInt, req.body.VehicleClassId)
+                .input('VehicleSubClassId', sql.SmallInt, req.body.VehicleSubClassId)
+                .input('VehicleAvcClassId', sql.SmallInt, req.body.VehicleAvcClassId)
+                .input('PlateNumber', sql.VarChar(20), req.body.PlateNumber)
+                .input('RCTNumber', sql.VarChar(32), Tagresult.TID)
+                .input('TagEPC', sql.VarChar(32), Tagresult.TAGID)
+                .input('TagClassId', sql.SmallInt, req.body.VehicleSubClassId)
+                .input('TagPlateNumber', sql.VarChar(20), req.body.PlateNumber)
+                .input('TagReadDateTime', sql.DateTimeOffset, date_time_format(req.body.TransactionDateTime))
+                .input('TagReadCount', sql.SmallInt, 0)
+                .input('TagReadById', sql.Bit, 4)
+                .input('PermissibleVehicleWeight', sql.Decimal, 0)
+                .input('ActualVehicleWeight', sql.Decimal, 0)
+                .input('IsOverWeightCharged', sql.Bit, false)
+                .input('OverWeightAmount', sql.Decimal, 0)
+                .input('TagPenaltyAmount', sql.Decimal, 0)
+                .input('TransactionAmount', sql.Decimal, 0)
+                .input('TransactionDateTime', sql.DateTimeOffset, date_time_format(req.body.TransactionDateTime))
+                .input('TransactionFrontImage', sql.VarChar(255), '')
+                .input('TransactionBackImage', sql.VarChar(255), '')
+                .input('TransactionAvcImage', sql.VarChar(255), '')
+                .input('TransactionVideo', sql.VarChar(255), '')
+                .input('ExemptionProofImage', sql.VarChar(255), '')
+                .input('UserId', sql.BigInt, req.body.UserId)
+                .input('LoginId', sql.VarChar(20), req.body.LoginId)
+                .input('IsReturnJourney', sql.Bit, false)
+                .input('IsExcessJourney', sql.Bit, false)
+                .input('IsBarrierAutoClose', sql.Bit, false)
+                .input('IsTowVehicle', sql.Bit, false)
+                .input('IsFleetTranscation', sql.Bit, false)
+                .input('FleetCount', sql.SmallInt, 0)
+                .input('TCRemark', sql.VarChar(255), '')
+                .input('TxnCounter', sql.BigInt, 0)
+                .input('ReceivedDateTime', sql.DateTimeOffset, date_time_format(Cdt))
+                .execute('USP_LaneTransactionDataInsert');
+            let out = constants.ResponseMessageList(result.recordset, null);
+            res.status(200).json(out)
+        }
+        else {
+            let msg = [];
+            msg.push({ AlertMessage: Tagresult.DESCRIPTION })
+            res.status(200).json(msg)
+        }
+    } catch (error) {
+        errorlogMessage(error, 'ICDManualProcess');
+        let out = constants.ResponseMessage(error.message, null);
+        res.status(400).json(out);
+    }
+}
+
+async function fetch_tag_details(TagEPC, TID, VRN) {
+    try {
+        const response = await axios.post(tag_url, {
+            TagId: TagEPC,
+            TID: TID,
+            VRN: VRN
+        });
+        const data = response.data.VehicleDetails;
+        const excCode = data?.EXCCODE;
+        const excCodeArray = excCode ? excCode.split(",") : [];
+        data.DESCRIPTION = excCodeArray.map((code) => statusDescriptions[code] || "UNKNOWN").join(", ");
+        return data;
+    } catch (error) {
+        throw error;
     }
 }
 
@@ -329,3 +417,4 @@ function date_time_format(in_dateTime) {
         return in_dateTime;
     }
 }
+

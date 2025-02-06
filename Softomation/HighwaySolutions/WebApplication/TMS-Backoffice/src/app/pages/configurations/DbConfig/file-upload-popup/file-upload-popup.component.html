@@ -1,0 +1,94 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title mt-0" id="exampleModalScrollableTitle">{{PageTitle}}</h5>
+        <button type="button" class="btn-close" (click)="ClosePoup()" aria-label="Close">
+            <i class="mdi mdi-close me-2"></i>
+        </button>
+    </div>
+    <div class="modal-body ">
+        <form [formGroup]="DataDetailsForm">
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="UploaderTypeId">Uploader Type</label>
+                    <p-dropdown appendTo="body" formControlName="UploaderTypeId" inputId="UploaderTypeId"
+                        [options]="UploaderTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                        class="form-control select2" (onChange)="UploaderTypeChange($event.value)"></p-dropdown>
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','UploaderTypeId')">Uploader type is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="LocalPath">Local Path</label>
+                    <input formControlName="LocalPath" type="text" pInputText required autofocus class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','LocalPath')">Local
+                        path is required.</small>
+                </div>
+            </div>
+            <div class="row" *ngIf="FileUploaderTypeId!=0">
+                
+                <div class="col-md-6">
+                    <label for="ServerUrl">Server URL</label>
+                    <input formControlName="ServerUrl" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error"
+                        *ngIf="submitted && DataDetailsForm.hasError('required','ServerUrl')">Server url is
+                        required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="ServerPort">Server Port</label>
+                    <input formControlName="ServerPort" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ServerPort')">Server
+                        port is required.</small>
+                    <small class="p-error"
+                        *ngIf="DataDetailsForm.hasError('pattern','ServerPort')">{{error['PortNumber']}}</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Username">Username</label>
+                    <input formControlName="Username" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','Username')">Username
+                        is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="Password">Password</label>
+                    <div class="input-group grouplist-border">
+                        <input class="form-control" formControlName="Password" [type]="hide ? 'password' : 'text'">
+                        <i class="mdi  user-icon" [ngClass]="hide ? 'mdi-eye-outline' : 'mdi-eye-off-outline'"
+                            (click)="hide = !hide"></i>
+                    </div>
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','Password')">Password
+                        is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <label for="RemotePath">Remote Path</label>
+                    <input formControlName="RemotePath" type="text" pInputText required autofocus
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','RemotePath')">Remote
+                        path is required.</small>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="ScheduleHours">Schedule(Hours)</label>
+                    <input formControlName="ScheduleHours" type="text" pInputText required autocomplete="off"
+                        class="form-control" />
+                    <small class="p-error" *ngIf="submitted && DataDetailsForm.hasError('required','ScheduleHours')">Schedule
+                        is required.</small>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="formCheck2" formControlName="DataStatus">
+                        <label class="form-check-label" for="formCheck2">
+                            Status
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
+        <button type="button" class="btn btn-success" (click)="SaveDetails()">Save changes</button>
+    </div>
+</div>

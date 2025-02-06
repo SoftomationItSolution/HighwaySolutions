@@ -13,11 +13,9 @@ const initVector = "@1B2c3D4e5F6g7H8"; // must be 16 bytes
 const keySize = 256;                // can be 192 or 128
 const JWTkey = AppProvider + "HighwaySoluationsProvider";
 const os = require('os');
-//console.log(os.platform())
 const root_path  = os.platform() === 'win32' ? 'C:\\ProjectConfig\\TMSv1\\' : '/home/ProjectConfig/TMSv1/';
-//console.log(root_path )
 
-const log_path = 'log/BackOfficeAPI/'
+const log_path = 'logs/BackOfficeAPI/'
 const db_path = 'MasterConfig/NodeDBConfiguration.json'
 const pc_path = 'MasterConfig/ProjectConfiguration.json'
 const icd_path = 'MasterConfig/BankAPIPath.json'
@@ -284,6 +282,26 @@ function plzazTxnNumber(PlazaId,laneId, tDateTime) {
     return formattedNumber;
 }
 
+function laneTxnNumber(laneId, tDateTime) {
+    let dt=new Date()
+    if(tDateTime==undefined){
+        dt = new Date()
+    }
+    else{
+        dt = new Date(tDateTime) 
+    }
+    const year = dt.getFullYear().toString().slice(-2); // Last 2 digits of the year
+    const month = (dt.getMonth() + 1).toString().padStart(2, '0');
+    const day = dt.getDate().toString().padStart(2, '0');
+    const hours = dt.getHours().toString().padStart(2, '0');
+    const minutes = dt.getMinutes().toString().padStart(2, '0');
+    const seconds = dt.getSeconds().toString().padStart(2, '0');
+    const milliseconds = dt.getMilliseconds().toString().padStart(3, '0');
+    let formattedNumber = `${year}${month}${day}${hours}${minutes}${seconds}${milliseconds.slice(0, 3)}`;
+    formattedNumber += laneId.toString().padStart(2, '0');
+    return formattedNumber;
+}
+
 function getClientIp(req) {
     const forwarded = req.headers["x-forwarded-for"];
     return forwarded ? forwarded.split(",")[0] : req.ip;
@@ -300,6 +318,7 @@ module.exports = {
     CreateDirectory,
     MqttpublishData,
     plzazTxnNumber,
+    laneTxnNumber,
     INRFormat,
     getClientIp,
     AppProvider,

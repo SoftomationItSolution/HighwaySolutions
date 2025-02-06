@@ -2,23 +2,19 @@ from datetime import datetime
 import time
 import os
 import threading
-import gnupg
 from database.ms_sql import MSSQLConnectionManager
-from utils.constants import Utilities
 from utils.log_master import CustomLogger
 import mmap
-class SftpDecryptThread(threading.Thread):
-    def __init__(self,dbConnectionObj:MSSQLConnectionManager,icd_sftp_detail,default_directory):
+
+class SftpGetFileDetailsThread(threading.Thread):
+    def __init__(self,dbConnectionObj:MSSQLConnectionManager,default_directory):
         super().__init__()
         self.flag = True
         self.dbConnectionObj=dbConnectionObj
-        self.icd_sftp_detail=icd_sftp_detail
         self.output_dir=os.path.join(default_directory, 'ICDDataFiles')
         self.encrypt_file_dir=os.path.join(self.output_dir,"Encrypted")
         self.decrypted_file_dir=os.path.join(self.output_dir,"Decrypted")
-        self.logger = CustomLogger(default_directory, 'icd_sftp_decrypt')
-        self.gpg = gnupg.GPG()
-        self.passphrase="Mcube@7890"
+        self.logger = CustomLogger(default_directory, 'icd_sftp_decrypt_test')
 
     def find_min_max_date(self,file_path):
         min_date = None
@@ -51,46 +47,30 @@ class SftpDecryptThread(threading.Thread):
     def decrypt_files(self,item):
         file_name=item["BltFileName"]
         try:
-            self.logger.logInfo(f"start decrypting: {file_name}")
-            local_filename=file_name.replace('.blt.gpg', '.csv')
-            encrypted_file_path = os.path.join(self.encrypt_file_dir, file_name)
-            decrypted_file_path = os.path.join(self.decrypted_file_dir, local_filename)
-            with open(encrypted_file_path, 'rb') as encrypted_file:
-                decrypted_data = self.gpg.decrypt_file(encrypted_file, passphrase=self.passphrase, output=decrypted_file_path)
-                if decrypted_data.ok:
-                    item["BltFileName"]=local_filename
-                    item["IsDecrypted"]=True
-                    min_date, max_date,IsInitFile=self.find_min_max_date(decrypted_file_path)
-                    self.logger.logError(f"{file_name},{IsInitFile},{min_date},{max_date}")
-                    item["IsInitFile"]=IsInitFile
-                    item["MinDateTime"]=min_date
-                    item["MaxDateTime"]=max_date
-                    self.update_file_status(file_name,item)
-                    if os.path.exists(encrypted_file_path):
-                        os.remove(encrypted_file_path)
-                    return True
-                else:
-                    item["Remark"]=str(decrypted_data.status)
-                    item["IsDecrypted"]=False
-                    self.logger.logError(f"Failed to decrypt {encrypted_file_path}: {decrypted_data.status}")
-                    self.update_file_status(file_name,item)
-                    return False
+            if 'CSV' in file_name.upper():
+                file_path=os.path.join(self.decrypted_file_dir, file_name)
+                min_date, max_date,IsInitFile=self.find_min_max_date(file_path)
+                self.logger.logError(f"{file_name},{IsInitFile},{min_date},{max_date}")
+                item["IsInitFile"]=IsInitFile
+                item["MinDateTime"]=min_date
+                item["MaxDateTime"]=max_date
+                self.update_file_status(file_name,item)
+                bltfilepath=file_path.replace("csv","blt.gpg")
+                bltfilepath=bltfilepath.replace("Decrypted","Encrypted")
+                if os.path.exists(bltfilepath):
+                    os.remove(bltfilepath)
         except Exception as e:
-            item["IsDecrypted"]=False
-            item["Remark"]=str(e)
             self.logger.logError(f"Error occurred during decryption: {e}")
-            self.update_file_status(file_name,item)
-            return False
             
     
     def run(self):
         try:
-            Utilities.make_dir(self.decrypted_file_dir)
             while self.flag:
                 try:
                     data=self.get_pending_files()
                     if data:
                         for item in data:
+                            #self.decrypt_files(item)
                             thread = threading.Thread(target=self.decrypt_files, args=(item,))
                             thread.start()
                             time.sleep(0.100)
@@ -104,7 +84,7 @@ class SftpDecryptThread(threading.Thread):
 
     def get_pending_files(self):
         try:
-            return self.dbConnectionObj.execute_stored_procedure("USP_SftpFileStatusGetEncrypted",None)
+            return self.dbConnectionObj.execute_stored_procedure("USP_SftpFileStatusGetEncrypted_test",None)
         except Exception as e:
             self.logger.logError(f"Error in get_pending_files: {e}")
 

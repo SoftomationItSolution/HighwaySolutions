@@ -1,0 +1,12 @@
+[Unit]
+Description=ICD Tag 2.5 API
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/TMS/Apps/PyCCHTagRequest
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python icdTagApi.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

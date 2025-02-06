@@ -162,7 +162,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'HRMS_Prod_v1'@'%' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 sudo systemctl restart mysql
-
+PURGE BINARY LOGS BEFORE NOW() - INTERVAL 7 DAY;
 sudo apt update
 sudo apt install mysql-server
 sudo systemctl start mysql
@@ -280,6 +280,8 @@ TRUNCATE TABLE tbl_WimTransactionAxleDetails;
 TRUNCATE TABLE tbl_LaneConfiguration;
 TRUNCATE TABLE tbl_PlazaConfiguration;
 TRUNCATE TABLE tbl_SystemIntegratorConfiguration;
+TRUNCATE TABLE tbl_EquipmentDetails;
+
 
 
 # lane db master tables
@@ -330,6 +332,30 @@ pip install paramiko --break-system-packages
 
 
 crontab
+
+
+sudo nano /etc/systemd/system/icd.service
+
+
+[Unit]
+Description=ICD 2.5 APP Service
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/TMS/Apps/PyCCHService
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python CCHApp.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+sudo systemctl daemon-reload
+sudo systemctl start icd.service
+sudo systemctl enable icd.service
+sudo systemctl restart icd.service
+sudo systemctl status icd.service
+sudo systemctl stop icd.service
 
 
 sudo nano /etc/systemd/system/mps-app.service
@@ -394,3 +420,44 @@ ALTER DATABASE SCOPED CONFIGURATION SET IDENTITY_CACHE = OFF
 
 sudo lsof -i :5002
 sudo kill -9 <PID>
+~
+~
+
+mcube@server-ProLiant-DL380-Gen10:~$ sudo nano /etc/systemd/system/icd.service
+  GNU nano 4.8                                                        /etc/systemd/system/icd.service
+[Unit]
+Description=ICD
+After=multi-user.target network.target
+[Service]
+User=root
+Type=simple
+WorkingDirectory=/mnt/Utility/TMS/Apps/PyCCHService
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python /mnt/Utility/TMS/Apps/PyCCHService/CCHApp.py
+Restart=always
+RestartSec=3
+[Install]
+WantedBy=multi-user.target
+
+
+find /home/ProjectConfig/TMSLaneV2/Events/camera/ic -type f -mtime +2 -exec rm -f {} \;
+
+find /home/ProjectConfig/TMSLaneV2/Events/camera/lpic -type f -mtime +2 -exec rm -f {} \;
+
+/mnt/TMS/Apps/PyDBService/
+
+[Unit]
+Description=DB Backup 1.0 APP
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/TMS/Apps/PyDBService
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python DBBackupv1.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+
+
+sudo systemctl status db_bkp.service
+

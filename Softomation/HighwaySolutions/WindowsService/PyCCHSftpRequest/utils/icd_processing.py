@@ -4,6 +4,7 @@ import os
 from app.file_decrypt import SftpDecryptThread
 from app.file_download import SftpDownloadThread
 from app.file_process import SftpProcessThread
+from app.test_getMinDate import SftpGetFileDetailsThread
 from database.ms_sql import MSSQLConnectionManager
 from utils.constants import Utilities
 from utils.log_master import CustomLogger
@@ -57,7 +58,7 @@ class ICdSftpProcessing(threading.Thread):
     def start_sftp_decrypt_thread(self):
         try:
             if self.sftp_decrypt_thread is None:
-                self.sftp_decrypt_thread=SftpDecryptThread(self.dbConnectionObj,self.default_directory)
+                self.sftp_decrypt_thread=SftpDecryptThread(self.dbConnectionObj,self.icd_sftp_detail,self.default_directory)
                 self.sftp_decrypt_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception start_sftp_decrypt_thread: {str(e)}")
@@ -73,7 +74,8 @@ class ICdSftpProcessing(threading.Thread):
     def start_sftp_process_thread(self):
         try:
             if self.sftp_process_thread is None:
-                self.sftp_process_thread=SftpProcessThread(self.dbConnectionObj,self.db_json_data,self.default_directory)
+                self.sftp_process_thread=SftpProcessThread(self.dbConnectionObj,self.icd_sftp_detail,self.db_json_data,self.default_directory)
+                #self.sftp_process_thread=SftpGetFileDetailsThread(self.dbConnectionObj,self.default_directory)
                 self.sftp_process_thread.start()
         except Exception as e:
             self.logger.logError(f"Exception start_sftp_process_thread: {str(e)}")
@@ -91,7 +93,7 @@ class ICdSftpProcessing(threading.Thread):
             try:
                 self.load_sftp_details()
                 if self.icd_sftp_detail:
-                    #self.start_sftp_download_thread()
+                    self.start_sftp_download_thread()
                     time.sleep(0.100)
                     self.start_sftp_decrypt_thread()
                     time.sleep(0.100)

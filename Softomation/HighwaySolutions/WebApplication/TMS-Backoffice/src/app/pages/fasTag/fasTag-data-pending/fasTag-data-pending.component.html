@@ -2,272 +2,214 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">ICD Status <span class="refresh-icon mdi mdi-refresh" (click)="GetDefaultData()"></span></h5>
-                <div class="table-responsive mt-3 fastag-table listtablepadding" id="tbl">
-                    <p-table #dt [value]="IcdApiData" [rowHover]="false" [scrollable]="false" [resizableColumns]="false"
-                        [showCurrentPageReport]="false" [paginator]="false">
-                        <ng-template pTemplate="header" styleClass="thead-light">
-                            <tr>
-                                <th>Last Request Date/Time</th>
-                                <th>Last Response Date/Time</th>
-                                <th>Failed Upload</th>
-                                <th>Upload Pending</th>
-                                <th>Upload Done</th>
-                                <th>Response Pending</th>
-                                <th>Status Pending</th>
-                                <th>Response Done</th>
-                                <th>Accepted</th>
-                                <th>Declined</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{rowData.LastRequestDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
-                                <td>{{ rowData.LastResponseDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: pointer;" (click)="onReuploadData()"
-                                        class="me-3 text-danger">
-                                        <i class="mdi mdi-arrow-up-circle font-size-18">{{rowData.FailedUpload}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: pointer;" (click)="onUploadPending()"
-                                        class="me-3 text-primary">
-                                        <i class="mdi mdi-lan-pending font-size-18">{{rowData.UploadPending}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor:text;" class="me-3 text-success">
-                                        <i class="mdi mdi-cloud-upload font-size-18">{{rowData.UploadDone}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: pointer;" class="me-3 text-danger"
-                                        (click)="onResponsePending()">
-                                        <i
-                                            class="mdi mdi-receipt-text-clock-outline font-size-18">{{rowData.ResponsePending}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: text;" class="me-3 text-secondary">
-                                        <i class="mdi mdi-sync font-size-18">{{rowData.CheckStatus}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: text;" class="me-3 text-primary">
-                                        <i
-                                            class="mdi mdi-cloud-download-outline font-size-18">{{rowData.ResponseDone}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: text;" class="me-3 text-success">
-                                        <i
-                                            class="mdi mdi-check-circle-outline font-size-18">{{rowData.SuccessResponse}}</i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <a href="javascript:void(0);" style="cursor: pointer;" class="me-3 text-danger"
-                                        (click)="onResponseDeclined()">
-                                        <i class=" mdi mdi-cancel font-size-18">{{rowData.FailedResponse}}</i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <p-table #dt1 [value]="SftpStatusData" [rowHover]="false" [scrollable]="false"
-                        [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
-                        <ng-template pTemplate="header" styleClass="thead-light">
-                            <tr>
-                                <th>Last Download Date/Time</th>
-                                <th>Last Decrypt Date/Time</th>
-                                <th>Last Processed Date/Time</th>
-                                <th>Last Init Date/Time</th>
-                                <th>Last Diff Date/Time</th>
-                                <th>Current Process Date/Time</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{rowData.LastFileDownlaoded | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
-                                <td>{{rowData.LastFileDecrypted | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.LastFileProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.LastFileInitProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.LastFileDiffProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.CurrentFileProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <p-table #dt2 [value]="SftpCountData" [rowHover]="false" [scrollable]="false"
-                        [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
-                        <ng-template pTemplate="header" styleClass="thead-light">
-                            <tr>
-                                <th>Downlaoded</th>
-                                <th>Encrypted</th>
-                                <th>Decrypted</th>
-                                <th>UnProcessed</th>
-                                <th>Processed</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{rowData.TotalDownlaoded}}</td>
-                                <td>{{rowData.TotalEncrypted}}</td>
-                                <td>{{rowData.TotalDecrypted}}</td>
-                                <td>{{rowData.TotalUnProcessed}}</td>
-                                <td>{{rowData.TotalProcessed}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                    <p-table #dt3 [value]="SftpCurrentData" [rowHover]="false" [scrollable]="false"
-                        [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
-                        <ng-template pTemplate="header" styleClass="thead-light">
-                            <tr>
-                                <th>File Name</th>
-                                <th>File Date/Time</th>
-                                <th>File Upload Date/Time</th>
-                                <th>Is Decrypted</th>
-                                <th>Remark</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{rowData.BltFileName}}</td>
-                                <td>{{rowData.FileDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.ModifiedTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
-                                <td>{{rowData.IsDecrypted}}</td>
-                                <td>{{rowData.Remark}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
-                </div>
-                <h5 class="card-title">Search Transcation</h5>
-                <div id="accordion" class="data-filter">
-                    <div class="card-header">
-                        <div class="dropdown d-inline-block">
-                            <h5 class="mb-0">
-                                <a href="javascript:void(0);" class="mb-2">
-                                    <i class="mdi mdi-arrow-up-circle filter-icon-class" id="datafilterIcon"></i>
-                                </a>
-                                <span class="rc">Record:{{TotalTransactionCount}}</span>
-                            </h5>
-                        </div>
-                        <div class="dropdown d-inline-block float-right">
-                            <span class="p-input-icon-left">
-                                <i class="mdi mdi-text-box-search-outline"></i>
-                                <input type="text" pInputText class="form-control"
-                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
-                            </span>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-color">ICD Status <span class="refresh-icon mdi mdi-refresh"
+                                (click)="GetDefaultData()"></span></h5>
+                        <div class="table-responsive mt-3 fastag-table listtablepadding" id="tbl">
+                            <p-table #dt [value]="IcdApiData" [rowHover]="false" [scrollable]="false"
+                                [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
+                                <ng-template pTemplate="header" styleClass="thead-light">
+                                    <tr>
+                                        <th>Last Request Date/Time</th>
+                                        <th>Last Response Date/Time</th>
+                                        <th>Failed Upload</th>
+                                        <th>Upload Pending</th>
+                                        <th>Upload Done</th>
+                                        <th>Response Pending</th>
+                                        <th>Status Pending</th>
+                                        <th>Response Done</th>
+                                        <th>Accepted</th>
+                                        <th>Declined</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr>
+                                        <td>{{rowData.LastRequestDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
+                                        <td>{{ rowData.LastResponseDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: pointer;"
+                                                (click)="onReuploadData()" class="me-3 text-danger">
+                                                <i
+                                                    class="mdi mdi-arrow-up-circle font-size-18">{{rowData.FailedUpload}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: pointer;"
+                                                (click)="onUploadPending()" class="me-3 text-primary">
+                                                <i
+                                                    class="mdi mdi-lan-pending font-size-18">{{rowData.UploadPending}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor:text;"
+                                                class="me-3 text-success">
+                                                <i class="mdi mdi-cloud-upload font-size-18">{{rowData.UploadDone}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: pointer;"
+                                                class="me-3 text-danger" (click)="onResponsePending()">
+                                                <i
+                                                    class="mdi mdi-receipt-text-clock-outline font-size-18">{{rowData.ResponsePending}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: text;"
+                                                class="me-3 text-secondary">
+                                                <i class="mdi mdi-sync font-size-18">{{rowData.CheckStatus}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: text;"
+                                                class="me-3 text-primary">
+                                                <i
+                                                    class="mdi mdi-cloud-download-outline font-size-18">{{rowData.ResponseDone}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: text;"
+                                                class="me-3 text-success">
+                                                <i
+                                                    class="mdi mdi-check-circle-outline font-size-18">{{rowData.SuccessResponse}}</i>
+                                            </a>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a href="javascript:void(0);" style="cursor: pointer;"
+                                                class="me-3 text-danger" (click)="onResponseDeclined()">
+                                                <i class=" mdi mdi-cancel font-size-18">{{rowData.FailedResponse}}</i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
                         </div>
                     </div>
-                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
-                        <form [formGroup]="FilterDetailsForm">
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-color">SFTP Status <span class="refresh-icon mdi mdi-refresh"
+                                (click)="GetDefaultData()"></span></h5>
+                        <div class="table-responsive mt-3 fastag-table listtablepadding" id="tbl">
+                            <p-table #dt1 [value]="SftpStatusData" [rowHover]="false" [scrollable]="false"
+                                [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
+                                <ng-template pTemplate="header" styleClass="thead-light">
+                                    <tr>
+                                        <th>Last Download Date/Time</th>
+                                        <th>Last Decrypt Date/Time</th>
+                                        <th>Last Processed Date/Time</th>
+                                        <th>Last Init Date/Time</th>
+                                        <th>Last Diff Date/Time</th>
+                                        <th>Current Process Date/Time</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr>
+                                        <td>{{rowData.LastFileDownlaoded | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
+                                        <td>{{rowData.LastFileDecrypted | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.LastFileProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.LastFileInitProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.LastFileDiffProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.CurrentFileProcessed | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <p-table #dt2 [value]="SftpCountData" [rowHover]="false" [scrollable]="false"
+                                [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
+                                <ng-template pTemplate="header" styleClass="thead-light">
+                                    <tr>
+                                        <th>Downlaoded</th>
+                                        <th>Encrypted</th>
+                                        <th>Decrypted</th>
+                                        <th>UnProcessed</th>
+                                        <th>Processed</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr>
+                                        <td>{{rowData.TotalDownlaoded}}</td>
+                                        <td>{{rowData.TotalEncrypted}}</td>
+                                        <td>{{rowData.TotalDecrypted}}</td>
+                                        <td>{{rowData.TotalUnProcessed}}</td>
+                                        <td>{{rowData.TotalProcessed}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <p-table #dt3 [value]="SftpCurrentData" [rowHover]="false" [scrollable]="false"
+                                [resizableColumns]="false" [showCurrentPageReport]="false" [paginator]="false">
+                                <ng-template pTemplate="header" styleClass="thead-light">
+                                    <tr>
+                                        <th>File Name</th>
+                                        <th>File Date/Time</th>
+                                        <th>File Upload Date/Time</th>
+                                        <th>Is Decrypted</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                    <tr>
+                                        <td>{{rowData.BltFileName}}</td>
+                                        <td>{{rowData.FileDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.ModifiedTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                        <td>{{rowData.IsDecrypted}}</td>
+                                        <td>{{rowData.Remark}}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-color">Manual Transaction</h5>
+                        <form [formGroup]="DataDetailsForm">
                             <div class="row">
-                                <div class="col-md-11">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                            <label for="StartDateTime">Start Date Time</label>
-                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
-                                                pInputText autofocus class="form-control"
-                                                formControlName="StartDateTime" [readonlyInput]="true"
-                                                dateFormat="dd-M-yy"></p-calendar>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="EndDateTime">End Date Time</label>
-                                            <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
-                                                pInputText autofocus class="form-control" formControlName="EndDateTime"
-                                                [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="VehicleClassFilterList">Vehicle Class</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="VehicleClassFilterList"
-                                                inputId="VehicleClassFilterList" [options]="ClassData"
-                                                optionLabel="DataName" optionValue="DataId" placeholder="Vehicle Class"
-                                                (onChange)="VehicleClassChange()">
-                                            </p-multiSelect>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="VehicleSubClassFilterList">Vehicle Sub Class</label>
-                                            <p-multiSelect appendTo="body" class="form-control select2"
-                                                [style]="{'width':'100%'}" formControlName="VehicleSubClassFilterList"
-                                                inputId="VehicleClassFilterList" [options]="SubClassList"
-                                                optionLabel="DataName" optionValue="DataId"
-                                                placeholder="Vehicle Sub Class">
-                                            </p-multiSelect>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="PlateNumber">Plate Number</label>
-                                            <input formControlName="PlateNumber" placeholder="Plate Number" type="text"
-                                                pInputText required autocomplete="off" class="form-control" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="TransactionId">Transaction Id</label>
-                                            <input formControlName="TransactionId" placeholder="Transaction Id"
-                                                type="text" pInputText required autocomplete="off"
-                                                class="form-control" />
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="TagId">Tag Id</label>
-                                            <input formControlName="TagId" placeholder="Tag Id" type="text" pInputText
-                                                required autocomplete="off" class="form-control" />
-                                        </div>
-                                    </div>
+                                <div class="col-md-3">
+                                    <label for="LaneId">Plate Number</label>
+                                    <input formControlName="PlateNumber" type="text" pInputText required
+                                        autocomplete="off" class="form-control" placeholder="Plate Number" />
+                                    <small class="p-error"
+                                        *ngIf="submitted && DataDetailsForm.hasError('required','PlateNumber')">Plate
+                                        number must be required.</small>
                                 </div>
-                                <div class="col-md-1 align-self-center">
-                                    <button type="button" class="btn btn-info btn-circle btn-lg btn-search"
-                                        (click)="FilterAllData()">
-                                        <i class="mdi mdi-feature-search-outline"></i>
-                                    </button>
+                                <div class="col-md-3">
+                                    <label for="LaneId">Lane</label>
+                                    <p-dropdown appendTo="body" formControlName="LaneId" inputId="LaneId"
+                                        [options]="LaneDataList" optionLabel="DataName" optionValue="DataId"
+                                        placeholder="Select" class="form-control select2"></p-dropdown>
+                                    <small class="p-error"
+                                        *ngIf="submitted && DataDetailsForm.hasError('required','LaneId')">Lane is
+                                        required.</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="LaneId">Vehicle Class</label>
+                                    <p-dropdown appendTo="body" formControlName="VehicleSubClassId"
+                                        inputId="VehicleSubClassId" [options]="SubClassData" optionLabel="DataName"
+                                        optionValue="DataId" placeholder="Select"
+                                        class="form-control select2"></p-dropdown>
+                                    <small class="p-error"
+                                        *ngIf="submitted && DataDetailsForm.hasError('required','VehicleSubClassId')">Vehicle
+                                        sub Class is
+                                        required.</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="TransactionDateTime">Transaction Date/Time</label>
+                                    <p-calendar [showTime]="true" [showSeconds]="true"  [hourFormat]="'24'" pInputText
+                                        autofocus class="form-control" formControlName="TransactionDateTime"
+                                        [readonlyInput]="true" dateFormat="dd-M-yy"></p-calendar>
+                                    <small class="p-error"
+                                        *ngIf="submitted && DataDetailsForm.hasError('required','TransactionDateTime')">Transaction
+                                        date time
+                                        is
+                                        required.</small>
+                                </div>
+                                <div class="col-md-3">
+                                    <br>
+                                    <button type="button" class="btn btn-secondary" (click)="submit()">Process</button>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div>
-                <div class="table-responsive mt-3 listtablepagging-ft listtablepadding" id="tbl">
-                    <p-table #dt4 [value]="EventHistroyData" [rowHover]="true" [scrollable]="true"
-                        [resizableColumns]="true" [showCurrentPageReport]="true" [rows]="10" [paginator]="true"
-                        [globalFilterFields]="['PlazaName','LaneName','TransactionDateTime','FasTagVehicleClassName','RCTNumber','EPC','IsOverWeightCharged','TagPlateNumber']">
-                        <ng-template pTemplate="header" styleClass="thead-light">
-                            <tr>
-                                <th>Plaza TransactionId</th>
-                                <th>Message Id</th>
-                                <th>ICD TransactionId</th>
-                                <th>Request Status</th>
-                                <th>Tag Class</th>
-                                <th>Tag EPC</th>
-                                <th>Tag Read Date/Time</th>
-                                <th>Request Date/Time</th>
-                                <th>Response Class</th>
-                                <th>Response VRN</th>
-                                <th>Is Commercial</th>
-                                <th>Toll Fare</th>
-                                <th>Fare Type</th>
-                                <th>Response Date/Time</th>
-                                <th>Response Result</th>
-                                <th>Response Details</th>
-                            </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
-                            <tr>
-                                <td>{{rowData.PlazaTransactionId}}</td>
-                                <td>{{rowData.MessageId}}</td>
-                                <td>{{rowData.TransactionId}}</td>
-                                <td>{{rowData.RequestStatusId}}</td>
-                                <td>{{rowData.TagClassId}}</td>
-                                <td>{{rowData.TagEPC}}</td>
-                                <td>{{rowData.TagReadDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
-                                <td>{{rowData.RequestDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
-                                <td>{{rowData.ResponseVehicleClass}}</td>
-                                <td>{{rowData.ResponseRegistrationNumber}}</td>
-                                <td>{{rowData.ResponseCommercialVehicle}}</td>
-                                <td>{{rowData.ResponseTollFare}}</td>
-                                <td>{{rowData.ResponseFareType}}</td>
-                                <td>{{rowData.ResponseDateTime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC'}}</td>
-                                <td>{{rowData.ResponseResult}}</td>
-                                <td>{{rowData.ResponseCodeDetails}}</td>
-                            </tr>
-                        </ng-template>
-                    </p-table>
                 </div>
             </div>
         </div>

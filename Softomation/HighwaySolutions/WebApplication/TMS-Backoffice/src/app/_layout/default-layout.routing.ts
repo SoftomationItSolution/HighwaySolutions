@@ -24,6 +24,7 @@ import { FasTagDataProcessed } from '../pages/Transactions/fasTag-data-processed
 import { ManufacturerMasterComponent } from '../pages/configurations/Manufacturer/manufacturer-master/manufacturer-master.component';
 import { LSDUComponent } from '../pages/lsdu/parent/lsdu.component';
 import { KeyboardConfigurationComponent } from '../pages/configurations/KeyBoardConfiguration/keyboard-configuration.component';
+import { DBConfigurationComponent } from '../pages/configurations/DbConfig/db-configuration/db-configuration.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -50,6 +51,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'reports', component: ReportMasterComponent },
     { path: 'laneControl', component: LSDUComponent },
     { path: 'keyboard', component: KeyboardConfigurationComponent },
+    { path: 'backup', component: DBConfigurationComponent },
     { path: '**', component: PageNotFoundComponent },
     { path: 'unauthorized', component: PageNotFoundComponent },
  

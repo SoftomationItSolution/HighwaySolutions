@@ -36,7 +36,6 @@ export const regExps: { [key: string]: RegExp } = {
     IndianPinCode: /^(0|[1-9][0-9]{5})$/,
     IndianPlateNumber:/(^[A-Z]{2}[0-9]{1,2}[A-Z]{1,2}[0-9]{4}$)|(^[0-9]{2}BH[0-9]{4}[A-Z]{2}$)/,
     HttpsPath:/^https:\/\/[a-zA-Z0-9\-._~:\/?#[\]@!$&'()*+,;=%]+$/
-
  };
 
 export function ConfirmPasswordValidator(controlName: string, matchingControlName: string) {

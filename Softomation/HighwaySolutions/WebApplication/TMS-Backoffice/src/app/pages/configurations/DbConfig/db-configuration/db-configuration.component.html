@@ -1,0 +1,133 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="panel">
+                    <div>
+                        <a href="javascript:void(0);" (click)="AddFileUploadDetails()" class="btn btn-success mb-2">
+                            <i class="mdi mdi-plus me-2"></i> Add File Upload Details
+                        </a>
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="mdi mdi-text-box-search-outline"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3 noheight">
+                        <p-table #dt [value]="FileUploadData" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="table table-centered datatable dt-responsive nowrap"
+                            selectionMode="single" [globalFilterFields]="['LocalPath','RemotePath','ServerUrl',
+                        'ServerPort','DataStatusName','UploaderTypeName']">
+
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th pSortableColumn="UploaderTypeName">Uploader Type <p-sortIcon
+                                            field="UploaderTypeName"></p-sortIcon></th>
+                                    <th pSortableColumn="LocalPath">Local Path <p-sortIcon
+                                            field="LocalPath"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="RemotePath">Remote Path<p-sortIcon
+                                            field="RemotePath"></p-sortIcon></th>
+                                    <th pSortableColumn="ServerUrl">Server Url<p-sortIcon
+                                            field="ServerUrl"></p-sortIcon></th>
+                                    <th pSortableColumn="ServerPort">Server Port<p-sortIcon
+                                            field="ServerPort"></p-sortIcon></th>
+                                    <th pSortableColumn="ScheduleHours">Schedule(Hours)<p-sortIcon
+                                            field="ScheduleHours"></p-sortIcon></th>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon></th>
+                                    <th style="text-align: center;">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td>{{i+1}}</td>
+                                    <td>{{rowData.UploaderTypeName}}</td>
+                                    <td>{{rowData.LocalPath}}</td>
+                                    <td>{{rowData.RemotePath}}</td>
+                                    <td>{{rowData.ServerUrl}}</td>
+                                    <td>{{rowData.ServerPort}}</td>
+                                    <td>{{rowData.ScheduleHours}}</td>
+                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onFileRowEditInit(rowData)"
+                                            class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="panel">
+                    <div>
+                        <a href="javascript:void(0);" (click)="AddDatabaseDetails()" class="btn btn-primary mb-2">
+                            <i class="mdi mdi-plus me-2"></i> Add Database Details
+                        </a>
+                        <div class="dropdown d-inline-block float-right">
+                            <span class="p-input-icon-left">
+                                <i class="mdi mdi-text-box-search-outline"></i>
+                                <input type="text" pInputText class="form-control"
+                                    (input)="dt1.filterGlobal($any($event.target).value, 'contains')" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
+                        <p-table #dt1 [value]="DBBackupData" [rowHover]="true" [scrollable]="true"
+                            [resizableColumns]="true" styleClass="table table-centered datatable dt-responsive nowrap"
+                            selectionMode="single"
+                            [globalFilterFields]="['DataBaseName','DataBaseTypeName','LastBackUpDatetime',
+                        'LastBackUpSize','HostName','DataStatusName','LastBackupFileSize']">
+                            <ng-template pTemplate="header" styleClass="thead-light">
+                                <tr>
+                                    <th>S. No.</th>
+                                    <th pSortableColumn="DataBaseTypeName">Database Type <p-sortIcon
+                                            field="DataBaseTypeName"></p-sortIcon></th>
+                                    <th pSortableColumn="DataBaseName">DataBase Name <p-sortIcon
+                                            field="DataBaseName"></p-sortIcon>
+                                    </th>
+                                    <th pSortableColumn="HostName">Host Name <p-sortIcon field="HostName"></p-sortIcon>
+                                    </th>
+
+                                    <th pSortableColumn="LastBackUpDatetime">Last BackUp Date/time<p-sortIcon
+                                            field="LastBackUpDatetime"></p-sortIcon></th>
+                                    <th pSortableColumn="LastBackUpSize">Last Backup Size<p-sortIcon
+                                            field="LastBackUpSize"></p-sortIcon></th>
+                                    <th pSortableColumn="LastBackupFileSize">Last Backup File Size<p-sortIcon
+                                            field="LastBackupFileSize"></p-sortIcon></th>
+                                    <th pSortableColumn="DataStatusName">Status <p-sortIcon
+                                            field="DataStatusName"></p-sortIcon></th>
+                                    <th style="text-align: center;">Action</th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
+                                <tr [pSelectableRow]="rowData">
+                                    <td>{{i+1}}</td>
+                                    <td>{{rowData.DataBaseTypeName}}</td>
+                                    <td>{{rowData.DataBaseName}}</td>
+                                    <td>{{rowData.HostName}}</td>
+                                    <td>{{rowData.LastBackUpDatetime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
+                                    <td>{{rowData.LastBackUpSize}}</td>
+                                    <td>{{rowData.LastBackupFileSize}}</td>
+                                    <td>{{rowData.DataStatusName}}</td>
+                                    <td style="text-align: center;">
+                                        <a href="javascript:void(0);" (click)="onRowEditInit(rowData)"
+                                            class="me-3 text-primary" data-bs-container="#tooltip-container0"
+                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                            <i class="mdi mdi-pencil font-size-18"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

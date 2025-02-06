@@ -115,7 +115,7 @@ export class DashboardComponent implements OnInit {
     for (let index = 0; index < data.length; index++) {
       const element = data[index];
       TransactionTypeName.push(element.TransactionTypeName)
-      TransactionTypeCount.push(element.TransactionTypeCount)
+      TransactionTypeCount.push(parseInt(element.TransactionTypeCount))
     }
 
     this.transactionTypeOptions = {
