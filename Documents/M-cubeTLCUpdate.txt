@@ -65,7 +65,11 @@ sudo systemctl start mysql
 sudo systemctl enable mysql
 sudo ufw allow mysql
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
+sudo nano /etc/mysql/mariadb.conf.d/50-server.cnf
+
 sudo systemctl restart mysql
+sudo systemctl restart mariadb
+
 
 create users
 sudo mysql -u root -p <<EOF

@@ -21,9 +21,9 @@ class MantraRfidReader(threading.Thread):
         self.reader = None
         self.is_running=False
         self.is_stopped = False
+        self.is_active=True
         self.CLEANUP_INTERVAL = 30
         self.set_logger(default_directory,log_file_name)
-        self.set_status()
         self.processed_epcs={}
 
     def set_logger(self,default_directory,log_file_name):
@@ -31,47 +31,51 @@ class MantraRfidReader(threading.Thread):
             self.logger = CustomLogger(default_directory,log_file_name)
         except Exception as e:
             self.logger.logError(f"Exception set_logger: {str(e)}")
-    
-    def set_status(self):
-        try:
-            if self.rfid_detail["OnLineStatus"]==0 or self.rfid_detail["OnLineStatus"]==False:
-                self.is_active=False
-            else:
-                self.is_active=True
-        except Exception as e:
-            self.logger.logError(f"Exception set_status: {str(e)}")
 
     def setup_reader(self):
         try:
             self.reader = Reader()
             if self.reader.initReader(self.connection_string):
-                self.logger.logInfo(self.reader)
-                reader_ant_plan = ReaderWorkingAntSet_Model([1])
-                self.logger.logInfo(f'Setting up the working antenna result: {self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, reader_ant_plan)}')
-                read_tid = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
+                readerAntPlan = ReaderWorkingAntSet_Model([1])
+                self.reader.paramSet(EReaderEnum.WO_RFIDWorkingAnt, readerAntPlan)
+                readTID = ReadExtendedArea_Model(EReadBank.TID, 0, 6, "")
                 readUserData = ReadExtendedArea_Model(EReadBank.UserData, 0, 32, '00000000')
-                read_extended_area_list = [read_tid,readUserData]
-                self.logger.logInfo('Set Extended Read Result:TID & UserData')
-                self.logger.logInfo(self.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, read_extended_area_list))
-                set_reader_buzzer = ReaderBuzzer_Model()
-                set_reader_buzzer.buzzerControl = EBuzzerControl.ReaderControl
-                if self.reader.paramSet(EReaderEnum.RW_ReaderBuzzerSwitch, set_reader_buzzer) == EReaderResult.RT_OK:
-                    self.logger.logInfo('Set the reader buzzer tone successfully!\n --------')
+                readExtendedAreaList = [readTID,readUserData]
+                self.reader.paramSet(EReaderEnum.WO_RFIDReadExtended, readExtendedAreaList)
+                setReaderBuzzer = ReaderBuzzer_Model()
+                setReaderBuzzer.buzzerControl = EBuzzerControl.ReaderControl
+                if self.reader.paramSet(EReaderEnum.RW_ReaderBuzzerSwitch, setReaderBuzzer) == EReaderResult.RT_OK:
+                    self.logger.logInfo('reader is conncted successfully!\n --------')
+                    self.is_running=True
+                    self.processed_epcs={}
+                    self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
+                    return True
                 else:
-                    self.logger.logInfo('Set the reader buzzer tone failed!')
-                self.is_running=True
-                self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
-                return True
+                    self.logger.logError('failed to connect reader!')
+                    self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
+                    self.reader=None
             else:
-                self.logger.logInfo("Failed to create connection!")
-                self.reader=None
+                self.logger.logError('failed to connect reader!')
                 self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
-                return False
+                self.reader=None    
         except Exception as e:
             self.reader=None
             self.logger.logError(f"Exception setup_reader: {str(e)}")
             self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
 
+    def check_reader_status(self):
+        setReaderBuzzer = ReaderBuzzer_Model()
+        setReaderBuzzer.buzzerControl = EBuzzerControl.ReaderControl
+        if self.reader.paramSet(EReaderEnum.RW_ReaderBuzzerSwitch, setReaderBuzzer) != EReaderResult.RT_OK:
+            self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
+            self.logger.logError('failed to connect reader!')
+            self.is_active=True
+            self.client_stop()
+            return False
+        else:
+            self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',True)
+            return True
+    
     def decode_tag(self,tag):
         try:
             if tag._EPC not in self.processed_epcs:
@@ -112,14 +116,11 @@ class MantraRfidReader(threading.Thread):
                         self.is_running=True
                     self.tagDetails={"TagReadById":1,"SystemDateTime":datetime.now(),"TransactionDateTime":"","ReaderName":"","EPC":"","TID":"","UserData":"","Class":0,"Plate":"XXXXXXXXXX","Processed":False,"TagStatus":"NA"}    
                     while self.is_running:
-                        if not self.is_active or self.is_stopped or not self.is_running:
-                            self.handler.update_equipment_list(self.rfid_detail["EquipmentId"],'ConnectionStatus',False)
-                            self.reader=None
-                            self.processed_epcs={}
+                        if self.check_reader_status()==False:
                             break
                         self.processed_epcs = {epc: timestamp for epc, timestamp in self.processed_epcs.items() if datetime.now() - timestamp <= timedelta(seconds=self.CLEANUP_INTERVAL)}
                         read_list = []
-                        self.reader.read(100, read_list)
+                        self.reader.read(500, read_list)
                         for tag in set(read_list):
                             result,epc=Utilities.vaildate_tag_epc(tag._EPC)
                             if result:
@@ -129,8 +130,6 @@ class MantraRfidReader(threading.Thread):
                                 else:
                                     if self.presence_loop_status:
                                         self.decode_tag(tag)
-                        self.check_status()
-                    self.check_status()
                 time.sleep(self.timeout)
             except Exception as e:
                 self.logger.logError(f"Exception rfid_run: {str(e)}")
@@ -169,21 +168,6 @@ class MantraRfidReader(threading.Thread):
                 result='00'
         finally:
             return result
-        
-    def retry(self,status):
-        if self.is_active!=status:
-            self.is_active=status
-
-    def check_status(self):
-        try:
-            if self.is_active==False and self.is_stopped==False:
-                self.is_active=self.handler.get_on_line_status(self.rfid_detail['EquipmentTypeId'])
-                if self.is_active==0:
-                    self.is_active=False
-                elif self.is_active==1:
-                    self.is_active=True
-        except Exception as e:
-            self.logger.logError(f"Exception check_status: {str(e)}")
 
     def client_stop(self):
         try:

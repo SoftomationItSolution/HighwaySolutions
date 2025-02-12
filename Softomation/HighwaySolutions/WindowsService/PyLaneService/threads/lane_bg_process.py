@@ -26,11 +26,11 @@ from utils.toll_receipt_printer import TollReceiptPrinter
 from web_socket.webSocketServer import LaneWebSocketServer
 
 class LaneBGProcess(threading.Thread):
-    def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip,ic_timemout):
+    def __init__(self, default_directory, dbConnectionObj, script_dir, system_ip,cam_config):
         super().__init__()
         self.default_directory = default_directory
         self.dbConnectionObj = dbConnectionObj
-        self.ic_timemout=ic_timemout
+        self.cam_config=cam_config
         self.script_dir = script_dir
         self.default_lane_ip = system_ip
         self.is_running = True
@@ -486,11 +486,11 @@ class LaneBGProcess(threading.Thread):
         try:
             if not self.dio_thread:
                 if equipment["ManufacturerName"]=="KITS":
-                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio',self.ic_timemout)
+                    self.dio_thread = KistDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio')
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
                 if equipment["ManufacturerName"]=="Innovating":
-                    self.dio_thread = InnovatingDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio',self.ic_timemout)
+                    self.dio_thread = InnovatingDIOClient(self,self.default_directory,equipment,self.hardware_list,self.system_loging_status,self.barrier_auto,'lane_BG_dio')
                     self.dio_thread.daemon=True
                     self.dio_thread.start()
         except Exception as e:
@@ -538,7 +538,7 @@ class LaneBGProcess(threading.Thread):
     def start_lpic_thread(self,equipment):
         try:
             if self.lpic_thread is None:
-                self.lpic_thread=IpCameraHandler(self,self.default_directory,"lpic","lane_BG_camera",equipment,"lpic_liveview")
+                self.lpic_thread=IpCameraHandler(self,self.default_directory,"lpic","lane_BG_camera",equipment,"lpic_liveview",self.cam_config)
                 self.lpic_thread.daemon=True
                 self.lpic_thread.start()
         except Exception as e:
@@ -547,10 +547,7 @@ class LaneBGProcess(threading.Thread):
     def start_ic_thread(self,equipment):
         try:
             if self.ic_thread is None:
-                if self.ic_timemout==0:
-                    self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview")
-                else:
-                    self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview",duration=10,retry_delay=1,timeout=self.ic_timemout)
+                self.ic_thread=IpCameraHandler(self,self.default_directory,"ic","lane_BG_camera",equipment,"ic_liveview",self.cam_config)
                 self.ic_thread.daemon=True
                 self.ic_thread.start()
         except Exception as e:
@@ -737,6 +734,7 @@ class LaneBGProcess(threading.Thread):
                                 self.process_fasTag_trans(data,tag_status)
                                 return True
                             else:
+                                self.manage_before_tag("Invalid Status",data["Class"],data["Plate"])
                                 return False
                         else:
                             tag_status={"EXCCODE":"00","Allowed":True,"REGNUMBER":data["Plate"]}
@@ -851,8 +849,8 @@ class LaneBGProcess(threading.Thread):
                     running_Transaction["TransactionFrontImage"]=''
                 self.ufd_data_process_thread(running_Transaction)
                 self.send_data_avc(running_Transaction["LaneTransactionId"],running_Transaction['TransactionDateTime'])
+                running_Transaction=self.handel_traffic_light(True,running_Transaction)
                 self.update_lane_transcation(running_Transaction)
-                self.handel_traffic_light(True,running_Transaction)
                 self.system_transcation_status=False
                 result=True
             else:
@@ -894,8 +892,6 @@ class LaneBGProcess(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception lane_trans_end: {str(e)}")
     
-    
-        
     def setDefaultValue(self):
         try:
             self.current_Transaction["LaneId"] = self.lane_detail["LaneId"]
@@ -918,20 +914,7 @@ class LaneBGProcess(threading.Thread):
                 trans_data["TagClassName"]=matched_item['SystemVehicleSubClassName']
             else:
                 trans_data["PermissibleVehicleWeight"]=0
-            # if self.systemSetting is not None and self.vehicle_class is not None:
-            #     if self.systemSetting['TollFareonSubClass'] == 1:
-                   
-            #     else:
-            #         matched_item = next((item for item in self.vehicle_class if int(item['SystemVehicleClassId']) == int(classId)), None)
-            #         if matched_item:
-            #             trans_data["VehicleClassId"]=int(matched_item['SystemVehicleClassId'])
-            #             trans_data["VehicleSubClassId"]=0
-            #             trans_data["PermissibleVehicleWeight"]=matched_item['PermissibleWeight']
-            #             trans_data["VehicleClassName"]=matched_item['SystemVehicleClassName']
-            #             trans_data["TagClassName"]=matched_item['SystemVehicleClassName']
-            #             trans_data["VehicleSubClassName"]=''
-            #         else:
-            #             trans_data["PermissibleVehicleWeight"]=0
+            
         except Exception as e:
             self.logger.logError(f"Exception get_fasTag_class_name: {str(e)}")
         finally:
@@ -1064,6 +1047,18 @@ class LaneBGProcess(threading.Thread):
         except Exception as e:
             self.logger.logError(f"Exception ufd_data_process_thread: {str(e)}")
     
+    def manage_before_tag(self,TagStatus,TagClassName,TagPlateNumber):
+        try:
+            if self.ufd is not None:
+                self.ufd.clear_cmd()
+                self.ufd.go_cmd()
+                self.ufd_message=TagStatus
+                self.ufd.l1_cmd(self.ufd_message)
+                self.ufd.l2s_cmd(f'class:{TagClassName} plate:{TagPlateNumber}')
+        except Exception as e:
+            self.logger.logError(f"Exception manage_before_tag: {str(e)}")
+
+    
     def process_on_ufd(self,running_Transaction):
         try:
             if self.ufd is not None:
@@ -1108,8 +1103,19 @@ class LaneBGProcess(threading.Thread):
         try:
             if self.dio_thread is not None:
                 self.dio_thread.handel_traffic_light(status,running_Transaction)
+            if status:
+                lane_Transaction_Id=running_Transaction['LaneTransactionId']
+                lane_Transaction_img=f"{str(lane_Transaction_Id)}_ic"
+                if self.ic_thread is not None:
+                    result=self.start_ic_record(running_Transaction)
+                    if result:
+                        running_Transaction["TransactionBackImage"]=lane_Transaction_img+'.jpg'
+                        running_Transaction["TransactionVideo"]=lane_Transaction_img+'.mp4'
+            else:
+                self.stop_ic_record()
         except Exception as e:
             self.logger.logError(f"Exception handel_traffic_light: {str(e)}")
+        return running_Transaction
 
     def current_trans(self):
         self.current_Transaction=Utilities.current_trans()

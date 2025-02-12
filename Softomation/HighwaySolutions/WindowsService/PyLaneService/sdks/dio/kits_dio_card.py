@@ -7,13 +7,12 @@ from log.log_master import CustomLogger
 from utils.constants import Utilities
 
 class KistDIOClient(threading.Thread):
-    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,ic_timemout,timeout=0.200):
+    def __init__(self,_handler,default_directory,_dio_detail,_out_labels,system_loging_status,barrier_auto,log_file_name,timeout=0.200):
         threading.Thread.__init__(self)
         self.handler=_handler
         self.dio_detail=_dio_detail
         self.system_loging_status=system_loging_status
         self.barrier_auto=barrier_auto
-        self.ic_timemout=ic_timemout
         self.timeout=timeout
         self.client_socket=None
         self.is_running=False
@@ -122,12 +121,6 @@ class KistDIOClient(threading.Thread):
                 out_data= self.out_labels[4]
                 if out_data["PositionStatus"] != loop_status:
                     out_data["PositionStatus"] = loop_status
-                if self.running_Transaction and self.fleet_status==False:
-                    if self.ic_timemout==0:
-                        self.ic_camera_handel(loop_status)
-                    else:
-                         if loop_status==True:
-                            self.ic_camera_handel(loop_status)
                 if loop_status==False and self.barrier_loop_last==True and self.barrier_Status==True and self.ohls_status==True:
                     if self.system_transcation_status and self.fleet_status==False:
                         self.lane_trans_end()
@@ -147,14 +140,7 @@ class KistDIOClient(threading.Thread):
                 self.barrier_loop_last=loop_status
                 self.handler.update_hardware_list(4,loop_status)
     
-    def ic_camera_handel(self,status):
-        try:
-            if status:
-                threading.Thread(target=self.handler.start_ic_record, args=(self.running_Transaction,)).start()
-            else:
-                threading.Thread(target=self.handler.stop_ic_record()).start()
-        except Exception as e:
-            self.logger.logError(f"Exception ic_camera_handel: {str(e)}")
+    
     
     def process_data(self,data):
         try:

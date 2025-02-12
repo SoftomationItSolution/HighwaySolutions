@@ -16,7 +16,7 @@ class TMSAppv2:
         self.script_dir=os.path.dirname(os.path.abspath(__file__))
         self.logger = CustomLogger(self.default_directory, 'main_app')
         self.db_path = os.path.join(self.default_directory, 'MasterConfig', 'dbConfig.json')
-        self.ic_path = os.path.join(self.default_directory, 'MasterConfig', 'icConfig.json')
+        self.cam_path = os.path.join(self.default_directory, 'MasterConfig', 'camConfig.json')
         self.bg_handler = None
         self.dbConnectionObj = None
         self.lane_details = None
@@ -63,24 +63,25 @@ class TMSAppv2:
         except Exception as e:
             self.logger.logError(f"Exception check_duplicate_instance: {str(e)}")
 
-    def get_ic_timemout(self):
+    def get_cam_config(self):
         try:
-            ic_json_data = Utilities.read_json_file(self.ic_path)
-            return int(ic_json_data["timeout"])
+            ic_json_data = Utilities.read_json_file(self.cam_path)
+            return ic_json_data
+            #return int(ic_json_data["timeout"])
         except Exception as e:
-            return 4
+            return None
 
 
     def main(self):
         try:
             self.check_duplicate_instance()
             db_json_data = Utilities.read_json_file(self.db_path)
-            ic_timemout=self.get_ic_timemout()
+            cam_config=self.get_cam_config()
             self.system_ip = Utilities.get_local_ips()
             # if self.compare_ips(self.system_ip, '192.168.10.12')==False:
             #self.system_ip='192.168.11.22'
             self.dbConnectionObj = MySQLConnections(self.default_directory, host=db_json_data['host'], user=db_json_data['user'], password=db_json_data['password'], database=db_json_data['database'])
-            self.bg_handler = LaneBGProcess(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip,ic_timemout)
+            self.bg_handler = LaneBGProcess(self.default_directory, self.dbConnectionObj, self.script_dir, self.system_ip,cam_config)
             self.bg_handler.daemon = True
             self.bg_handler.start()
         except Exception as e:
