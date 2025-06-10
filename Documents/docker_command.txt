@@ -102,3 +102,7 @@ server {
 sudo nginx -t
 sudo systemctl restart nginx
 sh /opt/soft/install_app.sh
+\
+
+D:\GitProjects\AutoDialerV1\Softomation\WindowApplication\Softphone> C:\Tools\nuget pack AutoDialer360.nuspec
+D:\GitProjects\AutoDialerV1\Softomation\WindowApplication\Softphone> C:\Tools\squirrel.windows.2.0.1\tools\Squirrel.exe --releasify AutoDialer360.1.0.0.nupkg --no-msi
