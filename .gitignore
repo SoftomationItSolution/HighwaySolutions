@@ -40,3 +40,4 @@ Softomation/HighwaySolutions/dockerFile/docker_ufd_build_1/nopysy_v1.tar
 /Softomation/HighwaySolutions/WebApi/TMSNodeAPI/node_modules
 /Softomation/HighwaySolutions/WebApi/TMSNodeAPI/node_modules
 *.rar
+*.zip
