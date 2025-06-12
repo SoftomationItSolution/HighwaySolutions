@@ -1,0 +1,6 @@
+SELECT Entry_Plaza_ID,Entry_Lane_ID,Exit_Plaza_ID,Exit_Lane_ID,Tag_ID,vehicle_registration_number,Plaza_Transaction_ID,
+CCH_Transaction_ID,AVC_Class,Mapper_Vehicle_Class,Reader_Read_Time,Transaction_Received_Time,Transaction_Processed_Time,
+Transaction_Amount,Accepted_Amount,Transaction_Status,Reason_Code,Fare_Type,B.ResponseCode,B.ResponseErrCode,ResponseTollFare 
+FROM dtp_10jun F 
+INNER JOIN tbl_ICDRequestPayDetail B ON F.CCH_Transaction_ID=B.TransactionId
+ORDER BY RequestDateTime;

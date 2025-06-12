@@ -47,7 +47,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
   lpicViewUrl = ''
   myWebSocket: any = null;
   player: any = null;
-  videoUrl:string=''
+  videoUrl: string = ''
   private messageSubscription: Subscription;
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
@@ -186,6 +186,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         let returnMessage = data.message;
         if (returnMessage == 'success') {
           this.laneRecentData = data.ResponseData
+          console.log(this.laneRecentData);
         }
         else {
           this.DisplayMessage('Somthing went wrong!', false);
@@ -442,7 +443,7 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
             this.CurrentTransactions = null
             this.getLaneRecentData()
             this.reset_form()
-            
+
           }
         }
       }
@@ -689,12 +690,12 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onVRN(){
-      const dialogConfig = new MatDialogConfig();
-      dialogConfig.disableClose = true;
-      dialogConfig.autoFocus = true;
-      dialogConfig.width = '60%';
-      dialogConfig.data = {videoUrl:this.videoUrl,VehicleSubClasss:this.VehicleSubClasss}
-      this.dialog.open(LiveViewPopUpComponent, dialogConfig);
-    }
+  onVRN() {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    dialogConfig.data = { videoUrl: this.videoUrl, VehicleSubClasss: this.VehicleSubClasss }
+    this.dialog.open(LiveViewPopUpComponent, dialogConfig);
+  }
 }

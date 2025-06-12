@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>RTSP Stream Viewer</title>
+  <link rel="icon" href="data:,"> <!-- avoids 404 -->
+</head>
+<body>
+  <h3>RTSP Stream</h3>
+
+  <input id="rtspInput" placeholder="Enter RTSP URL" style="width: 500px;" />
+  <button onclick="startStream()">Start</button>
+  <br><br>
+  <canvas id="playerCanvas" width="640" height="480"></canvas>
+
+  <!-- ✅ Load JSMpeg before using it -->
+  <script src="https://cdn.jsdelivr.net/npm/jsmpeg@0.2.1/jsmpeg.min.js"></script>
+
+  <script>
+    function startStream() {
+      const input = document.getElementById('rtspInput').value.trim();
+      if (!input) return alert('Enter a valid RTSP URL');
+
+      const encoded = encodeURIComponent(input);
+      const wsUrl = `ws://${location.hostname}:9999`; // or whatever your WebSocket port is
+
+      new JSMpeg.Player(wsUrl, {
+        canvas: document.getElementById('playerCanvas'),
+        autoplay: true,
+        audio: false
+      });
+    }
+  </script>
+</body>
+</html>

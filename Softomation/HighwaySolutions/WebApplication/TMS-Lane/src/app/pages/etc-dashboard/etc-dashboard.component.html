@@ -120,6 +120,8 @@
                                     <th>Vehicle</th>
                                     <th>Date Time</th>
                                     <th>Toll Fare</th>
+                                    <th>Weight(P)</th>
+                                    <th>Weight(A)</th>
                                 </tr>
                             </ng-template>
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
@@ -129,6 +131,9 @@
                                     <td>{{rowData.VehicleClassName}}-{{rowData.VehicleSubClassName}}</td>
                                     <td>{{rowData.TransactionDateTime}}</td>
                                     <td>{{rowData.TransactionAmount | currency:'INR':'symbol':'1.0-2'}}</td>
+                                    
+                                    <td>{{rowData.PermissibleVehicleWeight}}</td>
+                                    <td>{{rowData.ActualVehicleWeight}}</td>
                                     <!-- | currency:'INR':true:'1.0-2' -->
                                 </tr>
                             </ng-template>

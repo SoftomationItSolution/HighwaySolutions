@@ -1,0 +1,8 @@
+Plaza services 
+
+icd_tag_api.service
+sudo systemctl stop icd.service
+sudo systemctl stop icd_sftp_app.service
+sudo systemctl start db_bkp.service
+sudo systemctl start file-cleaner-app.service
+sudo systemctl start nvr-export.service

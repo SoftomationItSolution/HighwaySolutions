@@ -50,6 +50,8 @@ export class LiveViewPopUpComponent {
   newStream(videoUrl: string) {
     const wsPath = this.dataModel.getLiveAPI()?.toString();
     const apiPath = this.dataModel.getDataAPI()?.toString();
+    //const wsPath='ws://localhost:5002/'
+    //videoUrl='rtsp://onvif_user:Softo@2005@192.168.29.240:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif'
     let url=encodeURIComponent(videoUrl)
     //this.streamUrl=apiPath+'FastTrackHighway-TMS/getCameraLiveView/'+url
     videoUrl = wsPath+'frame/'+url
