@@ -33,7 +33,7 @@
                                             <label for="StartDateTime">Start Date Time</label>
                                             <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
                                                 pInputText autofocus class="form-control"
-                                                formControlName="StartDateTime" [readonlyInput]="true"
+                                                formControlName="StartDateTime" 
                                                 dateFormat="dd-M-yy" *ngIf="StartDateTimeDisbaled==false"></p-calendar>
 
                                                 <p-calendar [showTime]="false" [showSeconds]="true"
@@ -45,7 +45,7 @@
                                             <label for="EndDateTime">End Date Time</label>
                                             <p-calendar [showTime]="true" [showSeconds]="true" [hourFormat]="'24'"
                                                 pInputText autofocus class="form-control" formControlName="EndDateTime"
-                                                [readonlyInput]="true" dateFormat="dd-M-yy" [disabled]="EndDateTimeDisbaled"></p-calendar>
+                                                dateFormat="dd-M-yy" [disabled]="EndDateTimeDisbaled"></p-calendar>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="ShiftFilterList">Shift</label>
