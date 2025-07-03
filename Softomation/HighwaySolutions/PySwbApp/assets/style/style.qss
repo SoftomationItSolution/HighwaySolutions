@@ -1,0 +1,183 @@
+QWidget {
+    background-color: #011b41;
+    color: #ffffff;  
+    font-size: 14px;
+    border: none; 
+}
+QLineEdit {
+    background-color: #3B4252;
+    border: 1px solid #D8DEE9;
+    border-radius: 3px;
+    padding: 5px;
+    color: #ECEFF4;
+}
+
+#loginlabel{
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
+
+QPushButton {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
+
+QPushButton#resetButton {
+    background-color: #f44336; /* Red color for reset button */
+}
+QPushButton#resetButton:hover {
+    background-color: #d32f2f; /* Darker red color on hover */
+}
+QPushButton#resetButton:pressed {
+    background-color: #b71c1c; /* Even darker red color when pressed */
+}
+QPushButton#resetButton:disabled {
+    background-color: #aaaaaa;
+    color: #666666;
+}
+
+#noborder{
+   border: none; 
+}
+QGroupBox {
+    font-weight: bold;
+    padding: 10px;
+    border: 2px solid #ffffff;
+    border-radius: 8px;
+    margin-top: 6px; /* to make room for the title */
+}
+
+QGroupBox::title {
+    subcontrol-origin: margin;
+    left: 10px;
+    padding: 0 3px;
+    background-color: #011b41;
+    color: white;
+}
+
+QListWidget {
+    background-color: #011b41;
+}
+QListWidget::item {
+    color: white;
+    border: 1px solid #fff; 
+    height:30px;
+} 
+QListWidget::item:selected { 
+    background-color: #808080; color: white; 
+}  
+QListWidget::item:hover {
+    background-color: #808080;color: black; 
+}
+
+#setborder {
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    background-color: #e6f5e6;
+    padding: 5px;
+}
+
+QDateTimeEdit {
+   
+
+    background-color: #3B4252;
+    border: 1px solid #D8DEE9;
+    border-radius: 3px;
+    padding: 5px;
+    color: #ECEFF4;
+}
+
+QDateTimeEdit::drop-down {
+    background-color: #011b41;  /* Set background color for the drop-down */
+    border: 1px solid #D8DEE9;   /* Border color for drop-down */
+}
+
+QDateTimeEdit::down-arrow {
+    width: 24px; /* Adjust the size of the down arrow */
+    height: 24px; /* Adjust the size of the down arrow */
+    background-color: #D8DEE9; /* Set background color for down arrow */
+    border-radius: 3px;        /* Round corners for the arrow */
+}
+
+QDateTimeEdit::up-arrow {
+    width: 24px; /* Adjust the size of the up arrow */
+    height: 24px; /* Adjust the size of the up arrow */
+    background-color: #D8DEE9; /* Set background color for up arrow */
+    border-radius: 3px;        /* Round corners for the arrow */
+}
+
+/* Optional: Change arrow color on hover or pressed states */
+QDateTimeEdit::down-arrow:hover,
+QDateTimeEdit::up-arrow:hover {
+    background-color: #4CAF50; /* Green color on hover */
+}
+
+QCheckBox {
+    color: white;                    /* Text color */
+    font-size: 14px;                  /* Font size */
+    padding-left: 5px;                /* Padding for the label */
+}
+
+QCheckBox::indicator {
+    width: 20px;                     /* Width of the checkbox */
+    height: 20px;                    /* Height of the checkbox */
+    border: 2px solid white;         /* Border around the checkbox */
+    border-radius: 4px;              /* Rounded corners for the checkbox */
+    background-color: #444;          /* Background color of the checkbox */
+}
+
+QCheckBox::indicator:checked {
+    background-color: #f44336;          /* Background color when checked */
+    border-color: #4a4;              /* Border color when checked */
+}
+
+QCheckBox::indicator:unchecked {
+    background-color: #6c6;          /* Background color when unchecked */
+    border-color: white;             /* Border color when unchecked */
+}
+
+QCheckBox::indicator:checked:hover {
+    background-color: #f44336;          /* Light green when hovered over and checked */
+}
+
+QCheckBox::indicator:unchecked:hover {
+    background-color: #6c6;          /* Darker grey when hovered over and unchecked */
+}
+
+QCheckBox:hover {
+    color: #6c6;                     /* Text color when hovered */
+}
+#LogoutButton {
+    background-color: transparent;
+    border: none;
+    padding: 4px;
+}
+
+QComboBox {
+    background-color: #434C5E;
+    color: #ECEFF4;
+    border: 1px solid #4C566A;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+QComboBox QAbstractItemView {
+    background-color: #3B4252;  /* dropdown background */
+    color: #ECEFF4;             /* dropdown item text */
+    selection-background-color: #5E81AC;
+    selection-color: #ECEFF4;
+    border: 1px solid #4C566A;
+}
