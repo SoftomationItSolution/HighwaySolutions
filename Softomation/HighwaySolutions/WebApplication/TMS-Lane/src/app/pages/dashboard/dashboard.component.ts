@@ -202,9 +202,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
       case 'Reset':
         this.reset_form();
         break;
-      case 'Fleet Start':
-        this.onFleetStart()
-        break;
+      // case 'Fleet Start':
+      //   this.onFleetStart()
+      //   break;
       // case 'Bleed Off':
       //   this.bleedOff();
       //   break;

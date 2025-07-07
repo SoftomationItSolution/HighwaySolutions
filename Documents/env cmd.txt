@@ -474,3 +474,10 @@ sudo systemctl status db_bkp.service
 
 sudo find /home/ProjectConfig/TMSLaneV2/Events/camera/ic -type f -mtime +2 -exec rm -f {} \;
 sudo find /home/ProjectConfig/TMSLaneV2/Events/camera/lpic -type f -mtime +2 -exec rm -f {} \;
+
+
+permission for USB and serial
+sudo usermod -aG dialout $USER       # Serial devices (/dev/ttyS*, /dev/ttyUSB*)
+sudo usermod -aG plugdev $USER       # USB devices (e.g., /dev/bus/usb/*)
+sudo usermod -aG lp $USER
+sudo usermod -aG lp $USER
