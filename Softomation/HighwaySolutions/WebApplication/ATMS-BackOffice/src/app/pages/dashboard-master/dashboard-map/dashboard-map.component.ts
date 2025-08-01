@@ -85,7 +85,7 @@ export class DashboardMapComponent implements OnInit,OnDestroy {
 
   DefaultCoordinates() {
     this.platform = new H.service.Platform({
-      "apikey": "Oyib6yC37a1SiQwuOIGdo9EBkUMvzQ9beIb23mNqwbo"
+      "apikey": "nBCqOicGXO4rcN3H51d2wAee_NsImyn7mSgc4X-61Ss"
     });
     let defaultLayers = this.platform.createDefaultLayers();
     this.map = new H.Map(this.mapElement.nativeElement,

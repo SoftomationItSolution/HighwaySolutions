@@ -54,6 +54,11 @@
     padding-bottom: 5px !important;
 }
 
+.client_logo{
+    height: 100px;
+    width: 250px;
+}
+
 .mat-mdc-form-field,
 .mat-mdc-floating-label {
     background-color: transparent !important;
@@ -532,6 +537,13 @@ tr {
 .logo img {
     height: 50px !important;
     margin-top: 11px !important;
+    width: 166px;
+}
+
+.logo-sm img {
+    height: 50px !important;
+    margin-top: 11px !important;
+    width: 94px;
 }
 
 .navbar-brand-box {
