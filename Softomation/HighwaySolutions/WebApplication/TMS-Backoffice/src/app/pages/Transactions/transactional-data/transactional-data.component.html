@@ -144,6 +144,7 @@
                                 <th>Transaction <br/> Amount</th>
                                 <th>Operator</th>
                                 <th>Media</th>
+                                <th></th>
                             </tr>
                         </ng-template>
                         <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
@@ -165,12 +166,14 @@
                                 <td class="td-amt">{{rowData.TagPenaltyAmount| currency:'INR':true:'1.0-2'}}</td>
                                 <td class="td-amt">{{rowData.TransactionAmount| currency:'INR':true:'1.0-2'}}</td>
                                 <td>{{rowData.LoginId}}</td>
+                                
                                 <td style="text-align: center;">
                                     <a href="javascript:void(0);" (click)="onMidiaView(rowData)"
                                         class="me-3 text-secondary" title="Meida Files">
                                         <i class="mdi mdi-paperclip font-size-18"></i>
                                     </a>
                                 </td>
+                                <td>{{rowData.IcVideoStatus}}-{{rowData.IcImageStatus}}-{{rowData.LpicImageStatus}}</td>
                             </tr>
                         </ng-template>
                     </p-table>

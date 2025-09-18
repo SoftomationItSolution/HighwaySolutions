@@ -1,0 +1,12 @@
+[Unit]
+Description=NVR Export 1.0 APP
+After=network.target
+
+[Service]
+WorkingDirectory=/mnt/TMS/Apps/PyExportVideo
+ExecStart=/home/mcube/miniconda3/envs/pysy/bin/python nvr_export.py
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

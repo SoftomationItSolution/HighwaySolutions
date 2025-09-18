@@ -758,20 +758,20 @@ export class apiIntegrationService {
     return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FileUploadDetailGetById?FileUploadDetailId=' + FileUploadDetailId, { headers: headers_object });
   }
 
-  DBBackUpDetailInsertUpdate(data: {}): Observable<any> {
+  FileBackUpDetailInsertUpdate(data: {}): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/DBBackUpDetailInsertUpdate', data, { headers: headers_object });
+    return this.objHttp.post(this.ApiCallUrl + this.Prefix + '/FileBackUpDetailInsertUpdate', data, { headers: headers_object });
   }
-  DBBackUpDetailGetAll(): Observable<any> {
+  FileBackUpDetailGetAll(): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/DBBackUpDetailGetAll', { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FileBackUpDetailGetAll', { headers: headers_object });
   }
-  DBBackUpDetailGetById(DBBackUpDetailId: any): Observable<any> {
+  FileBackUpDetailGetById(DBBackUpDetailId: any): Observable<any> {
     this.ApiCallUrl = this.dataModel.getDataAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
-    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/DBBackUpDetailGetById?DBBackUpDetailId=' + DBBackUpDetailId, { headers: headers_object });
+    return this.objHttp.get(this.ApiCallUrl + this.Prefix + '/FileBackUpDetailGetById?FileBackUpDetailId=' + DBBackUpDetailId, { headers: headers_object });
   }
   //#endregion
 

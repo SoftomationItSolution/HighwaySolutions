@@ -22,7 +22,8 @@ export class DBConfigurationComponent implements OnInit {
   DataAdd: Number = 0;
   DataView: Number = 0;
   FileUploadData:any;
-  DBBackupData:any;
+  FileBackUpData:any;
+  FileTypeMaster:any;
   constructor(public dialog: MatDialog,private spinner: NgxSpinnerService,private dm: DataModel,
     private dbService: apiIntegrationService) {
     this.LogedUserId = this.dm.getUserId();
@@ -91,10 +92,12 @@ export class DBConfigurationComponent implements OnInit {
 
   GetBackUpDBDetail() {
     this.spinner.show();
-    this.dbService.DBBackUpDetailGetAll().subscribe(
+    this.dbService.FileBackUpDetailGetAll().subscribe(
       data => {
         this.spinner.hide();
-        this.DBBackupData = data.ResponseData;
+        const rdData=data.ResponseData;
+        this.FileBackUpData = rdData[0];
+        this.FileTypeMaster = rdData[1];
         
       },
       (error) => {
@@ -163,7 +166,7 @@ export class DBConfigurationComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '458px';
-      dialogConfig.data = { action: 'Save', DBBackUpDetailId: 0 };
+      dialogConfig.data = { action: 'Save', FileBackUpDetailId: 0,FileTypeMaster:this.FileTypeMaster };
       const dialogRef = this.dialog.open(DBConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {
@@ -186,7 +189,7 @@ export class DBConfigurationComponent implements OnInit {
       dialogConfig.autoFocus = true;
       dialogConfig.width = '50%';
       dialogConfig.height = '458px';
-      dialogConfig.data = { action: 'Update', DBBackUpDetailId: data.DBBackUpDetailId };
+      dialogConfig.data = { action: 'Update', FileBackUpDetailId: data.FileBackUpDetailId,FileTypeMaster:this.FileTypeMaster };
       const dialogRef = this.dialog.open(DBConfigurationPopupComponent, dialogConfig);
       dialogRef.afterClosed().subscribe(
         data => {

@@ -9,20 +9,20 @@
         <form [formGroup]="DataDetailsForm">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="DataBaseTypeId">Database Type</label>
-                    <p-dropdown appendTo="body" formControlName="DataBaseTypeId" inputId="DataBaseTypeId"
-                        [options]="DataBaseTypeList" optionLabel="DataName" optionValue="DataId" placeholder="Select"
+                    <label for="FileTypeId">File Type</label>
+                    <p-dropdown appendTo="body" formControlName="FileTypeId" inputId="FileTypeId"
+                        [options]="FileTypeList" optionLabel="FileTypeName" optionValue="FileTypeId" placeholder="Select"
                         class="form-control select2"></p-dropdown>
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','DataBaseTypeId')">Database type is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','FileTypeId')">Database type is
                         required.</small>
                 </div>
                 <div class="col-md-6">
-                    <label for="DataBaseName">Database Name</label>
-                    <input formControlName="DataBaseName" type="text" pInputText required autofocus
+                    <label for="FileName">File Name</label>
+                    <input formControlName="FileName" type="text" pInputText required autofocus
                         class="form-control" />
                     <small class="p-error"
-                        *ngIf="submitted && DataDetailsForm.hasError('required','DataBaseName')">Database name is
+                        *ngIf="submitted && DataDetailsForm.hasError('required','FileName')">Database name is
                         required.</small>
                 </div>
             </div>

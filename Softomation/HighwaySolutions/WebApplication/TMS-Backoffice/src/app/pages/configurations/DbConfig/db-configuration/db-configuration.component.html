@@ -67,7 +67,7 @@
                 <div class="panel">
                     <div>
                         <a href="javascript:void(0);" (click)="AddDatabaseDetails()" class="btn btn-primary mb-2">
-                            <i class="mdi mdi-plus me-2"></i> Add Database Details
+                            <i class="mdi mdi-plus me-2"></i> Add Files Details
                         </a>
                         <div class="dropdown d-inline-block float-right">
                             <span class="p-input-icon-left">
@@ -78,18 +78,18 @@
                         </div>
                     </div>
                     <div class="table-responsive mt-3 listtablepagging listtablepadding" id="tbl">
-                        <p-table #dt1 [value]="DBBackupData" [rowHover]="true" [scrollable]="true"
+                        <p-table #dt1 [value]="FileBackUpData" [rowHover]="true" [scrollable]="true"
                             [resizableColumns]="true" styleClass="table table-centered datatable dt-responsive nowrap"
                             selectionMode="single"
-                            [globalFilterFields]="['DataBaseName','DataBaseTypeName','LastBackUpDatetime',
+                            [globalFilterFields]="['FileName','FileTypeName','LastBackUpDatetime',
                         'LastBackUpSize','HostName','DataStatusName','LastBackupFileSize']">
                             <ng-template pTemplate="header" styleClass="thead-light">
                                 <tr>
                                     <th>S. No.</th>
-                                    <th pSortableColumn="DataBaseTypeName">Database Type <p-sortIcon
-                                            field="DataBaseTypeName"></p-sortIcon></th>
-                                    <th pSortableColumn="DataBaseName">DataBase Name <p-sortIcon
-                                            field="DataBaseName"></p-sortIcon>
+                                    <th pSortableColumn="FileTypeName">File Type <p-sortIcon
+                                            field="FileTypeName"></p-sortIcon></th>
+                                    <th pSortableColumn="FileName">File Name <p-sortIcon
+                                            field="FileName"></p-sortIcon>
                                     </th>
                                     <th pSortableColumn="HostName">Host Name <p-sortIcon field="HostName"></p-sortIcon>
                                     </th>
@@ -108,8 +108,8 @@
                             <ng-template pTemplate="body" let-rowData let-columns="columns" let-i="rowIndex">
                                 <tr [pSelectableRow]="rowData">
                                     <td>{{i+1}}</td>
-                                    <td>{{rowData.DataBaseTypeName}}</td>
-                                    <td>{{rowData.DataBaseName}}</td>
+                                    <td>{{rowData.FileTypeName}}</td>
+                                    <td>{{rowData.FileName}}</td>
                                     <td>{{rowData.HostName}}</td>
                                     <td>{{rowData.LastBackUpDatetime | date: 'dd-MMM-yyyy HH:mm:ss':'UTC' }}</td>
                                     <td>{{rowData.LastBackUpSize}}</td>

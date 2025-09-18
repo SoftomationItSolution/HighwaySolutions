@@ -20,6 +20,7 @@ app.use('/EventMedia', express.static('EventMedia/'));
 app.use(apiPrefix, require('./_routers/commonRoute'));
 app.use(apiPrefix, require('./_routers/dashboardRoute'));
 app.use(apiPrefix, require('./_routers/dbBackup'));
+app.use(apiPrefix, require('./_routers/fileBackup'));
 app.use(apiPrefix, require('./_routers/userRoute'));
 app.use(apiPrefix, require('./_routers/rolesRoute'));
 app.use(apiPrefix, require('./_routers/manufacturerRoute'));

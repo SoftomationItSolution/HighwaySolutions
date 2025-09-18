@@ -256,8 +256,8 @@ export class TransactionalDataComponent implements OnInit, AfterViewInit, OnDest
       }
     }
     let AuditerFilterList = "0"
-    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'dd-MMM-yyyy HH:mm:ss')
-    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'dd-MMM-yyyy HH:mm:ss')
+    let SD = this.datepipe.transform(this.FilterDetailsForm.value.StartDateTime, 'yyyy-MM-dd HH:mm:ss')
+    let ED = this.datepipe.transform(this.FilterDetailsForm.value.EndDateTime, 'yyyy-MM-dd HH:mm:ss')
     var obj = {
       ShiftFilterList: ShiftFilterList,
       TCUserFilterList: TCUserFilterList,

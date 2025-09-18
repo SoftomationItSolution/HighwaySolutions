@@ -76,13 +76,13 @@ async function LaneTransactionGetByFilter(req, res, next) {
     try {
         let data = req.body;
         if (data.IsReviewedRequired && data.IsReviewedStatus) {
-            data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=1 AND CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+            data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=1 AND CONVERT(DATETIME,L.TransactionDateTime) >= CONVERT(DATETIME,'" + data.StartDateTime + "') AND CONVERT(DATETIME,L.TransactionDateTime) <= CONVERT(DATETIME,'" + data.EndDateTime + "')";
         }
         else if (data.IsReviewedRequired && data.IsReviewedStatus == false) {
-            data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=0 AND CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+            data.FilterQuery = "WHERE L.IsReviewedRequired=1 AND L.ReviewedStatus=0 AND CONVERT(DATETIME,L.TransactionDateTime) >= CONVERT(DATETIME,'" + data.StartDateTime + "') AND CONVERT(DATETIME,L.TransactionDateTime) <= CONVERT(DATETIME,'" + data.EndDateTime + "')";
         }
         else {
-            data.FilterQuery = "WHERE CONVERT(DATE,L.TransactionDateTime) >= CONVERT(DATE,'" + data.StartDateTime + "') AND CONVERT(DATE,L.TransactionDateTime) <= CONVERT(DATE,'" + data.EndDateTime + "')";
+            data.FilterQuery = "WHERE CONVERT(DATETIME,L.TransactionDateTime) >= CONVERT(DATETIME,'" + data.StartDateTime + "') AND CONVERT(DATETIME,L.TransactionDateTime) <= CONVERT(DATETIME,'" + data.EndDateTime + "')";
         }
         if (data.ShiftFilterList != "0") {
             data.FilterQuery = data.FilterQuery + " AND L.ShiftId IN (" + data.ShiftFilterList + ") ";
@@ -257,7 +257,10 @@ function CreateObjectForLaneData(row) {
             ReviewedLoginId: row.ReviewedLoginId,
             ReviewedDateTime: row.ReviewedDateTime,
             ReviewedRemark: row.ReviewedRemark,
-            ReceivedDateTime: row.ReceivedDateTime
+            ReceivedDateTime: row.ReceivedDateTime,
+            IcVideoStatus: row.IcVideoStatus,
+            IcImageStatus: row.IcImageStatus,
+            LpicImageStatus: row.LpicImageStatus
         }
         return data;
     } catch (error) {
