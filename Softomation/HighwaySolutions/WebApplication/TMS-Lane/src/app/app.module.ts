@@ -55,6 +55,7 @@ import { PaymentSelectionComponent } from './pages/popups/PaymentSelection/payme
 import { FleetCounterComponent } from './pages/popups/FleetCounter/fleet-counter.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EtcDashboardComponent } from './pages/etc-dashboard/etc-dashboard.component';
+import { PaymentQrComponent } from './pages/popups/PaymentQr/payment-qr.component';
 const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
   hostname: GetIpAddress(),
   port: 9001,
@@ -100,6 +101,7 @@ export const MY_CUSTOM_FORMATS = {
     ExemptSelectionComponent,
     PaymentSelectionComponent,
     FleetCounterComponent,
+    PaymentQrComponent
   ],
   imports: [
     BrowserModule,

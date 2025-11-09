@@ -44,3 +44,4 @@ Softomation/HighwaySolutions/dockerFile/docker_ufd_build_1/nopysy_v1.tar
 /Softomation/HighwaySolutions/WebApi/LiveViewApi/node_modules
 *.mp4
 *.jpg
+/Softomation/HighwaySolutions/BGServive/Lane-DB_Cube

@@ -14,7 +14,7 @@ export class WebSocketService {
     this.GetIpAddress();
   }
   GetIpAddress() {
-    this.currentIP='';
+    this.currentIP = '';
     var curretURL = (window.location.href).split(':')
     this.currentIP = curretURL[1].replace("//", "");
     this.connect();
@@ -22,7 +22,7 @@ export class WebSocketService {
 
   connect(): void {
     try {
-      const wsAdd=`ws://${this.currentIP}:6789`
+      const wsAdd = `ws://${this.currentIP}:5001/ws`
       console.log(wsAdd)
       this.socket = new WebSocket(wsAdd);
       this.socket.onmessage = (event) => {

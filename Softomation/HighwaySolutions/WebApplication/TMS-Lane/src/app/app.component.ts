@@ -38,7 +38,7 @@ export class AppComponent implements AfterViewInit{
         }
       },
       (error) => {
-       
+        this.router.navigate(['']);
       }
     );
   }

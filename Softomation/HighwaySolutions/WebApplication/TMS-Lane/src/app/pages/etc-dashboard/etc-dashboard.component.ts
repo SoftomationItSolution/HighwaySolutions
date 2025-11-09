@@ -112,16 +112,9 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
     this.tteselectedButton = '';
     this.FormDetails.reset()
     this.FormDetails.controls['TransactionTypeName'].setValue('');
-    this.FormDetails.controls['TransactionSubTypeName'].setValue('');
     this.FormDetails.controls['VehicleClassName'].setValue('');
     this.FormDetails.controls['VehicleClassSubName'].setValue('');
-    this.FormDetails.controls['JourneyTypeId'].setValue('S');
     this.FormDetails.controls['PlateNumber'].setValue('');
-    this.FormDetails.controls['Remark'].setValue('');
-    this.FormDetails.controls['VehicleWeight'].setValue(0);
-    this.FormDetails.controls['TollFare'].setValue(0);
-    this.FormDetails.controls['OverweightPenalty'].setValue(0);
-    this.FormDetails.controls['TagPenalty'].setValue(0);
     this.selectedVehicleClasss = 0
   }
 
@@ -186,7 +179,6 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
         let returnMessage = data.message;
         if (returnMessage == 'success') {
           this.laneRecentData = data.ResponseData
-          console.log(this.laneRecentData);
         }
         else {
           this.DisplayMessage('Somthing went wrong!', false);
@@ -439,6 +431,9 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
           else if (toppic == "rfid_processed") {
             this.process_rfid_data(result)
           }
+          else if (toppic == "tag_status") {
+            this.updateTagStatus(result)
+          }
           else if (toppic == "lane_process_end") {
             this.CurrentTransactions = null
             this.getLaneRecentData()
@@ -452,9 +447,28 @@ export class EtcDashboardComponent implements OnInit, OnDestroy {
     }
 
   }
+  updateTagStatus(tagData: any) {
+    if (!tagData) {
+      return;
+    }
+
+    // Plate Number - fallback if REGNUMBER is null/undefined
+    const plateNumber = tagData.REGNUMBER ?? 'Unknown';
+    this.FormDetails.get('PlateNumber')?.setValue(plateNumber);
+
+    // Allowed flag - safe check
+    if (tagData.Allowed === true) {
+      this.FormDetails.get('TagStatus')?.setValue('Active ✅');
+    } else if (tagData.Allowed === false) {
+      this.FormDetails.get('TagStatus')?.setValue('Not Allowed ❌');
+    } else {
+      // If Allowed is missing or null
+      this.FormDetails.get('TagStatus')?.setValue('Unknown ⚠️');
+    }
+  }
 
   process_rfid_data(tagDetails: any) {
-    console.log(tagDetails)
+    //console.log(tagDetails)
   }
 
   updateEquipmentStatus(EquipmentTypeId: number, status: boolean, toppic): void {

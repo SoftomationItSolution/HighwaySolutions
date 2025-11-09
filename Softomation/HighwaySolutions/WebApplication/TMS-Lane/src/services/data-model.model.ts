@@ -16,8 +16,8 @@ export class DataModel {
   LogInStatusEmit = new EventEmitter<boolean>();
   loggedInStatus = false;
   PageRefresh = new EventEmitter<any>();
-  constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog,public datepipe:DatePipe) { }
-  
+  constructor(public snackBar: MatSnackBar, private router: Router, public dialog: MatDialog, public datepipe: DatePipe) { }
+
   clearStorage() {
     localStorage.removeItem("FthTmsLaneloggedIn");
     localStorage.removeItem("FthTmsLaneToken");
@@ -85,7 +85,7 @@ export class DataModel {
   getCamAPI() {
     return localStorage.getItem('FthTmsLaneCamAPI');
   }
-  
+
 
   setIcdAPI(path: string) {
     return localStorage.setItem('FthTmsLaneICDAPI', path);
@@ -93,6 +93,14 @@ export class DataModel {
 
   getICDAPI() {
     return localStorage.getItem('FthTmsLaneICDAPI');
+  }
+
+  setQrAPI(path: string) {
+    return localStorage.setItem('FthTmsLaneQrAPI', path);
+  }
+
+  getQrAPI() {
+    return localStorage.getItem('FthTmsLaneQrAPI');
   }
 
   setMediaAPI(path: string) {
@@ -159,7 +167,7 @@ export class DataModel {
       return -1
   }
 
-  setloginTime(token:string) {
+  setloginTime(token: string) {
     return localStorage.setItem('FthTmsLaneloginTime', token);
   }
 
@@ -180,7 +188,7 @@ export class DataModel {
   }
 
   openSnackBar(message: any, success: boolean) {
-    if(message==undefined){
+    if (message == undefined) {
       message = [{ AlertMessage: 'Something went wrong.' }];
     }
     this.snackBar.openFromComponent(SnakbarComponent, {
@@ -225,10 +233,10 @@ export class DataModel {
     })
   }
 
-  getPath(input: string,LaneNumber): string {
+  getPath(input: string, LaneNumber): string {
     const date = new Date(input);
     const tDate = this.datepipe.transform(date, 'yyyy-MM-dd');
-    const path= "LaneData/"+tDate+'/'+LaneNumber.replace('Lane-','L')+'/'
+    const path = "LaneData/" + tDate + '/' + LaneNumber.replace('Lane-', 'L') + '/'
     return path
   }
 }
@@ -246,6 +254,7 @@ export interface ConfigIntrface {
   Address: string,
   State: string,
   Pincode: string,
-  ServerUrl:string,
-  IcdUrl:string
+  ServerUrl: string,
+  IcdUrl: string,
+  QrUrl: string
 }

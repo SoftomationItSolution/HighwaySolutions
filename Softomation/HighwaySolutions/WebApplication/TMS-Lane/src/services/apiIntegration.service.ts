@@ -12,6 +12,7 @@ export class apiIntegrationService {
   BaseApiUrl: string | undefined;
   ImageApiURL: string | undefined;
   IcdUrl: string | undefined;
+  QrApiUrl: string | undefined;
   ConfigData!: ConfigIntrface;
   Prefix = "FastTrackHighway-lane";
   header: any = new Headers({ 'Content-Type': 'application/json; charset = utf-8;' });
@@ -51,9 +52,11 @@ export class apiIntegrationService {
           
         }
         let LiveView = this.ConfigData.ServerUrl;
-        this.IcdUrl=this.ConfigData.IcdUrl
+        this.IcdUrl=this.ConfigData.IcdUrl;
+        this.QrApiUrl=this.ConfigData.QrUrl;
         this.ApiCallUrl = apiPath
         this.dataModel.setIcdAPI(this.IcdUrl);
+        this.dataModel.setQrAPI(this.QrApiUrl);
         this.dataModel.setMediaAPI(mediaPath);
         this.dataModel.setDataAPI(apiPath)
         this.dataModel.setLiveAPI(LiveView);
@@ -178,6 +181,14 @@ export class apiIntegrationService {
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.ApiCallUrl +'VRN', data, { headers: headers_object });
   }
+
+
+  GenerateQr(data: {}): Observable<any> {
+    this.QrApiUrl=this.dataModel.getQrAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.QrApiUrl +'payment/qr/generate', data, { headers: headers_object });
+  }
+
 
   
  

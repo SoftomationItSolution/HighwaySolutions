@@ -12,6 +12,7 @@ import { PaymentSelectionComponent } from '../popups/PaymentSelection/payment-se
 import { FleetCounterComponent } from '../popups/FleetCounter/fleet-counter.component';
 import { JsonBufferService } from 'src/services/JsonBuffer.service';
 import { LiveViewPopUpComponent } from '../popups/live-view-pop-up/live-view-pop-up.component';
+import { PaymentQrComponent } from '../popups/PaymentQr/payment-qr.component';
 declare var JSMpeg: any;
 
 @Component({
@@ -137,7 +138,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         if (this.TransactionTypeId > 1) {
           this.submit_trans()
         }
-        else{
+        else {
           this.DisplayMessage('this transaction not allowed!', false);
         }
       }
@@ -424,8 +425,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   getCurrentTransactions(dataFor, dataValue, tagDetails) {
+    this.spinner.show();
     this.dbService.getCurrentTransactions().subscribe(
       data => {
+        this.spinner.hide();
         this.CurrentTransactions = data.ResponseData
         this.bindData(dataFor, dataValue, tagDetails)
       },
@@ -443,6 +446,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     } else {
       this.bindData(dataFor, dataValue, tagDetails)
     }
+
+    // if(data.PaymentTypeId){}
   }
 
   onVehicleChange(event) {
@@ -527,6 +532,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
               if (data != null) {
                 this.createTrans("pt", data, null)
                 this.dialogRef = null;
+                if (data.PaymentTypeId != 1) {
+                  this.generateQr();
+                }
               }
               else {
                 this.DisplayMessage('Wrong payment type selection!', false);
@@ -561,6 +569,50 @@ export class DashboardComponent implements OnInit, OnDestroy {
     else {
 
     }
+  }
+
+  generateQr() {
+    if (this.CurrentTransactions == null) {
+      this.DisplayMessage("No transactions found!", false)
+      return;
+    }
+    else {
+      if (this.CurrentTransactions.VehicleClassId == 0) {
+        this.DisplayMessage("Vehicle class is required!", false)
+        return
+      }
+      if (this.CurrentTransactions.TransactionAmount == 0) {
+        this.DisplayMessage("Toll fare not found!", false)
+        return
+      }
+      const plate = this.FormDetails.value.PlateNumber;
+      if (plate.length < 4) {
+        this.DisplayMessage("Plate number is required!", false);
+      }
+    }
+    this.CurrentTransactions.PlateNumber = this.FormDetails.value.PlateNumber || '';
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '50%';
+    dialogConfig.data = this.CurrentTransactions;
+    this.dialogRef = this.dialog.open(PaymentQrComponent, dialogConfig);
+    this.dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          if (data != null) {
+            this.createTrans("pt", data, null)
+            this.dialogRef = null;
+            if (data.PaymentTypeId != 1) {
+              this.generateQr();
+            }
+          }
+          else {
+            this.DisplayMessage('Wrong payment type selection!', false);
+          }
+        }
+      }
+    );
   }
 
   preprocessJson(inputString) {
