@@ -211,6 +211,20 @@ function date_time_format(in_dateTime) {
     }
 }
 
+// function date_time_format(in_dateTime) {
+//     try {
+//         if (!in_dateTime) return null;
+
+//         const parsed = moment.tz(in_dateTime, 'DD-MMM-YYYY HH:mm:ss.SSS', 'Asia/Kolkata');
+//         if (!parsed.isValid()) throw new Error('Invalid date-time format');
+
+//         return parsed.toDate(); // return actual Date object for SQL input
+//     } catch (error) {
+//         errorlogMessage(error, 'date_time_format error with input: ' + in_dateTime);
+//         return null;
+//     }
+// }
+
 
 function errorlogMessage(error, method) {
     try {
