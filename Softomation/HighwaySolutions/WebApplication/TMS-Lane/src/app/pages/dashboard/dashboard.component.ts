@@ -13,6 +13,7 @@ import { FleetCounterComponent } from '../popups/FleetCounter/fleet-counter.comp
 import { JsonBufferService } from 'src/services/JsonBuffer.service';
 import { LiveViewPopUpComponent } from '../popups/live-view-pop-up/live-view-pop-up.component';
 import { PaymentQrComponent } from '../popups/PaymentQr/payment-qr.component';
+import { MQTTService } from 'src/services/mqtt.service';
 declare var JSMpeg: any;
 
 @Component({
@@ -58,7 +59,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   constructor(private dbService: apiIntegrationService,
     private dm: DataModel, private spinner: NgxSpinnerService,
     private webSocketService: WebSocketService, public dialog: MatDialog,
-    private jsonBufferService: JsonBufferService) {
+    private jsonBufferService: JsonBufferService,private mqtt: MQTTService,) {
     this.UserData = this.dm.getUserData()
     this.lpicViewUrl = this.dm.getLiveAPI()
   }
@@ -66,6 +67,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   customEventFunctions: { [key: number]: () => void } = {};
   ngOnInit(): void {
+    const serverIp = this.dm.getServerIp();
+    this.mqtt.setServer(serverIp, 9001);
     this.FormDetails = new FormGroup({
       TransactionTypeName: new FormControl('', [
         Validators.required
@@ -588,6 +591,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       const plate = this.FormDetails.value.PlateNumber;
       if (plate.length < 4) {
         this.DisplayMessage("Plate number is required!", false);
+        return;
       }
     }
     this.CurrentTransactions.PlateNumber = this.FormDetails.value.PlateNumber || '';
@@ -599,13 +603,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.dialogRef = this.dialog.open(PaymentQrComponent, dialogConfig);
     this.dialogRef.afterClosed().subscribe(
       data => {
+        debugger;
         if (data) {
           if (data != null) {
-            this.createTrans("pt", data, null)
-            this.dialogRef = null;
-            if (data.PaymentTypeId != 1) {
-              this.generateQr();
-            }
+            this.CurrentTransactions = data;
+            this.submit_trans()
           }
           else {
             this.DisplayMessage('Wrong payment type selection!', false);

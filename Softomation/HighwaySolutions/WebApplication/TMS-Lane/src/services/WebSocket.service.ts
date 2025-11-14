@@ -23,14 +23,13 @@ export class WebSocketService {
   connect(): void {
     try {
       const wsAdd = `ws://${this.currentIP}:5001/ws`
-      console.log(wsAdd)
       this.socket = new WebSocket(wsAdd);
       this.socket.onmessage = (event) => {
         this.messageSubject.next(event.data);
       };
 
       this.socket.onopen = (event) => {
-        console.log('WebSocket connection opened:', event);
+        //console.log('WebSocket connection opened:', event);
       };
 
       this.socket.onclose = (event) => {

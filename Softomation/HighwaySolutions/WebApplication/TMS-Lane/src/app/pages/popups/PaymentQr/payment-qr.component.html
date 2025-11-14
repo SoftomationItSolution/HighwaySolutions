@@ -1,19 +1,40 @@
 <div class="modal-content theam-bg">
   <div class="modal-body text-center">
+
     <div *ngIf="!expired; else expiredTpl">
+
+      <!-- QR Image -->
       <img class="qr-img" [src]="BankQrUrl" alt="Bank QR">
-      <p class="mt-2 text-info">
-        Expires in: <strong>{{ RemainingTime }}</strong> sec
+
+      <!-- Payment Amount -->
+      <p class="mt-2 text-success text-lg" *ngIf="this.PaymentAmount!=0">
+        Amount: <strong>₹ {{ PaymentAmount | number:'1.2-2' }}</strong>
       </p>
+
+      <!-- Countdown Timer -->
+      <p class="mt-2 text-info">
+        Expires in:
+        <strong [ngClass]="RemainingTime <= 10 ? 'timer-warning' : ''">
+          {{ RemainingTimeMS | date:'mm:ss':'UTC' }}
+        </strong>
+      </p>
+
     </div>
 
+    <!-- When Expired -->
     <ng-template #expiredTpl>
       <div class="alert alert-danger mt-3">⚠️ QR has expired</div>
     </ng-template>
+
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="ClosePoup()">Close</button>
-    <button type="button" class="btn btn-success" (click)="checkStatus()">Check Status</button>
+    <button type="button" class="btn btn-secondary" (click)="ClosePoup()">
+      Close
+    </button>
+
+    <button type="button" class="btn btn-success" (click)="checkStatus()" *ngIf="this.QRReferenceNumber !== ''">
+      Check Status
+    </button>
   </div>
 </div>

@@ -5,6 +5,7 @@
     "ApiAdminPath": "Softomation",
     "Latitude": "28.457267",
     "Longitude": "77.306759",
+    "ServerIp":"125.17.219.6",
     "ServerUrl":"ws://127.0.0.1:5001/frame/",
     "IcdUrl":"http://125.17.219.6:5003/tagRequest",
     "QrUrl":"http://125.17.219.6:5002/"

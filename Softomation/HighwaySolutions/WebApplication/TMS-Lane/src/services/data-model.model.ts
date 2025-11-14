@@ -86,6 +86,14 @@ export class DataModel {
     return localStorage.getItem('FthTmsLaneCamAPI');
   }
 
+  setServerIp(path: string) {
+    return localStorage.setItem('FthTmsLaneServer', path);
+  }
+
+  getServerIp() {
+    return localStorage.getItem('FthTmsLaneServer');
+  }
+
 
   setIcdAPI(path: string) {
     return localStorage.setItem('FthTmsLaneICDAPI', path);
@@ -256,5 +264,6 @@ export interface ConfigIntrface {
   Pincode: string,
   ServerUrl: string,
   IcdUrl: string,
-  QrUrl: string
+  QrUrl: string,
+  ServerIp: string,
 }

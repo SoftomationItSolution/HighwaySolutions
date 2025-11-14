@@ -55,6 +55,7 @@ export class apiIntegrationService {
         this.IcdUrl=this.ConfigData.IcdUrl;
         this.QrApiUrl=this.ConfigData.QrUrl;
         this.ApiCallUrl = apiPath
+        this.dataModel.setServerIp(this.ConfigData.ServerIp);
         this.dataModel.setIcdAPI(this.IcdUrl);
         this.dataModel.setQrAPI(this.QrApiUrl);
         this.dataModel.setMediaAPI(mediaPath);
@@ -187,6 +188,12 @@ export class apiIntegrationService {
     this.QrApiUrl=this.dataModel.getQrAPI()?.toString();
     var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
     return this.objHttp.post(this.QrApiUrl +'payment/qr/generate', data, { headers: headers_object });
+  }
+
+  CheckQrStatus(data: {}): Observable<any> {
+    this.QrApiUrl=this.dataModel.getQrAPI()?.toString();
+    var headers_object = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.objHttp.post(this.QrApiUrl +'payment/qr/checkStatus', data, { headers: headers_object });
   }
 
 

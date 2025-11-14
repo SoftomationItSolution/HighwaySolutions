@@ -39,7 +39,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
+// import { IMqttServiceOptions, MqttModule } from 'ngx-mqtt';
+import { MqttModule } from 'ngx-mqtt';
 
 import { SerchFilterPipe } from 'src/services/serch-filter.pipe';
 import { DefaultLayoutComponent } from './_layout/default-layout/default-layout.component';
@@ -56,12 +57,12 @@ import { FleetCounterComponent } from './pages/popups/FleetCounter/fleet-counter
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { EtcDashboardComponent } from './pages/etc-dashboard/etc-dashboard.component';
 import { PaymentQrComponent } from './pages/popups/PaymentQr/payment-qr.component';
-const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
-  hostname: GetIpAddress(),
-  port: 9001,
-  path: '/mqtt',
-  protocol: 'ws',
-};
+// const MQTT_SERVICE_OPTIONS: IMqttServiceOptions = {
+//   hostname: GetIpAddress(),
+//   port: 9001,
+//   path: '/mqtt',
+//   protocol: 'ws',
+// };
 
 export const MY_NATIVE_DATE_FORMATS = {
   parse: {
@@ -141,7 +142,7 @@ export const MY_CUSTOM_FORMATS = {
     MatRadioModule,
     NgxSpinnerModule,
     ImageCropperModule,
-    MqttModule.forRoot(MQTT_SERVICE_OPTIONS),
+    MqttModule.forRoot({}),
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   // Register the ServiceWorker as soon as the application is stable
