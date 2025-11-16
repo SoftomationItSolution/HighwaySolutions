@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, NgModule, isDevMode } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +33,7 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatRippleModule } from 
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
@@ -132,7 +132,7 @@ export const MY_CUSTOM_FORMATS = {
     DragDropModule,
     MultiSelectModule,
     ListboxModule,
-    
+
     MatIconModule,
     MatRippleModule,
     MatSnackBarModule,
@@ -142,7 +142,9 @@ export const MY_CUSTOM_FORMATS = {
     MatRadioModule,
     NgxSpinnerModule,
     ImageCropperModule,
-    MqttModule.forRoot({}),
+    MqttModule.forRoot({
+      connectOnCreate: false
+    }),
     // ServiceWorkerModule.register('ngsw-worker.js', {
     //   enabled: !isDevMode(),
     //   // Register the ServiceWorker as soon as the application is stable
@@ -163,11 +165,11 @@ export const MY_CUSTOM_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_NATIVE_DATE_FORMATS },
   ],
   bootstrap: [AppComponent],
-  schemas: [ CUSTOM_ELEMENTS_SCHEMA,NO_ERRORS_SCHEMA ]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
 function GetIpAddress(): string | undefined {
-  var currentIP='';
+  var currentIP = '';
   var curretURL = (window.location.href).split(':')
   currentIP = curretURL[1].replace("//", "");
   return currentIP;  //"152.52.51.146";

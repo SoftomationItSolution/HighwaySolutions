@@ -13,16 +13,19 @@ export class WebSocketService {
   constructor() {
     this.GetIpAddress();
   }
+  
   GetIpAddress() {
-    this.currentIP = '';
-    var curretURL = (window.location.href).split(':')
-    this.currentIP = curretURL[1].replace("//", "");
+    const url = new URL(window.location.href);
+    this.currentIP = url.hostname;   // always correct
     this.connect();
   }
 
   connect(): void {
+    const wsAdd = `ws://${this.currentIP}:5001/ws`
     try {
-      const wsAdd = `ws://${this.currentIP}:5001/ws`
+      
+      console.log("ws ip:" + this.currentIP);
+      console.log("ws add:" + wsAdd);
       this.socket = new WebSocket(wsAdd);
       this.socket.onmessage = (event) => {
         this.messageSubject.next(event.data);
@@ -40,6 +43,7 @@ export class WebSocketService {
         this.socket.close(); // Close the connection to trigger onclose event
       };
     } catch (error) {
+      console.log('WebSocket connection error:'+wsAdd, error);
       this.handleReconnect(); // Attempt to reconnect on error
     }
   }

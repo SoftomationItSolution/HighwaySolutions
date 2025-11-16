@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
-import { errorMessages, regExps } from 'src/services/CustomValidation';
+import { errorMessages } from 'src/services/CustomValidation';
 import { DataModel } from 'src/services/data-model.model';
 
 declare var JSMpeg: any;
@@ -61,6 +61,7 @@ export class LiveViewPopUpComponent {
 
   newStream() {
     this.myWebSocket = new WebSocket(this.videoUrl);
+    console.log("FINAL videoUrl =", this.videoUrl);
     this.player = new JSMpeg.Player(this.videoUrl, {
       canvas: document.getElementById("ptz1"),
       onDisconnect: () => console.log('Connection lost!'),

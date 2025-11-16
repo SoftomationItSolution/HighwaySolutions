@@ -119,7 +119,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   newStream(videoUrl: string) {
     const wsPath = this.lpicViewUrl;
     let url = encodeURIComponent(videoUrl)
-    this.videoUrl = wsPath + url
+    this.videoUrl = wsPath + url;
+    console.log("FINAL videoUrl =", this.videoUrl);
     this.myWebSocket = new WebSocket(this.videoUrl);
     this.player = new JSMpeg.Player(this.videoUrl, {
       canvas: document.getElementById("ptz0"),

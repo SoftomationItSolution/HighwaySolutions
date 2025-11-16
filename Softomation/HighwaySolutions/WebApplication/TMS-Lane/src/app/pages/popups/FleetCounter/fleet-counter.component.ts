@@ -14,7 +14,7 @@ export class FleetCounterComponent implements OnDestroy {
   FleetTrans: any
   class_name: string = 'mdi mdi-road'
   FleetCount = 0
-  keyEventList:any
+  keyEventList: any
   private messageSubscription: Subscription;
   customEventFunctions: { [key: number]: () => void } = {};
   constructor(public Dialogref: MatDialogRef<FleetCounterComponent>, public dialog: MatDialog,
@@ -22,7 +22,7 @@ export class FleetCounterComponent implements OnDestroy {
     private dbService: apiIntegrationService, private spinner: NgxSpinnerService,
     private webSocketService: WebSocketService) {
     this.FleetTrans = parentData.data;
-    this.keyEventList=parentData.KeyCode;
+    this.keyEventList = parentData.KeyCode;
     //this.mapKeyEvents()
     this.messageSubscription = this.webSocketService.getMessages().subscribe(
       (message: string) => {
@@ -34,14 +34,37 @@ export class FleetCounterComponent implements OnDestroy {
   ngOnInit(): void {
   }
 
-  @HostListener('document:keydown.enter', ['$event'])
-  handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      this.onFleetStop()// Close the dialog on Enter key press
+  // @HostListener('document:keydown.enter', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) {
+  //   if (event.key === 'Enter') {
+  //     this.onFleetStop()// Close the dialog on Enter key press
+  //   }
+  // }
+
+  //   @HostListener('document:keydown.enter', ['$event'])
+  // handleKeyboardEvent(event: KeyboardEvent) {
+  //   if (event.key === 'Enter') {
+  //     this.onFleetStop(); // Close the dialog on Enter key press
+  //   }
+  // }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(e: Event) {
+
+    const event = e as KeyboardEvent;   // Cast safely
+
+    if (event.key !== 'Enter') return;
+
+    const target = event.target as HTMLElement;
+
+    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) {
+      return;
     }
+
+    this.onFleetStop();
   }
 
- 
+
 
   process_ws_message(msg) {
     try {

@@ -1,6 +1,5 @@
 import { Component, Inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { IMqttMessage, MqttService } from 'ngx-mqtt';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { apiIntegrationService } from 'src/services/apiIntegration.service';
 import { DataModel } from 'src/services/data-model.model';
@@ -22,10 +21,11 @@ export class PaymentQrComponent implements OnInit, OnDestroy {
   expired = false;
   QRReferenceNumber: string = '';
   private mqttSubscription: any;
+  private topicStream;
   constructor(public Dialogref: MatDialogRef<PaymentQrComponent>, public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) parentData: any, public dataModel: DataModel, private dm: DataModel,
     private spinner: NgxSpinnerService, private dbService: apiIntegrationService,
-    private _mqttService: MqttService, private zone: NgZone) {
+    private mqtt: MQTTService, private zone: NgZone) {
     this.TransDetails = parentData;
 
   }
@@ -35,7 +35,7 @@ export class PaymentQrComponent implements OnInit, OnDestroy {
       this.DisplayMessage('this QR transaction not allowed!', false);
     }
     else {
-     
+
       this.generateQR();
     }
   }
@@ -138,51 +138,71 @@ export class PaymentQrComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.timer);
+    this.mqtt.unsubscribe(this.topicStream);
   }
 
   subsMqtt(orderId: string) {
-    debugger;
     const topic = `qrStatus/${orderId}`;
     if (this.mqttSubscription) {
       this.mqttSubscription.unsubscribe();
     }
 
-    this.mqttSubscription = this._mqttService.observe(topic).subscribe((msg: IMqttMessage) => {
-      this.zone.run(() => {
-        if (msg.topic === topic) {
+    this.topicStream = this.mqtt.subscribeToTopic(topic);
+    this.topicStream.subscribe(data => {
+      console.log("MQTT POPUP DATA:", data);
 
-          let data: any;
+      if (data.IsSuccessful) {
+        clearInterval(this.timer);
+        this.BankQrUrl = '';
 
-          try {
-            data = JSON.parse(msg.payload.toString());
-          } catch (err) {
-            console.error("Invalid JSON from MQTT:", msg.payload.toString());
-            return;
-          }
-
-          // Payment Success
-          if (data.IsSuccessful) {
-
-            clearInterval(this.timer);
-            this.BankQrUrl = '';
-
-            // Avoid double close
-            if (this.Dialogref) {
-              this.Dialogref.close(this.TransDetails);
-              this.Dialogref = null;
-            }
-
-            // Unsubscribe after success
-            this.mqttSubscription.unsubscribe();
-            return;
-          }
-
-          // Payment Failed or Pending
-          if (data.TransactionStatus) {
-            this.DisplayMessage(data.TransactionStatus, false);
-          }
+        if (this.Dialogref) {
+          this.Dialogref.close(this.TransDetails);
         }
-      });
+
+        this.mqtt.unsubscribe(this.topicStream);
+      }
+
+      else if (data.TransactionStatus) {
+        this.DisplayMessage(data.TransactionStatus, false);
+      }
     });
+
+    // this.mqttSubscription = this._mqttService.observe(topic).subscribe((msg: IMqttMessage) => {
+    //   this.zone.run(() => {
+    //     if (msg.topic === topic) {
+
+    //       let data: any;
+
+    //       try {
+    //         data = JSON.parse(msg.payload.toString());
+    //       } catch (err) {
+    //         console.error("Invalid JSON from MQTT:", msg.payload.toString());
+    //         return;
+    //       }
+
+    //       // Payment Success
+    //       if (data.IsSuccessful) {
+
+    //         clearInterval(this.timer);
+    //         this.BankQrUrl = '';
+
+    //         // Avoid double close
+    //         if (this.Dialogref) {
+    //           this.Dialogref.close(this.TransDetails);
+    //           this.Dialogref = null;
+    //         }
+
+    //         // Unsubscribe after success
+    //         this.mqttSubscription.unsubscribe();
+    //         return;
+    //       }
+
+    //       // Payment Failed or Pending
+    //       if (data.TransactionStatus) {
+    //         this.DisplayMessage(data.TransactionStatus, false);
+    //       }
+    //     }
+    //   });
+    // });
   }
 }
